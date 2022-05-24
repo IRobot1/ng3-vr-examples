@@ -10,6 +10,10 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-three/cannon": "^5.2.4",
+    "@angular-three/core": "^5.2.4",
+    "@angular-three/schematics": "^5.2.4",
+    "@angular-three/soba": "^5.2.4",
     "@angular/animations": "~13.2.0",
     "@angular/common": "~13.2.0",
     "@angular/compiler": "~13.2.0",
@@ -19,6 +23,7 @@
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
     "rxjs": "~7.5.0",
+    "three": "~0.140.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
@@ -28,6 +33,7 @@
     "@angular/compiler-cli": "~13.2.0",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
+    "@types/three": "~0.140.0",
     "jasmine-core": "~4.0.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
