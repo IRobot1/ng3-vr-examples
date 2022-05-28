@@ -12,6 +12,7 @@ export class AppComponent {
   examples = [
     'viewer',
     'ballshooter',
+    'dragging',
   ]
 
   created(state: NgtState) {

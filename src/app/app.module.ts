@@ -11,7 +11,7 @@ import { NgtAmbientLightModule, NgtDirectionalLightModule } from '@angular-three
 import { NgtMeshModule } from '@angular-three/core/meshes';
 import { NgtGroupModule } from '@angular-three/core/group';
 
-import { NgtBoxGeometryModule, NgtSphereGeometryModule  } from '@angular-three/core/geometries';
+import { NgtBoxGeometryModule, NgtConeGeometryModule, NgtCylinderGeometryModule, NgtIcosahedronGeometryModule, NgtPlaneGeometryModule, NgtSphereGeometryModule, NgtTorusGeometryModule  } from '@angular-three/core/geometries';
 
 import { NgtMeshStandardMaterialModule } from '@angular-three/core/materials';
 
@@ -24,6 +24,8 @@ import { LineRoomComponent } from '../components/line-room/line-room.componnet';
 import { HomeComponent } from '../examples/home/home.component';
 import { BallshooterExample } from '../examples/ballshooter/ballshooter.component';
 import { ShootControllerComponent } from '../examples/ballshooter/shoot-controller/shoot-controller.component';
+import { DraggingExample } from '../examples/dragging/dragging.component';
+import { DraggingControllerComponent } from '../examples/dragging/dragging-controller/dragging-controller.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,9 @@ import { ShootControllerComponent } from '../examples/ballshooter/shoot-controll
 
     BallshooterExample,
     ShootControllerComponent,
+
+    DraggingExample,
+    DraggingControllerComponent
 
   ],
   imports: [
@@ -51,6 +56,11 @@ import { ShootControllerComponent } from '../examples/ballshooter/shoot-controll
 
     NgtBoxGeometryModule,
     NgtSphereGeometryModule,
+    NgtPlaneGeometryModule,
+    NgtConeGeometryModule,
+    NgtCylinderGeometryModule,
+    NgtIcosahedronGeometryModule,
+    NgtTorusGeometryModule,
 
     NgtMeshStandardMaterialModule,
 
