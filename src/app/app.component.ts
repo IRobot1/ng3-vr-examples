@@ -13,6 +13,7 @@ export class AppComponent {
     'viewer',
     'ballshooter',
     'dragging',
+    'handinput',
   ]
 
   created(state: NgtState) {

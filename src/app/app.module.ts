@@ -26,6 +26,8 @@ import { BallshooterExample } from '../examples/ballshooter/ballshooter.componen
 import { ShootControllerComponent } from '../examples/ballshooter/shoot-controller/shoot-controller.component';
 import { DraggingExample } from '../examples/dragging/dragging.component';
 import { DraggingControllerComponent } from '../examples/dragging/dragging-controller/dragging-controller.component';
+import { HandInputExample } from '../examples/handinput/handinput.component';
+import { HandInputControllerComponent } from '../examples/handinput/handinput-controller/handinput-controller.component';
 
 @NgModule({
   declarations: [
@@ -38,8 +40,10 @@ import { DraggingControllerComponent } from '../examples/dragging/dragging-contr
     ShootControllerComponent,
 
     DraggingExample,
-    DraggingControllerComponent
+    DraggingControllerComponent,
 
+    HandInputExample,
+    HandInputControllerComponent,
   ],
   imports: [
     BrowserModule,
