@@ -1,0 +1,16 @@
+<ngt-color attach="background" color="darkgray"></ngt-color>
+
+<line-room></line-room>
+
+<ngt-directional-light intensity="1.75" [position]="[10, 10, 10]" castShadow></ngt-directional-light>
+
+<shoot-controller #xr0></shoot-controller>
+<shoot-controller #xr1 [index]="1"></shoot-controller>
+
+<ngt-group (animateReady)="animateGroup($event.state, $event.object)">
+  <ngt-mesh *ngFor="let item of shapes"
+            [position]="item.position" [userData]="{velocity: item.velocity}">
+    <ngt-mesh-standard-material [color]="item.color"></ngt-mesh-standard-material>
+    <ngt-sphere-geometry [args]="[radius]"></ngt-sphere-geometry>
+  </ngt-mesh>
+</ngt-group>

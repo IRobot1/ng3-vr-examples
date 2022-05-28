@@ -10,7 +10,8 @@ import { VRButton } from 'three-stdlib/webxr/VRButton';
 export class AppComponent {
 
   examples = [
-    'viewer'
+    'viewer',
+    'ballshooter',
   ]
 
   created(state: NgtState) {
