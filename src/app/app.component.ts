@@ -14,6 +14,7 @@ export class AppComponent {
     'ballshooter',
     'dragging',
     'handinput',
+    'teleport',
   ]
 
   created(state: NgtState) {

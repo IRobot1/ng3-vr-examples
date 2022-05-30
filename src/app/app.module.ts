@@ -3,17 +3,18 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { NgtCanvasModule } from '@angular-three/core';
-import { NgtColorAttributeModule } from '@angular-three/core/attributes';
+import { NgtCanvasModule, NgtCommonLine } from '@angular-three/core';
+import { NgtBufferAttributeModule, NgtColorAttributeModule } from '@angular-three/core/attributes';
 
 import { NgtAmbientLightModule, NgtDirectionalLightModule } from '@angular-three/core/lights';
 
 import { NgtMeshModule } from '@angular-three/core/meshes';
 import { NgtGroupModule } from '@angular-three/core/group';
+import { NgtLineModule } from '@angular-three/core/lines';
 
-import { NgtBoxGeometryModule, NgtConeGeometryModule, NgtCylinderGeometryModule, NgtIcosahedronGeometryModule, NgtPlaneGeometryModule, NgtSphereGeometryModule, NgtTorusGeometryModule  } from '@angular-three/core/geometries';
+import { NgtBoxGeometryModule, NgtBufferGeometryModule, NgtCircleGeometryModule, NgtConeGeometryModule, NgtCylinderGeometryModule, NgtIcosahedronGeometryModule, NgtPlaneGeometryModule, NgtSphereGeometryModule, NgtTorusGeometryModule  } from '@angular-three/core/geometries';
 
-import { NgtMeshStandardMaterialModule } from '@angular-three/core/materials';
+import { NgtLineBasicMaterialModule, NgtMeshStandardMaterialModule } from '@angular-three/core/materials';
 
 import { NgtSobaOrbitControlsModule } from '@angular-three/soba/controls'
 
@@ -28,6 +29,8 @@ import { DraggingExample } from '../examples/dragging/dragging.component';
 import { DraggingControllerComponent } from '../examples/dragging/dragging-controller/dragging-controller.component';
 import { HandInputExample } from '../examples/handinput/handinput.component';
 import { HandInputControllerComponent } from '../examples/handinput/handinput-controller/handinput-controller.component';
+import { TeleportExample } from '../examples/teleport/teleport.component';
+import { TeleportControllerComponent } from '../examples/teleport/teleport-controller/teleport-controller.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +47,9 @@ import { HandInputControllerComponent } from '../examples/handinput/handinput-co
 
     HandInputExample,
     HandInputControllerComponent,
+
+    TeleportExample,
+    TeleportControllerComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,13 +57,17 @@ import { HandInputControllerComponent } from '../examples/handinput/handinput-co
 
     NgtCanvasModule,
     NgtColorAttributeModule,
+    NgtBufferAttributeModule,
 
     NgtAmbientLightModule,
     NgtDirectionalLightModule,
 
+   
+    NgtLineModule,
     NgtMeshModule,
     NgtGroupModule,
 
+    NgtBufferGeometryModule,
     NgtBoxGeometryModule,
     NgtSphereGeometryModule,
     NgtPlaneGeometryModule,
@@ -65,8 +75,10 @@ import { HandInputControllerComponent } from '../examples/handinput/handinput-co
     NgtCylinderGeometryModule,
     NgtIcosahedronGeometryModule,
     NgtTorusGeometryModule,
+    NgtCircleGeometryModule,
 
     NgtMeshStandardMaterialModule,
+    NgtLineBasicMaterialModule,
 
     NgtSobaOrbitControlsModule,
 
