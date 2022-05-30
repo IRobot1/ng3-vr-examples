@@ -15,6 +15,7 @@ export class AppComponent {
     'dragging',
     'handinput',
     'teleport',
+    'bat',
   ]
 
   created(state: NgtState) {

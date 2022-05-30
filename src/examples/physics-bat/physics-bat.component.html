@@ -1,0 +1,15 @@
+<ngt-color attach="background" color="darkgray"></ngt-color>
+
+<line-room></line-room>
+<ngt-directional-light [position]="[10, 10, 10]" castShadow></ngt-directional-light>
+
+<ngt-physics [gravity]="[0, gravity, 0]" [stepSize]="step">
+  <ngt-cannon-debug scale="1.1" color="red">
+
+    <bat-controller></bat-controller>
+    <bat-controller [index]="1"></bat-controller>
+
+    <projectiles></projectiles>
+
+  </ngt-cannon-debug>
+</ngt-physics>

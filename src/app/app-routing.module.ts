@@ -5,6 +5,7 @@ import { DraggingExample } from '../examples/dragging/dragging.component';
 import { HandInputExample } from '../examples/handinput/handinput.component';
 
 import { HomeComponent } from '../examples/home/home.component';
+import { BatExample } from '../examples/physics-bat/physics-bat.component';
 import { TeleportExample } from '../examples/teleport/teleport.component';
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'dragging', component: DraggingExample },
   { path: 'handinput', component: HandInputExample },
   { path: 'teleport', component: TeleportExample },
+  { path: 'bat', component: BatExample },
 ];
 
 @NgModule({

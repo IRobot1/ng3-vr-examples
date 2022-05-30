@@ -18,6 +18,8 @@ import { NgtLineBasicMaterialModule, NgtMeshStandardMaterialModule } from '@angu
 
 import { NgtSobaOrbitControlsModule } from '@angular-three/soba/controls'
 
+import { NgtCannonDebugModule, NgtPhysicsModule } from '@angular-three/cannon';
+
 import { AppComponent } from './app.component';
 
 import { LineRoomComponent } from '../components/line-room/line-room.componnet';
@@ -31,6 +33,9 @@ import { HandInputExample } from '../examples/handinput/handinput.component';
 import { HandInputControllerComponent } from '../examples/handinput/handinput-controller/handinput-controller.component';
 import { TeleportExample } from '../examples/teleport/teleport.component';
 import { TeleportControllerComponent } from '../examples/teleport/teleport-controller/teleport-controller.component';
+import { BatExample } from '../examples/physics-bat/physics-bat.component';
+import { BatController } from '../examples/physics-bat/bat-controller/bat-controller.component';
+import { Projectiles } from '../examples/physics-bat/projectiles/projectiles.component';
 
 @NgModule({
   declarations: [
@@ -50,11 +55,16 @@ import { TeleportControllerComponent } from '../examples/teleport/teleport-contr
 
     TeleportExample,
     TeleportControllerComponent,
+
+    BatExample,
+    BatController,
+    Projectiles,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
 
+    // core
     NgtCanvasModule,
     NgtColorAttributeModule,
     NgtBufferAttributeModule,
@@ -62,7 +72,6 @@ import { TeleportControllerComponent } from '../examples/teleport/teleport-contr
     NgtAmbientLightModule,
     NgtDirectionalLightModule,
 
-   
     NgtLineModule,
     NgtMeshModule,
     NgtGroupModule,
@@ -80,8 +89,12 @@ import { TeleportControllerComponent } from '../examples/teleport/teleport-contr
     NgtMeshStandardMaterialModule,
     NgtLineBasicMaterialModule,
 
+    // soba
     NgtSobaOrbitControlsModule,
 
+    // cannon
+    NgtPhysicsModule,
+    NgtCannonDebugModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
