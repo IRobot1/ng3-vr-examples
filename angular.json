@@ -29,9 +29,7 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [
-              "src/assets/XRUtils.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {

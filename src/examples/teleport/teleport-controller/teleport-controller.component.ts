@@ -1,13 +1,10 @@
 import { Component, Input, OnInit } from "@angular/core";
 
-import { AdditiveBlending, BufferGeometry, Float32BufferAttribute, Group, Line, LineBasicMaterial, Matrix4, Mesh, MeshBasicMaterial, Raycaster, RingGeometry, XRInputSource, XRReferenceSpace, XRRigidTransform } from "three";
+import { AdditiveBlending, BufferGeometry, Float32BufferAttribute, Group, Line, LineBasicMaterial, Matrix4, Mesh, MeshBasicMaterial, Raycaster, RingGeometry, XRInputSource, XRReferenceSpace } from "three";
 
 import { NgtStore } from "@angular-three/core";
 
 import { XRControllerModelFactory } from "three-stdlib/webxr/XRControllerModelFactory";
-
-
-declare var RigidTransformXR: any;
 
 
 @Component({
@@ -89,7 +86,7 @@ export class TeleportControllerComponent implements OnInit {
     if (this.MarkerIntersection) {
       const offsetPosition = <DOMPointReadOnly>{ x: - this.MarkerIntersection.x, y: - this.MarkerIntersection.y, z: - this.MarkerIntersection.z, w: 1 };
       const offsetRotation = <DOMPointReadOnly>{ x: 0, y: 0, z: 0, w: 1 };
-      const transform = new RigidTransformXR(offsetPosition, offsetRotation);
+      const transform = new XRRigidTransform(offsetPosition, offsetRotation);
       if (this.baseReferenceSpace) {
         const teleportSpaceOffset = this.baseReferenceSpace.getOffsetReferenceSpace(transform);
         renderer.xr.setReferenceSpace(teleportSpaceOffset);
