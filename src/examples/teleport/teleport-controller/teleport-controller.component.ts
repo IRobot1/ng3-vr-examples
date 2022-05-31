@@ -1,46 +1,36 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 
-import { AdditiveBlending, Group, Line, Mesh, MeshBasicMaterial, Quaternion, RingGeometry, XRInputSource, XRReferenceSpace } from "three";
+import { AdditiveBlending, BufferGeometry, Float32BufferAttribute, Group, Line, LineBasicMaterial, Matrix4, Mesh, MeshBasicMaterial, Raycaster, RingGeometry, XRInputSource, XRReferenceSpace, XRRigidTransform } from "three";
 
-import { NgtRenderState, NgtStore } from "@angular-three/core";
+import { NgtStore } from "@angular-three/core";
 
 import { XRControllerModelFactory } from "three-stdlib/webxr/XRControllerModelFactory";
 
 
-export type TrackType = 'pointer' | 'grab';
+declare var RigidTransformXR: any;
 
-export class GrabStartEvent {
-  constructor(public controller: Group, public grabbedobject: any, public intersect: any) { }
-}
-
-export class GrabEndEvent {
-  constructor(public controller: Group) { }
-}
 
 @Component({
   selector: 'teleport-controller',
   templateUrl: './teleport-controller.component.html',
 })
 export class TeleportControllerComponent implements OnInit {
+  @Input() marker!: Mesh;
+  @Input() floor!: Mesh;
   @Input() index = 0;
 
-  private controller?: Group;
+  private controller!: Group;
 
-  position = new Float32Array([0, 0, 0, 0, 0, - 1]);
-  color = new Float32Array([0.5, 0.5, 0.5, 0, 0, 0]);
-  blending = AdditiveBlending;
-
-  trackedpointerline?: Line;
   private baseReferenceSpace?: XRReferenceSpace | null;
 
-  constructor(private canvasStore: NgtStore) { }
+  constructor(private store: NgtStore) { }
 
   ngOnInit(): void {
-    const renderer = this.canvasStore.get((s) => s.gl);
+    const renderer = this.store.get((s) => s.gl);
 
     renderer.xr.addEventListener('sessionstart', () => this.baseReferenceSpace = renderer.xr.getReferenceSpace())
 
-    const scene = this.canvasStore.get((s) => s.scene);
+    const scene = this.store.get((s) => s.scene);
 
     this.controller = renderer.xr.getController(this.index);
     scene.add(this.controller);
@@ -55,38 +45,38 @@ export class TeleportControllerComponent implements OnInit {
     controllerGrip.add(controllerModelFactory.createControllerModel(controllerGrip));
     scene.add(controllerGrip);
 
-    this.controller.addEventListener('selectstart', (event) => {
-      const controller = <Group>event.target;
-      controller.userData["isSelecting"] = true;
+    this.controller.addEventListener('selectstart', () => {
+      this.controller.userData["isSelecting"] = true;
     });
-    this.controller.addEventListener('selectend', (event) => {
-      const controller = <Group>event.target;
-      controller.userData["isSelecting"] = false;
+    this.controller.addEventListener('selectend', () => {
+      this.controller.userData["isSelecting"] = false;
       this.teleport(renderer);
     });
 
     this.controller.addEventListener('connected', (event) => {
-      const controller = <Group>event.target;
       const source = <XRInputSource>event.target;
-      controller.name = source.handedness;
+      this.controller.name = source.handedness;
       if (source.targetRayMode == 'tracked-pointer') {
-        if (this.trackedpointerline) {
-          controller.add(this.trackedpointerline);
-        }
+        this.controller.add(this.buildTrackPointer());
       }
       else if (source.targetRayMode == 'gaze') {
-        controller.add(this.buildGaze());
+        this.controller.add(this.buildGaze());
       }
     });
-    this.controller.addEventListener('disconnected', (event) => {
-      const controller = <Group>event.target;
-      controller.remove(controller.children[0]);
+    this.controller.addEventListener('disconnected', () => {
+      this.controller.remove(this.controller.children[0]);
     });
 
   }
 
-  lineready(line: Line) {
-    this.trackedpointerline = line;
+  private buildTrackPointer() {
+    const geometry = new BufferGeometry();
+    geometry.setAttribute('position', new Float32BufferAttribute([0, 0, 0, 0, 0, - 1], 3));
+    geometry.setAttribute('color', new Float32BufferAttribute([0.5, 0.5, 0.5, 0, 0, 0], 3));
+
+    const material = new LineBasicMaterial({ vertexColors: true, blending: AdditiveBlending });
+
+    return new Line(geometry, material);
   }
 
   private buildGaze() {
@@ -96,42 +86,44 @@ export class TeleportControllerComponent implements OnInit {
   }
 
   teleport(renderer: any) {
-    if (this.PointerIntersect) {
-      const offsetPosition = { x: - this.PointerIntersect.x, y: - this.PointerIntersect.y, z: - this.PointerIntersect.z, w: 1 };
-      const offsetRotation = new Quaternion();
-      //const transform = new XRRigidTransform(offsetPosition, offsetRotation);
-      //if (this.baseReferenceSpace) {
-      //  const teleportSpaceOffset = this.baseReferenceSpace.getOffsetReferenceSpace(transform);
-      //  renderer.xr.setReferenceSpace(teleportSpaceOffset);
-      //}
+    if (this.MarkerIntersection) {
+      const offsetPosition = <DOMPointReadOnly>{ x: - this.MarkerIntersection.x, y: - this.MarkerIntersection.y, z: - this.MarkerIntersection.z, w: 1 };
+      const offsetRotation = <DOMPointReadOnly>{ x: 0, y: 0, z: 0, w: 1 };
+      const transform = new RigidTransformXR(offsetPosition, offsetRotation);
+      if (this.baseReferenceSpace) {
+        const teleportSpaceOffset = this.baseReferenceSpace.getOffsetReferenceSpace(transform);
+        renderer.xr.setReferenceSpace(teleportSpaceOffset);
+      } 
 
     }
   }
 
-  private PointerIntersect: any;
+  private MarkerIntersection: any;
 
-  animateGroup(event: NgtRenderState) {
-    //  const room = <Group>event.scene.getObjectByName('room');
-    //  if (this.controller && room) {
+  animateGroup() {
+    this.MarkerIntersection = undefined;
 
-    //    const intersects = this.getPointerIntersections(this.controller, room);
+    if (this.controller.userData["isSelecting"] === true) {
 
-    //    if (intersects.length > 0) {
-    //      if (this.PointerIntersectObject != intersects[0].object) {
+      const tempMatrix = new Matrix4();
+      tempMatrix.identity().extractRotation(this.controller.matrixWorld);
 
-    //        if (this.PointerIntersectObject) this.PointerIntersectObject.material.emissive.b = 0;
+      const raycaster = new Raycaster();
+      raycaster.ray.origin.setFromMatrixPosition(this.controller.matrixWorld);
+      raycaster.ray.direction.set(0, 0, - 1).applyMatrix4(tempMatrix);
 
-    //        this.PointerIntersect = intersects[0];
-    //        this.PointerIntersectObject = this.PointerIntersect.object;
-    //        this.PointerIntersectObject.material.emissive.b = 1;
-    //      }
-    //    } else {
-    //      if (this.PointerIntersectObject) {
-    //        this.PointerIntersectObject.material.emissive.b = 0;
-    //        this.PointerIntersectObject = undefined;
-    //      }
+      const intersects = raycaster.intersectObjects([this.floor]);
 
-    //    }
-    //  }
+      if (intersects.length > 0) {
+
+        this.MarkerIntersection = intersects[0].point;
+
+      }
+
+    }
+
+    if (this.MarkerIntersection) this.marker.position.copy(this.MarkerIntersection);
+
+    this.marker.visible = this.MarkerIntersection !== undefined;
   }
 }
