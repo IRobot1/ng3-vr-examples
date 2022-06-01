@@ -1,0 +1,11 @@
+<ngt-group [ref]="frame.ref">
+  <ngt-mesh *ngFor="let cube of cubes" [position]="cube.position" [scale]="cube.scale" castShadow>
+    <ngt-box-geometry></ngt-box-geometry>
+    <ngt-mesh-standard-material [color]="color"></ngt-mesh-standard-material>
+  </ngt-mesh>
+</ngt-group>
+
+<ngt-mesh [ref]="trigger.ref">
+  <ngt-box-geometry [args]="triggerargs"></ngt-box-geometry>
+  <ngt-mesh-standard-material wireframe ></ngt-mesh-standard-material>
+</ngt-mesh>

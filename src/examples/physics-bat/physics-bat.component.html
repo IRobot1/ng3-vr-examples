@@ -1,15 +1,20 @@
 <ngt-color attach="background" color="darkgray"></ngt-color>
 
-<line-room></line-room>
 <ngt-directional-light [position]="[10, 10, 10]" castShadow></ngt-directional-light>
 
 <ngt-physics [gravity]="[0, gravity, 0]" [stepSize]="step">
-  <ngt-cannon-debug scale="1.1" color="red">
+  <ngt-cannon-debug disabled scale="1.1" color="red">
 
     <bat-controller></bat-controller>
     <bat-controller [index]="1"></bat-controller>
 
-    <projectiles></projectiles>
+    <projectiles (fire)="gamestate.subRemaining()"></projectiles>
 
+    <target [position]="[0,1.1,-5]" [color]="'yellow'" [rotation]="[1.57,0,0]" [scale]="[1,1,1]" (hit)="gamestate.addPoints(1)"></target>
+
+    <floor [color]="'darkgreen'"></floor>
   </ngt-cannon-debug>
 </ngt-physics>
+
+
+<ngt-grid-helper [position]="[0, 0, 0]"></ngt-grid-helper>

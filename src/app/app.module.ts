@@ -3,8 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { NgtCanvasModule, NgtCommonLine } from '@angular-three/core';
+import { NgtCanvasModule, NgtRadianPipeModule } from '@angular-three/core';
 import { NgtBufferAttributeModule, NgtColorAttributeModule } from '@angular-three/core/attributes';
+import { NgtGridHelperModule } from '@angular-three/core/helpers';
 
 import { NgtAmbientLightModule, NgtDirectionalLightModule } from '@angular-three/core/lights';
 
@@ -17,6 +18,7 @@ import { NgtBoxGeometryModule, NgtBufferGeometryModule, NgtCircleGeometryModule,
 import { NgtLineBasicMaterialModule, NgtMeshStandardMaterialModule } from '@angular-three/core/materials';
 
 import { NgtSobaOrbitControlsModule } from '@angular-three/soba/controls'
+import { NgtSobaTextModule } from '@angular-three/soba/abstractions'
 
 import { NgtCannonDebugModule, NgtPhysicsModule } from '@angular-three/cannon';
 
@@ -36,6 +38,8 @@ import { TeleportControllerComponent } from '../examples/teleport/teleport-contr
 import { BatExample } from '../examples/physics-bat/physics-bat.component';
 import { BatController } from '../examples/physics-bat/bat-controller/bat-controller.component';
 import { Projectiles } from '../examples/physics-bat/projectiles/projectiles.component';
+import { FloorComponent } from '../components/floor.component';
+import { Target } from '../examples/physics-bat/target/target.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +47,7 @@ import { Projectiles } from '../examples/physics-bat/projectiles/projectiles.com
     HomeComponent,
 
     LineRoomComponent,
+    FloorComponent,
 
     BallshooterExample,
     ShootControllerComponent,
@@ -59,6 +64,7 @@ import { Projectiles } from '../examples/physics-bat/projectiles/projectiles.com
     BatExample,
     BatController,
     Projectiles,
+    Target,
   ],
   imports: [
     BrowserModule,
@@ -68,6 +74,9 @@ import { Projectiles } from '../examples/physics-bat/projectiles/projectiles.com
     NgtCanvasModule,
     NgtColorAttributeModule,
     NgtBufferAttributeModule,
+    NgtRadianPipeModule,
+
+    NgtGridHelperModule,
 
     NgtAmbientLightModule,
     NgtDirectionalLightModule,
@@ -91,6 +100,7 @@ import { Projectiles } from '../examples/physics-bat/projectiles/projectiles.com
 
     // soba
     NgtSobaOrbitControlsModule,
+    NgtSobaTextModule,
 
     // cannon
     NgtPhysicsModule,

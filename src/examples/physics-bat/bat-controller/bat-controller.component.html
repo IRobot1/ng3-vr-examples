@@ -1,14 +1,10 @@
-<!--<ngt-mesh  [scale]="scale" [position]="position">
-  <ngt-box-geometry></ngt-box-geometry>
-  <ngt-mesh-standard-material color="darkgray"></ngt-mesh-standard-material>
-</ngt-mesh>-->
-<ngt-group [ref]="bat.ref"(beforeRender)="animate()" [scale]="scale" [position]="position">
+<ngt-group [ref]="bat.ref" (beforeRender)="animate()">
 
-  <ngt-mesh *ngIf="mesh" name="bat"  [rotation]="[0,1.57,0]" [position]="[0, 0, -2]"
+  <ngt-mesh *ngIf="mesh" name="bat" [rotation]="[ 0.523599, 1.57,  0]" [position]="[0, 0.125, -0.2]" [scale]="[0.1, 0.2, 0.2]"
             [material]="mesh.material"
             [geometry]="mesh.geometry"
             castShadow
             receiveShadow>
   </ngt-mesh>
-<!--  <ngt-arrow-helper *ngIf="visible"></ngt-arrow-helper>-->
+
 </ngt-group>

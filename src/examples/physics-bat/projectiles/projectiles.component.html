@@ -1,4 +1,16 @@
 <ngt-mesh *ngFor="let item of projectiles" [ref]="item.body.ref" castShadow>
   <ngt-sphere-geometry [args]="[ballRadius]"></ngt-sphere-geometry>
-  <ngt-mesh-standard-material color='yellow'></ngt-mesh-standard-material>
+  <ngt-mesh-standard-material color='white'></ngt-mesh-standard-material>
 </ngt-mesh>
+
+<ngt-group [position]="position">
+  <ngt-soba-text [text]="results"
+                 [castShadow]="true"
+                 [color]="'red'"
+                 [maxWidth]="8"
+                 [fontSize]="0.5"
+                 font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+                 anchorX="center"
+                 anchorY="bottom">
+  </ngt-soba-text>
+</ngt-group>
