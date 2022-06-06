@@ -51,7 +51,7 @@ export class BallshooterExample implements OnInit {
     }
   }
 
-  animateGroup({ delta }: NgtRenderState, object: Object3D) {
+  tick({ delta }: NgtRenderState, object: Object3D) {
     const room = <Group>object;
     if (this.xr0 ) { this.handleController(room, this.xr0.controller); }
     if (this.xr1 ) { this.handleController(room, this.xr1.controller); }

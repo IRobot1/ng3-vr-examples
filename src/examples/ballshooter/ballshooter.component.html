@@ -7,7 +7,7 @@
 <shoot-controller #xr0></shoot-controller>
 <shoot-controller #xr1 [index]="1"></shoot-controller>
 
-<ngt-group (animateReady)="animateGroup($event.state, $event.object)">
+<ngt-group (beforeRender)="tick($event.state, $event.object)">
   <ngt-mesh *ngFor="let item of shapes"
             [position]="item.position" [userData]="{velocity: item.velocity}">
     <ngt-mesh-standard-material [color]="item.color"></ngt-mesh-standard-material>

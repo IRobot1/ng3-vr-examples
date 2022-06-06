@@ -164,7 +164,7 @@ export class ShootControllerComponent implements OnInit {
   private PointerIntersect: any;
   private PointerIntersectObject: any;
 
-  animateGroup(event: NgtRenderState) {
+  tick(event: NgtRenderState) {
     const room = <Group>event.scene.getObjectByName('room');
     if (this.controller && room) {
 

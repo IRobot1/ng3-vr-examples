@@ -8,15 +8,16 @@ import { XRControllerModelFactory } from "three-stdlib/webxr/XRControllerModelFa
 
 
 @Component({
-  selector: 'teleport-controller',
-  templateUrl: './teleport-controller.component.html',
+  selector: 'xr-controller',
+  templateUrl: './xr-controller.component.html',
 })
-export class TeleportControllerComponent implements OnInit {
+export class XRControllerComponent implements OnInit {
   @Input() marker!: Mesh;
   @Input() floor!: Mesh;
   @Input() index = 0;
 
   private controller!: Group;
+  private gamepad!: Gamepad;
 
   private baseReferenceSpace?: XRReferenceSpace | null;
 
@@ -42,8 +43,9 @@ export class TeleportControllerComponent implements OnInit {
     controllerGrip.add(controllerModelFactory.createControllerModel(controllerGrip));
     scene.add(controllerGrip);
 
-    this.controller.addEventListener('selectstart', () => {
+    this.controller.addEventListener('selectstart', (event) => {
       this.controller.userData["isSelecting"] = true;
+      console.warn(event)
     });
     this.controller.addEventListener('selectend', () => {
       this.controller.userData["isSelecting"] = false;
@@ -51,6 +53,8 @@ export class TeleportControllerComponent implements OnInit {
     });
 
     this.controller.addEventListener('connected', (event) => {
+      this.gamepad = event['data'].gamepad;
+
       const source = <XRInputSource>event.target;
       this.controller.name = source.handedness;
       if (source.targetRayMode == 'tracked-pointer') {
@@ -90,7 +94,7 @@ export class TeleportControllerComponent implements OnInit {
       if (this.baseReferenceSpace) {
         const teleportSpaceOffset = this.baseReferenceSpace.getOffsetReferenceSpace(transform);
         renderer.xr.setReferenceSpace(teleportSpaceOffset);
-      } 
+      }
 
     }
   }
@@ -122,5 +126,9 @@ export class TeleportControllerComponent implements OnInit {
     if (this.MarkerIntersection) this.marker.position.copy(this.MarkerIntersection);
 
     this.marker.visible = this.MarkerIntersection !== undefined;
+    if (this.gamepad) {
+      if (this.gamepad.buttons[3].pressed)
+        console.warn(this.gamepad.buttons[3])
+    }
   }
 }

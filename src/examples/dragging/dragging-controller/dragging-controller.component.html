@@ -1,4 +1,4 @@
-<ngt-group (animateReady)="animateGroup($event.state)">
+<ngt-group (beforeRender)="tick($event.state)">
     <!--<ngt-line (ready)="lineready(line.instance.value)" >
       <ngt-buffer-geometry>
         <ngt-buffer-attribute attach="position" [args]="[position, 3]"></ngt-buffer-attribute>
