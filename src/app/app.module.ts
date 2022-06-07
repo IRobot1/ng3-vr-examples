@@ -28,11 +28,8 @@ import { LineRoomComponent } from '../components/line-room/line-room.componnet';
 
 import { HomeComponent } from '../examples/home/home.component';
 import { BallshooterExample } from '../examples/ballshooter/ballshooter.component';
-import { ShootControllerComponent } from '../examples/ballshooter/shoot-controller/shoot-controller.component';
 import { DraggingExample } from '../examples/dragging/dragging.component';
-import { DraggingControllerComponent } from '../examples/dragging/dragging-controller/dragging-controller.component';
 import { HandInputExample } from '../examples/handinput/handinput.component';
-import { HandInputControllerComponent } from '../examples/handinput/handinput-controller/handinput-controller.component';
 import { TeleportExample } from '../examples/teleport/teleport.component';
 import { TeleportControllerComponent } from '../examples/teleport/teleport-controller/teleport-controller.component';
 import { BatExample } from '../examples/physics-bat/physics-bat.component';
@@ -43,6 +40,11 @@ import { Target } from '../examples/physics-bat/target/target.component';
 import { XRControllerComponent } from '../examples/teleport/xr-controller/xr-controller.component';
 import { TeleportDirective } from '../examples/teleport/xr-controller/teleport.component';
 import { HandinputDirective } from '../examples/teleport/xr-controller/handinput.component';
+import { ShowControllerDirective } from '../examples/teleport/xr-controller/showcontroller.component';
+import { ShowHandDirective } from '../examples/teleport/xr-controller/showhand.component';
+import { TrackedPointerDirective } from '../examples/teleport/xr-controller/trackpointer.component';
+import { DragDirective } from '../examples/dragging/drag.component';
+import { ShootDirective } from '../examples/ballshooter/shoot.component';
 
 @NgModule({
   declarations: [
@@ -53,19 +55,21 @@ import { HandinputDirective } from '../examples/teleport/xr-controller/handinput
     FloorComponent,
 
     BallshooterExample,
-    ShootControllerComponent,
+    ShootDirective,
 
     DraggingExample,
-    DraggingControllerComponent,
+    DragDirective,
 
     HandInputExample,
-    HandInputControllerComponent,
+    ShowHandDirective,
+    HandinputDirective,
 
     TeleportExample,
     TeleportControllerComponent,
     XRControllerComponent,
     TeleportDirective,
-    HandinputDirective,
+    ShowControllerDirective,
+    TrackedPointerDirective,
 
     BatExample,
     BatController,

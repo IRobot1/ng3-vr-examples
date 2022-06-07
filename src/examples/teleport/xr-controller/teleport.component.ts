@@ -1,6 +1,6 @@
 import { Directive, Input } from "@angular/core";
 
-import { AdditiveBlending, BufferGeometry, Float32BufferAttribute, Group, Line, LineBasicMaterial, Matrix4, Mesh, Raycaster, WebXRManager } from "three";
+import { Group, Matrix4, Mesh, Raycaster, WebXRManager } from "three";
 
 import { XRControllerComponent } from "./xr-controller.component";
 
@@ -26,9 +26,6 @@ export class TeleportDirective {
     });
 
     this.xr.connected.subscribe(next => {
-      if (next.xrinput.targetRayMode == 'tracked-pointer') {
-        next.controller.add(this.buildTrackPointer());
-      }
       this.controller = next.controller
     });
 
@@ -44,16 +41,6 @@ export class TeleportDirective {
     this.xr.beforeRender.subscribe(next => {
       this.tick();
     })
-  }
-
-  private buildTrackPointer() {
-    const geometry = new BufferGeometry();
-    geometry.setAttribute('position', new Float32BufferAttribute([0, 0, 0, 0, 0, - 1], 3));
-    geometry.setAttribute('color', new Float32BufferAttribute([0.5, 0.5, 0.5, 0, 0, 0], 3));
-
-    const material = new LineBasicMaterial({ vertexColors: true, blending: AdditiveBlending });
-
-    return new Line(geometry, material);
   }
 
   private MarkerIntersection: any;

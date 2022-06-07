@@ -1,10 +1,8 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 
 import { Color, Group, MathUtils, Object3D, Vector3 } from 'three';
 
 import { NgtRenderState } from "@angular-three/core";
-
-import { ShootControllerComponent } from "./shoot-controller/shoot-controller.component";
 
 
 class RandomSettings {
@@ -16,9 +14,6 @@ class RandomSettings {
   templateUrl: './ballshooter.component.html',
 })
 export class BallshooterExample implements OnInit {
-  @ViewChild('xr0') xr0?: ShootControllerComponent;
-  @ViewChild('xr1') xr1?: ShootControllerComponent;
-
   radius = 0.08;
 
   shapes: Array<RandomSettings> = [];
@@ -35,26 +30,8 @@ export class BallshooterExample implements OnInit {
 
   private count = 0;
 
-  private handleController(room: Group, controller?: Group) {
-    if (controller && controller.userData["isSelecting"]) {
-      const object = room.children[this.count++];
-
-      if (object) {
-        object.position.copy(controller.position);
-        const velocity: Vector3 = object.userData["velocity"];
-        velocity.x = (Math.random() - 0.5) * 3;
-        velocity.y = (Math.random() - 0.5) * 3;
-        velocity.z = (Math.random() - 9);
-        velocity.applyQuaternion(controller.quaternion);
-      }
-      if (this.count === room.children.length) this.count = 0;
-    }
-  }
-
   tick({ delta }: NgtRenderState, object: Object3D) {
     const room = <Group>object;
-    if (this.xr0 ) { this.handleController(room, this.xr0.controller); }
-    if (this.xr1 ) { this.handleController(room, this.xr1.controller); }
 
     const radius = this.radius;
     const range = 3 - radius;

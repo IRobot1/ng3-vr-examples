@@ -4,8 +4,6 @@ import { Color, Euler, Group, Vector3 } from "three";
 
 import { NgtStore } from "@angular-three/core";
 
-import { DraggingControllerComponent, GrabEndEvent, GrabStartEvent } from "./dragging-controller/dragging-controller.component";
-
 
 class RandomSettings {
   constructor(public shapename: string, public color: string, public position: Vector3, public rotation: Euler, public scale: Vector3) { }
@@ -17,9 +15,6 @@ class RandomSettings {
   templateUrl: './dragging.component.html',
 })
 export class DraggingExample implements OnInit {
-  @ViewChild('xr0') xr0?: DraggingControllerComponent;
-  @ViewChild('xr1') xr1?: DraggingControllerComponent;
-
   x = -Math.PI / 2;
   shapes: Array<RandomSettings> = [];
 
@@ -44,32 +39,4 @@ export class DraggingExample implements OnInit {
       ));
     }
   }
-
-  grabstart(xr: DraggingControllerComponent, event: GrabStartEvent) {
-    if (event.grabbedobject) {
-      if (event.controller) {
-        event.controller.attach(event.grabbedobject);
-        event.controller.userData["selected"] = event.grabbedobject;
-      }
-      if (xr.trackedpointerline) {
-        xr.trackedpointerline.scale.z = event.intersect.distance;
-      }
-    }
-  }
-
-  grabend(xr: DraggingControllerComponent, event: GrabEndEvent) {
-    if (event.controller.userData["selected"]) {
-      const object = event.controller.userData["selected"];
-      object.material.emissive.b = 0;
-
-      const room = <Group>this.store.get((s) => s.scene).getObjectByName('room');
-      room.attach(object);
-
-      event.controller.userData["selected"] = undefined;
-      if (xr.trackedpointerline) {
-        xr.trackedpointerline.scale.z = 1.5;
-      }
-    }
-  }
-
 }

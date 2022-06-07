@@ -4,13 +4,13 @@
 
 <ngt-directional-light [position]="[10, 10, 10]" castShadow></ngt-directional-light>
 
-<shoot-controller #xr0></shoot-controller>
-<shoot-controller #xr1 [index]="1"></shoot-controller>
-
-<ngt-group (beforeRender)="tick($event.state, $event.object)">
+<ngt-group #room (beforeRender)="tick($event.state, $event.object)">
   <ngt-mesh *ngFor="let item of shapes"
             [position]="item.position" [userData]="{velocity: item.velocity}">
     <ngt-mesh-standard-material [color]="item.color"></ngt-mesh-standard-material>
     <ngt-sphere-geometry [args]="[radius]"></ngt-sphere-geometry>
   </ngt-mesh>
 </ngt-group>
+
+<xr-controller shoot showcontroller [room]="room.instance.value"></xr-controller>
+<!--<shoot-controller #xr1 [index]="1"></shoot-controller>-->

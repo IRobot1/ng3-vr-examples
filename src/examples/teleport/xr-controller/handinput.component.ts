@@ -30,24 +30,20 @@ export class HandinputDirective implements OnInit {
     });
 
     this.xr.connected.subscribe(next => {
-      const handModelFactory = new XRHandModelFactory();
+      const hand = manager.getHand(this.xr.index);
 
-      this.hand = manager.getHand(this.xr.index);
-      this.hand.add(handModelFactory.createHandModel(this.hand));
-      scene.add(this.hand);
-
-      this.hand.addEventListener('pinchstart', (event) => {
+      hand.addEventListener('pinchstart', (event) => {
         console.warn('pinchstart', event)
         const controller = <Group>event.target;
         const indexTip = event.target.joints['index-finger-tip'];
         this.isSelecting = true;
       });
-      this.hand.addEventListener('pinchend', (event) => {
+      hand.addEventListener('pinchend', (event) => {
         console.warn('pinchend', event)
         const controller = <Group>event.target;
         this.isSelecting = false;
       });
-      this.hand.addEventListener('pinch', (event) => {
+      hand.addEventListener('pinch', (event) => {
         console.warn('pinch', event)
       });
     });

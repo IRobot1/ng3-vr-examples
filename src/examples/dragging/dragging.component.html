@@ -4,10 +4,7 @@
 
 <ngt-directional-light [position]="[10, 10, 10]" castShadow></ngt-directional-light>
 
-<dragging-controller #xr0 [tracktype]="'grab'" (grabstart)="grabstart(xr0, $event)" (grabend)="grabend(xr0, $event)"></dragging-controller>
-<dragging-controller #xr1 [index]="1" [tracktype]="'grab'" (grabstart)="grabstart(xr1, $event)" (grabend)="grabend(xr1, $event)"></dragging-controller>
-
-<ngt-group name="room">
+<ngt-group #room>
   <ngt-mesh *ngFor="let item of shapes"
             [position]="item.position" [rotation]="item.rotation" [scale]="item.scale" castShadow>
     <ngt-mesh-standard-material [parameters]="{ color: item.color, roughness: 0.7, metalness:0.0 }"></ngt-mesh-standard-material>
@@ -19,3 +16,6 @@
     <ngt-torus-geometry *ngIf="item.shapename=='torus'" [args]="[ 0.2, 0.04, 64, 32]"></ngt-torus-geometry>
   </ngt-mesh>
 </ngt-group>
+
+<xr-controller drag showcontroller trackedpointer [room]="room.instance.value"></xr-controller>
+<!--<dragging-controller #xr1 [index]="1" [tracktype]="'grab'" (grabstart)="grabstart(xr1, $event)" (grabend)="grabend(xr1, $event)"></dragging-controller>-->

@@ -4,7 +4,6 @@ import { Group, Object3D, Vector2, WebXRManager } from "three";
 
 import { NgtRenderState, NgtStore } from "@angular-three/core";
 
-import { XRControllerModelFactory } from "three-stdlib/webxr/XRControllerModelFactory";
 
 export class ConnectedEvent {
   constructor(public controller: Group, public xrinput: XRInputSource) { }
@@ -16,7 +15,6 @@ export class ConnectedEvent {
 })
 export class XRControllerComponent implements OnInit {
   @Input() index = 0;
-  @Input() showcontroller = true;
 
   @Output() sessionstart = new EventEmitter<WebXRManager>()
 
@@ -58,11 +56,6 @@ export class XRControllerComponent implements OnInit {
     this.controller = renderer.xr.getController(this.index);
     scene.add(this.controller);
 
-    const controllerModelFactory = new XRControllerModelFactory();
-
-    const controllerGrip = renderer.xr.getControllerGrip(this.index);
-    controllerGrip.add(controllerModelFactory.createControllerModel(controllerGrip));
-    scene.add(controllerGrip);
 
     this.controller.addEventListener('selectstart', (event) => {
       const data: XRInputSource = event['data'];
@@ -87,6 +80,7 @@ export class XRControllerComponent implements OnInit {
         this.controller.name = data.handedness;
         this.gamepad = data.gamepad;
         this.connected.emit(new ConnectedEvent(this.controller, data));
+
       }
     });
     this.controller.addEventListener('disconnected', () => {
