@@ -1,42 +1,63 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
-import { AdditiveBlending, BufferGeometry, Float32BufferAttribute, Group, Line, LineBasicMaterial, Matrix4, Mesh, MeshBasicMaterial, Raycaster, RingGeometry } from "three";
+import { Group, Object3D, Vector2, WebXRManager } from "three";
 
-import { NgtStore } from "@angular-three/core";
+import { NgtRenderState, NgtStore } from "@angular-three/core";
 
 import { XRControllerModelFactory } from "three-stdlib/webxr/XRControllerModelFactory";
 
+export class ConnectedEvent {
+  constructor(public controller: Group, public xrinput: XRInputSource) { }
+}
 
 @Component({
   selector: 'xr-controller',
-  templateUrl: './xr-controller.component.html',
+  template: '<ngt-group (beforeRender)="tick($event)"></ngt-group>',
 })
 export class XRControllerComponent implements OnInit {
-  @Input() marker!: Mesh;
-  @Input() floor!: Mesh;
   @Input() index = 0;
+  @Input() showcontroller = true;
+
+  @Output() sessionstart = new EventEmitter<WebXRManager>()
+
+  @Output() selectstart = new EventEmitter<XRInputSource>()
+  @Output() trigger = new EventEmitter<XRInputSource>()
+  @Output() selectend = new EventEmitter<XRInputSource>()
+
+  @Output() squeezestart = new EventEmitter<XRInputSource>()
+  @Output() grip = new EventEmitter<XRInputSource>()
+  @Output() squeezeend = new EventEmitter<XRInputSource>()
+
+  @Output() touchpadstart = new EventEmitter()
+  @Output() touchpad = new EventEmitter()
+  @Output() touchpadend = new EventEmitter()
+  @Output() touchaxis = new EventEmitter<Vector2>()
+
+  @Output() joystickstart = new EventEmitter()
+  @Output() joystick = new EventEmitter()
+  @Output() joystickend = new EventEmitter()
+  @Output() joystickaxis = new EventEmitter<Vector2>()
+
+  @Output() connected = new EventEmitter<ConnectedEvent>()
+  @Output() disconnected = new EventEmitter()
+
+  @Output() beforeRender = new EventEmitter<NgtRenderState>()
 
   private controller!: Group;
   private gamepad!: Gamepad;
-
-  private baseReferenceSpace?: XRReferenceSpace | null;
 
   constructor(private store: NgtStore) { }
 
   ngOnInit(): void {
     const renderer = this.store.get((s) => s.gl);
 
-    renderer.xr.addEventListener('sessionstart', () => this.baseReferenceSpace = renderer.xr.getReferenceSpace())
+    renderer.xr.addEventListener('sessionstart', (event) => this.sessionstart.emit(event.target))
 
     const scene = this.store.get((s) => s.scene);
 
     this.controller = renderer.xr.getController(this.index);
     scene.add(this.controller);
 
-    // The XRControllerModelFactory will automatically fetch controller models
-    // that match what the user is holding as closely as possible. The models
-    // should be attached to the object returned from getControllerGrip in
-    // order to match the orientation of the held device.
     const controllerModelFactory = new XRControllerModelFactory();
 
     const controllerGrip = renderer.xr.getControllerGrip(this.index);
@@ -44,91 +65,81 @@ export class XRControllerComponent implements OnInit {
     scene.add(controllerGrip);
 
     this.controller.addEventListener('selectstart', (event) => {
-      this.controller.userData["isSelecting"] = true;
-      console.warn(event)
+      const data: XRInputSource = event['data'];
+      this.selectstart.emit(data);
     });
-    this.controller.addEventListener('selectend', () => {
-      this.controller.userData["isSelecting"] = false;
-      this.teleport(renderer);
+    this.controller.addEventListener('selectend', (event) => {
+      this.trigger.emit(event['data']);
+      this.selectend.emit(event['data']);
+    });
+
+    this.controller.addEventListener('squeezestart', (event) => {
+      this.squeezestart.emit(event['data']);
+    });
+    this.controller.addEventListener('squeezeend', (event) => {
+      this.grip.emit(event['data']);
+      this.squeezeend.emit(event['data']);
     });
 
     this.controller.addEventListener('connected', (event) => {
-      this.gamepad = event['data'].gamepad;
-
-      const source = <XRInputSource>event.target;
-      this.controller.name = source.handedness;
-      if (source.targetRayMode == 'tracked-pointer') {
-        this.controller.add(this.buildTrackPointer());
-      }
-      else if (source.targetRayMode == 'gaze') {
-        this.controller.add(this.buildGaze());
+      const data = event['data'];
+      if (this.controller.name != data.handedness) { // only connect once
+        this.controller.name = data.handedness;
+        this.gamepad = data.gamepad;
+        this.connected.emit(new ConnectedEvent(this.controller, data));
       }
     });
     this.controller.addEventListener('disconnected', () => {
       this.controller.remove(this.controller.children[0]);
+      if (this.controller.name != '') {
+        this.disconnected.emit();
+        this.controller.name = '';
+      }
     });
-
   }
 
-  private buildTrackPointer() {
-    const geometry = new BufferGeometry();
-    geometry.setAttribute('position', new Float32BufferAttribute([0, 0, 0, 0, 0, - 1], 3));
-    geometry.setAttribute('color', new Float32BufferAttribute([0.5, 0.5, 0.5, 0, 0, 0], 3));
+  touchpad_pressed = false;
+  joystick_pressed = false;
+  touchpad_axis = new Vector2();
+  joystick_axis = new Vector2();
 
-    const material = new LineBasicMaterial({ vertexColors: true, blending: AdditiveBlending });
-
-    return new Line(geometry, material);
-  }
-
-  private buildGaze() {
-    const geometry = new RingGeometry(0.02, 0.04, 32).translate(0, 0, - 1);
-    const material = new MeshBasicMaterial({ opacity: 0.5, transparent: true });
-    return new Mesh(geometry, material);
-  }
-
-  teleport(renderer: any) {
-    if (this.MarkerIntersection) {
-      const offsetPosition = <DOMPointReadOnly>{ x: - this.MarkerIntersection.x, y: - this.MarkerIntersection.y, z: - this.MarkerIntersection.z, w: 1 };
-      const offsetRotation = <DOMPointReadOnly>{ x: 0, y: 0, z: 0, w: 1 };
-      const transform = new XRRigidTransform(offsetPosition, offsetRotation);
-      if (this.baseReferenceSpace) {
-        const teleportSpaceOffset = this.baseReferenceSpace.getOffsetReferenceSpace(transform);
-        renderer.xr.setReferenceSpace(teleportSpaceOffset);
-      }
-
-    }
-  }
-
-  private MarkerIntersection: any;
-
-  tick() {
-    this.MarkerIntersection = undefined;
-
-    if (this.controller.userData["isSelecting"] === true) {
-
-      const tempMatrix = new Matrix4();
-      tempMatrix.identity().extractRotation(this.controller.matrixWorld);
-
-      const raycaster = new Raycaster();
-      raycaster.ray.origin.setFromMatrixPosition(this.controller.matrixWorld);
-      raycaster.ray.direction.set(0, 0, - 1).applyMatrix4(tempMatrix);
-
-      const intersects = raycaster.intersectObjects([this.floor]);
-
-      if (intersects.length > 0) {
-
-        this.MarkerIntersection = intersects[0].point;
-
-      }
-
-    }
-
-    if (this.MarkerIntersection) this.marker.position.copy(this.MarkerIntersection);
-
-    this.marker.visible = this.MarkerIntersection !== undefined;
+  tick(event: { state: NgtRenderState, object: Object3D }) {
     if (this.gamepad) {
-      if (this.gamepad.buttons[3].pressed)
-        console.warn(this.gamepad.buttons[3])
+
+      if (this.gamepad.buttons[2].pressed && !this.touchpad_pressed) {
+        this.touchpadstart.emit();
+        this.touchpad_pressed = true;
+      }
+      else if (this.touchpad_pressed && !this.gamepad.buttons[2].pressed) {
+        this.touchpad.emit();
+        this.touchpadend.emit();
+        this.touchpad_pressed = false;
+      }
+
+      if (this.gamepad.buttons[3].pressed && !this.joystick_pressed) {
+        this.joystick.emit();
+        this.joystick_pressed = true;
+      }
+      else if (this.joystick_pressed && !this.gamepad.buttons[3].pressed) {
+        this.joystick.emit();
+        this.joystickend.emit();
+        this.joystick_pressed = false;
+      }
+
+      if (this.touchpad.observed) {
+        this.touchpad_axis.x = this.gamepad.axes[0];
+        this.touchpad_axis.y = this.gamepad.axes[1];
+        this.touchpad.emit(this.touchpad_axis);
+      }
+      if (this.joystick.observed) {
+        this.joystick_axis.x = this.gamepad.axes[2];
+        this.joystick_axis.y = this.gamepad.axes[3];
+        this.joystick.emit(this.joystick_axis);
+      }
     }
+    if (this.beforeRender.observed) {
+      this.beforeRender.emit(event.state);
+    }
+
   }
 }

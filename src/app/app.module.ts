@@ -41,6 +41,8 @@ import { Projectiles } from '../examples/physics-bat/projectiles/projectiles.com
 import { FloorComponent } from '../components/floor.component';
 import { Target } from '../examples/physics-bat/target/target.component';
 import { XRControllerComponent } from '../examples/teleport/xr-controller/xr-controller.component';
+import { TeleportDirective } from '../examples/teleport/xr-controller/teleport.component';
+import { HandinputDirective } from '../examples/teleport/xr-controller/handinput.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import { XRControllerComponent } from '../examples/teleport/xr-controller/xr-con
     TeleportExample,
     TeleportControllerComponent,
     XRControllerComponent,
+    TeleportDirective,
+    HandinputDirective,
 
     BatExample,
     BatController,

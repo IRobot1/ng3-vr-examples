@@ -51,7 +51,7 @@ export class TeleportControllerComponent implements OnInit {
     });
 
     this.controller.addEventListener('connected', (event) => {
-      const source = <XRInputSource>event.target;
+      const source = <XRInputSource>event['data'];
       this.controller.name = source.handedness;
       if (source.targetRayMode == 'tracked-pointer') {
         this.controller.add(this.buildTrackPointer());
