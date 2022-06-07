@@ -33,7 +33,6 @@ import { HandInputExample } from '../examples/handinput/handinput.component';
 import { TeleportExample } from '../examples/teleport/teleport.component';
 import { TeleportControllerComponent } from '../examples/teleport/teleport-controller/teleport-controller.component';
 import { BatExample } from '../examples/physics-bat/physics-bat.component';
-import { BatController } from '../examples/physics-bat/bat-controller/bat-controller.component';
 import { Projectiles } from '../examples/physics-bat/projectiles/projectiles.component';
 import { FloorComponent } from '../components/floor.component';
 import { Target } from '../examples/physics-bat/target/target.component';
@@ -45,6 +44,7 @@ import { ShowHandDirective } from '../examples/teleport/xr-controller/showhand.c
 import { TrackedPointerDirective } from '../examples/teleport/xr-controller/trackpointer.component';
 import { DragDirective } from '../examples/dragging/drag.component';
 import { ShootDirective } from '../examples/ballshooter/shoot.component';
+import { BatDirective } from '../examples/physics-bat/bat.component';
 
 @NgModule({
   declarations: [
@@ -72,9 +72,9 @@ import { ShootDirective } from '../examples/ballshooter/shoot.component';
     TrackedPointerDirective,
 
     BatExample,
-    BatController,
     Projectiles,
     Target,
+    BatDirective,
   ],
   imports: [
     BrowserModule,

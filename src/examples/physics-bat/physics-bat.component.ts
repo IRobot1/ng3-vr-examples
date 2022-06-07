@@ -5,9 +5,6 @@ import { BatGame } from './batgame.service';
   templateUrl: './physics-bat.component.html',
 })
 export class BatExample {
-  step = 1 / 120;
-  gravity = -4;
-
   balls = 1000;
 
   constructor(public gamestate: BatGame) {

@@ -1,14 +1,14 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output } from "@angular/core";
 
-import { Camera, Object3D, Ray, Vector3 } from "three";
+import { Object3D, Ray, Vector3 } from "three";
 
-import { NgtStore, NgtTriple } from "@angular-three/core";
+import { NgtTriple } from "@angular-three/core";
 
 import { NgtPhysicBody, NgtPhysicBodyReturn } from "@angular-three/cannon";
 import { BatGame } from "../batgame.service";
 
 class Projectile {
-  constructor(public body: NgtPhysicBodyReturn<Object3D>, public ttl: number = 5) { }
+  constructor(public body: NgtPhysicBodyReturn<Object3D>, public ttl: number = 5, public active = false) { }
 }
 
 @Component({
@@ -23,52 +23,60 @@ export class Projectiles implements AfterViewInit, OnDestroy {
   @Output() fire = new EventEmitter();
 
   projectiles: Array<Projectile> = [];
-  ballRadius = 0.1;
+  ballRadius = 0.05;
 
   results!: string;
 
   constructor(
     private physicBody: NgtPhysicBody,
-    private store: NgtStore,
     private gamestate: BatGame,
   ) { }
 
-  private player!: Camera;
   private projectilestart!: Vector3;
 
   private cleanup_timer!: any;
 
   private score = 0;
-  private remaining = 0;
+  private velocity!: Vector3;
 
   ngAfterViewInit(): void {
-    this.player = this.store.get((s) => s.camera);
     this.projectilestart = new Vector3(this.position[0], this.position[1], this.position[2]);
 
-    let waittoshoot = 0;
+    const homeplate = new Vector3(0, 1.5, 0);
+
+    const ray = new Ray(this.projectilestart, this.projectilestart.clone().sub(homeplate).normalize().negate())
+    this.velocity = ray.direction.multiplyScalar(10);
+
+    for (let i = 0; i < 5; i++) {
+      const ball = this.physicBody.useSphere(() => ({
+        mass: 2,
+        args: [this.ballRadius],
+        position: [0, -i*10, 0], // start under the floor
+        material: { restitution: 0.7, friction: 0.1 },
+      }));
+      this.projectiles.push(new Projectile(ball));
+    }
+
     this.cleanup_timer = setInterval(() => {
       this.projectiles.forEach((item, index) => {
-        item.ttl--;
-        if (item.ttl <= 0) {
-          this.projectiles.splice(index, 1)
+        if (item.active) {
+          item.ttl--;
+          if (item.ttl <= 0) {
+            item.active = false;
+            item.ttl = 5;
+          }
         }
       })
-      if (waittoshoot >= 1) {
-        if (this.remaining > 0) {
-          this.shoot();
-        }
-        waittoshoot = -1;
-      }
-      waittoshoot++;
-
-      if (this.remaining == 0 && this.projectiles.length == 0) {
-        this.results = `Game Over - Score: ${this.score}`;
-      }
+      this.shoot();
     }, 1000);
 
     this.gamestate.gamestate$.subscribe(next => {
+      if (next.remaining == 0) {
+        this.results = `Game Over - Score: ${this.score}`;
+      } else {
+
         this.results = `Score: ${next.score}, Remaining Balls: ${next.remaining}`;
-      this.remaining = next.remaining;
+      }
       this.score = next.score;
     });
   }
@@ -78,25 +86,20 @@ export class Projectiles implements AfterViewInit, OnDestroy {
   }
 
 
-  private getShootDirection(): Vector3 {
-    const vector = this.projectilestart.clone();
-    const ray = new Ray(this.projectilestart, vector.sub(this.player.position).normalize().negate())
-    return ray.direction;
-  }
-
-
+  private index = 0;
   private shoot() {
-    const shootDirection = this.getShootDirection()
+    if (this.index >= this.projectiles.length) {
+      this.index = 0;
+    }
+    const projectile = this.projectiles[this.index];
+    projectile.active = true;
 
-    const velocity = shootDirection.multiplyScalar(10).toArray();
-    const ball = this.physicBody.useSphere(() => ({
-      mass: 2,
-      args: [this.ballRadius],
-      position: this.position,
-      velocity: velocity
-    }));
+    const api = projectile.body.api;
+    api.position.copy(this.projectilestart);
+    api.velocity.copy(this.velocity);
 
-    this.projectiles.push(new Projectile(ball));
+
     this.fire.emit();
+    this.index++;
   }
 }

@@ -1,5 +1,5 @@
 <ngt-mesh *ngFor="let item of projectiles" [ref]="item.body.ref" castShadow>
-  <ngt-sphere-geometry [args]="[ballRadius]"></ngt-sphere-geometry>
+  <ngt-sphere-geometry [args]="[ballRadius, 6, 6]"></ngt-sphere-geometry>
   <ngt-mesh-standard-material color='white'></ngt-mesh-standard-material>
 </ngt-mesh>
 

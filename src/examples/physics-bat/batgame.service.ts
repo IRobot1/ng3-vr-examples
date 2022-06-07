@@ -11,10 +11,6 @@ export class BatGame {
   private store = new BehaviorSubject({ score: this._score, remaining: this._remaining  });
   public gamestate$ = this.store.asObservable();
 
-  constructor() {
-    console.warn('start bat game')
-  }
-
   get remaining(): number { return this._remaining }
   get score(): number { return this._score }
 
