@@ -10,9 +10,9 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-three/cannon": "^5.4.0",
-    "@angular-three/core": "^5.4.0",
-    "@angular-three/soba": "^5.4.0",
+    "@angular-three/cannon": "^5.5.0",
+    "@angular-three/core": "^5.5.0",
+    "@angular-three/soba": "^5.5.0",
     "@angular/animations": "^14.0.0",
     "@angular/common": "^14.0.0",
     "@angular/compiler": "^14.0.0",
