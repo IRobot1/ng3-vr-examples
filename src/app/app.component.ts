@@ -16,6 +16,7 @@ export class AppComponent {
     'handinput',
     'teleport',
     'bat',
+    'inspect',
   ]
 
   created(state: NgtState) {

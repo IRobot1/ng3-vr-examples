@@ -31,7 +31,6 @@ import { BallshooterExample } from '../examples/ballshooter/ballshooter.componen
 import { DraggingExample } from '../examples/dragging/dragging.component';
 import { HandInputExample } from '../examples/handinput/handinput.component';
 import { TeleportExample } from '../examples/teleport/teleport.component';
-import { TeleportControllerComponent } from '../examples/teleport/teleport-controller/teleport-controller.component';
 import { BatExample } from '../examples/physics-bat/physics-bat.component';
 import { Projectiles } from '../examples/physics-bat/projectiles/projectiles.component';
 import { FloorComponent } from '../components/floor.component';
@@ -45,6 +44,9 @@ import { TrackedPointerDirective } from '../examples/teleport/xr-controller/trac
 import { DragDirective } from '../examples/dragging/drag.component';
 import { ShootDirective } from '../examples/ballshooter/shoot.component';
 import { BatDirective } from '../examples/physics-bat/bat.component';
+import { InspectExample } from '../examples/inspect/inspect.component';
+import { GrabDirective } from '../examples/inspect/grab.component';
+import { InspectCube } from '../examples/inspect/inspect-cube.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,6 @@ import { BatDirective } from '../examples/physics-bat/bat.component';
     HandinputDirective,
 
     TeleportExample,
-    TeleportControllerComponent,
     XRControllerComponent,
     TeleportDirective,
     ShowControllerDirective,
@@ -75,6 +76,10 @@ import { BatDirective } from '../examples/physics-bat/bat.component';
     Projectiles,
     Target,
     BatDirective,
+
+    InspectExample,
+    InspectCube,
+    GrabDirective,
   ],
   imports: [
     BrowserModule,

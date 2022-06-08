@@ -1,8 +1,6 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 
-import { Color, Euler, Group, Vector3 } from "three";
-
-import { NgtStore } from "@angular-three/core";
+import { Color, Euler, Vector3 } from "three";
 
 
 class RandomSettings {
@@ -11,7 +9,6 @@ class RandomSettings {
 
 
 @Component({
-  selector: 'app-dragging',
   templateUrl: './dragging.component.html',
 })
 export class DraggingExample implements OnInit {
@@ -25,8 +22,6 @@ export class DraggingExample implements OnInit {
     'icosahedron',
     'torus'
   ];
-
-  constructor(private store: NgtStore) { }
 
   ngOnInit(): void {
     for (let i = 0; i < 75; i++) {
