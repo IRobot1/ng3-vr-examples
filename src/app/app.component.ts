@@ -17,6 +17,7 @@ export class AppComponent {
     'teleport',
     'bat',
     'inspect',
+    'drumstick',
   ]
 
   created(state: NgtState) {

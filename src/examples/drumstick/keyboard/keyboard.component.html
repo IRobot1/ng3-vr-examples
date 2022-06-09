@@ -1,0 +1,28 @@
+<ngt-group [position]="position" [rotation]="rotation" [scale]="scale">
+  <ngt-group [position]="[0, 0.1, -1.1]">
+    <ngt-group [rotation]="[30 | radian, 0, 0]">
+
+      <ngt-mesh [position]="[0.2, 0.01, 0]" [rotation]="[-90 | radian, 0, 0]">
+        <ngt-plane-geometry [args]="[3.8, 0.2]"></ngt-plane-geometry>
+        <ngt-mesh-standard-material color="black"></ngt-mesh-standard-material>
+
+      </ngt-mesh>
+      <ngt-soba-text [text]="displaytext"
+                     castShadow
+                     color="white"
+                     [fontSize]="0.2"
+                     [clipRect]="[0, -1, 3.75, 1 ]"
+                     font="https://fonts.gstatic.com/s/cutivemono/v6/m8JWjfRfY7WVjVi2E-K9H6RCTmg.woff"
+                     anchorX="left"
+                     [position]="[-1.7, 0.02, 0]"
+                     [rotation]="[-90 | radian, 0, 0]">
+      </ngt-soba-text>
+    </ngt-group>
+  </ngt-group>
+
+  <drum-key *ngFor="let item of keys"
+            [position]="item.position" [keycode]="keycode(item)" [size]="item.size" [scale]="scale" [fontsize]="item.fontsize"
+            (click)="pressed($event)">
+
+  </drum-key>
+</ngt-group>

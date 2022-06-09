@@ -47,6 +47,10 @@ import { BatDirective } from '../examples/physics-bat/bat.component';
 import { InspectExample } from '../examples/inspect/inspect.component';
 import { GrabDirective } from '../examples/inspect/grab.component';
 import { InspectCube } from '../examples/inspect/inspect-cube.component';
+import { DrumstickExample } from '../examples/drumstick/drumstick.component';
+import { DrumKey } from '../examples/drumstick/key.component';
+import { DrumstickDirective } from '../examples/drumstick/stick.component';
+import { KeyboardComponent } from '../examples/drumstick/keyboard/keyboard.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +84,11 @@ import { InspectCube } from '../examples/inspect/inspect-cube.component';
     InspectExample,
     InspectCube,
     GrabDirective,
+
+    DrumstickExample,
+    DrumstickDirective,
+    DrumKey,
+    KeyboardComponent,
   ],
   imports: [
     BrowserModule,

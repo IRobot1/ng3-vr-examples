@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BallshooterExample } from '../examples/ballshooter/ballshooter.component';
 import { DraggingExample } from '../examples/dragging/dragging.component';
+import { DrumstickExample } from '../examples/drumstick/drumstick.component';
 import { HandInputExample } from '../examples/handinput/handinput.component';
 
 import { HomeComponent } from '../examples/home/home.component';
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'teleport', component: TeleportExample },
   { path: 'bat', component: BatExample },
   { path: 'inspect', component: InspectExample },
+  { path: 'drumstick', component: DrumstickExample },
 ];
 
 @NgModule({
