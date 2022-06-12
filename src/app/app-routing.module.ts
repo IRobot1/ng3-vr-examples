@@ -7,6 +7,7 @@ import { HandInputExample } from '../examples/handinput/handinput.component';
 
 import { HomeComponent } from '../examples/home/home.component';
 import { InspectExample } from '../examples/inspect/inspect.component';
+import { JoystickExample } from '../examples/joystick/joystick.component';
 import { BatExample } from '../examples/physics-bat/physics-bat.component';
 import { TeleportExample } from '../examples/teleport/teleport.component';
 import { TouchpadExample } from '../examples/touchpad/touchpad.component';
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'inspect', component: InspectExample },
   { path: 'drumstick', component: DrumstickExample },
   { path: 'touchpad', component: TouchpadExample },
+  { path: 'joystick', component: JoystickExample },
 ];
 
 @NgModule({

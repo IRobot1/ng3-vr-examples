@@ -19,6 +19,7 @@ export class AppComponent {
     'inspect',
     'drumstick',
     'touchpad',
+    'joystick',
   ]
 
   created(state: NgtState) {
