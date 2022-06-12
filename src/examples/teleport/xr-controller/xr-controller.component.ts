@@ -27,14 +27,12 @@ export class XRControllerComponent implements OnInit {
   @Output() squeezeend = new EventEmitter<XRInputSource>()
 
   @Output() touchpadstart = new EventEmitter()
-  @Output() touchpad = new EventEmitter()
+  @Output() touchpad = new EventEmitter<Vector2>()
   @Output() touchpadend = new EventEmitter()
-  @Output() touchaxis = new EventEmitter<Vector2>()
 
   @Output() joystickstart = new EventEmitter()
-  @Output() joystick = new EventEmitter()
+  @Output() joystick = new EventEmitter<Vector2>()
   @Output() joystickend = new EventEmitter()
-  @Output() joystickaxis = new EventEmitter<Vector2>()
 
   @Output() connected = new EventEmitter<ConnectedEvent>()
   @Output() disconnected = new EventEmitter()

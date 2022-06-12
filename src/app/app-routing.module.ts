@@ -9,6 +9,7 @@ import { HomeComponent } from '../examples/home/home.component';
 import { InspectExample } from '../examples/inspect/inspect.component';
 import { BatExample } from '../examples/physics-bat/physics-bat.component';
 import { TeleportExample } from '../examples/teleport/teleport.component';
+import { TouchpadExample } from '../examples/touchpad/touchpad.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'bat', component: BatExample },
   { path: 'inspect', component: InspectExample },
   { path: 'drumstick', component: DrumstickExample },
+  { path: 'touchpad', component: TouchpadExample },
 ];
 
 @NgModule({

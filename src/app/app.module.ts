@@ -51,6 +51,8 @@ import { DrumstickExample } from '../examples/drumstick/drumstick.component';
 import { DrumKey } from '../examples/drumstick/key.component';
 import { DrumstickDirective } from '../examples/drumstick/stick.component';
 import { KeyboardComponent } from '../examples/drumstick/keyboard/keyboard.component';
+import { TouchpadExample } from '../examples/touchpad/touchpad.component';
+import { TouchMoveDirective } from '../examples/touchpad/touchmove.component';
 
 @NgModule({
   declarations: [
@@ -89,6 +91,9 @@ import { KeyboardComponent } from '../examples/drumstick/keyboard/keyboard.compo
     DrumstickDirective,
     DrumKey,
     KeyboardComponent,
+
+    TouchpadExample,
+    TouchMoveDirective,
   ],
   imports: [
     BrowserModule,

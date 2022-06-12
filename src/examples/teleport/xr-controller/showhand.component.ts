@@ -22,7 +22,6 @@ export class ShowHandDirective implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     const scene = this.store.get((s) => s.scene);
     scene.remove(this.hand);
-    console.warn('remove hand')
   }
   ngOnInit(): void {
     const scene = this.store.get((s) => s.scene);

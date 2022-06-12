@@ -18,6 +18,7 @@ export class AppComponent {
     'bat',
     'inspect',
     'drumstick',
+    'touchpad',
   ]
 
   created(state: NgtState) {

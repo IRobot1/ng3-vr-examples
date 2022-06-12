@@ -1,6 +1,6 @@
 import { Directive, Input } from "@angular/core";
 
-import { Group, Matrix4, Mesh, Raycaster, WebXRManager } from "three";
+import { Group, Matrix4, Mesh, Raycaster, Vector3, WebXRManager } from "three";
 
 import { XRControllerComponent } from "./xr-controller.component";
 
@@ -35,7 +35,7 @@ export class TeleportDirective {
 
     this.xr.selectend.subscribe(next => {
       this.isSelecting = false;
-      this.teleport(manager);
+      this.teleport(manager, this.MarkerIntersection);
     });
 
     this.xr.beforeRender.subscribe(next => {
@@ -43,11 +43,11 @@ export class TeleportDirective {
     })
   }
 
-  private MarkerIntersection: any;
+  private MarkerIntersection?: Vector3;
 
-  private teleport(xrmanager: WebXRManager) {
-    if (this.MarkerIntersection) {
-      const offsetPosition = <DOMPointReadOnly>{ x: - this.MarkerIntersection.x, y: - this.MarkerIntersection.y, z: - this.MarkerIntersection.z, w: 1 };
+  private teleport(xrmanager: WebXRManager, position?: Vector3) {
+    if (position) {
+      const offsetPosition = <DOMPointReadOnly>{ x: - position.x, y: - position.y, z: - position.z, w: 1 };
       const offsetRotation = <DOMPointReadOnly>{ x: 0, y: 0, z: 0, w: 1 };
       const transform = new XRRigidTransform(offsetPosition, offsetRotation);
       if (this.baseReferenceSpace) {
