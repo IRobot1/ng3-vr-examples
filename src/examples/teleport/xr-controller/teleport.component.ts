@@ -1,4 +1,6 @@
-import { Directive, Input } from "@angular/core";
+import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
+import { Directive, Input, OnDestroy, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
 
 import { Group, Matrix4, Mesh, Raycaster, Vector3, WebXRManager } from "three";
 
@@ -7,7 +9,18 @@ import { XRControllerComponent } from "./xr-controller.component";
 @Directive({
   selector: '[teleport]',
 })
-export class TeleportDirective {
+export class TeleportDirective implements OnInit, OnDestroy {
+  private _teleport: BooleanInput = true;
+  @Input()
+  get teleport(): boolean { return coerceBooleanProperty(this._teleport) }
+  set teleport(newvalue: BooleanInput) {
+    this._teleport = newvalue;
+    if (this.marker) {
+      this.marker.visible = false;
+    }
+    this.isSelecting = false;
+  }
+
   @Input() marker!: Mesh;
   @Input() floor!: Mesh;
 
@@ -15,37 +28,50 @@ export class TeleportDirective {
 
   private controller!: Group;
   private isSelecting = false;
+  private subs = new Subscription();
 
   constructor(
     private xr: XRControllerComponent,
-  ) {
+  ) { }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
+
+  ngOnInit(): void {
     let manager!: WebXRManager;
-    this.xr.sessionstart.subscribe(xrmanager => {
-      this.baseReferenceSpace = xrmanager.getReferenceSpace();
-      manager = xrmanager;
-    });
+    this.subs.add(this.xr.sessionstart.subscribe(next => {
+      this.baseReferenceSpace = next.getReferenceSpace();
+      manager = next;
+    }));
 
-    this.xr.connected.subscribe(next => {
+    this.subs.add(this.xr.connected.subscribe(next => {
       this.controller = next.controller
-    });
+    }));
 
-    this.xr.selectstart.subscribe(xrinput => {
-      this.isSelecting = true;
-    });
+    this.subs.add(this.xr.selectstart.subscribe(() => {
+      if (this.teleport) {
+        this.isSelecting = true;
+      }
+    }));
 
-    this.xr.selectend.subscribe(next => {
-      this.isSelecting = false;
-      this.teleport(manager, this.MarkerIntersection);
-    });
+    this.subs.add(this.xr.selectend.subscribe(() => {
+      if (this.teleport) {
+        this.isSelecting = false;
+        this.teleportToMarker(manager, this.MarkerIntersection);
+      }
+    }));
 
-    this.xr.beforeRender.subscribe(next => {
-      this.tick();
-    })
+    this.subs.add(this.xr.beforeRender.subscribe(() => {
+      if (this.teleport) {
+        this.tick();
+      }
+    }));
   }
 
   private MarkerIntersection?: Vector3;
 
-  private teleport(xrmanager: WebXRManager, position?: Vector3) {
+  private teleportToMarker(xrmanager: WebXRManager, position?: Vector3) {
     if (position) {
       const offsetPosition = <DOMPointReadOnly>{ x: - position.x, y: - position.y, z: - position.z, w: 1 };
       const offsetRotation = <DOMPointReadOnly>{ x: 0, y: 0, z: 0, w: 1 };
