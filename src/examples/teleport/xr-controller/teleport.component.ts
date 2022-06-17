@@ -74,6 +74,7 @@ export class TeleportDirective {
       if (intersects.length > 0) {
 
         this.MarkerIntersection = intersects[0].point;
+        this.MarkerIntersection.y = 0.01;
 
       }
 

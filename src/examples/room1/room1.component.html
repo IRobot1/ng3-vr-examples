@@ -1,0 +1,34 @@
+<ngt-color attach="background" color="black"></ngt-color>
+
+<ngt-soba-sky></ngt-soba-sky>
+
+<!--ngtPointLightHelper-->
+<ngt-point-light [position]="[4, 10, 0]" [intensity]="intensity" castShadow></ngt-point-light>
+<ngt-point-light [position]="[-4, 10, 0]" [intensity]="intensity" castShadow></ngt-point-light>
+
+<!--left and right-->
+<wall [scale]="[0.01, 2.5, roomwidth-2]" [position]="[-roomwidth/2, 1.5, 0]"></wall>
+<wall [scale]="[0.01, 2.5, roomwidth-2]" [position]="[roomwidth/2, 1.5, 0]"></wall>
+
+<!--front and back-->
+<wall [scale]="[roomwidth-2, 2.5, 0.01]" [position]="[0, 1.5, -roomwidth/2]"></wall>
+<wall [scale]="[roomwidth-2, 2.5, 0.01]" [position]="[0, 1.5, roomwidth/2]"></wall>
+
+<!--handing walls-->
+<wall [scale]="[0.01, 2.5, roomwidth-6, ]" [position]="[-2, 1.5, 0]"></wall>
+<wall [scale]="[0.01, 2.5, roomwidth-6, ]" [position]="[2, 1.5, 0]"></wall>
+
+<wall [position]="[0, 0.5, 0]" color="cornflowerblue"></wall>
+
+<ngt-mesh #floor [rotation]="[-1.57, 0, 0]">
+  <ngt-plane-geometry [args]="[roomwidth-2, roomwidth-2, 2, 2]"></ngt-plane-geometry>
+  <ngt-mesh-standard-material metalness="0.5" roughness="0.4" [map]="diffuse" [normalMap]="normal"></ngt-mesh-standard-material>
+</ngt-mesh>
+
+<ngt-mesh #marker [rotation]="[-1.57, 0, 0]">
+  <ngt-circle-geometry [args]="[0.25, 6]"></ngt-circle-geometry>
+  <ngt-mesh-standard-material color="cornflowerblue"></ngt-mesh-standard-material>
+</ngt-mesh>
+
+<xr-controller teleport showcontroller trackedpointer [marker]="marker.instance.value" [floor]="floor.instance.value"></xr-controller>
+

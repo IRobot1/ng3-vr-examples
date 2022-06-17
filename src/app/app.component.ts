@@ -20,6 +20,7 @@ export class AppComponent {
     'drumstick',
     'touchpad',
     'joystick',
+    'room1',
   ]
 
   created(state: NgtState) {

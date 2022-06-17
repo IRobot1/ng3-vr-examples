@@ -5,9 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { NgtCanvasModule, NgtRadianPipeModule } from '@angular-three/core';
 import { NgtBufferAttributeModule, NgtColorAttributeModule } from '@angular-three/core/attributes';
-import { NgtGridHelperModule } from '@angular-three/core/helpers';
+import { NgtGridHelperModule, NgtPointLightHelperModule } from '@angular-three/core/helpers';
 
-import { NgtAmbientLightModule, NgtDirectionalLightModule } from '@angular-three/core/lights';
+import { NgtAmbientLightModule, NgtDirectionalLightModule, NgtPointLightModule } from '@angular-three/core/lights';
 
 import { NgtMeshModule } from '@angular-three/core/meshes';
 import { NgtGroupModule } from '@angular-three/core/group';
@@ -19,6 +19,7 @@ import { NgtLineBasicMaterialModule, NgtMeshStandardMaterialModule } from '@angu
 
 import { NgtSobaOrbitControlsModule } from '@angular-three/soba/controls'
 import { NgtSobaTextModule } from '@angular-three/soba/abstractions'
+import { NgtSobaSkyModule  } from '@angular-three/soba/staging'
 
 import { NgtCannonDebugModule, NgtPhysicsModule } from '@angular-three/cannon';
 
@@ -55,6 +56,8 @@ import { TouchpadExample } from '../examples/touchpad/touchpad.component';
 import { TouchMoveDirective } from '../examples/touchpad/touchmove.component';
 import { JoystickExample } from '../examples/joystick/joystick.component';
 import { JoystickhMoveDirective } from '../examples/joystick/joystickmove.component';
+import { Room1Example } from '../examples/room1/room1.component';
+import { WallComponent } from '../components/wall.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +102,9 @@ import { JoystickhMoveDirective } from '../examples/joystick/joystickmove.compon
 
     JoystickExample,
     JoystickhMoveDirective,
+
+    Room1Example,
+    WallComponent,
   ],
   imports: [
     BrowserModule,
@@ -114,6 +120,9 @@ import { JoystickhMoveDirective } from '../examples/joystick/joystickmove.compon
 
     NgtAmbientLightModule,
     NgtDirectionalLightModule,
+
+    NgtPointLightModule,
+    NgtPointLightHelperModule,
 
     NgtLineModule,
     NgtMeshModule,
@@ -135,6 +144,7 @@ import { JoystickhMoveDirective } from '../examples/joystick/joystickmove.compon
     // soba
     NgtSobaOrbitControlsModule,
     NgtSobaTextModule,
+    NgtSobaSkyModule,
 
     // cannon
     NgtPhysicsModule,
