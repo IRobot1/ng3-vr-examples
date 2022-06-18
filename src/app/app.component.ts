@@ -2,6 +2,7 @@ import { NgtState } from '@angular-three/core';
 import { Component } from '@angular/core';
 
 import { VRButton } from 'three-stdlib/webxr/VRButton';
+import { WebXRService } from '../examples/teleport/xr-controller/webxr.service';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,11 @@ export class AppComponent {
     'room1',
   ]
 
+  constructor(private webxr: WebXRService) {
+  }
+
   created(state: NgtState) {
     document.body.appendChild(VRButton.createButton(state.gl));
+    this.webxr.start(state.gl.xr, state.scene);
   }
 }

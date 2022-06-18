@@ -15,6 +15,8 @@ export class InspectExample implements OnInit {
   cubeSize = 0.2
   tableHeight = 0.5;
 
+  enabled = true;
+
   ngOnInit(): void {
     for (let count = 5; count > 0; count--) {
       for (let i = 0; i < count; i++) {
@@ -22,5 +24,9 @@ export class InspectExample implements OnInit {
         this.cubes.push(new RandomSettings(position));
       }
     }
+
+    // uncomment to test enable/disable at runtime
+    //setInterval(() => { this.enabled = !this.enabled }, 5000);
+
   }
 }

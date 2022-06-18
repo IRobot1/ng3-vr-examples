@@ -1,6 +1,9 @@
-import { Directive, Input, OnInit, Optional } from "@angular/core";
+import { Directive, Input, OnDestroy, OnInit, Optional } from "@angular/core";
+import { Subscription } from "rxjs";
 
 import { Group, Matrix4, Raycaster } from "three";
+
+import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
 import { XRControllerComponent } from "../teleport/xr-controller/xr-controller.component";
 import { TrackedPointerDirective } from "../teleport/xr-controller/trackpointer.component";
@@ -9,16 +12,28 @@ import { TrackedPointerDirective } from "../teleport/xr-controller/trackpointer.
 @Directive({
   selector: '[drag]',
 })
-export class DragDirective implements OnInit {
+export class DragDirective implements OnInit, OnDestroy {
+  private _dragEnabled: BooleanInput = true;
+  @Input()
+  get drag(): boolean { return coerceBooleanProperty(this._dragEnabled) }
+  set drag(newvalue: BooleanInput) {
+    this._dragEnabled = newvalue;
+    this.unhighlight();
+  }
   @Input() room!: Group;
 
   private controller!: Group;
-  private selected?: any;
+  private dragging?: any;
+  private subs = new Subscription();
 
   constructor(
     private xr: XRControllerComponent,
     @Optional() private tp: TrackedPointerDirective,
   ) { }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
 
   ngOnInit(): void {
     if (!this.room) {
@@ -26,37 +41,42 @@ export class DragDirective implements OnInit {
       return;
     }
 
-    this.xr.connected.subscribe(next => {
+    this.subs.add(this.xr.connected.subscribe(next => {
+      if (!next) return;
       this.controller = next.controller;
-    });
+    }));
 
-    this.xr.selectstart.subscribe(next => {
-      if (this.PointerIntersectObject) {
-        this.controller.attach(this.PointerIntersectObject);
-        this.selected = this.PointerIntersectObject;
+    this.subs.add(this.xr.triggerstart.subscribe(next => {
+      if (this.drag) {
+        if (this.PointerIntersectObject) {
+          this.controller.attach(this.PointerIntersectObject);
+          this.dragging = this.PointerIntersectObject;
 
-        if (this.tp?.line) {
-          this.tp.line.scale.z = this.PointerIntersect.distance;
+          if (this.tp?.line) {
+            this.tp.line.scale.z = this.PointerIntersect.distance;
+          }
         }
       }
-    });
+    }));
 
-    this.xr.selectend.subscribe(next => {
-      if (this.selected) {
-        this.selected.material.emissive.b = 0;
+    this.subs.add(this.xr.triggerend.subscribe(next => {
+      if (this.drag) {
+        if (this.dragging) {
+          this.dragging.material.emissive.b = 0;
 
-        this.room.attach(this.selected);
+          this.room.attach(this.dragging);
 
-        this.selected = undefined;
+          this.dragging = undefined;
           if (this.tp?.line) {
             this.tp.line.scale.z = 1.5;
           }
+        }
       }
-    });
+    }));
 
-    this.xr.beforeRender.subscribe(next => {
-      this.tick();
-    })
+    this.subs.add(this.xr.beforeRender.subscribe(next => {
+      if (this.drag) this.tick();
+    }));
   }
 
   private getPointerIntersections(): any {
@@ -75,6 +95,13 @@ export class DragDirective implements OnInit {
   private PointerIntersect: any;
   private PointerIntersectObject: any;
 
+  private unhighlight() {
+    if (this.PointerIntersectObject) {
+      this.PointerIntersectObject.material.emissive.b = 0;
+      this.PointerIntersectObject = undefined;
+    }
+  }
+
   private tick() {
     if (this.room && this.controller) {
 
@@ -90,11 +117,7 @@ export class DragDirective implements OnInit {
           this.PointerIntersectObject.material.emissive.b = 1;
         }
       } else {
-        if (this.PointerIntersectObject) {
-          this.PointerIntersectObject.material.emissive.b = 0;
-          this.PointerIntersectObject = undefined;
-        }
-
+        this.unhighlight();
       }
     }
   }

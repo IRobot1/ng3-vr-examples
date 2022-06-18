@@ -1,8 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { BehaviorSubject, Subject, Subscription } from "rxjs";
 
 import { Group, Object3D, Vector2, WebXRManager } from "three";
 
 import { NgtRenderState, NgtStore } from "@angular-three/core";
+
+import { WebXRService } from "./webxr.service";
 
 
 export class ConnectedEvent {
@@ -13,81 +16,116 @@ export class ConnectedEvent {
   selector: 'xr-controller',
   template: '<ngt-group (beforeRender)="tick($event)"></ngt-group>',
 })
-export class XRControllerComponent implements OnInit {
+export class XRControllerComponent implements OnInit, OnDestroy {
   @Input() index = 0;
+  @Input() name = '';
 
-  @Output() sessionstart = new EventEmitter<WebXRManager>()
+  public sessionstart = new BehaviorSubject<WebXRManager | undefined>(undefined)
 
-  @Output() selectstart = new EventEmitter<XRInputSource>()
-  @Output() trigger = new EventEmitter<XRInputSource>()
-  @Output() selectend = new EventEmitter<XRInputSource>()
+  public triggerstart = new Subject<XRInputSource>()
+  public trigger = new Subject<XRInputSource>()
+  public triggerend = new Subject<XRInputSource>()
 
-  @Output() squeezestart = new EventEmitter<XRInputSource>()
-  @Output() grip = new EventEmitter<XRInputSource>()
-  @Output() squeezeend = new EventEmitter<XRInputSource>()
+  public gripstart = new Subject<XRInputSource>()
+  public grip = new Subject<XRInputSource>()
+  public gripend = new Subject<XRInputSource>()
 
-  @Output() touchpadstart = new EventEmitter()
-  @Output() touchpad = new EventEmitter<Vector2>()
-  @Output() touchpadend = new EventEmitter()
+  public touchpad = new Subject<boolean>()
+  public touchpadaxis = new Subject<Vector2>()
 
-  @Output() joystickstart = new EventEmitter()
-  @Output() joystick = new EventEmitter<Vector2>()
-  @Output() joystickend = new EventEmitter()
+  public joystick = new Subject<boolean>()
+  public joystickaxis = new Subject<Vector2>()
 
-  @Output() connected = new EventEmitter<ConnectedEvent>()
-  @Output() disconnected = new EventEmitter()
+  public connected = new BehaviorSubject<ConnectedEvent|undefined>(undefined)
+  public disconnected = new Subject<boolean>()
 
-  @Output() beforeRender = new EventEmitter<NgtRenderState>()
+  public beforeRender = new Subject<NgtRenderState>()
 
   private controller!: Group;
-  private gamepad!: Gamepad;
+  private gamepad?: Gamepad;
 
-  constructor(private store: NgtStore) { }
+  private subs = new Subscription();
+  private cleanup!: () => void;
+
+  constructor(
+    private webxr: WebXRService,
+    private store: NgtStore,
+  ) { }
+
+  ngOnDestroy(): void {
+    this.cleanup();
+    this.subs.unsubscribe();
+  }
 
   ngOnInit(): void {
-    const renderer = this.store.get((s) => s.gl);
+    const gl = this.store.get((s) => s.gl);
 
-    renderer.xr.addEventListener('sessionstart', (event) => this.sessionstart.emit(event.target))
+    this.subs.add(this.webxr.xrsession.subscribe(isPresenting => {
+      if (isPresenting) {
+        this.sessionstart.next(gl.xr);
+      }
+    }));
 
-    const scene = this.store.get((s) => s.scene);
+    let connected: BehaviorSubject<any>;
+    let disconnected: Subject<boolean>;
 
-    this.controller = renderer.xr.getController(this.index);
-    scene.add(this.controller);
+    switch (this.index) {
+      case 0:
+        this.controller = this.webxr.left.controller;
+        connected = this.webxr.left.connected;
+        disconnected = this.webxr.left.disconnected;
+        break;
+      case 1:
+        this.controller = this.webxr.right.controller;
+        connected = this.webxr.right.connected;
+        disconnected = this.webxr.right.disconnected;
+        break;
+      default:
+        console.error('xr-controler unhandled index', this.index);
+        return;
+    }
 
+    this.subs.add(connected.subscribe((event: XRInputSource) => {
+      if (!event) return;
+      this.controller.name = event.handedness;
+      this.gamepad = event.gamepad;
+      this.connected.next(new ConnectedEvent(this.controller, event));
+    }));
 
-    this.controller.addEventListener('selectstart', (event) => {
+    this.subs.add(disconnected.subscribe((event: boolean) => {
+      if (!event) return;
+      this.disconnected.next(true);
+    }));
+
+    const selectstart = (event: any) => {
       const data: XRInputSource = event['data'];
-      this.selectstart.emit(data);
-    });
-    this.controller.addEventListener('selectend', (event) => {
-      this.trigger.emit(event['data']);
-      this.selectend.emit(event['data']);
-    });
+      this.triggerstart.next(data);
+    }
+    this.controller.addEventListener('selectstart', selectstart);
 
-    this.controller.addEventListener('squeezestart', (event) => {
-      this.squeezestart.emit(event['data']);
-    });
-    this.controller.addEventListener('squeezeend', (event) => {
-      this.grip.emit(event['data']);
-      this.squeezeend.emit(event['data']);
-    });
+    const selectend = (event: any) => {
+      this.trigger.next(event['data']);
+      this.triggerend.next(event['data']);
+    }
+    this.controller.addEventListener('selectend', selectend);
 
-    this.controller.addEventListener('connected', (event) => {
-      const data = event['data'];
-      if (this.controller.name != data.handedness) { // only connect once
-        this.controller.name = data.handedness;
-        this.gamepad = data.gamepad;
-        this.connected.emit(new ConnectedEvent(this.controller, data));
+    const squeezestart = (event: any) => {
+      this.gripstart.next(event['data']);
+    }
+    this.controller.addEventListener('squeezestart', squeezestart);
 
-      }
-    });
-    this.controller.addEventListener('disconnected', () => {
-      this.controller.remove(this.controller.children[0]);
-      if (this.controller.name != '') {
-        this.disconnected.emit();
-        this.controller.name = '';
-      }
-    });
+    const squeezeend = (event: any) => {
+      this.grip.next(event['data']);
+      this.gripend.next(event['data']);
+    }
+    this.controller.addEventListener('squeezeend', squeezeend);
+
+    this.cleanup = () => {
+      this.controller.removeEventListener('squeezeend', squeezeend);
+      this.controller.removeEventListener('squeezestart', squeezestart);
+      this.controller.removeEventListener('selectend', selectend);
+      this.controller.removeEventListener('selectstart', selectstart);
+    }
   }
 
   touchpad_pressed = false;
@@ -97,40 +135,37 @@ export class XRControllerComponent implements OnInit {
 
   tick(event: { state: NgtRenderState, object: Object3D }) {
     if (this.gamepad) {
-
       if (this.gamepad.buttons[2].pressed && !this.touchpad_pressed) {
-        this.touchpadstart.emit();
+        this.touchpad.next(true);
         this.touchpad_pressed = true;
       }
       else if (this.touchpad_pressed && !this.gamepad.buttons[2].pressed) {
-        this.touchpad.emit();
-        this.touchpadend.emit();
+        this.touchpad.next(false);
         this.touchpad_pressed = false;
       }
 
       if (this.gamepad.buttons[3].pressed && !this.joystick_pressed) {
-        this.joystick.emit();
+        this.joystick.next(true);
         this.joystick_pressed = true;
       }
       else if (this.joystick_pressed && !this.gamepad.buttons[3].pressed) {
-        this.joystick.emit();
-        this.joystickend.emit();
+        this.joystick.next(false);
         this.joystick_pressed = false;
       }
 
-      if (this.touchpad.observed) {
+      if (this.touchpadaxis.observed) {
         this.touchpad_axis.x = this.gamepad.axes[0];
         this.touchpad_axis.y = this.gamepad.axes[1];
-        this.touchpad.emit(this.touchpad_axis);
+        this.touchpadaxis.next(this.touchpad_axis);
       }
-      if (this.joystick.observed) {
+      if (this.joystickaxis.observed) {
         this.joystick_axis.x = this.gamepad.axes[2];
         this.joystick_axis.y = this.gamepad.axes[3];
-        this.joystick.emit(this.joystick_axis);
+        this.joystickaxis.next(this.joystick_axis);
       }
     }
     if (this.beforeRender.observed) {
-      this.beforeRender.emit(event.state);
+      this.beforeRender.next(event.state);
     }
 
   }

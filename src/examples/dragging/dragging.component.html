@@ -17,5 +17,5 @@
   </ngt-mesh>
 </ngt-group>
 
-<xr-controller drag showcontroller trackedpointer [room]="room.instance.value"></xr-controller>
+<xr-controller [name]="'dragging'" drag showcontroller trackedpointer [room]="room.instance.value"></xr-controller>
 <!--<dragging-controller #xr1 [index]="1" [tracktype]="'grab'" (grabstart)="grabstart(xr1, $event)" (grabend)="grabend(xr1, $event)"></dragging-controller>-->

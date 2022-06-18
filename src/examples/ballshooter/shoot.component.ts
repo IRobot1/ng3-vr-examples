@@ -1,6 +1,9 @@
-import { Directive, Input, OnInit } from "@angular/core";
+import { Directive, Input, OnDestroy, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
 
 import { Group, Vector3 } from "three";
+
+import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
 import { XRControllerComponent } from "../teleport/xr-controller/xr-controller.component";
 
@@ -8,16 +11,29 @@ import { XRControllerComponent } from "../teleport/xr-controller/xr-controller.c
 @Directive({
   selector: '[shoot]',
 })
-export class ShootDirective implements OnInit {
+export class ShootDirective implements OnInit, OnDestroy {
+  private _shootEnabled: BooleanInput = true;
+  @Input()
+  get shoot(): boolean { return coerceBooleanProperty(this._shootEnabled) }
+  set shoot(newvalue: BooleanInput) {
+    this._shootEnabled = newvalue;
+    this.isShooting = false;
+  }
   @Input() room!: Group;
 
   private controller!: Group;
-  private isSelected = false;
+  private isShooting = false;
   private count = 0;
+
+  private subs = new Subscription();
 
   constructor(
     private xr: XRControllerComponent,
   ) { }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
 
   ngOnInit(): void {
     if (!this.room) {
@@ -25,25 +41,26 @@ export class ShootDirective implements OnInit {
       return;
     }
 
-    this.xr.connected.subscribe(next => {
+    this.subs.add(this.xr.connected.subscribe(next => {
+      if (!next) return;
       this.controller = next.controller;
-    });
+    }));
 
-    this.xr.selectstart.subscribe(next => {
-      this.isSelected = true;
-    });
+    this.subs.add(this.xr.triggerstart.subscribe(next => {
+      if (this.shoot) this.isShooting = true;
+    }));
 
-    this.xr.selectend.subscribe(next => {
-      this.isSelected = false;
-    });
+    this.subs.add(this.xr.triggerend.subscribe(next => {
+      if (this.shoot) this.isShooting = false;
+    }));
 
-    this.xr.beforeRender.subscribe(next => {
-      this.tick();
-    })
+    this.subs.add(this.xr.beforeRender.subscribe(next => {
+      if (this.shoot) this.tick();
+    }));
   }
 
   private tick() {
-    if (this.room && this.controller && this.isSelected) {
+    if (this.room && this.controller && this.isShooting) {
 
       const object = this.room.children[this.count++];
 

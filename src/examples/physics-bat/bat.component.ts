@@ -31,6 +31,8 @@ export class BatDirective implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.xr.connected.subscribe(next => {
+      if (!next) return;
+
       if (!this.mesh) {
         const s = this.loader.load('assets/bat.gltf').subscribe(next => {
           this.mesh = <Mesh>next.scene.children[0].children[0];

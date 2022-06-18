@@ -1,7 +1,11 @@
-import { NgtPhysicBody, NgtPhysicBodyReturn, NgtPhysicConstraint, NgtPhysicConstraintReturn } from "@angular-three/cannon";
-import { Directive, Input, OnInit } from "@angular/core";
+import { Directive, Input, OnDestroy, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
 
 import { Group, Object3D } from "three";
+
+import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
+
+import { NgtPhysicBody, NgtPhysicBodyReturn, NgtPhysicConstraint, NgtPhysicConstraintReturn } from "@angular-three/cannon";
 
 import { XRControllerComponent } from "../teleport/xr-controller/xr-controller.component";
 import { Inspect } from "./inspect";
@@ -11,7 +15,15 @@ import { Inspect } from "./inspect";
   selector: '[grab]',
   providers: [NgtPhysicBody, NgtPhysicConstraint],
 })
-export class GrabDirective implements OnInit {
+export class GrabDirective implements OnInit, OnDestroy {
+  private _enabled: BooleanInput = true;
+  @Input()
+  get grab(): boolean { return coerceBooleanProperty(this._enabled) }
+  set grab(newvalue: BooleanInput) {
+    this._enabled = newvalue;
+    this.drop();
+  }
+
   @Input() room!: Group;
 
   private controller!: Group;
@@ -22,11 +34,17 @@ export class GrabDirective implements OnInit {
   collisionRadius = 0.05;
   collision!: NgtPhysicBodyReturn<Object3D>;
 
+  private subs = new Subscription();
+
   constructor(
     private xr: XRControllerComponent,
     private physicBody: NgtPhysicBody,
     private physicConstraint: NgtPhysicConstraint,
   ) { }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe();
+  }
 
   ngOnInit(): void {
     if (!this.room) {
@@ -56,21 +74,22 @@ export class GrabDirective implements OnInit {
       },
     }), false);
 
-    this.xr.connected.subscribe(next => {
+    this.subs.add(this.xr.connected.subscribe(next => {
+      if (!next) return;
       this.controller = next.controller;
-    });
+    }));
 
-    this.xr.selectstart.subscribe(next => {
-      this.pickup();
-    });
+    this.subs.add(this.xr.triggerstart.subscribe(next => {
+      if (this.grab) this.pickup();
+    }));
 
-    this.xr.selectend.subscribe(next => {
-      this.drop();
-    });
+    this.subs.add(this.xr.triggerend.subscribe(next => {
+      if (this.grab) this.drop();
+    }));
 
-    this.xr.beforeRender.subscribe(next => {
-      this.tick();
-    })
+    this.subs.add(this.xr.beforeRender.subscribe(next => {
+      if (this.grab) this.tick();
+    }));
   }
 
   private overlapping?: Object3D;

@@ -58,6 +58,7 @@ import { JoystickExample } from '../examples/joystick/joystick.component';
 import { JoystickhMoveDirective } from '../examples/joystick/joystickmove.component';
 import { Room1Example } from '../examples/room1/room1.component';
 import { WallComponent } from '../components/wall.component';
+import { WebXRService } from '../examples/teleport/xr-controller/webxr.service';
 
 @NgModule({
   declarations: [
@@ -150,7 +151,7 @@ import { WallComponent } from '../components/wall.component';
     NgtPhysicsModule,
     NgtCannonDebugModule,
   ],
-  providers: [],
+  providers: [WebXRService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

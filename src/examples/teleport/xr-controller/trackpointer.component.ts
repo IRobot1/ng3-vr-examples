@@ -1,6 +1,9 @@
-import { Directive, OnDestroy, OnInit } from "@angular/core";
+import { Directive, Input, OnDestroy, OnInit } from "@angular/core";
+import { Subscription } from "rxjs";
 
-import { AdditiveBlending, BufferGeometry, Float32BufferAttribute, Group, Line, LineBasicMaterial, Object3D, XRGripSpace } from "three";
+import { AdditiveBlending, BufferGeometry, Float32BufferAttribute, Group, Line, LineBasicMaterial, Object3D } from "three";
+
+import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
 import { XRControllerComponent } from "./xr-controller.component";
 
@@ -8,9 +11,23 @@ import { XRControllerComponent } from "./xr-controller.component";
   selector: '[trackedpointer]',
 })
 export class TrackedPointerDirective implements OnInit, OnDestroy {
-  private controller!: Group;
+  private _enabled: BooleanInput = true;
+  @Input()
+  get trackedpointer(): boolean { return coerceBooleanProperty(this._enabled) }
+  set trackedpointer(newvalue: BooleanInput) {
+    this._enabled = newvalue;
+    if (this.line) {
+      if (newvalue)
+        this.show();
+      else
+        this.hide();
+    }
+  }
 
   line!: Object3D;
+
+  private controller!: Group;
+  private subs = new Subscription();
 
   constructor(
     private xr: XRControllerComponent,
@@ -18,20 +35,24 @@ export class TrackedPointerDirective implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.controller?.remove(this.line);
+    this.subs.unsubscribe();
   }
 
   ngOnInit(): void {
-    this.xr.connected.subscribe(next => {
+    this.subs.add(this.xr.connected.subscribe(next => {
+      if (!next) return;
+      this.controller = next.controller
+
       if (next.xrinput.targetRayMode == 'tracked-pointer') {
         this.line = this.buildTrackPointer();
-        next.controller.add(this.line);
-      }
-      this.controller = next.controller
-    });
 
-    this.xr.disconnected.subscribe(next => {
-      this.controller.remove(this.line)
-    });
+        if (this.trackedpointer) this.show();
+      }
+    }));
+
+    this.subs.add(this.xr.disconnected.subscribe(next => {
+      if (this.trackedpointer) this.hide();
+    }));
   }
 
   private buildTrackPointer() {
@@ -42,5 +63,13 @@ export class TrackedPointerDirective implements OnInit, OnDestroy {
     const material = new LineBasicMaterial({ vertexColors: true, blending: AdditiveBlending });
 
     return new Line(geometry, material);
+  }
+
+  private show() {
+    this.controller.add(this.line);
+  }
+
+  private hide() {
+    this.controller.remove(this.line)
   }
 }

@@ -1,8 +1,9 @@
-import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 import { Directive, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 
 import { Group, Matrix4, Mesh, Raycaster, Vector3, WebXRManager } from "three";
+
+import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
 import { XRControllerComponent } from "./xr-controller.component";
 
@@ -10,14 +11,12 @@ import { XRControllerComponent } from "./xr-controller.component";
   selector: '[teleport]',
 })
 export class TeleportDirective implements OnInit, OnDestroy {
-  private _teleport: BooleanInput = true;
+  private _teleportEnabled: BooleanInput = true;
   @Input()
-  get teleport(): boolean { return coerceBooleanProperty(this._teleport) }
+  get teleport(): boolean { return coerceBooleanProperty(this._teleportEnabled) }
   set teleport(newvalue: BooleanInput) {
-    this._teleport = newvalue;
-    if (this.marker) {
-      this.marker.visible = false;
-    }
+    this._teleportEnabled = newvalue;
+    this.hideMarker();
     this.isSelecting = false;
   }
 
@@ -40,22 +39,24 @@ export class TeleportDirective implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     let manager!: WebXRManager;
-    this.subs.add(this.xr.sessionstart.subscribe(next => {
-      this.baseReferenceSpace = next.getReferenceSpace();
-      manager = next;
+    this.subs.add(this.xr.sessionstart.subscribe(xrmanager => {
+      if (!xrmanager) return;
+      this.baseReferenceSpace = xrmanager.getReferenceSpace();
+      manager = xrmanager;
     }));
 
     this.subs.add(this.xr.connected.subscribe(next => {
+      if (!next) return;
       this.controller = next.controller
     }));
 
-    this.subs.add(this.xr.selectstart.subscribe(() => {
+    this.subs.add(this.xr.triggerstart.subscribe(() => {
       if (this.teleport) {
         this.isSelecting = true;
       }
     }));
 
-    this.subs.add(this.xr.selectend.subscribe(() => {
+    this.subs.add(this.xr.triggerend.subscribe(() => {
       if (this.teleport) {
         this.isSelecting = false;
         this.teleportToMarker(manager, this.MarkerIntersection);
@@ -67,6 +68,14 @@ export class TeleportDirective implements OnInit, OnDestroy {
         this.tick();
       }
     }));
+
+    this.hideMarker();
+  }
+
+  private hideMarker() {
+    if (this.marker) {
+      this.marker.visible = false;
+    }
   }
 
   private MarkerIntersection?: Vector3;
