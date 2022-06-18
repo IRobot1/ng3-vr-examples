@@ -13,11 +13,11 @@ import { XRControllerComponent } from "./xr-controller.component";
   selector: '[showcontroller]',
 })
 export class ShowControllerDirective implements OnInit, OnDestroy {
-  private _showEnabled: BooleanInput = true;
+  private _enabled: BooleanInput = true;
   @Input()
-  get showcontroller(): boolean { return coerceBooleanProperty(this._showEnabled) }
+  get showcontroller(): boolean { return coerceBooleanProperty(this._enabled) }
   set showcontroller(newvalue: BooleanInput) {
-    this._showEnabled = newvalue;
+    this._enabled = newvalue;
     if (this.grip) {
       if (newvalue)
         this.show();
