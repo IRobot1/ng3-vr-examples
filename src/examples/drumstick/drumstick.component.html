@@ -21,7 +21,8 @@
 
     <keyboard [position]="[0, 1, -0.5]" [rotation]="[30 | radian, 0, 0]" [scale]="0.3"></keyboard>
 
-    <xr-controller [drumstick]="enabled" [stick]="stick.instance.value" [socket]="socket.instance.value"></xr-controller>
+    <xr-controller drumstick [stick]="stick.instance.value" [socket]="socket.instance.value"></xr-controller>
+    <xr-controller [index]="1" drumstick [stick]="stick.instance.value" [socket]="socket.instance.value"></xr-controller>
 
   </ngt-cannon-debug>
 </ngt-physics>
