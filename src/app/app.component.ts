@@ -2,7 +2,7 @@ import { NgtState } from '@angular-three/core';
 import { Component } from '@angular/core';
 
 import { VRButton } from 'three-stdlib/webxr/VRButton';
-import { WebXRService } from '../examples/teleport/xr-controller/webxr.service';
+import { WebXRService } from '../examples/xr-controller/webxr.service';
 
 @Component({
   selector: 'app-root',

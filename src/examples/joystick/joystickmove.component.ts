@@ -4,7 +4,7 @@ import { Subscription } from "rxjs";
 
 import { Vector3, WebXRManager } from "three";
 
-import { XRControllerComponent } from "../teleport/xr-controller/xr-controller.component";
+import { XRControllerComponent } from "../xr-controller/xr-controller.component";
 
 
 

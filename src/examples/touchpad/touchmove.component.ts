@@ -5,7 +5,7 @@ import { Vector3, WebXRManager } from "three";
 
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
-import { XRControllerComponent } from "../teleport/xr-controller/xr-controller.component";
+import { XRControllerComponent } from "../xr-controller/xr-controller.component";
 
 
 

@@ -30,18 +30,17 @@ import { LineRoomComponent } from '../components/line-room/line-room.componnet';
 import { HomeComponent } from '../examples/home/home.component';
 import { BallshooterExample } from '../examples/ballshooter/ballshooter.component';
 import { DraggingExample } from '../examples/dragging/dragging.component';
-import { HandInputExample } from '../examples/handinput/handinput.component';
+import { HandInputExample } from '../examples/hand/hand.component';
 import { TeleportExample } from '../examples/teleport/teleport.component';
 import { BatExample } from '../examples/physics-bat/physics-bat.component';
 import { Projectiles } from '../examples/physics-bat/projectiles/projectiles.component';
 import { FloorComponent } from '../components/floor.component';
 import { Target } from '../examples/physics-bat/target/target.component';
-import { XRControllerComponent } from '../examples/teleport/xr-controller/xr-controller.component';
-import { TeleportDirective } from '../examples/teleport/xr-controller/teleport.component';
-import { HandinputDirective } from '../examples/teleport/xr-controller/handinput.component';
-import { ShowControllerDirective } from '../examples/teleport/xr-controller/showcontroller.component';
-import { ShowHandDirective } from '../examples/teleport/xr-controller/showhand.component';
-import { TrackedPointerDirective } from '../examples/teleport/xr-controller/trackpointer.component';
+import { XRControllerComponent } from '../examples/xr-controller/xr-controller.component';
+import { TeleportDirective } from '../examples/xr-controller/teleport.component';
+import { HandinputDirective } from '../examples/hand/handinput.component';
+import { ShowControllerDirective } from '../examples/xr-controller/showcontroller.component';
+import { TrackedPointerDirective } from '../examples/xr-controller/trackpointer.component';
 import { DragDirective } from '../examples/dragging/drag.component';
 import { ShootDirective } from '../examples/ballshooter/shoot.component';
 import { BatDirective } from '../examples/physics-bat/bat.component';
@@ -58,7 +57,8 @@ import { JoystickExample } from '../examples/joystick/joystick.component';
 import { JoystickhMoveDirective } from '../examples/joystick/joystickmove.component';
 import { Room1Example } from '../examples/room1/room1.component';
 import { WallComponent } from '../components/wall.component';
-import { WebXRService } from '../examples/teleport/xr-controller/webxr.service';
+import { WebXRService } from '../examples/xr-controller/webxr.service';
+import { ShowHandDirective } from '../examples/hand/showhand.component';
 
 @NgModule({
   declarations: [

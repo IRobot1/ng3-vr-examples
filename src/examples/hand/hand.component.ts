@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 
 @Component({
-  templateUrl: './handinput.component.html',
+  templateUrl: './hand.component.html',
 })
 export class HandInputExample {
 }

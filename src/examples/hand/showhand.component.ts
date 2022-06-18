@@ -5,7 +5,7 @@ import { XRHandModelFactory } from "three-stdlib";
 
 import { NgtStore } from "@angular-three/core";
 
-import { XRControllerComponent } from "./xr-controller.component";
+import { XRControllerComponent } from "../xr-controller/xr-controller.component";
 import { Subscription } from "rxjs";
 
 

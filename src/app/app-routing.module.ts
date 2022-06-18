@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BallshooterExample } from '../examples/ballshooter/ballshooter.component';
 import { DraggingExample } from '../examples/dragging/dragging.component';
 import { DrumstickExample } from '../examples/drumstick/drumstick.component';
-import { HandInputExample } from '../examples/handinput/handinput.component';
+import { HandInputExample } from '../examples/hand/hand.component';
 
 import { HomeComponent } from '../examples/home/home.component';
 import { InspectExample } from '../examples/inspect/inspect.component';

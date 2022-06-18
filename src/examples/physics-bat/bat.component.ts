@@ -6,7 +6,7 @@ import { NgtPhysicBody, NgtPhysicBodyReturn } from "@angular-three/cannon";
 
 import { NgtGLTFLoader } from "@angular-three/soba/loaders";
 
-import { XRControllerComponent } from "../teleport/xr-controller/xr-controller.component";
+import { XRControllerComponent } from "../xr-controller/xr-controller.component";
 
 @Directive({
   selector: '[bat]',

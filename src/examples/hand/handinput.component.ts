@@ -4,7 +4,7 @@ import { Group, WebXRManager } from "three";
 
 import { BooleanInput, coerceBooleanProperty, NgtStore } from "@angular-three/core";
 
-import { XRControllerComponent } from "./xr-controller.component";
+import { XRControllerComponent } from "../xr-controller/xr-controller.component";
 
 @Directive({
   selector: '[handinput]',

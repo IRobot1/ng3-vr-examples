@@ -7,7 +7,7 @@ import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
 import { NgtPhysicBody, NgtPhysicBodyReturn, NgtPhysicConstraint, NgtPhysicConstraintReturn } from "@angular-three/cannon";
 
-import { XRControllerComponent } from "../teleport/xr-controller/xr-controller.component";
+import { XRControllerComponent } from "../xr-controller/xr-controller.component";
 import { Inspect } from "./inspect";
 
 
