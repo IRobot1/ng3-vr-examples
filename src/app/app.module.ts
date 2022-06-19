@@ -57,13 +57,14 @@ import { JoystickExample } from '../examples/joystick/joystick.component';
 import { JoystickhMoveDirective } from '../examples/joystick/joystickmove.component';
 import { Room1Example } from '../examples/room1/room1.component';
 import { WallComponent } from '../components/wall.component';
-import { WebXRService } from '../examples/xr-controller/webxr.service';
 import { ShowHandDirective } from '../examples/hand/showhand.component';
+import { WebXRDirective } from '../examples/xr-controller/webxr.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    WebXRDirective,
 
     LineRoomComponent,
     FloorComponent,
@@ -151,7 +152,7 @@ import { ShowHandDirective } from '../examples/hand/showhand.component';
     NgtPhysicsModule,
     NgtCannonDebugModule,
   ],
-  providers: [WebXRService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

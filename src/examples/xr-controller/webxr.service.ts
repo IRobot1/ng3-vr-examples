@@ -33,7 +33,9 @@ export class WebXRController {
   }
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class WebXRService {
   public xrsession = new BehaviorSubject<boolean>(false);
 

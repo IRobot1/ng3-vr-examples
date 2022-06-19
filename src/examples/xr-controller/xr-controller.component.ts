@@ -36,7 +36,7 @@ export class XRControllerComponent implements OnInit, OnDestroy {
   public joystick = new Subject<boolean>()
   public joystickaxis = new Subject<Vector2>()
 
-  public connected = new BehaviorSubject<ConnectedEvent|undefined>(undefined)
+  public connected = new BehaviorSubject<ConnectedEvent | undefined>(undefined)
   public disconnected = new Subject<boolean>()
 
   public beforeRender = new Subject<NgtRenderState>()
@@ -45,12 +45,13 @@ export class XRControllerComponent implements OnInit, OnDestroy {
   private gamepad?: Gamepad;
 
   private subs = new Subscription();
-  private cleanup!: () => void;
+  private cleanup = () => { }
 
   constructor(
     private webxr: WebXRService,
     private store: NgtStore,
-  ) { }
+  ) {
+  }
 
   ngOnDestroy(): void {
     this.cleanup();
@@ -58,6 +59,10 @@ export class XRControllerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (!this.webxr.manager) {
+      console.error('webxr directive missing from ngt-canvas');
+      return;
+    }
     const gl = this.store.get((s) => s.gl);
 
     this.subs.add(this.webxr.xrsession.subscribe(isPresenting => {

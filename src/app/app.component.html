@@ -16,7 +16,7 @@
   </div>
 </div>
 <div style="height:100vh">
-  <ngt-canvas (created)="created($event)" [camera]="{ fov: 50, position: [0, 3, 3]}">
+  <ngt-canvas webxr (created)="created($event)" [camera]="{ fov: 50, position: [0, 3, 3]}">
     <router-outlet></router-outlet>
 
     <ngt-soba-orbit-controls></ngt-soba-orbit-controls>
