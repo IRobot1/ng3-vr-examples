@@ -54,17 +54,16 @@ export class DrumstickDirective implements OnInit, OnDestroy {
     this.subs.add(this.xr.connected.subscribe(next => {
       if (!next) return;
       this.controller = next.controller;
+      this.drumAllowed();
     }));
 
     this.subs.add(this.xr.beforeRender.subscribe(next => {
       this.tick();
     }));
-
-    this.drumAllowed();
   }
 
   private drumAllowed() {
-    this.collision.ref.value.name = this._enabled ? 'stick' : '';
+    this.collision.ref.value.name = this.drumstick ? 'stick' : '';
   }
 
   private tick() {

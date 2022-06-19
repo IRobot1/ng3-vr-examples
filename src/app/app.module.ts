@@ -62,6 +62,7 @@ import { WebXRDirective } from '../examples/xr-controller/webxr.directive';
 import { PanelComponent } from './portal/panel/panel.component';
 import { PortalComponent } from './portal/portal.component';
 import { NavigateDirective } from './portal/navigate.directive';
+import { NavigateHomeDirective } from './portal/navhome.directive';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { NavigateDirective } from './portal/navigate.directive';
     PortalComponent,
     PanelComponent,
     NavigateDirective,
+    NavigateHomeDirective,
 
     WebXRDirective,
 
