@@ -1,22 +1,6 @@
-<div style="position:absolute;top:0px;z-index:10;padding:4px;max-width:225px;height:calc(100vh - 8px);overflow-y:auto;background-color:white">
-  <a [routerLink]="['/']"><h3 style="margin-top:3rem">NGT VR Examples</h3></a>
-  <div class="examples">
-    <div *ngFor="let name of examples">
-      <a [routerLink]="['/'+name]" class="image"><img src="assets/screenshots/{{name}}.png" style="width:200px" /></a>
-      <!--<div class="caption">
-        <a href="{{name}}" class="name">{{name}}</a>
-        <a href="https://github.com/IRobot1/ng3-cannon-template/tree/master/src/app/examples/{{name}}/{{name}}.component.ts"
-           target="_blank"
-           class="github"
-           title="View source code on GitHub">
-          <img src="assets/github.svg" alt="GitHub" />
-        </a>
-      </div>-->
-    </div>
-  </div>
-</div>
 <div style="height:100vh">
-  <ngt-canvas webxr (created)="created($event)" [camera]="{ fov: 50, position: [0, 3, 3]}">
+  <ngt-canvas webxr (created)="created($event)" [camera]="{ fov: 55, position: [0, 2, 4]}">
+
     <router-outlet></router-outlet>
 
     <ngt-soba-orbit-controls></ngt-soba-orbit-controls>

@@ -28,6 +28,8 @@ export class PanelComponent {
     );
   }
 
+  @Input() userData: any;
+
   @Output() click = new EventEmitter<MouseEvent>();
 
   texture!: Texture;

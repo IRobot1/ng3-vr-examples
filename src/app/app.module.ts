@@ -61,6 +61,7 @@ import { ShowHandDirective } from '../examples/hand/showhand.component';
 import { WebXRDirective } from '../examples/xr-controller/webxr.directive';
 import { PanelComponent } from './portal/panel/panel.component';
 import { PortalComponent } from './portal/portal.component';
+import { NavigateDirective } from './portal/navigate.directive';
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { PortalComponent } from './portal/portal.component';
     HomeComponent,
     PortalComponent,
     PanelComponent,
+    NavigateDirective,
 
     WebXRDirective,
 
