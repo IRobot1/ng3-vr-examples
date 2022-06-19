@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { NgtLoader, NgtTriple } from "@angular-three/core";
 
@@ -27,6 +27,8 @@ export class PanelComponent {
       () => { s.unsubscribe(); }
     );
   }
+
+  @Output() click = new EventEmitter<MouseEvent>();
 
   texture!: Texture;
 

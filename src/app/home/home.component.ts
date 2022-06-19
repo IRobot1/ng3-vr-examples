@@ -1,5 +1,6 @@
-import { NgtTriple } from '@angular-three/core';
 import { Component } from '@angular/core';
+
+import { NgtTriple } from '@angular-three/core';
 
 class PanelSetting {
   constructor(public position: NgtTriple, public rotation: number, public asset: string, public text: string) { }

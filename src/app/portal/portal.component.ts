@@ -1,4 +1,5 @@
 import { Component, Input } from "@angular/core";
+import { Router } from "@angular/router";
 
 import { NgtTriple } from "@angular-three/core";
 
@@ -18,5 +19,11 @@ export class PortalComponent {
 
   get url(): string {
     return `assets/screenshots/${this.asset}.png`;
+  }
+
+  constructor(private router: Router) { }
+
+  navigate() {
+    this.router.navigate(['/' + this.asset]);
   }
 }

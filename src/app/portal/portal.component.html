@@ -1,6 +1,6 @@
 <ngt-group [position]="position" [rotation]="rotation" [scale]="scale">
   <panel [doublesided]="true" [color]="'black'"></panel>
-  <panel [position]="[0, 0, 0.01]" [scale]="[0.95,0.95,1]" [url]="url"></panel>
+  <panel [position]="[0, 0, 0.01]" [scale]="[0.95,0.95,1]" [url]="url" (click)="navigate()"></panel>
 
   <ngt-soba-text [text]="text"
                  [castShadow]="true"
