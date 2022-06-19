@@ -27,7 +27,7 @@ import { AppComponent } from './app.component';
 
 import { LineRoomComponent } from '../components/line-room/line-room.componnet';
 
-import { HomeComponent } from '../examples/home/home.component';
+import { HomeComponent } from './home/home.component';
 import { BallshooterExample } from '../examples/ballshooter/ballshooter.component';
 import { DraggingExample } from '../examples/dragging/dragging.component';
 import { HandInputExample } from '../examples/hand/hand.component';
@@ -59,11 +59,17 @@ import { Room1Example } from '../examples/room1/room1.component';
 import { WallComponent } from '../components/wall.component';
 import { ShowHandDirective } from '../examples/hand/showhand.component';
 import { WebXRDirective } from '../examples/xr-controller/webxr.directive';
+import { PanelComponent } from './portal/panel/panel.component';
+import { PortalComponent } from './portal/portal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+
     HomeComponent,
+    PortalComponent,
+    PanelComponent,
+
     WebXRDirective,
 
     LineRoomComponent,

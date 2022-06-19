@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
+import { HomeComponent } from './home/home.component';
+
 import { BallshooterExample } from '../examples/ballshooter/ballshooter.component';
 import { DraggingExample } from '../examples/dragging/dragging.component';
 import { DrumstickExample } from '../examples/drumstick/drumstick.component';
 import { HandInputExample } from '../examples/hand/hand.component';
-
-import { HomeComponent } from '../examples/home/home.component';
 import { InspectExample } from '../examples/inspect/inspect.component';
 import { JoystickExample } from '../examples/joystick/joystick.component';
 import { BatExample } from '../examples/physics-bat/physics-bat.component';

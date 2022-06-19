@@ -1,0 +1,14 @@
+<ngt-color attach="background" color="gray"></ngt-color>
+
+<line-room></line-room>
+
+<ngt-point-light intensity="1.75" [position]="[0, 1, 0]"></ngt-point-light>
+
+<!--<ngt-mesh [position]="[0, 0.5, 0]">
+  <ngt-box-geometry></ngt-box-geometry>
+  <ngt-mesh-standard-material color="tomato"></ngt-mesh-standard-material>
+</ngt-mesh>-->
+
+<ngt-group *ngFor="let item of panels" [rotation]="[0, item.rotation | radian, 0]">
+  <portal [asset]="item.asset" [text]="item.text" [position]="[0, 1, -2]"></portal>
+</ngt-group>

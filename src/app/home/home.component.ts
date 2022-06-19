@@ -1,0 +1,37 @@
+import { NgtTriple } from '@angular-three/core';
+import { Component } from '@angular/core';
+
+class PanelSetting {
+  constructor(public position: NgtTriple, public rotation: number, public asset: string, public text: string) { }
+}
+
+@Component({
+  templateUrl: 'home.component.html',
+})
+export class HomeComponent {
+  examples = [
+    { asset: 'ballshooter', text: 'Ball Shooter' },
+    { asset: 'dragging', text: 'Dragging' },
+    { asset: 'handinput', text: 'Hand input' },
+    { asset: 'teleport', text: 'Teleport' },
+    { asset: 'bat', text: 'Physics Bat' },
+    { asset: 'inspect', text: 'Grab / Inspect' },
+    { asset: 'drumstick', text: 'Drumstick / Keyboard' },
+    { asset: 'touchpad', text: 'Touchpad Movement' },
+    { asset: 'joystick', text: 'Joystick Movement' },
+  ]
+
+  panels: Array<PanelSetting> = [];
+
+  constructor() {
+    const angle = 360 / this.examples.length;
+
+    this.examples.forEach((item, index) => {
+      const position = [0, 0, 0] as NgtTriple;
+      const rotation = angle * index;
+
+      const panel = new PanelSetting(position, rotation, item.asset, item.text)
+      this.panels.push(panel);
+    })
+  }
+}
