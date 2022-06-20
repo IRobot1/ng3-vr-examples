@@ -4,7 +4,7 @@ VR Examples for @angular-three
 
 ![image](https://user-images.githubusercontent.com/25032599/174510351-d2404c4b-3d12-4a14-ab58-d7def4104b69.png)
 
-Enter VR to experience each demo in person or use the mouse to move to the center and preview an example
+Enter VR to experience each demo in person or touch/mouse a panel to preview an example or move/pan around.
 
 Point the controller at a panel to activate.  Pull the `Trigger` on the controller to open/experience the example.
 
