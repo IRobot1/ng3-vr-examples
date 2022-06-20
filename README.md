@@ -39,18 +39,27 @@ Use the touchpad to move forward and sideways.
 #### Joystick Movement
 Use the joystick to move forward and sideways.
 
-Code Highlights
+## Code Highlights
 Add webxr to ngt-canvas to enable WebXR support
 ```html
 <ngt-canvas webxr (created)="created($event)" [camera]="{ fov: 55, position: [0, 2, 4]}">
 ```
-Add xr-controller to add left and/or right controllers into a scene
+Add xr-controller to add left and/or right controllers into a scene.  Index 0 is left controller, Index 1 is right controller.
 ```html
-<xr-controller showcontroller trackedpointer></xr-controller>
+<xr-controller showcontroller trackedpointer [index]="1"></xr-controller>
 ```
 Add directives to xr-controller to add behaviors depending on needs
 * showcontroller - shows controller
 * trackedpointer - shows ray to point at stuff
 * teleport - teleport to new location on floor.  Requires `[floor]` and `[room]`
+```html
+<xr-controller teleport showcontroller trackedpointer navhome 
+               [marker]="left.instance.value" [floor]="floor.instance.value">
+</xr-controller>
+```
 
 All behaviors can be enabled/disabled at runtime on either controller.  The allows behaviors to be switched between controllers if needed.
+```html
+<xr-controller [showcontroller]="enableshow" [trackedpointer]="enabletracking"></xr-controller>
+
+```
