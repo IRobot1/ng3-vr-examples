@@ -1,27 +1,56 @@
-# Ng3VrExamples
+VR Examples for @angular-three
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.4.
+[DEMO here](https://ng3vr.z9.web.core.windows.net/)
 
-## Development server
+![image](https://user-images.githubusercontent.com/25032599/174510351-d2404c4b-3d12-4a14-ab58-d7def4104b69.png)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Enter VR to experience each demo in person or use the mouse to move to the center and preview an example
 
-## Code scaffolding
+Point the controller at a panel to activate.  Pull the `Trigger` on the controller to open/experience the example.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Click the `Grab` button to return to the home screen
 
-## Build
+### Examples
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+#### Ball Shooter
+Pull the trigger to shoot balls
 
-## Running unit tests
+#### Dragging
+Point at a shape. When highlighted, pull the trigger to move the shape.  Release the trigger to stop moving.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+#### Hand Input
+The example requires Oculus Quest or equivalent and is still under development
 
-## Running end-to-end tests
+#### Teleport
+Pull the trigger at a location on the floor.  Release the trigger to teleport there.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+#### Physics Ball
+Hit balls with a baseball bat.  Score a point when you hit one in the yellow box.
 
-## Further help
+#### Grab / Inspect
+When controller overlaps a cube, pull the trigger to pickup.  Release trigger to drop.  Throwing also works.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+#### Drumstick / Keyboard
+Use the drumstick to tap keys on the virtual keyboard to enter a message.  Press Enter to clear the message.
+
+#### Touchpad Movement
+Use the touchpad to move forward and sideways.
+
+#### Joystick Movement
+Use the joystick to move forward and sideways.
+
+Code Highlights
+Add webxr to ngt-canvas to enable WebXR support
+```html
+<ngt-canvas webxr (created)="created($event)" [camera]="{ fov: 55, position: [0, 2, 4]}">
+```
+Add xr-controller to add left and/or right controllers into a scene
+```html
+<xr-controller showcontroller trackedpointer></xr-controller>
+```
+Add directives to xr-controller to add behaviors depending on needs
+* showcontroller - shows controller
+* trackedpointer - shows ray to point at stuff
+* teleport - teleport to new location on floor.  Requires `[floor]` and `[room]`
+
+All behaviors can be enabled/disabled at runtime on either controller.  The allows behaviors to be switched between controllers if needed.
