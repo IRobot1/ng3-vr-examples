@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnInit, Output } from "@angular/core";
+import { ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnInit, Output } from "@angular/core";
 
 import { NgtTriple } from "@angular-three/core";
 
@@ -14,7 +14,6 @@ type KeyCase = 'lower' | 'upper' | 'numbers';
 @Component({
   selector: 'keyboard',
   templateUrl: './keyboard.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KeyboardComponent implements OnInit {
   @Input() position = [0, 0, 0] as NgtTriple;

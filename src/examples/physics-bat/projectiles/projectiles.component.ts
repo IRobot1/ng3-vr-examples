@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, Output } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from "@angular/core";
 
 import { Object3D, Ray, Vector3 } from "three";
 
@@ -15,7 +15,6 @@ class Projectile {
   selector: 'projectiles',
   templateUrl: './projectiles.component.html',
   providers: [NgtPhysicBody],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Projectiles implements AfterViewInit, OnDestroy {
   @Input() position = [0, 2, -5] as NgtTriple;

@@ -140,22 +140,29 @@ export class XRControllerComponent implements OnInit, OnDestroy {
 
   tick(event: { state: NgtRenderState, object: Object3D }) {
     if (this.gamepad) {
-      if (this.gamepad.buttons[2].pressed && !this.touchpad_pressed) {
-        this.touchpad.next(true);
-        this.touchpad_pressed = true;
-      }
-      else if (this.touchpad_pressed && !this.gamepad.buttons[2].pressed) {
-        this.touchpad.next(false);
-        this.touchpad_pressed = false;
+      if (this.gamepad.buttons.length > 2) {
+        // 6 Y B
+        // 5 X A
+        // 3 joystick press
+        if (this.gamepad.buttons[2].pressed && !this.touchpad_pressed) {
+          this.touchpad.next(true);
+          this.touchpad_pressed = true;
+        }
+        else if (this.touchpad_pressed && !this.gamepad.buttons[2].pressed) {
+          this.touchpad.next(false);
+          this.touchpad_pressed = false;
+        }
       }
 
-      if (this.gamepad.buttons[3].pressed && !this.joystick_pressed) {
-        this.joystick.next(true);
-        this.joystick_pressed = true;
-      }
-      else if (this.joystick_pressed && !this.gamepad.buttons[3].pressed) {
-        this.joystick.next(false);
-        this.joystick_pressed = false;
+      if (this.gamepad.buttons.length > 3) {
+        if (this.gamepad.buttons[3].pressed && !this.joystick_pressed) {
+          this.joystick.next(true);
+          this.joystick_pressed = true;
+        }
+        else if (this.joystick_pressed && !this.gamepad.buttons[3].pressed) {
+          this.joystick.next(false);
+          this.joystick_pressed = false;
+        }
       }
 
       if (this.touchpadaxis.observed) {

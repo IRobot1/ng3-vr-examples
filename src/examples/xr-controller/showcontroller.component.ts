@@ -5,7 +5,7 @@ import { Scene, XRGripSpace } from "three";
 
 import { BooleanInput, coerceBooleanProperty, NgtStore } from "@angular-three/core";
 
-import { XRControllerModelFactory } from "three-stdlib";
+import { XRControllerModel, XRControllerModelFactory } from "three-stdlib";
 
 import { XRControllerComponent } from "./xr-controller.component";
 
@@ -28,6 +28,7 @@ export class ShowControllerDirective implements OnInit, OnDestroy {
 
   private scene!: Scene;
   private grip!: XRGripSpace;
+  private model!: XRControllerModel;
 
   private subs = new Subscription();
   constructor(
@@ -36,7 +37,10 @@ export class ShowControllerDirective implements OnInit, OnDestroy {
   ) { }
 
   ngOnDestroy(): void {
-    this.scene.remove(this.grip);
+    if (this.grip) {
+      this.grip.remove(this.model);
+    }
+    this.hide();
   }
 
   ngOnInit(): void {
@@ -47,7 +51,8 @@ export class ShowControllerDirective implements OnInit, OnDestroy {
       const controllerModelFactory = new XRControllerModelFactory();
 
       this.grip = renderer.xr.getControllerGrip(this.xr.index);
-      this.grip.add(controllerModelFactory.createControllerModel(this.grip));
+      this.model = controllerModelFactory.createControllerModel(this.grip)
+      this.grip.add(this.model);
 
       if (this.showcontroller) this.show();
     }));
