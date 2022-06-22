@@ -2,6 +2,9 @@ VR Examples for @angular-three
 
 [DEMO here](https://ng3vr.z9.web.core.windows.net/)
 
+Using Windows Mixed Reality the demo works perfected.  Using Meta Quest 2, navigating between rooms inside the browser works correctly.  However, after Enter VR, navigating between rooms results in empty rooms. Returning to the browser, the rooms appear correctly.  The root cause of this is still under investigation.
+
+
 ![image](https://user-images.githubusercontent.com/25032599/174510351-d2404c4b-3d12-4a14-ab58-d7def4104b69.png)
 
 Enter VR to experience each demo in person or touch/mouse a panel to preview an example or move/pan around.
