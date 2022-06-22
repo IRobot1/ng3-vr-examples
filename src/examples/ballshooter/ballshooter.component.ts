@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, NgZone, OnInit } from "@angular/core";
 
 import { Color, Group, MathUtils, Object3D, Vector3 } from 'three';
 
@@ -19,16 +19,20 @@ export class BallshooterExample implements OnInit {
   shapes: Array<RandomSettings> = [];
 
   ngOnInit(): void {
-    for (let i = 0; i < 200; i++) {
-      this.shapes.push(new RandomSettings(
-        '#' + new Color(Math.random() * 0xffffff).getHexString(),
-        new Vector3(Math.random() * 4 - 2, Math.random() * 4, Math.random() * 4 - 2),
-        new Vector3(Math.random() * 0.01 - 0.005, Math.random() * 0.01 - 0.005, Math.random() * 0.01 - 0.005),
-      ));
-    }
-  }
+    const timer = setInterval(() => {
+      for (let i = 0; i < 10; i++) {
+        this.shapes.push(new RandomSettings(
+          '#' + new Color(Math.random() * 0xffffff).getHexString(),
+          new Vector3(Math.random() * 4 - 2, Math.random() * 4, Math.random() * 4 - 2),
+          new Vector3(Math.random() * 0.01 - 0.005, Math.random() * 0.01 - 0.005, Math.random() * 0.01 - 0.005),
+        ));
+      }
 
-  private count = 0;
+      if (this.shapes.length >= 200) {
+        clearInterval(timer);
+      }
+    }, 10)
+  }
 
   tick({ delta }: NgtRenderState, object: Object3D) {
     const room = <Group>object;
