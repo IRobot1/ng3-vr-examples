@@ -1,16 +1,9 @@
 import { Component } from '@angular/core';
 
-import { NgtState } from '@angular-three/core';
-
-import { VRButton } from 'three-stdlib/webxr/VRButton';
-
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
 })
 export class AppComponent  {
-  created(state: NgtState) {
-    document.body.appendChild(VRButton.createButton(state.gl));
-  }
 }
 

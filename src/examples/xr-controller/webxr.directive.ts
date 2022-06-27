@@ -2,6 +2,8 @@ import { Directive, Input, OnInit, Self } from "@angular/core";
 
 import { NgtCanvas, NgtStore } from "@angular-three/core";
 
+import { VRButton } from "three-stdlib";
+
 import { WebXRService } from "./webxr.service";
 
 @Directive({
@@ -22,6 +24,8 @@ export class WebXRDirective implements OnInit {
     }
     const gl = this.store.get((s) => s.gl);
     const scene = this.store.get((s) => s.scene);
+
+    document.body.appendChild(VRButton.createButton(gl));
 
     this.webxr.start(gl.xr, scene, this.referenceSpaceType);
   }
