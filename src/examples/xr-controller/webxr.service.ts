@@ -21,7 +21,7 @@ export class WebXRController {
     }
     this.controller.addEventListener('connected', connected);
 
-    const disconnected = (event: any) => {
+    const disconnected = () => {
       this.disconnected.next(true);
     }
     this.controller.addEventListener('disconnected', disconnected);
@@ -46,13 +46,16 @@ export class WebXRService {
 
   public dispose!: () => void;
 
-  start(xr: WebXRManager, scene: Scene): void {
+  start(xr: WebXRManager, scene: Scene, spacetype: XRReferenceSpaceType): void {
+    // this will fail if type isn't supported by device
+    xr.setReferenceSpaceType(spacetype);
+
     console.log('WebXR service starting');
 
-    const sessionstart = (event: any) => this.xrsession.next(true);
+    const sessionstart = () => this.xrsession.next(true);
     xr.addEventListener('sessionstart', sessionstart)
 
-    const sessionend = (event: any) => this.xrsession.next(false);
+    const sessionend = () => this.xrsession.next(false);
     xr.addEventListener('sessionend', sessionend)
 
     const left = xr.getController(0);
@@ -62,6 +65,7 @@ export class WebXRService {
     const right = xr.getController(1);
     scene.add(right);
     this.right = new WebXRController(right)
+
 
     this.manager = xr;
 
