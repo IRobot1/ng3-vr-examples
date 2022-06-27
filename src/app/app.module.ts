@@ -63,6 +63,7 @@ import { PanelComponent } from './portal/panel/panel.component';
 import { PortalComponent } from './portal/portal.component';
 import { NavigateDirective } from './portal/navigate.directive';
 import { NavigateHomeDirective } from './portal/navhome.directive';
+import { HighlightDirective } from '../examples/xr-controller/highlight.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +95,7 @@ import { NavigateHomeDirective } from './portal/navhome.directive';
     TeleportDirective,
     ShowControllerDirective,
     TrackedPointerDirective,
+    HighlightDirective,
 
     BatExample,
     Projectiles,
