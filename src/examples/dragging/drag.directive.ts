@@ -5,7 +5,7 @@ import { Group, Matrix4, Object3D, Raycaster } from "three";
 
 import { BooleanInput, coerceBooleanProperty, NgtStore } from "@angular-three/core";
 
-import { XRControllerComponent } from "../xr-controller/xr-controller.component";
+import { VRControllerComponent } from "../xr-controller/vr-controller.component";
 import { TrackedPointerDirective } from "../xr-controller/trackpointer.directive";
 
 
@@ -28,7 +28,7 @@ export class DragDirective implements OnInit, OnDestroy {
   private subs = new Subscription();
 
   constructor(
-    private xr: XRControllerComponent,
+    private xr: VRControllerComponent,
     private store: NgtStore,
     @Optional() private tp: TrackedPointerDirective,
   ) { }

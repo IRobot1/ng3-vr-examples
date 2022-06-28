@@ -4,7 +4,7 @@ import { Subscription } from "rxjs";
 
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
-import { XRControllerComponent } from "../../examples/xr-controller/xr-controller.component";
+import { VRControllerComponent } from "../../examples/xr-controller/vr-controller.component";
 import { Group, Matrix4, Object3D, Raycaster } from "three";
 
 @Directive({
@@ -24,7 +24,7 @@ export class NavigateDirective implements OnInit, OnDestroy {
   private subs = new Subscription();
 
   constructor(
-    private xr: XRControllerComponent,
+    private xr: VRControllerComponent,
     private router: Router,
     private zone: NgZone,
   ) { }

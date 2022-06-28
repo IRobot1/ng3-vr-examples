@@ -5,8 +5,8 @@
 <ngt-physics [gravity]="[0, -5, 0]" [stepSize]="1/1000">
   <ngt-cannon-debug disabled scale="1.1" color="red">
 
-    <xr-controller bat navhome></xr-controller>
-    <xr-controller [index]="1" bat navhome></xr-controller>
+    <vr-controller bat navhome></vr-controller>
+    <vr-controller [index]="1" bat navhome></vr-controller>
 
     <projectiles (fire)="gamestate.subRemaining()"></projectiles>
 

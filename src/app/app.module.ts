@@ -36,7 +36,7 @@ import { BatExample } from '../examples/physics-bat/physics-bat.component';
 import { Projectiles } from '../examples/physics-bat/projectiles/projectiles.component';
 import { FloorComponent } from '../components/floor.component';
 import { Target } from '../examples/physics-bat/target/target.component';
-import { XRControllerComponent } from '../examples/xr-controller/xr-controller.component';
+import { VRControllerComponent } from '../examples/xr-controller/vr-controller.component';
 import { TeleportDirective } from '../examples/xr-controller/teleport.directive';
 import { HandinputDirective } from '../examples/hand/handinput.directive';
 import { ShowControllerDirective } from '../examples/xr-controller/showcontroller.directive';
@@ -58,7 +58,7 @@ import { JoystickhMoveDirective } from '../examples/joystick/joystickmove.direct
 import { Room1Example } from '../examples/room1/room1.component';
 import { WallComponent } from '../components/wall.component';
 import { ShowHandDirective } from '../examples/hand/showhand.directive';
-import { WebXRDirective } from '../examples/xr-controller/webxr.directive';
+import { WebVRDirective } from '../examples/xr-controller/webvr.directive';
 import { PanelComponent } from './portal/panel/panel.component';
 import { PortalComponent } from './portal/portal.component';
 import { NavigateDirective } from './portal/navigate.directive';
@@ -76,7 +76,7 @@ import { BehaviorsExample } from '../examples/behaviors/behaviors.component';
     NavigateDirective,
     NavigateHomeDirective,
 
-    WebXRDirective,
+    WebVRDirective,
 
     LineRoomComponent,
     FloorComponent,
@@ -92,7 +92,7 @@ import { BehaviorsExample } from '../examples/behaviors/behaviors.component';
     HandinputDirective,
 
     TeleportExample,
-    XRControllerComponent,
+    VRControllerComponent,
     TeleportDirective,
     ShowControllerDirective,
     TrackedPointerDirective,

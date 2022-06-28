@@ -5,7 +5,7 @@ import { Group, Object3D, Vector2, WebXRManager } from "three";
 
 import { NgtRenderState, NgtStore } from "@angular-three/core";
 
-import { WebXRService } from "./webxr.service";
+import { WebVRService } from "./webvr.service";
 
 
 export class ConnectedEvent {
@@ -13,10 +13,10 @@ export class ConnectedEvent {
 }
 
 @Component({
-  selector: 'xr-controller',
+  selector: 'vr-controller',
   template: '<ngt-group (beforeRender)="tick($event)"></ngt-group>',
 })
-export class XRControllerComponent implements OnInit, OnDestroy {
+export class VRControllerComponent implements OnInit, OnDestroy {
   @Input() index = 0;
   @Input() name = '';
 
@@ -48,7 +48,7 @@ export class XRControllerComponent implements OnInit, OnDestroy {
   private cleanup = () => { }
 
   constructor(
-    private webxr: WebXRService,
+    private webvr: WebVRService,
     private store: NgtStore,
   ) {
   }
@@ -59,13 +59,13 @@ export class XRControllerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (!this.webxr.manager) {
-      console.error('webxr directive missing from ngt-canvas');
+    if (!this.webvr.manager) {
+      console.error('webvr directive missing from ngt-canvas');
       return;
     }
     const gl = this.store.get((s) => s.gl);
 
-    this.subs.add(this.webxr.xrsession.subscribe(isPresenting => {
+    this.subs.add(this.webvr.xrsession.subscribe(isPresenting => {
       if (isPresenting) {
         this.sessionstart.next(gl.xr);
       }
@@ -76,14 +76,14 @@ export class XRControllerComponent implements OnInit, OnDestroy {
 
     switch (this.index) {
       case 0:
-        this.controller = this.webxr.left.controller;
-        connected = this.webxr.left.connected;
-        disconnected = this.webxr.left.disconnected;
+        this.controller = this.webvr.left.controller;
+        connected = this.webvr.left.connected;
+        disconnected = this.webvr.left.disconnected;
         break;
       case 1:
-        this.controller = this.webxr.right.controller;
-        connected = this.webxr.right.connected;
-        disconnected = this.webxr.right.disconnected;
+        this.controller = this.webvr.right.controller;
+        connected = this.webvr.right.connected;
+        disconnected = this.webvr.right.disconnected;
         break;
       default:
         console.error('xr-controler unhandled index', this.index);

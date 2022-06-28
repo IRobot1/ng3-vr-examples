@@ -5,7 +5,7 @@ import { Vector3, WebXRManager } from "three";
 
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
-import { XRControllerComponent } from "../xr-controller/xr-controller.component";
+import { VRControllerComponent } from "../xr-controller/vr-controller.component";
 
 
 
@@ -30,7 +30,7 @@ export class TouchMoveDirective implements OnInit, OnDestroy {
   private subs = new Subscription();
 
   constructor(
-    private xr: XRControllerComponent,
+    private xr: VRControllerComponent,
   ) {
   }
 

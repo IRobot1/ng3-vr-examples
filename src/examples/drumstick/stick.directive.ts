@@ -6,7 +6,7 @@ import { Group, Object3D, Vector3 } from "three";
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 import { NgtPhysicBody, NgtPhysicBodyReturn } from "@angular-three/cannon";
 
-import { XRControllerComponent } from "../xr-controller/xr-controller.component";
+import { VRControllerComponent } from "../xr-controller/vr-controller.component";
 
 
 @Directive({
@@ -33,7 +33,7 @@ export class DrumstickDirective implements OnInit, OnDestroy {
   private subs = new Subscription();
 
   constructor(
-    private xr: XRControllerComponent,
+    private xr: VRControllerComponent,
     private physicBody: NgtPhysicBody,
   ) { }
 

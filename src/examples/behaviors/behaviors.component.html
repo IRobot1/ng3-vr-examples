@@ -39,7 +39,7 @@
 </ngt-mesh>
 
 
-<xr-controller navhome
+<vr-controller navhome
                [showcontroller]="options[0].left"
                [trackedpointer]="options[1].left"
                (trigger)="toggleleft()"
@@ -48,14 +48,14 @@
                [teleport]="options[3].left"
                [marker]="left.instance.value" [floor]="floor.instance.value"
                [drag]="options[4].left" [todrag]="todrag">
-</xr-controller>
+</vr-controller>
 
 <ngt-mesh #right [rotation]="[-1.57, 0, 0]">
   <ngt-circle-geometry [args]="[0.25, 12]"></ngt-circle-geometry>
   <ngt-mesh-standard-material></ngt-mesh-standard-material>
 </ngt-mesh>
 
-<xr-controller navhome [index]="1"
+<vr-controller navhome [index]="1"
                [showcontroller]="options[0].right"
                [trackedpointer]="options[1].right"
                (trigger)="toggleright()"
@@ -64,7 +64,7 @@
                [teleport]="options[3].right"
                [marker]="right.instance.value" [floor]="floor.instance.value"
                [drag]="options[4].right" [todrag]="todrag">
-</xr-controller>
+</vr-controller>
 
 
 

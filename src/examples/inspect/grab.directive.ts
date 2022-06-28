@@ -7,7 +7,7 @@ import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
 import { NgtPhysicBody, NgtPhysicBodyReturn, NgtPhysicConstraint, NgtPhysicConstraintReturn } from "@angular-three/cannon";
 
-import { XRControllerComponent } from "../xr-controller/xr-controller.component";
+import { VRControllerComponent } from "../xr-controller/vr-controller.component";
 import { Inspect } from "./inspect";
 
 
@@ -37,7 +37,7 @@ export class GrabDirective implements OnInit, OnDestroy {
   private subs = new Subscription();
 
   constructor(
-    private xr: XRControllerComponent,
+    private xr: VRControllerComponent,
     private physicBody: NgtPhysicBody,
     private physicConstraint: NgtPhysicConstraint,
   ) { }

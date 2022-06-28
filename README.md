@@ -43,26 +43,27 @@ Use the touchpad to move forward and sideways.
 Use the joystick to move forward and sideways.
 
 ## Code Highlights
-Add webxr to ngt-canvas to enable WebXR support
+Add webvr to ngt-canvas to enable WebVR support
 ```html
-<ngt-canvas webxr (created)="created($event)" [camera]="{ fov: 55, position: [0, 2, 4]}">
+<ngt-canvas webvr (created)="created($event)" [camera]="{ fov: 55, position: [0, 2, 4]}">
 ```
-Add xr-controller to add left and/or right controllers into a scene.  Index 0 is left controller, Index 1 is right controller.
+Add vr-controller to add left and/or right controllers into a scene.  Index 0 is left controller, Index 1 is right controller.
 ```html
-<xr-controller showcontroller trackedpointer [index]="1"></xr-controller>
+<vr-controller showcontroller trackedpointer [index]="1"></vr-controller>
 ```
 Add directives to xr-controller to add behaviors depending on needs
 * showcontroller - shows controller
 * trackedpointer - shows ray to point at stuff
 * teleport - teleport to new location on floor.  Requires `[floor]` and `[room]`
 ```html
-<xr-controller teleport showcontroller trackedpointer navhome 
+<vr-controller teleport showcontroller trackedpointer navhome 
                [marker]="left.instance.value" [floor]="floor.instance.value">
-</xr-controller>
+</vr-controller>
 ```
 
 All behaviors can be enabled/disabled at runtime on either controller.  The allows behaviors to be switched between controllers if needed.
 ```html
-<xr-controller [showcontroller]="enableshow" [trackedpointer]="enabletracking"></xr-controller>
+<vr-controller [showcontroller]="enableshow" [trackedpointer]="enabletracking">
+</vr-controller>
 
 ```

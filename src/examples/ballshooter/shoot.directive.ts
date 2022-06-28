@@ -5,7 +5,7 @@ import { Group, Vector3 } from "three";
 
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
-import { XRControllerComponent } from "../xr-controller/xr-controller.component";
+import { VRControllerComponent } from "../xr-controller/vr-controller.component";
 
 
 @Directive({
@@ -28,7 +28,7 @@ export class ShootDirective implements OnInit, OnDestroy {
   private subs = new Subscription();
 
   constructor(
-    private xr: XRControllerComponent,
+    private xr: VRControllerComponent,
   ) { }
 
   ngOnDestroy(): void {

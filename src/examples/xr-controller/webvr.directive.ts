@@ -4,29 +4,29 @@ import { NgtCanvas, NgtStore } from "@angular-three/core";
 
 import { VRButton } from "three-stdlib";
 
-import { WebXRService } from "./webxr.service";
+import { WebVRService } from "./webvr.service";
 
 @Directive({
-  selector: '[webxr]',
+  selector: '[webvr]',
 })
-export class WebXRDirective implements OnInit {
+export class WebVRDirective implements OnInit {
   @Input() referenceSpaceType: XRReferenceSpaceType = 'local-floor';
 
   constructor(
     private store: NgtStore,
-    private webxr: WebXRService,
-    @Self() private parent: NgtCanvas, // cause runtime failure unless webxr directive on ngt-canvass
+    private webvr: WebVRService,
+    @Self() private parent: NgtCanvas, // cause runtime failure unless webvr directive on ngt-canvass
   ) { }
 
   ngOnInit(): void {
     if (!(this.parent instanceof NgtCanvas)) {
-      console.warn('Add webxr directive to ngt-canvas');
+      console.warn('Add webvr directive to ngt-canvas');
     }
     const gl = this.store.get((s) => s.gl);
     const scene = this.store.get((s) => s.scene);
 
     document.body.appendChild(VRButton.createButton(gl));
 
-    this.webxr.start(gl.xr, scene, this.referenceSpaceType);
+    this.webvr.start(gl.xr, scene, this.referenceSpaceType);
   }
 }

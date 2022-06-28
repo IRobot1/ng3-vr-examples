@@ -7,7 +7,7 @@ import { BooleanInput, coerceBooleanProperty, NgtStore } from "@angular-three/co
 
 import { XRControllerModel, XRControllerModelFactory } from "three-stdlib";
 
-import { XRControllerComponent } from "./xr-controller.component";
+import { VRControllerComponent } from "./vr-controller.component";
 
 @Directive({
   selector: '[showcontroller]',
@@ -32,7 +32,7 @@ export class ShowControllerDirective implements OnInit, OnDestroy {
 
   private subs = new Subscription();
   constructor(
-    private xr: XRControllerComponent,
+    private xr: VRControllerComponent,
     private store: NgtStore,
   ) { }
 

@@ -5,7 +5,7 @@ import { Group, Matrix4, Mesh, Raycaster, Vector3, WebXRManager } from "three";
 
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
-import { XRControllerComponent } from "./xr-controller.component";
+import { VRControllerComponent } from "./vr-controller.component";
 
 @Directive({
   selector: '[teleport]',
@@ -30,7 +30,7 @@ export class TeleportDirective implements OnInit, OnDestroy {
   private subs = new Subscription();
 
   constructor(
-    private xr: XRControllerComponent,
+    private xr: VRControllerComponent,
   ) { }
 
   ngOnDestroy(): void {

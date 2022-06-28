@@ -5,7 +5,7 @@ import { AdditiveBlending, BufferGeometry, Float32BufferAttribute, Group, Line, 
 
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
-import { XRControllerComponent } from "./xr-controller.component";
+import { VRControllerComponent } from "./vr-controller.component";
 
 @Directive({
   selector: '[trackedpointer]',
@@ -30,7 +30,7 @@ export class TrackedPointerDirective implements OnInit, OnDestroy {
   private subs = new Subscription();
 
   constructor(
-    private xr: XRControllerComponent,
+    private xr: VRControllerComponent,
   ) { }
 
   ngOnDestroy(): void {

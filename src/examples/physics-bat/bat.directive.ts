@@ -6,7 +6,7 @@ import { NgtPhysicBody, NgtPhysicBodyReturn } from "@angular-three/cannon";
 
 import { NgtGLTFLoader } from "@angular-three/soba/loaders";
 
-import { XRControllerComponent } from "../xr-controller/xr-controller.component";
+import { VRControllerComponent } from "../xr-controller/vr-controller.component";
 
 @Directive({
   selector: '[bat]',
@@ -20,7 +20,7 @@ export class BatDirective implements OnInit, OnDestroy {
   private bat!: NgtPhysicBodyReturn<Object3D>;
 
   constructor(
-    private xr: XRControllerComponent,
+    private xr: VRControllerComponent,
     private physicBody: NgtPhysicBody,
     private loader: NgtGLTFLoader,
   ) { }

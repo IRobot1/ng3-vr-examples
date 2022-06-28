@@ -2,7 +2,7 @@ import { Directive, Input, OnDestroy, OnInit } from "@angular/core";
 
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
-import { XRControllerComponent } from "../xr-controller/xr-controller.component";
+import { VRControllerComponent } from "../xr-controller/vr-controller.component";
 import { Subject } from "rxjs";
 
 @Directive({
@@ -23,7 +23,7 @@ export class HandinputDirective implements OnInit, OnDestroy {
   private cleanup = () => { }
 
   constructor(
-    private xr: XRControllerComponent,
+    private xr: VRControllerComponent,
   ) { }
 
   ngOnDestroy(): void {

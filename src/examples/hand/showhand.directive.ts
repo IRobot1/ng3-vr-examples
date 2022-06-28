@@ -6,7 +6,7 @@ import { XRHandModelFactory } from "three-stdlib";
 
 import { BooleanInput, coerceBooleanProperty, NgtStore } from "@angular-three/core";
 
-import { XRControllerComponent } from "../xr-controller/xr-controller.component";
+import { VRControllerComponent } from "../xr-controller/vr-controller.component";
 
 
 @Directive({
@@ -32,7 +32,7 @@ export class ShowHandDirective implements OnInit, OnDestroy {
   private subs = new Subscription();
 
   constructor(
-    private xr: XRControllerComponent,
+    private xr: VRControllerComponent,
     private store: NgtStore,
   ) {
   }
