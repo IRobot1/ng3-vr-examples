@@ -1,9 +1,9 @@
 import { Directive, Input, OnDestroy, OnInit, Optional } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { Group, Matrix4, Raycaster } from "three";
+import { Group, Matrix4, Object3D, Raycaster } from "three";
 
-import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
+import { BooleanInput, coerceBooleanProperty, NgtStore } from "@angular-three/core";
 
 import { XRControllerComponent } from "../xr-controller/xr-controller.component";
 import { TrackedPointerDirective } from "../xr-controller/trackpointer.component";
@@ -20,7 +20,7 @@ export class DragDirective implements OnInit, OnDestroy {
     this._enabled = newvalue;
     this.unhighlight();
   }
-  @Input() room!: Group;
+  @Input() todrag: Array<Object3D> = [];
   @Input() recursive = false;
 
   private controller!: Group;
@@ -29,6 +29,7 @@ export class DragDirective implements OnInit, OnDestroy {
 
   constructor(
     private xr: XRControllerComponent,
+    private store: NgtStore,
     @Optional() private tp: TrackedPointerDirective,
   ) { }
 
@@ -37,10 +38,8 @@ export class DragDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (!this.room) {
-      console.warn('Drag directive requires room Group to be set');
-      return;
-    }
+    const scene = this.store.get(s => s.scene);
+
 
     this.subs.add(this.xr.connected.subscribe(next => {
       if (!next) return;
@@ -49,6 +48,10 @@ export class DragDirective implements OnInit, OnDestroy {
 
     this.subs.add(this.xr.triggerstart.subscribe(next => {
       if (this.drag) {
+        if (this.todrag.length == 0) {
+          console.warn('Drag directive todrag is empty');
+        }
+
         if (this.PointerIntersectObject) {
           this.controller.attach(this.PointerIntersectObject);
           this.dragging = this.PointerIntersectObject;
@@ -64,7 +67,7 @@ export class DragDirective implements OnInit, OnDestroy {
       if (this.drag) {
         if (this.dragging) {
 
-          this.room.attach(this.dragging);
+          scene.attach(this.dragging);
 
           this.dragging = undefined;
           if (this.tp?.line) {
@@ -89,7 +92,7 @@ export class DragDirective implements OnInit, OnDestroy {
     raycaster.ray.origin.setFromMatrixPosition(this.controller.matrixWorld);
     raycaster.ray.direction.set(0, 0, - 1).applyMatrix4(tempMatrix);
 
-    return raycaster.intersectObjects(this.room.children, this.recursive);
+    return raycaster.intersectObjects(this.todrag, this.recursive);
   }
 
   private PointerIntersect: any;
@@ -102,7 +105,7 @@ export class DragDirective implements OnInit, OnDestroy {
   }
 
   private tick() {
-    if (this.room && this.controller) {
+    if (this.todrag.length>0 && this.controller) {
 
       const intersects = this.getPointerIntersections();
 

@@ -20,6 +20,7 @@ export class HomeComponent {
     { asset: 'drumstick', text: 'Drumstick / Keyboard' },
     { asset: 'touchpad', text: 'Touchpad Movement' },
     { asset: 'joystick', text: 'Joystick Movement' },
+    { asset: 'behaviors', text: 'Toggle Controller Behaviors' },
   ]
 
   panels: Array<PanelSetting> = [];

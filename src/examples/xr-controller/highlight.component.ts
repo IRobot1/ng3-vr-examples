@@ -1,7 +1,7 @@
-import { Directive, Input, OnDestroy, OnInit } from "@angular/core";
+import { Directive, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { Group, Matrix4, Raycaster } from "three";
+import { Group, Matrix4, Object3D, Raycaster } from "three";
 
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
@@ -19,8 +19,9 @@ export class HighlightDirective implements OnInit, OnDestroy {
     this._enabled = newvalue;
     this.unhighlight();
   }
-  @Input() room!: Group;
-  @Input() recursive = false;
+  @Input() tohighlight: Array<Object3D> = [];
+
+  @Output() highlighting = new EventEmitter<Object3D | undefined>();
 
   private controller!: Group;
   private subs = new Subscription();
@@ -34,7 +35,7 @@ export class HighlightDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (!this.room) {
+    if (!this.tohighlight) {
       console.warn('Highlight directive requires room Group to be set');
       return;
     }
@@ -59,34 +60,36 @@ export class HighlightDirective implements OnInit, OnDestroy {
     raycaster.ray.origin.setFromMatrixPosition(this.controller.matrixWorld);
     raycaster.ray.direction.set(0, 0, - 1).applyMatrix4(tempMatrix);
 
-    return raycaster.intersectObjects(this.room.children, this.recursive);
+    return raycaster.intersectObjects(this.tohighlight, false);
   }
 
-  private PointerIntersect: any;
-  private PointerIntersectObject: any;
+  private Intersect: any;
+  private IntersectObject: any;
 
   private unhighlight() {
-    if (this.PointerIntersectObject) {
-      this.PointerIntersectObject.material.emissive.b = 0;
-      this.PointerIntersectObject = undefined;
+    if (this.IntersectObject) {
+      this.IntersectObject.material.emissive.b = 0;
+      this.IntersectObject = undefined;
+      this.highlighting.next(this.IntersectObject);
     }
   }
 
   private tick() {
-    if (this.room && this.controller) {
+    if (this.tohighlight && this.controller) {
 
       const intersects = this.getPointerIntersections();
 
       if (intersects.length > 0) {
-        if (this.PointerIntersectObject != intersects[0].object) {
+        if (this.IntersectObject != intersects[0].object) {
 
-          if (this.PointerIntersectObject) {
-            this.PointerIntersectObject.material.emissive.b = 0;
+          if (this.IntersectObject) {
+            this.IntersectObject.material.emissive.b = 0;
           }
 
-          this.PointerIntersect = intersects[0];
-          this.PointerIntersectObject = this.PointerIntersect.object;
-          this.PointerIntersectObject.material.emissive.b = 1;
+          this.Intersect = intersects[0];
+          this.IntersectObject = this.Intersect.object;
+          this.IntersectObject.material.emissive.b = 1;
+          this.highlighting.next(this.IntersectObject);
         }
       } else {
         this.unhighlight();

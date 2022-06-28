@@ -1,0 +1,80 @@
+<ngt-color attach="background" color="darkgray"></ngt-color>
+
+<ngt-ambient-light></ngt-ambient-light>
+<ngt-point-light intensity="0.75" [position]="[0, 3, 0]"></ngt-point-light>
+
+<ngt-grid-helper></ngt-grid-helper>
+
+<ngt-group *ngFor="let item of options" [rotation]="[0, item.rotation | radian, 0]">
+  <ngt-mesh (ready)="tohighlight.push($event)" [userData]="{option: item}" [position]="[0, 1, offset]">
+    <ngt-cylinder-geometry [args]="[0.1, 0.2, 0.2]"></ngt-cylinder-geometry>
+    <ngt-mesh-standard-material color="blue"></ngt-mesh-standard-material>
+  </ngt-mesh>
+
+  <ngt-mesh [position]="[0, 0.45, offset]">
+    <ngt-box-geometry [args]="[0.5, 0.9, 0.5]"></ngt-box-geometry>
+    <ngt-mesh-standard-material></ngt-mesh-standard-material>
+  </ngt-mesh>
+
+  <ngt-soba-text [text]="item.text"
+                 [castShadow]="true"
+                 [color]="'white'"
+                 [maxWidth]="8"
+                 [fontSize]="0.1"
+                 font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+                 anchorX="center"
+                 anchorY="bottom"
+                 [position]="[0, 1.2, offset]">
+  </ngt-soba-text>
+</ngt-group>
+
+<ngt-mesh #floor [rotation]="[-1.57, 0, 0]">
+  <ngt-plane-geometry [args]="[4.8, 4.8, 2, 2]"></ngt-plane-geometry>
+  <ngt-mesh-standard-material transparent opacity="0.25"></ngt-mesh-standard-material>
+</ngt-mesh>
+
+<ngt-mesh #left [rotation]="[-1.57, 0, 0]">
+  <ngt-circle-geometry [args]="[0.25, 6]"></ngt-circle-geometry>
+  <ngt-mesh-standard-material></ngt-mesh-standard-material>
+</ngt-mesh>
+
+
+<xr-controller navhome
+               [showcontroller]="options[0].left"
+               [trackedpointer]="options[1].left"
+               (trigger)="toggleleft()"
+               [highlight]="options[2].left"
+               [tohighlight]="tohighlight" (highlighting)="highlighted=$event"
+               [teleport]="options[3].left"
+               [marker]="left.instance.value" [floor]="floor.instance.value"
+               [drag]="options[4].left" [todrag]="todrag">
+</xr-controller>
+
+<ngt-mesh #right [rotation]="[-1.57, 0, 0]">
+  <ngt-circle-geometry [args]="[0.25, 12]"></ngt-circle-geometry>
+  <ngt-mesh-standard-material></ngt-mesh-standard-material>
+</ngt-mesh>
+
+<xr-controller navhome [index]="1"
+               [showcontroller]="options[0].right"
+               [trackedpointer]="options[1].right"
+               (trigger)="toggleright()"
+               [highlight]="options[2].right"
+               [tohighlight]="tohighlight" (highlighting)="highlighted=$event"
+               [teleport]="options[3].right"
+               [marker]="right.instance.value" [floor]="floor.instance.value"
+               [drag]="options[4].right" [todrag]="todrag">
+</xr-controller>
+
+
+
+<ngt-mesh *ngFor="let item of shapes" (ready)="todrag.push($event)"
+          [position]="item.position" [rotation]="item.rotation" [scale]="item.scale" castShadow>
+  <ngt-mesh-standard-material [parameters]="{ color: item.color, roughness: 0.7, metalness:0.0 }"></ngt-mesh-standard-material>
+
+  <ngt-box-geometry *ngIf="item.shapename=='box'" [args]="[0.2, 0.2, 0.2]"></ngt-box-geometry>
+  <ngt-cone-geometry *ngIf="item.shapename=='cone'" [args]="[0.2, 0.2, 64]"></ngt-cone-geometry>
+  <ngt-cylinder-geometry *ngIf="item.shapename=='cylinder'" [args]="[ 0.2, 0.2, 0.2, 64]"></ngt-cylinder-geometry>
+  <ngt-icosahedron-geometry *ngIf="item.shapename=='icosahedron'" [args]="[ 0.2, 8]"></ngt-icosahedron-geometry>
+  <ngt-torus-geometry *ngIf="item.shapename=='torus'" [args]="[ 0.2, 0.04, 64, 32]"></ngt-torus-geometry>
+</ngt-mesh>

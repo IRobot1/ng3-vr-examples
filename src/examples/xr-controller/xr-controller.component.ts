@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { BehaviorSubject, Subject, Subscription } from "rxjs";
 
 import { Group, Object3D, Vector2, WebXRManager } from "three";
@@ -20,26 +20,26 @@ export class XRControllerComponent implements OnInit, OnDestroy {
   @Input() index = 0;
   @Input() name = '';
 
-  public sessionstart = new BehaviorSubject<WebXRManager | undefined>(undefined)
+  @Output() sessionstart = new BehaviorSubject<WebXRManager | undefined>(undefined)
 
-  public triggerstart = new Subject<XRInputSource>()
-  public trigger = new Subject<XRInputSource>()
-  public triggerend = new Subject<XRInputSource>()
+  @Output() triggerstart = new EventEmitter<XRInputSource>()
+  @Output() trigger = new EventEmitter<XRInputSource>()
+  @Output() triggerend = new EventEmitter<XRInputSource>()
 
-  public gripstart = new Subject<XRInputSource>()
-  public grip = new Subject<XRInputSource>()
-  public gripend = new Subject<XRInputSource>()
+  @Output() gripstart = new EventEmitter<XRInputSource>()
+  @Output() grip = new EventEmitter<XRInputSource>()
+  @Output() gripend = new EventEmitter<XRInputSource>()
 
-  public touchpad = new Subject<boolean>()
-  public touchpadaxis = new Subject<Vector2>()
+  @Output() touchpad = new EventEmitter<boolean>()
+  @Output() touchpadaxis = new EventEmitter<Vector2>()
 
-  public joystick = new Subject<boolean>()
-  public joystickaxis = new Subject<Vector2>()
+  @Output() joystick = new EventEmitter<boolean>()
+  @Output() joystickaxis = new EventEmitter<Vector2>()
 
-  public connected = new BehaviorSubject<ConnectedEvent | undefined>(undefined)
-  public disconnected = new Subject<boolean>()
+  @Output() connected = new BehaviorSubject<ConnectedEvent | undefined>(undefined)
+  @Output() disconnected = new EventEmitter<boolean>()
 
-  public beforeRender = new Subject<NgtRenderState>()
+  @Output() beforeRender = new EventEmitter<NgtRenderState>()
 
   private controller!: Group;
   private gamepad?: Gamepad;

@@ -4,18 +4,16 @@
 
 <ngt-directional-light [position]="[10, 10, 10]" castShadow></ngt-directional-light>
 
-<ngt-group #room>
-  <ngt-mesh *ngFor="let item of shapes"
-            [position]="item.position" [rotation]="item.rotation" [scale]="item.scale" castShadow>
-    <ngt-mesh-standard-material [parameters]="{ color: item.color, roughness: 0.7, metalness:0.0 }"></ngt-mesh-standard-material>
+<ngt-mesh *ngFor="let item of shapes" (ready)="list.push($event)"
+          [position]="item.position" [rotation]="item.rotation" [scale]="item.scale" castShadow>
+  <ngt-mesh-standard-material [parameters]="{ color: item.color, roughness: 0.7, metalness:0.0 }"></ngt-mesh-standard-material>
 
-    <ngt-box-geometry *ngIf="item.shapename=='box'" [args]="[0.2, 0.2, 0.2]"></ngt-box-geometry>
-    <ngt-cone-geometry *ngIf="item.shapename=='cone'" [args]="[0.2, 0.2, 64]"></ngt-cone-geometry>
-    <ngt-cylinder-geometry *ngIf="item.shapename=='cylinder'" [args]="[ 0.2, 0.2, 0.2, 64]"></ngt-cylinder-geometry>
-    <ngt-icosahedron-geometry *ngIf="item.shapename=='icosahedron'" [args]="[ 0.2, 8]"></ngt-icosahedron-geometry>
-    <ngt-torus-geometry *ngIf="item.shapename=='torus'" [args]="[ 0.2, 0.04, 64, 32]"></ngt-torus-geometry>
-  </ngt-mesh>
-</ngt-group>
+  <ngt-box-geometry *ngIf="item.shapename=='box'" [args]="[0.2, 0.2, 0.2]"></ngt-box-geometry>
+  <ngt-cone-geometry *ngIf="item.shapename=='cone'" [args]="[0.2, 0.2, 64]"></ngt-cone-geometry>
+  <ngt-cylinder-geometry *ngIf="item.shapename=='cylinder'" [args]="[ 0.2, 0.2, 0.2, 64]"></ngt-cylinder-geometry>
+  <ngt-icosahedron-geometry *ngIf="item.shapename=='icosahedron'" [args]="[ 0.2, 8]"></ngt-icosahedron-geometry>
+  <ngt-torus-geometry *ngIf="item.shapename=='torus'" [args]="[ 0.2, 0.04, 64, 32]"></ngt-torus-geometry>
+</ngt-mesh>
 
-<xr-controller drag highlight showcontroller trackedpointer navhome [room]="room.instance.value"></xr-controller>
-<xr-controller [index]="1" drag highlight showcontroller trackedpointer navhome [room]="room.instance.value"></xr-controller>
+<xr-controller drag highlight showcontroller trackedpointer navhome [tohighlight]="list" [todrag]="list"></xr-controller>
+<xr-controller [index]="1" drag highlight showcontroller trackedpointer navhome [tohighlight]="list" [todrag]="list"></xr-controller>

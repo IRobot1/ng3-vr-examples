@@ -38,6 +38,13 @@ export class TeleportDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (!this.marker) {
+      console.warn('Teleport directive missing marker for showing where to teleport');
+    }
+    if (!this.floor) {
+      console.warn('Teleport directive missing floor for raycasting intersection');
+    }
+
     let manager!: WebXRManager;
     this.subs.add(this.xr.sessionstart.subscribe(xrmanager => {
       if (!xrmanager) return;

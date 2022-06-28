@@ -13,6 +13,7 @@ import { BatExample } from '../examples/physics-bat/physics-bat.component';
 import { Room1Example } from '../examples/room1/room1.component';
 import { TeleportExample } from '../examples/teleport/teleport.component';
 import { TouchpadExample } from '../examples/touchpad/touchpad.component';
+import { BehaviorsExample } from '../examples/behaviors/behaviors.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'drumstick', component: DrumstickExample },
   { path: 'touchpad', component: TouchpadExample },
   { path: 'joystick', component: JoystickExample },
+  { path: 'behaviors', component: BehaviorsExample },
   { path: 'room1', component: Room1Example },
 ];
 

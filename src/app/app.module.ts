@@ -15,7 +15,7 @@ import { NgtLineModule } from '@angular-three/core/lines';
 
 import { NgtBoxGeometryModule, NgtBufferGeometryModule, NgtCircleGeometryModule, NgtConeGeometryModule, NgtCylinderGeometryModule, NgtIcosahedronGeometryModule, NgtPlaneGeometryModule, NgtSphereGeometryModule, NgtTorusGeometryModule  } from '@angular-three/core/geometries';
 
-import { NgtLineBasicMaterialModule, NgtMeshStandardMaterialModule } from '@angular-three/core/materials';
+import { NgtLineBasicMaterialModule, NgtMeshBasicMaterialModule, NgtMeshStandardMaterialModule } from '@angular-three/core/materials';
 
 import { NgtSobaOrbitControlsModule } from '@angular-three/soba/controls'
 import { NgtSobaTextModule } from '@angular-three/soba/abstractions'
@@ -64,6 +64,7 @@ import { PortalComponent } from './portal/portal.component';
 import { NavigateDirective } from './portal/navigate.directive';
 import { NavigateHomeDirective } from './portal/navhome.directive';
 import { HighlightDirective } from '../examples/xr-controller/highlight.component';
+import { BehaviorsExample } from '../examples/behaviors/behaviors.component';
 
 @NgModule({
   declarations: [
@@ -117,6 +118,8 @@ import { HighlightDirective } from '../examples/xr-controller/highlight.componen
     JoystickExample,
     JoystickhMoveDirective,
 
+    BehaviorsExample,
+
     Room1Example,
     WallComponent,
   ],
@@ -154,6 +157,7 @@ import { HighlightDirective } from '../examples/xr-controller/highlight.componen
 
     NgtMeshStandardMaterialModule,
     NgtLineBasicMaterialModule,
+    NgtMeshBasicMaterialModule,
 
     // soba
     NgtSobaOrbitControlsModule,

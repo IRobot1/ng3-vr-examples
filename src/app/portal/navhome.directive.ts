@@ -39,9 +39,8 @@ export class NavigateHomeDirective implements OnInit, OnDestroy {
   }
 
   private zoneNavigate() {
-      this.zone.run(() => {
-        this.router.navigate(['/']);
-        console.warn('navhome')
-      });
+    this.zone.run(() => {
+      this.router.navigate(['/']);
+    });
   }
 }
