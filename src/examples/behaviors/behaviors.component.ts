@@ -29,11 +29,11 @@ export class BehaviorsExample {
   offset = -2;
 
   constructor() {
-    const angle = 360 / this.examples.length;
+    const angle = 180 / this.examples.length;
 
     this.examples.forEach((item, index) => {
       const position = [0, 0, 0] as NgtTriple;
-      const rotation = angle * index;
+      const rotation = -80 + angle * index;
 
       const behavior = new BehaviorSetting(position, rotation, item.text, item.enabled, item.enabled)
       this.options.push(behavior);
