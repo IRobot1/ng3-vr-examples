@@ -5,8 +5,7 @@ import { Group, Matrix4, Object3D, Raycaster } from "three";
 
 import { BooleanInput, coerceBooleanProperty, NgtStore } from "@angular-three/core";
 
-import { VRControllerComponent } from "../xr-controller/vr-controller.component";
-import { TrackedPointerDirective } from "../xr-controller/trackpointer.directive";
+import { VRControllerComponent, TrackedPointerDirective } from "ng3-webxr";
 
 
 @Directive({

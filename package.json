@@ -5,7 +5,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "buildall": "ng build ng3-webxr && ng build",
     "watch": "ng build --watch --configuration development",
+    "publish": "ng build ng3-webxr --configuration production && cd dist/ng3-webxr && npm publish",
     "test": "ng test"
   },
   "private": true,
@@ -22,6 +24,7 @@
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
     "@types/webxr": "^0.4.0",
+    "ng3-webxr": "^0.0.1",
     "rxjs": "~7.5.0",
     "three": "^0.141.0",
     "three-stdlib": "^2.10.2",
@@ -41,6 +44,7 @@
     "karma-coverage": "~2.1.0",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "ng-packagr": "^14.0.0",
     "typescript": "~4.7.2"
   }
 }

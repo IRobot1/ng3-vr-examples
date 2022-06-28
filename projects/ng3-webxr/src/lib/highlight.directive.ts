@@ -5,7 +5,7 @@ import { Group, Matrix4, Object3D, Raycaster } from "three";
 
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
-import { VRControllerComponent } from "../xr-controller/vr-controller.component";
+import { VRControllerComponent } from "./vr-controller.component";
 
 
 @Directive({

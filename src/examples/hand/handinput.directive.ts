@@ -2,7 +2,7 @@ import { Directive, Input, OnDestroy, OnInit } from "@angular/core";
 
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
-import { VRControllerComponent } from "../xr-controller/vr-controller.component";
+import { VRControllerComponent } from "ng3-webxr";
 import { Subject } from "rxjs";
 
 @Directive({

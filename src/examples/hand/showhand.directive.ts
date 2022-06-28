@@ -6,7 +6,7 @@ import { XRHandModelFactory } from "three-stdlib";
 
 import { BooleanInput, coerceBooleanProperty, NgtStore } from "@angular-three/core";
 
-import { VRControllerComponent } from "../xr-controller/vr-controller.component";
+import { VRControllerComponent } from "ng3-webxr";
 
 
 @Directive({

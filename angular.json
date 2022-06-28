@@ -100,6 +100,37 @@
           }
         }
       }
+    },
+    "ng3-webxr": {
+      "projectType": "library",
+      "root": "projects/ng3-webxr",
+      "sourceRoot": "projects/ng3-webxr/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ng3-webxr/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ng3-webxr/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ng3-webxr/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng3-webxr/src/test.ts",
+            "tsConfig": "projects/ng3-webxr/tsconfig.spec.json",
+            "karmaConfig": "projects/ng3-webxr/karma.conf.js"
+          }
+        }
+      }
     }
   }
 }

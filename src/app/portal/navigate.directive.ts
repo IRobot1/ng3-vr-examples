@@ -2,10 +2,10 @@ import { Directive, Input, NgZone, OnDestroy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Subscription } from "rxjs";
 
+import { Group, Matrix4, Object3D, Raycaster } from "three";
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
-import { VRControllerComponent } from "../../examples/xr-controller/vr-controller.component";
-import { Group, Matrix4, Object3D, Raycaster } from "three";
+import { VRControllerComponent } from "ng3-webxr";
 
 @Directive({
   selector: '[navigate]',

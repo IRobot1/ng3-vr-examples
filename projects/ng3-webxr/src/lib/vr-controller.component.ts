@@ -5,7 +5,7 @@ import { Group, Object3D, Vector2, WebXRManager } from "three";
 
 import { NgtRenderState, NgtStore } from "@angular-three/core";
 
-import { WebVRService } from "./webvr.service";
+import { WebVRService } from "./webvr.service"; 
 
 
 export class ConnectedEvent {

@@ -5,7 +5,8 @@ import { Vector3, WebXRManager } from "three";
 
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
-import { VRControllerComponent } from "../xr-controller/vr-controller.component";
+import { VRControllerComponent } from "ng3-webxr";
+
 
 
 

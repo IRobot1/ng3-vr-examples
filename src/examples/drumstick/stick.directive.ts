@@ -6,7 +6,7 @@ import { Group, Object3D, Vector3 } from "three";
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 import { NgtPhysicBody, NgtPhysicBodyReturn } from "@angular-three/cannon";
 
-import { VRControllerComponent } from "../xr-controller/vr-controller.component";
+import { VRControllerComponent } from "ng3-webxr";
 
 
 @Directive({

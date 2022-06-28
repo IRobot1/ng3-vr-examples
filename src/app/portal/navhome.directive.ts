@@ -4,7 +4,7 @@ import { Subscription } from "rxjs";
 
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
-import { VRControllerComponent } from "../../examples/xr-controller/vr-controller.component";
+import { VRControllerComponent } from "ng3-webxr";
 
 @Directive({
   selector: '[navhome]',

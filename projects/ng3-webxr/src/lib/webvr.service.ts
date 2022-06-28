@@ -5,10 +5,6 @@ import { BehaviorSubject, Subject } from "rxjs";
 import { Group, Scene, WebXRManager } from "three";
 
 
-export class ConnectedEvent {
-  constructor(public controller: Group, public xrinput: XRInputSource) { }
-}
-
 export class WebVRController {
   public connected = new BehaviorSubject<XRInputSource | undefined>(undefined)
   public disconnected = new Subject<boolean>()

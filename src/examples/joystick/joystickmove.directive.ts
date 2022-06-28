@@ -4,7 +4,7 @@ import { Subscription } from "rxjs";
 
 import { Vector3, WebXRManager } from "three";
 
-import { VRControllerComponent } from "../xr-controller/vr-controller.component";
+import { VRControllerComponent } from "ng3-webxr";
 
 
 

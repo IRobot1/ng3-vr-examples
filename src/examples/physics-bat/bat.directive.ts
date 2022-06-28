@@ -6,7 +6,7 @@ import { NgtPhysicBody, NgtPhysicBodyReturn } from "@angular-three/cannon";
 
 import { NgtGLTFLoader } from "@angular-three/soba/loaders";
 
-import { VRControllerComponent } from "../xr-controller/vr-controller.component";
+import { VRControllerComponent } from "ng3-webxr";
 
 @Directive({
   selector: '[bat]',

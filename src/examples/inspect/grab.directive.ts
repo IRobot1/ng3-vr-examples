@@ -7,7 +7,7 @@ import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
 import { NgtPhysicBody, NgtPhysicBodyReturn, NgtPhysicConstraint, NgtPhysicConstraintReturn } from "@angular-three/cannon";
 
-import { VRControllerComponent } from "../xr-controller/vr-controller.component";
+import { VRControllerComponent } from "ng3-webxr";
 import { Inspect } from "./inspect";
 
 

@@ -36,11 +36,7 @@ import { BatExample } from '../examples/physics-bat/physics-bat.component';
 import { Projectiles } from '../examples/physics-bat/projectiles/projectiles.component';
 import { FloorComponent } from '../components/floor.component';
 import { Target } from '../examples/physics-bat/target/target.component';
-import { VRControllerComponent } from '../examples/xr-controller/vr-controller.component';
-import { TeleportDirective } from '../examples/xr-controller/teleport.directive';
 import { HandinputDirective } from '../examples/hand/handinput.directive';
-import { ShowControllerDirective } from '../examples/xr-controller/showcontroller.directive';
-import { TrackedPointerDirective } from '../examples/xr-controller/trackpointer.directive';
 import { DragDirective } from '../examples/dragging/drag.directive';
 import { ShootDirective } from '../examples/ballshooter/shoot.directive';
 import { BatDirective } from '../examples/physics-bat/bat.directive';
@@ -58,13 +54,13 @@ import { JoystickhMoveDirective } from '../examples/joystick/joystickmove.direct
 import { Room1Example } from '../examples/room1/room1.component';
 import { WallComponent } from '../components/wall.component';
 import { ShowHandDirective } from '../examples/hand/showhand.directive';
-import { WebVRDirective } from '../examples/xr-controller/webvr.directive';
 import { PanelComponent } from './portal/panel/panel.component';
 import { PortalComponent } from './portal/portal.component';
 import { NavigateDirective } from './portal/navigate.directive';
 import { NavigateHomeDirective } from './portal/navhome.directive';
-import { HighlightDirective } from '../examples/xr-controller/highlight.directive';
 import { BehaviorsExample } from '../examples/behaviors/behaviors.component';
+
+import { Ng3WebxrModule } from 'ng3-webxr';
 
 @NgModule({
   declarations: [
@@ -75,8 +71,6 @@ import { BehaviorsExample } from '../examples/behaviors/behaviors.component';
     PanelComponent,
     NavigateDirective,
     NavigateHomeDirective,
-
-    WebVRDirective,
 
     LineRoomComponent,
     FloorComponent,
@@ -92,11 +86,6 @@ import { BehaviorsExample } from '../examples/behaviors/behaviors.component';
     HandinputDirective,
 
     TeleportExample,
-    VRControllerComponent,
-    TeleportDirective,
-    ShowControllerDirective,
-    TrackedPointerDirective,
-    HighlightDirective,
 
     BatExample,
     Projectiles,
@@ -126,6 +115,8 @@ import { BehaviorsExample } from '../examples/behaviors/behaviors.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+
+    Ng3WebxrModule,
 
     // core
     NgtCanvasModule,
