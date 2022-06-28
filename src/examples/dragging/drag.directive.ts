@@ -6,7 +6,7 @@ import { Group, Matrix4, Object3D, Raycaster } from "three";
 import { BooleanInput, coerceBooleanProperty, NgtStore } from "@angular-three/core";
 
 import { XRControllerComponent } from "../xr-controller/xr-controller.component";
-import { TrackedPointerDirective } from "../xr-controller/trackpointer.component";
+import { TrackedPointerDirective } from "../xr-controller/trackpointer.directive";
 
 
 @Directive({
