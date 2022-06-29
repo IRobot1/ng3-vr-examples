@@ -1,12 +1,16 @@
-import { NgtGroupModule } from '@angular-three/core/group';
 import { NgModule } from '@angular/core';
-import { HighlightDirective } from './highlight.directive';
-import { ShowControllerDirective } from './showcontroller.directive';
-import { TeleportDirective } from './teleport.directive';
-import { TrackedPointerDirective } from './trackpointer.directive';
-import { VRControllerComponent } from './vr-controller.component';
-import { WebVRDirective } from './webvr.directive';
 
+import { NgtGroupModule } from '@angular-three/core/group';
+
+import { HighlightDirective } from './vr/highlight.directive';
+import { ShowControllerDirective } from './vr/showcontroller.directive';
+import { TeleportDirective } from './vr/teleport.directive';
+import { TrackedPointerDirective } from './vr/trackpointer.directive';
+import { VRControllerComponent } from './vr/vr-controller.component';
+import { WebVRDirective } from './vr/webvr.directive';
+
+import { ARControllerComponent } from './ar/ar-controller.component';
+import { WebARDirective } from './ar/webar.directive';
 
 
 @NgModule({
@@ -17,6 +21,9 @@ import { WebVRDirective } from './webvr.directive';
     TrackedPointerDirective,
     VRControllerComponent,
     WebVRDirective,
+
+    ARControllerComponent,
+    WebARDirective,
   ],
   imports: [
     NgtGroupModule,
@@ -28,6 +35,9 @@ import { WebVRDirective } from './webvr.directive';
     TrackedPointerDirective,
     VRControllerComponent,
     WebVRDirective,
+
+    ARControllerComponent,
+    WebARDirective,
   ]
 })
 export class Ng3WebxrModule { }
