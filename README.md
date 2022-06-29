@@ -51,7 +51,7 @@ Add vr-controller to add left and/or right controllers into a scene.  Index 0 is
 ```html
 <vr-controller showcontroller trackedpointer [index]="1"></vr-controller>
 ```
-Add directives to xr-controller to add behaviors depending on needs
+Add directives to vr-controller to add behaviors depending on needs
 * showcontroller - shows controller
 * trackedpointer - shows ray to point at stuff
 * teleport - teleport to new location on floor.  Requires `[floor]` and `[room]`

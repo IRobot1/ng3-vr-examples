@@ -1,24 +1,38 @@
-# Ng3Webxr
+Add VR or AR support to [@angular-three](https://github.com/nartc/angular-three) projects
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.0.
+## Enter VR
 
-## Code scaffolding
+Add `webvr` to ngt-canvas to enable Web VR support
+```html
+<ngt-canvas webvr [camera]="{ fov: 55, position: [0, 2, 4]}">
+```
+Add vr-controller to add left and/or right controllers into a scene.  Index 0 is left controller, Index 1 is right controller.
+```html
+<vr-controller showcontroller trackedpointer [index]="1"></vr-controller>
+```
+Add directives to vr-controller to add behaviors depending on needs
+* showcontroller - shows controller
+* trackedpointer - shows ray to point at stuff
+* teleport - teleport to new location on floor. Requires `[floor]` and `[marker]` 
+```html
+<vr-controller teleport showcontroller trackedpointer navhome 
+               [marker]="left.instance.value" [floor]="floor.instance.value">
+</vr-controller>
+```
 
-Run `ng generate component component-name --project ng3-webxr` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ng3-webxr`.
-> Note: Don't forget to add `--project ng3-webxr` or else it will be added to the default project in your `angular.json` file. 
+All behaviors can be enabled/disabled at runtime on either controller.  The allows behaviors to be switched between controllers if needed.
+```html
+<vr-controller [showcontroller]="enableshow" [trackedpointer]="enabletracking">
+</vr-controller>
 
-## Build
+```
 
-Run `ng build ng3-webxr` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Publishing
-
-After building your library with `ng build ng3-webxr`, go to the dist folder `cd dist/ng3-webxr` and run `npm publish`.
-
-## Running unit tests
-
-Run `ng test ng3-webxr` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Enter AR
+Add `webar` to ngt-canvas to enable Web AR support
+```html
+<ngt-canvas webar [camera]="{ fov: 55, position: [0, 2, 4]}">
+```
+Add ar-controller to into the scene to add object interaction
+```html
+<ar-controller></ar-controller>
+```
