@@ -1,12 +1,16 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/core";
 import { BehaviorSubject, Subscription } from "rxjs";
 
-import { Group, Object3D, WebXRManager } from "three";
+import { Object3D, WebXRManager } from "three";
 
 import { NgtRenderState, NgtStore } from "@angular-three/core";
+
 import { WebARService } from "./webar.service";
 
-
+export class TapEvent {
+  data!: XRInputSource;
+  controller!: Object3D;
+}
 
 @Component({
   selector: 'ar-controller',
@@ -15,13 +19,11 @@ import { WebARService } from "./webar.service";
 export class ARControllerComponent implements OnInit, OnDestroy {
   @Output() sessionstart = new BehaviorSubject<WebXRManager | undefined>(undefined)
 
-  @Output() triggerstart = new EventEmitter<XRInputSource>()
-  @Output() trigger = new EventEmitter<XRInputSource>()
-  @Output() triggerend = new EventEmitter<XRInputSource>()
+  @Output() tap = new EventEmitter<TapEvent>()
 
   @Output() beforeRender = new EventEmitter<NgtRenderState>()
 
-  private controller!: Group;
+  private controller!: Object3D;
 
   private subs = new Subscription();
   private cleanup = () => { }
@@ -44,35 +46,23 @@ export class ARControllerComponent implements OnInit, OnDestroy {
     }
     const gl = this.store.get((s) => s.gl);
 
-    this.subs.add(this.webar.xrsession.subscribe(isPresenting => {
+    this.subs.add(this.webar.isPresenting.subscribe(isPresenting => {
       if (isPresenting) {
         this.sessionstart.next(gl.xr);
       }
     }));
 
-    const selectstart = (event: any) => {
-      const data: XRInputSource = event['data'];
-      this.triggerstart.next(data);
-    }
-    this.controller.addEventListener('selectstart', selectstart);
-
-    const selectend = (event: any) => {
-      this.trigger.next(event['data']);
-      this.triggerend.next(event['data']);
-    }
-    this.controller.addEventListener('selectend', selectend);
+    this.controller = this.webar.controller;
 
     const select = (event: any) => {
       const data: XRInputSource = event['data'];
-      this.trigger.next(data);
+      this.tap.next({ data: data, controller: this.controller});
     }
     this.controller.addEventListener('select', select);
 
 
     this.cleanup = () => {
       this.controller.removeEventListener('select', select);
-      this.controller.removeEventListener('selectend', selectend);
-      this.controller.removeEventListener('selectstart', selectstart);
     }
   }
 

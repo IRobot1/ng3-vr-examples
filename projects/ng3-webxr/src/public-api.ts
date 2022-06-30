@@ -15,3 +15,4 @@ export * from './lib/ar/webar.directive';
 export * from './lib/ar/webar.service';
 
 export * from './lib/ng3-webxr.module';
+

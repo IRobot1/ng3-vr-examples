@@ -34,5 +34,10 @@ Add `webar` to ngt-canvas to enable Web AR support
 ```
 Add ar-controller to into the scene to add object interaction
 ```html
-<ar-controller></ar-controller>
+<ar-controller (tap)="tap($event)"></ar-controller>
+```
+```ts
+tap(event: XRInputSource) {
+  event.gamepad // x/y screen coordinates [-1 to 1, -1 to 1]
+}
 ```
