@@ -11,6 +11,7 @@ import { WebVRDirective } from './vr/webvr.directive';
 
 import { ARControllerComponent } from './ar/ar-controller.component';
 import { WebARDirective } from './ar/webar.directive';
+import { ARGesturesComponent } from './ar/ar-gestures.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { WebARDirective } from './ar/webar.directive';
     WebVRDirective,
 
     ARControllerComponent,
+    ARGesturesComponent,
     WebARDirective,
   ],
   imports: [
@@ -37,6 +39,7 @@ import { WebARDirective } from './ar/webar.directive';
     WebVRDirective,
 
     ARControllerComponent,
+    ARGesturesComponent,
     WebARDirective,
   ]
 })

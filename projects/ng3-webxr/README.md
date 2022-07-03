@@ -32,12 +32,19 @@ Add `webar` to ngt-canvas to enable Web AR support
 ```html
 <ngt-canvas webar [camera]="{ fov: 55, position: [0, 2, 4]}">
 ```
-Add ar-controller to into the scene to add object interaction
+Add ar-controller to into the scene to add object interaction.  Index 0 is first finger controller, Index 1 is second finger controller.
 ```html
-<ar-controller (tap)="tap($event)"></ar-controller>
+<ar-controller (tap)="tap($event)" [index]="1"></ar-controller>
 ```
 ```ts
 tap(event: XRInputSource) {
   event.gamepad // x/y screen coordinates [-1 to 1, -1 to 1]
 }
+```
+Add ar-gestures into the scene to detect doubletap, swipe and rotate gesures.
+```html
+<ar-controller #finger1></ar-controller>
+<ar-controller #finger2 [index]="1"></ar-controller>
+
+<ar-gestures [ar1]="finger1" [ar2]="finger2"></ar-gestures>
 ```

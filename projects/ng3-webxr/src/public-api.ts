@@ -11,6 +11,7 @@ export * from './lib/vr/webvr.directive';
 export * from './lib/vr/webvr.service';
 
 export * from './lib/ar/ar-controller.component';
+export * from './lib/ar/ar-gestures.component';
 export * from './lib/ar/webar.directive';
 export * from './lib/ar/webar.service';
 

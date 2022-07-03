@@ -12,7 +12,8 @@ export class WebARService {
 
   public manager!: WebXRManager;
 
-  public controller!: Group;
+  public finger1Controller!: Group;
+  public finger2Controller!: Group;
 
   public dispose!: () => void;
 
@@ -28,13 +29,17 @@ export class WebARService {
     const sessionend = () => this.isPresenting.next(false);
     xr.addEventListener('sessionend', sessionend)
 
-    this.controller = xr.getController(0);
-    scene.add(this.controller);
+    this.finger1Controller = xr.getController(0);
+    scene.add(this.finger1Controller);
+
+    this.finger2Controller = xr.getController(1);
+    scene.add(this.finger2Controller);
 
     this.manager = xr;
 
     this.dispose = () => {
-      scene.remove(this.controller);
+      scene.remove(this.finger1Controller);
+      scene.remove(this.finger2Controller);
       xr.removeEventListener('sessionstart', sessionstart);
       xr.removeEventListener('sessionend', sessionend);
     }

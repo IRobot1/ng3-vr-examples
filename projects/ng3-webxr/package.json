@@ -1,6 +1,26 @@
 {
   "name": "ng3-webxr",
-  "version": "0.0.5",
+  "version": "0.0.6",
+  "author": "anidivr",
+  "license": "MIT",
+  "keywords": [
+    "three",
+    "three.js",
+    "threejs",
+    "3d",
+    "virtual-reality",
+    "augmented-reality",
+    "webgl",
+    "webgl2",
+    "webxr",
+    "canvas",
+    "angular",
+    "angular-three",
+    "ar",
+    "vr",
+    "ng3",
+    "ngt"
+  ],
   "peerDependencies": {
     "@angular/common": "^14.0.0",
     "@angular/core": "^14.0.0",
