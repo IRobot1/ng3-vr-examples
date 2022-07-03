@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
-import { Subscription } from "rxjs";
 
 import { Group, Matrix4, Object3D, Vector3 } from "three";
 import { NgtRenderState, NgtStore } from "@angular-three/core";
 
-import { ARControllerComponent } from "./ar-controller.component";
 import { WebARService } from "./webar.service";
 
 //
@@ -24,13 +22,10 @@ class FingerState {
 }
 
 @Component({
-  selector: 'ar-gestures[ar1][ar2]',
+  selector: 'ar-gestures',
   template: '<ngt-group (beforeRender)="tick($event)"></ngt-group>',
 })
 export class ARGesturesComponent implements OnInit, OnDestroy {
-  @Input() ar1!: ARControllerComponent;
-  @Input() ar2!: ARControllerComponent;
-
   @Input() doubleClickLimit = 0.2;
   @Input() pressMinimum = 0.4;
 
@@ -53,7 +48,7 @@ export class ARGesturesComponent implements OnInit, OnDestroy {
   private finger1State = new FingerState();
   private finger2State = new FingerState();
 
-  private subs = new Subscription();
+  private cleanup = () => { }
 
   private type: EventType = 'unknown';
 
@@ -64,7 +59,7 @@ export class ARGesturesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subs.unsubscribe();
+    this.cleanup();
   }
 
   ngOnInit(): void {
@@ -72,14 +67,10 @@ export class ARGesturesComponent implements OnInit, OnDestroy {
       console.error('webar directive missing from ngt-canvas');
       return;
     }
-    if (this.ar1 || this.ar2) {
-      console.error('One or both ar-controllers not declared')
-    }
-
     const clock = this.store.get(s => s.clock);
 
-    this.controller1 = this.ar1.controller;
-    this.controller2 = this.ar2.controller;
+    this.controller1 = this.webar.finger1Controller;
+    this.controller2 = this.webar.finger2Controller;
 
     const tapstart = (data: FingerState) => {
       data.startPosition = undefined;
@@ -91,12 +82,15 @@ export class ARGesturesComponent implements OnInit, OnDestroy {
       data.pressed = true;
     }
 
-    this.subs.add(this.ar1.tapstart.subscribe(event => {
+    const selectstart1 = () => {
       tapstart(this.finger1State);
-    }));
-    this.subs.add(this.ar2.tapstart.subscribe(event => {
+    }
+    this.controller1.addEventListener('selectstart', selectstart1);
+
+    const selectstart2 = () => {
       tapstart(this.finger2State);
-    }));
+    }
+    this.controller2.addEventListener('selectstart', selectstart2);
 
     const tapend = (data: FingerState) => {
       data.endTime = clock.getElapsedTime();
@@ -124,14 +118,22 @@ export class ARGesturesComponent implements OnInit, OnDestroy {
       data.startPosition = undefined;
     }
 
-    this.subs.add(this.ar1.tapend.subscribe(event => {
+    const selectend1 = () => {
       tapend(this.finger1State)
-    }));
+    }
+    this.controller1.addEventListener('selectend', selectend1);
 
-    this.subs.add(this.ar2.tapend.subscribe(event => {
+    const selectend2 = () => {
       tapend(this.finger2State)
-    }));
+    }
+    this.controller2.addEventListener('selectend', selectend2);
 
+    this.cleanup = () => {
+      this.controller1.removeEventListener('selectstart', selectstart1);
+      this.controller1.removeEventListener('selectend', selectend1);
+      this.controller1.removeEventListener('selectstart', selectstart2);
+      this.controller1.removeEventListener('selectend', selectend2);
+    }
   }
 
   get multiTouch() {

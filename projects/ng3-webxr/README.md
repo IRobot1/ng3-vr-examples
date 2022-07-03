@@ -43,8 +43,31 @@ tap(event: XRInputSource) {
 ```
 Add ar-gestures into the scene to detect doubletap, swipe and rotate gesures.
 ```html
-<ar-controller #finger1></ar-controller>
-<ar-controller #finger2 [index]="1"></ar-controller>
-
-<ar-gestures [ar1]="finger1" [ar2]="finger2"></ar-gestures>
+<ar-gestures 
+  (press)="press($event)"
+  (tap)="tap($event)"
+  (doubletap)="doubletap($event)"
+  (tripletap)="tripletap($event)"
+  (quadtap)="quadtap($event)"
+  (swipe)="swipe($event)"
+  (pinch)="pinch($event)"
+  (rotate)="rotate($event)"
+  (pan)="pan($event)">
+</ar-gestures>
 ```
+The following gesture events are available:
+
+The controller position and matrixWorld are included
+
+* press  - position: Vector3, matrixWorld: Matrix4 
+* tap - position: Vector3, matrixWorld: Matrix4
+* doubletap - position: Vector3, matrixWorld: Matrix4
+* tripletap - position: Vector3, matrixWorld: Matrix4
+* quadtap - position: Vector3, matrixWorld: Matrix4 
+
+* swipe - direction is either 'up' or 'down'
+
+* pinch - delta: pinch time, scale: pinch scale, initialise - true, start of pinch, false, end of pinch
+* rotate - theta - angle in radians, initialise - true, start of rotate, false, end of rotate
+* pan - delta: Vector3 distance, initialise - true, start of pan, false, end of pan
+
