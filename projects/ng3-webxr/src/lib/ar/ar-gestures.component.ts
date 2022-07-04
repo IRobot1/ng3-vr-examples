@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 
-import { Group, Matrix4, Object3D, Vector3 } from "three";
-import { NgtRenderState, NgtStore } from "@angular-three/core";
+import { Clock, Group, Matrix4, Vector3 } from "three";
+import { NgtStore } from "@angular-three/core";
 
 import { WebARService } from "./webar.service";
 
@@ -13,6 +13,8 @@ export type SwipeDirection = 'up' | 'down';
 
 declare type EventType = 'unknown' | 'tap' | 'swipe' | 'pinch' | 'rotate' | 'pan';
 
+export declare type EventState = 'start' | 'update' | 'end';
+
 class FingerState {
   startPosition?: Vector3;
   startTime!: number;
@@ -23,7 +25,7 @@ class FingerState {
 
 @Component({
   selector: 'ar-gestures',
-  template: '<ngt-group (beforeRender)="tick($event)"></ngt-group>',
+  template: '',
 })
 export class ARGesturesComponent implements OnInit, OnDestroy {
   @Input() doubleClickLimit = 0.2;
@@ -31,15 +33,12 @@ export class ARGesturesComponent implements OnInit, OnDestroy {
 
   @Output() press = new EventEmitter<{ position: Vector3, matrixWorld: Matrix4 }>();
 
-  @Output() tap = new EventEmitter<{ position: Vector3, matrixWorld: Matrix4 }>();
-  @Output() doubletap = new EventEmitter<{ position: Vector3, matrixWorld: Matrix4 }>();
-  @Output() tripletap = new EventEmitter<{ position: Vector3, matrixWorld: Matrix4 }>();
-  @Output() quadtap = new EventEmitter<{ position: Vector3, matrixWorld: Matrix4 }>();
+  @Output() tap = new EventEmitter<{ count: number, position: Vector3, matrixWorld: Matrix4 }>();
 
   @Output() swipe = new EventEmitter<SwipeDirection>();
-  @Output() pinch = new EventEmitter<{ delta: number, scale: number, initialise?: boolean }>();
-  @Output() rotate = new EventEmitter<{ theta: number, initialise?: boolean }>();
-  @Output() pan = new EventEmitter<{ delta: Vector3, initialise?: boolean }>();
+  @Output() pinch = new EventEmitter<{ delta: number, scale: number, state: EventState }>();
+  @Output() rotate = new EventEmitter<{ theta: number, state: EventState }>();
+  @Output() pan = new EventEmitter<{ delta: Vector3, state: EventState }>();
 
 
   private controller1!: Group;
@@ -76,7 +75,7 @@ export class ARGesturesComponent implements OnInit, OnDestroy {
       data.startPosition = undefined;
       data.startTime = clock.getElapsedTime();
 
-      if (this.type == 'tap') data.taps = 0;
+      if (this.type != 'tap') data.taps = 0;
 
       this.type = 'unknown';
       data.pressed = true;
@@ -111,6 +110,18 @@ export class ARGesturesComponent implements OnInit, OnDestroy {
           this.type = 'unknown';
         }
       } else {
+        switch (this.type) {
+          case 'pan':
+            this.pan.next({ delta: new Vector3(), state: 'end' });
+            break;
+          case 'pinch':
+            this.pinch.next({ delta: 0, scale: 1, state: 'end' });
+            break;
+          case 'rotate':
+            this.rotate.next({ theta: 0, state: 'end' });
+            break;
+
+        }
         this.type = 'unknown';
       }
 
@@ -128,7 +139,11 @@ export class ARGesturesComponent implements OnInit, OnDestroy {
     }
     this.controller2.addEventListener('selectend', selectend2);
 
+    const timer = setInterval(() => {
+      this.update(clock);
+    }, 100);
     this.cleanup = () => {
+      clearInterval(timer);
       this.controller1.removeEventListener('selectstart', selectstart1);
       this.controller1.removeEventListener('selectend', selectend1);
       this.controller1.removeEventListener('selectstart', selectstart2);
@@ -149,11 +164,11 @@ export class ARGesturesComponent implements OnInit, OnDestroy {
   private startVector!: Vector3;
   private startPosition!: Vector3;
 
-  tick(event: { state: NgtRenderState, object: Object3D }) {
+  update(clock: Clock) {
     const data1 = this.finger1State;
     const data2 = this.finger2State;
 
-    const currentTime = event.state.clock.getElapsedTime();
+    const currentTime = clock.getElapsedTime();
 
     let elapsedTime;
 
@@ -172,20 +187,7 @@ export class ARGesturesComponent implements OnInit, OnDestroy {
       elapsedTime = currentTime - data1.endTime;
       if (elapsedTime > this.doubleClickLimit) {
         //console.log( `XRGestures.update dispatchEvent taps:${data1.taps}` );
-        switch (data1.taps) {
-          case 1:
-            this.tap.next({ position: this.controller1.position, matrixWorld: this.controller1.matrixWorld });
-            break;
-          case 2:
-            this.doubletap.next({ position: this.controller1.position, matrixWorld: this.controller1.matrixWorld });
-            break;
-          case 3:
-            this.tripletap.next({ position: this.controller1.position, matrixWorld: this.controller1.matrixWorld });
-            break;
-          case 4:
-            this.quadtap.next({ position: this.controller1.position, matrixWorld: this.controller1.matrixWorld });
-            break;
-        }
+        this.tap.next({ count: data1.taps, position: this.controller1.position, matrixWorld: this.controller1.matrixWorld });
         this.type = "unknown";
         data1.taps = 0;
       }
@@ -203,7 +205,7 @@ export class ARGesturesComponent implements OnInit, OnDestroy {
             if (Math.abs(delta) > 0.01) {
               this.type = 'pinch';
               this.startDistance = this.controller1.position.distanceTo(this.controller2.position);
-              this.pinch.next({ delta: 0, scale: 1, initialise: true });
+              this.pinch.next({ delta: 0, scale: 1, state: 'start' });
             } else {
               const v1 = data2.startPosition.clone().sub(data1.startPosition).normalize();
               const v2 = this.controller2.position.clone().sub(this.controller1.position).normalize();
@@ -211,7 +213,7 @@ export class ARGesturesComponent implements OnInit, OnDestroy {
               if (Math.abs(theta) > 0.2) {
                 this.type = 'rotate';
                 this.startVector = v2.clone();
-                this.rotate.next({ theta: 0, initialise: true });
+                this.rotate.next({ theta: 0, state: 'start' });
               }
             }
           }
@@ -228,7 +230,7 @@ export class ARGesturesComponent implements OnInit, OnDestroy {
           } else if (dist > 0.006 && velocity < 0.03) {
             this.type = "pan";
             this.startPosition = this.controller1.position.clone();
-            this.pan.next({ delta: new Vector3(), initialise: true });
+            this.pan.next({ delta: new Vector3(), state: 'start' });
           }
         }
       }
@@ -236,16 +238,16 @@ export class ARGesturesComponent implements OnInit, OnDestroy {
       const currentDistance = this.controller1.position.distanceTo(this.controller2.position);
       const delta = currentDistance - this.startDistance;
       const scale = currentDistance / this.startDistance;
-      this.pinch.next({ delta, scale });
+      this.pinch.next({ delta, scale, state: 'update' });
     } else if (this.type === 'rotate') {
       const v = this.controller2.position.clone().sub(this.controller1.position).normalize();
       let theta = this.startVector.angleTo(v);
       const cross = this.startVector.clone().cross(v);
       if (this.up.dot(cross) > 0) theta = -theta;
-      this.rotate.next({ theta });
+      this.rotate.next({ theta, state: 'update' });
     } else if (this.type === 'pan') {
       const delta = this.controller1.position.clone().sub(this.startPosition);
-      this.pan.next({ delta });
+      this.pan.next({ delta, state: 'update' });
     }
   }
 }

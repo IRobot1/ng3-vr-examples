@@ -41,18 +41,15 @@ tap(event: XRInputSource) {
   event.gamepad // x/y screen coordinates [-1 to 1, -1 to 1]
 }
 ```
-Add ar-gestures into the scene to detect doubletap, swipe and rotate gesures.
+Add ar-gestures into the scene to detect various gesures.
 ```html
 <ar-gestures 
   (press)="press($event)"
   (tap)="tap($event)"
-  (doubletap)="doubletap($event)"
-  (tripletap)="tripletap($event)"
-  (quadtap)="quadtap($event)"
   (swipe)="swipe($event)"
+  (pan)="pan($event)"
   (pinch)="pinch($event)"
-  (rotate)="rotate($event)"
-  (pan)="pan($event)">
+  (rotate)="rotate($event)">
 </ar-gestures>
 ```
 The following gesture events are available:
@@ -60,14 +57,13 @@ The following gesture events are available:
 The controller position and matrixWorld are included
 
 * press  - position: Vector3, matrixWorld: Matrix4 
-* tap - position: Vector3, matrixWorld: Matrix4
-* doubletap - position: Vector3, matrixWorld: Matrix4
-* tripletap - position: Vector3, matrixWorld: Matrix4
-* quadtap - position: Vector3, matrixWorld: Matrix4 
+* tap - count: number, position: Vector3, matrixWorld: Matrix4
 
 * swipe - direction is either 'up' or 'down'
+* pan - delta: Vector3 distance, state - start, update, end
 
-* pinch - delta: pinch time, scale: pinch scale, initialise - true, start of pinch, false, end of pinch
-* rotate - theta - angle in radians, initialise - true, start of rotate, false, end of rotate
-* pan - delta: Vector3 distance, initialise - true, start of pan, false, end of pan
+The following gestures require a device that detects two finger movements
+
+* pinch - delta: pinch time, scale: pinch scale, state - start, update, end
+* rotate - theta - angle in radians, state - start, update, end
 
