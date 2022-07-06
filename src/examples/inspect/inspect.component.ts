@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 
 import { NgtTriple } from "@angular-three/core";
+import { Object3D } from "three";
 
 class RandomSettings {
   constructor(public position: NgtTriple) { }
@@ -11,6 +12,8 @@ class RandomSettings {
 })
 export class InspectExample implements OnInit {
   cubes: Array<RandomSettings> = [];
+
+  list: Array<Object3D> = [];
 
   cubeSize = 0.2
   tableHeight = 0.5;

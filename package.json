@@ -1,6 +1,26 @@
 {
   "name": "ng3-vr-examples",
-  "version": "0.0.0",
+  "version": "0.0.11",
+  "author": "anidivr",
+  "license": "MIT",
+  "keywords": [
+    "three",
+    "three.js",
+    "threejs",
+    "3d",
+    "virtual-reality",
+    "augmented-reality",
+    "webgl",
+    "webgl2",
+    "webxr",
+    "canvas",
+    "angular",
+    "angular-three",
+    "ar",
+    "vr",
+    "ng3",
+    "ngt"
+  ],
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

@@ -1,0 +1,14 @@
+<ngt-group [position]="position" [rotation]="rotation">
+  <ng-container *ngIf="mesh" >
+
+  <ngt-mesh [name]="name"
+            [scale]="scale"
+            [visible]="visible"
+            [material]="mesh.material"
+            [geometry]="mesh.geometry"
+            castShadow
+            receiveShadow>
+  </ngt-mesh>
+  </ng-container>
+  <!--<ngt-arrow-helper *ngIf="visible"></ngt-arrow-helper>-->
+</ngt-group>

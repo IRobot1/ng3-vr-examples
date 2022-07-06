@@ -21,6 +21,7 @@ export class HomeComponent {
     { asset: 'touchpad', text: 'Touchpad Movement' },
     { asset: 'joystick', text: 'Joystick Movement' },
     { asset: 'behaviors', text: 'Toggle Controller Behaviors' },
+    { asset: 'studio', text: 'Lights, Camera, Action' },
   ]
 
   panels: Array<PanelSetting> = [];

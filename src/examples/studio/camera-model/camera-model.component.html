@@ -1,0 +1,29 @@
+<ngt-mesh [ref]="body.ref" [position]="position" [rotation]="rotation" [userData]="{inspect: this}">
+  <!--handle-->
+  <ngt-cylinder-geometry [args]="handleArgs"></ngt-cylinder-geometry>
+  <ngt-mesh-basic-material color="black"></ngt-mesh-basic-material>
+
+  <ngt-mesh [position]="[0, 0.1, 0]" visible="true">
+    <ngt-box-geometry [args]="[0.1, 0.2, 0.3]"></ngt-box-geometry>
+    <ngt-mesh-basic-material color="gray"></ngt-mesh-basic-material>
+  </ngt-mesh>
+
+  <ngt-mesh [position]="[0, 0.1, -0.15]" [rotation]="[90 | radian, 0, 0]">
+    <ngt-cylinder-geometry [args]="[0.03, 0.06, 0.1, 20]"></ngt-cylinder-geometry>
+    <ngt-mesh-basic-material color="white"></ngt-mesh-basic-material>
+  </ngt-mesh>
+
+  <ngt-perspective-camera (ready)="camera.next($event)" [position]="[0, 0.1, -0.11]"></ngt-perspective-camera>
+
+  <ngt-soba-text [text]="id"
+                 [color]="'white'"
+                 [maxWidth]="8"
+                 [fontSize]="0.1"
+                 font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+                 anchorX="center"
+                 anchorY="bottom"
+                 [position]="[0, 0.05, 0.151]">
+  </ngt-soba-text>
+
+</ngt-mesh>
+

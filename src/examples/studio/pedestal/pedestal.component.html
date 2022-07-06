@@ -1,0 +1,23 @@
+<ngt-group [position]="position" [scale]="scale" [rotation]="rotation">
+  <ngt-mesh [position]="[0, 0.05, 0]">
+    <ngt-box-geometry [args]="[size, 0.1, size]"></ngt-box-geometry>
+    <ngt-mesh-standard-material [color]="color"></ngt-mesh-standard-material>
+  </ngt-mesh>
+  <ngt-mesh [position]="[0, 0.39, 0]">
+    <ngt-box-geometry [args]="[size, 0.55, size]"></ngt-box-geometry>
+    <ngt-mesh-standard-material [color]="color"></ngt-mesh-standard-material>
+  </ngt-mesh>
+  <ngt-mesh [position]="[0, 0.8, 0]">
+    <ngt-box-geometry [args]="[size, 0.1, size]"></ngt-box-geometry>
+    <ngt-mesh-standard-material [color]="color"></ngt-mesh-standard-material>
+  </ngt-mesh>
+  <ngt-mesh [position]="[0, 0.95, 0]">
+    <ngt-box-geometry [args]="[size, 0.1, size]"></ngt-box-geometry>
+    <ngt-mesh-standard-material [color]="color"></ngt-mesh-standard-material>
+  </ngt-mesh>
+
+  <ngt-mesh [position]="[0, 0.75, 0]">
+    <ngt-box-geometry [args]="[size-0.03, 0.3, size-0.03]"></ngt-box-geometry>
+    <ngt-mesh-standard-material [color]="lightcolor" [emissive]="2"></ngt-mesh-standard-material>
+  </ngt-mesh>
+</ngt-group>

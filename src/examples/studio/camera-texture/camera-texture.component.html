@@ -1,0 +1,6 @@
+<ngt-mesh [name]="name" [position]="position" [scale]="scale" [rotation]="rotation"
+          (ready)="mesh=$event" (beforeRender)="tick($event.state)">
+  <ngt-plane-geometry></ngt-plane-geometry>
+  <ngt-mesh-basic-material [map]="texture"></ngt-mesh-basic-material>
+  <!--<ngt-arrow-helper></ngt-arrow-helper>-->
+</ngt-mesh>

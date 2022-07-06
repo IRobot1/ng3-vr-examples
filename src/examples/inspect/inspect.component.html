@@ -7,12 +7,12 @@
 <ngt-physics [gravity]="[0, -9.8/2, 0]" [iterations]="50" [defaultContactMaterial]="{contactEquationStiffness: 5e6, contactEquationRelaxation: 3}">
   <ngt-cannon-debug disabled scale="1.1" color="red">
 
-    <ngt-group #room>
+    <ngt-group>
       <inspect-cube *ngFor="let item of cubes" [position]="item.position"></inspect-cube>
     </ngt-group>
 
-    <vr-controller grab showcontroller navhome [room]="room.instance.value"></vr-controller>
-    <vr-controller [index]="1" grab showcontroller navhome [room]="room.instance.value"></vr-controller>
+    <vr-controller grab showcontroller navhome ></vr-controller>
+    <vr-controller [index]="1" grab showcontroller navhome ></vr-controller>
 
     <inspect-cube [position]="[0, tableHeight, -1]" [size]="[2, 0.1, 1]" [color]="'cornflowerblue'" [mass]="0"></inspect-cube>
     <floor></floor>

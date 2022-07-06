@@ -14,6 +14,7 @@ import { Room1Example } from '../examples/room1/room1.component';
 import { TeleportExample } from '../examples/teleport/teleport.component';
 import { TouchpadExample } from '../examples/touchpad/touchpad.component';
 import { BehaviorsExample } from '../examples/behaviors/behaviors.component';
+import { StudioExample } from '../examples/studio/studio.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'joystick', component: JoystickExample },
   { path: 'behaviors', component: BehaviorsExample },
   { path: 'room1', component: Room1Example },
+  { path: 'studio', component: StudioExample },
 ];
 
 @NgModule({

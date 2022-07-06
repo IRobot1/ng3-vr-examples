@@ -12,6 +12,9 @@ import { WebARService } from "./webar.service";
 export class WebARDirective implements OnInit {
   @Input() referenceSpaceType: XRReferenceSpaceType = 'viewer';
 
+  // https://developer.mozilla.org/en-US/docs/Web/API/XRSystem/requestSession#session_features
+  @Input() sessionInit: any;
+
   constructor(
     private store: NgtStore,
     private webar: WebARService,
@@ -25,7 +28,7 @@ export class WebARDirective implements OnInit {
     const gl = this.store.get((s) => s.gl);
     const scene = this.store.get((s) => s.scene);
 
-    document.body.appendChild(ARButton.createButton(gl));
+    document.body.appendChild(ARButton.createButton(gl, this.sessionInit));
 
     this.webar.start(gl.xr, scene, this.referenceSpaceType);
   }

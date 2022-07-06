@@ -24,8 +24,6 @@ export class GrabDirective implements OnInit, OnDestroy {
     this.drop();
   }
 
-  @Input() room!: Group;
-
   private controller!: Group;
 
   markerRadius = 0.01;
@@ -47,11 +45,6 @@ export class GrabDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (!this.room) {
-      console.warn('Grab directive requires room Group to be set');
-      return;
-    }
-
     this.marker = this.physicBody.useSphere(() => ({
       mass: 0,
       args: [this.markerRadius],
@@ -77,6 +70,7 @@ export class GrabDirective implements OnInit, OnDestroy {
     this.subs.add(this.xr.connected.subscribe(next => {
       if (!next) return;
       this.controller = next.controller;
+
     }));
 
     this.subs.add(this.xr.triggerstart.subscribe(next => {
@@ -128,7 +122,7 @@ export class GrabDirective implements OnInit, OnDestroy {
   }
 
   private tick() {
-    if (this.room && this.controller) {
+    if (this.controller) {
       const position = this.controller.position
       const rotation = this.controller.rotation;
 

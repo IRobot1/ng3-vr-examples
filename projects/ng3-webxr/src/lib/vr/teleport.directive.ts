@@ -102,7 +102,7 @@ export class TeleportDirective implements OnInit, OnDestroy {
   private tick() {
     this.MarkerIntersection = undefined;
 
-    if (this.isSelecting) {
+    if (this.isSelecting && this.floor) {
 
       const tempMatrix = new Matrix4();
       tempMatrix.identity().extractRotation(this.controller.matrixWorld);
@@ -124,7 +124,8 @@ export class TeleportDirective implements OnInit, OnDestroy {
 
     if (this.MarkerIntersection) this.marker.position.copy(this.MarkerIntersection);
 
-    this.marker.visible = this.MarkerIntersection !== undefined;
+    if (this.marker)
+      this.marker.visible = this.MarkerIntersection !== undefined;
   }
 
 }

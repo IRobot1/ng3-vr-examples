@@ -4,8 +4,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 
 import { NgtCanvasModule, NgtRadianPipeModule } from '@angular-three/core';
+import { NgtStatsModule } from '@angular-three/core/stats';
+
 import { NgtBufferAttributeModule, NgtColorAttributeModule } from '@angular-three/core/attributes';
-import { NgtGridHelperModule, NgtPointLightHelperModule } from '@angular-three/core/helpers';
+import { NgtGridHelperModule, NgtPointLightHelperModule, NgtCameraHelperModule } from '@angular-three/core/helpers';
 
 import { NgtAmbientLightModule, NgtDirectionalLightModule, NgtPointLightModule } from '@angular-three/core/lights';
 
@@ -61,6 +63,13 @@ import { NavigateHomeDirective } from './portal/navhome.directive';
 import { BehaviorsExample } from '../examples/behaviors/behaviors.component';
 
 import { Ng3WebxrModule } from 'ng3-webxr';
+import { StudioExample } from '../examples/studio/studio.component';
+import { TVComponent } from '../examples/studio/tv/tv.component';
+import { CameraTextureComponent } from '../examples/studio/camera-texture/camera-texture.component';
+import { NgtPerspectiveCameraModule } from '@angular-three/core/cameras';
+import { CameraModelComponent } from '../examples/studio/camera-model/camera-model.component';
+import { PedestalComponent } from '../examples/studio/pedestal/pedestal.component';
+import { GLTFodelComponent } from '../examples/studio/gltf-model/gltf-model.component';
 
 @NgModule({
   declarations: [
@@ -111,6 +120,13 @@ import { Ng3WebxrModule } from 'ng3-webxr';
 
     Room1Example,
     WallComponent,
+
+    StudioExample,
+    CameraTextureComponent,
+    CameraModelComponent,
+    TVComponent,
+    PedestalComponent,
+    GLTFodelComponent,
   ],
   imports: [
     BrowserModule,
@@ -123,6 +139,10 @@ import { Ng3WebxrModule } from 'ng3-webxr';
     NgtColorAttributeModule,
     NgtBufferAttributeModule,
     NgtRadianPipeModule,
+    NgtStatsModule,
+
+    NgtPerspectiveCameraModule,
+    NgtCameraHelperModule,
 
     NgtGridHelperModule,
 
