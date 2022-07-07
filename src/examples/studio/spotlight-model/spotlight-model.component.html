@@ -1,0 +1,44 @@
+<ngt-mesh [ref]="body.ref" [position]="position" [rotation]="rotation" [userData]="{inspect: this}">
+  <!--handle-->
+  <ngt-cylinder-geometry [args]="handleArgs"></ngt-cylinder-geometry>
+  <ngt-mesh-basic-material color="black"></ngt-mesh-basic-material>
+
+  <ngt-mesh [position]="[0, 0.1, 0]" [rotation]="[90 | radian, 0, 0]">
+    <ngt-cylinder-geometry [args]="[0.1, 0.1, 0.3]"></ngt-cylinder-geometry>
+    <ngt-mesh-basic-material color="gray"></ngt-mesh-basic-material>
+  </ngt-mesh>
+
+  <ngt-mesh [position]="[0, 0.22, -0.22]" [rotation]="[30 | radian, 0, 0]">
+    <ngt-box-geometry [args]="[0.15, 0.01, 0.15]"></ngt-box-geometry>
+    <ngt-mesh-basic-material color="white"></ngt-mesh-basic-material>
+  </ngt-mesh>
+  <ngt-mesh [position]="[0, 0, -0.22]" [rotation]="[-30 | radian, 0, 0]">
+    <ngt-box-geometry [args]="[0.15, 0.01, 0.15]"></ngt-box-geometry>
+    <ngt-mesh-basic-material color="white"></ngt-mesh-basic-material>
+  </ngt-mesh>
+  <ngt-mesh [position]="[0.11, 0.11, -0.22]" [rotation]="[0, -30 | radian,  0]">
+    <ngt-box-geometry [args]="[0.01, 0.15, 0.15]"></ngt-box-geometry>
+    <ngt-mesh-basic-material color="white"></ngt-mesh-basic-material>
+  </ngt-mesh>
+  <ngt-mesh [position]="[-0.11, 0.11, -0.22]" [rotation]="[0, 30 | radian,  0]">
+    <ngt-box-geometry [args]="[0.01, 0.15, 0.15]"></ngt-box-geometry>
+    <ngt-mesh-basic-material color="white"></ngt-mesh-basic-material>
+  </ngt-mesh>
+
+  <!--ngtSpotLightHelper-->
+  <ngt-spot-light [color]="color" [distance]="3" [angle]="0.25" [position]="[0, 0.1, -0.11]" [target]="target.instance.value"></ngt-spot-light>
+
+  <ngt-group #target [position]="[0, 0.1, -0.2]"></ngt-group>
+
+  <ngt-soba-text [text]="id"
+                 [color]="'white'"
+                 [maxWidth]="8"
+                 [fontSize]="0.1"
+                 font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+                 anchorX="center"
+                 anchorY="bottom"
+                 [position]="[0, 0.05, 0.151]">
+  </ngt-soba-text>
+
+</ngt-mesh>
+

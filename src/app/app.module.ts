@@ -7,9 +7,9 @@ import { NgtCanvasModule, NgtRadianPipeModule } from '@angular-three/core';
 import { NgtStatsModule } from '@angular-three/core/stats';
 
 import { NgtBufferAttributeModule, NgtColorAttributeModule } from '@angular-three/core/attributes';
-import { NgtGridHelperModule, NgtPointLightHelperModule, NgtCameraHelperModule } from '@angular-three/core/helpers';
+import { NgtGridHelperModule, NgtPointLightHelperModule, NgtCameraHelperModule, NgtSpotLightHelperModule } from '@angular-three/core/helpers';
 
-import { NgtAmbientLightModule, NgtDirectionalLightModule, NgtPointLightModule } from '@angular-three/core/lights';
+import { NgtAmbientLightModule, NgtDirectionalLightModule, NgtPointLightModule, NgtSpotLightModule } from '@angular-three/core/lights';
 
 import { NgtMeshModule } from '@angular-three/core/meshes';
 import { NgtGroupModule } from '@angular-three/core/group';
@@ -71,6 +71,7 @@ import { CameraModelComponent } from '../examples/studio/camera-model/camera-mod
 import { PedestalComponent } from '../examples/studio/pedestal/pedestal.component';
 import { GLTFodelComponent } from '../examples/studio/gltf-model/gltf-model.component';
 import { NgtPrimitiveModule } from '@angular-three/core/primitive';
+import { SpotlightModelComponent } from '../examples/studio/spotlight-model/spotlight-model.component';
 
 @NgModule({
   declarations: [
@@ -128,6 +129,7 @@ import { NgtPrimitiveModule } from '@angular-three/core/primitive';
     TVComponent,
     PedestalComponent,
     GLTFodelComponent,
+    SpotlightModelComponent,
   ],
   imports: [
     BrowserModule,
@@ -150,6 +152,9 @@ import { NgtPrimitiveModule } from '@angular-three/core/primitive';
 
     NgtAmbientLightModule,
     NgtDirectionalLightModule,
+
+    NgtSpotLightModule,
+    NgtSpotLightHelperModule,
 
     NgtPointLightModule,
     NgtPointLightHelperModule,

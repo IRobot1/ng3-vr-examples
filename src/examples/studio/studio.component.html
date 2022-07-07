@@ -1,34 +1,27 @@
 <ngt-color attach="background" color="darkgray"></ngt-color>
 
-<!--<line-room></line-room>-->
+<line-room></line-room>
 
-<ngt-directional-light [position]="[10, 10, 10]" castShadow></ngt-directional-light>
+<ngt-directional-light [position]="[10, 10, 10]" intensity="0.5" castShadow></ngt-directional-light>
 
 <ngt-mesh #floor [rotation]="[-1.57, 0, 0]">
   <ngt-plane-geometry [args]="[4.8, 4.8, 2, 2]"></ngt-plane-geometry>
   <ngt-mesh-standard-material transparent opacity="0.25"></ngt-mesh-standard-material>
 </ngt-mesh>
 
-<!--<ngt-mesh #left [rotation]="[-1.57, 0, 0]">
-  <ngt-circle-geometry [args]="[0.25, 6]"></ngt-circle-geometry>
-  <ngt-mesh-standard-material></ngt-mesh-standard-material>
-</ngt-mesh>-->
-
 <ngt-mesh #right [rotation]="[-1.57, 0, 0]">
   <ngt-circle-geometry [args]="[0.25, 12]"></ngt-circle-geometry>
   <ngt-mesh-standard-material></ngt-mesh-standard-material>
 </ngt-mesh>
 
-<!--
-  Lights
-  Art
--->
-
 <ngt-physics [gravity]="[0, -5, 0]">
   <ngt-cannon-debug disabled scale="1.1" color="red">
 
-    <camera-model [position]="[0.5, 1, 0]" (camera)="camera1=$event"></camera-model>
-    <camera-model id="2" [position]="[-0.5, 1, 0]" (camera)="camera2=$event"></camera-model>
+    <spotlight-model [position]="[-1, 1.2, 0.5]" [color]="'red'"></spotlight-model>
+    <spotlight-model id="2" [position]="[1, 1.2, 0.5]" [color]="'blue'"></spotlight-model>
+
+    <camera-model [position]="[-1, 1.2, 0]" (camera)="camera1=$event"></camera-model>
+    <camera-model id="2" [position]="[1, 1.2, 0]" (camera)="camera2=$event"></camera-model>
 
     <vr-controller grab showcontroller navhome></vr-controller>
     <vr-controller [index]="1" teleport showcontroller navhome [marker]="right.instance.value" [floor]="floor.instance.value"></vr-controller>
@@ -36,8 +29,8 @@
   </ngt-cannon-debug>
 </ngt-physics>
 
-<tv [position]="[-1, 2, -3]" [scale]="[4/3*2, 2, 1]" [camera]="camera1" [text]="'Camera 1'"></tv>
-<tv [position]="[-3, 2, -1]" [scale]="[4/3*2, 2, 1]" [rotation]="[0, 90 | radian, 0]" [camera]="camera2" [text]="'Camera 2'"></tv>
+<tv [position]="[-1.6, 2, -3]" [scale]="[4/3*2, 2, 1]" [camera]="camera1" [text]="'Camera 1'"></tv>
+<tv [position]="[1.6, 2, -3]" [scale]="[4/3*2, 2, 1]" [camera]="camera2" [text]="'Camera 2'"></tv>
 
 
 <pedestal [position]="[-1, 0, -1]" [color]="'white'" [lightcolor]="'lightseagreen'"></pedestal>
