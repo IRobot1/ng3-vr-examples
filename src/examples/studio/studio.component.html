@@ -30,7 +30,7 @@
     <camera-model [position]="[0.5, 1, 0]" (camera)="camera1=$event"></camera-model>
     <camera-model id="2" [position]="[-0.5, 1, 0]" (camera)="camera2=$event"></camera-model>
 
-    <vr-controller grab showcontroller navhome ></vr-controller>
+    <vr-controller grab showcontroller navhome></vr-controller>
     <vr-controller [index]="1" teleport showcontroller navhome [marker]="right.instance.value" [floor]="floor.instance.value"></vr-controller>
 
   </ngt-cannon-debug>
@@ -40,10 +40,12 @@
 <tv [position]="[-3, 2, -1]" [scale]="[4/3*2, 2, 1]" [rotation]="[0, 90 | radian, 0]" [camera]="camera2" [text]="'Camera 2'"></tv>
 
 
-<pedestal [position]="[-1, 0, -1]"  [color]="'white'" [lightcolor]="'lightseagreen'"></pedestal>
+<pedestal [position]="[-1, 0, -1]" [color]="'white'" [lightcolor]="'lightseagreen'"></pedestal>
 <pedestal [position]="[0, 0, -1]"></pedestal>
 <pedestal [position]="[1, 0, -1]" [color]="'white'" [lightcolor]="'cornflowerblue'"></pedestal>
 
-<gltf-model [position]="[-1, 1, -1]" [scale]="[2,2,2]" [url]="'assets/horse/statue.gltf'"></gltf-model>
-<gltf-model [position]="[0, 1, -1]" [scale]="[1,1,1]" [url]="'assets/horse/statue.gltf'"></gltf-model>
-<gltf-model [position]="[1, 1, -1]" [scale]="[2,2,2]" [url]="'assets/horse/statue.gltf'"></gltf-model>
+<!--Models from https://polyhaven.com/models-->
+
+<gltf-model [position]="[-1, 1, -1]" [scale]="[3,3,3]" [url]="'assets/horse/statue.gltf'"></gltf-model>
+<gltf-model [position]="[0, 1, -1]" [scale]="[2,2,2]" [url]="'assets/food/apple.gltf'"></gltf-model>
+<gltf-model [position]="[1, 1, -1]"  [url]="'assets/head/statue.gltf'"></gltf-model>

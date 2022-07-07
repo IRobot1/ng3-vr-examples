@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Observable } from 'rxjs';
 
-import { Mesh } from 'three';
+import { Object3D } from 'three';
 import { NgtTriple } from '@angular-three/core';
 
 import { NgtGLTFLoader } from '@angular-three/soba/loaders';
@@ -17,22 +18,16 @@ export class GLTFodelComponent {
   @Input() rotation = [0, 0, 0] as NgtTriple;
   @Input() visible = true;
 
+  model$!: Observable<any>;
+
   @Input() set url(newvalue: string) {
-    const s = this.loader.load(newvalue).subscribe(next => {
-      console.warn(next.scene)
-      const mesh = <Mesh>next.scene.children[0].children[0];
-      this.mesh = mesh;
-      this.loaded.emit(mesh);
-    },
-      () => { },
-      () => { s.unsubscribe(); }
-    );
+     this.model$ = this.loader.load(newvalue);
   }
 
-  @Output() loaded = new EventEmitter<Mesh>();
-
-  protected mesh!: Mesh;
-
   constructor(private loader: NgtGLTFLoader) { }
+
+  tick(scene: Object3D) {
+    scene.rotation.y += 0.01;
+  }
 }
 

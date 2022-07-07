@@ -70,6 +70,7 @@ import { NgtPerspectiveCameraModule } from '@angular-three/core/cameras';
 import { CameraModelComponent } from '../examples/studio/camera-model/camera-model.component';
 import { PedestalComponent } from '../examples/studio/pedestal/pedestal.component';
 import { GLTFodelComponent } from '../examples/studio/gltf-model/gltf-model.component';
+import { NgtPrimitiveModule } from '@angular-three/core/primitive';
 
 @NgModule({
   declarations: [
@@ -136,6 +137,7 @@ import { GLTFodelComponent } from '../examples/studio/gltf-model/gltf-model.comp
 
     // core
     NgtCanvasModule,
+    NgtPrimitiveModule,
     NgtColorAttributeModule,
     NgtBufferAttributeModule,
     NgtRadianPipeModule,

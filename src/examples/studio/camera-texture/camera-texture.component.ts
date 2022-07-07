@@ -16,7 +16,7 @@ export class CameraTextureComponent implements AfterViewInit {
   @Input() scale = [1, 1, 1] as NgtTriple;
   @Input() camera!: Camera;
 
-  private cameraTexture = new WebGLRenderTarget(256, 256);
+  private cameraTexture = new WebGLRenderTarget(512, 512);
 
   protected mesh!: Mesh;
 
