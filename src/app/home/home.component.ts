@@ -22,6 +22,7 @@ export class HomeComponent {
     { asset: 'joystick', text: 'Joystick Movement' },
     { asset: 'behaviors', text: 'Toggle Controller Behaviors' },
     { asset: 'studio', text: 'Lights, Camera, Action' },
+    { asset: 'paint', text: 'Paint' },
   ]
 
   panels: Array<PanelSetting> = [];

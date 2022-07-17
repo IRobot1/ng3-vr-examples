@@ -72,6 +72,8 @@ import { PedestalComponent } from '../examples/studio/pedestal/pedestal.componen
 import { GLTFodelComponent } from '../examples/studio/gltf-model/gltf-model.component';
 import { NgtPrimitiveModule } from '@angular-three/core/primitive';
 import { SpotlightModelComponent } from '../examples/studio/spotlight-model/spotlight-model.component';
+import { PaintExample } from '../examples/paint/paint.component';
+import { PaintBrushDirective } from '../examples/paint/paintbrush.directive';
 
 @NgModule({
   declarations: [
@@ -130,6 +132,9 @@ import { SpotlightModelComponent } from '../examples/studio/spotlight-model/spot
     PedestalComponent,
     GLTFodelComponent,
     SpotlightModelComponent,
+
+    PaintExample,
+    PaintBrushDirective,
   ],
   imports: [
     BrowserModule,
