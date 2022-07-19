@@ -23,6 +23,7 @@ export class HomeComponent {
     { asset: 'behaviors', text: 'Toggle Controller Behaviors' },
     { asset: 'studio', text: 'Lights, Camera, Action' },
     { asset: 'paint', text: 'Paint' },
+    { asset: 'htmlgui', text: 'HTML Mesh GUI' },
   ]
 
   panels: Array<PanelSetting> = [];

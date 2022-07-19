@@ -29,7 +29,9 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/examples/htmlgui/HTMLMesh.js"
+            ]
           },
           "configurations": {
             "production": {

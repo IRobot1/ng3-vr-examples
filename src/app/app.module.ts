@@ -15,7 +15,7 @@ import { NgtMeshModule } from '@angular-three/core/meshes';
 import { NgtGroupModule } from '@angular-three/core/group';
 import { NgtLineModule } from '@angular-three/core/lines';
 
-import { NgtBoxGeometryModule, NgtBufferGeometryModule, NgtCircleGeometryModule, NgtConeGeometryModule, NgtCylinderGeometryModule, NgtIcosahedronGeometryModule, NgtPlaneGeometryModule, NgtSphereGeometryModule, NgtTorusGeometryModule  } from '@angular-three/core/geometries';
+import { NgtBoxGeometryModule, NgtBufferGeometryModule, NgtCircleGeometryModule, NgtConeGeometryModule, NgtCylinderGeometryModule, NgtIcosahedronGeometryModule, NgtPlaneGeometryModule, NgtSphereGeometryModule, NgtTorusGeometryModule, NgtTorusKnotGeometryModule  } from '@angular-three/core/geometries';
 
 import { NgtLineBasicMaterialModule, NgtMeshBasicMaterialModule, NgtMeshStandardMaterialModule } from '@angular-three/core/materials';
 
@@ -74,6 +74,8 @@ import { NgtPrimitiveModule } from '@angular-three/core/primitive';
 import { SpotlightModelComponent } from '../examples/studio/spotlight-model/spotlight-model.component';
 import { PaintExample } from '../examples/paint/paint.component';
 import { PaintBrushDirective } from '../examples/paint/paintbrush.directive';
+import { HTMLGUIExample } from '../examples/htmlgui/htmlgui.component';
+import { GUIPointerDirective } from '../examples/htmlgui/guipointer.directive';
 
 @NgModule({
   declarations: [
@@ -135,6 +137,9 @@ import { PaintBrushDirective } from '../examples/paint/paintbrush.directive';
 
     PaintExample,
     PaintBrushDirective,
+
+    HTMLGUIExample,
+    GUIPointerDirective,
   ],
   imports: [
     BrowserModule,
@@ -176,6 +181,7 @@ import { PaintBrushDirective } from '../examples/paint/paintbrush.directive';
     NgtCylinderGeometryModule,
     NgtIcosahedronGeometryModule,
     NgtTorusGeometryModule,
+    NgtTorusKnotGeometryModule,
     NgtCircleGeometryModule,
 
     NgtMeshStandardMaterialModule,
@@ -186,6 +192,7 @@ import { PaintBrushDirective } from '../examples/paint/paintbrush.directive';
     NgtSobaOrbitControlsModule,
     NgtSobaTextModule,
     NgtSobaSkyModule,
+    
 
     // cannon
     NgtPhysicsModule,
