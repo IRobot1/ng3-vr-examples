@@ -76,6 +76,7 @@ import { PaintExample } from '../examples/paint/paint.component';
 import { PaintBrushDirective } from '../examples/paint/paintbrush.directive';
 import { HTMLGUIExample } from '../examples/htmlgui/htmlgui.component';
 import { GUIPointerDirective } from '../examples/htmlgui/guipointer.directive';
+import { GUIRoomExample } from '../examples/gui-room/gui-room.component';
 
 @NgModule({
   declarations: [
@@ -140,6 +141,8 @@ import { GUIPointerDirective } from '../examples/htmlgui/guipointer.directive';
 
     HTMLGUIExample,
     GUIPointerDirective,
+
+    GUIRoomExample,
   ],
   imports: [
     BrowserModule,
