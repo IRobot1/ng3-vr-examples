@@ -95,6 +95,7 @@ export abstract class GUIBase {
    */
   abstract add(object: any, property: string, $1?: any, max?: number, step?: number): Controller
 
+  abstract addColor(object: any, property: string, rgbScale?: number): Controller;
 
   addCustom(type: string, object: any, property: string): Controller {
     return GUIFactory.create(type).register(this, object, property)
