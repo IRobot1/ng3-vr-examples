@@ -1,16 +1,25 @@
-import { NgtStore } from "@angular-three/core";
 import { Component } from "@angular/core";
+
 import { Group } from "three";
-import ColorController from "./color-controller";
+import { NgtStore } from "@angular-three/core";
 
-import { GUI, GUIFactory } from "./gui";
+import { HTMLColor, HTMLGUI } from "../../htmlgui";
+import { HTMLController } from "../../htmlgui/lib/htmlcontroller";
+import { GUIFactory } from "../../guibase";
 
+class HTMLTest extends HTMLController {
+  private _test!: string;
+  thing(test: string) {
+    this._test = test;
+  }
+}
 
 @Component({
   templateUrl: './gui-room.component.html',
 })
 export class GUIRoomExample {
   public parameters = {
+    bool: true,
     radius: 0.6,
     tube: 0.2,
     tubularSegments: 150,
@@ -18,6 +27,8 @@ export class GUIRoomExample {
     p: 2,
     q: 3,
     xcolor: 1,
+    test: 'test',
+    stop: (e: any) => { console.warn(e) }
   };
 
   group = new Group();
@@ -25,19 +36,23 @@ export class GUIRoomExample {
   constructor(
     private store: NgtStore
   ) {
-    GUIFactory.register('color', () => { return new ColorController() });
+    GUIFactory.register('test', () => { return new HTMLTest() });
 
-    const gui = new GUI();
+    const gui = new HTMLGUI();
+    gui.add(this.parameters, 'bool');
+    gui.add(this.parameters, 'test');
+    gui.add(this.parameters, 'stop');
     gui.add(this.parameters, 'radius', 0.0, 1.0);
     gui.add(this.parameters, 'tube', 0.0, 1.0);
     gui.add(this.parameters, 'tubularSegments', 10, 150, 1);
     gui.add(this.parameters, 'radialSegments', 2, 20, 1);
     gui.add(this.parameters, 'p', 1, 10, 1);
     gui.add(this.parameters, 'q', 0, 10, 1);
-    gui.addColor(this.parameters, 'color', 2);
-    (<ColorController>gui.addCustom('color', this.parameters, 'xcolor')).rgbScale(2);
+    gui.addColor(this.parameters, 'xcolor', 2);
+    (<HTMLColor>gui.addCustom('color', this.parameters, 'xcolor')).rgbScale(2);
+    //(<HTMLTest>gui.addCustom('test', this.parameters, 'test')).thing('test');
 
-    
+
     //const mesh = new HTMLMesh(gui.domElement);
     //mesh.position.x = - 0.75;
     //mesh.position.y = 1;

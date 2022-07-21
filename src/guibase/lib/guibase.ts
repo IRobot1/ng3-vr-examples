@@ -1,33 +1,8 @@
-import { BooleanController } from "./boolean-controller";
-import ColorController from "./color-controller";
 import { Controller } from "./controller";
-import { FunctionController } from "./function-controller";
-import NumberController from "./number-controller";
-import { OptionController } from "./option-controller";
-import { StringController } from "./string-controller";
-
-export class GUIFactory {
-
-  private static controllers = new Map<string, () => Controller>([])
-    .set('options', (): Controller => { return new OptionController() })
-    .set('number', () => { return new NumberController() })
-    .set('boolean', () => { return new BooleanController() })
-    .set('string', () => { return new StringController() })
-    .set('function', () => { return new FunctionController() })
-    .set('color', () => { return new ColorController() })
+import { GUIFactory } from "./guifactory";
 
 
-  static create(type: string): Controller {
-    return this.controllers.get(type)!();
-  }
-
-  static register(type: string, create: () => Controller) {
-    this.controllers.set(type, create);
-  }
-}
-
-
-export class GUI {
+export abstract class GUIBase {
 
   /**
    * Creates a panel that holds controllers.
@@ -56,20 +31,25 @@ export class GUI {
    * @param {number} [options.touchStyles=true]
    * Makes controllers larger on touch devices. Pass `false` to disable touch styles.
    *
-   * @param {GUI} [options.parent]
+   * @param {GUIBase} [options.parent]
    * Adds this GUI as a child in another GUI. Usually this is done for you by `addFolder()`.
    *
    */
 
-  public children: Array<GUI | Controller> = [];
+  public children: Array<GUIBase | Controller> = [];
   public controllers: Array<Controller> = [];
-  public folders: Array<GUI> = [];
+  public folders: Array<GUIBase> = [];
 
-  private root: GUI;
+  public root: GUIBase;
+  public $children: any;
+
   private _closed = false;
-  private _hidden = false;
+  get closed(): boolean { return this._closed }
 
-  constructor(private parent?: GUI, public title = 'Controls') {
+  private _hidden = false;
+  get hidden(): boolean {return this._hidden }
+
+  constructor(public parent?: GUIBase, title = 'Controls') {
     this.root = parent ? parent.root : this;
 
     if (this.parent) {
@@ -81,6 +61,22 @@ export class GUI {
 
   }
 
+  /**
+ * Change the title of this GUI.
+ * @param {string} title
+ * @returns {this}
+ */
+  private _title!: string;
+  get title(): string { return this._title }
+
+  settitle(title: string): GUIBase {
+    /**
+     * Current title of the GUI. Use `gui.title( 'Title' )` to modify this value.
+     * @type {string}
+     */
+    this._title = title;
+    return this;
+  }
 
   /**
    * Adds a controller to the GUI, inferring controller type using the `typeof` operator.
@@ -97,66 +93,13 @@ export class GUI {
    * @param {number} [step] Step value for number controllers.
    * @returns {Controller}
    */
-  add(object: any, property: string, $1?: any, max = 1, step?: number): Controller {
+  abstract add(object: any, property: string, $1?: any, max?: number, step?: number): Controller
 
-    if (Object($1) === $1) {
-      const oc = <OptionController>GUIFactory.create('options').register(this, object, property);
-      oc.options($1);
-      return oc;
-    }
-    else {
-      const initialValue = object[property];
-
-      switch (typeof initialValue) {
-
-        case 'number':
-          const nc = <NumberController>GUIFactory.create('number').register(this, object, property);
-          nc.min($1).max(max).step(step);
-          return nc;
-
-        case 'boolean':
-          return GUIFactory.create('boolean').register(this, object, property);
-
-        default:
-        case 'string':
-          return GUIFactory.create('string').register(this, object, property);
-
-        case 'function':
-          return GUIFactory.create('function').register(this, object, property);
-      }
-    }
-  }
 
   addCustom(type: string, object: any, property: string): Controller {
     return GUIFactory.create(type).register(this, object, property)
   }
 
-  /**
-   * Adds a color controller to the GUI.
-   * @example
-   * params = {
-   * 	cssColor: '#ff00ff',
-   * 	rgbColor: { r: 0, g: 0.2, b: 0.4 },
-   * 	customRange: [ 0, 127, 255 ],
-   * };
-   *
-   * gui.addColor( params, 'cssColor' );
-   * gui.addColor( params, 'rgbColor' );
-   * gui.addColor( params, 'customRange', 255 );
-   *
-   * @param {object} object The object the controller will modify.
-   * @param {string} property Name of the property to control.
-   * @param {number} rgbScale Maximum value for a color channel when using an RGB color. You may
-   * need to set this to 255 if your colors are too bright.
-   * @returns {Controller}
-   */
-  addColor(object: any, property: string, rgbScale = 1) {
-    const cc = <ColorController>GUIFactory.create('color')
-      .register(this, object, property);
-
-    cc.rgbScale(rgbScale);
-    return cc;
-  }
 
   /**
    * Adds a folder to the GUI, which is just another GUI. This method returns
@@ -168,11 +111,9 @@ export class GUI {
    * folder.add( position, 'z' );
    *
    * @param {string} title Name to display in the folder's title bar.
-   * @returns {GUI}
+   * @returns {GUIBase}
    */
-  addFolder(title: string) {
-    return new GUI(this, title);
-  }
+  abstract addFolder(title: string): GUIBase;
 
   /**
    * Recalls values that were saved with `gui.save()`.
@@ -487,7 +428,7 @@ export class GUI {
 
   /**
    * Returns an array of folders contained by this GUI and its descendents.
-   * @returns {GUI[]}
+   * @returns {GUIBase[]}
    */
   foldersRecursive() {
     let folders = Array.from(this.folders);
