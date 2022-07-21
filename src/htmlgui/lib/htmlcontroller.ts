@@ -55,10 +55,11 @@ export class HTMLController extends Controller {
     this.parent.children.push(this);
     this.parent.controllers.push(this);
 
-    this.parent.$children.appendChild(this.domElement);
+    (<HTMLGUI>this.parent).$children.appendChild(this.domElement);
 
     this._listenCallback = this._listenCallback.bind(this);
 
+    this.name(this.property);
     return this;
   }
 
@@ -67,8 +68,14 @@ export class HTMLController extends Controller {
     return this;
   }
 
+  override name(name: string): Controller {
+    super.name(name);
+    this.$name.innerHTML = name;
+    return this;
+  }
+
   override destroy(): void {
     super.destroy();
-    this.parent.$children.removeChild(this.domElement);
+    (<HTMLGUI>this.parent).$children.removeChild(this.domElement);
   }
 }

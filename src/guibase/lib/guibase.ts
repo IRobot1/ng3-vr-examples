@@ -41,7 +41,6 @@ export abstract class GUIBase {
   public folders: Array<GUIBase> = [];
 
   public root: GUIBase;
-  public $children: any;
 
   private _closed = false;
   get closed(): boolean { return this._closed }
@@ -97,9 +96,7 @@ export abstract class GUIBase {
 
   abstract addColor(object: any, property: string, rgbScale?: number): Controller;
 
-  addCustom(type: string, object: any, property: string): Controller {
-    return GUIFactory.create(type).register(this, object, property)
-  }
+  abstract addCustom(type: string, object: any, property: string): Controller;
 
 
   /**

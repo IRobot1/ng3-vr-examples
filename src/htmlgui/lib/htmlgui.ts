@@ -3,6 +3,7 @@ import { Controller, GUIBase, GUIFactory } from "../../guibase";
 import { HTMLBoolean } from "./htmlboolean";
 import { HTMLButton } from "./htmlbutton";
 import { HTMLColor } from "./htmlcolor";
+import { HTMLController } from "./htmlcontroller";
 import { HTMLNumber } from "./htmlnumber";
 import { HTMLOption } from "./htmloption";
 import { HTMLString } from "./htmlstring";
@@ -21,30 +22,40 @@ let _injectStyles = (cssContent: string) => {
 }
 
 export class HTMLGUI extends GUIBase {
-  private _init = false;
+  private static _init = false;
 
-  private domElement: HTMLDivElement;
+  public domElement: HTMLDivElement;
   private $title: HTMLDivElement;
 
-  constructor(
-    parent?: GUIBase,
-    title = 'Controls',
+  public $children: any;
+
+  constructor({
+    parent,
     autoPlace = parent === undefined,
-    container?: any,
-    width?: number,
+    container,
+    width = 100,
+    title = 'Controls',
     injectStyles = true,
     touchStyles = true
-  ) {
+  }: {
+    parent?: GUIBase,
+    autoPlace? : boolean
+    container?: any,
+    width? : number,
+    title? : string,
+    injectStyles? : boolean,
+    touchStyles? : boolean
+  }) {
     super(parent, title);
 
-    if (!this._init) {
+    if (!HTMLGUI._init) {
       GUIFactory.register('options', () => { return new HTMLOption() });
       GUIFactory.register('number', () => { return new HTMLNumber() });
       GUIFactory.register('boolean', () => { return new HTMLBoolean() });
       GUIFactory.register('string', () => { return new HTMLString() });
       GUIFactory.register('function', () => { return new HTMLButton() });
       GUIFactory.register('color', () => { return new HTMLColor() });
-      this._init = true;
+      HTMLGUI._init = true;
     }
 
     /**
@@ -65,7 +76,7 @@ export class HTMLGUI extends GUIBase {
     this.$title.setAttribute('tabindex', '0');
 
     this.$title.addEventListener('click', () => this.openAnimated(this.closed));
-    this.$title.addEventListener('keydown', e => {
+    this.$title.addEventListener('keydown', (e: any) => {
       if (e.code === 'Enter' || e.code === 'Space') {
         e.preventDefault();
         this.$title.click();
@@ -217,12 +228,54 @@ export class HTMLGUI extends GUIBase {
  * @returns {GUIBase}
  */
   addFolder(title: string): GUIBase {
-    return new HTMLGUI(this, title);
+    return new HTMLGUI({ parent: this, title });
   }
+
+  addCustom(type: string, object: any, property: string): Controller {
+    return (<HTMLController>GUIFactory.create(type)).initialize(this, object, property, type).build();
+  }
+
 
   override settitle(title: string): GUIBase {
     super.settitle(title);
     this.$title.innerHTML = title;
     return this;
+  }
+
+  override openAnimated(open = true) {
+    super.openAnimated(open);
+
+    this.$title.setAttribute('aria-expanded', String(!this.closed));
+
+    // wait for next frame to measure $children
+    requestAnimationFrame(() => {
+
+      // explicitly set initial height for transition
+      const initialHeight = this.$children.clientHeight;
+      this.$children.style.height = initialHeight + 'px';
+
+      this.domElement.classList.add('transition');
+
+      const onTransitionEnd = (e: any) => {
+        if (e.target !== this.$children) return;
+        this.$children.style.height = '';
+        this.domElement.classList.remove('transition');
+        this.$children.removeEventListener('transitionend', onTransitionEnd);
+      };
+
+      this.$children.addEventListener('transitionend', onTransitionEnd);
+
+      // todo: this is wrong if children's scrollHeight makes for a gui taller than maxHeight
+      const targetHeight = !open ? 0 : this.$children.scrollHeight;
+
+      this.domElement.classList.toggle('closed', !open);
+
+      requestAnimationFrame(() => {
+        this.$children.style.height = targetHeight + 'px';
+      });
+    });
+
+    return this;
+
   }
 }

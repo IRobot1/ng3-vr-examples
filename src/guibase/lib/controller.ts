@@ -32,7 +32,6 @@ export abstract class Controller {
 
     this._listenCallback = this._listenCallback.bind(this);
 
-    this.name(property);
     this.initialValue = this.getValue();
     return this;
   }
