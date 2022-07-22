@@ -16,7 +16,7 @@ export class ThreeNumber extends ThreeController {
 
 
     this.initInput(ThreeGUI.uioffset-0.04, ThreeGUI.uiwidth);
-    this.updateText(ThreeGUI.uiwidth);
+    this.updateText(this.getValue(), ThreeGUI.uiwidth);
 
     return this;
   }
@@ -37,32 +37,35 @@ export class ThreeNumber extends ThreeController {
   }
 
   initSlider() {
+    this.hasSlider = true;
+
     const parent = <ThreeGUI>this.parent;
 
     // make input box smaller and move right
     this.initInput(ThreeGUI.uioffset + ThreeGUI.uiwidth * 0.25, ThreeGUI.uiwidth / 2);
-    this.updateText(ThreeGUI.uiwidth / 2);
+    this.updateText(this.getValue(), ThreeGUI.uiwidth / 2);
 
-    // 
-    const geometry1 = new BoxGeometry(ThreeGUI.uiwidth / 2, ThreeGUI.cellheight - 0.01, 0.01);
+    // slider box
+    const box = new BoxGeometry(ThreeGUI.uiwidth / 2, ThreeGUI.cellheight - 0.01, 0.01);
 
-    this.sliderbox = new Mesh(geometry1, parent.uimaterial);
+    this.sliderbox = new Mesh(box, parent.uimaterial);
     this.sliderbox.position.x = ThreeGUI.uioffset - ThreeGUI.uiwidth * 0.25 -0.04;
     this.sliderbox.position.y = this.position + 0.04;
 
     this.group.add(this.sliderbox);
 
-    const geometry2 = new BoxGeometry(0.01, 0.14, 0.02);
-    this.slider = new Mesh(geometry2, parent.accentmaterial);
+    // slider bar
+    const bar = new BoxGeometry(0.01, 0.14, 0.02);
+    this.slider = new Mesh(bar, parent.accentmaterial);
     this.sliderbox.add(this.slider);
   }
 
-  updateText(width: number) {
+  updateText(newvalue: string, width: number) {
     const parent = <ThreeGUI>this.parent;
     if (this.value) {
       this.inputbox.remove(this.value);
     }
-    const textGeo = new TextGeometry(String(this.getValue()), {
+    const textGeo = new TextGeometry(newvalue, {
       font: parent.font,
       size: 0.1,
       height: 0.01,
@@ -80,6 +83,27 @@ export class ThreeNumber extends ThreeController {
     this.value.position.y = -0.04;
 
     this.inputbox.add(this.value);
+  }
+
+  override updateDisplay(): Controller {
+
+    const value = this.getValue();
+
+    if (this.hasSlider) {
+      const range = this.max - this.min;
+      let percent = (value - this.min) / range;
+      percent = Math.max(0, Math.min(percent, 1));
+
+      const width = ThreeGUI.uiwidth / 4
+      this.slider.position.x = -width + percent * width * 2;
+    }
+
+    //if (!this._inputFocused) {
+    this.updateText(this.decimals === undefined ? value : value.toFixed(this.decimals), ThreeGUI.uiwidth/2 );
+    //}
+
+    return this;
+
   }
 
 
