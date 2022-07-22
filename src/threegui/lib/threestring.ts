@@ -50,5 +50,9 @@ export class ThreeString extends ThreeController {
     this.inputbox.add(this.value);
   }
 
+  override updateDisplay(): Controller {
+    this.updateText();
+    return this;
+  }
 
 }
