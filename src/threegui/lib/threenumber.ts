@@ -9,14 +9,13 @@ export class ThreeNumber extends ThreeController {
   private sliderbox!: Mesh;
   private slider!: Mesh;
   private value!: Mesh;
-  private offset = 0;
+  private width = 0;
 
   override build(): Controller {
     super.build();
 
-
     this.initInput(ThreeGUI.uioffset-0.04, ThreeGUI.uiwidth);
-    this.updateText(this.getValue(), ThreeGUI.uiwidth);
+    this.updateDisplay();
 
     return this;
   }
@@ -25,15 +24,17 @@ export class ThreeNumber extends ThreeController {
     if (this.inputbox) {
       this.group.remove(this.inputbox);
     }
+    const parent = <ThreeGUI>this.parent;
 
     const geometry = new BoxGeometry(width, ThreeGUI.cellheight - 0.01, 0.01);
-
-    const parent = <ThreeGUI>this.parent;
     this.inputbox = new Mesh(geometry, parent.uimaterial);
+
     this.inputbox.position.x = offset;
     this.inputbox.position.y = this.position + 0.04;
 
     this.group.add(this.inputbox);
+
+    this.width = width;
   }
 
   initSlider() {
@@ -43,7 +44,7 @@ export class ThreeNumber extends ThreeController {
 
     // make input box smaller and move right
     this.initInput(ThreeGUI.uioffset + ThreeGUI.uiwidth * 0.25, ThreeGUI.uiwidth / 2);
-    this.updateText(this.getValue(), ThreeGUI.uiwidth / 2);
+    this.updateText(this.getValue());
 
     // slider box
     const box = new BoxGeometry(ThreeGUI.uiwidth / 2, ThreeGUI.cellheight - 0.01, 0.01);
@@ -60,7 +61,7 @@ export class ThreeNumber extends ThreeController {
     this.sliderbox.add(this.slider);
   }
 
-  updateText(newvalue: string, width: number) {
+  updateText(newvalue: string) {
     const parent = <ThreeGUI>this.parent;
     if (this.value) {
       this.inputbox.remove(this.value);
@@ -79,7 +80,7 @@ export class ThreeNumber extends ThreeController {
     textGeo.computeBoundingBox();
 
     this.value = new Mesh(textGeo, parent.accentmaterial);
-    this.value.position.x = - width / 2 + 0.05;
+    this.value.position.x = - this.width / 2 + 0.05;
     this.value.position.y = -0.04;
 
     this.inputbox.add(this.value);
@@ -99,7 +100,7 @@ export class ThreeNumber extends ThreeController {
     }
 
     //if (!this._inputFocused) {
-    this.updateText(this.decimals === undefined ? value : value.toFixed(this.decimals), ThreeGUI.uiwidth/2 );
+    this.updateText(this.decimals === undefined ? value : value.toFixed(this.decimals) );
     //}
 
     return this;
