@@ -20,7 +20,7 @@ import { HTMLGUIExample } from '../examples/htmlgui/htmlgui.component';
 import { GUIRoomExample } from '../examples/gui-room/gui-room.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: GUIRoomExample },
   { path: 'viewer', component: HomeComponent },
   { path: 'ballshooter', component: BallshooterExample },
   { path: 'dragging', component: DraggingExample },

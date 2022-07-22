@@ -1,9 +1,87 @@
+import { BoxGeometry, Mesh, Object3D } from "three";
+import { TextGeometry } from "three-stdlib";
+import { Controller } from "../../guibase";
 import { ThreeController } from "./threecontroller";
+import { ThreeGUI } from "./threegui";
 
 export class ThreeNumber extends ThreeController {
-  initSlider() {
-    console.warn('implement threenumber initSlider')
+  private inputbox!: Mesh;
+  private sliderbox!: Mesh;
+  private slider!: Mesh;
+  private value!: Mesh;
+  private offset = 0;
+
+  override build(): Controller {
+    super.build();
+
+
+    this.initInput(ThreeGUI.uioffset-0.04, ThreeGUI.uiwidth);
+    this.updateText(ThreeGUI.uiwidth);
+
+    return this;
   }
+
+  initInput(offset: number, width: number) {
+    if (this.inputbox) {
+      this.group.remove(this.inputbox);
+    }
+
+    const geometry = new BoxGeometry(width, ThreeGUI.cellheight - 0.01, 0.01);
+
+    const parent = <ThreeGUI>this.parent;
+    this.inputbox = new Mesh(geometry, parent.uimaterial);
+    this.inputbox.position.x = offset;
+    this.inputbox.position.y = this.position + 0.04;
+
+    this.group.add(this.inputbox);
+  }
+
+  initSlider() {
+    const parent = <ThreeGUI>this.parent;
+
+    // make input box smaller and move right
+    this.initInput(ThreeGUI.uioffset + ThreeGUI.uiwidth * 0.25, ThreeGUI.uiwidth / 2);
+    this.updateText(ThreeGUI.uiwidth / 2);
+
+    // 
+    const geometry1 = new BoxGeometry(ThreeGUI.uiwidth / 2, ThreeGUI.cellheight - 0.01, 0.01);
+
+    this.sliderbox = new Mesh(geometry1, parent.uimaterial);
+    this.sliderbox.position.x = ThreeGUI.uioffset - ThreeGUI.uiwidth * 0.25 -0.04;
+    this.sliderbox.position.y = this.position + 0.04;
+
+    this.group.add(this.sliderbox);
+
+    const geometry2 = new BoxGeometry(0.01, 0.14, 0.02);
+    this.slider = new Mesh(geometry2, parent.accentmaterial);
+    this.sliderbox.add(this.slider);
+  }
+
+  updateText(width: number) {
+    const parent = <ThreeGUI>this.parent;
+    if (this.value) {
+      this.inputbox.remove(this.value);
+    }
+    const textGeo = new TextGeometry(String(this.getValue()), {
+      font: parent.font,
+      size: 0.1,
+      height: 0.01,
+      bevelEnabled: false,
+      curveSegments: 4,
+      bevelThickness: 0.01,
+      bevelSize: 0.01,
+      bevelOffset: 0,
+
+    });
+    textGeo.computeBoundingBox();
+
+    this.value = new Mesh(textGeo, parent.accentmaterial);
+    this.value.position.x = - width / 2 + 0.05;
+    this.value.position.y = -0.04;
+
+    this.inputbox.add(this.value);
+  }
+
 
   _onUpdateMinMax() {
 

@@ -1,30 +1,127 @@
+import { Group, Material, Mesh, MeshBasicMaterial, Object3D } from "three";
+import { Font, TextGeometry } from "three-stdlib";
+
 import { Controller, GUIBase, GUIFactory } from "../../guibase";
+
 import { ThreeBoolean } from "./threeboolean";
 import { ThreeButton } from "./threebutton";
 import { ThreeColor } from "./threecolor";
+import { ThreeController } from "./threecontroller";
 import { ThreeNumber } from "./threenumber";
 import { ThreeOption } from "./threeoption";
 import { ThreeString } from "./threestring";
 
 export class ThreeGUI extends GUIBase {
-  private _init = false;
+  private static default_titlematerial = new MeshBasicMaterial();
+  private static default_uimaterial = new MeshBasicMaterial({ color: 0x171717 });
+  private static default_accentmaterial = new MeshBasicMaterial({ color: 0x6495ED });
 
-  constructor(
-    parent?: GUIBase,
+  private static _init = false;
+  static position = 0;  // vertical position
+  static cellheight = 0.15;
+
+  private _font!: Font;
+  get font(): Font { return this._font }
+
+  private _titlematerial!: Material;
+  get titlematerial(): Material { return this._titlematerial }
+
+  private _uimaterial!: Material;
+  get uimaterial(): Material { return this._uimaterial }
+
+  private _accentmaterial!: Material;
+  get accentmaterial(): Material { return this._accentmaterial }
+
+  private _titleoffset = 0;
+  get titleoffset(): number { return this._titleoffset }
+
+  static uioffset = 1;
+  static uiwidth = 1;
+
+  public group!: Group;
+
+  constructor({
+    parent,
     title = 'Controls',
+    titleoffset = 0,
+    uioffset = 2,
+    uiwidth = 1.5,
+    font,
+    titlematerial,
+    uimaterial,
+    accentmaterial,
+  }: {
+    parent?: GUIBase,
+    title?: string,
+    titleoffset?: number,
+    uioffset?: number,
+    uiwidth?: number,
+    font: Font,
+    titlematerial?: Material,
+    uimaterial?: Material,
+    accentmaterial?: Material,
+  }
   ) {
     super(parent, title);
 
-    if (!this._init) {
+    if (!ThreeGUI._init) {
       GUIFactory.register('options', () => { return new ThreeOption() });
       GUIFactory.register('number', () => { return new ThreeNumber() });
       GUIFactory.register('boolean', () => { return new ThreeBoolean() });
       GUIFactory.register('string', () => { return new ThreeString() });
       GUIFactory.register('function', () => { return new ThreeButton() });
       GUIFactory.register('color', () => { return new ThreeColor() });
-      this._init = true;
+
+      ThreeGUI.uioffset = uioffset;
+      ThreeGUI.uiwidth = uiwidth;
+
+      ThreeGUI._init = true;
     }
 
+    this._font = font;
+    this._titleoffset = titleoffset;
+
+    if (titlematerial)
+      this._titlematerial = titlematerial;
+    else
+      this._titlematerial = ThreeGUI.default_titlematerial;
+
+
+    if (uimaterial)
+      this._uimaterial = uimaterial
+    else
+      this._uimaterial = ThreeGUI.default_uimaterial;
+
+    if (accentmaterial)
+      this._accentmaterial = accentmaterial
+    else
+      this._accentmaterial = ThreeGUI.default_accentmaterial;
+
+
+    this.group = new Group();
+
+    this.group.add(this.buildFolderText(title, ThreeGUI.position, 0));
+    if (!parent) ThreeGUI.position -= ThreeGUI.cellheight;
+  }
+
+  buildFolderText(title: string, position: number, offset: number): Object3D {
+    const textGeo = new TextGeometry(title, {
+      font: this.font,
+      size: 0.1,
+      height: 0.01,
+      bevelEnabled: false,
+      curveSegments: 4,
+      bevelThickness: 0.01,
+      bevelSize: 0.01,
+      bevelOffset: 0,
+
+    });
+    textGeo.computeBoundingBox();
+
+    const mesh = new Mesh(textGeo, this.titlematerial);
+    mesh.position.y = position;
+    mesh.position.x = offset;
+    return mesh;
   }
 
   /**
@@ -46,7 +143,7 @@ export class ThreeGUI extends GUIBase {
 
     if (Object($1) === $1) {
       const className = 'options'
-      const oc = <ThreeOption>(<ThreeOption>GUIFactory.create(className)).initialize(this, object, property, className).build();
+      const oc = <ThreeOption>(<ThreeOption>GUIFactory.create(className)).initialize(this, object, property).build();
       oc.options($1);
       return oc;
     }
@@ -56,19 +153,19 @@ export class ThreeGUI extends GUIBase {
       switch (className) {
 
         case 'number':
-          const nc = <ThreeNumber>(<ThreeNumber>GUIFactory.create(className)).initialize(this, object, property, className).build();
+          const nc = <ThreeNumber>(<ThreeNumber>GUIFactory.create(className)).initialize(this, object, property).build();
           nc.setmin($1).setmax(max).setstep(step);
           return nc;
 
         case 'boolean':
-          return (<ThreeBoolean>GUIFactory.create(className)).initialize(this, object, property, className).build();
+          return (<ThreeBoolean>GUIFactory.create(className)).initialize(this, object, property).build();
 
         default:
         case 'string':
-          return (<ThreeString>GUIFactory.create(className)).initialize(this, object, property, className).build();
+          return (<ThreeString>GUIFactory.create(className)).initialize(this, object, property).build();
 
         case 'function':
-          return (<ThreeButton>GUIFactory.create(className)).initialize(this, object, property, className).build();
+          return (<ThreeButton>GUIFactory.create(className)).initialize(this, object, property).build();
       }
     }
   }
@@ -94,7 +191,7 @@ export class ThreeGUI extends GUIBase {
  */
   addColor(object: any, property: string, rgbScale = 1) {
     const className = 'color';
-    const cc = <ThreeColor>(<ThreeColor>GUIFactory.create(className)) .initialize(this, object, property, className).build();
+    const cc = <ThreeColor>(<ThreeColor>GUIFactory.create(className)).initialize(this, object, property).build();
     cc.rgbScale(rgbScale);
     return cc;
   }
@@ -112,8 +209,15 @@ export class ThreeGUI extends GUIBase {
  * @returns {GUIBase}
  */
   addFolder(title: string): GUIBase {
-    return new ThreeGUI(this, title);
+    const gui = new ThreeGUI({ parent: this, title, font: this._font, titlematerial: this._titlematerial, titleoffset: this._titleoffset + 0.05 });
+    this.group.add(gui.group);
+    return gui;
   }
+
+  addCustom(type: string, object: any, property: string): Controller {
+    return (<ThreeController>GUIFactory.create(type)).initialize(this, object, property).build();
+  }
+
 
   override settitle(title: string): GUIBase {
     super.settitle(title);
