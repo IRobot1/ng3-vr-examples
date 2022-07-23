@@ -24,6 +24,7 @@ export class HomeComponent {
     { asset: 'studio', text: 'Lights, Camera, Action' },
     { asset: 'paint', text: 'Paint' },
     { asset: 'htmlgui', text: 'HTML Mesh GUI' },
+    { asset: 'scale', text: 'World Scale' },
   ]
 
   panels: Array<PanelSetting> = [];

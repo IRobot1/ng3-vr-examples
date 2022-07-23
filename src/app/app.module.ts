@@ -7,7 +7,7 @@ import { NgtCanvasModule, NgtRadianPipeModule } from '@angular-three/core';
 import { NgtStatsModule } from '@angular-three/core/stats';
 
 import { NgtBufferAttributeModule, NgtColorAttributeModule } from '@angular-three/core/attributes';
-import { NgtGridHelperModule, NgtPointLightHelperModule, NgtCameraHelperModule, NgtSpotLightHelperModule } from '@angular-three/core/helpers';
+import { NgtGridHelperModule, NgtPointLightHelperModule, NgtCameraHelperModule, NgtSpotLightHelperModule, NgtBox3HelperModule, NgtBoxHelperModule } from '@angular-three/core/helpers';
 
 import { NgtAmbientLightModule, NgtDirectionalLightModule, NgtPointLightModule, NgtSpotLightModule } from '@angular-three/core/lights';
 
@@ -76,6 +76,8 @@ import { PaintExample } from '../examples/paint/paint.component';
 import { PaintBrushDirective } from '../examples/paint/paintbrush.directive';
 import { HTMLGUIExample } from '../examples/htmlgui/htmlgui.component';
 import { GUIPointerDirective } from '../examples/htmlgui/guipointer.directive';
+import { ScaleExample } from '../examples/scale/scale.component';
+import { VRScaleComponent } from '../examples/scale/vr-scale.component';
 
 @NgModule({
   declarations: [
@@ -140,6 +142,10 @@ import { GUIPointerDirective } from '../examples/htmlgui/guipointer.directive';
 
     HTMLGUIExample,
     GUIPointerDirective,
+
+    ScaleExample,
+    VRScaleComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -159,6 +165,7 @@ import { GUIPointerDirective } from '../examples/htmlgui/guipointer.directive';
     NgtCameraHelperModule,
 
     NgtGridHelperModule,
+    NgtBoxHelperModule,
 
     NgtAmbientLightModule,
     NgtDirectionalLightModule,

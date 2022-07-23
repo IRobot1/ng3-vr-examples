@@ -17,6 +17,7 @@ import { BehaviorsExample } from '../examples/behaviors/behaviors.component';
 import { StudioExample } from '../examples/studio/studio.component';
 import { PaintExample } from '../examples/paint/paint.component';
 import { HTMLGUIExample } from '../examples/htmlgui/htmlgui.component';
+import { ScaleExample } from '../examples/scale/scale.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'studio', component: StudioExample },
   { path: 'paint', component: PaintExample },
   { path: 'htmlgui', component: HTMLGUIExample },
+  { path: 'scale', component: ScaleExample },
 ];
 
 @NgModule({

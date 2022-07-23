@@ -1,0 +1,25 @@
+<ngt-color attach="background" color="darkgray"></ngt-color>
+
+<line-room></line-room>
+
+<ngt-directional-light [position]="[10, 10, 10]" intensity="0.5" castShadow></ngt-directional-light>
+
+<ngt-group #model [position]="[0, 0, -2]" (ready)="scene=model.instance.value">
+  <gltf-model [animate]="false" [url]="'assets/LittlestTokyo.glb'" (loaded)="loaded()"></gltf-model>
+</ngt-group>
+
+<vr-controller #left showcontroller navhome></vr-controller>
+<vr-controller #right [index]="1" showcontroller navhome></vr-controller>
+
+<vr-scale [left]="left" [right]="right" (start)="start()" (changed)="scaled($event)"></vr-scale>
+
+<ngt-soba-text [text]="'Model: Littlest Tokyo by Glen Fox, CC Attribution'"
+               [castShadow]="true"
+               [color]="'white'"
+               [maxWidth]="8"
+               [fontSize]="0.1"
+               font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+               anchorX="center"
+               anchorY="bottom"
+               [position]="[0, 2, -3]">
+</ngt-soba-text>

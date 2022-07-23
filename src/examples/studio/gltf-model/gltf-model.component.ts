@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Object3D } from 'three';
@@ -17,6 +17,9 @@ export class GLTFodelComponent {
   @Input() scale = [1, 1, 1] as NgtTriple;
   @Input() rotation = [0, 0, 0] as NgtTriple;
   @Input() visible = true;
+  @Input() animate = true;
+
+  @Output() loaded = new EventEmitter<any>();
 
   model$!: Observable<any>;
 
@@ -27,7 +30,7 @@ export class GLTFodelComponent {
   constructor(private loader: NgtGLTFLoader) { }
 
   tick(scene: Object3D) {
-    scene.rotation.y += 0.01;
+    if (this.animate) scene.rotation.y += 0.01;
   }
 }
 

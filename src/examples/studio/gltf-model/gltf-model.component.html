@@ -4,7 +4,8 @@
                    [object]="model.scene"
                    [visible]="visible"
                    [scale]="scale"
-                   (beforeRender)="tick(model.scene)"></ngt-primitive>
+                   (beforeRender)="tick(model.scene)"
+                   (ready)="loaded.next(model.scene)"></ngt-primitive>
   </ng-container>
   <!--<ngt-arrow-helper *ngIf="visible"></ngt-arrow-helper>-->
 </ngt-group>
