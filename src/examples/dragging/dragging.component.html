@@ -6,7 +6,7 @@
 
 <ngt-mesh *ngFor="let item of shapes" (ready)="list.push($event)"
           [position]="item.position" [rotation]="item.rotation" [scale]="item.scale" castShadow>
-  <ngt-mesh-standard-material [parameters]="{ color: item.color, roughness: 0.7, metalness:0.0 }"></ngt-mesh-standard-material>
+  <ngt-mesh-standard-material [color]="item.color" roughness="0.7" metalness="0.0"></ngt-mesh-standard-material>
 
   <ngt-box-geometry *ngIf="item.shapename=='box'" [args]="[0.2, 0.2, 0.2]"></ngt-box-geometry>
   <ngt-cone-geometry *ngIf="item.shapename=='cone'" [args]="[0.2, 0.2, 64]"></ngt-cone-geometry>

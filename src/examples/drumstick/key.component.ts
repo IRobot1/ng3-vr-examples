@@ -2,7 +2,7 @@ import { AfterContentInit, ChangeDetectionStrategy, Component, EventEmitter, Inp
 
 import { ColorRepresentation, Object3D, Quaternion, Vector3 } from "three";
 
-import { makeVector3, NgtTriple } from "@angular-three/core";
+import { make, NgtTriple } from "@angular-three/core";
 
 import { NgtPhysicBody, NgtPhysicBodyReturn } from "@angular-three/cannon";
 
@@ -32,7 +32,7 @@ export class DrumKey implements AfterContentInit {
   ) { }
 
   ngAfterContentInit(): void {
-    const size = makeVector3(this.size).multiplyScalar(this.scale).toArray();
+    const size = make(Vector3, this.size).multiplyScalar(this.scale).toArray();
     
     // instead of the body positioning the Mesh, the mesh positions the body in tick below
     this.body = this.physicBody.useBox(() => ({
