@@ -1,6 +1,6 @@
 {
   "name": "ng3-webxr",
-  "version": "0.0.9",
+  "version": "0.0.11",
   "author": "anidivr",
   "license": "MIT",
   "keywords": [
@@ -24,9 +24,7 @@
   "peerDependencies": {
     "@angular/common": "^14.1.0",
     "@angular/core": "^14.1.0",
-    "@angular-three/core": "^6.0.0",
-    "three": "0.142.0",
-    "three-stdlib": "2.12.1"
+    "@angular-three/core": "^6.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"

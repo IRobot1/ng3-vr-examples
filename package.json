@@ -33,9 +33,9 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-three/cannon": "^6.0.0-beta.0",
-    "@angular-three/core": "^6.0.0-beta.0",
-    "@angular-three/soba": "^6.0.0-beta.0",
+    "@angular-three/cannon": "^6.0.0",
+    "@angular-three/core": "^6.0.0",
+    "@angular-three/soba": "^6.0.0",
     "@angular/animations": "^14.1.0",
     "@angular/common": "^14.1.0",
     "@angular/compiler": "^14.1.0",
@@ -46,7 +46,7 @@
     "@angular/router": "^14.1.0",
     "@types/webxr": "^0.4.0",
     "lil-gui": "^0.17.0",
-    "ng3-webxr": "^0.0.8",
+    "ng3-webxr": "^0.0.11",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
