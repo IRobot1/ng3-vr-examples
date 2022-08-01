@@ -1,10 +1,9 @@
 <div style="height:100vh">
   <!--[referenceSpaceType]="'viewer'"-->
-  <ngt-canvas webvr [camera]="{ fov: 55, position: [0, 2, 4]}">
+  <ngt-canvas webvr cameraman [camera]="{ fov: 55, position: [0, 2, 4]}">
 
     <router-outlet></router-outlet>
 
-    <ngt-soba-orbit-controls></ngt-soba-orbit-controls>
     <ngt-stats></ngt-stats>
   </ngt-canvas>
 </div>

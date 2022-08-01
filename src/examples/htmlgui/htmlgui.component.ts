@@ -8,6 +8,7 @@ import GUI from "lil-gui";
 // copied from https://github.com/mrdoob/three.js/tree/master/examples/jsm/interactive until available in three-stdlib
 
 import { HTMLMesh } from "./HTMLMesh";
+import { CameraService } from "../../app/camera.service";
 
 
 @Component({
@@ -28,8 +29,12 @@ export class HTMLGUIExample implements OnDestroy {
   private mesh!: HTMLMesh;
 
   constructor(
-    private store: NgtStore
+    private store: NgtStore,
+    private camera: CameraService,
   ) {
+    this.camera.position = [0, 1, 0];
+    this.camera.lookAt = [-1, 1, -3];
+
     const gui = new GUI({ width: 300 });
     gui.add(this.parameters, 'radius', 0.0, 1.0);
     gui.add(this.parameters, 'tube', 0.0, 1.0);

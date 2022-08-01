@@ -79,6 +79,7 @@ import { GUIPointerDirective } from '../examples/htmlgui/guipointer.directive';
 import { ScaleExample } from '../examples/scale/scale.component';
 import { VRScaleComponent } from '../examples/scale/vr-scale.component';
 import { MouseTouchInput } from '../examples/htmlgui/mouse-touch-input.component';
+import { CameraManagerDirective } from './camerman.directive';
 
 @NgModule({
   declarations: [
@@ -89,6 +90,8 @@ import { MouseTouchInput } from '../examples/htmlgui/mouse-touch-input.component
     PanelComponent,
     NavigateDirective,
     NavigateHomeDirective,
+
+    CameraManagerDirective,
 
     LineRoomComponent,
     FloorComponent,
