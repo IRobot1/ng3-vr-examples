@@ -78,6 +78,7 @@ import { HTMLGUIExample } from '../examples/htmlgui/htmlgui.component';
 import { GUIPointerDirective } from '../examples/htmlgui/guipointer.directive';
 import { ScaleExample } from '../examples/scale/scale.component';
 import { VRScaleComponent } from '../examples/scale/vr-scale.component';
+import { MouseTouchInput } from '../examples/htmlgui/mouse-touch-input.component';
 
 @NgModule({
   declarations: [
@@ -142,6 +143,7 @@ import { VRScaleComponent } from '../examples/scale/vr-scale.component';
 
     HTMLGUIExample,
     GUIPointerDirective,
+    MouseTouchInput,
 
     ScaleExample,
     VRScaleComponent,
