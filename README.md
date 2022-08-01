@@ -2,10 +2,7 @@ VR Examples for @angular-three
 
 [DEMO here](https://ng3vr.z9.web.core.windows.net/)
 
-Using Windows Mixed Reality the demo works perfectly.  Using Meta Quest 2, navigating between rooms inside the browser works correctly.  However, after Enter VR, navigating between rooms results in empty rooms. Returning to the browser, the rooms appear correctly.  The root cause of this is still under investigation.
-
-
-![image](https://user-images.githubusercontent.com/25032599/174510351-d2404c4b-3d12-4a14-ab58-d7def4104b69.png)
+![image](https://user-images.githubusercontent.com/25032599/182047284-40ef9a33-db46-4591-90f0-3455f0b22fba.png)
 
 Enter VR to experience each demo in person or touch/mouse a panel to preview an example or move/pan around.
 
@@ -41,6 +38,21 @@ Use the touchpad to move forward and sideways.
 
 #### Joystick Movement
 Use the joystick to move forward and sideways.
+
+#### Toggle Controller Behavior
+Point controller at a button to enable/disable that capability on the controller.  Capabilites include dragging shapes, teleporting, highlighting and showing the track pointer and controller model
+
+#### Lights, Camera, Action
+Wall textures show what camera 1 and 2 can see.  Grab and move the cameras.  Grab and move spot lights.
+
+#### Paint
+Pull trigger and move controller to start painting.  Use the joystick to increase/decrease the size of the paint brush.
+
+#### HTML Mesh GUI
+Shows lil-GUI being used in VR.  Point at sliders to change shape parameters
+
+#### World Scale
+Pull triggers on both controllers.  Moving controllers closer makes the model smaller.  Moving apart ameks the model larger.
 
 ## Code Highlights
 Add webvr to ngt-canvas to enable WebVR support
