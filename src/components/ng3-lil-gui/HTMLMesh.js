@@ -8,6 +8,8 @@ import {
 	Color
 } from 'three';
 
+// copied from https://github.com/mrdoob/three.js/tree/master/examples/jsm/interactive until available in three-stdlib
+
 class HTMLMesh extends Mesh {
 
 	constructor(dom) {

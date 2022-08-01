@@ -32,6 +32,5 @@ export class CameraService {
 
   start(camera: PerspectiveCamera) {
     this.camera = camera;
-    console.warn('started', this.camera)
   }
 }

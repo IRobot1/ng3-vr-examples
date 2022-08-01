@@ -80,6 +80,7 @@ import { ScaleExample } from '../examples/scale/scale.component';
 import { VRScaleComponent } from '../examples/scale/vr-scale.component';
 import { MouseTouchInput } from '../examples/htmlgui/mouse-touch-input.component';
 import { CameraManagerDirective } from './camerman.directive';
+import { Ng3LilGUIComponent } from '../components/ng3-lil-gui/ng3-lil-gui.component';
 
 @NgModule({
   declarations: [
@@ -145,6 +146,7 @@ import { CameraManagerDirective } from './camerman.directive';
     PaintBrushDirective,
 
     HTMLGUIExample,
+    Ng3LilGUIComponent,
     GUIPointerDirective,
     MouseTouchInput,
 
