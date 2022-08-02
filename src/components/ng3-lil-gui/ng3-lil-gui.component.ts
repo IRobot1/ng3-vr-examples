@@ -1,11 +1,10 @@
 import { Component, Input, OnInit } from "@angular/core";
 
-import { Euler, Group, Vector3 } from "three";
+import { Group } from "three";
+import { coerceNumberProperty, NgtStore, NgtTriple, NumberInput } from "@angular-three/core";
 
 import GUI from "lil-gui";
-
 import { HTMLMesh } from "./HTMLMesh";
-import { coerceNumberProperty, make, NgtStore, NgtTriple, NumberInput } from "@angular-three/core";
 
 @Component({
   selector: 'ng3-lil-gui[gui]',

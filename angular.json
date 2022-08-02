@@ -30,7 +30,6 @@
               "src/styles.css"
             ],
             "scripts": [
-              "src/components/ng3-lil-gui/HTMLMesh.js"
             ]
           },
           "configurations": {
