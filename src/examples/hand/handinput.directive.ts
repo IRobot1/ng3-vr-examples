@@ -1,9 +1,10 @@
-import { Directive, Input, OnDestroy, OnInit } from "@angular/core";
+import { Directive, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 
+import { XRHandSpace } from "three";
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
 import { VRControllerComponent } from "ng3-webxr";
-import { Subject } from "rxjs";
+import { Subscription } from "rxjs";
 
 @Directive({
   selector: '[handinput]',
@@ -16,11 +17,13 @@ export class HandinputDirective implements OnInit, OnDestroy {
     this._enabled = newvalue;
   }
 
-  public pinchstart = new Subject<XRInputSource>()
-  public pinch = new Subject<XRInputSource>()
-  public pinchend = new Subject<XRInputSource>()
+  @Output() pinchstart = new EventEmitter<XRHandSpace>()
+  @Output() pinchend = new EventEmitter<XRHandSpace>()
+  @Output() pinch = new EventEmitter<XRHandSpace>()
+  @Output() handRender = new EventEmitter<XRHandSpace>()
 
   private cleanup = () => { }
+  private subs = new Subscription();
 
   constructor(
     private xr: VRControllerComponent,
@@ -28,11 +31,11 @@ export class HandinputDirective implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.cleanup();
+    this.subs.unsubscribe();
   }
 
   ngOnInit(): void {
-
-    this.xr.sessionstart.subscribe(xrmanager => {
+    this.subs.add(this.xr.sessionstart.subscribe(xrmanager => {
 
       if (!xrmanager) return;
 
@@ -40,9 +43,7 @@ export class HandinputDirective implements OnInit, OnDestroy {
 
       const pinchstartHandler = (event: any) => {
         if (this.handinput) {
-          console.warn('pinchstart', event)
-          const data: XRInputSource = event['data'];
-          this.pinchstart.next(data);
+          this.pinchstart.next(event.target);
         }
       }
 
@@ -50,33 +51,24 @@ export class HandinputDirective implements OnInit, OnDestroy {
 
       const pinchendHandler = (event: any) => {
         if (this.handinput) {
-          const data: XRInputSource = event['data'];
-          this.pinchend.next(data);
+          this.pinchend.next(event.target);
+          this.pinch.next(event.target);
         }
       }
       hand.addEventListener('pinchend', pinchendHandler);
 
-      const pinchHandler = (event: any) => {
-        if (this.handinput) {
-          console.warn('pinch', event)
-          const data: XRInputSource = event['data'];
-          this.pinch.next(data);
+      this.subs.add(this.xr.beforeRender.subscribe(next => {
+        if (this.handRender.observed) {
+          this.handRender.next(xrmanager.getHand(this.xr.index));
         }
-      }
-      hand.addEventListener('pinch', pinchHandler);
+      }));
 
       this.cleanup = () => {
         hand.removeEventListener('pinchstart', pinchstartHandler);
         hand.removeEventListener('pinchend', pinchendHandler);
-        hand.removeEventListener('pinch', pinchHandler);
       }
-    });
+    }));
 
-    //this.xr.connected.subscribe(next => {
-    //  if (!next) return;
 
-    //  if (this.handinput) {
-    //  }
-    //});
   }
 }

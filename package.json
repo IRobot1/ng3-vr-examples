@@ -24,6 +24,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "startssl": "ng serve --host 0.0.0.0 --ssl",
     "build": "ng build",
     "buildlib": "ng build ng3-webxr",
     "buildall": "ng build ng3-webxr && ng build",

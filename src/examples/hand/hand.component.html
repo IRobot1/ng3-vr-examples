@@ -4,6 +4,17 @@
 
 <ngt-directional-light [position]="[10, 10, 10]" castShadow></ngt-directional-light>
 
-<vr-controller [handinput]="handinput" [showhand]="showhand" navhome></vr-controller>
+<ngt-mesh #floor [rotation]="[-1.57, 0, 0]" receiveShadow>
+  <ngt-plane-geometry [args]="[4.8, 4.8, 2, 2]"></ngt-plane-geometry>
+  <ngt-mesh-standard-material transparent opacity="0.25"></ngt-mesh-standard-material>
+</ngt-mesh>
+
+<vr-controller handinput showhand navhome
+               (pinchstart)="log('pinchstart', $event)"
+               (pinchend)="log('pinchend',$event)"
+               (pinch)="log('pinch',$event)">
+
+</vr-controller>
+<vr-controller [index]="1" handinput showhand navhome></vr-controller>
 
 <ngt-soba-orbit-controls></ngt-soba-orbit-controls>
