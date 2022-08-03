@@ -10,9 +10,10 @@
 </ngt-mesh>
 
 <vr-controller handinput showhand navhome
+               [handModelType]="modeltype"
                (pinchstart)="log('pinchstart', $event)"
                (pinchend)="log('pinchend',$event)"
-               (pinch)="log('pinch',$event)">
+               (pinch)="pinch($event)">
 
 </vr-controller>
 <vr-controller [index]="1" handinput showhand navhome></vr-controller>

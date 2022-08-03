@@ -1,13 +1,14 @@
-import { Directive, Input, OnDestroy, OnInit } from "@angular/core";
+import { Directive, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { Scene, WebXRManager, XRHandSpace } from "three";
-import { XRHandModelFactory } from "three-stdlib";
+import { Object3D, Scene, WebXRManager, XRHandSpace } from "three";
+import { XRHandModelFactory, XRHandPrimitiveModel } from "three-stdlib";
 
 import { BooleanInput, coerceBooleanProperty, NgtStore } from "@angular-three/core";
 
 import { VRControllerComponent } from "ng3-webxr";
 
+export type HandModelType = 'spheres' | 'boxes';// | 'mesh';
 
 @Directive({
   selector: '[showhand]',
@@ -26,6 +27,24 @@ export class ShowHandDirective implements OnInit, OnDestroy {
     }
   }
 
+  private _modeltype: HandModelType = 'spheres';
+  @Input()
+  get handModelType(): HandModelType { return this._modeltype }
+  set handModelType(newvalue: HandModelType) {
+
+    this.showHandModel(this._modeltype, false);
+    this._modeltype = newvalue;
+
+    if (this.hand) {
+      this.showHandModel(newvalue);
+    }
+  }
+
+  @Output() handJoints = new EventEmitter<{ [key: string]: Object3D }>();
+
+  private handModels = new Map<string, Object3D>([]);
+
+  private model!: any;
   private hand!: XRHandSpace;
   private scene!: Scene;
 
@@ -54,11 +73,24 @@ export class ShowHandDirective implements OnInit, OnDestroy {
     this.subs.add(this.xr.connected.subscribe(next => {
       if (!next) return;
 
-      this.hand = manager.getHand(this.xr.index);
+      const hand = manager.getHand(this.xr.index);
 
       const handModelFactory = new XRHandModelFactory();
-      this.hand.add(handModelFactory.createHandModel(this.hand));
+      this.handModels.set('boxes', handModelFactory.createHandModel(hand, 'boxes'));
+      this.handModels.set('spheres', handModelFactory.createHandModel(hand, 'spheres'));
+      //this.handModels.set('mesh', handModelFactory.createHandModel(hand, 'mesh' as any));
 
+      Array.from(this.handModels.values()).forEach(model => {
+        model.visible = false;
+        hand.add(model);
+      });
+      this.showHandModel(this.handModelType);
+
+      this.hand = hand;
+
+      manager.getSession()?.requestAnimationFrame(() => {
+        this.handJoints.next(((this.model.motionController as XRHandPrimitiveModel).controller as any).joints);
+      })
       if (this.showhand) this.show();
     }));
 
@@ -66,6 +98,11 @@ export class ShowHandDirective implements OnInit, OnDestroy {
       if (this.showhand) this.hide();
     }));
 
+  }
+
+  private showHandModel(modeltype: HandModelType, visible = true) {
+    this.model = this.handModels.get(modeltype);
+    if (this.model) this.model.visible = visible;
   }
 
   private hide() {
