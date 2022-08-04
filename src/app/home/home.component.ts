@@ -26,6 +26,7 @@ export class HomeComponent {
     { asset: 'paint', text: 'Paint' },
     { asset: 'htmlgui', text: 'HTML Mesh GUI' },
     { asset: 'scale', text: 'World Scale' },
+    { asset: 'buttons', text: 'Buttons' },
   ]
 
   panels: Array<PanelSetting> = [];

@@ -82,6 +82,7 @@ import { MouseTouchInput } from '../examples/htmlgui/mouse-touch-input.component
 import { CameraManagerDirective } from './camerman.directive';
 import { Ng3LilGUIComponent } from '../components/ng3-lil-gui/ng3-lil-gui.component';
 import { HandGestureDirective } from '../examples/hand/hand-guesture.directive';
+import { ButtonsExample } from '../examples/buttons/buttons.component';
 
 @NgModule({
   declarations: [
@@ -154,6 +155,8 @@ import { HandGestureDirective } from '../examples/hand/hand-guesture.directive';
 
     ScaleExample,
     VRScaleComponent,
+
+    ButtonsExample,
 
   ],
   imports: [
