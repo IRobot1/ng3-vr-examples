@@ -48,6 +48,8 @@ export class ShowHandDirective implements OnInit, OnDestroy {
   private hand!: XRHandSpace;
   private scene!: Scene;
 
+  private supportsHand = false;
+
   private subs = new Subscription();
 
   constructor(
@@ -73,6 +75,9 @@ export class ShowHandDirective implements OnInit, OnDestroy {
     this.subs.add(this.xr.connected.subscribe(next => {
       if (!next) return;
 
+      const profiles = next.xrinput.profiles;
+      this.supportsHand = profiles.includes('generic-hand') || profiles.includes('oculus-hand');
+
       const hand = manager.getHand(this.xr.index);
 
       const handModelFactory = new XRHandModelFactory();
@@ -88,9 +93,12 @@ export class ShowHandDirective implements OnInit, OnDestroy {
 
       this.hand = hand;
 
-      manager.getSession()?.requestAnimationFrame(() => {
-        this.handJoints.next(((this.model.motionController as XRHandPrimitiveModel).controller as any).joints);
-      })
+      if (this.supportsHand) {
+        manager.getSession()?.requestAnimationFrame(() => {
+          this.handJoints.next(((this.model.motionController as XRHandPrimitiveModel).controller as any).joints);
+        })
+      }
+
       if (this.showhand) this.show();
     }));
 
@@ -101,8 +109,10 @@ export class ShowHandDirective implements OnInit, OnDestroy {
   }
 
   private showHandModel(modeltype: HandModelType, visible = true) {
-    this.model = this.handModels.get(modeltype);
-    if (this.model) this.model.visible = visible;
+    if (this.supportsHand) {
+      this.model = this.handModels.get(modeltype);
+      if (this.model) this.model.visible = visible;
+    }
   }
 
   private hide() {

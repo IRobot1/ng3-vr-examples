@@ -1,4 +1,4 @@
-import { Directive, Input, OnDestroy, OnInit } from "@angular/core";
+import { Directive, Input, OnDestroy, OnInit, Optional } from "@angular/core";
 import { Subscription } from "rxjs";
 
 import { Group, Vector3 } from "three";
@@ -6,6 +6,7 @@ import { Group, Vector3 } from "three";
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
 import { VRControllerComponent } from "ng3-webxr";
+import { HandGestureDirective } from "../hand/hand-guesture.directive";
 
 
 @Directive({
@@ -29,6 +30,7 @@ export class ShootDirective implements OnInit, OnDestroy {
 
   constructor(
     private xr: VRControllerComponent,
+    @Optional() private handgesture: HandGestureDirective,
   ) { }
 
   ngOnDestroy(): void {
@@ -44,6 +46,12 @@ export class ShootDirective implements OnInit, OnDestroy {
     this.subs.add(this.xr.connected.subscribe(next => {
       if (!next) return;
       this.controller = next.controller;
+
+      if (this.handgesture) {
+        this.subs.add(this.handgesture.gesture.subscribe(next => {
+          this.isShooting = next == 'shoot';
+        }));
+      }
     }));
 
     this.subs.add(this.xr.triggerstart.subscribe(next => {

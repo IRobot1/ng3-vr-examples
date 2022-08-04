@@ -3,6 +3,7 @@ import { Component, NgZone, OnInit } from "@angular/core";
 import { Color, Group, MathUtils, Object3D, Vector3 } from 'three';
 
 import { NgtRenderState } from "@angular-three/core";
+import { gun, shoot } from "../hand/gestures";
 
 
 class RandomSettings {
@@ -17,6 +18,11 @@ export class BallshooterExample implements OnInit {
   radius = 0.08;
 
   shapes: Array<RandomSettings> = [];
+
+  shootgestures: Array<{ name: string, vectors: Array<number> }> = [
+    { name: 'gun', vectors: gun },
+    { name: 'shoot', vectors: shoot },
+  ]
 
   ngOnInit(): void {
     const timer = setInterval(() => {
