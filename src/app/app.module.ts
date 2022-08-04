@@ -81,6 +81,7 @@ import { VRScaleComponent } from '../examples/scale/vr-scale.component';
 import { MouseTouchInput } from '../examples/htmlgui/mouse-touch-input.component';
 import { CameraManagerDirective } from './camerman.directive';
 import { Ng3LilGUIComponent } from '../components/ng3-lil-gui/ng3-lil-gui.component';
+import { HandGestureDirective } from '../examples/hand/hand-guesture.directive';
 
 @NgModule({
   declarations: [
@@ -106,6 +107,7 @@ import { Ng3LilGUIComponent } from '../components/ng3-lil-gui/ng3-lil-gui.compon
     HandInputExample,
     ShowHandDirective,
     HandinputDirective,
+    HandGestureDirective,
 
     TeleportExample,
 
