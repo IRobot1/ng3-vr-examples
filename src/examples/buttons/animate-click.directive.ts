@@ -1,10 +1,10 @@
 import { EventEmitter, Output, Directive, OnDestroy, Input, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { AnimationAction, AnimationClip, AnimationMixer, LoopOnce, Object3D, VectorKeyframeTrack } from 'three';
-import { BooleanInput, coerceBooleanProperty, NgtStore } from '@angular-three/core';
+import { AnimationAction, AnimationClip, AnimationMixer, LoopOnce, Vector3, VectorKeyframeTrack } from 'three';
+import { BooleanInput, coerceBooleanProperty, make, NgtStore } from '@angular-three/core';
 
-import { MeshBoxButtonComponent } from './mesh-box-button/mesh-box-button.component';
+import { NgtMesh } from '@angular-three/core/meshes';
 
 
 @Directive({
@@ -19,7 +19,7 @@ export class AnimateClickDirective implements OnDestroy, AfterViewInit {
     this._enabled = newvalue;
   }
 
-  @Output() animateCompleted = new EventEmitter<Object3D>();
+  @Output() animateCompleted = new EventEmitter();
 
   private clicktime = 0.1;
 
@@ -33,7 +33,7 @@ export class AnimateClickDirective implements OnDestroy, AfterViewInit {
   private cleanup = () => { }
 
   constructor(
-    private buttonObject: MeshBoxButtonComponent,
+    private buttonObject: NgtMesh,
     private store: NgtStore,
   ) { }
 
@@ -44,37 +44,43 @@ export class AnimateClickDirective implements OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    let object: Object3D;
-
     const onFinished = () => {
-      this.animateCompleted.emit(object);
+      this.animateCompleted.emit();
     }
 
-
-    this.subs.add(this.buttonObject.buttonSelected.subscribe(next => {
+    const animate = () => {
       if (this.animateclick) {
         if (!this.mixer) {
-          this.mixer = new AnimationMixer(next.object);
+          this.mixer = new AnimationMixer(this.buttonObject.instance.value);
           this.mixer.addEventListener('finished', onFinished);
 
           const p = this.buttonObject.position;
-          const distance = this.buttonObject.scale[1] / 5;
+          const px = p.x;
+          const py = p.y;
+          const pz = p.z;
+
+          const scale = make(Vector3, this.buttonObject.scale);
+          const distance = scale.y / 5;
+
           this.positionKF = new VectorKeyframeTrack('.position', [0, this.clicktime * 2 / 3, this.clicktime], [
-            p[0], p[1], p[2],
-            p[0], p[1]-distance, p[2],
-            p[0], p[1], p[2],
+            px, py, pz,
+            px, py - distance, pz,
+            px, py, pz,
           ]);
 
           this.clip = new AnimationClip('Action', this.clicktime, [this.positionKF]);
-          object = next.data;
         }
 
         this.action = this.mixer.clipAction(this.clip);
         this.action.loop = LoopOnce;
         this.startanimation();
       }
-    }));
+    }
 
+    // listen for click events 
+    this.buttonObject.instance.value.addEventListener('click', animate);
+
+    // TODO: change to use beforeRender
     const clock = this.store.get(s => s.clock);
     setInterval(() => {
       if (this.animateclick) {
@@ -86,7 +92,7 @@ export class AnimateClickDirective implements OnDestroy, AfterViewInit {
 
     this.cleanup = () => {
       if (this.mixer) this.mixer.removeEventListener('finished', onFinished);
-
+      this.buttonObject.instance.value.removeEventListener('click', animate);
     }
   }
 

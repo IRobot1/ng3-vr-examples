@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { NgtCanvasModule, NgtRadianPipeModule } from '@angular-three/core';
+import { NgtCanvasModule, NgtObjectPassThrough, NgtRadianPipeModule } from '@angular-three/core';
 import { NgtStatsModule } from '@angular-three/core/stats';
 
 import { NgtBufferAttributeModule, NgtColorAttributeModule } from '@angular-three/core/attributes';
@@ -159,8 +159,8 @@ import { SelectDirective } from '../examples/buttons/select.directive';
 
     ButtonsExample,
     SelectDirective,
-    MeshBoxButtonComponent,
     AnimateClickDirective,
+    MeshBoxButtonComponent,
 
   ],
   imports: [
@@ -176,6 +176,7 @@ import { SelectDirective } from '../examples/buttons/select.directive';
     NgtBufferAttributeModule,
     NgtRadianPipeModule,
     NgtStatsModule,
+    NgtObjectPassThrough,
 
     NgtPerspectiveCameraModule,
     NgtCameraHelperModule,
