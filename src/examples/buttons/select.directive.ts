@@ -1,5 +1,4 @@
-import { Directive, Input, NgZone, OnDestroy, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
+import { Directive, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { Subscription } from "rxjs";
 
 import { Group, Matrix4, Object3D, Raycaster } from "three";
@@ -8,16 +7,22 @@ import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 import { VRControllerComponent } from "ng3-webxr";
 
 @Directive({
-  selector: '[navigate]',
+  selector: '[select]',
+  exportAs: 'select'
 })
-export class NavigateDirective implements OnInit, OnDestroy {
+export class SelectDirective implements OnInit, OnDestroy {
   private _enabled: BooleanInput = true;
   @Input()
-  get navigate(): boolean { return coerceBooleanProperty(this._enabled) }
-  set navigate(newvalue: BooleanInput) {
+  get select(): boolean { return coerceBooleanProperty(this._enabled) }
+  set select(newvalue: BooleanInput) {
     this._enabled = newvalue;
+    if (!newvalue) this.unhighlight();
   }
-  @Input() room!: Group;
+  @Input() selectable: Array<Object3D> = [];
+
+  @Output() selected = new EventEmitter<Object3D>();
+  @Output() selectHighlight = new EventEmitter<Object3D>();
+  @Output() selectUnhighlight = new EventEmitter<Object3D>();
 
   private controller!: Group;
 
@@ -25,8 +30,6 @@ export class NavigateDirective implements OnInit, OnDestroy {
 
   constructor(
     private xr: VRControllerComponent,
-    private router: Router,
-    private zone: NgZone,
   ) { }
 
 
@@ -35,37 +38,32 @@ export class NavigateDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (!this.room) {
-      console.warn('Navigate directive requires room Group to be set');
-      return;
-    }
+    let handedness: XRHandedness;
 
     this.subs.add(this.xr.connected.subscribe(next => {
       if (!next) return;
       this.controller = next.controller;
+
+      handedness = next.xrinput.handedness;
     }));
 
 
     this.subs.add(this.xr.trigger.subscribe(next => {
-      if (this.navigate) {
-        this.zoneNavigate();
+      if (this.select) {
+        if (this.selectable.length == 0) {
+          console.warn(`${handedness} controller 'select' directive '@Input() selectable' list is empty. Nothing can be selected`);
+        }
+
+        if (this.PointerIntersectObject) {
+          this.selected.next(this.PointerIntersectObject);
+        }
       }
     }));
 
     this.subs.add(this.xr.beforeRender.subscribe(next => {
-      if (this.navigate) this.tick();
+      if (this.select) this.tick();
     }));
   }
-
-  private zoneNavigate() {
-    const asset = this.PointerIntersectObject?.userData['asset'];
-    if (asset) {
-      this.zone.run(() => {
-        this.router.navigate([asset]);
-      });
-    }
-  }
-
 
   private getPointerIntersections(): any {
     const tempMatrix = new Matrix4();
@@ -77,7 +75,7 @@ export class NavigateDirective implements OnInit, OnDestroy {
     raycaster.ray.origin.setFromMatrixPosition(this.controller.matrixWorld);
     raycaster.ray.direction.set(0, 0, -1).applyMatrix4(tempMatrix);
 
-    return raycaster.intersectObjects(this.room.children, true);
+    return raycaster.intersectObjects(this.selectable, false);
   }
 
   private PointerIntersect: any;
@@ -85,23 +83,19 @@ export class NavigateDirective implements OnInit, OnDestroy {
 
   private highlight() {
     if (this.PointerIntersectObject) {
-      if (this.PointerIntersectObject.name == 'asset') {
-        this.PointerIntersectObject.scale.multiplyScalar(1.02)
-      }
+      this.selectHighlight.next(this.PointerIntersectObject)
     }
   }
 
   private unhighlight() {
     if (this.PointerIntersectObject) {
-      if (this.PointerIntersectObject.name == 'asset') {
-        this.PointerIntersectObject.scale.multiplyScalar(0.98)
-      }
+      this.selectUnhighlight.next(this.PointerIntersectObject)
       this.PointerIntersectObject = undefined;
     }
   }
 
   private tick() {
-    if (this.controller && this.room) {
+    if (this.controller) {
 
       const intersects = this.getPointerIntersections();
 

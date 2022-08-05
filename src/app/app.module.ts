@@ -58,7 +58,6 @@ import { WallComponent } from '../components/wall.component';
 import { ShowHandDirective } from '../examples/hand/showhand.directive';
 import { PanelComponent } from './portal/panel/panel.component';
 import { PortalComponent } from './portal/portal.component';
-import { NavigateDirective } from './portal/navigate.directive';
 import { NavigateHomeDirective } from './portal/navhome.directive';
 import { BehaviorsExample } from '../examples/behaviors/behaviors.component';
 
@@ -83,6 +82,9 @@ import { CameraManagerDirective } from './camerman.directive';
 import { Ng3LilGUIComponent } from '../components/ng3-lil-gui/ng3-lil-gui.component';
 import { HandGestureDirective } from '../examples/hand/hand-guesture.directive';
 import { ButtonsExample } from '../examples/buttons/buttons.component';
+import { MeshBoxButtonComponent } from '../examples/buttons/mesh-box-button/mesh-box-button.component';
+import { AnimateClickDirective } from '../examples/buttons/animate-click.directive';
+import { SelectDirective } from '../examples/buttons/select.directive';
 
 @NgModule({
   declarations: [
@@ -91,7 +93,6 @@ import { ButtonsExample } from '../examples/buttons/buttons.component';
     HomeComponent,
     PortalComponent,
     PanelComponent,
-    NavigateDirective,
     NavigateHomeDirective,
 
     CameraManagerDirective,
@@ -157,6 +158,9 @@ import { ButtonsExample } from '../examples/buttons/buttons.component';
     VRScaleComponent,
 
     ButtonsExample,
+    SelectDirective,
+    MeshBoxButtonComponent,
+    AnimateClickDirective,
 
   ],
   imports: [

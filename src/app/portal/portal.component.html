@@ -1,6 +1,6 @@
 <ngt-group [position]="position" [rotation]="rotation" [scale]="scale">
   <panel [doublesided]="true" [color]="'black'"></panel>
-  <panel [name]="'asset'" [userData]="{ asset: asset}" [position]="[0, 0, 0.01]" [scale]="[0.95,0.95,1]" [url]="url" (click)="navigate()"></panel>
+  <panel [name]="'asset'" [userData]="{ asset: asset}" [selectable]="selectable" [position]="[0, 0, 0.01]" [scale]="[0.95,0.95,1]" [url]="url" (panelSelected)="portalSelected.next($event)"></panel>
 
   <ngt-soba-text [text]="text"
                  [castShadow]="true"

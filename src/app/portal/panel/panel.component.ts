@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { NgtLoader, NgtTriple } from "@angular-three/core";
 
-import { DoubleSide, FrontSide, TextureLoader, Texture, Side } from "three";
+import { DoubleSide, FrontSide, TextureLoader, Texture, Side, Object3D } from "three";
 
 
 @Component({
@@ -19,6 +19,8 @@ export class PanelComponent {
 
   @Input() doublesided = false;
 
+  @Input() selectable?: Array<Object3D>;
+
   @Input() set url(newvalue: string) {
     const s = this.loader.use(TextureLoader, newvalue).subscribe(next => {
       this.texture = next;
@@ -30,7 +32,7 @@ export class PanelComponent {
 
   @Input() userData: any;
 
-  @Output() click = new EventEmitter<MouseEvent>();
+  @Output() panelSelected = new EventEmitter<Object3D>();
 
   texture!: Texture;
 

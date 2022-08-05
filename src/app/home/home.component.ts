@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 
 import { NgtTriple } from '@angular-three/core';
 import { CameraService } from '../camera.service';
+import { Object3D } from 'three';
+import { Router } from '@angular/router';
 
 class PanelSetting {
   constructor(public position: NgtTriple, public rotation: number, public asset: string, public text: string) { }
@@ -31,7 +33,12 @@ export class HomeComponent {
 
   panels: Array<PanelSetting> = [];
 
+  selectable: Array<Object3D> = [];
+
+
   constructor(
+    private router: Router,
+    private zone: NgZone,
     private camera: CameraService,
   ) {
     // restore defaults in case they changed
@@ -47,5 +54,23 @@ export class HomeComponent {
       const panel = new PanelSetting(position, rotation, item.asset, item.text)
       this.panels.push(panel);
     })
+  }
+
+  selected(object: Object3D) {
+    const asset = object.userData['asset'];
+    if (asset) {
+      this.zone.run(() => {
+        this.router.navigate([asset]);
+      });
+    }
+  }
+
+
+  highlight(object: Object3D) {
+    object.scale.multiplyScalar(1.02)
+  }
+
+  unhighlight(object: Object3D) {
+    object.scale.multiplyScalar(0.98)
   }
 }

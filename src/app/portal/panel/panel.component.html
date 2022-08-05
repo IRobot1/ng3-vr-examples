@@ -1,4 +1,4 @@
-<ngt-mesh [name]="name" [userData]="userData" [position]="position" [scale]="scale" (click)="click.emit($event.nativeEvent)" >
+<ngt-mesh #inst [name]="name" [userData]="userData" (ready)="selectable?.push($event)" [position]="position" [scale]="scale" (click)="panelSelected.emit(inst.instance.value)" >
   <ngt-plane-geometry></ngt-plane-geometry>
   <ngt-mesh-standard-material [color]="color" [side]="side" [map]="texture"></ngt-mesh-standard-material>
 </ngt-mesh>

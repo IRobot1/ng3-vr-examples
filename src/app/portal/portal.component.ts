@@ -1,7 +1,7 @@
-import { Component, Input } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { NgtTriple } from "@angular-three/core";
+import { Object3D } from "three";
 
 @Component({
   selector: 'portal',
@@ -17,13 +17,11 @@ export class PortalComponent {
   @Input() asset = '';
   @Input() text = '';
 
+  @Input() selectable?: Array<Object3D>;
+
+  @Output() portalSelected = new EventEmitter<Object3D>();
+
   get url(): string {
     return `assets/screenshots/${this.asset}.png`;
-  }
-
-  constructor(private router: Router) { }
-
-  navigate() {
-    this.router.navigate(['/' + this.asset]);
   }
 }
