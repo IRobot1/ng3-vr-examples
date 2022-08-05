@@ -1,7 +1,7 @@
 import { Directive, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { Group, Matrix4, Object3D, Raycaster } from "three";
+import { Group, Matrix4, Object3D, Raycaster, Vector2 } from "three";
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
 import { VRControllerComponent } from "ng3-webxr";
@@ -55,6 +55,7 @@ export class SelectDirective implements OnInit, OnDestroy {
         }
 
         if (this.PointerIntersectObject) {
+          this.PointerIntersectObject.dispatchEvent({ type: 'click'});
           this.selected.next(this.PointerIntersectObject);
         }
       }

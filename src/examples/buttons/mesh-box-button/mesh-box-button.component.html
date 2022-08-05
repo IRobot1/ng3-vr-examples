@@ -1,6 +1,6 @@
-<ngt-group #group (ready)="object=group" [position]="position" [rotation]="rotation" [scale]="scale">
+<ngt-group #group [position]="position" [rotation]="rotation" [scale]="scale" >
 
-  <ngt-mesh castShadow receiveShadow>
+  <ngt-mesh #mesh (ready)="addselectable(mesh.instance.value, group.instance.value)" castShadow receiveShadow>
     <ngt-box-geometry></ngt-box-geometry>
     <ngt-mesh-standard-material [color]="buttoncolor"></ngt-mesh-standard-material>
 
