@@ -19,6 +19,7 @@ import { PaintExample } from '../examples/paint/paint.component';
 import { HTMLGUIExample } from '../examples/htmlgui/htmlgui.component';
 import { ScaleExample } from '../examples/scale/scale.component';
 import { ButtonsExample } from '../examples/buttons/buttons.component';
+import { MorphWallExample } from '../examples/morphwall/morphwall.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -39,6 +40,7 @@ const routes: Routes = [
   { path: 'htmlgui', component: HTMLGUIExample },
   { path: 'scale', component: ScaleExample },
   { path: 'buttons', component: ButtonsExample },
+  { path: 'morphwall', component: MorphWallExample },
 ];
 
 @NgModule({

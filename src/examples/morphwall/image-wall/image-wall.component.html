@@ -1,0 +1,7 @@
+<ngt-instanced-mesh *ngIf="loaded" #inst [count]="data.length"
+                    (ready)="ready(inst.instance.value)"
+                    [position]="position" castShadow receiveShadow>
+  <!--<ngt-sphere-geometry [args]="[size]"></ngt-sphere-geometry>-->
+  <ngt-box-geometry [args]="[size,size,size]"></ngt-box-geometry>
+  <ngt-mesh-standard-material></ngt-mesh-standard-material>
+</ngt-instanced-mesh>

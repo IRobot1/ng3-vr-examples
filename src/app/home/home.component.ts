@@ -29,6 +29,7 @@ export class HomeComponent {
     { asset: 'htmlgui', text: 'HTML Mesh GUI' },
     { asset: 'scale', text: 'World Scale' },
     { asset: 'buttons', text: 'Buttons' },
+    { asset: 'morphwall', text: 'Morphing Wall' },
   ]
 
   panels: Array<PanelSetting> = [];

@@ -11,7 +11,7 @@ import { NgtGridHelperModule, NgtPointLightHelperModule, NgtCameraHelperModule, 
 
 import { NgtAmbientLightModule, NgtDirectionalLightModule, NgtPointLightModule, NgtSpotLightModule } from '@angular-three/core/lights';
 
-import { NgtMeshModule } from '@angular-three/core/meshes';
+import { NgtInstancedMeshModule, NgtMeshModule } from '@angular-three/core/meshes';
 import { NgtGroupModule } from '@angular-three/core/group';
 import { NgtLineModule } from '@angular-three/core/lines';
 
@@ -85,6 +85,8 @@ import { ButtonsExample } from '../examples/buttons/buttons.component';
 import { MeshBoxButtonComponent } from '../examples/buttons/mesh-box-button/mesh-box-button.component';
 import { AnimateClickDirective } from '../examples/buttons/animate-click.directive';
 import { SelectDirective } from '../examples/buttons/select.directive';
+import { MorphWallExample } from '../examples/morphwall/morphwall.component';
+import { ImageWallComponent } from '../examples/morphwall/image-wall/image-wall.component';
 
 @NgModule({
   declarations: [
@@ -162,6 +164,8 @@ import { SelectDirective } from '../examples/buttons/select.directive';
     AnimateClickDirective,
     MeshBoxButtonComponent,
 
+    MorphWallExample,
+    ImageWallComponent,
   ],
   imports: [
     BrowserModule,
@@ -195,6 +199,7 @@ import { SelectDirective } from '../examples/buttons/select.directive';
 
     NgtLineModule,
     NgtMeshModule,
+    NgtInstancedMeshModule,
     NgtGroupModule,
 
     NgtBufferGeometryModule,
