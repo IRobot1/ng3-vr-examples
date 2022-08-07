@@ -1,14 +1,18 @@
 import { Component, Input } from "@angular/core";
 
 import { Color, InstancedMesh, Matrix4, Object3D, Vector3 } from "three";
-import { NgtTriple } from "@angular-three/core";
+import { NgtObjectProps } from "@angular-three/core";
+
+class WallPixel {
+  constructor(public position: Vector3, public color: Color) { }
+}
 
 @Component({
   selector: 'image-wall[url]',
   exportAs: 'imageWall',
   templateUrl: './image-wall.component.html',
 })
-export class ImageWallComponent {
+export class ImageWallComponent extends NgtObjectProps<InstancedMesh> {
   private _url!: string;
   @Input()
   get url(): string { return this._url }
@@ -25,8 +29,10 @@ export class ImageWallComponent {
 
   @Input() selectable!: Array<Object3D>;
 
-  position = [0, 0, 0] as NgtTriple;
-  data!: Array<any>;
+  width!: number;
+  height!: number;
+
+  data!: Array<WallPixel>;
   loaded = false;
 
   private refresh(): void {
@@ -75,13 +81,17 @@ export class ImageWallComponent {
           index++;
         }
       }
-      this.position = [-width * interval / 2, height * interval / 2, 0]
+      this.position = [-width * interval / 2, height * interval / 2, 0];
+      this.width = width;
+      this.height = height;
       this.loaded = true;
     }
 
   }
 
-  protected ready(inst: InstancedMesh) {
+  inst!: InstancedMesh;
+  protected wallready(inst: InstancedMesh) {
+    this.inst = inst;
     this.selectable?.push(inst);
 
     this.data.forEach((item, index) => {
