@@ -31,6 +31,8 @@ export class MouseTouchInput implements OnInit, OnDestroy {
 
     const element = renderer.domElement;
 
+    let lastobject: any;
+
     const onPointerEvent = (event: any) => {
 
       event.stopPropagation();
@@ -54,6 +56,11 @@ export class MouseTouchInput implements OnInit, OnDestroy {
           _event.data.set(uv.x, 1 - uv.y);
 
         object.dispatchEvent(_event);
+        lastobject = object;
+      }
+      else if (lastobject) {
+        lastobject.dispatchEvent({ type: 'mouseout' });
+        lastobject = undefined;
       }
 
     }

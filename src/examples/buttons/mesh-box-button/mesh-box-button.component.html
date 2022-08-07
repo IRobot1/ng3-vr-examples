@@ -1,4 +1,4 @@
-<ngt-mesh #mesh (ready)="selectable?.push(mesh.instance.value)" castShadow receiveShadow
+<ngt-mesh #mesh (ready)="meshready(mesh.instance.value)" castShadow receiveShadow
           animateclick [position]="position" [scale]="scale" (animateCompleted)="selected.next(mesh.instance.value)">
   <ngt-box-geometry></ngt-box-geometry>
   <ngt-mesh-standard-material [color]="buttoncolor"></ngt-mesh-standard-material>
