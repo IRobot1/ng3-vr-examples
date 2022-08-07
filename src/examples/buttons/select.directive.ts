@@ -1,7 +1,7 @@
 import { Directive, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { Group, Matrix4, Object3D, Raycaster, Vector2 } from "three";
+import { Group, Intersection, Matrix4, Object3D, Raycaster, Vector2 } from "three";
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
 import { VRControllerComponent } from "ng3-webxr";
@@ -20,9 +20,9 @@ export class SelectDirective implements OnInit, OnDestroy {
   }
   @Input() selectable: Array<Object3D> = [];
 
-  @Output() selected = new EventEmitter<Object3D>();
-  @Output() selectHighlight = new EventEmitter<Object3D>();
-  @Output() selectUnhighlight = new EventEmitter<Object3D>();
+  @Output() selected = new EventEmitter<Intersection>();
+  @Output() selectHighlight = new EventEmitter<Intersection>();
+  @Output() selectUnhighlight = new EventEmitter<Intersection>();
 
   private controller!: Group;
 
@@ -54,9 +54,9 @@ export class SelectDirective implements OnInit, OnDestroy {
           console.warn(`${handedness} controller 'select' directive '@Input() selectable' list is empty. Nothing can be selected`);
         }
 
-        if (this.PointerIntersectObject) {
-          this.PointerIntersectObject.dispatchEvent({ type: 'click'});
-          this.selected.next(this.PointerIntersectObject);
+        if (this.PointerIntersect) {
+          this.PointerIntersect.object.dispatchEvent({ type: 'click'});
+          this.selected.next(this.PointerIntersect);
         }
       }
     }));
@@ -66,7 +66,7 @@ export class SelectDirective implements OnInit, OnDestroy {
     }));
   }
 
-  private getPointerIntersections(): any {
+  private getPointerIntersections(): Array<Intersection> {
     const tempMatrix = new Matrix4();
 
     tempMatrix.identity().extractRotation(this.controller.matrixWorld);
@@ -79,19 +79,18 @@ export class SelectDirective implements OnInit, OnDestroy {
     return raycaster.intersectObjects(this.selectable, false);
   }
 
-  private PointerIntersect: any;
-  private PointerIntersectObject?: Object3D;
+  private PointerIntersect?: Intersection;
 
   private highlight() {
-    if (this.PointerIntersectObject) {
-      this.selectHighlight.next(this.PointerIntersectObject)
+    if (this.PointerIntersect) {
+      this.selectHighlight.next(this.PointerIntersect)
     }
   }
 
   private unhighlight() {
-    if (this.PointerIntersectObject) {
-      this.selectUnhighlight.next(this.PointerIntersectObject)
-      this.PointerIntersectObject = undefined;
+    if (this.PointerIntersect) {
+      this.selectUnhighlight.next(this.PointerIntersect)
+      this.PointerIntersect = undefined;
     }
   }
 
@@ -101,12 +100,12 @@ export class SelectDirective implements OnInit, OnDestroy {
       const intersects = this.getPointerIntersections();
 
       if (intersects.length > 0) {
-        if (this.PointerIntersectObject != intersects[0].object) {
+        const firstIntersect = intersects[0];
+        if (this.PointerIntersect?.object != firstIntersect.object || this.PointerIntersect?.instanceId != firstIntersect.instanceId ) {
 
           this.unhighlight();
 
-          this.PointerIntersect = intersects[0];
-          this.PointerIntersectObject = this.PointerIntersect.object;
+          this.PointerIntersect = firstIntersect;
 
           this.highlight();
         }

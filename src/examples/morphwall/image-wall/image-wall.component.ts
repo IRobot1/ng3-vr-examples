@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 
-import { Color, InstancedMesh, Matrix4, Vector3 } from "three";
+import { Color, InstancedMesh, Matrix4, Object3D, Vector3 } from "three";
 import { NgtTriple } from "@angular-three/core";
 
 @Component({
@@ -22,6 +22,8 @@ export class ImageWallComponent {
 
   @Input() size = 0.01;
   @Input() gap = 0;
+
+  @Input() selectable!: Array<Object3D>;
 
   position = [0, 0, 0] as NgtTriple;
   data!: Array<any>;
@@ -80,6 +82,7 @@ export class ImageWallComponent {
   }
 
   protected ready(inst: InstancedMesh) {
+    this.selectable?.push(inst);
 
     this.data.forEach((item, index) => {
       const matrix = new Matrix4();

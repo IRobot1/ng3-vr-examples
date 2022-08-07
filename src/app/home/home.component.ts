@@ -2,7 +2,7 @@ import { Component, NgZone } from '@angular/core';
 
 import { NgtTriple } from '@angular-three/core';
 import { CameraService } from '../camera.service';
-import { Object3D } from 'three';
+import { Intersection, Object3D } from 'three';
 import { Router } from '@angular/router';
 
 class PanelSetting {
@@ -57,6 +57,10 @@ export class HomeComponent {
     })
   }
 
+  intersected(intersect: Intersection) {
+    this.selected(intersect.object);
+  }
+
   selected(object: Object3D) {
     const asset = object.userData['asset'];
     if (asset) {
@@ -67,11 +71,11 @@ export class HomeComponent {
   }
 
 
-  highlight(object: Object3D) {
-    object.scale.multiplyScalar(1.02)
+  highlight(intersect: Intersection) {
+    intersect.object.scale.multiplyScalar(1.02)
   }
 
-  unhighlight(object: Object3D) {
-    object.scale.multiplyScalar(0.98)
+  unhighlight(intersect: Intersection) {
+    intersect.object.scale.multiplyScalar(0.98)
   }
 }

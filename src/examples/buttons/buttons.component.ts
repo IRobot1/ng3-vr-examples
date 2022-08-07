@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 
-import { Mesh, MeshStandardMaterial, Object3D } from "three";
+import { Intersection, Mesh, MeshStandardMaterial, Object3D } from "three";
 import { NgtTriple } from "@angular-three/core";
 
 import { CameraService } from "../../app/camera.service";
@@ -28,10 +28,12 @@ export class ButtonsExample {
     (this.torus.material as MeshStandardMaterial).color = object.material.color;
   }
 
-  highlight(object: any) {
+  highlight(intersect: Intersection) {
+    const object = intersect.object as any;
     object.material.emissive.b = 1;
   }
-  unhighlight(object: any) {
+  unhighlight(intersect: Intersection) {
+    const object = intersect.object as any;
     object.material.emissive.b = 0;
   }
 

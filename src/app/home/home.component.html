@@ -11,12 +11,12 @@
 </ngt-group>
 
 <vr-controller showcontroller trackedpointer
-               select [selectable]="selectable" (selected)="selected($event)" 
+               select [selectable]="selectable" (selected)="intersected($event)" 
                (selectHighlight)="highlight($event)" (selectUnhighlight)="unhighlight($event)">
 </vr-controller>
 
 <vr-controller [index]="1" showcontroller trackedpointer
-               select [selectable]="selectable" (selected)="selected($event)" 
+               select [selectable]="selectable" (selected)="intersected($event)" 
                (selectHighlight)="highlight($event)" (selectUnhighlight)="unhighlight($event)">
 </vr-controller>
 

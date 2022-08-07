@@ -2,12 +2,18 @@
 
 <ngt-ambient-light></ngt-ambient-light>
 
-<ngt-group (ready)="group = $event" [position]="[0, 0, -4]" [rotation]="rotation" (beforeRender)="tick()">
-  <image-wall [url]="url"></image-wall>
+<ngt-group (ready)="group = $event" [position]="position" [rotation]="rotation" (beforeRender)="tick()">
+  <image-wall [url]="url" [selectable]="selectable"></image-wall>
 </ngt-group>
 
 <!--<ngt-group [rotation]="[90 | radian, 0, 0]" [position]="[0, -0.05, 0]">
   <image-wall [url]="'assets/mandelbrot2.jpg'" [size]="0.1"></image-wall>
 </ngt-group>-->
+
+<vr-controller navhome showcontroller trackedpointer 
+               select [selectable]="selectable" (selectHighlight)="highlight($event)" (selectUnhighlight)="unhighlight($event)">
+
+</vr-controller>
+<vr-controller [index]="1" navhome></vr-controller>
 
 <ngt-soba-orbit-controls></ngt-soba-orbit-controls>
