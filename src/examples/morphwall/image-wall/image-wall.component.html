@@ -1,5 +1,5 @@
 <ngt-instanced-mesh *ngIf="loaded" #inst [count]="data.length"
-                    (ready)="ready(inst.instance.value)"
+                    (ready)="wallready(inst.instance.value)" (click)="click.next($event)"
                     [position]="position" castShadow receiveShadow>
   <!--<ngt-sphere-geometry [args]="[size]"></ngt-sphere-geometry>-->
   <ngt-box-geometry [args]="[size,size,size]"></ngt-box-geometry>

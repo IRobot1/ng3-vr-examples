@@ -2,9 +2,10 @@ import { NgtTriple } from "@angular-three/core";
 import { Component, OnInit } from "@angular/core";
 import { WebVRService } from "ng3-webxr";
 import { Subscription } from "rxjs";
-import { Color, Group, InstancedMesh, Intersection, MathUtils, Object3D } from "three";
+import { Color, Group, InstancedMesh, Intersection, MathUtils, Matrix4, Object3D, Quaternion, Vector3 } from "three";
 
 import { CameraService } from "../../app/camera.service";
+import { ImageWallComponent } from "./image-wall/image-wall.component";
 
 
 @Component({
@@ -21,6 +22,8 @@ export class MorphWallExample implements OnInit {
   selectable: Array<Object3D> = [];
 
   url = this.images[2];
+  gap = 0; // 0.005;
+
   position = [0, 0, 0] as NgtTriple;
   rotation = [0, 0, 0] as NgtTriple;
   group!: Group;
@@ -31,7 +34,7 @@ export class MorphWallExample implements OnInit {
     private cameraService: CameraService,
     private webvr: WebVRService,
   ) {
-    this.cameraService.position = [0, 0, 6];
+    this.cameraService.position = [0, 0, -2];
 
   }
 
@@ -42,26 +45,27 @@ export class MorphWallExample implements OnInit {
   ngOnInit(): void {
     this.subs.add(this.webvr.xrsession.subscribe(isPresenting => {
       if (isPresenting) {
-        this.position = [0, 0, -4]; // move it back so we're not standing in the middle of wall
+        this.position = [0, 1.5, -1]; // move it so we're not standing in the middle of wall
       }
       else {
         this.position = [0, 0, 0]; // return to origin
+        this.cameraService.position = [0, 0, -2];
       }
     }));
 
+    // cycle through images
     let index = 0;
-
-    //setInterval(() => {
-    //  if (++index >= this.images.length) index = 0;
-    //  this.url = this.images[index];
-    //}, 3 * 1000)
+    setInterval(() => {
+      if (++index >= this.images.length) index = 0;
+      this.url = this.images[index];
+    }, 10 * 1000)
   }
 
-  private pitch = 0;
+  private yaw = 0;
 
   tick() {
-    this.pitch += 0.1;
-    this.group.rotation.y = MathUtils.degToRad(this.pitch);
+    this.yaw += 0.1;
+    this.group.rotation.y = MathUtils.degToRad(this.yaw);
   }
 
   invertcolor(intersect: Intersection) {
@@ -75,10 +79,54 @@ export class MorphWallExample implements OnInit {
     color.b = 255 - color.b;
     object.setColorAt(intersect.instanceId, color);
     if (object.instanceColor) object.instanceColor.needsUpdate = true;
+
   }
 
-  highlight(intersect: Intersection) {
+  private isSelected = false;
+
+  selected(wall: ImageWallComponent) {
+    if (!this.isSelected) {
+
+      // explode pixels
+      const displace = 0.8;
+      wall.data.forEach((item, index) => {
+        const matrix = new Matrix4();
+        item.position.z = -displace + Math.random() * displace * 2 + 0.01;
+        matrix.setPosition(item.position);
+        wall.inst.setMatrixAt(index, matrix);
+        wall.inst.instanceMatrix.needsUpdate = true;
+      });
+    }
+    else {
+      // return pixels to origin
+      wall.data.forEach((item, index) => {
+        const matrix = new Matrix4();
+        item.position.z = 0;
+        matrix.setPosition(item.position);
+        wall.inst.setMatrixAt(index, matrix);
+        wall.inst.instanceMatrix.needsUpdate = true;
+      });
+    }
+    this.isSelected = !this.isSelected;
+  }
+
+
+  highlight(intersect: Intersection, wall: ImageWallComponent) {
     this.invertcolor(intersect);
+
+    // return highlighted pixel to origin
+    const index = intersect.instanceId;
+    if (index) {
+      const matrix = new Matrix4();
+
+      const item = wall.data[index];
+      item.position.z = 0;
+      matrix.setPosition(item.position);
+
+      wall.inst.setMatrixAt(index, matrix);
+      wall.inst.instanceMatrix.needsUpdate = true;
+
+    }
   }
 
   unhighlight(intersect: Intersection) {

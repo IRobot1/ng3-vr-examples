@@ -3,15 +3,17 @@
 <ngt-ambient-light></ngt-ambient-light>
 
 <ngt-group (ready)="group = $event" [position]="position" [rotation]="rotation" (beforeRender)="tick()">
-  <image-wall [url]="url" [selectable]="selectable"></image-wall>
+  <image-wall #wall [url]="url" [selectable]="selectable" (click)="selected(wall)" [gap]="gap"></image-wall>
 </ngt-group>
 
+<!--make it the floor-->
 <!--<ngt-group [rotation]="[90 | radian, 0, 0]" [position]="[0, -0.05, 0]">
   <image-wall [url]="'assets/mandelbrot2.jpg'" [size]="0.1"></image-wall>
 </ngt-group>-->
 
 <vr-controller navhome showcontroller trackedpointer 
-               select [selectable]="selectable" (selectHighlight)="highlight($event)" (selectUnhighlight)="unhighlight($event)">
+               select [selectable]="selectable" (selected)="selected(wall)"
+               (selectHighlight)="highlight($event, wall)" (selectUnhighlight)="unhighlight($event)">
 
 </vr-controller>
 <vr-controller [index]="1" navhome></vr-controller>
