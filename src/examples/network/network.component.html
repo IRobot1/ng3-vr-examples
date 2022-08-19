@@ -1,0 +1,46 @@
+<ngt-color attach="background" color="darkgray"></ngt-color>
+
+<line-room></line-room>
+
+<ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
+
+
+<ngt-group (beforeRender)="tick($event.object)" [position]="[0, y, -1]">
+
+  <ngt-mesh [position]="[-1, 0, 0]">
+    <ngt-sphere-geometry [args]="[0.1]"></ngt-sphere-geometry>
+    <ngt-mesh-standard-material color="blue"></ngt-mesh-standard-material>
+  </ngt-mesh>
+
+
+
+  <ngt-line>
+    <ngt-buffer-geometry (ready)="ready($event)">
+      <!--<ngt-buffer-attribute [attach]="['attributes', 'position']"
+                            [args]="[positions, 3]"></ngt-buffer-attribute>-->
+    </ngt-buffer-geometry>
+    <ngt-line-basic-material></ngt-line-basic-material>
+
+    <ngt-soba-text [text]="'label'"
+                   [castShadow]="true"
+                   [color]="'white'"
+                   [maxWidth]="8"
+                   [fontSize]="0.1"
+                   font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+                   anchorX="center"
+                   anchorY="bottom">
+    </ngt-soba-text>
+  </ngt-line>
+
+  <ngt-mesh [position]="[1, 0, 0]">
+    <ngt-sphere-geometry [args]="[0.1]"></ngt-sphere-geometry>
+    <ngt-mesh-standard-material color="blue"></ngt-mesh-standard-material>
+  </ngt-mesh>
+
+</ngt-group>
+
+
+<vr-controller navhome></vr-controller>
+<vr-controller [index]="1" navhome></vr-controller>
+
+<ngt-soba-orbit-controls></ngt-soba-orbit-controls>

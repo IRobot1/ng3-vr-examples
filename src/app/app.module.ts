@@ -87,6 +87,7 @@ import { AnimateClickDirective } from '../examples/buttons/animate-click.directi
 import { SelectDirective } from '../examples/buttons/select.directive';
 import { MorphWallExample } from '../examples/morphwall/morphwall.component';
 import { ImageWallComponent } from '../examples/morphwall/image-wall/image-wall.component';
+import { NetworkExample } from '../examples/network/network.component';
 
 @NgModule({
   declarations: [
@@ -166,6 +167,8 @@ import { ImageWallComponent } from '../examples/morphwall/image-wall/image-wall.
 
     MorphWallExample,
     ImageWallComponent,
+
+    NetworkExample,
   ],
   imports: [
     BrowserModule,

@@ -30,6 +30,7 @@ export class HomeComponent {
     { asset: 'scale', text: 'World Scale' },
     { asset: 'buttons', text: 'Buttons' },
     { asset: 'morphwall', text: 'Morphing Wall' },
+    { asset: 'network', text: 'Network Diagram' },
   ]
 
   panels: Array<PanelSetting> = [];
