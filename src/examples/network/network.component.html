@@ -5,20 +5,15 @@
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
 
-<ngt-group (beforeRender)="tick($event.object)" [position]="[0, y, -1]">
-
-  <ngt-mesh [position]="[-1, 0, 0]">
-    <ngt-sphere-geometry [args]="[0.1]"></ngt-sphere-geometry>
-    <ngt-mesh-standard-material color="blue"></ngt-mesh-standard-material>
-  </ngt-mesh>
+<ngt-mesh [position]="start">
+  <ngt-sphere-geometry [args]="[0.1]"></ngt-sphere-geometry>
+  <ngt-mesh-standard-material color="blue"></ngt-mesh-standard-material>
+</ngt-mesh>
 
 
-
-  <ngt-line>
-    <ngt-buffer-geometry (ready)="ready($event)">
-      <!--<ngt-buffer-attribute [attach]="['attributes', 'position']"
-                            [args]="[positions, 3]"></ngt-buffer-attribute>-->
-    </ngt-buffer-geometry>
+<ngt-group [position]="end" (ready)="childlookat($event)">
+  <ngt-mesh [position]="[0, length/2, 0]">
+    <ngt-cylinder-geometry [args]="[0.01, 0.01, length]"></ngt-cylinder-geometry>
     <ngt-line-basic-material></ngt-line-basic-material>
 
     <ngt-soba-text [text]="'label'"
@@ -28,16 +23,16 @@
                    [fontSize]="0.1"
                    font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
                    anchorX="center"
-                   anchorY="bottom">
+                   anchorY="bottom" [rotation]="[0, 90 | radian, -90 | radian]">
     </ngt-soba-text>
-  </ngt-line>
-
-  <ngt-mesh [position]="[1, 0, 0]">
-    <ngt-sphere-geometry [args]="[0.1]"></ngt-sphere-geometry>
-    <ngt-mesh-standard-material color="blue"></ngt-mesh-standard-material>
   </ngt-mesh>
-
 </ngt-group>
+
+<ngt-mesh [position]="end">
+  <ngt-sphere-geometry [args]="[0.1]"></ngt-sphere-geometry>
+  <ngt-mesh-standard-material color="blue"></ngt-mesh-standard-material>
+</ngt-mesh>
+
 
 
 <vr-controller navhome></vr-controller>

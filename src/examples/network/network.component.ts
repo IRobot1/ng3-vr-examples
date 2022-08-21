@@ -1,29 +1,34 @@
-import { Component } from "@angular/core";
-import { BufferGeometry, Object3D, Vector3 } from "three";
-
+import { make, NgtStore, NgtTriple } from "@angular-three/core";
+import { Component, OnInit } from "@angular/core";
+import { Camera, MathUtils, Object3D, Vector3 } from "three";
 
 @Component({
   templateUrl: './network.component.html',
 })
-export class NetworkExample {
+export class NetworkExample implements OnInit {
+  start = [-1, 1 , -1] as NgtTriple;
+  end = [1, 1, -1] as NgtTriple;
+  length = 2;
+
   positions = new Float32Array([
     -1, 1, -1,
     1, 1, -1
   ]);
 
-
   y = 1;
 
-  ready(buffer: BufferGeometry) {
-    const points = [
-      new Vector3(-1, 0, 0),
-      new Vector3(1, 0, 0)
-    ];
+  camera!: Camera;
 
-    buffer.setFromPoints(points);
+  constructor(private store: NgtStore) { }
+
+  ngOnInit(): void {
+    this.camera = this.store.get(s => s.camera);
+
+    this.length = make(Vector3, this.end).sub(make(Vector3, this.start)).length();
   }
 
-  tick(group: Object3D) {
-    group.rotation.y += 0.01;
+  childlookat(mesh: Object3D) {
+    mesh.lookAt(...this.start)
+    mesh.rotateX(MathUtils.degToRad(90))
   }
 }
