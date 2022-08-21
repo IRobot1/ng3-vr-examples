@@ -89,7 +89,8 @@ import { SelectDirective } from '../examples/buttons/select.directive';
 import { MorphWallExample } from '../examples/morphwall/morphwall.component';
 import { ImageWallComponent } from '../examples/morphwall/image-wall/image-wall.component';
 import { DrawRangeComponent } from '../art/drawrange/drawrange.component';
-import { BoxLineGeometryComponent } from '../art/drawrange/box-line-geometry.component';
+import { BoxLineGeometryComponent } from '../components/box-line-geometry.component';
+import { RoundedBoxGeometryComponent } from '../components/rounded-box-geometry.component';
 
 @NgModule({
   declarations: [
@@ -107,6 +108,7 @@ import { BoxLineGeometryComponent } from '../art/drawrange/box-line-geometry.com
 
     DrawRangeComponent,
     BoxLineGeometryComponent,
+    RoundedBoxGeometryComponent,
 
     BallshooterExample,
     ShootDirective,
