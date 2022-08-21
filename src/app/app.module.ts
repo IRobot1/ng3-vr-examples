@@ -7,17 +7,18 @@ import { NgtCanvasModule, NgtObjectPassThrough, NgtRadianPipeModule } from '@ang
 import { NgtStatsModule } from '@angular-three/core/stats';
 
 import { NgtBufferAttributeModule, NgtColorAttributeModule } from '@angular-three/core/attributes';
-import { NgtGridHelperModule, NgtPointLightHelperModule, NgtCameraHelperModule, NgtSpotLightHelperModule, NgtBox3HelperModule, NgtBoxHelperModule } from '@angular-three/core/helpers';
+import { NgtGridHelperModule, NgtPointLightHelperModule, NgtCameraHelperModule, NgtSpotLightHelperModule, NgtBoxHelperModule } from '@angular-three/core/helpers';
 
 import { NgtAmbientLightModule, NgtDirectionalLightModule, NgtPointLightModule, NgtSpotLightModule } from '@angular-three/core/lights';
 
 import { NgtInstancedMeshModule, NgtMeshModule } from '@angular-three/core/meshes';
 import { NgtGroupModule } from '@angular-three/core/group';
-import { NgtLineModule } from '@angular-three/core/lines';
+import { NgtLineModule, NgtLineSegmentsModule } from '@angular-three/core/lines';
+import { NgtPointsModule } from '@angular-three/core/points';
 
 import { NgtBoxGeometryModule, NgtBufferGeometryModule, NgtCircleGeometryModule, NgtConeGeometryModule, NgtCylinderGeometryModule, NgtIcosahedronGeometryModule, NgtPlaneGeometryModule, NgtSphereGeometryModule, NgtTorusGeometryModule, NgtTorusKnotGeometryModule  } from '@angular-three/core/geometries';
 
-import { NgtLineBasicMaterialModule, NgtMeshBasicMaterialModule, NgtMeshStandardMaterialModule } from '@angular-three/core/materials';
+import { NgtLineBasicMaterialModule, NgtMeshBasicMaterialModule, NgtMeshStandardMaterialModule, NgtPointsMaterialModule } from '@angular-three/core/materials';
 
 import { NgtSobaOrbitControlsModule } from '@angular-three/soba/controls'
 import { NgtSobaTextModule } from '@angular-three/soba/abstractions'
@@ -87,6 +88,8 @@ import { AnimateClickDirective } from '../examples/buttons/animate-click.directi
 import { SelectDirective } from '../examples/buttons/select.directive';
 import { MorphWallExample } from '../examples/morphwall/morphwall.component';
 import { ImageWallComponent } from '../examples/morphwall/image-wall/image-wall.component';
+import { DrawRangeComponent } from '../art/drawrange/drawrange.component';
+import { BoxLineGeometryComponent } from '../art/drawrange/box-line-geometry.component';
 
 @NgModule({
   declarations: [
@@ -101,6 +104,9 @@ import { ImageWallComponent } from '../examples/morphwall/image-wall/image-wall.
 
     LineRoomComponent,
     FloorComponent,
+
+    DrawRangeComponent,
+    BoxLineGeometryComponent,
 
     BallshooterExample,
     ShootDirective,
@@ -198,6 +204,8 @@ import { ImageWallComponent } from '../examples/morphwall/image-wall/image-wall.
     NgtPointLightHelperModule,
 
     NgtLineModule,
+    NgtLineSegmentsModule,
+    NgtPointsModule,
     NgtMeshModule,
     NgtInstancedMeshModule,
     NgtGroupModule,
@@ -216,6 +224,7 @@ import { ImageWallComponent } from '../examples/morphwall/image-wall/image-wall.
     NgtMeshStandardMaterialModule,
     NgtLineBasicMaterialModule,
     NgtMeshBasicMaterialModule,
+    NgtPointsMaterialModule,
 
     // soba
     NgtSobaOrbitControlsModule,
