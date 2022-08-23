@@ -1,7 +1,7 @@
-import { make, NgtStore, NgtTriple } from "@angular-three/core";
+import { Component, Input, OnInit } from "@angular/core";
 
-import { Camera, Group, MathUtils, Mesh, Object3D, Vector3 } from "three";
-import { ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { Camera, Group, Intersection, MathUtils, Mesh, MeshStandardMaterial, Object3D, Vector3 } from "three";
+import { NgtStore, NgtTriple } from "@angular-three/core";
 
 import createGraph, { Graph, Link, Node } from "ngraph.graph";
 import createLayout, { Layout } from "ngraph.forcelayout";
@@ -19,28 +19,15 @@ class LinkData {
   templateUrl: './network.component.html',
 })
 export class NetworkExample implements OnInit {
-  start = [-1, 1, -1] as NgtTriple;
-  end = [1, 1, -1] as NgtTriple;
-  length = 2;
+  @Input() position = [0, 1.5, -1] as NgtTriple;
 
-  positions = new Float32Array([
-    -1, 1, -1,
-    1, 1, -1
+  protected nodes: Array<Node> = [];
+  protected links: Array<Link<LinkData>> = [];
 
-  ]);
+  protected list: Array<Object3D> = [];
 
-  nodes: Array<Node> = [];
-  links: Array<Link<LinkData>> = [];
-
-  scale = [0.01, 0.01, 0.01] as NgtTriple;
-  position = [0, 0, 0] as NgtTriple;
-  visible = false;
-
-  y = 1;
-
-  camera!: Camera;
-
-  layout!: Layout<any>;
+  private stable = false;
+  private camera!: Camera;
 
   constructor(
     private store: NgtStore,
@@ -49,8 +36,6 @@ export class NetworkExample implements OnInit {
 
   ngOnInit(): void {
     this.camera = this.store.get(s => s.camera);
-
-    this.length = make(Vector3, this.end).sub(make(Vector3, this.start)).length();
 
     const g = createGraph();
     networkdata.forEach(item => {
@@ -80,50 +65,61 @@ export class NetworkExample implements OnInit {
       dragCoefficient: 0.9,
     };
 
-    this.layout = createLayout(g, physicsSettings);
-    this.layout.pinNode(this.nodes[0], true);
+    const layout = createLayout(g, physicsSettings);
+    layout.pinNode(this.nodes[0], true);
 
     const timer = setInterval(() => {
-      if (this.layout.step()) {
-        this.showgraph(g);
-        this.position = [0, 1.5, -1];
-        this.visible = true;
+      this.showgraph(g, layout);
+      if (layout.step()) {
+        this.stable = true;
         clearInterval(timer);
       }
     }, 10)
   }
 
-  showgraph(graph: Graph<Object3D, LinkData>) {
-    if (this.layout) {
+  highlight(object: Object3D) {
+    object.scale.multiplyScalar(2);
+    ((object as Mesh).material as MeshStandardMaterial).color.setStyle('red');
+    object.lookAt(this.camera.position);
+  }
 
-      graph.forEachNode(item => {
-        const vector = this.layout.getNodePosition(item.id);
-        let z = 0;
-        if (vector.z) z = vector.z;
-        (item.data as Object3D).position.set(vector.x, vector.y, z)
-      });
+  unhighlight(object: Object3D) {
+    object.scale.multiplyScalar(0.5);
+    //((object as Mesh).material as MeshStandardMaterial).emissive.b = 1;
+    ((object as Mesh).material as MeshStandardMaterial).color.setStyle('blue');
+  }
 
-      graph.forEachLink(item => {
-        const link = this.layout.getLinkPosition(item.id);
+  showgraph(graph: Graph<Object3D, LinkData>, layout: Layout<any>) {
 
-        const group = item.data.group;
-        if (group) {
-          const from = new Vector3(link.from.x, link.from.y, link.from.z);
-          const to = new Vector3(link.to.x, link.to.y, link.to.z);
-          item.data.length = from.sub(to).length();
+    graph.forEachNode(item => {
+      const vector = layout.getNodePosition(item.id);
+      let z = 0;
+      if (vector.z) z = vector.z;
+      (item.data as Object3D).position.set(vector.x, vector.y, z)
+    });
 
-          group.position.copy(to);
-          group.lookAt(from);
-          group.rotateX(MathUtils.degToRad(90))
+    graph.forEachLink(item => {
+      const link = layout.getLinkPosition(item.id);
 
-          item.data.mesh.position.set(0, item.data.length / 2, 0);
-        }
-      });
-    }
+      const group = item.data.group;
+      if (group) {
+        const from = new Vector3(link.from.x, link.from.y, link.from.z)
+        const to = new Vector3(link.to.x, link.to.y, link.to.z)
+        item.data.length = from.sub(to).length();
+
+        group.position.copy(to);
+        group.lookAt(from.add(new Vector3(0, 1.5, -1)));
+        group.rotateX(MathUtils.degToRad(90))
+
+        item.data.mesh.position.set(0, item.data.length / 2, 0);
+        item.data.mesh.scale.y = item.data.length;
+      }
+    });
+
   }
 
   tick(group: Object3D) {
-    if (this.visible)
+    if (this.stable)
       group.rotation.y += 0.001;
   }
 }

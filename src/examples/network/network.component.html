@@ -35,17 +35,17 @@
 
   -->
 
-<ngt-group [position]="position" (beforeRender)="tick($event.object)" [visible]="visible" [scale]="scale">
+<ngt-group [position]="position" (beforeRender)="tick($event.object)" [scale]="[0.02, 0.02, 0.02]">
 
-  <ngt-mesh *ngFor="let item of nodes" (ready)="item.data=$event">
-    <ngt-sphere-geometry [args]="[1]"></ngt-sphere-geometry>
+  <ngt-mesh *ngFor="let item of nodes" (ready)="item.data=$event;list.push($event)">
+    <ngt-sphere-geometry></ngt-sphere-geometry>
     <ngt-mesh-standard-material color="blue"></ngt-mesh-standard-material>
 
     <ngt-soba-text [text]="item.id.toString()" [position]="[0, 1, 0]"
                    [castShadow]="true"
                    [color]="'white'"
                    [maxWidth]="8"
-                   [fontSize]="0.5"
+                   [fontSize]="0.8"
                    font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
                    anchorX="center"
                    anchorY="bottom">
@@ -54,7 +54,7 @@
 
   <ngt-group *ngFor="let item of links" (ready)="item.data.group=$event">
     <ngt-mesh (ready)="item.data.mesh=$event">
-      <ngt-cylinder-geometry [args]="[0.1, 0.1, item.data.length]"></ngt-cylinder-geometry>
+      <ngt-box-geometry [args]="[0.1, 1, 0.1]"></ngt-box-geometry>
       <ngt-mesh-basic-material></ngt-mesh-basic-material>
 
       <!--<ngt-soba-text [text]="item.fromId.toString()+'/'+item.toId.toString()"
@@ -73,7 +73,9 @@
 </ngt-group>
 
 
-<vr-controller navhome></vr-controller>
-<vr-controller [index]="1" navhome></vr-controller>
+<vr-controller showcontroller trackedpointer navhome
+               select [selectable]="list"
+               (selectHighlight)="highlight($event.object)" (selectUnhighlight)="unhighlight($event.object)"></vr-controller>
+<vr-controller [index]="1" highlight showcontroller trackedpointer navhome [tohighlight]="list"></vr-controller>
 
 <ngt-soba-orbit-controls></ngt-soba-orbit-controls>
