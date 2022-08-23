@@ -1,10 +1,12 @@
 import { Component, Input, OnInit } from "@angular/core";
 
-import { Camera, Group, Intersection, MathUtils, Mesh, MeshStandardMaterial, Object3D, Vector3 } from "three";
+import { Camera, Group, MathUtils, Mesh, MeshStandardMaterial, Object3D, Vector3 } from "three";
 import { NgtStore, NgtTriple } from "@angular-three/core";
 
 import createGraph, { Graph, Link, Node } from "ngraph.graph";
 import createLayout, { Layout } from "ngraph.forcelayout";
+
+import { CameraService } from "../../app/camera.service";
 
 import { networkdata } from "./network-data";
 
@@ -25,13 +27,17 @@ export class NetworkExample implements OnInit {
   protected links: Array<Link<LinkData>> = [];
 
   protected list: Array<Object3D> = [];
+  protected stable = false;
 
-  private stable = false;
   private camera!: Camera;
 
   constructor(
     private store: NgtStore,
-  ) { }
+    private cameraService: CameraService,
+  ) {
+    this.cameraService.position = [0, 1.5, 0];
+    this.cameraService.lookAt = [0, 1.5, -2.5];
+  }
 
 
   ngOnInit(): void {

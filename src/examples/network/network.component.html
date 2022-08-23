@@ -78,4 +78,4 @@
                (selectHighlight)="highlight($event.object)" (selectUnhighlight)="unhighlight($event.object)"></vr-controller>
 <vr-controller [index]="1" highlight showcontroller trackedpointer navhome [tohighlight]="list"></vr-controller>
 
-<ngt-soba-orbit-controls></ngt-soba-orbit-controls>
+<ngt-soba-orbit-controls *ngIf="stable" [target]="position"></ngt-soba-orbit-controls>

@@ -47,23 +47,25 @@ export class HomeComponent implements OnInit {
     // restore defaults in case they changed
     this.camera.position = [0, 2, 4];
     this.camera.fov = 55;
+
+    const angle = 360 / this.examples.length;
+
+    this.examples.forEach((item, index) => {
+      const position = [0, 0, 0] as NgtTriple;
+      const rotation = angle * index;
+
+      const panel = new PanelSetting(position, rotation, item.asset, item.text)
+      this.panels.push(panel);
+    });
   }
 
   ngOnInit(): void {
     const example = this.route.snapshot.queryParams['example'];
     if (example) {
-      this.router.navigate(['/' + example]);
-    }
-    else {
-      const angle = 360 / this.examples.length;
-
-      this.examples.forEach((item, index) => {
-        const position = [0, 0, 0] as NgtTriple;
-        const rotation = angle * index;
-
-        const panel = new PanelSetting(position, rotation, item.asset, item.text)
-        this.panels.push(panel);
-      });
+      const timer = setTimeout(() => {
+        this.router.navigate(['/' + example]);
+        clearTimeout(timer);
+      }, 1000);
     }
   }
 
