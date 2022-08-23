@@ -88,9 +88,11 @@ import { AnimateClickDirective } from '../examples/buttons/animate-click.directi
 import { SelectDirective } from '../examples/buttons/select.directive';
 import { MorphWallExample } from '../examples/morphwall/morphwall.component';
 import { ImageWallComponent } from '../examples/morphwall/image-wall/image-wall.component';
+import { NetworkExample } from '../examples/network/network.component';
 import { DrawRangeComponent } from '../art/drawrange/drawrange.component';
 import { BoxLineGeometryComponent } from '../components/box-line-geometry.component';
 import { RoundedBoxGeometryComponent } from '../components/rounded-box-geometry.component';
+
 
 @NgModule({
   declarations: [
@@ -174,6 +176,8 @@ import { RoundedBoxGeometryComponent } from '../components/rounded-box-geometry.
 
     MorphWallExample,
     ImageWallComponent,
+
+    NetworkExample,
   ],
   imports: [
     BrowserModule,
@@ -237,6 +241,9 @@ import { RoundedBoxGeometryComponent } from '../components/rounded-box-geometry.
     // cannon
     NgtPhysicsModule,
     NgtCannonDebugModule,
+
+    // ngraph
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
