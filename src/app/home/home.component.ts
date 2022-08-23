@@ -1,9 +1,9 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 
 import { NgtTriple } from '@angular-three/core';
 import { CameraService } from '../camera.service';
 import { Intersection, Object3D } from 'three';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 class PanelSetting {
   constructor(public position: NgtTriple, public rotation: number, public asset: string, public text: string) { }
@@ -12,7 +12,7 @@ class PanelSetting {
 @Component({
   templateUrl: 'home.component.html',
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   examples = [
     { asset: 'ballshooter', text: 'Ball Shooter' },
     { asset: 'dragging', text: 'Dragging' },
@@ -39,6 +39,7 @@ export class HomeComponent {
 
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private zone: NgZone,
     private camera: CameraService,
@@ -46,16 +47,24 @@ export class HomeComponent {
     // restore defaults in case they changed
     this.camera.position = [0, 2, 4];
     this.camera.fov = 55;
+  }
 
-    const angle = 360 / this.examples.length;
+  ngOnInit(): void {
+    const example = this.route.snapshot.queryParams['example'];
+    if (example) {
+      this.router.navigate(['/' + example]);
+    }
+    else {
+      const angle = 360 / this.examples.length;
 
-    this.examples.forEach((item, index) => {
-      const position = [0, 0, 0] as NgtTriple;
-      const rotation = angle * index;
+      this.examples.forEach((item, index) => {
+        const position = [0, 0, 0] as NgtTriple;
+        const rotation = angle * index;
 
-      const panel = new PanelSetting(position, rotation, item.asset, item.text)
-      this.panels.push(panel);
-    })
+        const panel = new PanelSetting(position, rotation, item.asset, item.text)
+        this.panels.push(panel);
+      });
+    }
   }
 
   intersected(intersect: Intersection) {
