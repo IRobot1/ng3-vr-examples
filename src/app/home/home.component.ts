@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit {
     const example = this.route.snapshot.queryParams['example'];
     if (example) {
       const timer = setTimeout(() => {
-        this.router.navigate(['/' + example]);
+        this.router.navigate([example], { replaceUrl: false });
         clearTimeout(timer);
       }, 1000);
     }
