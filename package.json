@@ -48,6 +48,7 @@
     "@types/webxr": "^0.4.0",
     "lil-gui": "^0.17.0",
     "ng3-webxr": "^0.0.11",
+    "ngraph.forcelayout": "^3.3.0",
     "ngraph.graph": "^20.0.0",
     "rxjs": "~7.5.0",
     "three": "^0.142.0",

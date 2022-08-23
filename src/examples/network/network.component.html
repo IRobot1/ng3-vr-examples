@@ -5,7 +5,7 @@
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
 
-<ngt-mesh [position]="start">
+<!--<ngt-mesh [position]="start">
   <ngt-sphere-geometry [args]="[0.1]"></ngt-sphere-geometry>
   <ngt-mesh-standard-material color="blue"></ngt-mesh-standard-material>
 </ngt-mesh>
@@ -33,6 +33,44 @@
   <ngt-mesh-standard-material color="blue"></ngt-mesh-standard-material>
 </ngt-mesh>
 
+  -->
+
+<ngt-group [position]="position" (beforeRender)="tick($event.object)" [visible]="visible" [scale]="scale">
+
+  <ngt-mesh *ngFor="let item of nodes" (ready)="item.data=$event">
+    <ngt-sphere-geometry [args]="[1]"></ngt-sphere-geometry>
+    <ngt-mesh-standard-material color="blue"></ngt-mesh-standard-material>
+
+    <ngt-soba-text [text]="item.id.toString()" [position]="[0, 1, 0]"
+                   [castShadow]="true"
+                   [color]="'white'"
+                   [maxWidth]="8"
+                   [fontSize]="0.5"
+                   font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+                   anchorX="center"
+                   anchorY="bottom">
+    </ngt-soba-text>
+  </ngt-mesh>
+
+  <ngt-group *ngFor="let item of links" (ready)="item.data.group=$event">
+    <ngt-mesh (ready)="item.data.mesh=$event">
+      <ngt-cylinder-geometry [args]="[0.1, 0.1, item.data.length]"></ngt-cylinder-geometry>
+      <ngt-mesh-basic-material></ngt-mesh-basic-material>
+
+      <!--<ngt-soba-text [text]="item.fromId.toString()+'/'+item.toId.toString()"
+                     [castShadow]="true"
+                     [color]="'white'"
+                     [maxWidth]="8"
+                     [fontSize]="0.5"
+                     font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+                     anchorX="center"
+                     anchorY="bottom" [rotation]="[0, 90 | radian, -90 | radian]">
+      </ngt-soba-text>-->
+    </ngt-mesh>
+  </ngt-group>
+
+
+</ngt-group>
 
 
 <vr-controller navhome></vr-controller>

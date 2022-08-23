@@ -89,6 +89,7 @@ import { MorphWallExample } from '../examples/morphwall/morphwall.component';
 import { ImageWallComponent } from '../examples/morphwall/image-wall/image-wall.component';
 import { NetworkExample } from '../examples/network/network.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -229,6 +230,9 @@ import { NetworkExample } from '../examples/network/network.component';
     // cannon
     NgtPhysicsModule,
     NgtCannonDebugModule,
+
+    // ngraph
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
