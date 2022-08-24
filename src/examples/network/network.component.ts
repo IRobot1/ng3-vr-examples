@@ -1,62 +1,35 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 
-import { Camera, Group, MathUtils, Mesh, MeshStandardMaterial, Object3D, Vector3 } from "three";
+import { Camera, Mesh, MeshStandardMaterial, Object3D } from "three";
 import { NgtStore, NgtTriple } from "@angular-three/core";
 
-import createGraph, { Graph, Link, Node } from "ngraph.graph";
-import createLayout, { Layout } from "ngraph.forcelayout";
+import createGraph, { Graph } from "ngraph.graph";
 
 import { CameraService } from "../../app/camera.service";
 
 import { networkdata } from "./network-data";
 
 
-class LinkData {
-  group!: Group;
-  mesh!: Mesh;
-  arrow?: Mesh;
-  label?: Object3D;
-  constructor(public length = 1) { }
-}
 
 @Component({
   templateUrl: './network.component.html',
 })
 export class NetworkExample implements OnInit {
-  @Input() position = [0, 1.5, -1] as NgtTriple;
-  @Input() nodeSize = 1;
-  @Input() nodeLabelSize = 0.8;
-  @Input() linkLabelSize = 0.5;
-
-  @Input() labelFont = 'https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff';
-  @Input() castShadow = false;
-
-  @Input() showArrow = true;
-  @Input() showNodeLabel = true;
-  @Input() showLinkLabel = false;
-
-  @Input() nodeColor = 'blue';
-  @Input() linkColor = 'white';
-  @Input() arrowColor = 'white';
-  @Input() nodeTextColor = 'white';
-  @Input() linkTextColor = 'white';
-
-  @Input() linkLength = 1;
-
-  protected nodes: Array<Node> = [];
-  protected links: Array<Link<LinkData>> = [];
-
+  protected scale = [0.02, 0.02, 0.02] as NgtTriple;
   protected list: Array<Object3D> = [];
-  protected stable = false;
 
   private camera!: Camera;
+
+  graph!: Graph;
+
+  stable = false;
 
   constructor(
     private store: NgtStore,
     private cameraService: CameraService,
   ) {
-    this.cameraService.position = [0, 1.5, 0];
-    this.cameraService.lookAt = [0, 1.5, -2.5];
+    this.cameraService.position = [0, 1.5, 2];
+    this.cameraService.lookAt = [0, 1.5, 0];
   }
 
 
@@ -68,39 +41,14 @@ export class NetworkExample implements OnInit {
       const from = item[0];
       const to = item[1];
       if (!g.hasNode(from)) {
-        const node = g.addNode(from);
-        node.id
-        this.nodes.push(node);
+        g.addNode(from);
       }
       if (!g.hasNode(to)) {
-        const node = g.addNode(to);
-        this.nodes.push(node);
+        g.addNode(to);
       }
-      const link = g.addLink(from, to);
-      link.data = new LinkData();
-      this.links.push(link);
+      g.addLink(from, to);
     });
-
-    const physicsSettings = {
-      timeStep: 0.5,
-      dimensions: 3,
-      gravity: -10,
-      theta: 0.8,
-      springLength: this.linkLength,
-      springCoefficient: 0.8,
-      dragCoefficient: 0.9,
-    };
-
-    const layout = createLayout(g, physicsSettings);
-    layout.pinNode(this.nodes[0], true);
-
-    const timer = setInterval(() => {
-      this.showgraph(g, layout);
-      if (layout.step()) {
-        this.stable = true;
-        clearInterval(timer);
-      }
-    }, 10)
+    this.graph = g;
   }
 
   highlight(object: Object3D) {
@@ -113,38 +61,6 @@ export class NetworkExample implements OnInit {
     object.scale.multiplyScalar(0.5);
     //((object as Mesh).material as MeshStandardMaterial).emissive.b = 1;
     ((object as Mesh).material as MeshStandardMaterial).color.setStyle('blue');
-  }
-
-  showgraph(graph: Graph<Object3D, LinkData>, layout: Layout<any>) {
-
-    graph.forEachNode(item => {
-      const vector = layout.getNodePosition(item.id);
-      let z = 0;
-      if (vector.z) z = vector.z;
-      (item.data as Object3D).position.set(vector.x, vector.y, z)
-    });
-
-    graph.forEachLink(item => {
-      const link = layout.getLinkPosition(item.id);
-
-      const group = item.data.group;
-      if (group) {
-        const from = new Vector3(link.from.x, link.from.y, link.from.z)
-        const to = new Vector3(link.to.x, link.to.y, link.to.z)
-        item.data.length = from.sub(to).length();
-
-        group.position.copy(to);
-        group.lookAt(from.add(new Vector3(0, 1.5, -1)));
-        group.rotateX(MathUtils.degToRad(90))
-
-        item.data.mesh.position.set(0, item.data.length / 2, 0);
-        item.data.mesh.scale.y = item.data.length;
-
-        item.data.label?.position.set(0, item.data.length / 2, 0);
-        item.data.arrow?.position.set(0, this.nodeSize + 0.2, 0);
-      }
-    });
-
   }
 
   tick(group: Object3D) {

@@ -92,6 +92,7 @@ import { NetworkExample } from '../examples/network/network.component';
 import { DrawRangeComponent } from '../art/drawrange/drawrange.component';
 import { BoxLineGeometryComponent } from '../components/box-line-geometry.component';
 import { RoundedBoxGeometryComponent } from '../components/rounded-box-geometry.component';
+import { NetworkDiagramComponent } from '../examples/network/network-diagram.component.ts/network-diagram.component';
 
 
 @NgModule({
@@ -178,6 +179,7 @@ import { RoundedBoxGeometryComponent } from '../components/rounded-box-geometry.
     ImageWallComponent,
 
     NetworkExample,
+    NetworkDiagramComponent,
   ],
   imports: [
     BrowserModule,

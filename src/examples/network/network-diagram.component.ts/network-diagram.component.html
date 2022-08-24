@@ -1,0 +1,40 @@
+<ngt-mesh *ngFor="let item of nodes" visible="false" (ready)="item.data.mesh=$event;list.push($event)" [castShadow]="castShadow">
+  <ngt-sphere-geometry [args]="[nodeSize]"></ngt-sphere-geometry>
+  <ngt-mesh-standard-material [color]="nodeColor"></ngt-mesh-standard-material>
+
+  <ngt-soba-text *ngIf="showNodeLabel"
+                 [text]="item.id.toString()"
+                 [position]="[0, nodeSize, 0]"
+                 [castShadow]="castShadow"
+                 [color]="nodeTextColor"
+                 [fontSize]="nodeLabelSize"
+                 [font]="labelFont"
+                 anchorX="center"
+                 anchorY="bottom">
+  </ngt-soba-text>
+
+</ngt-mesh>
+
+<ngt-group *ngFor="let item of links" (ready)="item.data.group=$event">
+
+  <ngt-mesh (ready)="item.data.mesh=$event" visible="false" [castShadow]="castShadow">
+    <ngt-box-geometry [args]="[0.1, 1, 0.1]"></ngt-box-geometry>
+    <ngt-mesh-basic-material [color]="linkColor"></ngt-mesh-basic-material>
+  </ngt-mesh>
+
+  <ngt-soba-text *ngIf="showLinkLabel"
+                 (ready)="item.data.label=$event"
+                 [text]="item.fromId.toString()+'/'+item.toId.toString()"
+                 [castShadow]="castShadow"
+                 [color]="linkTextColor"
+                 [fontSize]="linkLabelSize"
+                 [font]="labelFont"
+                 anchorX="center"
+                 anchorY="bottom" [rotation]="[0, 90 | radian, -90 | radian]">
+  </ngt-soba-text>
+
+  <ngt-mesh *ngIf="showArrow" visible="false" (ready)="item.data.arrow=$event" [castShadow]="castShadow">
+    <ngt-cylinder-geometry [args]="[0.3, 0, 0.8]"></ngt-cylinder-geometry>
+    <ngt-mesh-basic-material [color]="arrowColor"></ngt-mesh-basic-material>
+  </ngt-mesh>
+</ngt-group>
