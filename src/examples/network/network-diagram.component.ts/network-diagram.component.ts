@@ -47,6 +47,7 @@ export class NetworkDiagramComponent implements OnInit {
   @Input() linkTextColor = 'white';
 
   @Input() linkLength = 1;
+  @Input() animate = true;
 
   @Input() list: Array<Object3D> = [];
 
@@ -119,8 +120,9 @@ export class NetworkDiagramComponent implements OnInit {
 
     this.stable.next(false);
     const timer = setInterval(() => {
-      this.showgraph(this.graph, layout, origin);
+      if (this.animate) this.showgraph(this.graph, layout, origin);
       if (layout.step()) {
+        if (!this.animate) this.showgraph(this.graph, layout, origin);
         this.stable.next(true);
         clearInterval(timer);
       }

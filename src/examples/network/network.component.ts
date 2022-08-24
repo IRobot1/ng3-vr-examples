@@ -23,6 +23,7 @@ export class NetworkExample implements OnInit {
   graph!: Graph;
 
   stable = false;
+  loading = false;
 
   constructor(
     private store: NgtStore,

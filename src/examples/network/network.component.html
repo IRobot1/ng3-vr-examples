@@ -16,9 +16,21 @@
 <ngt-group *ngIf="stable" [position]="[0, 1.5, 1]" [scale]="scale">
   <network-diagram [graph]="graph"
                    [origin]="[0, 1.5, 1]"
-                   [list]="list">
+                   [animate]="false"
+                   [nodeColor]="'green'"
+                   [list]="list" (stable)="loading=!$event">
   </network-diagram>
+
 </ngt-group>
+
+<ngt-soba-text *ngIf="loading"
+               [text]="'Loading...'"
+               [position]="[0, 1.5, 1]"
+               [fontSize]="0.1"
+               [font]="'https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff'"
+               anchorX="center"
+               anchorY="bottom">
+</ngt-soba-text>
 
 
 <vr-controller showcontroller trackedpointer navhome
