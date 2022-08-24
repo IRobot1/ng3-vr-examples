@@ -4,71 +4,48 @@
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
-
-<!--<ngt-mesh [position]="start">
-  <ngt-sphere-geometry [args]="[0.1]"></ngt-sphere-geometry>
-  <ngt-mesh-standard-material color="blue"></ngt-mesh-standard-material>
-</ngt-mesh>
-
-
-<ngt-group [position]="end" (ready)="childlookat($event)">
-  <ngt-mesh [position]="[0, length/2, 0]">
-    <ngt-cylinder-geometry [args]="[0.01, 0.01, length]"></ngt-cylinder-geometry>
-    <ngt-line-basic-material></ngt-line-basic-material>
-
-    <ngt-soba-text [text]="'label'"
-                   [castShadow]="true"
-                   [color]="'white'"
-                   [maxWidth]="8"
-                   [fontSize]="0.1"
-                   font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
-                   anchorX="center"
-                   anchorY="bottom" [rotation]="[0, 90 | radian, -90 | radian]">
-    </ngt-soba-text>
-  </ngt-mesh>
-</ngt-group>
-
-<ngt-mesh [position]="end">
-  <ngt-sphere-geometry [args]="[0.1]"></ngt-sphere-geometry>
-  <ngt-mesh-standard-material color="blue"></ngt-mesh-standard-material>
-</ngt-mesh>
-
-  -->
-
 <ngt-group [position]="position" (beforeRender)="tick($event.object)" [scale]="[0.02, 0.02, 0.02]">
 
-  <ngt-mesh *ngFor="let item of nodes" (ready)="item.data=$event;list.push($event)">
-    <ngt-sphere-geometry></ngt-sphere-geometry>
-    <ngt-mesh-standard-material color="blue"></ngt-mesh-standard-material>
+  <ngt-mesh *ngFor="let item of nodes" (ready)="item.data=$event;list.push($event)" [castShadow]="castShadow">
+    <ngt-sphere-geometry [args]="[nodeSize]"></ngt-sphere-geometry>
+    <ngt-mesh-standard-material [color]="nodeColor"></ngt-mesh-standard-material>
 
-    <ngt-soba-text [text]="item.id.toString()" [position]="[0, 1, 0]"
-                   [castShadow]="true"
-                   [color]="'white'"
-                   [maxWidth]="8"
-                   [fontSize]="0.8"
-                   font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+    <ngt-soba-text *ngIf="showNodeLabel"
+                   [text]="item.id.toString()"
+                   [position]="[0, nodeSize, 0]"
+                   [castShadow]="castShadow"
+                   [color]="nodeTextColor"
+                   [fontSize]="nodeLabelSize"
+                   [font]="labelFont"
                    anchorX="center"
                    anchorY="bottom">
     </ngt-soba-text>
+
   </ngt-mesh>
 
   <ngt-group *ngFor="let item of links" (ready)="item.data.group=$event">
-    <ngt-mesh (ready)="item.data.mesh=$event">
-      <ngt-box-geometry [args]="[0.1, 1, 0.1]"></ngt-box-geometry>
-      <ngt-mesh-basic-material></ngt-mesh-basic-material>
 
-      <!--<ngt-soba-text [text]="item.fromId.toString()+'/'+item.toId.toString()"
-                     [castShadow]="true"
-                     [color]="'white'"
-                     [maxWidth]="8"
-                     [fontSize]="0.5"
-                     font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
-                     anchorX="center"
-                     anchorY="bottom" [rotation]="[0, 90 | radian, -90 | radian]">
-      </ngt-soba-text>-->
+    <ngt-mesh (ready)="item.data.mesh=$event" [castShadow]="castShadow">
+      <ngt-box-geometry [args]="[0.1, 1, 0.1]"></ngt-box-geometry>
+      <ngt-mesh-basic-material [color]="linkColor"></ngt-mesh-basic-material>
+    </ngt-mesh>
+
+    <ngt-soba-text *ngIf="showLinkLabel"
+                   (ready)="item.data.label=$event"
+                   [text]="item.fromId.toString()+'/'+item.toId.toString()"
+                   [castShadow]="castShadow"
+                   [color]="linkTextColor"
+                   [fontSize]="linkLabelSize"
+                   [font]="labelFont"
+                   anchorX="center"
+                   anchorY="bottom" [rotation]="[0, 90 | radian, -90 | radian]">
+    </ngt-soba-text>
+
+    <ngt-mesh *ngIf="showArrow" (ready)="item.data.arrow=$event" [castShadow]="castShadow">
+      <ngt-cylinder-geometry [args]="[0.3, 0, 0.8]"></ngt-cylinder-geometry>
+      <ngt-mesh-basic-material [color]="arrowColor"></ngt-mesh-basic-material>
     </ngt-mesh>
   </ngt-group>
-
 
 </ngt-group>
 
@@ -76,6 +53,10 @@
 <vr-controller showcontroller trackedpointer navhome
                select [selectable]="list"
                (selectHighlight)="highlight($event.object)" (selectUnhighlight)="unhighlight($event.object)"></vr-controller>
-<vr-controller [index]="1" highlight showcontroller trackedpointer navhome [tohighlight]="list"></vr-controller>
+
+<vr-controller [index]="1"
+               showcontroller trackedpointer navhome
+               select [selectable]="list"
+               (selectHighlight)="highlight($event.object)" (selectUnhighlight)="unhighlight($event.object)"></vr-controller>
 
 <ngt-soba-orbit-controls *ngIf="stable" [target]="position"></ngt-soba-orbit-controls>

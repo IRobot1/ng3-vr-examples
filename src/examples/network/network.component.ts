@@ -14,6 +14,8 @@ import { networkdata } from "./network-data";
 class LinkData {
   group!: Group;
   mesh!: Mesh;
+  arrow?: Mesh;
+  label?: Object3D;
   constructor(public length = 1) { }
 }
 
@@ -22,6 +24,24 @@ class LinkData {
 })
 export class NetworkExample implements OnInit {
   @Input() position = [0, 1.5, -1] as NgtTriple;
+  @Input() nodeSize = 1;
+  @Input() nodeLabelSize = 0.8;
+  @Input() linkLabelSize = 0.5;
+
+  @Input() labelFont = 'https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff';
+  @Input() castShadow = false;
+
+  @Input() showArrow = true;
+  @Input() showNodeLabel = true;
+  @Input() showLinkLabel = false;
+
+  @Input() nodeColor = 'blue';
+  @Input() linkColor = 'white';
+  @Input() arrowColor = 'white';
+  @Input() nodeTextColor = 'white';
+  @Input() linkTextColor = 'white';
+
+  @Input() linkLength = 1;
 
   protected nodes: Array<Node> = [];
   protected links: Array<Link<LinkData>> = [];
@@ -66,7 +86,7 @@ export class NetworkExample implements OnInit {
       dimensions: 3,
       gravity: -10,
       theta: 0.8,
-      springLength: 1,
+      springLength: this.linkLength,
       springCoefficient: 0.8,
       dragCoefficient: 0.9,
     };
@@ -119,6 +139,9 @@ export class NetworkExample implements OnInit {
 
         item.data.mesh.position.set(0, item.data.length / 2, 0);
         item.data.mesh.scale.y = item.data.length;
+
+        item.data.label?.position.set(0, item.data.length / 2, 0);
+        item.data.arrow?.position.set(0, this.nodeSize + 0.2, 0);
       }
     });
 
