@@ -28,6 +28,7 @@ export class NetworkDiagramComponent implements OnInit {
   @Input() graph!: Graph<NodeData, LinkData>;
 
   @Input() origin = [0, 0, 0] as NgtTriple;
+  @Input() dimensions = 2 | 3;
 
   @Input() nodeSize = 1;
   @Input() nodeLabelSize = 0.8;
@@ -105,7 +106,7 @@ export class NetworkDiagramComponent implements OnInit {
   private finisInit(first: Node<any>) {
     const physicsSettings = {
       timeStep: 0.5,
-      dimensions: 3,
+      dimensions: this.dimensions,
       gravity: -10,
       theta: 0.8,
       springLength: this.linkLength,

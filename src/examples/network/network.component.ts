@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 
-import { Camera, Mesh, MeshStandardMaterial, Object3D } from "three";
+import { Camera, Group, MathUtils, Mesh, MeshStandardMaterial, Object3D } from "three";
 import { NgtStore, NgtTriple } from "@angular-three/core";
 
 import createGraph, { Graph } from "ngraph.graph";
@@ -16,6 +16,8 @@ import { networkdata } from "./network-data";
 })
 export class NetworkExample implements OnInit {
   protected scale = [0.02, 0.02, 0.02] as NgtTriple;
+  protected rotation = [0, 0, 0] as NgtTriple;
+
   protected list: Array<Object3D> = [];
 
   private camera!: Camera;
@@ -50,6 +52,13 @@ export class NetworkExample implements OnInit {
       g.addLink(from, to);
     });
     this.graph = g;
+  }
+
+  flipAfterLoad(loading: boolean, group: Group) {
+    this.loading = !loading;
+    if (!this.loading) {
+      group.rotation.y = MathUtils.degToRad(180);
+    }
   }
 
   highlight(object: Object3D) {

@@ -13,12 +13,13 @@
 </ngt-group>
 
 <!-- limitation in ngraph only allows opening one diagram at a time -->
-<ngt-group *ngIf="stable" [position]="[0, 1.5, 1]" [scale]="scale">
+<ngt-group #diag *ngIf="stable" [position]="[0, 1.5, 1]" [scale]="scale">
   <network-diagram [graph]="graph"
                    [origin]="[0, 1.5, 1]"
+                   [dimensions]="2"
                    [animate]="false"
                    [nodeColor]="'green'"
-                   [list]="list" (stable)="loading=!$event">
+                   [list]="list" (stable)="flipAfterLoad($event, diag.instance.value)">
   </network-diagram>
 
 </ngt-group>
@@ -29,7 +30,7 @@
                [fontSize]="0.1"
                [font]="'https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff'"
                anchorX="center"
-               anchorY="bottom">
+               anchorY="bottom" [rotation]="[0, 180 | radian, 0]">
 </ngt-soba-text>
 
 
