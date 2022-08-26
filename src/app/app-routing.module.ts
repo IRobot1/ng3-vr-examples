@@ -21,6 +21,7 @@ import { ScaleExample } from '../examples/scale/scale.component';
 import { ButtonsExample } from '../examples/buttons/buttons.component';
 import { MorphWallExample } from '../examples/morphwall/morphwall.component';
 import { NetworkExample } from '../examples/network/network.component';
+import { SpirographExample } from '../examples/spriograph/spirograph.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -43,6 +44,7 @@ const routes: Routes = [
   { path: 'buttons', component: ButtonsExample },
   { path: 'morphwall', component: MorphWallExample },
   { path: 'network', component: NetworkExample },
+  { path: 'spirograph', component: SpirographExample },
 ];
 
 @NgModule({

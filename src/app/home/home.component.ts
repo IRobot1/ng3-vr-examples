@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit {
     { asset: 'buttons', text: 'Buttons' },
     { asset: 'morphwall', text: 'Morphing Wall' },
     { asset: 'network', text: 'Network Diagram' },
+    { asset: 'spirograph', text: 'Spirograph' },
   ]
 
   panels: Array<PanelSetting> = [];

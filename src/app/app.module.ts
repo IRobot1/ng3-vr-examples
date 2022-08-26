@@ -16,7 +16,7 @@ import { NgtGroupModule } from '@angular-three/core/group';
 import { NgtLineModule, NgtLineSegmentsModule } from '@angular-three/core/lines';
 import { NgtPointsModule } from '@angular-three/core/points';
 
-import { NgtBoxGeometryModule, NgtBufferGeometryModule, NgtCircleGeometryModule, NgtConeGeometryModule, NgtCylinderGeometryModule, NgtIcosahedronGeometryModule, NgtPlaneGeometryModule, NgtSphereGeometryModule, NgtTorusGeometryModule, NgtTorusKnotGeometryModule  } from '@angular-three/core/geometries';
+import { NgtBoxGeometryModule, NgtTubeGeometryModule, NgtBufferGeometryModule, NgtCircleGeometryModule, NgtConeGeometryModule, NgtCylinderGeometryModule, NgtIcosahedronGeometryModule, NgtPlaneGeometryModule, NgtSphereGeometryModule, NgtTorusGeometryModule, NgtTorusKnotGeometryModule  } from '@angular-three/core/geometries';
 
 import { NgtLineBasicMaterialModule, NgtMeshBasicMaterialModule, NgtMeshStandardMaterialModule, NgtPointsMaterialModule } from '@angular-three/core/materials';
 
@@ -93,6 +93,7 @@ import { DrawRangeComponent } from '../art/drawrange/drawrange.component';
 import { BoxLineGeometryComponent } from '../components/box-line-geometry.component';
 import { RoundedBoxGeometryComponent } from '../components/rounded-box-geometry.component';
 import { NetworkDiagramComponent } from '../examples/network/network-diagram.component.ts/network-diagram.component';
+import { SpirographExample } from '../examples/spriograph/spirograph.component';
 
 
 @NgModule({
@@ -180,6 +181,8 @@ import { NetworkDiagramComponent } from '../examples/network/network-diagram.com
 
     NetworkExample,
     NetworkDiagramComponent,
+
+    SpirographExample,
   ],
   imports: [
     BrowserModule,
@@ -228,6 +231,7 @@ import { NetworkDiagramComponent } from '../examples/network/network-diagram.com
     NgtTorusGeometryModule,
     NgtTorusKnotGeometryModule,
     NgtCircleGeometryModule,
+    NgtTubeGeometryModule,
 
     NgtMeshStandardMaterialModule,
     NgtLineBasicMaterialModule,
