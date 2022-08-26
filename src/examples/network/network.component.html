@@ -2,7 +2,7 @@
 
 <line-room></line-room>
 
-<ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
+<ngt-directional-light [position]="[0, 10, 0]"></ngt-directional-light>
 
 <ngt-group [position]="[0, 1.5, -1]" [scale]="scale" (beforeRender)="tick($event.object)">
   <network-diagram [graph]="graph"
@@ -14,11 +14,11 @@
 
 <!-- limitation in ngraph only allows opening one diagram at a time -->
 <ngt-group #diag *ngIf="stable" [position]="[0, 1.5, 1]" [scale]="scale">
-  <network-diagram [graph]="graph"
+  <network-diagram [graph]="customgraph"
                    [origin]="[0, 1.5, 1]"
                    [dimensions]="2"
                    [animate]="false"
-                   [nodeColor]="'green'"
+                   [showLinkLabel]="true"
                    [list]="list" (stable)="flipAfterLoad($event, diag.instance.value)">
   </network-diagram>
 

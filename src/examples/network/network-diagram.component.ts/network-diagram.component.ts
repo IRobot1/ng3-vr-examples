@@ -6,17 +6,62 @@ import { make, NgtTriple } from "@angular-three/core";
 import { Graph, Link, Node } from "ngraph.graph";
 import createLayout, { Layout } from "ngraph.forcelayout";
 
-class NodeData {
-  mesh!: Mesh;
-  constructor(public data: any = undefined) { }
+export interface NodeData {
+  color: string;
+  text: string;
+  size: number;
+  textcolor: string;
+  textsize: number;
 }
 
-class LinkData {
+export class NodeDataDefault implements NodeData {
+  constructor(
+    public node: Node<any>,
+    public color: string = 'blue',
+    public size: number = 1,
+    public textcolor = 'white',
+    public textsize = 0.8
+  ) { }
+
+  get text(): string {
+    return this.node.id.toString();
+  }
+}
+
+export interface LinkData {
+  color: string;
+  text: string;
+  textcolor: string;
+  textsize: number;
+  arrowcolor: string;
+}
+
+export class LinkDataDefault implements LinkData {
+  constructor(
+    public link: Link<any>,
+    public color: string = 'white',
+    public textcolor = 'white',
+    public textsize = 0.5,
+    public arrowcolor = 'white'
+  ) { }
+
+  get text(): string {
+    return this.link.fromId.toString() + ' / ' + this.link.toId.toString();
+  }
+}
+
+
+class InternalNode3D {
+  mesh!: Mesh;
+  constructor(public node: Node<NodeData>) { }
+}
+
+class InternalLink3D {
   group!: Group;
   mesh!: Mesh;
   arrow?: Mesh;
   label?: Object3D;
-  constructor(public data: any = undefined, public length = 1) { }
+  constructor(public link: Link<LinkData>, public length = 1) { }
 }
 
 
@@ -30,9 +75,8 @@ export class NetworkDiagramComponent implements OnInit {
   @Input() origin = [0, 0, 0] as NgtTriple;
   @Input() dimensions = 2 | 3;
 
-  @Input() nodeSize = 1;
-  @Input() nodeLabelSize = 0.8;
-  @Input() linkLabelSize = 0.5;
+  //@Input() nodeLabelSize = 0.8;
+  //@Input() linkLabelSize = 0.5;
 
   @Input() labelFont = 'https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff';
   @Input() castShadow = false;
@@ -41,11 +85,11 @@ export class NetworkDiagramComponent implements OnInit {
   @Input() showNodeLabel = true;
   @Input() showLinkLabel = false;
 
-  @Input() nodeColor = 'blue';
-  @Input() linkColor = 'white';
-  @Input() arrowColor = 'white';
-  @Input() nodeTextColor = 'white';
-  @Input() linkTextColor = 'white';
+  //@Input() nodeColor = 'blue';
+  //@Input() linkColor = 'white';
+  //@Input() arrowColor = 'white';
+  //@Input() nodeTextColor = 'white';
+  //@Input() linkTextColor = 'white';
 
   @Input() linkLength = 1;
   @Input() animate = true;
@@ -55,8 +99,8 @@ export class NetworkDiagramComponent implements OnInit {
   @Output() stable = new EventEmitter<boolean>();
 
 
-  protected nodes: Array<Node<NodeData>> = [];
-  protected links: Array<Link<LinkData>> = [];
+  protected nodes: Array<InternalNode3D> = [];
+  protected links: Array<InternalLink3D> = [];
 
   ngOnInit(): void {
     if (!this.graph) {
@@ -64,17 +108,15 @@ export class NetworkDiagramComponent implements OnInit {
       return;
     }
 
-    const nodes: Array<Node<NodeData>> = [];
-    const links: Array<Link<LinkData>> = [];
-    let first!: Node<any>;
+    const nodes: Array<InternalNode3D> = [];
+    const links: Array<InternalLink3D> = [];
+    let first!: Node<NodeData>;
     this.graph.forEachNode(item => {
-      item.data = new NodeData();
       if (this.nodes.length == 0) first = item;
-      nodes.push(item);
+      nodes.push(new InternalNode3D(item));
     });
     this.graph.forEachLink(item => {
-      item.data = new LinkData();
-      links.push(item);
+      links.push(new InternalLink3D(item));
     });
 
     // graduall add nodes and links to be VR friendly
@@ -83,7 +125,7 @@ export class NetworkDiagramComponent implements OnInit {
     this.finisInit(first);
   }
 
-  private addNodes(nodes: Array<Node<NodeData>>) {
+  private addNodes(nodes: Array<InternalNode3D>) {
     let index = 0;
     const timer = setInterval(() => {
       this.nodes.push(nodes[index++]);
@@ -93,7 +135,7 @@ export class NetworkDiagramComponent implements OnInit {
     }, 0);
   }
 
-  private addLinks(links: Array<Link<LinkData>>) {
+  private addLinks(links: Array<InternalLink3D>) {
     let index = 0;
     const timer = setInterval(() => {
       this.links.push(links[index++]);
@@ -103,7 +145,7 @@ export class NetworkDiagramComponent implements OnInit {
     }, 0);
   }
 
-  private finisInit(first: Node<any>) {
+  private finisInit(first: Node<NodeData>) {
     const physicsSettings = {
       timeStep: 0.5,
       dimensions: this.dimensions,
@@ -121,52 +163,59 @@ export class NetworkDiagramComponent implements OnInit {
 
     this.stable.next(false);
     const timer = setInterval(() => {
-      if (this.animate) this.showgraph(this.graph, layout, origin);
+      if (this.animate) this.showgraph(layout, origin);
       if (layout.step()) {
-        if (!this.animate) this.showgraph(this.graph, layout, origin);
+        if (!this.animate) this.showgraph(layout, origin);
         this.stable.next(true);
         clearInterval(timer);
       }
     }, 10)
   }
 
-  private showgraph(graph: Graph<NodeData, LinkData>, layout: Layout<any>, origin: Vector3) {
+  private showgraph(layout: Layout<any>, origin: Vector3) {
 
-    graph.forEachNode(item => {
-      const vector = layout.getNodePosition(item.id);
+    this.nodes.forEach(item => {
+      const vector = layout.getNodePosition(item.node.id);
       let z = 0;
       if (vector.z) z = vector.z;
 
-      const mesh = item.data.mesh as Object3D;
+      const mesh = item.mesh as Object3D;
       if (mesh) {
         mesh.position.set(vector.x, vector.y, z);
         mesh.visible = true;
       }
     });
 
-    graph.forEachLink(item => {
-      const link = layout.getLinkPosition(item.id);
+    this.links.forEach(item => {
+      const link = layout.getLinkPosition(item.link.id);
 
-      const group = item.data.group;
+      const group = item.group;
       if (group) {
-        const from = new Vector3(link.from.x, link.from.y, link.from.z)
-        const to = new Vector3(link.to.x, link.to.y, link.to.z)
-        item.data.length = from.sub(to).length();
+        const from = new Vector3(link.from.x, link.from.y, link.from.z);
+        const to = new Vector3(link.to.x, link.to.y, link.to.z);
+        item.length = from.sub(to).length();
 
         group.position.copy(to);
         group.lookAt(from.add(origin));
-        group.rotateX(MathUtils.degToRad(90))
+        group.rotateX(MathUtils.degToRad(90));
 
-        const mesh = item.data.mesh;
-        mesh.position.set(0, item.data.length / 2, 0);
-        mesh.scale.y = item.data.length;
+        const mesh = item.mesh;
+        mesh.position.set(0, item.length / 2, 0);
+        mesh.scale.y = item.length;
         mesh.visible = true;
 
-        item.data.label?.position.set(0, item.data.length / 2, 0);
+        if (item.label) {
+          item.label.position.set(0, item.length / 2, 0);
+          item.label.visible = true;
+        }
 
-        const arrow = item.data.arrow;
+        const arrow = item.arrow;
         if (arrow) {
-          arrow.position.set(0, this.nodeSize + 0.2, 0);
+          const node = this.graph.getNode(item.link.toId);
+          let size = 1;
+          if (node) size = node.data.size;
+
+          arrow.position.set(0, size + 0.2, 0);
           arrow.visible = true;
         }
 

@@ -1,15 +1,46 @@
 import { Component, OnInit } from "@angular/core";
 
-import { Camera, Group, MathUtils, Mesh, MeshStandardMaterial, Object3D } from "three";
+import { Camera, Color, Group, MathUtils, Mesh, MeshStandardMaterial, Object3D } from "three";
 import { NgtStore, NgtTriple } from "@angular-three/core";
 
-import createGraph, { Graph } from "ngraph.graph";
+import createGraph, { Graph, Node, Link } from "ngraph.graph";
 
 import { CameraService } from "../../app/camera.service";
 
 import { networkdata } from "./network-data";
 
+import { LinkData, LinkDataDefault, NodeData, NodeDataDefault } from "./network-diagram.component.ts/network-diagram.component";
 
+
+class MyNodeData implements NodeData {
+  public size: number = 1
+  public textcolor = 'white'
+  public textsize = 0.8
+  public text: string = ''
+
+  constructor(
+    public color: string,
+    public index: number,
+  ) {
+    const interval = MathUtils.randInt(1000, 10000);
+    setInterval(() => {
+      index++;
+      this.text = `Node (${index})`;
+    }, interval)
+  }
+}
+
+class MyLinkData implements LinkData {
+  public textcolor = 'white'
+  public textsize = 0.6
+  public arrowcolor = 'white'
+
+  constructor(
+    public color: string,
+    public text: string,
+  ) {
+  }
+}
 
 @Component({
   templateUrl: './network.component.html',
@@ -22,7 +53,8 @@ export class NetworkExample implements OnInit {
 
   private camera!: Camera;
 
-  graph!: Graph;
+  graph!: Graph<NodeData, LinkData>;
+  customgraph!: Graph<NodeData, LinkData>;
 
   stable = false;
   loading = false;
@@ -39,19 +71,44 @@ export class NetworkExample implements OnInit {
   ngOnInit(): void {
     this.camera = this.store.get(s => s.camera);
 
-    const g = createGraph();
+    let g = createGraph();
+
     networkdata.forEach(item => {
       const from = item[0];
       const to = item[1];
       if (!g.hasNode(from)) {
-        g.addNode(from);
+        const node = g.addNode(from);
+        node.data = new NodeDataDefault(node)
       }
       if (!g.hasNode(to)) {
-        g.addNode(to);
+        const node = g.addNode(to);
+        node.data = new NodeDataDefault(node)
       }
-      g.addLink(from, to);
+      const link = g.addLink(from, to);
+      link.data = new LinkDataDefault(link);
     });
     this.graph = g;
+
+
+    g = createGraph();
+
+    networkdata.forEach((item, index) => {
+      const from = item[0];
+      const to = item[1];
+      if (!g.hasNode(from)) {
+        g.addNode(from, new MyNodeData(this.randomcolor, index));
+      }
+      if (!g.hasNode(to)) {
+        g.addNode(to, new MyNodeData(this.randomcolor, index));
+      }
+      g.addLink(from, to, new MyLinkData('white', 'Link ' + index));
+
+    });
+    this.customgraph = g;
+  }
+
+  get randomcolor(): string {
+    return '#' + new Color(Math.random() * 0xffffff).getHexString();
   }
 
   flipAfterLoad(loading: boolean, group: Group) {
