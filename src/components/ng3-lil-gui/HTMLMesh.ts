@@ -495,7 +495,7 @@ class html2canvas {
               fontWeight: 'bold'
             };
 
-            this.drawText(properties, x + (width / 2), y, '?');
+            this.drawText(properties, x + (width / 2), y, '✔');
 
             this.context.textAlign = currentTextAlign;
 
