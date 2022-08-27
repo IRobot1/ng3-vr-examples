@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 
 import { Mesh } from "three";
 
@@ -10,7 +10,7 @@ import { CameraService } from "../../app/camera.service";
 @Component({
   templateUrl: './htmlgui.component.html',
 })
-export class HTMLGUIExample {
+export class HTMLGUIExample implements OnInit {
   public parameters = {
     radius: 0.6,
     tube: 0.2,
@@ -29,6 +29,10 @@ export class HTMLGUIExample {
     this.camera.lookAt = [-1, 1, -3];
     this.camera.fov = 40;
 
+
+  }
+
+  ngOnInit(): void {
     const gui = new GUI({ width: 300 });
     gui.add(this.parameters, 'radius', 0.0, 1.0);
     gui.add(this.parameters, 'tube', 0.0, 1.0);
@@ -37,7 +41,6 @@ export class HTMLGUIExample {
     gui.add(this.parameters, 'p', 1, 10, 1);
     gui.add(this.parameters, 'q', 0, 10, 1);
     this.gui = gui;
-
   }
 
   tick(torus: Mesh) {

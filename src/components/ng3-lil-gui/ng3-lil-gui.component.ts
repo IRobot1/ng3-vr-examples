@@ -8,10 +8,15 @@ import { HTMLMesh } from "./HTMLMesh";
 
 @Component({
   selector: 'ng3-lil-gui[gui]',
-  template: '',
+  template: '<ng-content></ng-content>',
 })
-export class Ng3LilGUIComponent implements OnInit {
-  @Input() gui!: GUI;
+export class Ng3LilGUIComponent {
+  @Input()
+  set gui(newvalue: GUI) {
+    if (newvalue) {
+      this.init(newvalue);
+    }
+  }
 
   @Input() position?: NgtTriple;
   @Input() rotation?: NgtTriple;
@@ -24,10 +29,10 @@ export class Ng3LilGUIComponent implements OnInit {
 
   constructor(private store: NgtStore) { }
 
-  ngOnInit(): void {
-    this.gui.domElement.style.visibility = 'hidden';
+  private init(gui: GUI): void {
+    gui.domElement.style.visibility = 'hidden';
 
-    const mesh = new HTMLMesh(this.gui.domElement);
+    const mesh = new HTMLMesh(gui.domElement);
     if (this.position) {
       const p = this.position;
       mesh.position.set(p[0], p[1], p[2]);
