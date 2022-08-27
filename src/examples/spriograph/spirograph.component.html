@@ -32,9 +32,9 @@
 
 <ng3-lil-gui #lil [position]="[-0.75, 1.5, -0.5]" [rotation]="[0, 3.14/4, 0]" scalar="2" [gui]="gui"></ng3-lil-gui>
 
-<vr-controller guipointer showcontroller trackedpointer navhome [gui]="lil.group"></vr-controller>
-<vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [gui]="lil.group"></vr-controller>
+<vr-controller guipointer showcontroller trackedpointer navhome [guis]="[lil.mesh]"></vr-controller>
+<vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="[lil.mesh]"></vr-controller>
 
-<mouse-touch-input [intersectObjects]="lil.group.children"></mouse-touch-input>
+<mouse-touch-input [intersectObjects]="[lil.mesh]"></mouse-touch-input>
 
 <!--<ngt-soba-orbit-controls [target]="[0, 1.2, -2]"></ngt-soba-orbit-controls>-->

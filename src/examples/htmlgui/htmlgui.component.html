@@ -21,10 +21,10 @@
   <ngt-mesh-standard-material color="darkgray"></ngt-mesh-standard-material>
 </ngt-mesh>
 
-<mouse-touch-input [intersectObjects]="lil.group.children"></mouse-touch-input>
+<mouse-touch-input [intersectObjects]="[lil.mesh]"></mouse-touch-input>
 
-<vr-controller guipointer showcontroller trackedpointer navhome [gui]="lil.group"></vr-controller>
-<vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [gui]="lil.group"></vr-controller>
+<vr-controller guipointer showcontroller trackedpointer navhome [guis]="[lil.mesh]"></vr-controller>
+<vr-controller [index]="1" guipointer showcontroller trackedpointer navhome  [guis]="[lil.mesh]"></vr-controller>
 
 <ng3-lil-gui #lil [position]="[-0.75, 1, -1]" [rotation]="[0, 3.14/4, 0]" scalar="2" [gui]="gui" ></ng3-lil-gui>
 

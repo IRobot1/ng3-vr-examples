@@ -1,7 +1,7 @@
 import { Directive, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { Group, Matrix4, Raycaster, Vector2 } from "three";
+import { Group, Matrix4, Object3D, Raycaster, Vector2 } from "three";
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
 import { VRControllerComponent } from "ng3-webxr";
@@ -17,7 +17,7 @@ export class GUIPointerDirective implements OnInit, OnDestroy {
   set guipointer(newvalue: BooleanInput) {
     this._enabled = newvalue;
   }
-  @Input() gui!: Group;
+  @Input() guis: Array<Object3D> = [];
 
   private subs = new Subscription();
   private cleanup = () => { }
@@ -33,7 +33,7 @@ export class GUIPointerDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (!this.gui) {
+    if (this.guis.length == 0) {
       console.error('guipointer directive gui input not set')
       return;
     }
@@ -60,7 +60,7 @@ export class GUIPointerDirective implements OnInit, OnDestroy {
       raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
       raycaster.ray.direction.set(0, 0, - 1).applyMatrix4(tempMatrix);
 
-      const intersections = raycaster.intersectObjects(this.gui.children, false);
+      const intersections = raycaster.intersectObjects(this.guis, false);
 
       if (intersections.length > 0) {
 

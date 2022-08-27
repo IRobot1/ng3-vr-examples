@@ -23,9 +23,9 @@ export class Ng3LilGUIComponent {
   @Input() scale?: NgtTriple;
   @Input() scalar?: NumberInput;
 
-  public group = new Group();
+  private group = new Group();
 
-  private mesh!: HTMLMesh;
+  public mesh!: HTMLMesh;
 
   constructor(private store: NgtStore) { }
 
