@@ -67,13 +67,11 @@ export class SpirographExample implements AfterViewInit {
         }
       }
       if (this.angle <= 360) {
-        console.warn('draw')
         this.tubemesh.geometry.dispose();
         const curve = new CatmullRomCurve3(this.vectors);
         this.tubemesh.geometry = new TubeGeometry(curve, this.vectors.length, 0.01);
       }
       else {
-        console.warn('finish')
         this.tubemesh.geometry.dispose();
         const curve = new CatmullRomCurve3(this.vectors, true);
         this.tubemesh.geometry = new TubeGeometry(curve, this.vectors.length, 0.01);
