@@ -20,12 +20,14 @@ export class TwoArmSpiroComponent extends NgtObjectProps<Group> {
   private enabled = false;
 
   changex = true
+  changey = false
   changez = true
   arm1length = 0.5
   arm2length = 0.1
   arm2factorx = 30
+  arm1factory = 0
   arm2factorz = 0
-  animate = false
+  animate = true
 
   private origin!: Vector3;
 
@@ -43,7 +45,7 @@ export class TwoArmSpiroComponent extends NgtObjectProps<Group> {
   }
 
   private angle = 0;
-  private speed = 90;
+  public speed = 90;
 
   tubemesh!: SpiroMeshComponent;
 
@@ -57,9 +59,14 @@ export class TwoArmSpiroComponent extends NgtObjectProps<Group> {
             this.arm2.rotation.x = -MathUtils.degToRad(this.angle) * this.arm2factorx;
           }
 
+          if (this.changey) {
+            this.arm1.rotation.x = -MathUtils.degToRad(this.angle) * this.arm1factory;
+          }
+
           if (this.changez) {
             this.arm2.rotation.z = -MathUtils.degToRad(this.angle) * this.arm2factorz;
           }
+
           const next = new Vector3();
           const position = tip.getWorldPosition(next).sub(this.origin)
           if (this.angle < 360) this.vectors.push(position)

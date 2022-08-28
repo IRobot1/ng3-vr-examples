@@ -36,6 +36,13 @@ export class SpirographExample {
     this.twoarm.changex = newvalue == 1;
   }
 
+  private _changey = 0;
+  get changey(): number { return this._changey }
+  set changey(newvalue: number) {
+    this._changey = newvalue;
+    this.twoarm.changey = newvalue == 1;
+  }
+
   private _changez = 1;
   get changez(): number { return this._changez }
   set changez(newvalue: number) {
@@ -43,7 +50,7 @@ export class SpirographExample {
     this.twoarm.changez = newvalue == 1;
   }
 
-  private _animate = 0;
+  private _animate = 1;
   get animate(): number { return this._animate }
   set animate(newvalue: number) {
     this._animate = newvalue;
@@ -76,10 +83,13 @@ export class SpirographExample {
     //gui.add(this, 'savegltf').name('Save to GLFT');
     gui.add(this.twoarm, 'arm1length', 0.1, 1.0, 0.1).name('Arm 1 Length');
     gui.add(this.twoarm, 'arm2length', 0.03, 0.4, 0.01).name('Arm 2 Length');
-    gui.add(this, 'changex', 0, 1, 1).name('Allow change along X');
+    gui.add(this, 'changey', 0, 1, 1).name('Arm1 change along Y');
+    gui.add(this.twoarm, 'arm1factory', 0, 90, 1).name('Rotations along Y');
+    gui.add(this, 'changex', 0, 1, 1).name('Arm2 change along X');
     gui.add(this.twoarm, 'arm2factorx', 0, 90, 1).name('Rotations along X');
-    gui.add(this, 'changez', 0, 1, 1).name('Allow change along Z');
+    gui.add(this, 'changez', 0, 1, 1).name('Arm2 change along Z');
     gui.add(this.twoarm, 'arm2factorz', 0, 90, 1).name('Rotations along Z');
+    gui.add(this.twoarm, 'speed', 1, 90, 1).name('Draw Speed');
     gui.addColor(this.twoarm, 'tubecolor').name('Tube Color');
     gui.add(this, 'animate', 0, 1, 1).name('Rotate Model');
     gui.add(this.twoarm, 'redraw').name('Redraw');
