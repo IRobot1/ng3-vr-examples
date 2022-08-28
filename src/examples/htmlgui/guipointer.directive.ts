@@ -60,7 +60,7 @@ export class GUIPointerDirective implements OnInit, OnDestroy {
       raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
       raycaster.ray.direction.set(0, 0, - 1).applyMatrix4(tempMatrix);
 
-      const intersections = raycaster.intersectObjects(this.guis, false);
+      const intersections = raycaster.intersectObjects(this.guis.filter(x => x !== undefined), false);
 
       if (intersections.length > 0) {
 

@@ -42,7 +42,7 @@ export class MouseTouchInput implements OnInit, OnDestroy {
 
       raycaster.setFromCamera(_pointer, camera);
 
-      const intersects = raycaster.intersectObjects(this.intersectObjects, coerceBooleanProperty(this.recursive));
+      const intersects = raycaster.intersectObjects(this.intersectObjects.filter(x => x !== undefined), coerceBooleanProperty(this.recursive));
 
       if (intersects.length > 0) {
 

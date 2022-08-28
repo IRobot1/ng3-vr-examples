@@ -55,6 +55,8 @@ export class SpirographExample {
   set animate(newvalue: number) {
     this._animate = newvalue;
     this.twoarm.animate = newvalue == 1;
+    if (!this.twoarm.animate)
+      this.twoarm.tubemesh.instance.value.rotation.y = 0;
   }
 
   private count = 0;
