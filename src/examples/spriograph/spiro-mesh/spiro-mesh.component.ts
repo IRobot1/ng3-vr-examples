@@ -11,10 +11,10 @@ export class SpiroMeshComponent extends NgtObjectProps<Mesh> {
   @Input() tubecolor = 'white';
 
   inst!: Mesh;
-  refresh(vectors: Array<Vector3>, close: boolean = false) {
+  refresh(vectors: Array<Vector3>, radius = 0.01, close: boolean = false) {
     this.inst.geometry.dispose();
     const curve = new CatmullRomCurve3(vectors, close);
-    this.inst.geometry = new TubeGeometry(curve, vectors.length, 0.01);
+    this.inst.geometry = new TubeGeometry(curve, vectors.length, radius);
 
   }
 }

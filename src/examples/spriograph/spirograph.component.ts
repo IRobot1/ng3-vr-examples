@@ -83,6 +83,7 @@ export class SpirographExample {
     gui.add(this, 'saveobj').name('Save to OBJ');
     gui.add(this, 'saveply').name('Save to PLY');
     //gui.add(this, 'savegltf').name('Save to GLFT');
+    gui.add(this.twoarm, 'radius', 0.001, 0.02, 0.001).name('Tube Radius');
     gui.add(this.twoarm, 'arm1length', 0.1, 1.0, 0.1).name('Arm 1 Length');
     gui.add(this.twoarm, 'arm2length', 0.03, 0.4, 0.01).name('Arm 2 Length');
     gui.add(this, 'changey', 0, 1, 1).name('Arm1 change along Y');

@@ -28,6 +28,7 @@ export class TwoArmSpiroComponent extends NgtObjectProps<Group> {
   arm1factory = 0
   arm2factorz = 0
   animate = true
+  radius = 0.01
 
   private origin!: Vector3;
 
@@ -77,10 +78,10 @@ export class TwoArmSpiroComponent extends NgtObjectProps<Group> {
         }
       }
       if (this.angle <= 360) {
-        this.tubemesh.refresh(this.vectors)
+        this.tubemesh.refresh(this.vectors, this.radius)
       }
       else {
-        this.tubemesh.refresh(this.vectors, true)
+        this.tubemesh.refresh(this.vectors, this.radius, true)
         this.enabled = false;
       }
     }
