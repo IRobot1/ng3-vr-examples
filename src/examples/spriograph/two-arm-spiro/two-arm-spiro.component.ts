@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 
 import { Group, MathUtils, Object3D, Vector3 } from "three";
-import { make, NgtObjectProps } from "@angular-three/core";
+import { make, NgtObjectProps, NgtStore } from "@angular-three/core";
 
 import { SpiroMeshComponent } from "../spiro-mesh/spiro-mesh.component";
 
@@ -10,7 +10,7 @@ import { SpiroMeshComponent } from "../spiro-mesh/spiro-mesh.component";
   templateUrl: './two-arm-spiro.component.html',
 })
 export class TwoArmSpiroComponent extends NgtObjectProps<Group> {
-  @Input() tubecolor = 'white';
+  @Input() tubecolor = '#6495ED'; // cornflowerblue
 
   arm1!: Object3D;
   arm2!: Object3D;
@@ -29,6 +29,7 @@ export class TwoArmSpiroComponent extends NgtObjectProps<Group> {
 
   private origin!: Vector3;
 
+  
 
   groupready(arm1: Group) {
     this.origin = make(Vector3, this.position);
