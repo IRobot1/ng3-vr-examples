@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, Input } from "@angular/core";
 
 import { Group, MathUtils, Object3D, Vector3 } from "three";
 import { make, NgtObjectProps } from "@angular-three/core";
@@ -10,6 +10,7 @@ import { SpiroMeshComponent } from "../spiro-mesh/spiro-mesh.component";
   templateUrl: './two-arm-spiro.component.html',
 })
 export class TwoArmSpiroComponent extends NgtObjectProps<Group> {
+  @Input() tubecolor = 'white';
 
   arm1!: Object3D;
   arm2!: Object3D;

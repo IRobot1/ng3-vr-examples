@@ -67,6 +67,7 @@ export class SpirographExample {
     gui.add(this.twoarm, 'arm2factorx', 0, 90, 1).name('Rotations along X');
     gui.add(this, 'changez', 0, 1, 1).name('Allow change along Z');
     gui.add(this.twoarm, 'arm2factorz', 0, 90, 1).name('Rotations along Z');
+    gui.addColor(this.twoarm, 'tubecolor').name('Tube Color');
     gui.add(this, 'animate', 0, 1, 1).name('Rotate Model');
     gui.add(this.twoarm, 'redraw').name('Redraw');
     this.gui = gui;
