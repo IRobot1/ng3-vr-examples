@@ -1,22 +1,20 @@
-import { make, NgtTriple } from "@angular-three/core";
-import { AfterViewInit, Component, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
+
+import { NgtColor, NgtTriple } from "@angular-three/core";
+
 import GUI from "lil-gui";
 
-import { CatmullRomCurve3, MathUtils, Mesh, Object3D, TubeGeometry, Vector3 } from "three";
-
 import { CameraService } from "../../app/camera.service";
+
+import { TwoArmSpiroComponent } from "./two-arm-spiro/two-arm-spiro.component";
 
 @Component({
   templateUrl: './spirograph.component.html'
 })
-export class SpirographExample implements OnInit, AfterViewInit {
+export class SpirographExample {
   position = [0, 2, -1] as NgtTriple;
-  arm1!: Object3D;
-  arm2!: Object3D;
 
-  vectors: Array<Vector3> = [];
-
-  enabled = false;
+  twoarm!: TwoArmSpiroComponent;
 
   constructor(
     private cameraService: CameraService,
@@ -34,84 +32,47 @@ export class SpirographExample implements OnInit, AfterViewInit {
     arm2length: 0.1,
     arm2factorx: 30,
     arm2factorz: 0,
-    redraw: () => { this.redraw() }
   };
 
   public gui!: GUI;
-  private origin!: Vector3;
 
-  ngOnInit(): void {
+  private _changex = 1;
+  get changex(): number { return this._changex }
+  set changex(newvalue: number) {
+    this._changex = newvalue;
+    this.twoarm.changex = newvalue == 1;
+  }
+
+  private _changez = 1;
+  get changez(): number { return this._changez }
+  set changez(newvalue: number) {
+    this._changez = newvalue;
+    this.twoarm.changez = newvalue == 1;
+  }
+
+  private _animate = 0;
+  get animate(): number { return this._animate }
+  set animate(newvalue: number) {
+    this._animate = newvalue;
+    this.twoarm.animate = newvalue == 1;
+  }
+
+  ready(twoarm: TwoArmSpiroComponent): void {
+    this.twoarm = twoarm;
+
     const gui = new GUI({ width: 300 }).title('Draw Settings');
-    gui.add(this.parameters, 'arm1length', 0.1, 1.0, 0.1).name('Arm 1 Length');
-    gui.add(this.parameters, 'arm2length', 0.03, 0.4, 0.001).name('Arm 2 Length');
-    gui.add(this.parameters, 'changex', 0, 1, 1).name('Allow change along X');
-    gui.add(this.parameters, 'arm2factorx', 0, 90, 1).name('Rotations along X');
-    gui.add(this.parameters, 'changez', 0, 1, 1).name('Allow change along Z');
-    gui.add(this.parameters, 'arm2factorz', 0, 90, 1).name('Rotations along Z');
-    gui.add(this.parameters, 'animate', 0, 1, 1).name('Rotation Preview');
-    gui.add(this.parameters, 'redraw').name('Redraw');
+    gui.add(this.twoarm, 'arm1length', 0.1, 1.0, 0.1).name('Arm 1 Length');
+    gui.add(this.twoarm, 'arm2length', 0.03, 0.4, 0.001).name('Arm 2 Length');
+    gui.add(this, 'changex', 0, 1, 1).name('Allow change along X');
+    gui.add(this.twoarm, 'arm2factorx', 0, 90, 1).name('Rotations along X');
+    gui.add(this, 'changez', 0, 1, 1).name('Allow change along Z');
+    gui.add(this.twoarm, 'arm2factorz', 0, 90, 1).name('Rotations along Z');
+    gui.add(this, 'animate', 0, 1, 1).name('Rotate Model');
+    gui.add(this.twoarm, 'redraw').name('Redraw');
     this.gui = gui;
 
-    this.origin = make(Vector3, this.position);
-  }
-
-  ngAfterViewInit(): void {
     setTimeout(() => {
-      this.redraw();
+      twoarm.redraw();
     }, 500);
   }
-
-  private redraw() {
-    this.angle = 0;
-    this.vectors.length = 0;
-    this.tubemesh.geometry.dispose();
-    this.enabled = true;
-  }
-
-  private angle = 0;
-  private speed = 90;
-
-  tubemesh!: Mesh;
-
-  tick(tip: Object3D) {
-    if (this.enabled) {
-      for (let i = 0; i < this.speed; i++) {
-        if (this.angle <= 360) {
-
-          this.arm1.rotation.z = -MathUtils.degToRad(this.angle);
-          if (this.parameters.changex == 1) {
-            this.arm2.rotation.x = -MathUtils.degToRad(this.angle) * this.parameters.arm2factorx;
-          }
-
-          if (this.parameters.changez == 1) {
-            this.arm2.rotation.z = -MathUtils.degToRad(this.angle) * this.parameters.arm2factorz;
-          }
-          const next = new Vector3();
-          const position = tip.getWorldPosition(next).sub(this.origin)
-          if (this.angle < 360) this.vectors.push(position)
-
-          this.arm1.updateMatrixWorld();
-
-          this.angle += 0.5;
-        }
-      }
-      if (this.angle <= 360) {
-        this.tubemesh.geometry.dispose();
-        const curve = new CatmullRomCurve3(this.vectors);
-        this.tubemesh.geometry = new TubeGeometry(curve, this.vectors.length, 0.01);
-      }
-      else {
-        this.tubemesh.geometry.dispose();
-        const curve = new CatmullRomCurve3(this.vectors, true);
-        this.tubemesh.geometry = new TubeGeometry(curve, this.vectors.length, 0.01);
-        this.enabled = false;
-      }
-    }
-    if (this.parameters.animate) {
-      this.tubemesh.rotation.x = 0;
-      this.tubemesh.rotation.y += 0.005;
-      this.tubemesh.rotation.z = 0;
-    }
-  }
-  
 }

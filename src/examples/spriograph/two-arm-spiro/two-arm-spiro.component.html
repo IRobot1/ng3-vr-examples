@@ -1,0 +1,22 @@
+<ngt-group #group (ready)="groupready(group.instance.value)" [position]="position" [ngtObjectPassThrough]="this">
+  <ngt-mesh [position]="[0, arm1length/2, 0]">
+    <ngt-box-geometry [args]="[0.01, arm1length, 0.01]"></ngt-box-geometry>
+
+    <!--arm 2-->
+    <ngt-group (ready)="arm2=$event" [position]="[0, arm1length/2, 0]">
+      <ngt-mesh [position]="[0, arm2length/2, 0]">
+        <ngt-box-geometry [args]="[0.01, arm2length, 0.01]"></ngt-box-geometry>
+        <ngt-mesh-standard-material></ngt-mesh-standard-material>
+
+        <!--draw point-->
+        <ngt-mesh (beforeRender)="tick($event.object)" [position]="[0, arm2length/2, 0]">
+          <ngt-sphere-geometry [args]="[0.005]"></ngt-sphere-geometry>
+          <ngt-mesh-standard-material color="red"></ngt-mesh-standard-material>
+        </ngt-mesh>
+      </ngt-mesh>
+    </ngt-group>
+
+  </ngt-mesh>
+</ngt-group>
+
+<spiro-mesh #spiro (ready)="tubemesh=spiro" [position]="position"></spiro-mesh>

@@ -94,6 +94,8 @@ import { BoxLineGeometryComponent } from '../components/box-line-geometry.compon
 import { RoundedBoxGeometryComponent } from '../components/rounded-box-geometry.component';
 import { NetworkDiagramComponent } from '../examples/network/network-diagram.component.ts/network-diagram.component';
 import { SpirographExample } from '../examples/spriograph/spirograph.component';
+import { TwoArmSpiroComponent } from '../examples/spriograph/two-arm-spiro/two-arm-spiro.component';
+import { SpiroMeshComponent } from '../examples/spriograph/spiro-mesh/spiro-mesh.component';
 
 
 @NgModule({
@@ -183,6 +185,8 @@ import { SpirographExample } from '../examples/spriograph/spirograph.component';
     NetworkDiagramComponent,
 
     SpirographExample,
+    TwoArmSpiroComponent,
+    SpiroMeshComponent,
   ],
   imports: [
     BrowserModule,
