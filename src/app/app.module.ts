@@ -96,6 +96,7 @@ import { NetworkDiagramComponent } from '../examples/network/network-diagram.com
 import { SpirographExample } from '../examples/spriograph/spirograph.component';
 import { TwoArmSpiroComponent } from '../examples/spriograph/two-arm-spiro/two-arm-spiro.component';
 import { SpiroMeshComponent } from '../examples/spriograph/spiro-mesh/spiro-mesh.component';
+import { ArtificialLifeExample } from '../examples/artificial-life/artificial-life.component';
 
 
 @NgModule({
@@ -187,6 +188,8 @@ import { SpiroMeshComponent } from '../examples/spriograph/spiro-mesh/spiro-mesh
     SpirographExample,
     TwoArmSpiroComponent,
     SpiroMeshComponent,
+
+    ArtificialLifeExample,
   ],
   imports: [
     BrowserModule,
