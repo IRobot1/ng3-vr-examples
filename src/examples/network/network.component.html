@@ -13,11 +13,11 @@
 </ngt-group>
 
 <!-- limitation in ngraph only allows opening one diagram at a time -->
-<ngt-group #diag *ngIf="stable" [position]="[0, 1.5, 1]" [scale]="scale">
+<ngt-group #diag [position]="[0, 1.5, 1]" [scale]="scale">
   <network-diagram [graph]="customgraph"
                    [origin]="[0, 1.5, 1]"
                    [dimensions]="2"
-                   [animate]="false"
+                   [animate]="true"
                    [showLinkLabel]="true"
                    [list]="list" (stable)="flipAfterLoad($event, diag.instance.value)">
   </network-diagram>

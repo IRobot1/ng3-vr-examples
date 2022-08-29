@@ -57,7 +57,7 @@ export class NetworkExample implements OnInit {
   customgraph!: Graph<NodeData, LinkData>;
 
   stable = false;
-  loading = false;
+  loading = true;
 
   constructor(
     private store: NgtStore,

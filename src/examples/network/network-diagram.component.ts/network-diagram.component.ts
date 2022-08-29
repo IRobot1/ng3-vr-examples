@@ -75,21 +75,12 @@ export class NetworkDiagramComponent implements OnInit {
   @Input() origin = [0, 0, 0] as NgtTriple;
   @Input() dimensions = 2 | 3;
 
-  //@Input() nodeLabelSize = 0.8;
-  //@Input() linkLabelSize = 0.5;
-
   @Input() labelFont = 'https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff';
   @Input() castShadow = false;
 
   @Input() showArrow = true;
   @Input() showNodeLabel = true;
   @Input() showLinkLabel = false;
-
-  //@Input() nodeColor = 'blue';
-  //@Input() linkColor = 'white';
-  //@Input() arrowColor = 'white';
-  //@Input() nodeTextColor = 'white';
-  //@Input() linkTextColor = 'white';
 
   @Input() linkLength = 1;
   @Input() animate = true;
