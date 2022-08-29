@@ -85,17 +85,23 @@ export class ArtificialLifeExample implements OnInit {
   inst!: InstancedMesh;
 
   redred = 0.1;
-  yellowred = 0.15;
+  redgreen = -0.1;
   greengreen = -0.7;
   greenred = -0.2;
-  redgreen = -0.1;
+  greenyellow = 0;
+  yellowred = 0.15;
+  yellowyellow = 0;
+  yellowgreen = 0;
 
   tick(inst: InstancedMesh) {
     this.rule(this.red, this.red, this.redred);
     this.rule(this.yellow, this.red, this.yellowred);
     this.rule(this.green, this.green, this.greengreen);
     this.rule(this.green, this.red, this.greenred);
+    this.rule(this.green, this.yellow, this.greenred);
     this.rule(this.red, this.green, this.redgreen);
+    this.rule(this.yellow, this.yellow, this.yellowyellow);
+    this.rule(this.yellow, this.green, this.yellowgreen);
 
     this.data.forEach((item, index) => {
       const matrix = new Matrix4();
@@ -107,23 +113,36 @@ export class ArtificialLifeExample implements OnInit {
   }
 
   reset() {
-    console.warn('reset')
-    this.redred = 0.1;
-    this.yellowred = 0.15;
-    this.greengreen = -0.7;
-    this.greenred = -0.2;
-    this.redgreen = -0.1;
     this.gui.reset();
+  }
+
+  interesting1() {
+    this.greengreen = -0.32;
+    this.greenred = -0.17;
+    this.greenyellow = 0.34;
+    this.redred = -0.1;
+    this.redgreen = -0.34;
+    this.yellowyellow = 0.15;
+    this.yellowgreen = -0.2;
+
+    this.yellowred = 0;
+    this.yellowred = 0;
+
+    this.gui.controllers.forEach(c => c.updateDisplay());
   }
 
   ngOnInit(): void {
     const gui = new GUI({ width: 300 });
     gui.add(this, 'size', 0.001, 0.03, 0.001).name('Particle Size');
-    gui.add(this, 'redred', -0.2, 0.2, 0.01).name('Red / Red Interaction');
-    gui.add(this, 'yellowred', -0.5, 0.5, 0.01).name('Yellow / Red Interaction');
-    gui.add(this, 'greengreen', -2, 2, 0.01).name('Green / Green Interaction');
-    gui.add(this, 'greenred', -2, 2, 0.01).name('Green / Red Interaction');
-    gui.add(this, 'redgreen', -2, 2, 0.01).name('Red / Green Interaction');
+    gui.add(this, 'redred', -0.2, 0.2, 0.01).name('Red / Red Gravity');
+    gui.add(this, 'redgreen', -2, 2, 0.01).name('Red / Green Gravity');
+    gui.add(this, 'greengreen', -2, 2, 0.01).name('Green / Green Gravity');
+    gui.add(this, 'greenred', -2, 2, 0.01).name('Green / Red Gravity');
+    gui.add(this, 'greenyellow', -2, 2, 0.01).name('Green / Yellow Gravity');
+    gui.add(this, 'yellowred', -0.5, 0.5, 0.01).name('Yellow / Red Gravity');
+    gui.add(this, 'yellowyellow', -0.5, 0.5, 0.01).name('Yellow / Yellow Gravity');
+    gui.add(this, 'yellowgreen', -0.5, 0.5, 0.01).name('Yellow / Green Gravity');
+    gui.add(this, 'interesting1').name('Interesting');
     gui.add(this, 'reset').name('Reset to Original');
 
     this.gui = gui;
