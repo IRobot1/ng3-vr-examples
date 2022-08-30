@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 
 import { Color, InstancedMesh, MathUtils, Matrix4, Vector3 } from "three";
 import { NgtTriple } from "@angular-three/core";
@@ -16,7 +16,7 @@ class Cell {
 @Component({
   templateUrl: './artificial-life.component.html',
 })
-export class ArtificialLifeExample implements OnInit {
+export class ArtificialLifeExample implements OnInit, OnDestroy {
   public gui!: GUI;
 
   data: Array<Cell> = [];
@@ -57,7 +57,7 @@ export class ArtificialLifeExample implements OnInit {
         const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
         if (dist > 0 && dist < 0.3 * this.volume) {
-          let F = g * this.size / dist;
+          let F = g * this.size * 2 / dist;
           fx += (F * dx);
           fy += (F * dy);
           fz += (F * dz);
@@ -93,23 +93,35 @@ export class ArtificialLifeExample implements OnInit {
   yellowyellow = 0;
   yellowgreen = 0;
 
-  tick(inst: InstancedMesh) {
-    this.rule(this.red, this.red, this.redred);
-    this.rule(this.yellow, this.red, this.yellowred);
-    this.rule(this.green, this.green, this.greengreen);
-    this.rule(this.green, this.red, this.greenred);
-    this.rule(this.green, this.yellow, this.greenred);
-    this.rule(this.red, this.green, this.redgreen);
-    this.rule(this.yellow, this.yellow, this.yellowyellow);
-    this.rule(this.yellow, this.green, this.yellowgreen);
+  timer!: any;
+  update = true;
 
-    this.data.forEach((item, index) => {
-      const matrix = new Matrix4();
-      matrix.setPosition(item.position);
-      inst.setMatrixAt(index, matrix);
-      inst.setColorAt(index, item.color);
-    });
-    inst.instanceMatrix.needsUpdate = true;
+  // called from instanced mesh ready()
+  compute() {
+    this.timer = setInterval(() => {
+      this.rule(this.red, this.red, this.redred);
+      this.rule(this.yellow, this.red, this.yellowred);
+      this.rule(this.green, this.green, this.greengreen);
+      this.rule(this.green, this.red, this.greenred);
+      this.rule(this.green, this.yellow, this.greenred);
+      this.rule(this.red, this.green, this.redgreen);
+      this.rule(this.yellow, this.yellow, this.yellowyellow);
+      this.rule(this.yellow, this.green, this.yellowgreen);
+      this.update = true;
+    }, 1000 / 24)
+  }
+
+  tick(inst: InstancedMesh) {
+    if (this.update) {
+      this.data.forEach((item, index) => {
+        const matrix = new Matrix4();
+        matrix.setPosition(item.position);
+        inst.setMatrixAt(index, matrix);
+        inst.setColorAt(index, item.color);
+      });
+      inst.instanceMatrix.needsUpdate = true;
+      this.update = false;
+    }
   }
 
   reset() {
@@ -146,5 +158,11 @@ export class ArtificialLifeExample implements OnInit {
     gui.add(this, 'reset').name('Reset to Original');
 
     this.gui = gui;
+
+    this.tick(this.inst);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.timer);
   }
 }

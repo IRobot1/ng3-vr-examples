@@ -5,7 +5,7 @@
 <ngt-ambient-light intensity="0.6" [position]="[0, 0, 0]"></ngt-ambient-light>
 
 <ngt-instanced-mesh #mesh [count]="data.length"
-                    (ready)="inst=mesh.instance.value" (beforeRender)="tick(mesh.instance.value)"
+                    (ready)="inst=mesh.instance.value;compute()" (beforeRender)="tick(mesh.instance.value)"
                     [position]="position">
   <ngt-sphere-geometry [args]="[size]"></ngt-sphere-geometry>
   <ngt-mesh-standard-material></ngt-mesh-standard-material>
@@ -15,6 +15,6 @@
 <vr-controller guipointer showcontroller trackedpointer navhome [guis]="[lil.mesh]"></vr-controller>
 <vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="[lil.mesh]"></vr-controller>
 
-<ng3-lil-gui #lil [position]="[-0.75, 1, -1]" [rotation]="[0, 3.14/4, 0]" scalar="4" [gui]="gui"></ng3-lil-gui>
+<ng3-lil-gui #lil [position]="[-0.75, 1, -1]" [rotation]="[0, 3.14/4, 0]" scalar="3" [gui]="gui"></ng3-lil-gui>
 
 <ngt-soba-orbit-controls></ngt-soba-orbit-controls>

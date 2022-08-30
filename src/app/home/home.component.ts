@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
     { asset: 'morphwall', text: 'Morphing Wall' },
     { asset: 'network', text: 'Network Diagram' },
     { asset: 'spirograph', text: 'Spirograph' },
-    { asset: 'artlife', text: 'Artificial Life' },
+    { asset: 'artlife', text: 'Particle Life' },
   ]
 
   panels: Array<PanelSetting> = [];
