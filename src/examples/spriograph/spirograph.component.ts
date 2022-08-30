@@ -9,6 +9,7 @@ import { CameraService } from "../../app/camera.service";
 import { TwoArmSpiroComponent } from "./two-arm-spiro/two-arm-spiro.component";
 
 import { Exporter } from "./export";
+import { Mesh } from "three";
 
 @Component({
   templateUrl: './spirograph.component.html'
@@ -28,6 +29,7 @@ export class SpirographExample {
   }
 
   public gui!: GUI;
+  public meshes: Array<Mesh> = [];
 
   private _changex = 1;
   get changex(): number { return this._changex }

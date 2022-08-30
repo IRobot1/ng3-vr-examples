@@ -6,11 +6,11 @@
 
 <two-arm-spiro #inst (ready)="ready(inst)" [position]="position"></two-arm-spiro>
 
-<ng3-lil-gui #lil [position]="[-0.75, 1.5, -0.8]" [rotation]="[0, 1.57/5, 0]" scalar="3" [gui]="gui"></ng3-lil-gui>
+<ng3-lil-gui #lil (ready)="meshes.push($event)" [position]="[-0.75, 1.5, -0.8]" [rotation]="[0, 1.57/5, 0]" scalar="3" [gui]="gui"></ng3-lil-gui>
 
-<vr-controller guipointer showcontroller trackedpointer navhome [guis]="[lil.mesh]"></vr-controller>
-<vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="[lil.mesh]"></vr-controller>
+<vr-controller handinput showhand guipointer showcontroller trackedpointer navhome [guis]="meshes"></vr-controller>
+<vr-controller [index]="1" handinput showhand guipointer showcontroller trackedpointer navhome [guis]="meshes"></vr-controller>
 
-<mouse-touch-input [intersectObjects]="[lil.mesh]"></mouse-touch-input>
+<mouse-touch-input [intersectObjects]="meshes"></mouse-touch-input>
 
 <!--<ngt-soba-orbit-controls [target]="[0, 1.2, -2]"></ngt-soba-orbit-controls>-->

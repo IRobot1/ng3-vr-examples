@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 
-import { Color, InstancedMesh, MathUtils, Matrix4, Vector3 } from "three";
+import { Color, InstancedMesh, MathUtils, Matrix4, Mesh, Vector3 } from "three";
 import { NgtTriple } from "@angular-three/core";
 
 import GUI from "lil-gui";
@@ -18,11 +18,11 @@ class Cell {
 })
 export class ArtificialLifeExample implements OnInit, OnDestroy {
   public gui!: GUI;
+  meshes: Array<Mesh> = [];
 
   data: Array<Cell> = [];
 
   volume = 3;
-  position = [0, this.volume, 0] as NgtTriple;
   size = 0.01
 
 
@@ -129,16 +129,15 @@ export class ArtificialLifeExample implements OnInit, OnDestroy {
   }
 
   interesting1() {
-    this.greengreen = -0.32;
-    this.greenred = -0.17;
-    this.greenyellow = 0.34;
     this.redred = -0.1;
-    this.redgreen = -0.34;
-    this.yellowyellow = 0.15;
-    this.yellowgreen = -0.2;
+    this.redgreen = -0.97;
+    this.greengreen = -0.7;
+    this.greenred = 0.78;
+    this.greenyellow = -0.4;
+    this.yellowred = 0.15;
+    this.yellowyellow = 0.02;
+    this.yellowgreen = -0.29;
 
-    this.yellowred = 0;
-    this.yellowred = 0;
 
     this.gui.controllers.forEach(c => c.updateDisplay());
   }
@@ -158,8 +157,6 @@ export class ArtificialLifeExample implements OnInit, OnDestroy {
     gui.add(this, 'reset').name('Reset to Original');
 
     this.gui = gui;
-
-    this.tick(this.inst);
   }
 
   ngOnDestroy(): void {

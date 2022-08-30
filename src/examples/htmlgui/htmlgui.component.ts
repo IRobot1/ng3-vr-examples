@@ -21,6 +21,7 @@ export class HTMLGUIExample implements OnInit {
   };
 
   public gui!: GUI;
+  public meshes: Array<Mesh> = [];
 
   constructor(
     private camera: CameraService,

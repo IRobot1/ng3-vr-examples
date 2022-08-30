@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { Group } from "three";
+import { Group, Mesh } from "three";
 import { coerceNumberProperty, NgtStore, NgtTriple, NumberInput } from "@angular-three/core";
 
 import GUI from "lil-gui";
@@ -23,9 +23,9 @@ export class Ng3LilGUIComponent {
   @Input() scale?: NgtTriple;
   @Input() scalar?: NumberInput;
 
-  private group = new Group();
+  @Output() ready = new EventEmitter<Mesh>();
 
-  public mesh!: HTMLMesh;
+  private group = new Group();
 
   constructor(private store: NgtStore) { }
 
@@ -54,13 +54,13 @@ export class Ng3LilGUIComponent {
 
     this.group.add(mesh);
 
-    this.mesh = mesh;
+    this.ready.next(mesh);
+
   }
 
   ngOnDestroy(): void {
     const scene = this.store.get(s => s.scene);
     scene.remove(this.group);
-    this.mesh.dispose();
   }
 
 }

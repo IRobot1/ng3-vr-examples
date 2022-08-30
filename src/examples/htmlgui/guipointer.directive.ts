@@ -33,11 +33,6 @@ export class GUIPointerDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    if (this.guis.length == 0) {
-      console.error('guipointer directive gui input not set')
-      return;
-    }
-
     const events: any = {
       'move': 'mousemove',
       'select': 'click',

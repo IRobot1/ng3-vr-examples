@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy } from "@angular/core";
+import { AfterViewInit, Component, Input, OnDestroy } from "@angular/core";
 
 import { LineBasicMaterial, LineSegments } from "three";
 
@@ -12,6 +12,8 @@ import { BoxLineGeometry } from 'three-stdlib';
   templateUrl: './line-room.component.html',
 })
 export class LineRoomComponent implements AfterViewInit, OnDestroy {
+  @Input() center = true;
+
   constructor(
     private store: NgtStore,
   ) { }
@@ -23,7 +25,9 @@ export class LineRoomComponent implements AfterViewInit, OnDestroy {
   );
 
   ngAfterViewInit(): void {
-    this.room.geometry.translate(0, 3, 0);
+    if (this.center) {
+      this.room.geometry.translate(0, 3, 0);
+    }
 
     const scene = this.store.get((s) => s.scene);
     scene.add(this.room);
