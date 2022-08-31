@@ -23,8 +23,8 @@
 
 <mouse-touch-input [intersectObjects]="meshes"></mouse-touch-input>
 
-<vr-controller handinput showhand guipointer showcontroller trackedpointer navhome [guis]="meshes"></vr-controller>
-<vr-controller [index]="1" handinput showhand guipointer showcontroller trackedpointer navhome  [guis]="meshes"></vr-controller>
+<vr-controller guipointer showcontroller trackedpointer navhome [guis]="meshes"></vr-controller>
+<vr-controller [index]="1" guipointer showcontroller trackedpointer navhome  [guis]="meshes"></vr-controller>
 
 <ng3-lil-gui #lil (ready)="meshes.push($event)" [position]="[-0.75, 1, -1]" [rotation]="[0, 3.14/4, 0]" scalar="2" [gui]="gui" ></ng3-lil-gui>
 
