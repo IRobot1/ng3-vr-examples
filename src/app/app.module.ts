@@ -97,6 +97,8 @@ import { SpirographExample } from '../examples/spriograph/spirograph.component';
 import { TwoArmSpiroComponent } from '../examples/spriograph/two-arm-spiro/two-arm-spiro.component';
 import { SpiroMeshComponent } from '../examples/spriograph/spiro-mesh/spiro-mesh.component';
 import { ArtificialLifeExample } from '../examples/artificial-life/artificial-life.component';
+import { SVGExample } from '../examples/svg/svg.component';
+import { SVGIconComponent } from '../examples/svg/svg-icon/svg-icon.component';
 
 
 @NgModule({
@@ -190,6 +192,9 @@ import { ArtificialLifeExample } from '../examples/artificial-life/artificial-li
     SpiroMeshComponent,
 
     ArtificialLifeExample,
+
+    SVGExample,
+    SVGIconComponent,
   ],
   imports: [
     BrowserModule,

@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
     { asset: 'network', text: 'Network Diagram' },
     { asset: 'spirograph', text: 'Spirograph' },
     { asset: 'artlife', text: 'Particle Life' },
+    { asset: 'svg', text: 'SVG Icons' },
   ]
 
   panels: Array<PanelSetting> = [];

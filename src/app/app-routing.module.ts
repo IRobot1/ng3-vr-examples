@@ -23,6 +23,7 @@ import { MorphWallExample } from '../examples/morphwall/morphwall.component';
 import { NetworkExample } from '../examples/network/network.component';
 import { SpirographExample } from '../examples/spriograph/spirograph.component';
 import { ArtificialLifeExample } from '../examples/artificial-life/artificial-life.component';
+import { SVGExample } from '../examples/svg/svg.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -47,6 +48,7 @@ const routes: Routes = [
   { path: 'network', component: NetworkExample },
   { path: 'spirograph', component: SpirographExample },
   { path: 'artlife', component: ArtificialLifeExample },
+  { path: 'svg', component: SVGExample },
 ];
 
 @NgModule({

@@ -6,7 +6,7 @@
 
 <ngt-group >
   <ngt-group *ngFor="let item of panels" [rotation]="[0, item.rotation | radian, 0]">
-    <portal [asset]="item.asset" [text]="item.text" [position]="[0, 1, -3]" [selectable]="selectable" (portalSelected)="selected($event)"></portal>
+    <portal [asset]="item.asset" [text]="item.text" [position]="[0, 1, -4]" [selectable]="selectable" (portalSelected)="selected($event)"></portal>
   </ngt-group>
 </ngt-group>
 
