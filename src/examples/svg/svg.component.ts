@@ -4,6 +4,7 @@ import { Observable, Subscription, timer } from "rxjs";
 import { MathUtils } from "three";
 
 import { Group } from "three";
+import { CameraService } from "../../app/camera.service";
 
 import { SimpleIconService, SVGData } from "./simple-icons-data";
 
@@ -28,8 +29,12 @@ export class SVGExample implements OnDestroy {
   private subs = new Subscription();
 
   constructor(
+    private cameraService: CameraService,
     private icons: SimpleIconService,
   ) {
+    this.cameraService.position = [0, 1.5, 0]
+    this.cameraService.fov = 70;
+
     for (let z = -2.5; z < 3; z += 1.5) {
       for (let x = -2.5; x < 3; x += 1.5) {
         this.displays.push(new IconDisplay(x, z))

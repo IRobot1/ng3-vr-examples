@@ -20,4 +20,22 @@
 </svg-icon>
 <!--<svg-icon [url]="url" [iconcolor]="color" [scale]="[0.1, 0.1, 0.1]" [position]="[0, 1, 0]"></svg-icon>-->
 
-<ngt-soba-orbit-controls></ngt-soba-orbit-controls>
+<ngt-mesh #floor [rotation]="[-1.57, 0, 0]">
+  <ngt-plane-geometry [args]="[4.8, 4.8, 2, 2]"></ngt-plane-geometry>
+  <ngt-mesh-standard-material transparent opacity="0.25"></ngt-mesh-standard-material>
+</ngt-mesh>
+
+<ngt-mesh #left [rotation]="[-1.57, 0, 0]">
+  <ngt-circle-geometry [args]="[0.25, 6]"></ngt-circle-geometry>
+  <ngt-mesh-standard-material></ngt-mesh-standard-material>
+</ngt-mesh>
+
+<ngt-mesh #right [rotation]="[-1.57, 0, 0]">
+  <ngt-circle-geometry [args]="[0.25, 12]"></ngt-circle-geometry>
+  <ngt-mesh-standard-material></ngt-mesh-standard-material>
+</ngt-mesh>
+
+<vr-controller teleport showcontroller trackedpointer navhome [marker]="left.instance.value" [floor]="floor.instance.value"></vr-controller>
+<vr-controller [index]="1" teleport showcontroller trackedpointer navhome [marker]="right.instance.value" [floor]="floor.instance.value"></vr-controller>
+
+<ngt-soba-orbit-controls [target]="[0, 1.5, 0]"></ngt-soba-orbit-controls>
