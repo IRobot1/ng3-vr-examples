@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from "@angular/core";
 
 import { Observable, Subscription, timer } from "rxjs";
+import { MathUtils } from "three";
 
 import { Group } from "three";
 
@@ -22,7 +23,6 @@ export class SVGExample implements OnDestroy {
   color = 'white'
 
   displays: Array<IconDisplay> = [];
-  count = 0;
 
   private timer: Observable<number> = timer(0, 30 * 1000);
   private subs!: Subscription;
@@ -45,14 +45,12 @@ export class SVGExample implements OnDestroy {
 
   private refreshicons() {
     this.displays.forEach(display => {
-
-      const icon = allsimpleicons[this.count]
+      const index = MathUtils.randInt(0, allsimpleicons.length);
+      const icon = allsimpleicons[index]
       if (icon) {
         display.svg = icon.svg;
         display.iconcolor = icon.color;
       }
-      this.count++;
-      if (this.count == allsimpleicons.length) this.count = 0;
     });
   }
 
