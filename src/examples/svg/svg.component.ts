@@ -5,7 +5,7 @@ import { MathUtils } from "three";
 
 import { Group } from "three";
 
-import { allsimpleicons } from "./simple-icons-data";
+import { SimpleIconService, SVGData } from "./simple-icons-data";
 
 class IconDisplay {
   public svg!: string
@@ -25,25 +25,33 @@ export class SVGExample implements OnDestroy {
   displays: Array<IconDisplay> = [];
 
   private timer: Observable<number> = timer(0, 30 * 1000);
-  private subs!: Subscription;
+  private subs = new Subscription();
 
-  constructor() {
+  constructor(
+    private icons: SimpleIconService,
+  ) {
     for (let z = -2.5; z < 3; z += 1.5) {
       for (let x = -2.5; x < 3; x += 1.5) {
         this.displays.push(new IconDisplay(x, z))
       }
     }
 
-    this.subs = this.timer.subscribe(() => {
-      this.refreshicons();
-    });
+    const s = this.icons.loadIcons().subscribe(all => {
+      this.subs.add(this.timer.subscribe(() => {
+        this.refreshicons(all);
+      }));
+    },
+      () => { },
+      () => {
+        s.unsubscribe();
+      });
   }
 
   ngOnDestroy(): void {
     this.subs.unsubscribe();
   }
 
-  private refreshicons() {
+  private refreshicons(allsimpleicons: Array<SVGData>) {
     this.displays.forEach(display => {
       const index = MathUtils.randInt(0, allsimpleicons.length);
       const icon = allsimpleicons[index]

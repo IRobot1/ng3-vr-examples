@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -199,6 +200,7 @@ import { SVGIconComponent } from '../examples/svg/svg-icon/svg-icon.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
 
     Ng3WebxrModule,
 
