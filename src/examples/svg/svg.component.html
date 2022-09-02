@@ -2,9 +2,22 @@
 
 <line-room></line-room>
 
-<ngt-directional-light [position]="[10, 10, 10]" castShadow></ngt-directional-light>
+<ngt-ambient-light intensity="0.1"></ngt-ambient-light>
 
-<svg-icon [svg]="svg" [iconcolor]="color" [scale]="[0.05, 0.05, 0.05]" [position]="[-0.5, 1.5, 0]"></svg-icon>
+<ngt-point-light [position]="[0, 1.5, 0]" castShadow></ngt-point-light>
+
+<ngt-group (beforeRender)="tick()"></ngt-group>
+
+<pedestal *ngFor="let item of displays" [position]="[item.x, 0, item.z]" [color]="'white'" [lightcolor]="item.iconcolor"></pedestal>
+
+<svg-icon *ngFor="let item of displays"
+          [svg]="item.svg"
+          [iconcolor]="item.iconcolor"
+          [scale]="[0.02, 0.02, 0.02]"
+          [position]="[item.x, 1.3, item.z]"
+          (changed)="iconChanged($event)">
+
+</svg-icon>
 <!--<svg-icon [url]="url" [iconcolor]="color" [scale]="[0.1, 0.1, 0.1]" [position]="[0, 1, 0]"></svg-icon>-->
 
 <ngt-soba-orbit-controls></ngt-soba-orbit-controls>

@@ -1,10 +1,11 @@
-import { Component, Input } from "@angular/core";
+import { EventEmitter, Component, Input, Output } from "@angular/core";
 
-import { DoubleSide, ExtrudeGeometry, Group, Mesh, MeshBasicMaterial, ShapeGeometry } from "three";
+import { BufferGeometry, ExtrudeGeometry, Group, Mesh, MeshStandardMaterial } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { SVGLoader, SVGResult } from "three-stdlib";
 
+import { mergeBufferGeometries } from "../BufferGeometryUtils";
 
 
 @Component({
@@ -33,6 +34,8 @@ export class SVGIconComponent extends NgtObjectProps<Group> {
 
   @Input() iconcolor = 'white';
 
+  @Output() changed = new EventEmitter<Group>();
+
   group!: Group;
   loaded = false;
 
@@ -56,26 +59,30 @@ export class SVGIconComponent extends NgtObjectProps<Group> {
     });
     this.group.children.length = 0;
 
+    const geometries: Array<BufferGeometry> = [];
+
     for (let i = 0; i < paths.length; i++) {
 
       const path = paths[i];
 
-      const material = new MeshBasicMaterial({
-        color: this.iconcolor,//path.color,
-        side: DoubleSide,
-        depthWrite: false
-      });
 
       const shapes = SVGLoader.createShapes(path);
 
       for (let j = 0; j < shapes.length; j++) {
         const shape = shapes[j];
-        const geometry = new ExtrudeGeometry(shape);
-        const mesh = new Mesh(geometry, material);
+        geometries.push(new ExtrudeGeometry(shape));
 
-        this.group.add(mesh);
       }
     }
 
+    const geometry = mergeBufferGeometries(geometries);
+    geometry.center();
+
+    const material = new MeshStandardMaterial({ color: this.iconcolor });
+
+    const mesh = new Mesh(geometry, material);
+    this.group.add(mesh);
+
+    this.changed.next(this.group);
   }
 }
