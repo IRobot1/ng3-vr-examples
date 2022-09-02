@@ -26,10 +26,12 @@ export class SVGIconComponent extends NgtObjectProps<Group> {
   }
   @Input() set svg(text: string) {
     this.loaded = false;
-    setTimeout(() => {
-      this.process(this.loader.parse(text));
-      this.loaded = true;
-    }, 0);
+    if (text) {
+      setTimeout(() => {
+        this.process(this.loader.parse(text));
+        this.loaded = true;
+      }, 0);
+    }
   }
 
   @Input() iconcolor = 'white';
