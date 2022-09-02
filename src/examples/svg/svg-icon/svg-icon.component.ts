@@ -5,7 +5,7 @@ import { NgtObjectProps } from "@angular-three/core";
 
 import { SVGLoader, SVGResult } from "three-stdlib";
 
-import { mergeBufferGeometries } from "../BufferGeometryUtils";
+import { BufferGeometryUtils } from "../BufferGeometryUtils";
 
 
 @Component({
@@ -77,14 +77,16 @@ export class SVGIconComponent extends NgtObjectProps<Group> {
       }
     }
 
-    const geometry = mergeBufferGeometries(geometries);
-    geometry.center();
+    const geometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
+    if (geometry) {
+      geometry.center();
 
-    const material = new MeshStandardMaterial({ color: this.iconcolor });
+      const material = new MeshStandardMaterial({ color: this.iconcolor });
 
-    const mesh = new Mesh(geometry, material);
-    this.group.add(mesh);
+      const mesh = new Mesh(geometry, material);
+      this.group.add(mesh);
 
-    this.changed.next(this.group);
+      this.changed.next(this.group);
+    }
   }
 }

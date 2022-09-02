@@ -30,7 +30,6 @@
               "src/styles.css"
             ],
             "scripts": [
-              "src/examples/svg/buffergeometryutils.js"
             ]
           },
           "configurations": {

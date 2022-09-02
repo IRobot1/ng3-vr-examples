@@ -26,8 +26,7 @@
       "es2020",
       "dom"
     ],
-    "skipLibCheck": true,
-    "allowJs": true
+    "skipLibCheck": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
