@@ -1,0 +1,30 @@
+<ngt-group (ready)="group = $event" [position]="position" [scale]="scale" [rotation]="rotation" (beforeRender)="tick()">
+
+  <ngt-group  *ngFor="let item of pairs" [rotation]="[0, item.angle, 0]">
+
+    <!--edges-->
+    <ngt-mesh [position]="[-0.5, item.height, 0]">
+      <ngt-sphere-geometry [args]="[0.05]"></ngt-sphere-geometry>
+      <ngt-mesh-standard-material></ngt-mesh-standard-material>
+    </ngt-mesh>
+
+    <ngt-mesh [position]="[0.5, item.height, 0]">
+      <ngt-sphere-geometry [args]="[0.05]"></ngt-sphere-geometry>
+      <ngt-mesh-standard-material></ngt-mesh-standard-material>
+    </ngt-mesh>
+
+    <!--links-->
+    <ngt-mesh [position]="[0.25, item.height, 0]"  [rotation]="[0, 0, 90 | radian]">
+      <ngt-cylinder-geometry [args]="[0.01, 0.01, 0.45]"></ngt-cylinder-geometry>
+      <ngt-mesh-standard-material [color]="item.leftcolor"></ngt-mesh-standard-material>
+    </ngt-mesh>
+
+    <ngt-mesh [position]="[-0.25, item.height, 0]"  [rotation]="[0, 0, 90 | radian]">
+      <ngt-cylinder-geometry [args]="[0.01, 0.01, 0.45]"></ngt-cylinder-geometry>
+      <ngt-mesh-standard-material [color]="item.rightcolor"></ngt-mesh-standard-material>
+    </ngt-mesh>
+
+  </ngt-group>
+
+</ngt-group>
+

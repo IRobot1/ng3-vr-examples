@@ -104,6 +104,7 @@ import { SpiralCircleComponent } from '../art/spiralcircle/spiralcircle.componen
 import { WallClockComponent } from '../art/wall-clock/wall-clock.component';
 import { SquareScaleComponent } from '../art/square-scale/square-scale.component';
 import { CircleScaleComponent } from '../art/circle-scale/circle-scale.component';
+import { DoubleHelixComponent } from '../art/double-helix/double-helix.component';
 
 
 @NgModule({
@@ -127,6 +128,7 @@ import { CircleScaleComponent } from '../art/circle-scale/circle-scale.component
     WallClockComponent,
     SquareScaleComponent,
     CircleScaleComponent,
+    DoubleHelixComponent,
 
     BallshooterExample,
     ShootDirective,
