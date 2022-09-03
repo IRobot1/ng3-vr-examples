@@ -100,6 +100,7 @@ import { SpiroMeshComponent } from '../examples/spriograph/spiro-mesh/spiro-mesh
 import { ArtificialLifeExample } from '../examples/artificial-life/artificial-life.component';
 import { SVGExample } from '../examples/svg/svg.component';
 import { SVGIconComponent } from '../examples/svg/svg-icon/svg-icon.component';
+import { SpiralCircleComponent } from '../art/spiralcircle/spiralcircle.component';
 
 
 @NgModule({
@@ -119,6 +120,7 @@ import { SVGIconComponent } from '../examples/svg/svg-icon/svg-icon.component';
     DrawRangeComponent,
     BoxLineGeometryComponent,
     RoundedBoxGeometryComponent,
+    SpiralCircleComponent,
 
     BallshooterExample,
     ShootDirective,
