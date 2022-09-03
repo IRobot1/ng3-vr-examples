@@ -1,38 +1,65 @@
+<ngt-group [position]="position" [scale]="scale" [rotation]="rotation">
 
-<ngt-mesh [position]="position">
-  <ngt-torus-geometry [args]="[0.5, 0.01, 8, 48]"></ngt-torus-geometry>
-  <ngt-mesh-standard-material color="black"></ngt-mesh-standard-material>
+  <ngt-mesh *ngIf="showrim">
+    <ngt-torus-geometry [args]="[0.5, 0.01, 8, 48]"></ngt-torus-geometry>
+    <ngt-mesh-standard-material [color]="rimcolor"></ngt-mesh-standard-material>
+  </ngt-mesh>
 
-  <ngt-group *ngFor="let item of ticks" [rotation]="[0, 0, item.angle]">
+  <ngt-group *ngFor="let angle of ticks" [rotation]="[0, 0, angle]">
     <ngt-mesh [position]="[0, 0.43, 0]">
       <ngt-cylinder-geometry [args]="[0.01, 0.01, 0.1]"></ngt-cylinder-geometry>
-      <ngt-mesh-standard-material color="black"></ngt-mesh-standard-material>
+      <ngt-mesh-standard-material [color]="color"></ngt-mesh-standard-material>
+    </ngt-mesh>
+
+  </ngt-group>
+
+  <ngt-group *ngIf="shownumbers">
+    <ngt-group *ngFor="let angle of ticks; index as i" [rotation]="[0, 0, angle]">
+
+      <ngt-soba-text [text]="(12-i).toString()"
+                     [color]="numbercolor"
+                     [fontSize]="0.1"
+                     font="https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff"
+                     anchorX="center"
+                     anchorY="middle"
+                     [rotation]="[0, 0, -angle]"
+                     [position]="[0, 0.32, 0]">
+      </ngt-soba-text>
+    </ngt-group>
+  </ngt-group>
+
+  <ngt-group *ngFor="let angle of secondticks" [rotation]="[0, 0, angle]">
+    <ngt-mesh [position]="[0, 0.46, 0]">
+      <ngt-cylinder-geometry [args]="[0.005, 0.005, 0.05]"></ngt-cylinder-geometry>
+      <ngt-mesh-standard-material [color]="color"></ngt-mesh-standard-material>
     </ngt-mesh>
   </ngt-group>
+
 
   <ngt-group [rotation]="[0, 0, second]">
     <ngt-mesh [position]="[0, 0.15, 0]">
       <ngt-cylinder-geometry [args]="[0.006, 0.006, 0.4]"></ngt-cylinder-geometry>
-      <ngt-mesh-standard-material color="red"></ngt-mesh-standard-material>
+      <ngt-mesh-standard-material [color]="secondcolor"></ngt-mesh-standard-material>
     </ngt-mesh>
   </ngt-group>
 
   <ngt-group [rotation]="[0, 0, minute]">
     <ngt-mesh [position]="[0, 0.17, 0]">
       <ngt-cylinder-geometry [args]="[0.005, 0.005, 0.34]"></ngt-cylinder-geometry>
-      <ngt-mesh-standard-material color="black"></ngt-mesh-standard-material>
+      <ngt-mesh-standard-material [color]="color"></ngt-mesh-standard-material>
     </ngt-mesh>
   </ngt-group>
 
   <ngt-group [rotation]="[0, 0, hour]">
     <ngt-mesh [position]="[0, 0.1, 0]">
       <ngt-cylinder-geometry [args]="[0.005, 0.005, 0.2]"></ngt-cylinder-geometry>
-      <ngt-mesh-standard-material color="black"></ngt-mesh-standard-material>
+      <ngt-mesh-standard-material [color]="color"></ngt-mesh-standard-material>
     </ngt-mesh>
   </ngt-group>
 
   <ngt-mesh [rotation]="[90 | radian, 0, 0]">
     <ngt-cylinder-geometry [args]="[0.025, 0.025, 0.005, 16]"></ngt-cylinder-geometry>
-    <ngt-mesh-standard-material color="black"></ngt-mesh-standard-material>
+    <ngt-mesh-standard-material [color]="color"></ngt-mesh-standard-material>
   </ngt-mesh>
-</ngt-mesh>
+
+</ngt-group>
