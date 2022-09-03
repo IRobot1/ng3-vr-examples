@@ -103,6 +103,7 @@ import { SVGIconComponent } from '../examples/svg/svg-icon/svg-icon.component';
 import { SpiralCircleComponent } from '../art/spiralcircle/spiralcircle.component';
 import { WallClockComponent } from '../art/wall-clock/wall-clock.component';
 import { SquareScaleComponent } from '../art/square-scale/square-scale.component';
+import { CircleScaleComponent } from '../art/circle-scale/circle-scale.component';
 
 
 @NgModule({
@@ -125,6 +126,7 @@ import { SquareScaleComponent } from '../art/square-scale/square-scale.component
     SpiralCircleComponent,
     WallClockComponent,
     SquareScaleComponent,
+    CircleScaleComponent,
 
     BallshooterExample,
     ShootDirective,

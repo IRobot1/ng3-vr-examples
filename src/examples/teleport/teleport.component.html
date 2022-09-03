@@ -22,8 +22,9 @@
 
 <wall-clock [position]="[0, 2.5, -3]" [scale]="[0.1, 0.1, 0.1]"></wall-clock>
 
-<spiral-circle [position]="[-2, 1.5, -2]" [scale]="[0.1, 0.1, 0.1]"></spiral-circle>
-<square-scale  [position]="[0, 1.5, -2]" [scale]="[1, 1, 1]"></square-scale>
+<circle-scale [position]="[-2, 1.5, -2]" [rotation]="[0, 45 | radian, 0]"></circle-scale>
+<spiral-circle [position]="[0, 1.5, -2]" [scale]="[0.1, 0.1, 0.1]"></spiral-circle>
+<square-scale [position]="[2, 1.5, -2]" [rotation]="[0, -45 | radian, 0]"></square-scale>
 
 <vr-controller teleport showcontroller trackedpointer navhome [marker]="left.instance.value" [floor]="floor.instance.value"></vr-controller>
 <vr-controller [index]="1" teleport showcontroller trackedpointer navhome [marker]="right.instance.value" [floor]="floor.instance.value"></vr-controller>

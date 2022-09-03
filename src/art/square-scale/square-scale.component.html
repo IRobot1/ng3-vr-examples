@@ -1,6 +1,6 @@
 <ngt-group [position]="position" [scale]="scale" [rotation]="rotation">
 
-  <ngt-group *ngFor="let item of scales; index as i">
+  <ngt-group *ngFor="let item of scales">
     <ngt-mesh [geometry]="item.geometry">
       <ngt-mesh-standard-material [color]="item.color"></ngt-mesh-standard-material>
     </ngt-mesh>
