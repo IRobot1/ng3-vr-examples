@@ -101,6 +101,7 @@ import { ArtificialLifeExample } from '../examples/artificial-life/artificial-li
 import { SVGExample } from '../examples/svg/svg.component';
 import { SVGIconComponent } from '../examples/svg/svg-icon/svg-icon.component';
 import { SpiralCircleComponent } from '../art/spiralcircle/spiralcircle.component';
+import { WallClockComponent } from '../art/wall-clock/wall-clock.component';
 
 
 @NgModule({
@@ -121,6 +122,7 @@ import { SpiralCircleComponent } from '../art/spiralcircle/spiralcircle.componen
     BoxLineGeometryComponent,
     RoundedBoxGeometryComponent,
     SpiralCircleComponent,
+    WallClockComponent,
 
     BallshooterExample,
     ShootDirective,
