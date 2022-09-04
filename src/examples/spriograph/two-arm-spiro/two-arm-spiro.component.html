@@ -1,5 +1,5 @@
 <ngt-group #group (ready)="groupready(group.instance.value)" [position]="position" [ngtObjectPassThrough]="this">
-  <ngt-mesh [position]="[0, arm1length/2, 0]">
+  <ngt-mesh [position]="[0, arm1length/2, 0]" visible="false">
     <ngt-box-geometry [args]="[0.01, arm1length, 0.01]"></ngt-box-geometry>
 
     <!--arm 2-->

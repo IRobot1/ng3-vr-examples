@@ -22,13 +22,50 @@ export class TwoArmSpiroComponent extends NgtObjectProps<Group> {
   changex = true
   changey = false
   changez = true
-  arm1length = 0.5
-  arm2length = 0.1
-  arm2factorx = 30
-  arm1factory = 0
-  arm2factorz = 0
+
+  private _radius = 0.01;
+  get radius(): number { return this._radius }
+  set radius(newvalue: number) {
+    this._radius = newvalue;
+    this.redraw();
+  }
+
+  private _arm1length = 0.5
+  get arm1length(): number { return this._arm1length }
+  set arm1length(newvalue: number) {
+    this._arm1length = newvalue;
+    this.redraw();
+  }
+
+  private _arm2length = 0.1
+  get arm2length(): number { return this._arm2length }
+  set arm2length(newvalue: number) {
+    this._arm2length = newvalue;
+    this.redraw();
+  }
+
+  private _arm2factorx = 30
+  get arm2factorx(): number { return this._arm2factorx }
+  set arm2factorx(newvalue: number) {
+    this._arm2factorx = newvalue;
+    this.redraw();
+  }
+
+  private _arm1factory = 0
+  get arm1factory(): number { return this._arm1factory }
+  set arm1factory(newvalue: number) {
+    this._arm1factory = newvalue;
+    this.redraw();
+  }
+
+  private _arm2factorz = 0
+  get arm2factorz(): number { return this._arm2factorz }
+  set arm2factorz(newvalue: number) {
+    this._arm2factorz = newvalue;
+    this.redraw();
+  }
+
   animate = true
-  radius = 0.01
 
   private origin!: Vector3;
 
@@ -40,9 +77,11 @@ export class TwoArmSpiroComponent extends NgtObjectProps<Group> {
   }
 
   redraw() {
-    this.angle = 0;
-    this.vectors.length = 0;
-    this.enabled = true;
+    if (!this.enabled) {
+      this.angle = 0;
+      this.vectors.length = 0;
+      this.enabled = true;
+    }
   }
 
   private angle = 0;
