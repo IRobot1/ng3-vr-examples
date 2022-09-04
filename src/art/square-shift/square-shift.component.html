@@ -1,0 +1,18 @@
+<ngt-group [position]="position" [scale]="scale" [rotation]="rotation">
+
+  <ngt-mesh  *ngFor="let item of cells" [position]="[0, item.y, 0]">
+    <ngt-box-geometry [args]="[0.999, size-0.004, size-0.001]"></ngt-box-geometry>
+    <ngt-mesh-standard-material></ngt-mesh-standard-material>
+  </ngt-mesh>
+
+  <ngt-mesh [position]="[0, size/2, 0]">
+    <ngt-box-geometry [args]="[1.002, 1.002+size, size-0.002]"></ngt-box-geometry>
+    <ngt-mesh-standard-material color="darkgray"></ngt-mesh-standard-material>
+  </ngt-mesh>
+
+  <ngt-mesh *ngFor="let item of cells" [position]="[item.x, item.y, 0]">
+    <ngt-box-geometry [args]="[size, size-0.004, size]"></ngt-box-geometry>
+    <ngt-mesh-standard-material color="black"></ngt-mesh-standard-material>
+  </ngt-mesh>
+
+</ngt-group>
