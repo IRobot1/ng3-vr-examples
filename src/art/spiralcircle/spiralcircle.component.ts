@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
 
-import { ExtrudeGeometry, MathUtils, Path, Shape } from "three";
+import { ExtrudeGeometry, MathUtils, Object3D, Path, Shape } from "three";
 import { NgtTriple } from "@angular-three/core";
 
 //
@@ -19,6 +19,8 @@ export class SpiralCircleComponent {
   @Input() position = [0, 0, 0] as NgtTriple;
   @Input() rotation = [0, 0, 0] as NgtTriple;
   @Input() scale = [1, 1, 1] as NgtTriple;
+
+  @Input() animate = false;
 
   rings: Array<Array<SpiralData>> = [];
 
@@ -64,6 +66,11 @@ export class SpiralCircleComponent {
       this.rings.push(ring);
       sides += 14;
     }
+  }
 
+  tick(group: Object3D) {
+    if (this.animate) {
+      group.rotation.z += 0.005;
+    }
   }
 }

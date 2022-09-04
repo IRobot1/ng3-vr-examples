@@ -1,4 +1,4 @@
-<ngt-group [position]="position" [scale]="scale" [rotation]="rotation">
+<ngt-group [position]="position" [scale]="scale" [rotation]="rotation" (beforeRender)="tick($event.object)">
 
   <ngt-group *ngFor="let ring of rings; index as offset">
 
