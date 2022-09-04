@@ -2,8 +2,8 @@
 
 <line-room></line-room>
 
-<ngt-ambient-light></ngt-ambient-light>
-
+<ngt-ambient-light intensity="0.1"></ngt-ambient-light>
+<ngt-point-light></ngt-point-light>
 
 <ngt-mesh #floor [rotation]="[-1.57, 0, 0]">
   <ngt-plane-geometry [args]="[4.8, 4.8, 2, 2]"></ngt-plane-geometry>
@@ -27,6 +27,7 @@
 <square-scale [position]="[2, 1.5, -2]" [rotation]="[0, -45 | radian, 0]" [scale]="[2, 2, 2]"></square-scale>
 
 <square-shift [position]="[-2, 1.5, 0]" [rotation]="[0, -90 | radian, 0]"></square-shift>
+<spiral-line [position]="[2, 1.5, 0]" [rotation]="[0, -90 | radian, 0]" [animate]="false"></spiral-line>
 
 <double-helix [position]="[0, 1.5, 2]" [height]="4" [scale]="[0.3, 0.3, 0.3]" [animate]="true"></double-helix>
 

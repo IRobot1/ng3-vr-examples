@@ -106,6 +106,7 @@ import { SquareScaleComponent } from '../art/square-scale/square-scale.component
 import { CircleScaleComponent } from '../art/circle-scale/circle-scale.component';
 import { DoubleHelixComponent } from '../art/double-helix/double-helix.component';
 import { SquareShiftComponent } from '../art/square-shift/square-shift.component';
+import { SpiralLineComponent } from '../art/spiral-line/spiral-line.component';
 
 
 @NgModule({
@@ -131,6 +132,7 @@ import { SquareShiftComponent } from '../art/square-shift/square-shift.component
     CircleScaleComponent,
     DoubleHelixComponent,
     SquareShiftComponent,
+    SpiralLineComponent,
 
     BallshooterExample,
     ShootDirective,
