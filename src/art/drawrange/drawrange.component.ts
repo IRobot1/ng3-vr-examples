@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { AfterViewInit, Component, Input, OnInit } from "@angular/core";
 
 import { NgtTriple } from "@angular-three/core";
-import { AdditiveBlending, BufferAttribute, BufferGeometry, DynamicDrawUsage, LineSegments, Mesh, Points, Vector3 } from "three";
+import { AdditiveBlending, BufferAttribute, DynamicDrawUsage, LineSegments, Points, Vector3 } from "three";
 
 //
 // adapted to NGT from https://github.com/mrdoob/three.js/blob/master/examples/webgl_buffergeometry_drawrange.html
@@ -11,7 +11,9 @@ import { AdditiveBlending, BufferAttribute, BufferGeometry, DynamicDrawUsage, Li
   selector: 'drawrange',
   templateUrl: './drawrange.component.html',
 })
-export class DrawRangeComponent implements OnInit {
+export class DrawRangeComponent implements OnInit, AfterViewInit {
+  ngAfterViewInit(): void {
+  }
   @Input() position!: NgtTriple;
   @Input() boxsize = 0.5;
   @Input() maxParticleCount = 50;
@@ -19,7 +21,6 @@ export class DrawRangeComponent implements OnInit {
   blending = AdditiveBlending;
 
   linesMesh!: LineSegments;
-  pointCloud!: Points;
 
   private positions!: Float32Array;
   private colors!: Float32Array;
@@ -45,7 +46,7 @@ export class DrawRangeComponent implements OnInit {
 
   }
 
-  particlesready(particles: BufferGeometry) {
+  particlesready(particles: Points) {
     this.particlePositions = new Float32Array(this.maxParticleCount * 3);
 
     const r = this.boxsize / 2;
@@ -67,19 +68,20 @@ export class DrawRangeComponent implements OnInit {
       });
 
     }
-    particles.setDrawRange(0, this.effectController.particleCount);
-    particles.setAttribute('position', new BufferAttribute(this.particlePositions, 3).setUsage(DynamicDrawUsage));
 
   }
 
-  linesready(geometry: BufferGeometry) {
-    console.warn('lines ready')
-    geometry.setAttribute('position', new BufferAttribute(this.positions, 3).setUsage(DynamicDrawUsage));
-    geometry.setAttribute('color', new BufferAttribute(this.colors, 3).setUsage(DynamicDrawUsage));
+  linesready(lines: LineSegments) {
+    this.particlesready(new Points());
 
-    geometry.computeBoundingSphere();
+    lines.geometry.setAttribute('position', new BufferAttribute(this.positions, 3).setUsage(DynamicDrawUsage));
+    lines.geometry.setAttribute('color', new BufferAttribute(this.colors, 3).setUsage(DynamicDrawUsage));
 
-    geometry.setDrawRange(0, 0);
+    lines.geometry.computeBoundingSphere();
+
+    lines.geometry.setDrawRange(0, 0);
+
+    this.linesMesh = lines;
   }
 
   private particlesData: Array<{ velocity: Vector3, numConnections: number }> = [];
@@ -165,7 +167,5 @@ export class DrawRangeComponent implements OnInit {
     this.linesMesh.geometry.setDrawRange(0, numConnected * 2);
     this.linesMesh.geometry.attributes['position'].needsUpdate = true;
     this.linesMesh.geometry.attributes['color'].needsUpdate = true;
-
-    this.pointCloud.geometry.attributes['position'].needsUpdate = true;
   }
 }
