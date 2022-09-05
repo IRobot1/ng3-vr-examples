@@ -22,15 +22,15 @@
 
 <wall-clock [position]="[0, 3, -2.999]" [showrim]="true" [rimcolor]="'white'" [showsecondticks]="true" [color]="'black'" [secondcolor]="'red'" [shownumbers]="true" [numbercolor]="'white'"></wall-clock>
 
-<circle-scale [position]="[-2, 1.5, -2]" [rotation]="[0, 45 | radian, 0]" [scale]="[2, 2, 2]"></circle-scale>
-<spiral-circle [position]="[0, 1.5, -2]" [scale]="[0.25, 0.25, 0.25]" [animate]="true"></spiral-circle>
-<square-scale [position]="[2, 1.5, -2]" [rotation]="[0, -45 | radian, 0]" [scale]="[2, 2, 2]"></square-scale>
+<circle-scale *ngIf="stage[1]" [position]="[-2, 1.5, -2]" [rotation]="[0, 45 | radian, 0]" [scale]="[2, 2, 2]"></circle-scale>
+<spiral-circle *ngIf="stage[2]" [position]="[0, 1.5, -2]" [scale]="[0.25, 0.25, 0.25]" [animate]="true"></spiral-circle>
+<square-scale *ngIf="stage[3]" [position]="[2, 1.5, -2]" [rotation]="[0, -45 | radian, 0]" [scale]="[2, 2, 2]"></square-scale>
 
-<square-shift [position]="[-2, 1.5, 0]" [rotation]="[0, -90 | radian, 0]"></square-shift>
-<spiral-line [position]="[2, 1.5, 0]" [rotation]="[0, -90 | radian, 0]" [animate]="false"></spiral-line>
+<square-shift *ngIf="stage[4]" [position]="[-2, 1.5, 0]" [rotation]="[0, -90 | radian, 0]"></square-shift>
+<spiral-line *ngIf="stage[5]" [position]="[2, 1.5, 0]" [rotation]="[0, -90 | radian, 0]" [animate]="false"></spiral-line>
 
-<drawrange [position]="[-2, 1.5, 2]" [boxsize]="1"></drawrange>
-<double-helix [position]="[0, 1.5, 2]" [height]="4" [scale]="[0.3, 0.3, 0.3]" [animate]="true"></double-helix>
+<drawrange *ngIf="stage[7]" [position]="[-2, 1.5, 2]" [boxsize]="1"></drawrange>
+<double-helix *ngIf="stage[8]" [position]="[0, 1.5, 2]" [height]="4" [scale]="[0.3, 0.3, 0.3]" [animate]="true"></double-helix>
 
 <vr-controller teleport showcontroller trackedpointer navhome [marker]="left.instance.value" [floor]="floor.instance.value"></vr-controller>
 <vr-controller [index]="1" teleport showcontroller trackedpointer navhome [marker]="right.instance.value" [floor]="floor.instance.value"></vr-controller>
