@@ -17,7 +17,7 @@ import { NgtGroupModule } from '@angular-three/core/group';
 import { NgtLineModule, NgtLineSegmentsModule } from '@angular-three/core/lines';
 import { NgtPointsModule } from '@angular-three/core/points';
 
-import { NgtBoxGeometryModule, NgtTubeGeometryModule, NgtBufferGeometryModule, NgtCircleGeometryModule, NgtConeGeometryModule, NgtCylinderGeometryModule, NgtIcosahedronGeometryModule, NgtPlaneGeometryModule, NgtSphereGeometryModule, NgtTorusGeometryModule, NgtTorusKnotGeometryModule  } from '@angular-three/core/geometries';
+import { NgtBoxGeometryModule, NgtTubeGeometryModule, NgtBufferGeometryModule, NgtCircleGeometryModule, NgtConeGeometryModule, NgtCylinderGeometryModule, NgtIcosahedronGeometryModule, NgtPlaneGeometryModule, NgtSphereGeometryModule, NgtTorusGeometryModule, NgtTorusKnotGeometryModule, NgtRingGeometryModule,  } from '@angular-three/core/geometries';
 
 import { NgtLineBasicMaterialModule, NgtMeshBasicMaterialModule, NgtMeshStandardMaterialModule, NgtPointsMaterialModule } from '@angular-three/core/materials';
 
@@ -107,6 +107,7 @@ import { CircleScaleComponent } from '../art/circle-scale/circle-scale.component
 import { DoubleHelixComponent } from '../art/double-helix/double-helix.component';
 import { SquareShiftComponent } from '../art/square-shift/square-shift.component';
 import { SpiralLineComponent } from '../art/spiral-line/spiral-line.component';
+import { MonopolyBoardComponent } from '../art/monopoly-board/monopoly-board.component';
 
 
 @NgModule({
@@ -133,6 +134,7 @@ import { SpiralLineComponent } from '../art/spiral-line/spiral-line.component';
     DoubleHelixComponent,
     SquareShiftComponent,
     SpiralLineComponent,
+    MonopolyBoardComponent,
 
     BallshooterExample,
     ShootDirective,
@@ -260,6 +262,7 @@ import { SpiralLineComponent } from '../art/spiral-line/spiral-line.component';
     NgtTorusKnotGeometryModule,
     NgtCircleGeometryModule,
     NgtTubeGeometryModule,
+    NgtRingGeometryModule,
 
     NgtMeshStandardMaterialModule,
     NgtLineBasicMaterialModule,

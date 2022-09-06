@@ -1,0 +1,42 @@
+<ngt-group [position]="position" [scale]="scale" [rotation]="rotation">
+  <ngt-mesh [position]="[0, 0, -0.001]">
+    <ngt-plane-geometry [args]="[16, 16]"></ngt-plane-geometry>
+    <ngt-mesh-standard-material [side]="side" [color]="boardcolor"></ngt-mesh-standard-material>
+  </ngt-mesh>
+
+  <ngt-group [rotation]="[0, 0, 45 | radian]">
+    <!--<ngt-mesh [geometry]="logo">
+      <ngt-mesh-standard-material color="red"></ngt-mesh-standard-material>
+    </ngt-mesh>-->
+
+    <ngt-mesh [geometry]="card" [position]="[0, 4.5, 0]">
+      <ngt-mesh-standard-material color="black"></ngt-mesh-standard-material>
+    </ngt-mesh>
+
+    <ngt-mesh [geometry]="card" [position]="[0, -4.5, 0]">
+      <ngt-mesh-standard-material color="black"></ngt-mesh-standard-material>
+    </ngt-mesh>
+  </ngt-group>
+
+
+  <ngt-mesh *ngFor="let item of corners" [geometry]="cell" [position]="item.position" [rotation]="[0, 0, item.rotation | radian]">
+    <ngt-mesh-standard-material color="black"></ngt-mesh-standard-material>
+  </ngt-mesh>
+
+  <ngt-mesh *ngFor="let item of blanks" [geometry]="cell" [position]="item.position" [scale]="[2/3, 1, 1]" [rotation]="[0, 0, item.rotation | radian]">
+    <ngt-mesh-standard-material color="black"></ngt-mesh-standard-material>
+  </ngt-mesh>
+
+  <ngt-mesh *ngFor="let item of properties" [geometry]="cell" [position]="item.position" [scale]="[2/3, 1, 1]" [rotation]="[0, 0, item.rotation | radian]">
+    <ngt-mesh-standard-material color="black"></ngt-mesh-standard-material>
+
+    <ngt-mesh [geometry]="line" [position]="[0, -0.7, 0]">
+      <ngt-mesh-standard-material color="black"></ngt-mesh-standard-material>
+    </ngt-mesh>
+
+    <ngt-mesh [geometry]="color" [position]="[0, -0.825, 0]">
+      <ngt-mesh-standard-material [color]="item.color"></ngt-mesh-standard-material>
+    </ngt-mesh>
+  </ngt-mesh>
+
+</ngt-group>
