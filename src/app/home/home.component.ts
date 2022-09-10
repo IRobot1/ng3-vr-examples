@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit {
     { asset: 'scale', text: 'World Scale' },
     { asset: 'buttons', text: 'Buttons' },
     { asset: 'morphwall', text: 'Morphing Wall' },
-    { asset: 'network', text: 'Network Diagram' },
+    { asset: 'forcelayout', text: 'Force Layout' },
     { asset: 'spirograph', text: 'Spirograph' },
     { asset: 'artlife', text: 'Particle Life' },
     { asset: 'svg', text: 'SVG Icons' },

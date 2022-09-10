@@ -3,13 +3,13 @@ import { Component, OnInit } from "@angular/core";
 import { Camera, Color, Group, MathUtils, Mesh, MeshStandardMaterial, Object3D } from "three";
 import { NgtStore, NgtTriple } from "@angular-three/core";
 
-import createGraph, { Graph, Node, Link } from "ngraph.graph";
+import createGraph, { Graph } from "ngraph.graph";
 
 import { CameraService } from "../../app/camera.service";
 
-import { networkdata } from "./network-data";
+import { treedata } from "./tree-data";
+import { LinkData, LinkDataDefault, NodeData, NodeDataDefault } from "./force-layout-diagram/force-layout-diagram.component";
 
-import { LinkData, LinkDataDefault, NodeData, NodeDataDefault } from "./network-diagram.component.ts/network-diagram.component";
 
 
 class MyNodeData implements NodeData {
@@ -43,9 +43,9 @@ class MyLinkData implements LinkData {
 }
 
 @Component({
-  templateUrl: './network.component.html',
+  templateUrl: './force-layout.component.html',
 })
-export class NetworkExample implements OnInit {
+export class ForceLayoutExample implements OnInit {
   protected scale = [0.02, 0.02, 0.02] as NgtTriple;
   protected rotation = [0, 0, 0] as NgtTriple;
 
@@ -73,7 +73,7 @@ export class NetworkExample implements OnInit {
 
     let g = createGraph();
 
-    networkdata.forEach(item => {
+    treedata.forEach(item => {
       const from = item[0];
       const to = item[1];
       if (!g.hasNode(from)) {
@@ -92,7 +92,7 @@ export class NetworkExample implements OnInit {
 
     g = createGraph();
 
-    networkdata.forEach((item, index) => {
+    treedata.forEach((item, index) => {
       const from = item[0];
       const to = item[1];
       if (!g.hasNode(from)) {

@@ -5,22 +5,22 @@
 <ngt-directional-light [position]="[0, 10, 0]"></ngt-directional-light>
 
 <ngt-group [position]="[0, 1.5, -1]" [scale]="scale" (beforeRender)="tick($event.object)">
-  <network-diagram [graph]="graph"
+  <force-layout-diagram [graph]="graph"
                    [origin]="[0, 1.5, -1]"
                    [list]="list"
                    (stable)="stable=$event">
-  </network-diagram>
+  </force-layout-diagram>
 </ngt-group>
 
 <!-- limitation in ngraph only allows opening one diagram at a time -->
 <ngt-group #diag [position]="[0, 1.5, 1]" [scale]="scale">
-  <network-diagram [graph]="customgraph"
+  <force-layout-diagram [graph]="customgraph"
                    [origin]="[0, 1.5, 1]"
                    [dimensions]="2"
                    [animate]="true"
                    [showLinkLabel]="true"
                    [list]="list" (stable)="flipAfterLoad($event, diag.instance.value)">
-  </network-diagram>
+  </force-layout-diagram>
 
 </ngt-group>
 

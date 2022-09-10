@@ -1,5 +1,5 @@
 
-export const networkdata: Array<Array<string>> = [
+export const treedata: Array<Array<string>> = [
   ['Proto Indo-European', 'Balto-Slavic'],
   ['Proto Indo-European', 'Germanic'],
   ['Proto Indo-European', 'Celtic'],

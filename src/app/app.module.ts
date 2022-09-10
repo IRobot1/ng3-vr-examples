@@ -89,11 +89,9 @@ import { AnimateClickDirective } from '../examples/buttons/animate-click.directi
 import { SelectDirective } from '../examples/buttons/select.directive';
 import { MorphWallExample } from '../examples/morphwall/morphwall.component';
 import { ImageWallComponent } from '../examples/morphwall/image-wall/image-wall.component';
-import { NetworkExample } from '../examples/network/network.component';
 import { DrawRangeComponent } from '../art/drawrange/drawrange.component';
 import { BoxLineGeometryComponent } from '../components/box-line-geometry.component';
 import { RoundedBoxGeometryComponent } from '../components/rounded-box-geometry.component';
-import { NetworkDiagramComponent } from '../examples/network/network-diagram.component.ts/network-diagram.component';
 import { SpirographExample } from '../examples/spriograph/spirograph.component';
 import { TwoArmSpiroComponent } from '../examples/spriograph/two-arm-spiro/two-arm-spiro.component';
 import { SpiroMeshComponent } from '../examples/spriograph/spiro-mesh/spiro-mesh.component';
@@ -108,6 +106,8 @@ import { DoubleHelixComponent } from '../art/double-helix/double-helix.component
 import { SquareShiftComponent } from '../art/square-shift/square-shift.component';
 import { SpiralLineComponent } from '../art/spiral-line/spiral-line.component';
 import { MonopolyBoardComponent } from '../art/monopoly-board/monopoly-board.component';
+import { ForceLayoutExample } from '../examples/force-layout/force-layout.component';
+import { ForceLayoutComponent } from '../examples/force-layout/force-layout-diagram/force-layout-diagram.component';
 
 
 @NgModule({
@@ -201,8 +201,8 @@ import { MonopolyBoardComponent } from '../art/monopoly-board/monopoly-board.com
     MorphWallExample,
     ImageWallComponent,
 
-    NetworkExample,
-    NetworkDiagramComponent,
+    ForceLayoutExample,
+    ForceLayoutComponent,
 
     SpirographExample,
     TwoArmSpiroComponent,

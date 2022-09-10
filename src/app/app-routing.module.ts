@@ -20,10 +20,10 @@ import { HTMLGUIExample } from '../examples/htmlgui/htmlgui.component';
 import { ScaleExample } from '../examples/scale/scale.component';
 import { ButtonsExample } from '../examples/buttons/buttons.component';
 import { MorphWallExample } from '../examples/morphwall/morphwall.component';
-import { NetworkExample } from '../examples/network/network.component';
 import { SpirographExample } from '../examples/spriograph/spirograph.component';
 import { ArtificialLifeExample } from '../examples/artificial-life/artificial-life.component';
 import { SVGExample } from '../examples/svg/svg.component';
+import { ForceLayoutExample } from '../examples/force-layout/force-layout.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -45,7 +45,8 @@ const routes: Routes = [
   { path: 'scale', component: ScaleExample },
   { path: 'buttons', component: ButtonsExample },
   { path: 'morphwall', component: MorphWallExample },
-  { path: 'network', component: NetworkExample },
+  { path: 'forcelayout', component: ForceLayoutExample },
+  { path: 'network', component: ForceLayoutExample },
   { path: 'spirograph', component: SpirographExample },
   { path: 'artlife', component: ArtificialLifeExample },
   { path: 'svg', component: SVGExample },

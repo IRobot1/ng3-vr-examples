@@ -66,10 +66,10 @@ class InternalLink3D {
 
 
 @Component({
-  selector: 'network-diagram',
-  templateUrl: './network-diagram.component.html',
+  selector: 'force-layout-diagram',
+  templateUrl: './force-layout-diagram.component.html',
 })
-export class NetworkDiagramComponent implements OnInit {
+export class ForceLayoutComponent implements OnInit {
   @Input() graph!: Graph<NodeData, LinkData>;
 
   @Input() origin = [0, 0, 0] as NgtTriple;
