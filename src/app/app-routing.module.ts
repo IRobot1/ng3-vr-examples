@@ -24,6 +24,7 @@ import { SpirographExample } from '../examples/spriograph/spirograph.component';
 import { ArtificialLifeExample } from '../examples/artificial-life/artificial-life.component';
 import { SVGExample } from '../examples/svg/svg.component';
 import { ForceLayoutExample } from '../examples/force-layout/force-layout.component';
+import { GraphExample } from '../examples/graph/graph.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -50,6 +51,7 @@ const routes: Routes = [
   { path: 'spirograph', component: SpirographExample },
   { path: 'artlife', component: ArtificialLifeExample },
   { path: 'svg', component: SVGExample },
+  { path: 'graph', component: GraphExample },
 ];
 
 @NgModule({

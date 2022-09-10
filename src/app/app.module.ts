@@ -108,6 +108,8 @@ import { SpiralLineComponent } from '../art/spiral-line/spiral-line.component';
 import { MonopolyBoardComponent } from '../art/monopoly-board/monopoly-board.component';
 import { ForceLayoutExample } from '../examples/force-layout/force-layout.component';
 import { ForceLayoutComponent } from '../examples/force-layout/force-layout-diagram/force-layout-diagram.component';
+import { GraphExample } from '../examples/graph/graph.component';
+import { DirectedGraphComponent } from '../examples/graph/directed-graph.component.ts/directed-graph.component';
 
 
 @NgModule({
@@ -212,6 +214,10 @@ import { ForceLayoutComponent } from '../examples/force-layout/force-layout-diag
 
     SVGExample,
     SVGIconComponent,
+
+    GraphExample,
+    DirectedGraphComponent,
+
   ],
   imports: [
     BrowserModule,

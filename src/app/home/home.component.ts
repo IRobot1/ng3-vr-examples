@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit {
     { asset: 'spirograph', text: 'Spirograph' },
     { asset: 'artlife', text: 'Particle Life' },
     { asset: 'svg', text: 'SVG Icons' },
+    { asset: 'graph', text: 'Directed Graph Layout' },
   ]
 
   panels: Array<PanelSetting> = [];

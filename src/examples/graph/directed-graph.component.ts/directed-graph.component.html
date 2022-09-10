@@ -1,0 +1,45 @@
+<ngt-group (ready)="group=$event" [position]="position" [scale]="scale" [rotation]="rotation" [visible]="visible">
+
+  <ngt-mesh *ngFor="let item of nodes" (ready)="item.mesh=$event;selectable.push($event);item.node.mesh=$event" [castShadow]="castShadow" (click)="nodeClicked(item)">
+    <ngt-sphere-geometry [args]="[item.node.size]"></ngt-sphere-geometry>
+    <ngt-mesh-standard-material [color]="item.node.color"></ngt-mesh-standard-material>
+
+    <ngt-soba-text *ngIf="showNodeLabel"
+                   [text]="item.node.text"
+                   [position]="[0, item.node.size*2, 0]"
+                   [castShadow]="castShadow"
+                   [color]="item.node.textcolor"
+                   [fontSize]="item.node.textsize"
+                   [font]="labelFont"
+                   anchorX="center"
+                   anchorY="bottom">
+    </ngt-soba-text>
+
+  </ngt-mesh>
+
+  <ngt-group *ngFor="let item of links" (ready)="item.group=$event" (click)="linkClicked(item)">
+
+    <ngt-mesh (ready)="item.mesh=$event" [castShadow]="castShadow">
+      <ngt-box-geometry [args]="[0.01, 1, 0.01]"></ngt-box-geometry>
+      <ngt-mesh-basic-material [color]="item.link['data'].color"></ngt-mesh-basic-material>
+    </ngt-mesh>
+
+    <ngt-soba-text *ngIf="showLinkLabel"
+                   (ready)="item.label=$event"
+                   [text]="item.link['data'].text"
+                   [castShadow]="castShadow"
+                   [color]="item.link['data'].textcolor"
+                   [fontSize]="item.link['data'].textsize"
+                   [font]="labelFont"
+                   anchorX="center"
+                   anchorY="bottom"
+                   [rotation]="[0, 90 | radian, -90 | radian]">
+    </ngt-soba-text>
+
+    <ngt-mesh *ngIf="showArrow" (ready)="item.arrow=$event" [castShadow]="castShadow">
+      <ngt-cylinder-geometry [args]="[0.02, 0, 0.06]"></ngt-cylinder-geometry>
+      <ngt-mesh-basic-material [color]="item.link['data'].arrowcolor"></ngt-mesh-basic-material>
+    </ngt-mesh>
+  </ngt-group>
+
+</ngt-group>
