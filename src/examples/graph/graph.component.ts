@@ -55,7 +55,7 @@ export class GraphExample implements OnInit {
 
           g.setEdge(from, to, { from: from, to: to });
           const data = g.edge(from, to);
-          data['data'] = new LinkDataDefault('');
+          data['data'] = new LinkDataDefault('test');
           // export to mermaid
           //console.log(`${from.replace(' ', '')}[${from}] --> ${to.replace(' ', '')}[${to}]`);
         }

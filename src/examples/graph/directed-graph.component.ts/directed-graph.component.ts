@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
-import { Box3, BufferGeometry, Group, MathUtils, Matrix4, Mesh, Object3D, SplineCurve, Vector2, Vector3 } from "three";
+import { Box3, BufferGeometry, CatmullRomCurve3, Group, MathUtils, Matrix4, Mesh, Object3D, SplineCurve, Vector2, Vector3 } from "three";
 import { NgtTriple } from "@angular-three/core";
 
 import { Node, graphlib, GraphEdge, layout, Label } from 'dagre';
@@ -191,13 +191,13 @@ export class DirectedGraphComponent implements OnInit {
 
     this.links.forEach(item => {
 
-      const points: Array<Vector2> = [];
+      const points: Array<Vector3> = [];
 
       item.link.points.forEach(point => {
-        points.push(new Vector2(point.x / 100, -point.y / 100));
+        points.push(new Vector3(point.x / 100, -point.y / 100));
       });
 
-      const curve = new SplineCurve(points);
+      const curve = new CatmullRomCurve3(points);
       const curvepoints = curve.getPoints(25);
       console.warn(curvepoints)
       item.geometry = new BufferGeometry().setFromPoints(curvepoints);
