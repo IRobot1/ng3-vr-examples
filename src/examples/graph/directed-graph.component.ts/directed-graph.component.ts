@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
-import { Box3, Group, MathUtils, Mesh, Object3D, Vector3 } from "three";
+import { Box3, BufferGeometry, Group, MathUtils, Matrix4, Mesh, Object3D, SplineCurve, Vector2, Vector3 } from "three";
 import { NgtTriple } from "@angular-three/core";
 
 import { Node, graphlib, GraphEdge, layout, Label } from 'dagre';
@@ -55,15 +55,16 @@ export class LinkDataDefault implements GraphEdge, LinkData {
 
 
 class InternalNode3D {
-  mesh!: Mesh;
+  object!: Object3D;
   constructor(public node: Node<NodeData>) { }
 }
 
 class InternalLink3D {
   group!: Group;
-  mesh!: Mesh;
+  object!: Object3D;
   arrow?: Mesh;
   label?: Object3D;
+  geometry!: BufferGeometry;
   length = 0; // use internally
 
   constructor(public link: GraphEdge) { }
@@ -182,29 +183,28 @@ export class DirectedGraphComponent implements OnInit {
   showgraph() {
 
     this.nodes.forEach(item => {
-      const mesh = item.mesh as Object3D;
+      const mesh = item.object as Object3D;
       if (mesh) {
         mesh.position.set(item.node.x / 100, -item.node.y / 100, 0);
+        mesh.visible = true
       }
     });
 
     this.links.forEach(item => {
 
-      const group = item.group;
-      if (group) {
-        const first = item.link.points[0];
-        const last = item.link.points[item.link.points.length - 1];
-        const from = new Vector3(first.x / 100, -first.y / 100, 0);
-        const to = new Vector3(last.x / 100, -last.y / 100, 0);
-        item.length = from.clone().sub(to).length();
+      //const group = item.group;
+      //if (group) {
 
-        group.position.copy(to);
-        group.lookAt(group.localToWorld(from));
-        group.rotateX(MathUtils.degToRad(90));
+        const points: Array<Vector2> = [];
 
-        const mesh = item.mesh;
-        mesh.position.set(0, item.length / 2, 0);
-        mesh.scale.y = item.length;
+        item.link.points.forEach(point => {
+          points.push(new Vector2(point.x / 100, -point.y / 100));
+        });
+
+        const curve = new SplineCurve(points);
+        const curvepoints = curve.getPoints(25);
+        console.warn(curvepoints)
+        item.geometry = new BufferGeometry().setFromPoints(curvepoints);
 
         if (item.label) {
           item.label.position.set(0, item.length / 2, 0);
@@ -212,24 +212,44 @@ export class DirectedGraphComponent implements OnInit {
 
         const arrow = item.arrow;
         if (arrow) {
+          const first = curvepoints[curvepoints.length - 3];
+          const last = curvepoints[curvepoints.length - 1];
+
+          const from = new Vector3(first.x, first.y, 0);
+
           const node = this.graph.node(item.link['from']);
           let size = 1;
           if (node) size = node.size;
 
-          arrow.position.set(0, size + 0.02, 0);
+          const to = new Vector3(last.x, last.y, 0);
+
+          const tempMatrix = new Matrix4();
+          tempMatrix.setPosition(from)
+          tempMatrix.lookAt(from, to, new Vector3(0, 0, 1));
+
+          arrow.matrixWorld.copy(tempMatrix);
+          arrow.position.copy(to);
+          arrow.rotation.setFromRotationMatrix(tempMatrix);
+
+          // rotate cone to point along line
+          arrow.rotateX(MathUtils.degToRad(90));
+
+          // adjust so its ouside node mesh
+          arrow.translateOnAxis(new Vector3(0, 1, 0), size * 2)
+
         }
 
-      }
+      //}
     });
   }
 
   nodeClicked(item: InternalNode3D) {
-    const position = item.mesh.position.clone();
+    const position = item.object.position.clone();
     this.nodeSelected.next({ node: item.node, position: position })
   }
 
   linkClicked(item: InternalLink3D) {
-    const position = item.mesh.position.clone();
+    const position = item.object.position.clone();
     this.linkSelected.next({ link: item.link, position: position })
   }
 }

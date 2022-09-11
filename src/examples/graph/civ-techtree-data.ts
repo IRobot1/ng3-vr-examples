@@ -173,7 +173,7 @@ export const civdata = [
     "era": "Renaissance",
     "leads_to": [
       "Archaeology",
-      "Scientific Theory"
+      "Scientific theory"
     ],
     "tech_name": "Navigation"
   },
@@ -227,7 +227,7 @@ export const civdata = [
     "cost": 1150,
     "era": "Renaissance",
     "leads_to": [
-      "Scientific Theory",
+      "Scientific theory",
       "Industrialization",
       "Rifling"
     ],
@@ -236,7 +236,7 @@ export const civdata = [
   {
     "required_techs": [
       "Archaeology",
-      "Scientific Theory"
+      "Scientific theory"
     ],
     "quote": {
       "content": "If the brain were so simple we could understand it, we would be so simple we couldn't.",
@@ -337,7 +337,7 @@ export const civdata = [
   },
   {
     "required_techs": [
-      "Scientific Theory"
+      "Scientific theory"
     ],
     "quote": {
       "content": "It is a fact-or I have dreamed it-that by means of electricity, the world of matter has become a great nerve, vibrating thousands of miles in a breathless point of time?",
@@ -1014,32 +1014,6 @@ export const civdata = [
   },
   {
     "required_techs": [
-      "Railroad"
-    ],
-    "quote": {
-      "content": "Men, like bullets, go farthest when they are smoothest.",
-      "from": "Jean Paul"
-    },
-    "notes": [],
-    "buildings_enabled": [
-      "Anti-aircraft gun",
-      "Machine gun"
-    ],
-    "units_enabled": [
-      "Anti-aircraft gun",
-      "Machine gun"
-    ],
-    "tech_id": 51,
-    "cost": 4100,
-    "era": "Modern",
-    "leads_to": [
-      "Radar",
-      "Combined arms"
-    ],
-    "tech_name": "Ballistics (Civ5)"
-  },
-  {
-    "required_techs": [
       "Combustion",
       "Ballistics"
     ],
@@ -1366,7 +1340,7 @@ export const civdata = [
     "era": "Renaissance",
     "leads_to": [
       "Archaeology",
-      "Scientific Theory"
+      "Scientific theory"
     ],
     "tech_name": "Architecture"
   },
@@ -1531,7 +1505,7 @@ export const civdata = [
   },
   {
     "required_techs": [
-      "Scientific Theory",
+      "Scientific theory",
       "Industrialization",
       "Rifling"
     ],

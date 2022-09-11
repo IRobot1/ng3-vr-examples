@@ -1,6 +1,6 @@
 <ngt-group (ready)="group=$event" [position]="position" [scale]="scale" [rotation]="rotation" [visible]="visible">
 
-  <ngt-mesh *ngFor="let item of nodes" (ready)="item.mesh=$event;selectable.push($event);item.node.mesh=$event" [castShadow]="castShadow" (click)="nodeClicked(item)">
+  <ngt-mesh *ngFor="let item of nodes" (ready)="item.object=$event;selectable.push($event);item.node.mesh=$event" [castShadow]="castShadow" (click)="nodeClicked(item)">
     <ngt-sphere-geometry [args]="[item.node.size]"></ngt-sphere-geometry>
     <ngt-mesh-standard-material [color]="item.node.color"></ngt-mesh-standard-material>
 
@@ -17,12 +17,11 @@
 
   </ngt-mesh>
 
-  <ngt-group *ngFor="let item of links" (ready)="item.group=$event" (click)="linkClicked(item)">
+  <ngt-group *ngFor="let item of links">
 
-    <ngt-mesh (ready)="item.mesh=$event" [castShadow]="castShadow">
-      <ngt-box-geometry [args]="[0.01, 1, 0.01]"></ngt-box-geometry>
-      <ngt-mesh-basic-material [color]="item.link['data'].color"></ngt-mesh-basic-material>
-    </ngt-mesh>
+    <ngt-line (ready)="item.object=$event" [castShadow]="castShadow" [geometry]="item.geometry">
+      <ngt-line-basic-material [color]="item.link['data'].color"></ngt-line-basic-material>
+    </ngt-line>
 
     <ngt-soba-text *ngIf="showLinkLabel"
                    (ready)="item.label=$event"
@@ -36,7 +35,7 @@
                    [rotation]="[0, 90 | radian, -90 | radian]">
     </ngt-soba-text>
 
-    <ngt-mesh *ngIf="showArrow" (ready)="item.arrow=$event" [castShadow]="castShadow">
+    <ngt-mesh *ngIf="showArrow" (ready)="item.arrow=$event" [castShadow]="castShadow"  (click)="linkClicked(item)">
       <ngt-cylinder-geometry [args]="[0.02, 0, 0.06]"></ngt-cylinder-geometry>
       <ngt-mesh-basic-material [color]="item.link['data'].arrowcolor"></ngt-mesh-basic-material>
     </ngt-mesh>
