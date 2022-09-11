@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Color, InstancedMesh, MathUtils, Matrix4, Mesh, Vector3 } from "three";
 
 import GUI from "lil-gui";
+import { Exporter } from "../spriograph/export";
 
 //
 // code adapted from https://www.youtube.com/watch?v=0Kx4Y9TVMGg&t=621s
@@ -170,6 +171,12 @@ export class ArtificialLifeExample implements OnInit, OnDestroy {
     this.yellowgui.reset();
   }
 
+  save() {
+    const filename = new Date().getTime();
+    const ex = new Exporter();
+    ex.saveString(JSON.stringify(this.parameters), filename+'.json' )
+  }
+
   interesting1() {
     this.parameters.redred = -0.1;
     this.parameters.redgreen = -0.97;
@@ -205,6 +212,7 @@ export class ArtificialLifeExample implements OnInit, OnDestroy {
     let gui = new GUI({ width: 300 });
     gui.title('Settings')
     gui.add(this, 'size', 0.001, 0.03, 0.001).name('Particle Size');
+    gui.add(this, 'save').name('Save to JSON');
     gui.add(this, 'interesting1').name('Interesting');
     gui.add(this, 'reset').name('Reset to Original');
     this.maingui = gui;
