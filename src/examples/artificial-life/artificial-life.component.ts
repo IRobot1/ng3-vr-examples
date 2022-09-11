@@ -66,7 +66,10 @@ export class ArtificialLifeExample implements OnInit, OnDestroy {
   blue = this.create(this.count, 'blue');
   yellow = this.create(this.count, 'yellow');
 
-  //get randomInVolume() { return Math.random() * this.volume; }
+  get randomSetting(): number {
+    const value = -1 + Math.random() * 2;
+    return +value.toFixed(2)
+  }
   get randomInVolume() { return -this.volume + Math.random() * this.volume * 2; }
 
   create(count: number, type: ParticleType): Array<Cell> {
@@ -172,9 +175,15 @@ export class ArtificialLifeExample implements OnInit, OnDestroy {
   }
 
   save() {
-    const filename = new Date().getTime();
+    const filename = new Date().getTime() + '.json';
     const ex = new Exporter();
-    ex.saveString(JSON.stringify(this.parameters), filename+'.json' )
+    ex.saveString(JSON.stringify(this.parameters), filename)
+
+    this.maingui.title('Saved to ' + filename);
+    const timer = setTimeout(() => {
+      this.maingui.title('Settings');
+      clearTimeout(timer);
+    }, 3000)
   }
 
   interesting1() {
@@ -198,21 +207,50 @@ export class ArtificialLifeExample implements OnInit, OnDestroy {
     this.parameters.yellowgreen = -0.29;
     this.parameters.yellowblue = 0;
 
+    this.updateGUI();
+  }
+
+  updateGUI() {
     this.redgui.controllers.forEach(c => c.updateDisplay());
     this.greengui.controllers.forEach(c => c.updateDisplay());
     this.bluegui.controllers.forEach(c => c.updateDisplay());
     this.yellowgui.controllers.forEach(c => c.updateDisplay());
   }
 
+
+  random() {
+    this.parameters.redred = this.randomSetting;
+    this.parameters.redgreen = this.randomSetting;
+    this.parameters.redblue = this.randomSetting;
+    this.parameters.redyellow = this.randomSetting;
+
+    this.parameters.greengreen = this.randomSetting;
+    this.parameters.greenred = this.randomSetting;
+    this.parameters.greenblue = this.randomSetting;
+    this.parameters.greenyellow = this.randomSetting;
+
+    this.parameters.blueblue = this.randomSetting;
+    this.parameters.bluered = this.randomSetting;
+    this.parameters.bluegreen = this.randomSetting;
+    this.parameters.blueyellow = this.randomSetting;
+
+    this.parameters.yellowyellow = this.randomSetting;
+    this.parameters.yellowred = this.randomSetting;
+    this.parameters.yellowgreen = this.randomSetting;
+    this.parameters.yellowblue = this.randomSetting;
+    this.updateGUI();
+  }
+
   ngOnInit(): void {
-    const min = -2;
-    const max = 2;
+    const min = -1;
+    const max = 1;
     const delta = 0.01;
 
     let gui = new GUI({ width: 300 });
     gui.title('Settings')
     gui.add(this, 'size', 0.001, 0.03, 0.001).name('Particle Size');
     gui.add(this, 'save').name('Save to JSON');
+    gui.add(this, 'random').name('Random Setting');
     gui.add(this, 'interesting1').name('Interesting');
     gui.add(this, 'reset').name('Reset to Original');
     this.maingui = gui;
