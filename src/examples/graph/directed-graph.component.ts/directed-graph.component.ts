@@ -60,7 +60,6 @@ class InternalNode3D {
 }
 
 class InternalLink3D {
-  group!: Group;
   object!: Object3D;
   arrow?: Mesh;
   label?: Object3D;
@@ -192,54 +191,52 @@ export class DirectedGraphComponent implements OnInit {
 
     this.links.forEach(item => {
 
-      //const group = item.group;
-      //if (group) {
+      const points: Array<Vector2> = [];
 
-        const points: Array<Vector2> = [];
+      item.link.points.forEach(point => {
+        points.push(new Vector2(point.x / 100, -point.y / 100));
+      });
 
-        item.link.points.forEach(point => {
-          points.push(new Vector2(point.x / 100, -point.y / 100));
-        });
+      const curve = new SplineCurve(points);
+      const curvepoints = curve.getPoints(25);
+      console.warn(curvepoints)
+      item.geometry = new BufferGeometry().setFromPoints(curvepoints);
 
-        const curve = new SplineCurve(points);
-        const curvepoints = curve.getPoints(25);
-        console.warn(curvepoints)
-        item.geometry = new BufferGeometry().setFromPoints(curvepoints);
+      if (item.label) {
+        const middle = curvepoints[12];
+        const center = new Vector3(middle.x, middle.y, 0);
+        item.label.position.copy(center);
+      }
 
-        if (item.label) {
-          item.label.position.set(0, item.length / 2, 0);
-        }
+      const arrow = item.arrow;
+      if (arrow) {
+        const first = curvepoints[curvepoints.length - 3];
+        const last = curvepoints[curvepoints.length - 1];
 
-        const arrow = item.arrow;
-        if (arrow) {
-          const first = curvepoints[curvepoints.length - 3];
-          const last = curvepoints[curvepoints.length - 1];
+        const from = new Vector3(first.x, first.y, 0);
 
-          const from = new Vector3(first.x, first.y, 0);
+        const node = this.graph.node(item.link['from']);
+        let size = 1;
+        if (node) size = node.size;
 
-          const node = this.graph.node(item.link['from']);
-          let size = 1;
-          if (node) size = node.size;
+        const to = new Vector3(last.x, last.y, 0);
 
-          const to = new Vector3(last.x, last.y, 0);
+        const tempMatrix = new Matrix4();
+        tempMatrix.setPosition(from)
+        tempMatrix.lookAt(from, to, new Vector3(0, 0, 1));
 
-          const tempMatrix = new Matrix4();
-          tempMatrix.setPosition(from)
-          tempMatrix.lookAt(from, to, new Vector3(0, 0, 1));
+        arrow.matrixWorld.copy(tempMatrix);
+        arrow.position.copy(to);
+        arrow.rotation.setFromRotationMatrix(tempMatrix);
 
-          arrow.matrixWorld.copy(tempMatrix);
-          arrow.position.copy(to);
-          arrow.rotation.setFromRotationMatrix(tempMatrix);
+        // rotate cone to point along line
+        arrow.rotateX(MathUtils.degToRad(90));
 
-          // rotate cone to point along line
-          arrow.rotateX(MathUtils.degToRad(90));
+        // adjust so its ouside node mesh
+        arrow.translateOnAxis(new Vector3(0, 1, 0), size * 2)
 
-          // adjust so its ouside node mesh
-          arrow.translateOnAxis(new Vector3(0, 1, 0), size * 2)
+      }
 
-        }
-
-      //}
     });
   }
 

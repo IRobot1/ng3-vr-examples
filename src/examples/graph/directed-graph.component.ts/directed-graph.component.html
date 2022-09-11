@@ -31,8 +31,7 @@
                    [fontSize]="item.link['data'].textsize"
                    [font]="labelFont"
                    anchorX="center"
-                   anchorY="bottom"
-                   [rotation]="[0, 90 | radian, -90 | radian]">
+                   anchorY="bottom">
     </ngt-soba-text>
 
     <ngt-mesh *ngIf="showArrow" (ready)="item.arrow=$event" [castShadow]="castShadow"  (click)="linkClicked(item)">
