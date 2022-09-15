@@ -110,6 +110,8 @@ import { ForceLayoutExample } from '../examples/force-layout/force-layout.compon
 import { ForceLayoutComponent } from '../examples/force-layout/force-layout-diagram/force-layout-diagram.component';
 import { GraphExample } from '../examples/graph/graph.component';
 import { DirectedGraphComponent } from '../examples/graph/directed-graph.component.ts/directed-graph.component';
+import { CollisionsExample } from '../examples/collisions/collisions.component';
+import { TouchDirective } from '../examples/collisions/touch.directive';
 
 
 @NgModule({
@@ -218,6 +220,8 @@ import { DirectedGraphComponent } from '../examples/graph/directed-graph.compone
     GraphExample,
     DirectedGraphComponent,
 
+    CollisionsExample,
+    TouchDirective,
   ],
   imports: [
     BrowserModule,

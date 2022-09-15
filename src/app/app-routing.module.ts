@@ -25,6 +25,7 @@ import { ArtificialLifeExample } from '../examples/artificial-life/artificial-li
 import { SVGExample } from '../examples/svg/svg.component';
 import { ForceLayoutExample } from '../examples/force-layout/force-layout.component';
 import { GraphExample } from '../examples/graph/graph.component';
+import { CollisionsExample } from '../examples/collisions/collisions.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -52,6 +53,7 @@ const routes: Routes = [
   { path: 'artlife', component: ArtificialLifeExample },
   { path: 'svg', component: SVGExample },
   { path: 'graph', component: GraphExample },
+  { path: 'collisions', component: CollisionsExample },
 ];
 
 @NgModule({
