@@ -77,9 +77,9 @@ export class TouchDirective implements OnInit, OnDestroy {
 
 
     this.cleanup = () => {
-      this.controller.removeEventListener('collidebegin', collidebegin);
-      this.controller.removeEventListener('colliding', colliding);
-      this.controller.removeEventListener('collideend', collideend);
+      this.collider.removeEventListener('collidebegin', collidebegin);
+      this.collider.removeEventListener('colliding', colliding);
+      this.collider.removeEventListener('collideend', collideend);
     }
 
     let collider!: Collider;
