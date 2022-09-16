@@ -1,18 +1,47 @@
-<ngt-color attach="background" color="darkgray"></ngt-color>
+<ngt-color attach="background" color="black"></ngt-color>
 
 <line-room></line-room>
 
-<ngt-directional-light [position]="[10, 10, 10]" castShadow></ngt-directional-light>
+<ngt-ambient-light></ngt-ambient-light>
+<ngt-point-light [position]="[0, 1.5, 0]"></ngt-point-light>
 
 <ngt-mesh [rotation]="[-1.57, 0, 0]">
   <ngt-plane-geometry [args]="[4.8, 4.8, 2, 2]"></ngt-plane-geometry>
   <ngt-mesh-standard-material color="seagreen" transparent opacity="0.25"></ngt-mesh-standard-material>
 </ngt-mesh>
 
-<!--<ngt-mesh #marker [position]="[0, 0.01, 0]" [rotation]="[-1.57, 0, 0]">
-  <ngt-circle-geometry [args]="[0.25, 32]"></ngt-circle-geometry>
-  <ngt-mesh-standard-material color="seagreen"></ngt-mesh-standard-material>
-</ngt-mesh>-->
+<planet [position]="[0, 3, 0]" [scale]="[1, 1, 1]" [rotation]="[90 | radian, 0, 0]" [surfaceMap]="sunMap"></planet>
+
+<planet [position]="[-2, 1.2, -2]" [scale]="[0.1, 0.1, 0.1]" [surfaceMap]="mercuryMap"></planet>
+<pedestal [position]="[-2, 0, -2]" [lightcolor]="'darkgray'"></pedestal>
+
+<planet [position]="[0, 1.2, -2]" [scale]="[0.2, 0.2, 0.2]" [surfaceMap]="venusMap"></planet>
+<pedestal [position]="[0, 0, -2]" [lightcolor]="'darkorange'"></pedestal>
+
+<ngt-group [position]="[2, 1.2, -2]" (beforeRender)="rotateearth($event.object)">
+  <planet [scale]="[0.2, 0.2, 0.2]" [surfaceMap]="surfaceMap" [metalnessMap]="metalnessMap" [normalMap]="normalMap"></planet>
+</ngt-group>
+
+<ngt-group [position]="[2, 1.2, -2]" (beforeRender)="rotatemoon($event.object)">
+  <planet [position]="[1, 0, 0]" [scale]="[0.1, 0.1, 0.1]" [surfaceMap]="moonMap"></planet>
+</ngt-group>
+<pedestal [position]="[2, 0, -2]" [lightcolor]="'darkblue'"></pedestal>
+
+<planet [position]="[-2, 1.2, 0]" [scale]="[0.15, 0.15, 0.15]" [surfaceMap]="marsMap"></planet>
+<pedestal [position]="[-2, 0, 0]" [lightcolor]="'red'"></pedestal>
+
+<planet [position]="[2, 1.5, 0]" [scale]="[0.5, 0.5, 0.5]" [surfaceMap]="jupiterMap"></planet>
+<pedestal [position]="[2, 0, 0]" [lightcolor]="'gray'"></pedestal>
+
+<planet [position]="[-2, 1.4, 2]" [scale]="[0.4, 0.4, 0.4]" [surfaceMap]="saturnMap"></planet>
+<pedestal [position]="[-2, 0, 2]" [lightcolor]="'beige'"></pedestal>
+
+<planet [position]="[0, 1.3, 2]" [scale]="[0.25, 0.25, 0.25]" [surfaceMap]="uranusMap"></planet>
+<pedestal [position]="[0, 0, 2]" [lightcolor]="'cyan'"></pedestal>
+
+<planet [position]="[2, 1.3, 2]" [scale]="[0.25, 0.25, 0.25]" [surfaceMap]="neptuneMap"></planet>
+<pedestal [position]="[2, 0, 2]" [lightcolor]="'blue'"></pedestal>
+
 
 <vr-controller joystickmove navhome></vr-controller>
 <vr-controller [index]="1" joystickmove navhome></vr-controller>

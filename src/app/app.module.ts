@@ -112,6 +112,7 @@ import { GraphExample } from '../examples/graph/graph.component';
 import { DirectedGraphComponent } from '../examples/graph/directed-graph.component.ts/directed-graph.component';
 import { CollisionsExample } from '../examples/collisions/collisions.component';
 import { TouchDirective } from '../examples/collisions/touch.directive';
+import { PlanetComponent } from '../components/planet/planet.component';
 
 
 @NgModule({
@@ -139,6 +140,7 @@ import { TouchDirective } from '../examples/collisions/touch.directive';
     SquareShiftComponent,
     SpiralLineComponent,
     MonopolyBoardComponent,
+    PlanetComponent,
 
     BallshooterExample,
     ShootDirective,

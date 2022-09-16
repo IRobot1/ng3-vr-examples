@@ -1,0 +1,7 @@
+<ngt-mesh (ready)="mesh=$event" [position]="position" [rotation]="rotation" [scale]="scale" castShadow receiveShadow>
+  <ngt-sphere-geometry [args]="[1, 64, 64]"></ngt-sphere-geometry>
+  <ngt-mesh-standard-material roughness="0.5" metalness="1"
+                              [map]="surfaceMap" [normalMap]="normalMap"
+                              [metalnessMap]="metalnessMap">
+  </ngt-mesh-standard-material>
+</ngt-mesh>
