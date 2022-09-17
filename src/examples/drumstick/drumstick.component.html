@@ -16,15 +16,11 @@
   </ngt-group>
 </ngt-group>
 
-<ngt-physics>
-  <ngt-cannon-debug disabled scale="1.1" color="red">
+<ngt-group [rotation]="[0, 45 | radian,  0]">
+  <keyboard #keyboard [position]="[0, 1, -0.5]" [rotation]="[30 | radian, 0, 0]" [scale]="0.3"></keyboard>
+</ngt-group>
 
-    <keyboard [position]="[0, 1, -0.5]" [rotation]="[30 | radian, 0, 0]" [scale]="0.3"></keyboard>
-
-    <vr-controller drumstick navhome [stick]="stick.instance.value" [socket]="socket.instance.value"></vr-controller>
-    <vr-controller [index]="1" drumstick navhome [stick]="stick.instance.value" [socket]="socket.instance.value"></vr-controller>
-
-  </ngt-cannon-debug>
-</ngt-physics>
+<vr-controller touch navhome [collisionGroup]="keyboard.collisionGroup" [finger]="stick.instance.value" [collider]="socket.instance.value"></vr-controller>
+<vr-controller [index]="1" touch navhome [collisionGroup]="keyboard.collisionGroup" [finger]="stick.instance.value" [collider]="socket.instance.value"></vr-controller>
 
 <ngt-soba-orbit-controls></ngt-soba-orbit-controls>

@@ -22,7 +22,7 @@
 
   <drum-key *ngFor="let item of keys"
             [position]="item.position" [keycode]="keycode(item)" [size]="item.size" [scale]="scale" [fontsize]="item.fontsize"
-            (click)="pressed($event)">
+            [collisionGroup]="collisionGroup" (click)="pressed($event)">
 
   </drum-key>
 </ngt-group>

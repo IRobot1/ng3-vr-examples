@@ -23,7 +23,7 @@ export class TouchDirective implements OnInit, OnDestroy {
   @Input() finger!: Object3D;
   @Input() collider!: Mesh;  // changing collider after init not supported
 
-  @Input() collidegroup!: CollisionGroup;
+  @Input() collisionGroup!: CollisionGroup;
 
   @Output() collidebegin = new EventEmitter<Mesh>()
   @Output() colliding = new EventEmitter<Mesh>()
@@ -95,9 +95,9 @@ export class TouchDirective implements OnInit, OnDestroy {
       if (this.controller) {
         if (this.touch && connected) {
           if (collider.hint == 'sphere')
-            this.collidegroup.checkSphereCollision(collider);
+            this.collisionGroup.checkSphereCollision(collider);
           else
-            this.collidegroup.checkBoxCollision(collider);
+            this.collisionGroup.checkBoxCollision(collider);
         }
 
         // move finger tip mesh

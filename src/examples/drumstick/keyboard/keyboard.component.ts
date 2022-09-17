@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, EventEmitter, HostListener, Input, OnInit, Output } from "@angular/core";
 
 import { NgtTriple } from "@angular-three/core";
+import { CollisionGroup } from "../../collisions/collision";
 
 
 class KeySetting {
@@ -26,6 +27,8 @@ export class KeyboardComponent implements OnInit {
 
   displaytext = '_';
   private text = '';
+
+  public collisionGroup = new CollisionGroup();
 
   constructor(private cd: ChangeDetectorRef) { }
 

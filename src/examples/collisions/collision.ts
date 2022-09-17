@@ -73,7 +73,7 @@ export class CollisionGroup {
 
   public checkBoxCollision(source: Collider) {
     const sourcebox = this._box.setFromObject(source.mesh);
-    
+
     this.colliders.forEach(item => {
       if (item.hint == 'box') {
         let box3 = item.mesh.geometry.boundingBox;
@@ -122,9 +122,14 @@ export class CollisionGroup {
 
     this.colliders.forEach(item => {
       if (item.hint == 'box') {
-        if (item.mesh.geometry.boundingBox) {
+        let box3 = item.mesh.geometry.boundingBox;
+        if (!box3) {
+          item.mesh.geometry.computeBoundingBox();
+          box3 = item.mesh.geometry.boundingBox;
+        }
+        if (box3) {
 
-          this._obb.fromBox3(item.mesh.geometry.boundingBox)
+          this._obb.fromBox3(box3)
           this._obb.applyMatrix4(item.mesh.matrixWorld);
 
           if (this._obb.intersectsSphere(this._sphere)) {

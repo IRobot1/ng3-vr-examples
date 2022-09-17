@@ -49,7 +49,6 @@ import { GrabDirective } from '../examples/inspect/grab.directive';
 import { InspectCube } from '../examples/inspect/inspect-cube.component';
 import { DrumstickExample } from '../examples/drumstick/drumstick.component';
 import { DrumKey } from '../examples/drumstick/key.component';
-import { DrumstickDirective } from '../examples/drumstick/stick.directive';
 import { KeyboardComponent } from '../examples/drumstick/keyboard/keyboard.component';
 import { TouchpadExample } from '../examples/touchpad/touchpad.component';
 import { TouchMoveDirective } from '../examples/touchpad/touchmove.component';
@@ -166,7 +165,6 @@ import { CollisionDirective } from '../examples/collisions/collision.directive';
     GrabDirective,
 
     DrumstickExample,
-    DrumstickDirective,
     DrumKey,
     KeyboardComponent,
 

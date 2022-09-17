@@ -1,5 +1,6 @@
-<ngt-group [position]="position" (ready)="tick($event)">
-  <ngt-mesh castShadow (click)="pressed()" (beforeRender)="tick($event.object)">
+<ngt-group [position]="position">
+  <ngt-mesh collision [collisionGroup]="collisionGroup" (collidebegin)="pressed()"
+            castShadow (click)="pressed()">
     <ngt-box-geometry [args]="size"></ngt-box-geometry>
     <ngt-mesh-standard-material [color]="color"></ngt-mesh-standard-material>
   </ngt-mesh>
