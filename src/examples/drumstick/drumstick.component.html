@@ -4,23 +4,41 @@
 
 <ngt-directional-light [position]="[10, 10, 10]" castShadow></ngt-directional-light>
 
-<ngt-group #stick>
+
+<ngt-group [rotation]="[0, 45 | radian,  0]">
+  <keyboard #keyboard [visible]="visible" [position]="[0, 1, -0.5]" [rotation]="[30 | radian, 0, 0]" [scale]="0.3"></keyboard>
+</ngt-group>
+
+<ngt-group #leftstick>
   <ngt-group [rotation]="[ -60 | radian, 0, 0]">
     <ngt-mesh>
       <ngt-cylinder-geometry [args]="[0.01, 0.01, 0.2]"></ngt-cylinder-geometry>
     </ngt-mesh>
-    <ngt-mesh #socket [position]="[0, 0.1, 0]">
+    <ngt-mesh #leftsocket [position]="[0, 0.1, 0]">
       <ngt-sphere-geometry [args]="[0.02]"></ngt-sphere-geometry>
       <ngt-mesh-standard-material color="gold"></ngt-mesh-standard-material>
     </ngt-mesh>
   </ngt-group>
 </ngt-group>
 
-<ngt-group [rotation]="[0, 45 | radian,  0]">
-  <keyboard #keyboard [position]="[0, 1, -0.5]" [rotation]="[30 | radian, 0, 0]" [scale]="0.3"></keyboard>
-</ngt-group>
+<vr-controller touch navhome [collisionGroup]="keyboard.collisionGroup" [finger]="leftstick.instance.value"
+               [collider]="leftsocket.instance.value" (trigger)="toggle()">
+</vr-controller>
 
-<vr-controller touch navhome [collisionGroup]="keyboard.collisionGroup" [finger]="stick.instance.value" [collider]="socket.instance.value"></vr-controller>
-<vr-controller [index]="1" touch navhome [collisionGroup]="keyboard.collisionGroup" [finger]="stick.instance.value" [collider]="socket.instance.value"></vr-controller>
+
+<ngt-group #rightstick>
+  <ngt-group [rotation]="[ -60 | radian, 0, 0]">
+    <ngt-mesh>
+      <ngt-cylinder-geometry [args]="[0.01, 0.01, 0.2]"></ngt-cylinder-geometry>
+    </ngt-mesh>
+    <ngt-mesh #rightsocket [position]="[0, 0.1, 0]">
+      <ngt-sphere-geometry [args]="[0.02]"></ngt-sphere-geometry>
+      <ngt-mesh-standard-material color="gold"></ngt-mesh-standard-material>
+    </ngt-mesh>
+  </ngt-group>
+</ngt-group>
+<vr-controller [index]="1" touch navhome [collisionGroup]="keyboard.collisionGroup" [finger]="rightstick.instance.value"
+               [collider]="rightsocket.instance.value" (trigger)="toggle()">
+</vr-controller>
 
 <ngt-soba-orbit-controls></ngt-soba-orbit-controls>

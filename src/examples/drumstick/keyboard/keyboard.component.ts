@@ -20,6 +20,7 @@ export class KeyboardComponent implements OnInit {
   @Input() position = [0, 0, 0] as NgtTriple;
   @Input() rotation = [0, 0, 0] as NgtTriple;
   @Input() scale = 1;
+  @Input() visible = true;
 
   @Output() message = new EventEmitter<string>();
 
@@ -62,7 +63,7 @@ export class KeyboardComponent implements OnInit {
 
   @HostListener('document:keydown', ['$event'])
   private onKeyUp(event: KeyboardEvent) {
-    this.pressed(event.key);
+      this.pressed(event.key);
   }
 
   keycase: KeyCase = 'lower';
@@ -77,6 +78,8 @@ export class KeyboardComponent implements OnInit {
   }
 
   pressed(keycode: string) {
+    if (!this.visible) return;
+
     //console.warn(keycode)
     if (keycode == 'ABC') {
       this.keycase = 'upper'
@@ -98,7 +101,7 @@ export class KeyboardComponent implements OnInit {
       else {
         this.text += keycode;
       }
-      this.displaytext = this.text.substring(this.text.length-30) + '_';
+      this.displaytext = this.text.substring(this.text.length - 30) + '_';
     }
     this.cd.detectChanges();
   }

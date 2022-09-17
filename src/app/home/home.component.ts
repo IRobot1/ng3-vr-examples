@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
     { asset: 'teleport', text: 'Teleport' },
     { asset: 'bat', text: 'Physics Bat' },
     { asset: 'inspect', text: 'Grab / Inspect' },
-    { asset: 'drumstick', text: 'Drumstick / Keyboard' },
+    { asset: 'drumstick', text: 'Keyboard / Drumstick' },
     { asset: 'touchpad', text: 'Touchpad Movement' },
     { asset: 'joystick', text: 'Joystick Movement' },
     { asset: 'behaviors', text: 'Toggle Controller Behaviors' },
