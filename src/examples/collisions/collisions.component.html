@@ -6,16 +6,17 @@
 <ngt-point-light></ngt-point-light>
 
 <ngt-group>
-  <ngt-mesh *ngFor="let item of spheres" [position]="item.position" (ready)="addSphere($event)">
+  <ngt-mesh *ngFor="let item of spheres" [position]="item.position" (ready)="addSphere($event)"
+            [collision]="collision" [collisionType]="'sphere'" [collisionGroup]="spherecolliders" (collidebegin)="popSphere($event)">
     <ngt-sphere-geometry [args]="[0.05]"></ngt-sphere-geometry>
     <ngt-mesh-standard-material color="hotpink"></ngt-mesh-standard-material>
   </ngt-mesh>
 </ngt-group>
 
 <ngt-group>
-  <ngt-mesh *ngFor="let item of boxes" [position]="item.position"
+  <ngt-mesh *ngFor="let item of boxes" [position]="item.position" (ready)="addBox($event)"
             [rotation]="[item.rotation | radian,item.rotation | radian,item.rotation | radian]"
-            (ready)="addBox($event)">
+            [collision]="collision" [collisionType]="'box'" [collisionGroup]="boxcolliders" (collidebegin)="popBox($event)">
     <ngt-box-geometry [args]="[0.1, 0.1, 0.1]"></ngt-box-geometry>
     <ngt-mesh-standard-material color="cyan"></ngt-mesh-standard-material>
   </ngt-mesh>
@@ -36,8 +37,7 @@
 
 <vr-controller touch navhome [collidegroup]="spherecolliders"
                [finger]="leftstick.instance.value"
-               [collider]="lefttip.instance.value"
-               (collidebegin)="popSphere($event)">
+               [collider]="lefttip.instance.value">
 
 </vr-controller>
 
@@ -55,8 +55,7 @@
 
 <vr-controller [index]="1" touch navhome [collidegroup]="boxcolliders"
                [finger]="rightstick.instance.value"
-               [collider]="righttip.instance.value"
-               (collidebegin)="popBox($event)">
+               [collider]="righttip.instance.value">
 
 </vr-controller>
 

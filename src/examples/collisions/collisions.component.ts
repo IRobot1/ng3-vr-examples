@@ -15,6 +15,7 @@ class ObjectData {
 export class CollisionsExample {
   spheres: Array<ObjectData> = [];
   boxes: Array<ObjectData> = [];
+  collision = true;
 
   spherecolliders = new CollisionGroup();
   boxcolliders = new CollisionGroup();
@@ -25,7 +26,9 @@ export class CollisionsExample {
   spheresound!: PositionalAudio;
   boxsound!: PositionalAudio;
 
-  constructor(private store: NgtStore) {
+  constructor(
+    private store: NgtStore,
+  ) {
     const camera = this.store.get(s => s.camera);
     const listener = new AudioListener();
     camera.add(listener);
@@ -60,15 +63,17 @@ export class CollisionsExample {
       ));
     }
 
+    // test enable/disable collision at runtime
+    //setInterval(() => {
+    //  this.collision = !this.collision
+    //}, 2000)
   }
 
   addSphere(mesh: Mesh) {
-    this.spherecolliders.addCollider(mesh, 'sphere');
     mesh.add(this.spheresound);
   }
 
   addBox(mesh: Mesh) {
-    this.boxcolliders.addCollider(mesh);
     mesh.add(this.boxsound);
   }
 
