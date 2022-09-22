@@ -1,0 +1,6 @@
+<ngt-group (ready)="group=$event" [position]="position" [scale]="scale" [rotation]="rotation" (beforeRender)="tick()">
+  <ngt-mesh *ngFor="let item of squares" (ready)="group.add($event)" [geometry]="fill" [scale]="item.scale" [position]="[0, 0, item.position]" [rotation]="[0, 0, item.rotation]">
+    <ngt-mesh-standard-material [color]="item.color" [side]="side"></ngt-mesh-standard-material>
+    <ngt-line [geometry]="outline" [material]="material"></ngt-line>
+  </ngt-mesh>
+</ngt-group>

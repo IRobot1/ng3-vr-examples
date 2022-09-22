@@ -113,6 +113,7 @@ import { CollisionsExample } from '../examples/collisions/collisions.component';
 import { TouchDirective } from '../examples/collisions/touch.directive';
 import { PlanetComponent } from '../components/planet/planet.component';
 import { CollisionDirective } from '../examples/collisions/collision.directive';
+import { RotatingSquaresComponent } from '../art/rotating-squares/rotating-squares.component';
 
 
 @NgModule({
@@ -141,6 +142,7 @@ import { CollisionDirective } from '../examples/collisions/collision.directive';
     SpiralLineComponent,
     MonopolyBoardComponent,
     PlanetComponent,
+    RotatingSquaresComponent,
 
     BallshooterExample,
     ShootDirective,
