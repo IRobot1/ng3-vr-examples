@@ -19,8 +19,7 @@
 
   <ngt-group *ngFor="let item of links">
 
-    <ngt-line (ready)="item.object=$event" [castShadow]="castShadow" [geometry]="item.geometry">
-      <ngt-line-basic-material [color]="item.link['data'].color"></ngt-line-basic-material>
+    <ngt-line (ready)="item.object=$event" [castShadow]="castShadow" [geometry]="item.geometry" [material]="item.material">
     </ngt-line>
 
     <ngt-soba-text *ngIf="showLinkLabel"

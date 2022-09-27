@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
-import { Box3, BufferGeometry, CatmullRomCurve3, Group, MathUtils, Matrix4, Mesh, Object3D, SplineCurve, Vector2, Vector3 } from "three";
+import { Box3, BufferGeometry, CatmullRomCurve3, Group, LineBasicMaterial, MathUtils, Matrix4, Mesh, Object3D, Vector3 } from "three";
 import { NgtTriple } from "@angular-three/core";
 
 import { Node, graphlib, GraphEdge, layout, Label } from 'dagre';
@@ -64,6 +64,7 @@ class InternalLink3D {
   arrow?: Mesh;
   label?: Object3D;
   geometry!: BufferGeometry;
+  material!: LineBasicMaterial;
   length = 0; // use internally
 
   constructor(public link: GraphEdge) { }
@@ -201,6 +202,7 @@ export class DirectedGraphComponent implements OnInit {
       const curvepoints = curve.getPoints(25);
       console.warn(curvepoints)
       item.geometry = new BufferGeometry().setFromPoints(curvepoints);
+      item.material = new LineBasicMaterial({ color: item.link['data'].color })
 
       if (item.label) {
         const middle = curvepoints[12];
