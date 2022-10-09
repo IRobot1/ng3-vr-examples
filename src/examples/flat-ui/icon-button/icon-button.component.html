@@ -1,0 +1,10 @@
+<ngt-mesh #mesh [name]="name" [visible]="visible"
+          (click)="clicked(mesh.instance.value, $event)" (pointermove)="over()" (pointerout)="out()"
+          [position]="position" [rotation]="rotation" [scale]="scale"
+          [geometry]="geometry" [material]="material"
+          (ready)="meshready($event)">
+
+  <ngt-mesh [position]="[0, 0, 0.001]" [scale]="svgscale" [geometry]="svggeometry">
+    <ngt-mesh-basic-material [color]="iconcolor" [side]="side"></ngt-mesh-basic-material>
+  </ngt-mesh>
+</ngt-mesh>

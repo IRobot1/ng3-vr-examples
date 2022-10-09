@@ -1,0 +1,30 @@
+<ngt-mesh [name]="name" [visible]="visible"
+          [position]="position" [rotation]="rotation" [scale]="scale"
+          (pointerover)="$event.stopPropagation()" (pointermissed)="missed()">
+
+  <ngt-plane-geometry [args]="[1, 0.8]"></ngt-plane-geometry>
+  <ngt-mesh-basic-material [color]="popupcolor"></ngt-mesh-basic-material>
+
+  <ngt-mesh #shades [position]="[-0.1, 0, 0.0001]" [material]="picker"
+            (ready)="shadesready($event)"
+            (click)="pickshade(shades.instance.value, $event)">
+    <ngt-plane-geometry [args]="[shadesize, shadesize]"></ngt-plane-geometry>
+
+    <ngt-mesh [position]="[ringx, ringy, 0.0002]">
+      <ngt-ring-geometry [args]="[0.045, 0.05, 32]"></ngt-ring-geometry>
+      <ngt-mesh-basic-material color="white"></ngt-mesh-basic-material>
+    </ngt-mesh>
+    <ngt-mesh [position]="[ringx, ringy, 0.0002]">
+      <ngt-ring-geometry [args]="[0.035, 0.04, 32]"></ngt-ring-geometry>
+      <ngt-mesh-basic-material color="black"></ngt-mesh-basic-material>
+    </ngt-mesh>
+  </ngt-mesh>
+
+  <ngt-mesh #colors [position]="[0.375, 0, 0.0001]" [material]="rainbow"
+            (ready)="colorready($event)"
+            (click)="pickcolor(colors.instance.value, $event)">
+    <ngt-plane-geometry [args]="[0.15, 0.7]"></ngt-plane-geometry>
+  </ngt-mesh>
+
+</ngt-mesh>
+

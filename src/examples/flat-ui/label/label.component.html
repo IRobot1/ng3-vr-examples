@@ -1,0 +1,15 @@
+<!-- https://github.com/nartc/angular-three/blob/main/libs/soba/abstractions/src/lib/text/text.ts -->
+<!-- https://protectwise.github.io/troika/troika-three-text/ -->
+
+<ngt-mesh [position]="position" [rotation]="rotation" [scale]="scale">
+  <ngt-plane-geometry [args]="[width, 0.1]"></ngt-plane-geometry>
+  <ngt-mesh-basic-material transparent opacity="0"></ngt-mesh-basic-material>
+  <ngt-soba-text [text]="text"
+                 [color]="color"
+                 [userData]="userData"
+                 [fontSize]="fontsize"
+                 [font]="font"
+                 [anchorX]="'left'"
+                 [position]="[-width/2+0.01, 0, 0.001]">
+  </ngt-soba-text>
+</ngt-mesh>

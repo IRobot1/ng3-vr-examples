@@ -1,0 +1,12 @@
+<ngt-mesh #mesh [name]="name" [visible]="visible"
+          (click)="clicked(mesh.instance.value, $event)"
+          (pointerdown)="dragging=true" (pointerup)="dragging=false"
+          (pointermove)="over(mesh.instance.value, $event)" (pointerout)="out();dragging=false"
+          [position]="position" [rotation]="rotation" [scale]="scale"
+          [geometry]="geometry" [material]="material" (ready)="meshready($event)">
+
+  <ngt-mesh [position]="[x*innerscale, 0, 0.0001]" (ready)="sliderready($event)">
+    <ngt-circle-geometry [args]="[radius, 32]"></ngt-circle-geometry>
+    <ngt-mesh-basic-material [color]="slidercolor" [side]="side"></ngt-mesh-basic-material>
+  </ngt-mesh>
+</ngt-mesh>

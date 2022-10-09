@@ -1,0 +1,8 @@
+<ngt-mesh #mesh [name]="name" [visible]="visible"
+          [position]="position" [rotation]="rotation" [scale]="scale"
+          [geometry]="geometry" [material]="material">
+
+  <ngt-mesh [visible]="showprogress" [position]="[-width/2+0.01 , -progressheight/2, 0.001]" [geometry]="progress">
+    <ngt-mesh-basic-material [color]="progresscolor" [side]="side"></ngt-mesh-basic-material>
+  </ngt-mesh>
+</ngt-mesh>

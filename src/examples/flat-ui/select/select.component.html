@@ -1,0 +1,18 @@
+<ngt-mesh #mesh [name]="name" [visible]="visible"
+          (click)="enableinput(mesh.instance.value)" (pointermove)="over()" (pointerout)="out()"
+          [position]="position" [rotation]="rotation" [scale]="scale"
+          [geometry]="geometry" [material]="material"
+          (ready)="meshready($event)">
+
+  <ngt-soba-text [text]="displaytext"
+                 [color]="textcolor"
+                 [anchorX]="'left'" [fontSize]="0.09"
+                 [position]="[-width/2-0.04, 0, 0.001]">
+  </ngt-soba-text>
+
+  <ngt-mesh [position]="[width/2, 0, 0.002]" [rotation]="[0, 0, 30 | radian]">
+    <ngt-circle-geometry [args]="[0.03,3]"></ngt-circle-geometry>
+    <ngt-mesh-basic-material [color]="selectcolor" [side]="side"></ngt-mesh-basic-material>
+  </ngt-mesh>
+
+</ngt-mesh>

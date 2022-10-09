@@ -1,0 +1,14 @@
+<ngt-mesh #mesh [name]="name" [visible]="visible"
+          (click)="ignore(mesh.instance.value, $event)" (pointerover)="$event.stopPropagation()"
+          [position]="position" [rotation]="rotation" [scale]="scale"
+          [geometry]="geometry" [material]="material"
+          (ready)="meshready($event)" (pointermissed)="missed()">
+
+  <flat-ui-button *ngFor="let item of keys" [transparent]="false" [selectable]="selectable"
+                  [position]="item.position" [width]="item.size" [text]="keycode(item)" [scale]="scale"
+                  (pressed)="clicked($event)">
+
+  </flat-ui-button>
+
+</ngt-mesh>
+

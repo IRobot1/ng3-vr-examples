@@ -1,0 +1,60 @@
+<ngt-group #panel [position]="position" [rotation]="rotation" [scale]="scale" [visible]="visible" [name]="displaytitle"
+           [ngtObjectPassThrough]="this">
+
+  <ngt-group [position]="[0, height/2+0.06, 0]">
+
+    <ngt-mesh #title [material]="titlematerial"
+              (pointerdown)="dragging=true" (pointerup)="dragging=false;out()"
+              (pointerover)="over()" (pointerout)="showscaling=false;out()"
+              (pointermove)="movepanel(title.instance.value, $event, panel.instance.value)"
+              (ready)="meshready($event, panel.instance.value)">
+
+      <ngt-plane-geometry [args]="[width-0.2, 0.1]"></ngt-plane-geometry>
+    </ngt-mesh>
+
+    <ngt-soba-text [text]="displaytitle" [color]="labelcolor" [fontSize]="titlefontsize" [anchorX]="'left'" [position]="[-width/2+0.1, 0, 0.0001]"></ngt-soba-text>
+
+    <flat-ui-button [text]="expanded ? 'v' : '>'" [width]="0.08" [height]="0.1" [position]="[-width/2+0.05, 0, 0.001]" [selectable]="selectable" (pressed)="expanded=!expanded"></flat-ui-button>
+
+    <flat-ui-button [text]="'x'" [width]="0.08" [height]="0.1" [position]="[width/2-0.05, 0, 0.001]" [selectable]="selectable" (pressed)="close.next(true)"></flat-ui-button>
+
+  </ngt-group>
+
+
+  <ngt-mesh #parent *ngIf="expanded">
+    <ngt-plane-geometry [args]="[width, height]"></ngt-plane-geometry>
+    <ngt-mesh-standard-material [color]="panelcolor"></ngt-mesh-standard-material>
+
+
+    <ngt-mesh #left [position]="[-width/2-0.01, 0, 0.01]" [visible]="showscaling"
+              (pointerdown)="scaling=true" (pointerup)="scaling=false"
+              (pointerover)="showscaling=true" (pointerout)="showscaling=false;scaling=false"
+              (pointermove)="scalehorizontal(left.instance.value, $event, panel.instance.value)"
+              (ready)="scaleready($event, panel.instance.value, true)">
+      <ngt-plane-geometry [args]="[0.1, 0.1]"></ngt-plane-geometry>
+      <ngt-mesh-basic-material [color]="'white'"></ngt-mesh-basic-material>
+    </ngt-mesh>
+
+    <ngt-mesh #right [position]="[width/2, 0, 0.01]" [visible]="showscaling"
+              (pointerdown)="scaling=true" (pointerup)="scaling=false"
+              (pointerover)="showscaling=true" (pointerout)="showscaling=false;scaling=false"
+              (pointermove)="scalehorizontal(right.instance.value, $event, panel.instance.value)"
+              (ready)="scaleready($event, panel.instance.value, true)">
+      <ngt-plane-geometry [args]="[0.1, 0.1]"></ngt-plane-geometry>
+      <ngt-mesh-basic-material [color]="'white'"></ngt-mesh-basic-material>
+    </ngt-mesh>
+
+    <ngt-mesh #bottom [position]="[0, -height/2, 0.01]" [visible]="showscaling"
+              (pointerdown)="scaling=true" (pointerup)="scaling=false"
+              (pointerover)="showscaling=true" (pointerout)="showscaling=false;scaling=false"
+              (pointermove)="scalevertical(bottom.instance.value, $event, panel.instance.value)"
+              (ready)="scaleready($event, panel.instance.value, false)">
+      <ngt-plane-geometry [args]="[0.1, 0.1]"></ngt-plane-geometry>
+      <ngt-mesh-basic-material [color]="'white'"></ngt-mesh-basic-material>
+    </ngt-mesh>
+
+    <ng-container *ngIf="templateRef"
+                  [ngTemplateOutlet]="templateRef"
+                  [ngTemplateOutletContext]="{ parent: parent.instance.value }"></ng-container>
+  </ngt-mesh>
+</ngt-group>

@@ -1,0 +1,9 @@
+<ngt-mesh #mesh [name]="name" [visible]="visible"
+          (click)="clicked(mesh.instance.value, $event)" (pointermove)="over();$event.stopPropagation()" (pointerout)="out()"
+          [position]="position" [rotation]="rotation" [scale]="scale"
+          [geometry]="geometry" [material]="material"
+          (ready)="meshready($event)">
+
+  <ngt-soba-text [text]="text" [color]="labelcolor" [position]="[0, 0, 0.001]"></ngt-soba-text>
+
+</ngt-mesh>

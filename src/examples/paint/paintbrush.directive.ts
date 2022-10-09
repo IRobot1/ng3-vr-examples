@@ -1,12 +1,12 @@
 import { Directive, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { CylinderGeometry, Group, IcosahedronGeometry, Mesh, MeshStandardMaterial, SphereGeometry, Vector3 } from "three";
+import { CylinderGeometry, Group, MathUtils, Mesh, MeshBasicMaterial, SphereGeometry, Vector3 } from "three";
 import { BooleanInput, coerceBooleanProperty, NgtStore } from "@angular-three/core";
 
 import { VRControllerComponent } from "ng3-webxr";
 import { TubePainter } from "./tubepainter";
-import { clamp } from "three/src/math/MathUtils";
+
 
 
 @Directive({
@@ -73,7 +73,7 @@ export class PaintBrushDirective implements OnInit, OnDestroy {
 
     this.subs.add(this.xr.joystickaxis.subscribe(next => {
       if (this.paintbrush) {
-        const scale = clamp(this.tip.scale.x - next.y / 50, 0.1, 5)
+        const scale = MathUtils.clamp(this.tip.scale.x - next.y / 50, 0.1, 5)
         this.tip.scale.setScalar(scale);
         this.painter.setSize(scale);
       }
@@ -87,7 +87,7 @@ export class PaintBrushDirective implements OnInit, OnDestroy {
   private buildTrackPointer() {
     const geometry = new CylinderGeometry(0.01, 0.02, 0.08, 5);
     geometry.rotateX(- Math.PI / 2);
-    const material = new MeshStandardMaterial({ flatShading: true });
+    const material = new MeshBasicMaterial({ flatShading: true });
     const mesh = new Mesh(geometry, material);
 
     const pivot = new Mesh(new SphereGeometry(0.01));

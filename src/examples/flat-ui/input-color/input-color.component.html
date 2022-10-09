@@ -1,0 +1,6 @@
+<ngt-mesh #mesh [name]="name" [visible]="visible"
+          (pointerover)="over()" (pointerout)="out()" (click)="enableinput(mesh.instance.value)"
+          [position]="position" [rotation]="rotation" [scale]="scale"
+          [geometry]="geometry" [material]="material" (ready)="meshready($event)">
+</ngt-mesh>
+

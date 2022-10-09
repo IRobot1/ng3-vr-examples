@@ -26,6 +26,7 @@ import { SVGExample } from '../examples/svg/svg.component';
 import { ForceLayoutExample } from '../examples/force-layout/force-layout.component';
 import { GraphExample } from '../examples/graph/graph.component';
 import { CollisionsExample } from '../examples/collisions/collisions.component';
+import { FlatUIExample } from '../examples/flat-ui/flat-ui.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -54,6 +55,7 @@ const routes: Routes = [
   { path: 'svg', component: SVGExample },
   { path: 'graph', component: GraphExample },
   { path: 'collisions', component: CollisionsExample },
+  { path: 'flat-ui', component: FlatUIExample },
 ];
 
 @NgModule({

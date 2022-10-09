@@ -1,0 +1,11 @@
+<ngt-mesh [name]="name" [visible]="visible" [material]="material"
+          (click)="clicked($event)" (pointermove)="over()" (pointerout)="out()"
+          [position]="position" [rotation]="rotation" [scale]="scale">
+
+  <ngt-ring-geometry [args]="[0.045, 0.05, segments]"></ngt-ring-geometry>
+
+  <ngt-mesh [position]="[0, 0, 0.0001]" [visible]="checked" (ready)="meshready($event)">
+    <ngt-circle-geometry [args]="[0.03,segments]"></ngt-circle-geometry>
+    <ngt-mesh-basic-material [color]="truecolor" [side]="side"></ngt-mesh-basic-material>
+  </ngt-mesh>
+</ngt-mesh>

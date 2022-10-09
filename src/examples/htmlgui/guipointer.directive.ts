@@ -1,7 +1,7 @@
 import { Directive, Input, OnDestroy, OnInit } from "@angular/core";
 import { Subscription } from "rxjs";
 
-import { Group, Matrix4, Object3D, Raycaster, Vector2 } from "three";
+import { Group, Intersection, Matrix4, Object3D, Raycaster } from "three";
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
 import { VRControllerComponent } from "ng3-webxr";
@@ -32,19 +32,27 @@ export class GUIPointerDirective implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
+  notify(intersections: Array<Intersection>, type: string) {
+    intersections.forEach(item => {
+      item.object.dispatchEvent({ type });
+    })
+  }
+
   ngOnInit(): void {
     const events: any = {
-      'move': 'mousemove',
+      'move': 'pointermove',
       'select': 'click',
-      'selectstart': 'mousedown',
-      'selectend': 'mouseup'
+      'selectstart': 'pointerdown',
+      'selectend': 'pointerup'
     };
 
-    const _pointer = new Vector2();
-    const _event = { type: '', data: _pointer };
+    const _event: any = { type: '' };
 
     const raycaster = new Raycaster();
     const tempMatrix = new Matrix4();
+
+    let lasttype = '';
+    let lastmove: Array<Intersection> | undefined = undefined;
 
     const onXRControllerEvent = (event: any) => {
 
@@ -55,20 +63,55 @@ export class GUIPointerDirective implements OnInit, OnDestroy {
       raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
       raycaster.ray.direction.set(0, 0, - 1).applyMatrix4(tempMatrix);
 
-      const intersections = raycaster.intersectObjects(this.guis.filter(x => x !== undefined), false);
+      const objects = this.guis.filter(x => x !== undefined);
+
+      const intersections = raycaster.intersectObjects(objects, false);
+
+      _event.controller = controller;
+      _event.stop = false;
 
       if (intersections.length > 0) {
+        const objects: Array<Object3D> = [];
 
-        const intersection = intersections[0];
+        intersections.forEach(intersection => {
+          if (_event.stop) return;
 
-        const object = intersection.object;
-        const uv = intersection.uv;
+          const object = intersection.object;
 
-        _event.type = events[event.type];
-        if (uv)
-          _event.data.set(uv.x, 1 - uv.y);
+          _event.type = events[event.type];
+          _event.data = intersection;
 
-        object.dispatchEvent(_event);
+
+          object.dispatchEvent(_event);
+          lasttype = _event.type;
+          objects.push(object);
+        });
+
+        if (lasttype == 'pointermove') {
+          if (lastmove) {
+            // notify any object that pointer is no longer intersecting
+            lastmove.forEach(intersection => {
+              if (!objects.includes(intersection.object)) {
+                _event.type = 'pointerout';
+                _event.data = intersection; 
+                intersection.object.dispatchEvent(_event);
+              }
+            })
+          }
+          lastmove = intersections;
+        }
+      }
+      else {
+        if (lastmove) {
+          if (lastmove) this.notify(lastmove, 'pointerout');
+          lastmove = undefined;
+        }
+
+        if (event.type != 'move') {
+          objects.forEach(object => object.dispatchEvent({ type: 'raymissed' }));
+        }
+
+
       }
     }
 

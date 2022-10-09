@@ -1,0 +1,12 @@
+<ngt-mesh [name]="name" [visible]="visible"
+          (pointermove)="over()" (pointerout)="out()" (ready)="meshready($event)"
+          [position]="position" [rotation]="rotation" [scale]="scale"
+          [geometry]="geometry" [material]="material">
+
+  <ngt-mesh [position]="[0, 0, 0.0001]"
+            (ready)="checkready($event)" (click)="clicked($event)">
+    <ngt-plane-geometry [args]="[width*0.7,width*0.7]"></ngt-plane-geometry>
+    <ngt-mesh-basic-material [color]="truecolor" [side]="side"></ngt-mesh-basic-material>
+  </ngt-mesh>
+
+</ngt-mesh>
