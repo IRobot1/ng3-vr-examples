@@ -87,7 +87,7 @@ export class PaintBrushDirective implements OnInit, OnDestroy {
   private buildTrackPointer() {
     const geometry = new CylinderGeometry(0.01, 0.02, 0.08, 5);
     geometry.rotateX(- Math.PI / 2);
-    const material = new MeshBasicMaterial({ flatShading: true });
+    const material = new MeshBasicMaterial();
     const mesh = new Mesh(geometry, material);
 
     const pivot = new Mesh(new SphereGeometry(0.01));
