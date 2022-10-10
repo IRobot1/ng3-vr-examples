@@ -155,15 +155,11 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
   private doclicked(mesh: Mesh, event: Intersection) {
     if (!this.enabled || !this.visible) return;
 
-    const world = new Vector3();
-    mesh.getWorldPosition(world);
+    mesh.worldToLocal(event.point);
 
-    const scale = new Vector3();
-    mesh.getWorldScale(scale);
-
-    const buttonmin = ((world.x - this.width / 2 * scale.x) * this.innerscale + this.radius) * scale.x;
-    const buttonmax = ((world.x + this.width / 2 * scale.x) * this.innerscale - this.radius) * scale.x;
-    const buttonx = MathUtils.clamp(event.point.x * this.innerscale * scale.x, buttonmin, buttonmax);
+    const buttonmin = -(this.width / 2) * this.innerscale + this.radius;
+    const buttonmax = (this.width / 2) * this.innerscale - this.radius;
+    const buttonx = MathUtils.clamp(event.point.x * this.innerscale, buttonmin, buttonmax);
 
     const value = MathUtils.mapLinear(buttonx, buttonmin, buttonmax, this.min, this.max);
 
