@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, DoubleSide, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Side, Vector3 } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, HoverColor, roundedRect, SelectColor, StringColor, UIInput } from "../flat-ui-utils";
+import { ButtonColor, HEIGHT_CHANGED_EVENT, HoverColor, LAYOUT_EVENT, roundedRect, SelectColor, StringColor, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { InteractiveObjects } from "../interactive-objects";
 
 @Component({
@@ -11,17 +11,37 @@ import { InteractiveObjects } from "../interactive-objects";
   exportAs: 'flatUISelect',
   templateUrl: './select.component.html',
 })
-export class FlatUISelect extends NgtObjectProps<Mesh> implements UIInput{
+export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit, UIInput{
   @Input() text = '';
   @Input() overflow = 24; 
 
   @Input() enabled = true;
-  @Input() width = 1;
 
   @Input() textcolor = StringColor;
   @Input() selectcolor = SelectColor;
   @Input() buttoncolor = ButtonColor;
   @Input() hovercolor = HoverColor;
+
+    private _width = 1;
+  @Input()
+  get width() { return this._width }
+  set width(newvalue: number) {
+    this._width = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: WIDTH_CHANGED_EVENT });
+    }
+  }
+
+  private _height = 0.1;
+  @Input()
+  get height() { return this._height }
+  set height(newvalue: number) {
+    this._height = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
+    }
+  }
+
 
   @Input() selectable?: InteractiveObjects;
 
@@ -32,7 +52,6 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements UIInput{
   material!: MeshBasicMaterial;
 
   side: Side = DoubleSide;
-  height = 0.1;
 
   get displaytext() {
     return this.text.substring(0, this.overflow * this.width);
@@ -58,6 +77,15 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements UIInput{
     this.geometry.dispose();
     this.material.dispose();
   }
+
+  ngAfterViewInit(): void {
+    this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
+      e.width = this.width;
+      e.height = this.height;
+      e.updated = true;
+    });
+  }
+
 
   private mesh!: Mesh;
 

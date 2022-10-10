@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, DoubleSide, Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Side } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, HoverColor, roundedRect, ToggleFalseColor, ToggleTrueColor } from "../flat-ui-utils";
+import { ButtonColor, HEIGHT_CHANGED_EVENT, HoverColor, LAYOUT_EVENT, roundedRect, ToggleFalseColor, ToggleTrueColor, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { InteractiveObjects } from "../interactive-objects";
 
 @Component({
@@ -11,7 +11,7 @@ import { InteractiveObjects } from "../interactive-objects";
   exportAs: 'flatUIInputToggle',
   templateUrl: './input-toggle.component.html',
 })
-export class FlatUIInputToggle extends NgtObjectProps<Mesh>{
+export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterViewInit {
   private _checked = false;
   @Input()
   get checked(): boolean { return this._checked }
@@ -24,12 +24,32 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh>{
     }
   }
 
+  @Input() enabled = true;
+
   @Input() buttoncolor = ButtonColor;
   @Input() hovercolor = HoverColor;
-
-  @Input() enabled = true;
   @Input() falsecolor = ToggleFalseColor;
   @Input() truecolor = ToggleTrueColor;
+
+  private _width = 0.2;
+  @Input()
+  get width() { return this._width }
+  set width(newvalue: number) {
+    this._width = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: WIDTH_CHANGED_EVENT });
+    }
+  }
+
+  private _height = 0.1;
+  @Input()
+  get height() { return this._height }
+  set height(newvalue: number) {
+    this._height = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
+    }
+  }
 
   @Input() selectable?: InteractiveObjects;
 
@@ -38,19 +58,15 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh>{
   geometry!: BufferGeometry;
   material!: MeshBasicMaterial;
 
-  width = 0.2;
-
   side: Side = DoubleSide;
   togglecolor = this.falsecolor;
 
   override preInit() {
     super.preInit();
 
-    const height = 0.1;
-
     if (!this.geometry) {
       const flat = new Shape();
-      roundedRect(flat, 0, 0, this.width, height, height / 2);
+      roundedRect(flat, 0, 0, this.width, this.height, this.height / 2);
 
       this.geometry = new ShapeGeometry(flat);
       this.geometry.center();
@@ -68,6 +84,14 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh>{
 
     this.geometry.dispose();
     this.material.dispose();
+  }
+
+  ngAfterViewInit(): void {
+    this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
+      e.width = this.width;
+      e.height = this.height;
+      e.updated = true;
+    });
   }
 
   private mesh!: Mesh;

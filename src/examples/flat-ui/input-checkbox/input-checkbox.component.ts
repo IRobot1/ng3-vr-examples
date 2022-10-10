@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, DoubleSide, Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Side } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, CheckColor, HoverColor, roundedRect } from "../flat-ui-utils";
+import { ButtonColor, CheckColor, HEIGHT_CHANGED_EVENT, HoverColor, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { InteractiveObjects } from "../interactive-objects";
 
 @Component({
@@ -11,7 +11,7 @@ import { InteractiveObjects } from "../interactive-objects";
   exportAs: 'flatUIInputCheckbox',
   templateUrl: './input-checkbox.component.html',
 })
-export class FlatUIInputCheckbox extends NgtObjectProps<Mesh>{
+export class FlatUIInputCheckbox extends NgtObjectProps<Mesh> implements AfterViewInit{
   private _checked = false;
   @Input()
   get checked(): boolean { return this._checked }
@@ -20,6 +20,17 @@ export class FlatUIInputCheckbox extends NgtObjectProps<Mesh>{
 
     if (this.checkmesh)
       this.checkmesh.visible = this.checked;
+  }
+
+  private _width = 0.1;
+  @Input()
+  get width() { return this._width }
+  set width(newvalue: number) {
+    this._width = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: WIDTH_CHANGED_EVENT });
+      this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
+    }
   }
 
   @Input() buttoncolor = ButtonColor;
@@ -34,8 +45,6 @@ export class FlatUIInputCheckbox extends NgtObjectProps<Mesh>{
   @Input() selectable?: InteractiveObjects;
 
   @Output() change = new EventEmitter<boolean>();
-
-  width = 0.1;  // use scale to resize?
 
   side: Side = DoubleSide;
 
@@ -64,6 +73,14 @@ export class FlatUIInputCheckbox extends NgtObjectProps<Mesh>{
 
     this.geometry.dispose();
     this.material.dispose();
+  }
+
+  ngAfterViewInit(): void {
+    this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
+      e.width = this.width;
+      e.height = this.width;
+      e.updated = true;
+    });
   }
 
   private mesh!: Mesh;

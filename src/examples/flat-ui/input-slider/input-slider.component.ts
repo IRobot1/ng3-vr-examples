@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, DoubleSide, Intersection, MathUtils, Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Side, Vector3 } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, HoverColor, roundedRect, SlideColor } from "../flat-ui-utils";
+import { ButtonColor, HEIGHT_CHANGED_EVENT, HoverColor, LAYOUT_EVENT, roundedRect, SlideColor, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 
 import { InteractiveObjects } from "../interactive-objects";
 
@@ -12,7 +12,7 @@ import { InteractiveObjects } from "../interactive-objects";
   exportAs: 'flatUIInputSlider',
   templateUrl: './input-slider.component.html',
 })
-export class FlatUIInputSlider extends NgtObjectProps<Mesh>{
+export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterViewInit {
   private _value = 0;
   @Input()
   get value(): number { return this._value }
@@ -47,7 +47,26 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh>{
   }
   private precision = 1;
 
-  @Input() width = 1;
+  private _width = 1;
+  @Input()
+  get width() { return this._width }
+  set width(newvalue: number) {
+    this._width = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: WIDTH_CHANGED_EVENT });
+    }
+  }
+
+  private _height = 0.1;
+  @Input()
+  get height() { return this._height }
+  set height(newvalue: number) {
+    this._height = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
+    }
+  }
+
 
   @Input() enabled = true;
   @Input() buttoncolor = ButtonColor;
@@ -70,11 +89,9 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh>{
   override preInit() {
     super.preInit();
 
-    const height = 0.1;
-
     if (!this.geometry) {
       const flat = new Shape();
-      roundedRect(flat, 0, 0, this.width, height, height / 2);
+      roundedRect(flat, 0, 0, this.width, this.height, this.height / 2);
 
       this.geometry = new ShapeGeometry(flat);
       this.geometry.center();
@@ -92,6 +109,14 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh>{
 
     this.geometry.dispose();
     this.material.dispose();
+  }
+
+  ngAfterViewInit(): void {
+    this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
+      e.width = this.width;
+      e.height = this.height;
+      e.updated = true;
+    });
   }
 
   private mesh!: Mesh;

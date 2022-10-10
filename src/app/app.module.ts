@@ -132,6 +132,8 @@ import { FlatUINumpad } from '../examples/flat-ui/numpad/numpad.component';
 import { FlatUIProgressBar } from '../examples/flat-ui/progress-bar/progress-bar.component';
 import { FlatUIRadioButton } from '../examples/flat-ui/radio-button/radio-button.component';
 import { FlatUISelect } from '../examples/flat-ui/select/select.component';
+import { HorizontalLayoutDirective } from '../examples/flat-ui/horizontal-layout.directive';
+import { VerticalLayoutDirective } from '../examples/flat-ui/vertical-layout.directive';
 
 
 @NgModule({
@@ -265,6 +267,10 @@ import { FlatUISelect } from '../examples/flat-ui/select/select.component';
     FlatUINumpad,
 
     FlatUIDragPanel,
+
+    HorizontalLayoutDirective,
+    VerticalLayoutDirective,
+
   ],
   imports: [
     BrowserModule,

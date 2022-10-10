@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, DoubleSide, MathUtils, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Vector3 } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, HoverColor, NumberColor, roundedRect, UIInput } from "../flat-ui-utils";
+import { ButtonColor, HEIGHT_CHANGED_EVENT, HoverColor, LAYOUT_EVENT, NumberColor, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 
 import { InteractiveObjects } from "../interactive-objects";
 
@@ -12,7 +12,7 @@ import { InteractiveObjects } from "../interactive-objects";
   exportAs: 'flatUIInputNumber',
   templateUrl: './input-number.component.html',
 })
-export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements UIInput {
+export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterViewInit, UIInput {
 private _text = '';
   @Input()
   get text(): string { return this._text }
@@ -36,13 +36,32 @@ private _text = '';
   @Input() max = Infinity;
 
   @Input() enabled = true;
-  @Input() width = 0.5;
+
   @Input() numbercolor = NumberColor;
+  @Input() buttoncolor = ButtonColor;
+  @Input() hovercolor = HoverColor;
 
   @Input() selectable?: InteractiveObjects;
 
-  @Input() buttoncolor = ButtonColor;
-  @Input() hovercolor = HoverColor;
+  private _width = 0.5;
+  @Input()
+  get width() { return this._width }
+  set width(newvalue: number) {
+    this._width = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: WIDTH_CHANGED_EVENT });
+    }
+  }
+
+  private _height = 0.1;
+  @Input()
+  get height() { return this._height }
+  set height(newvalue: number) {
+    this._height = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
+    }
+  }
 
   inputopen = false;
   @Output() openinput = new EventEmitter<Object3D>();
@@ -50,8 +69,6 @@ private _text = '';
 
   geometry!: BufferGeometry;
   material!: MeshBasicMaterial;
-
-  height = 0.1
 
   get textvalue(): string {
     let text = this.text.substring(this.text.length - this.overflow);
@@ -82,6 +99,16 @@ private _text = '';
     this.geometry.dispose();
     this.material.dispose();
   }
+
+  ngAfterViewInit(): void {
+    this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
+      e.width = this.width;
+      e.height = this.height;
+      e.updated = true;
+    });
+  }
+
+
 
   private mesh!: Mesh;
 

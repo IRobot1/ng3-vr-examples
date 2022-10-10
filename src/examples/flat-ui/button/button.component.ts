@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, DoubleSide, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, ButtonLabelColor, ClickColor, HoverColor, roundedRect } from "../flat-ui-utils";
+import { ButtonColor, ButtonLabelColor, ClickColor, HEIGHT_CHANGED_EVENT, HoverColor, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 
 import { InteractiveObjects } from "../interactive-objects";
 
@@ -12,10 +12,28 @@ import { InteractiveObjects } from "../interactive-objects";
   exportAs: 'flatUIButton',
   templateUrl: './button.component.html',
 })
-export class FlatUIButton extends NgtObjectProps<Mesh>{
+export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit {
   @Input() text = '';
-  @Input() width = 0.5;
-  @Input() height = 0.1;
+
+  private _width = 0.5;
+  @Input()
+  get width() { return this._width }
+  set width(newvalue: number) {
+    this._width = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: WIDTH_CHANGED_EVENT });
+    }
+  }
+
+  private _height = 0.1;
+  @Input()
+  get height() { return this._height }
+  set height(newvalue: number) {
+    this._height = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
+    }
+  }
 
   @Input() enabled = true;
   @Input() active = false;
@@ -62,6 +80,14 @@ export class FlatUIButton extends NgtObjectProps<Mesh>{
     this.selectable?.remove(this.mesh);
     this.geometry.dispose();
     this.material.dispose();
+  }
+
+  ngAfterViewInit(): void {
+    this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
+      e.width = this.width;
+      e.height = this.height;
+      e.updated = true;
+    });
   }
 
   meshready(mesh: Mesh) {

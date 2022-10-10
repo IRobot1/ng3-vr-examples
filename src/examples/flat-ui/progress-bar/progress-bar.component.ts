@@ -1,16 +1,16 @@
-import { Component, Input } from "@angular/core";
+import { AfterViewInit, Component, Input } from "@angular/core";
 
 import { BufferGeometry, DoubleSide, MathUtils, Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Side } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, ProgressColor, roundedRect } from "../flat-ui-utils";
+import { ButtonColor, HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, ProgressColor, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 
 @Component({
   selector: 'flat-ui-progress-bar',
   exportAs: 'flatUIProgressBar',
   templateUrl: './progress-bar.component.html',
 })
-export class FlatUIProgressBar extends NgtObjectProps<Mesh>{
+export class FlatUIProgressBar extends NgtObjectProps<Mesh> implements AfterViewInit {
   private _value = 0;
   @Input()
   get value(): number { return this._value }
@@ -29,8 +29,27 @@ export class FlatUIProgressBar extends NgtObjectProps<Mesh>{
   @Input() min = 0;
   @Input() max = 10;
 
-  @Input() width = 1;
-  @Input() height = 0.1;
+  private _width = 1;
+  @Input()
+  get width() { return this._width }
+  set width(newvalue: number) {
+    this._width = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: WIDTH_CHANGED_EVENT });
+    }
+  }
+
+  private _height = 0.1;
+  @Input()
+  get height() { return this._height }
+  set height(newvalue: number) {
+    this._height = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
+    }
+  }
+
+
   @Input() progressheight = 0.08;
 
   @Input() buttoncolor = ButtonColor;
@@ -47,21 +66,34 @@ export class FlatUIProgressBar extends NgtObjectProps<Mesh>{
   override preInit() {
     super.preInit();
 
-    if (!this.geometry) {
-      const flat = new Shape();
-      roundedRect(flat, 0, 0, this.width, this.height, 0.025);
+    const flat = new Shape();
+    roundedRect(flat, 0, 0, this.width, this.height, 0.025);
 
-      this.geometry = new ShapeGeometry(flat);
-      this.geometry.center();
-    }
-    if (!this.material) {
-      this.material = new MeshBasicMaterial({ color: ButtonColor, side: this.side, opacity: 0.5, transparent: true });
-    }
+    this.geometry = new ShapeGeometry(flat);
+    this.geometry.center();
+
+    this.material = new MeshBasicMaterial({ color: ButtonColor, side: this.side, opacity: 0.5, transparent: true });
   }
 
   override ngOnDestroy() {
+    super.ngOnDestroy();
+
     this.geometry?.dispose();
     this.material?.dispose();
+  }
+
+  ngAfterViewInit(): void {
+    this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
+      e.width = this.width;
+      e.height = this.height;
+      e.updated = true;
+    });
+  }
+
+  private mesh!: Mesh;
+
+  meshready(mesh: Mesh) {
+    this.mesh = mesh;
   }
 
   private renderprogress() {

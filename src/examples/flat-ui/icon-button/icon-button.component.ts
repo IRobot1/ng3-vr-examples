@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, DoubleSide, Group, Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Side, Vector3 } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
@@ -7,7 +7,7 @@ import { SVGLoader, SVGResult } from "three-stdlib";
 
 import { BufferGeometryUtils } from "../../svg/BufferGeometryUtils";
 
-import { ButtonColor, ClickColor, HoverColor, IconColor, roundedRect } from "../flat-ui-utils";
+import { ButtonColor, ClickColor, HEIGHT_CHANGED_EVENT, HoverColor, IconColor, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { InteractiveObjects } from "../interactive-objects";
 
 
@@ -16,10 +16,19 @@ import { InteractiveObjects } from "../interactive-objects";
   exportAs: 'flatUIIconButton',
   templateUrl: './icon-button.component.html',
 })
-export class FlatUIIconButton extends NgtObjectProps<Mesh>{
+export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewInit{
   @Input() enabled = true;
 
-  @Input() width = 0.1;
+  private _width = 0.1;
+  @Input()
+  get width() { return this._width }
+  set width(newvalue: number) {
+    this._width = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: WIDTH_CHANGED_EVENT });
+      this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
+    }
+  }
 
   @Input() buttoncolor = ButtonColor;
   @Input() hovercolor = HoverColor;
@@ -63,6 +72,13 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh>{
     this.material.dispose();
   }
 
+  ngAfterViewInit(): void {
+    this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
+      e.width = this.width;
+      e.height = this.width;
+      e.updated = true;
+    });
+  }
 
   private mesh!: Mesh;
 

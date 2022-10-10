@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, DoubleSide, Material, MathUtils, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Vector3 } from "three";
-import { NgtEvent, NgtObjectProps } from "@angular-three/core";
+import { BufferGeometry, DoubleSide, Material, MathUtils, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry } from "three";
+import { NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, HoverColor, roundedRect, UIInput } from "../flat-ui-utils";
+import { ButtonColor, HEIGHT_CHANGED_EVENT, HoverColor, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { InteractiveObjects } from "../interactive-objects";
 
 @Component({
@@ -11,7 +11,7 @@ import { InteractiveObjects } from "../interactive-objects";
   exportAs: 'flatUIInputColor',
   templateUrl: './input-color.component.html',
 })
-export class FlatUIInputColor extends NgtObjectProps<Mesh> implements UIInput {
+export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewInit, UIInput {
   private _value = ButtonColor;
   @Input()
   get value(): string { return this._value }
@@ -25,7 +25,27 @@ export class FlatUIInputColor extends NgtObjectProps<Mesh> implements UIInput {
   @Input() text = '';
 
   @Input() enabled = true;
-  @Input() width = 0.4;
+
+  private _width = 0.4;
+  @Input()
+  get width() { return this._width }
+  set width(newvalue: number) {
+    this._width = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: WIDTH_CHANGED_EVENT });
+    }
+  }
+
+  private _height = 0.1;
+  @Input()
+  get height() { return this._height }
+  set height(newvalue: number) {
+    this._height = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
+    }
+  }
+
 
   @Input() buttoncolor = ButtonColor;
   @Input() hovercolor = HoverColor;
@@ -47,7 +67,7 @@ export class FlatUIInputColor extends NgtObjectProps<Mesh> implements UIInput {
 
     if (!this.geometry) {
       const flat = new Shape();
-      roundedRect(flat, 0, 0, this.width, 0.1, 0.02);
+      roundedRect(flat, 0, 0, this.width, this.height, 0.02);
 
       this.geometry = new ShapeGeometry(flat);
       this.geometry.center();
@@ -70,6 +90,15 @@ export class FlatUIInputColor extends NgtObjectProps<Mesh> implements UIInput {
     this.geometry.dispose();
     this.material.dispose();
   }
+
+  ngAfterViewInit(): void {
+    this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
+      e.width = this.width;
+      e.height = this.height;
+      e.updated = true;
+    });
+  }
+
 
   private mesh!: Mesh;
 

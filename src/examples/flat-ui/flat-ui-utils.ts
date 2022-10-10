@@ -1,6 +1,10 @@
 import { EventEmitter } from "@angular/core";
 import { Object3D, Shape, Vector3 } from "three";
 
+export const HEIGHT_CHANGED_EVENT = 'heightchanged';
+export const WIDTH_CHANGED_EVENT = 'widthchanged';
+export const LAYOUT_EVENT = 'layout';
+
 export const LabelColor = 'white';
 export const ButtonColor = '#505050';
 export const HoverColor = 'blue';
