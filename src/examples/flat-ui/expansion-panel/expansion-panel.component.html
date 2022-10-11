@@ -1,0 +1,29 @@
+<ngt-group [name]="name" [visible]="visible" [ngtObjectPassThrough]="this"
+           [position]="position" [rotation]="rotation" [scale]="scale">
+
+  <ngt-group [position]="[0, height/2-titleheight/2, 0]">
+    <ngt-mesh [material]="titlematerial" [position]="[titleheight/2, 0, 0]"
+              (ready)="meshready($event)">
+
+      <ngt-plane-geometry [args]="[width-titleheight-0.04, titleheight]"></ngt-plane-geometry>
+    </ngt-mesh>
+
+    <ngt-group [position]="[titleheight/2, 0, 0]">
+
+      <flat-ui-button [position]="[-width/2+0.01, 0, 0.001]" [text]="expanded ? 'v' : '>'" [width]="titleheight" [height]="titleheight" (pressed)="expanded=!expanded"></flat-ui-button>
+
+      <ngt-soba-text [text]="displaytitle" [color]="labelcolor" [fontSize]="0.09" [anchorX]="'left'" [position]="[-width/2+titleheight/2+0.04, 0, 0.0001]"></ngt-soba-text>
+    </ngt-group>
+
+    <ngt-mesh #parent *ngIf="expanded" [position]="[0, -height/2, 0]">
+      <ngt-plane-geometry [args]="[width, height-titleheight]"></ngt-plane-geometry>
+      <ngt-mesh-standard-material [color]="panelcolor"></ngt-mesh-standard-material>
+
+      <ng-container *ngIf="templateRef"
+                    [ngTemplateOutlet]="templateRef"
+                    [ngTemplateOutletContext]="{ parent: parent.instance.value }"></ng-container>
+    </ngt-mesh>
+  </ngt-group>
+
+</ngt-group>
+

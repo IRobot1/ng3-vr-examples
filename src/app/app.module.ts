@@ -134,6 +134,7 @@ import { FlatUIRadioButton } from '../examples/flat-ui/radio-button/radio-button
 import { FlatUISelect } from '../examples/flat-ui/select/select.component';
 import { HorizontalLayoutDirective } from '../examples/flat-ui/horizontal-layout.directive';
 import { VerticalLayoutDirective } from '../examples/flat-ui/vertical-layout.directive';
+import { FlatUIExpansionPanel } from '../examples/flat-ui/expansion-panel/expansion-panel.component';
 
 
 @NgModule({
@@ -267,6 +268,7 @@ import { VerticalLayoutDirective } from '../examples/flat-ui/vertical-layout.dir
     FlatUINumpad,
 
     FlatUIDragPanel,
+    FlatUIExpansionPanel,
 
     HorizontalLayoutDirective,
     VerticalLayoutDirective,

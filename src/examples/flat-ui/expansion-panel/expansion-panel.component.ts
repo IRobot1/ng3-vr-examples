@@ -1,0 +1,96 @@
+import { AfterViewInit, Component, ContentChild, Input, TemplateRef } from "@angular/core";
+
+import { Mesh, MeshBasicMaterial, Object3D } from "three";
+import { NgtObjectProps } from "@angular-three/core";
+
+import { HEIGHT_CHANGED_EVENT, LabelColor, LAYOUT_EVENT, PanelColor, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { InteractiveObjects } from "../interactive-objects";
+
+@Component({
+  selector: 'flat-ui-expansion-panel',
+  exportAs: 'flatUIIconExpansionPanel',
+  templateUrl: './expansion-panel.component.html',
+})
+export class FlatUIExpansionPanel extends NgtObjectProps<Mesh> implements AfterViewInit {
+  @Input() title = '';
+  @Input() overflow = 24;
+
+  titleheight = 0.1;
+
+  private _width = 1;
+  @Input()
+  get width() { return this._width }
+  set width(newvalue: number) {
+    this._width = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: WIDTH_CHANGED_EVENT });
+    }
+  }
+
+  private _height = 1;
+  @Input()
+  get height() {
+    let height = this.titleheight;
+    if (this.expanded) height += this._height;
+    return height
+  }
+
+  set height(newvalue: number) {
+    this._height = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
+    }
+  }
+
+  private _expanded = true;
+  @Input()
+  get expanded(): boolean { return this._expanded }
+  set expanded(newvalue: boolean) {
+    this._expanded = newvalue;
+    if (this.mesh) {
+      this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
+    }
+  }
+
+  @Input() panelcolor = PanelColor;
+  @Input() labelcolor = LabelColor;
+
+
+  @Input() selectable?: InteractiveObjects;
+
+  titlematerial!: MeshBasicMaterial;
+
+  get displaytitle(): string { return this.title.slice(0, this.overflow * this.width); }
+
+  @ContentChild(TemplateRef) templateRef?: TemplateRef<unknown>;
+
+
+  override preInit() {
+    super.preInit();
+
+    this.titlematerial = new MeshBasicMaterial({ color: this.panelcolor, transparent: true, opacity: 0.1 });
+  }
+  override ngOnDestroy() {
+    super.ngOnDestroy();
+
+    this.selectable?.remove(this.mesh);
+
+    this.titlematerial.dispose();
+  }
+
+  ngAfterViewInit(): void {
+    this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
+      e.width = this.width;
+      e.height = this.height;
+      e.updated = true;
+    });
+  }
+
+  private mesh!: Object3D;
+
+  meshready(mesh: Object3D) {
+    this.selectable?.add(mesh);
+
+    this.mesh = mesh;
+  }
+}

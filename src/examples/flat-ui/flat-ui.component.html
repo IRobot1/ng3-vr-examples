@@ -55,11 +55,28 @@
   <ng-template let-parent="parent">
     <ngt-group vertical-layout [margin]="[0, 0.02, 0]" [appendTo]="parent" [position]="[-0.5, 0.5, 0.002]">
 
-      <ngt-group horizontal-layout  [margin]="[0.01, 0, 0]">
+      <ngt-group horizontal-layout>
+        <flat-ui-expansion-panel [title]="'Folder1'" [height]="panelheight" [panelcolor]="panelcolor">
+          <ng-template let-parent="parent">
+            <ngt-group vertical-layout [margin]="[0, 0.02, 0]" [appendTo]="parent" [position]="[-0.5, panelheight/2, 0.002]">
+
+              <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
+                <flat-ui-label [text]="'icon button'" [width]="0.6"></flat-ui-label>
+                <flat-ui-icon-button [svg]="svg" [enabled]="false" (pressed)="clicked($event)" [selectable]="selectable"></flat-ui-icon-button>
+                <flat-ui-icon-button [url]="'assets/webgl.svg'" [iconcolor]="'#990000'" [selectable]="selectable" (pressed)="clicked($event)"></flat-ui-icon-button>
+              </ngt-group>
+
+              </ngt-group>
+            </ng-template>
+
+        </flat-ui-expansion-panel>
+      </ngt-group>
+
+      <!--<ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
         <flat-ui-label [text]="'icon button'" [width]="0.6"></flat-ui-label>
         <flat-ui-icon-button [svg]="svg" [enabled]="false" (pressed)="clicked($event)" [selectable]="selectable"></flat-ui-icon-button>
         <flat-ui-icon-button [url]="'assets/webgl.svg'" [iconcolor]="'#990000'" [selectable]="selectable" (pressed)="clicked($event)"></flat-ui-icon-button>
-      </ngt-group>
+      </ngt-group>-->
 
       <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
         <flat-ui-label [text]="'boolean'" [width]="0.5"></flat-ui-label>
