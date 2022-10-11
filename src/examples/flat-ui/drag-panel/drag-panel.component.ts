@@ -31,6 +31,7 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   @Input() locked = false;
   @Input() showexpand = true;
   @Input() showclose = true;
+  @Input() resizable = true;
 
   @Output() close = new EventEmitter<boolean>();
 
@@ -97,6 +98,7 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     const scene = this.store.get(s => s.scene);
 
     mesh.addEventListener('pointerdown', (e: any) => {
+      if (this.locked) return;
       this.dragging = true;
       panel.lookAt(camera.position);
       e.controller.attach(panel);
@@ -104,6 +106,7 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     });
 
     const dragend = () => {
+      if (this.locked) return;
       this.dragging = false;
       scene.attach(panel);
       this.out();
