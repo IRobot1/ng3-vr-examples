@@ -16,6 +16,7 @@ export class FlatUIExample implements AfterViewInit {
   selectable = new InteractiveObjects();;
 
   panelheight = 0.4;
+  showimage = true;
 
   checked = false;
   textvalue = 'string';

@@ -29,6 +29,8 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   @Input() labelcolor = LabelColor;
 
   @Input() locked = false;
+  @Input() showexpand = true;
+  @Input() showclose = true;
 
   @Output() close = new EventEmitter<boolean>();
 
