@@ -1,9 +1,11 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, DoubleSide, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Side, Vector3 } from "three";
+import { BufferGeometry, DoubleSide, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Side } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, HEIGHT_CHANGED_EVENT, HoverColor, LAYOUT_EVENT, roundedRect, SelectColor, StringColor, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
+
 import { InteractiveObjects } from "../interactive-objects";
 
 @Component({
@@ -11,18 +13,52 @@ import { InteractiveObjects } from "../interactive-objects";
   exportAs: 'flatUISelect',
   templateUrl: './select.component.html',
 })
-export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit, UIInput{
+export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit, UIInput {
   @Input() text = '';
-  @Input() overflow = 24; 
+  @Input() overflow = 24;
 
   @Input() enabled = true;
 
-  @Input() textcolor = StringColor;
-  @Input() selectcolor = SelectColor;
-  @Input() buttoncolor = ButtonColor;
-  @Input() hovercolor = HoverColor;
+  private _buttoncolor?: string;
+  @Input()
+  get buttoncolor(): string {
+    if (this._buttoncolor) return this._buttoncolor;
+    return GlobalFlatUITheme.ButtonColor;
+  }
+  set buttoncolor(newvalue: string) {
+    this._buttoncolor = newvalue;
+  }
 
-    private _width = 1;
+  private _hovercolor?: string;
+  @Input()
+  get hovercolor(): string {
+    if (this._hovercolor) return this._hovercolor;
+    return GlobalFlatUITheme.HoverColor;
+  }
+  set hovercolor(newvalue: string) {
+    this._hovercolor = newvalue;
+  }
+
+  private _textcolor?: string;
+  @Input()
+  get textcolor(): string {
+    if (this._textcolor) return this._textcolor;
+    return GlobalFlatUITheme.StringColor;
+  }
+  set textcolor(newvalue: string) {
+    this._textcolor = newvalue;
+  }
+  private _selectcolor?: string;
+  @Input()
+  get selectcolor(): string {
+    if (this._selectcolor) return this._selectcolor;
+    return GlobalFlatUITheme.SelectColor;
+  }
+  set selectcolor(newvalue: string) {
+    this._selectcolor = newvalue;
+  }
+
+  private _width = 1;
   @Input()
   get width() { return this._width }
   set width(newvalue: number) {
@@ -61,7 +97,7 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
     super.preInit();
 
     const flat = new Shape();
-    roundedRect(flat, 0, 0, this.width+0.1, this.height, 0.02);
+    roundedRect(flat, 0, 0, this.width + 0.1, this.height, 0.02);
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
@@ -84,6 +120,10 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
       e.height = this.height;
       e.updated = true;
     });
+
+    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
+      this.material.color.setStyle(this.buttoncolor);
+    })
   }
 
 

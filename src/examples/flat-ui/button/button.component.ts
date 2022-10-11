@@ -3,7 +3,8 @@ import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/
 import { BufferGeometry, DoubleSide, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, ButtonLabelColor, ClickColor, HEIGHT_CHANGED_EVENT, HoverColor, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { THEME_CHANGE_EVENT, GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 
@@ -38,10 +39,45 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
   @Input() enabled = true;
   @Input() active = false;
 
-  @Input() buttoncolor = ButtonColor;
-  @Input() hovercolor = HoverColor;
-  @Input() clickcolor = ClickColor;
-  @Input() labelcolor = ButtonLabelColor;
+  private _buttoncolor?: string;
+  @Input()
+  get buttoncolor(): string {
+    if (this._buttoncolor) return this._buttoncolor;
+    return GlobalFlatUITheme.ButtonColor;
+  }
+  set buttoncolor(newvalue: string) {
+    this._buttoncolor = newvalue;
+  }
+
+  private _hovercolor?: string;
+  @Input()
+  get hovercolor(): string {
+    if (this._hovercolor) return this._hovercolor;
+    return GlobalFlatUITheme.HoverColor;
+  }
+  set hovercolor(newvalue: string) {
+    this._hovercolor = newvalue;
+  }
+    
+  private _clickcolor?: string;
+  @Input()
+  get clickcolor(): string {
+    if (this._clickcolor) return this._clickcolor;
+    return GlobalFlatUITheme.ClickColor;
+  }
+  set clickcolor(newvalue: string) {
+    this._clickcolor = newvalue;
+  }
+
+  private _labelcolor?: string;
+  @Input()
+  get labelcolor(): string {
+    if (this._labelcolor) return this._labelcolor;
+    return  GlobalFlatUITheme.ButtonLabelColor;
+  }
+  set labelcolor(newvalue: string) {
+    this._labelcolor = newvalue;
+  }
 
   @Input() opacity = 0.5;
   @Input() transparent = true;
@@ -88,6 +124,10 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
       e.height = this.height;
       e.updated = true;
     });
+
+    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
+      this.material.color.setStyle(this.buttoncolor);
+    })
   }
 
   meshready(mesh: Mesh) {

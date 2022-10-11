@@ -3,7 +3,9 @@ import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/
 import { BufferGeometry, DoubleSide, Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Side } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, HEIGHT_CHANGED_EVENT, HoverColor, LAYOUT_EVENT, roundedRect, ToggleFalseColor, ToggleTrueColor, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
+
 import { InteractiveObjects } from "../interactive-objects";
 
 @Component({
@@ -26,10 +28,43 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterView
 
   @Input() enabled = true;
 
-  @Input() buttoncolor = ButtonColor;
-  @Input() hovercolor = HoverColor;
-  @Input() falsecolor = ToggleFalseColor;
-  @Input() truecolor = ToggleTrueColor;
+  private _buttoncolor?: string;
+  @Input()
+  get buttoncolor(): string {
+    if (this._buttoncolor) return this._buttoncolor;
+    return GlobalFlatUITheme.ButtonColor;
+  }
+  set buttoncolor(newvalue: string) {
+    this._buttoncolor = newvalue;
+  }
+
+  private _hovercolor?: string;
+  @Input()
+  get hovercolor(): string {
+    if (this._hovercolor) return this._hovercolor;
+    return GlobalFlatUITheme.HoverColor;
+  }
+  set hovercolor(newvalue: string) {
+    this._hovercolor = newvalue;
+  }
+  private _falsecolor?: string;
+  @Input()
+  get falsecolor(): string {
+    if (this._falsecolor) return this._falsecolor;
+    return GlobalFlatUITheme.ToggleFalseColor;
+  }
+  set falsecolor(newvalue: string) {
+    this._falsecolor = newvalue;
+  }
+  private _truecolor?: string;
+  @Input()
+  get truecolor(): string {
+    if (this._truecolor) return this._truecolor;
+    return GlobalFlatUITheme.ToggleTrueColor;
+  }
+  set truecolor(newvalue: string) {
+    this._truecolor = newvalue;
+  }
 
   private _width = 0.2;
   @Input()
@@ -72,7 +107,7 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterView
       this.geometry.center();
     }
     if (!this.material) {
-      this.material = new MeshBasicMaterial({ color: ButtonColor, side: this.side, opacity: 0.5, transparent: true });
+      this.material = new MeshBasicMaterial({ color: this.buttoncolor, side: this.side, opacity: 0.5, transparent: true });
     }
   }
 
@@ -92,6 +127,10 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterView
       e.height = this.height;
       e.updated = true;
     });
+
+    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
+      this.material.color.setStyle(this.buttoncolor);
+    })
   }
 
   private mesh!: Mesh;

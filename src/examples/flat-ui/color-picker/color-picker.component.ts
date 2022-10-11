@@ -3,8 +3,10 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { CanvasTexture, Intersection, MathUtils, Mesh, MeshBasicMaterial, Object3D, sRGBEncoding } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, PopupColor } from "../flat-ui-utils";
+import { GlobalFlatUITheme } from "../flat-ui-theme";
+
 import { InteractiveObjects } from "../interactive-objects";
+
 
 //
 // adapted from https://github.com/NikLever/CanvasUI/blob/dev/examples/jsm/CanvasColorPicker.js
@@ -18,7 +20,15 @@ import { InteractiveObjects } from "../interactive-objects";
 export class FlatUIColorPicker extends NgtObjectProps<Mesh> {
   @Input() colorvalue = '#ff0000';
 
-  @Input() popupcolor = PopupColor;
+  private _popupcolor?: string;
+  @Input()
+  get popupcolor(): string {
+    if (this._popupcolor) return this._popupcolor;
+    return GlobalFlatUITheme.PopupColor;
+  }
+  set popupcolor(newvalue: string) {
+    this._popupcolor = newvalue;
+  }
 
   @Input() selectable?: InteractiveObjects;
 

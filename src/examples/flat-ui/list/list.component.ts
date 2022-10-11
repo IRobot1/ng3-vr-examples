@@ -3,7 +3,9 @@ import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/
 import { BufferGeometry, DoubleSide, Group, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps, NgtTriple } from "@angular-three/core";
 
-import { ButtonColor, LabelColor, PanelColor, PopupColor, roundedRect } from "../flat-ui-utils";
+import { roundedRect } from "../flat-ui-utils";
+import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
+
 import { InteractiveObjects } from "../interactive-objects";
 
 
@@ -41,7 +43,16 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
   @Input() width = 1;
   @Input() height = 1;
 
-  @Input() popupcolor = PopupColor;
+  private _popupcolor?: string;
+  @Input()
+  get popupcolor(): string {
+    if (this._popupcolor) return this._popupcolor;
+    return GlobalFlatUITheme.PopupColor;
+  }
+  set popupcolor(newvalue: string) {
+    this._popupcolor = newvalue;
+  }
+
 
   @Input() selectable?: InteractiveObjects;
 
@@ -114,6 +125,10 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
       this.listindex = this.selectedindex;
 
     this.renderlist();
+
+    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
+      this.material.color.setStyle(this.popupcolor);
+    })
   }
 
   renderlist() {

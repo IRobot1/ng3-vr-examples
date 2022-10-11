@@ -7,7 +7,9 @@ import { SVGLoader, SVGResult } from "three-stdlib";
 
 import { BufferGeometryUtils } from "../../svg/BufferGeometryUtils";
 
-import { ButtonColor, ClickColor, HEIGHT_CHANGED_EVENT, HoverColor, IconColor, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { THEME_CHANGE_EVENT, GlobalFlatUITheme } from "../flat-ui-theme";
+
 import { InteractiveObjects } from "../interactive-objects";
 
 
@@ -30,10 +32,44 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
     }
   }
 
-  @Input() buttoncolor = ButtonColor;
-  @Input() hovercolor = HoverColor;
-  @Input() clickcolor = ClickColor;
-  @Input() iconcolor = IconColor;
+  private _buttoncolor?: string;
+  @Input()
+  get buttoncolor(): string {
+    if (this._buttoncolor) return this._buttoncolor;
+    return GlobalFlatUITheme.ButtonColor;
+  }
+  set buttoncolor(newvalue: string) {
+    this._buttoncolor = newvalue;
+  }
+
+  private _hovercolor?: string;
+  @Input()
+  get hovercolor(): string {
+    if (this._hovercolor) return this._hovercolor;
+    return GlobalFlatUITheme.HoverColor;
+  }
+  set hovercolor(newvalue: string) {
+    this._hovercolor = newvalue;
+  }
+
+  private _clickcolor?: string;
+  @Input()
+  get clickcolor(): string {
+    if (this._clickcolor) return this._clickcolor;
+    return GlobalFlatUITheme.ClickColor;
+  }
+  set clickcolor(newvalue: string) {
+    this._clickcolor = newvalue;
+  }
+  private _iconcolor?: string;
+  @Input()
+  get iconcolor(): string {
+    if (this._iconcolor) return this._iconcolor;
+    return GlobalFlatUITheme.IconColor;
+  }
+  set iconcolor(newvalue: string) {
+    this._iconcolor = newvalue;
+  }
 
 
   @Input() svggeometry!: BufferGeometry;
@@ -78,6 +114,10 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
       e.height = this.width;
       e.updated = true;
     });
+
+    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
+      this.material.color.setStyle(this.buttoncolor);
+    })
   }
 
   private mesh!: Mesh;

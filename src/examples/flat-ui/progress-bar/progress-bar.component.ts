@@ -3,7 +3,8 @@ import { AfterViewInit, Component, Input } from "@angular/core";
 import { BufferGeometry, DoubleSide, MathUtils, Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Side } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, ProgressColor, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
 
 @Component({
   selector: 'flat-ui-progress-bar',
@@ -52,8 +53,26 @@ export class FlatUIProgressBar extends NgtObjectProps<Mesh> implements AfterView
 
   @Input() progressheight = 0.08;
 
-  @Input() buttoncolor = ButtonColor;
-  @Input() progresscolor = ProgressColor;
+  private _buttoncolor?: string;
+  @Input()
+  get buttoncolor(): string {
+    if (this._buttoncolor) return this._buttoncolor;
+    return GlobalFlatUITheme.ButtonColor;
+  }
+  set buttoncolor(newvalue: string) {
+    this._buttoncolor = newvalue;
+  }
+  private _progresscolor?: string;
+  @Input()
+  get progresscolor(): string {
+    if (this._progresscolor) return this._progresscolor;
+    return GlobalFlatUITheme.ProgressColor;
+  }
+  set progresscolor(newvalue: string) {
+    this._progresscolor = newvalue;
+  }
+
+
 
   geometry!: BufferGeometry;
   material!: MeshBasicMaterial;
@@ -72,7 +91,7 @@ export class FlatUIProgressBar extends NgtObjectProps<Mesh> implements AfterView
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
 
-    this.material = new MeshBasicMaterial({ color: ButtonColor, side: this.side, opacity: 0.5, transparent: true });
+    this.material = new MeshBasicMaterial({ color: this.buttoncolor, side: this.side, opacity: 0.5, transparent: true });
   }
 
   override ngOnDestroy() {
@@ -88,6 +107,10 @@ export class FlatUIProgressBar extends NgtObjectProps<Mesh> implements AfterView
       e.height = this.height;
       e.updated = true;
     });
+
+    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
+      this.material.color.setStyle(this.buttoncolor);
+    })
   }
 
   private mesh!: Mesh;

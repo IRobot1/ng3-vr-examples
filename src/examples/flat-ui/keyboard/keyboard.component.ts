@@ -3,7 +3,8 @@ import { Component, EventEmitter, HostListener, Input, Output } from "@angular/c
 import { BufferGeometry, DoubleSide, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps, NgtTriple } from "@angular-three/core";
 
-import { ButtonColor, PanelColor, PopupColor, roundedRect } from "../flat-ui-utils";
+import { roundedRect } from "../flat-ui-utils";
+import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 
@@ -27,7 +28,16 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
 
   @Input() selectable?: InteractiveObjects;
 
-  @Input() keyboardcolor = PopupColor;
+  private _keyboardcolor?: string;
+  @Input()
+  get keyboardcolor(): string {
+    if (this._keyboardcolor) return this._keyboardcolor;
+    return GlobalFlatUITheme.PopupColor;
+  }
+  set keyboardcolor(newvalue: string) {
+    this._keyboardcolor = newvalue;
+  }
+
 
   @Output() pressed = new EventEmitter<string>();
   @Output() change = new EventEmitter<string>();
@@ -72,6 +82,10 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
   private mesh!: Mesh;
 
   meshready(mesh: Mesh) {
+    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
+      this.material.color.setStyle(this.keyboardcolor);
+    })
+
     const top = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p']
     const topalpha = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
     const middle = ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l']

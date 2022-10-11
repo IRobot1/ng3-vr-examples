@@ -3,7 +3,9 @@ import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/
 import { BufferGeometry, DoubleSide, Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Side } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, CheckColor, HEIGHT_CHANGED_EVENT, HoverColor, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { THEME_CHANGE_EVENT, GlobalFlatUITheme } from "../flat-ui-theme";
+
 import { InteractiveObjects } from "../interactive-objects";
 
 @Component({
@@ -11,7 +13,7 @@ import { InteractiveObjects } from "../interactive-objects";
   exportAs: 'flatUIInputCheckbox',
   templateUrl: './input-checkbox.component.html',
 })
-export class FlatUIInputCheckbox extends NgtObjectProps<Mesh> implements AfterViewInit{
+export class FlatUIInputCheckbox extends NgtObjectProps<Mesh> implements AfterViewInit {
   private _checked = false;
   @Input()
   get checked(): boolean { return this._checked }
@@ -33,18 +35,44 @@ export class FlatUIInputCheckbox extends NgtObjectProps<Mesh> implements AfterVi
     }
   }
 
-  @Input() buttoncolor = ButtonColor;
-  @Input() hovercolor = HoverColor;
+  private _buttoncolor?: string;
+  @Input()
+  get buttoncolor(): string {
+    if (this._buttoncolor) return this._buttoncolor;
+    return GlobalFlatUITheme.ButtonColor;
+  }
+  set buttoncolor(newvalue: string) {
+    this._buttoncolor = newvalue;
+  }
+
+  private _hovercolor?: string;
+  @Input()
+  get hovercolor(): string {
+    if (this._hovercolor) return this._hovercolor;
+    return GlobalFlatUITheme.HoverColor;
+  }
+  set hovercolor(newvalue: string) {
+    this._hovercolor = newvalue;
+  }
+
+  private _truecolor?: string;
+  @Input()
+  get truecolor(): string {
+    if (this._truecolor) return this._truecolor;
+    return GlobalFlatUITheme.CheckColor;
+  }
+  set truecolor(newvalue: string) {
+    this._truecolor = newvalue;
+  }
 
   @Input() enabled = true;
-  @Input() truecolor = CheckColor;
-
-  @Input() geometry!: BufferGeometry;
-  @Input() material!: MeshBasicMaterial;
 
   @Input() selectable?: InteractiveObjects;
 
   @Output() change = new EventEmitter<boolean>();
+
+  geometry!: BufferGeometry;
+  material!: MeshBasicMaterial;
 
   side: Side = DoubleSide;
 
@@ -53,16 +81,12 @@ export class FlatUIInputCheckbox extends NgtObjectProps<Mesh> implements AfterVi
   override preInit() {
     super.preInit();
 
-    if (!this.geometry) {
-      const flat = new Shape();
-      roundedRect(flat, 0, 0, this.width, this.width, 0.02);
+    const flat = new Shape();
+    roundedRect(flat, 0, 0, this.width, this.width, 0.02);
 
-      this.geometry = new ShapeGeometry(flat);
-      this.geometry.center();
-    }
-    if (!this.material) {
-      this.material = new MeshBasicMaterial({ color: this.buttoncolor, side: this.side, opacity: 0.5, transparent: true });
-    }
+    this.geometry = new ShapeGeometry(flat);
+    this.geometry.center();
+    this.material = new MeshBasicMaterial({ color: this.buttoncolor, side: this.side, opacity: 0.5, transparent: true });
   }
 
   override ngOnDestroy() {
@@ -81,6 +105,10 @@ export class FlatUIInputCheckbox extends NgtObjectProps<Mesh> implements AfterVi
       e.height = this.width;
       e.updated = true;
     });
+
+    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
+      this.material.color.setStyle(this.buttoncolor);
+    })
   }
 
   private mesh!: Mesh;

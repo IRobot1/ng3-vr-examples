@@ -3,7 +3,8 @@ import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/
 import { DoubleSide, Mesh, MeshBasicMaterial, Side } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, HEIGHT_CHANGED_EVENT, HoverColor, LAYOUT_EVENT, RadioTrueColor, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 
@@ -18,9 +19,34 @@ export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterView
 
   @Input() enabled = true;
 
-  @Input() truecolor = RadioTrueColor;
-  @Input() hovercolor = HoverColor;
-  @Input() buttoncolor = ButtonColor;
+  private _buttoncolor?: string;
+  @Input()
+  get buttoncolor(): string {
+    if (this._buttoncolor) return this._buttoncolor;
+    return GlobalFlatUITheme.ButtonColor;
+  }
+  set buttoncolor(newvalue: string) {
+    this._buttoncolor = newvalue;
+  }
+
+  private _hovercolor?: string;
+  @Input()
+  get hovercolor(): string {
+    if (this._hovercolor) return this._hovercolor;
+    return GlobalFlatUITheme.HoverColor;
+  }
+  set hovercolor(newvalue: string) {
+    this._hovercolor = newvalue;
+  }
+  private _truecolor?: string;
+  @Input()
+  get truecolor(): string {
+    if (this._truecolor) return this._truecolor;
+    return GlobalFlatUITheme.RadioTrueColor;
+  }
+  set truecolor(newvalue: string) {
+    this._truecolor = newvalue;
+  }
 
   private _width = 0.1;
   @Input()
@@ -64,9 +90,11 @@ export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterView
       e.height = this.width;
       e.updated = true;
     });
+
+    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
+      this.material.color.setStyle(this.buttoncolor);
+    })
   }
-
-
 
   private mesh!: Mesh;
 

@@ -3,8 +3,10 @@ import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/
 import { BufferGeometry, DoubleSide, Material, MathUtils, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, HEIGHT_CHANGED_EVENT, HoverColor, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+
 import { InteractiveObjects } from "../interactive-objects";
+import { THEME_CHANGE_EVENT, GlobalFlatUITheme } from "../flat-ui-theme";
 
 @Component({
   selector: 'flat-ui-input-color',
@@ -12,7 +14,7 @@ import { InteractiveObjects } from "../interactive-objects";
   templateUrl: './input-color.component.html',
 })
 export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewInit, UIInput {
-  private _value = ButtonColor;
+  private _value = GlobalFlatUITheme.ButtonColor;
   @Input()
   get value(): string { return this._value }
   set value(newvalue: string) {
@@ -47,8 +49,25 @@ export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewI
   }
 
 
-  @Input() buttoncolor = ButtonColor;
-  @Input() hovercolor = HoverColor;
+  private _buttoncolor?: string;
+  @Input()
+  get buttoncolor(): string {
+    if (this._buttoncolor) return this._buttoncolor;
+    return GlobalFlatUITheme.ButtonColor;
+  }
+  set buttoncolor(newvalue: string) {
+    this._buttoncolor = newvalue;
+  }
+
+  private _hovercolor?: string;
+  @Input()
+  get hovercolor(): string {
+    if (this._hovercolor) return this._hovercolor;
+    return GlobalFlatUITheme.HoverColor;
+  }
+  set hovercolor(newvalue: string) {
+    this._hovercolor = newvalue;
+  }
 
   @Input() selectable?: InteractiveObjects;
 
@@ -97,6 +116,10 @@ export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewI
       e.height = this.height;
       e.updated = true;
     });
+
+    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
+      this.material.color.setStyle(this.buttoncolor);
+    })
   }
 
 

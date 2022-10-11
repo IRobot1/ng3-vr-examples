@@ -3,7 +3,8 @@ import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef } fro
 import { BufferGeometry, Intersection, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Vector3 } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
-import { HoverColor, LabelColor, PanelColor } from "../flat-ui-utils";
+import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
+
 import { InteractiveObjects } from "../interactive-objects";
 
 @Component({
@@ -25,8 +26,35 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
 
   @Input() selectable?: InteractiveObjects;
 
-  @Input() panelcolor = PanelColor;
-  @Input() labelcolor = LabelColor;
+  private _panelcolor?: string;
+  @Input()
+  get panelcolor(): string {
+    if (this._panelcolor) return this._panelcolor;
+    return GlobalFlatUITheme.PanelColor;
+  }
+  set panelcolor(newvalue: string) {
+    this._panelcolor = newvalue;
+  }
+
+  private _hovercolor?: string;
+  @Input()
+  get hovercolor(): string {
+    if (this._hovercolor) return this._hovercolor;
+    return GlobalFlatUITheme.HoverColor;
+  }
+  set hovercolor(newvalue: string) {
+    this._hovercolor = newvalue;
+  }
+
+  private _labelcolor?: string;
+  @Input()
+  get labelcolor(): string {
+    if (this._labelcolor) return this._labelcolor;
+    return GlobalFlatUITheme.LabelColor;
+  }
+  set labelcolor(newvalue: string) {
+    this._labelcolor = newvalue;
+  }
 
   @Input() locked = false;
   @Input() showexpand = true;
@@ -55,7 +83,7 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
 
     this.geometry = new ShapeGeometry(corner);
 
-    this.titlematerial = new MeshBasicMaterial({ color: this.panelcolor, transparent: true, opacity: 0.1 });
+    this.titlematerial = new MeshBasicMaterial({ color: this.panelcolor, transparent: true, opacity: 0.3 });
   }
 
   override ngOnDestroy() {
@@ -68,6 +96,11 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   }
 
   panelready(panel: Mesh) {
+
+    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
+      this.titlematerial.color.setStyle(this.panelcolor);
+    })
+
     panel.visible = false;
     // when expanding, hide long enough for layout to complete once
     const timer = setTimeout(() => {
@@ -80,7 +113,7 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   over() {
     if (this.locked) return;
     if (this.isover) return;
-    this.titlematerial.color.setStyle('white');
+    this.titlematerial.color.setStyle(this.hovercolor);
     this.isover = true;
   }
   out() {

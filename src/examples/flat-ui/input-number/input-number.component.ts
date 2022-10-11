@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, DoubleSide, MathUtils, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Vector3 } from "three";
+import { BufferGeometry, DoubleSide, MathUtils, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, HEIGHT_CHANGED_EVENT, HoverColor, LAYOUT_EVENT, NumberColor, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { THEME_CHANGE_EVENT, GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 
@@ -37,9 +38,34 @@ private _text = '';
 
   @Input() enabled = true;
 
-  @Input() numbercolor = NumberColor;
-  @Input() buttoncolor = ButtonColor;
-  @Input() hovercolor = HoverColor;
+  private _buttoncolor?: string;
+  @Input()
+  get buttoncolor(): string {
+    if (this._buttoncolor) return this._buttoncolor;
+    return GlobalFlatUITheme.ButtonColor;
+  }
+  set buttoncolor(newvalue: string) {
+    this._buttoncolor = newvalue;
+  }
+
+  private _hovercolor?: string;
+  @Input()
+  get hovercolor(): string {
+    if (this._hovercolor) return this._hovercolor;
+    return GlobalFlatUITheme.HoverColor;
+  }
+  set hovercolor(newvalue: string) {
+    this._hovercolor = newvalue;
+  }
+  private _numbercolor?: string;
+  @Input()
+  get numbercolor(): string {
+    if (this._numbercolor) return this._numbercolor;
+    return GlobalFlatUITheme.NumberColor;
+  }
+  set numbercolor(newvalue: string) {
+    this._numbercolor = newvalue;
+  }
 
   @Input() selectable?: InteractiveObjects;
 
@@ -106,6 +132,10 @@ private _text = '';
       e.height = this.height;
       e.updated = true;
     });
+
+    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
+      this.material.color.setStyle(this.buttoncolor);
+    })
   }
 
 

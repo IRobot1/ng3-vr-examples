@@ -3,7 +3,8 @@ import { AfterViewInit, Component, Input } from "@angular/core";
 import { Object3D } from "three";
 import { NgtTriple } from "@angular-three/core";
 
-import { HEIGHT_CHANGED_EVENT, LabelColor, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 @Component({
   selector: 'flat-ui-label',
@@ -12,9 +13,18 @@ import { HEIGHT_CHANGED_EVENT, LabelColor, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } f
 })
 export class FlatUILabel implements AfterViewInit {
   @Input() text = '';
-  @Input() color = LabelColor;
   @Input() font = ''; // for example, https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff
   @Input() fontsize = 0.1;
+
+  private _color?: string;
+  @Input()
+  get color(): string {
+    if (this._color) return this._color;
+    return GlobalFlatUITheme.LabelColor;
+  }
+  set color(newvalue: string) {
+    this._color = newvalue;
+  }
 
   private _width = 1;
   @Input()

@@ -5,24 +5,6 @@ export const HEIGHT_CHANGED_EVENT = 'heightchanged';
 export const WIDTH_CHANGED_EVENT = 'widthchanged';
 export const LAYOUT_EVENT = 'layout';
 
-export const LabelColor = 'white';
-export const ButtonColor = '#505050';
-export const HoverColor = 'blue';
-export const ClickColor = 'cornflowerblue';
-export const ButtonLabelColor = 'white';
-export const NumberColor = 'cornflowerblue';
-export const StringColor = 'lime';
-export const CheckColor = 'cornflowerblue';
-export const SlideColor = 'yellow';
-export const ToggleFalseColor = 'white';
-export const ToggleTrueColor = 'cornflowerblue';
-export const RadioFalseColor = '#505050';
-export const RadioTrueColor = 'cornflowerblue';
-export const IconColor = 'white';
-export const PanelColor = 'black';
-export const PopupColor = 'gray';
-export const SelectColor = 'white';
-export const ProgressColor = 'green';
 
 export function roundedRect(ctx: Shape, x: number, y: number, width: number, height: number, radius: number) {
   ctx.moveTo(x, y + radius);

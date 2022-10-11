@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, DoubleSide, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Vector3 } from "three";
+import { BufferGeometry, DoubleSide, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, HEIGHT_CHANGED_EVENT, HoverColor, LAYOUT_EVENT, roundedRect, StringColor, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 
@@ -12,17 +13,41 @@ import { InteractiveObjects } from "../interactive-objects";
   exportAs: 'flatUIInputText',
   templateUrl: './input-text.component.html',
 })
-export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewInit, UIInput{
+export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewInit, UIInput {
   @Input() text = '';
-  @Input() overflow = 6; 
+  @Input() overflow = 6;
 
   @Input() enabled = true;
 
   @Input() selectable?: InteractiveObjects;
 
-  @Input() textcolor = StringColor;
-  @Input() buttoncolor = ButtonColor;
-  @Input() hovercolor = HoverColor;
+  private _buttoncolor?: string;
+  @Input()
+  get buttoncolor(): string {
+    if (this._buttoncolor) return this._buttoncolor;
+    return GlobalFlatUITheme.ButtonColor;
+  }
+  set buttoncolor(newvalue: string) {
+    this._buttoncolor = newvalue;
+  }
+  private _hovercolor?: string;
+  @Input()
+  get hovercolor(): string {
+    if (this._hovercolor) return this._hovercolor;
+    return GlobalFlatUITheme.HoverColor;
+  }
+  set hovercolor(newvalue: string) {
+    this._hovercolor = newvalue;
+  }
+  private _textcolor?: string;
+  @Input()
+  get textcolor(): string {
+    if (this._textcolor) return this._textcolor;
+    return GlobalFlatUITheme.StringColor;
+  }
+  set textcolor(newvalue: string) {
+    this._textcolor = newvalue;
+  }
 
   private _width = 0.5;
   @Input()
@@ -83,6 +108,10 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
       e.height = this.height;
       e.updated = true;
     });
+
+    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
+      this.material.color.setStyle(this.buttoncolor);
+    })
   }
 
 

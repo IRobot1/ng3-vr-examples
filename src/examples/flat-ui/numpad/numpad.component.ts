@@ -3,7 +3,8 @@ import { Component, EventEmitter, HostListener, Input, Output } from "@angular/c
 import { BufferGeometry, DoubleSide, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps, NgtTriple } from "@angular-three/core";
 
-import { ButtonColor, PanelColor, PopupColor, roundedRect } from "../flat-ui-utils";
+import { roundedRect } from "../flat-ui-utils";
+import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 
@@ -23,7 +24,16 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
 
   @Input() selectable?: InteractiveObjects;
 
-  @Input() popupcolor = PopupColor;
+  private _popupcolor?: string;
+  @Input()
+  get popupcolor(): string {
+    if (this._popupcolor) return this._popupcolor;
+    return GlobalFlatUITheme.PopupColor;
+  }
+  set popupcolor(newvalue: string) {
+    this._popupcolor = newvalue;
+  }
+
 
   @Output() pressed = new EventEmitter<string>();
   @Output() change = new EventEmitter<string>();
@@ -60,6 +70,10 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
   private mesh!: Mesh;
 
   meshready(mesh: Mesh) {
+    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
+      this.material.color.setStyle(this.popupcolor);
+    })
+
     const top = ['7', '8', '9']
     const middle = ['4', '5', '6']
     const bottom = ['1', '2', '3']

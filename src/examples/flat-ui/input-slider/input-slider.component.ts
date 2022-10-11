@@ -1,9 +1,10 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, DoubleSide, Intersection, MathUtils, Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Side, Vector3 } from "three";
+import { BufferGeometry, DoubleSide, Intersection, MathUtils, Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Side } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
-import { ButtonColor, HEIGHT_CHANGED_EVENT, HoverColor, LAYOUT_EVENT, roundedRect, SlideColor, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 
@@ -69,8 +70,36 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
 
 
   @Input() enabled = true;
-  @Input() buttoncolor = ButtonColor;
-  @Input() slidercolor = SlideColor;
+
+  private _buttoncolor?: string;
+  @Input()
+  get buttoncolor(): string {
+    if (this._buttoncolor) return this._buttoncolor;
+    return GlobalFlatUITheme.ButtonColor;
+  }
+  set buttoncolor(newvalue: string) {
+    this._buttoncolor = newvalue;
+  }
+
+  private _hovercolor?: string;
+  @Input()
+  get hovercolor(): string {
+    if (this._hovercolor) return this._hovercolor;
+    return GlobalFlatUITheme.HoverColor;
+  }
+  set hovercolor(newvalue: string) {
+    this._hovercolor = newvalue;
+  }
+
+  private _slidercolor?: string;
+  @Input()
+  get slidercolor(): string {
+    if (this._slidercolor) return this._slidercolor;
+    return GlobalFlatUITheme.SlideColor;
+  }
+  set slidercolor(newvalue: string) {
+    this._slidercolor = newvalue;
+  }
 
 
   @Input() selectable?: InteractiveObjects;
@@ -97,7 +126,7 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
       this.geometry.center();
     }
     if (!this.material) {
-      this.material = new MeshBasicMaterial({ color: ButtonColor, side: this.side, opacity: 0.5, transparent: true });
+      this.material = new MeshBasicMaterial({ color: this.buttoncolor, side: this.side, opacity: 0.5, transparent: true });
     }
   }
 
@@ -117,6 +146,10 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
       e.height = this.height;
       e.updated = true;
     });
+
+    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
+      this.material.color.setStyle(this.buttoncolor);
+    })
   }
 
   private mesh!: Mesh;
@@ -175,7 +208,7 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
     if (this.dragging) {
       this.doclicked(mesh, event);
     }
-    this.material.color.setStyle(HoverColor);
+    this.material.color.setStyle(this.hovercolor);
   }
 
   out() {

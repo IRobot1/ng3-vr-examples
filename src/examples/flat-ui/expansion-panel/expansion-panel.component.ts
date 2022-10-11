@@ -3,8 +3,11 @@ import { AfterViewInit, Component, ContentChild, Input, TemplateRef } from "@ang
 import { Group, Mesh, MeshBasicMaterial, Object3D } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
-import { HEIGHT_CHANGED_EVENT, LabelColor, LAYOUT_EVENT, PanelColor, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { GlobalFlatUITheme } from "../flat-ui-theme";
+
 import { InteractiveObjects } from "../interactive-objects";
+
 
 @Component({
   selector: 'flat-ui-expansion-panel',
@@ -64,8 +67,25 @@ export class FlatUIExpansionPanel extends NgtObjectProps<Mesh> implements AfterV
     this.panel.scale.y = newvalue ? 1 : 0;
   }
 
-  @Input() panelcolor = PanelColor;
-  @Input() labelcolor = LabelColor;
+  private _panelcolor?: string;
+  @Input()
+  get panelcolor(): string {
+    if (this._panelcolor) return this._panelcolor;
+    return GlobalFlatUITheme.PanelColor;
+  }
+  set panelcolor(newvalue: string) {
+    this._panelcolor = newvalue;
+  }
+
+  private _labelcolor?: string;
+  @Input()
+  get labelcolor(): string {
+    if (this._labelcolor) return this._labelcolor;
+    return GlobalFlatUITheme.LabelColor;
+  }
+  set labelcolor(newvalue: string) {
+    this._labelcolor = newvalue;
+  }
 
 
   @Input() selectable?: InteractiveObjects;
