@@ -21,7 +21,7 @@
   </ngt-group>
 
 
-  <ngt-mesh #parent *ngIf="expanded">
+  <ngt-mesh #parent *ngIf="expanded" (ready)="panelready($event)">
     <ngt-plane-geometry [args]="[width, height]"></ngt-plane-geometry>
     <ngt-mesh-standard-material [color]="panelcolor"></ngt-mesh-standard-material>
 

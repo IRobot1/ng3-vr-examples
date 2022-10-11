@@ -39,6 +39,6 @@ export class HorizontalLayoutDirective implements OnInit, OnDestroy {
 
     this.listentimer = setInterval(() => {
       this.panel.listen(group);
-    }, 250)
+    }, 125)
   }
 }

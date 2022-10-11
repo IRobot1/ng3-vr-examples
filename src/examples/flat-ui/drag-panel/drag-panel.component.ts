@@ -62,6 +62,15 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     this.titlematerial.dispose();
   }
 
+  panelready(panel: Mesh) {
+    panel.visible = false;
+    // when expanding, hide long enough for layout to complete once
+    const timer = setTimeout(() => {
+      panel.visible = true;
+      clearTimeout(timer)
+    }, 150)
+  }
+
   isover = false;
   over() {
     if (this.isover) return;

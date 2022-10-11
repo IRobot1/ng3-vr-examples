@@ -10,7 +10,7 @@ interface ObjectSizeData {
 }
 
 export abstract class Layout {
-  private updateFlag = true;
+  protected updateFlag = true;
 
   margin = new Vector3();
 
@@ -84,7 +84,8 @@ export class HorizontalLayout extends Layout {
       if (child.type != 'Mesh') return;
 
       if (!child.hasEventListener(WIDTH_CHANGED_EVENT, this.changed)) {
-        child.addEventListener(WIDTH_CHANGED_EVENT, this.changed)
+        child.addEventListener(WIDTH_CHANGED_EVENT, this.changed);
+        this.updateFlag = true;
       }
     })
   }
@@ -115,6 +116,7 @@ export class VerticalLayout extends Layout {
 
       if (!child.hasEventListener(HEIGHT_CHANGED_EVENT, this.changed)) {
         child.addEventListener(HEIGHT_CHANGED_EVENT, this.changed);
+        this.updateFlag = true;
       }
     })
   }

@@ -40,6 +40,6 @@ export class VerticalLayoutDirective implements OnInit, OnDestroy {
 
     this.listentimer = setInterval(() => {
       this.panel.listen(group);
-    }, 250)
+    }, 125)
   }
 }
