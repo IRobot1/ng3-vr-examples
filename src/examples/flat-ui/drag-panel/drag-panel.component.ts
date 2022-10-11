@@ -28,6 +28,8 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   @Input() panelcolor = PanelColor;
   @Input() labelcolor = LabelColor;
 
+  @Input() locked = false;
+
   @Output() close = new EventEmitter<boolean>();
 
   get displaytitle(): string { return this.title.slice(0, this.overflow * this.width); }
@@ -73,6 +75,7 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
 
   isover = false;
   over() {
+    if (this.locked) return;
     if (this.isover) return;
     this.titlematerial.color.setStyle('white');
     this.isover = true;
@@ -122,6 +125,8 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   }
 
   private domovepanel(titlebar: Mesh, event: Intersection, panel: Object3D) {
+    if (this.locked) return;
+
     if (this.dragging) {
       const position = new Vector3();
       titlebar.getWorldPosition(position);

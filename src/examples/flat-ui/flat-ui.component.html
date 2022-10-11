@@ -96,7 +96,7 @@
   </ng-template>
 </flat-ui-drag-panel>
 
-<flat-ui-drag-panel [title]="'Image Panel'" [expanded]="true" [width]="2" [height]="1.5" [panelcolor]="panelcolor" [position]="[1.6, 1, -2.001]" [rotation]="[0, -30 | radian, 0]" [selectable]="selectable">
+<flat-ui-drag-panel [title]="'Image Panel'" [expanded]="true" [locked]="true" [width]="2" [height]="1.5" [panelcolor]="panelcolor" [position]="[1.6, 1, -2.001]" [rotation]="[0, -30 | radian, 0]" [selectable]="selectable">
   <ng-template let-parent="parent">
     <ngt-group [appendTo]="parent" [position]="[0, 0, 0.002]">
       <ngt-mesh>
