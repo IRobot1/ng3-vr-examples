@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ContentChild, Input, TemplateRef } from "@angular/core";
 
-import { Mesh, MeshBasicMaterial, Object3D } from "three";
+import { Group, Mesh, MeshBasicMaterial, Object3D } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LabelColor, LAYOUT_EVENT, PanelColor, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -50,6 +50,18 @@ export class FlatUIExpansionPanel extends NgtObjectProps<Mesh> implements AfterV
     if (this.mesh) {
       this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
     }
+
+    // hide the group when expanding.  Visbable when layout called
+    if (this.group && newvalue) {
+      this.group.visible = false;
+      const timer = setTimeout(() => {
+        this.group.visible = true;
+        clearTimeout(timer);
+      }, 100)
+
+    }
+
+    this.panel.scale.y = newvalue ? 1 : 0;
   }
 
   @Input() panelcolor = PanelColor;
@@ -85,6 +97,9 @@ export class FlatUIExpansionPanel extends NgtObjectProps<Mesh> implements AfterV
       e.updated = true;
     });
   }
+
+  group!: Group;
+  panel!: Mesh;
 
   private mesh!: Object3D;
 
