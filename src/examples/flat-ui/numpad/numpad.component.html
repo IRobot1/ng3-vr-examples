@@ -5,7 +5,7 @@
           (ready)="meshready($event)" (pointermissed)="missed()">
 
   <flat-ui-button *ngFor="let item of keys" [transparent]="false" [selectable]="selectable"
-                  [position]="item.position" [width]="item.size" [text]="item.numkey" [scale]="scale"
+                  [position]="item.position" [width]="item.size" [text]="item.numkey" 
                   (pressed)="clicked($event)">
 
   </flat-ui-button>

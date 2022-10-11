@@ -81,33 +81,33 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
 
     const buttonwidth = 0.11
     const z = 0.001;
-    const ytop = 0.17 * mesh.scale.y
-    const ymiddle = 0.06 * mesh.scale.y
-    const ybottom = -0.06 * mesh.scale.y
-    const yspace = -0.17 * mesh.scale.y
+    const ytop = 0.17
+    const ymiddle = 0.06
+    const ybottom = -0.06
+    const yspace = -0.17
 
     let width = (top.length - 1) * buttonwidth;
     top.forEach((lower, index) => {
-      this.keys.push(new KeySetting([(-width / 2 + index * buttonwidth) * mesh.scale.x, ytop, z], lower, lower.toUpperCase(), topalpha[index]));
+      this.keys.push(new KeySetting([(-width / 2 + index * buttonwidth), ytop, z], lower, lower.toUpperCase(), topalpha[index]));
     })
 
     width = (middle.length - 1) * (buttonwidth + 0.01);
     middle.forEach((lower, index) => {
-      this.keys.push(new KeySetting([(-width / 2 + index * buttonwidth) * mesh.scale.x, ymiddle, z], lower, lower.toUpperCase(), middlealpha[index]));
+      this.keys.push(new KeySetting([(-width / 2 + index * buttonwidth), ymiddle, z], lower, lower.toUpperCase(), middlealpha[index]));
     })
-    this.keys.push(new KeySetting([(-width / 2 + middle.length * buttonwidth + 0.15) * mesh.scale.x, ymiddle, z], 'Back', 'Back', 'Back', 0.4, 0.1));
-    this.keys.push(new KeySetting([(-width / 2 - 0.21) * mesh.scale.x, ymiddle, z], 'ABC', 'abc', 'ABC', 0.3, 0.1));
+    this.keys.push(new KeySetting([(-width / 2 + middle.length * buttonwidth + 0.15), ymiddle, z], 'Back', 'Back', 'Back', 0.4, 0.1));
+    this.keys.push(new KeySetting([(-width / 2 - 0.21), ymiddle, z], 'ABC', 'abc', 'ABC', 0.3, 0.1));
 
     width = (bottom.length - 1) * buttonwidth;
     bottom.forEach((lower, index) => {
-      this.keys.push(new KeySetting([(-width / 2 + index * buttonwidth) * mesh.scale.x, ybottom, z], lower, lower.toUpperCase(), bottomalpha[index]));
+      this.keys.push(new KeySetting([(-width / 2 + index * buttonwidth), ybottom, z], lower, lower.toUpperCase(), bottomalpha[index]));
     })
-    this.keys.push(new KeySetting([(-width / 2 + bottom.length * buttonwidth + 0.16) * mesh.scale.x, ybottom, z], 'Enter', 'Enter', 'Enter', 0.4, 0.1));
+    this.keys.push(new KeySetting([(-width / 2 + bottom.length * buttonwidth + 0.16), ybottom, z], 'Enter', 'Enter', 'Enter', 0.4, 0.1));
 
-    this.keys.push(new KeySetting([-0.56 * mesh.scale.x, yspace, z], '123', '123', 'abc', 0.3, 0.1));
+    this.keys.push(new KeySetting([-0.56, yspace, z], '123', '123', 'abc', 0.3, 0.1));
     this.keys.push(new KeySetting([0, yspace, z], ' ', ' ', ' ', 0.8));
-    this.keys.push(new KeySetting([0.51 * mesh.scale.x, yspace, z], '.', ',', ':'));
-    this.keys.push(new KeySetting([0.62 * mesh.scale.x, yspace, z], '@', '?', '/'));
+    this.keys.push(new KeySetting([0.51, yspace, z], '.', ',', ':'));
+    this.keys.push(new KeySetting([0.62, yspace, z], '@', '?', '/'));
 
     this.selectable?.add(mesh);
     mesh.addEventListener('raymissed', (e: any) => { this.missed(); e.stop = true; });

@@ -95,7 +95,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
 
     let width = (top.length - 1) * buttonwidth;
     top.forEach((numkey, index) => {
-      this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth) * mesh.scale.x, 0, 0], numkey));
+      this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), 0, 0], numkey));
     });
 
     this.selectable?.add(mesh);

@@ -67,30 +67,30 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
 
     const buttonwidth = 0.11
     const z = 0.001;
-    const ytop = 0.22 * mesh.scale.y
-    const ymiddle = 0.11 * mesh.scale.y
+    const ytop = 0.22
+    const ymiddle = 0.11
     const ybottom = 0
-    const ylast = -0.11 * mesh.scale.y
-    const yback = -0.22 * mesh.scale.y
+    const ylast = -0.11
+    const yback = -0.22
 
     let width = (top.length - 1) * buttonwidth;
     top.forEach((numkey, index) => {
-      this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth) * mesh.scale.x, ytop, z], numkey));
+      this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), ytop, z], numkey));
     })
 
     width = (middle.length - 1) * (buttonwidth + 0.01);
     middle.forEach((numkey, index) => {
-      this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth) * mesh.scale.x, ymiddle, z], numkey));
+      this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), ymiddle, z], numkey));
     })
 
     width = (bottom.length - 1) * buttonwidth;
     bottom.forEach((numkey, index) => {
-      this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth) * mesh.scale.x, ybottom, z], numkey));
+      this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), ybottom, z], numkey));
     })
 
     width = (last.length - 1) * buttonwidth;
     last.forEach((numkey, index) => {
-      this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth) * mesh.scale.x, ylast, z], numkey));
+      this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), ylast, z], numkey));
     })
     this.keys.push(new NumKeySetting([0, yback, z], 'Back', 0.3));
 
