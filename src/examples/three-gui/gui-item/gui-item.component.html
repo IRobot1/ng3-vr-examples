@@ -32,7 +32,7 @@
   <ng-template [ngSwitchCase]="'color'">
     <ngt-group horizontal-layout [margin]="[0.02, 0, 0]">
       <flat-ui-label [text]="item.title" [width]="0.8"></flat-ui-label>
-      <flat-ui-input-color #color [value]="textvalue"  (openinput)="input.opencolor($event, color)"></flat-ui-input-color>
+      <flat-ui-input-color #color [text]="textvalue" (change)="textvalue=$event" (openinput)="input.opencolor($event, color)"></flat-ui-input-color>
       <flat-ui-input-text [text]="textvalue" [overflow]="10" [enabled]="false"></flat-ui-input-text>
     </ngt-group>
   </ng-template>

@@ -13,10 +13,10 @@
               (change)="input.method.text = $event.text;input.showlist=false" (close)="input.showlist=false;input.closeinput()">
 </flat-ui-list>
 
-<!--<flat-ui-color-picker *ngIf="showpicker" [colorvalue]="colorvalue"
-                      [position]="colorposition" [rotation]="colorrotation" [selectable]="selectable"
-                      (colorpicked)="colorpicked($event)" (close)="showpicker=false;changeinput()">
-</flat-ui-color-picker>-->
+<flat-ui-color-picker *ngIf="input.showpicker" [colorvalue]="input.method.text"
+                      [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
+                      (colorpicked)="input.method.text = $event" (close)="input.showpicker=false;input.closeinput()">
+</flat-ui-color-picker>
 
 <flat-ui-keyboard *ngIf="input.showkeyboard" [text]="input.method.text"
                   [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
