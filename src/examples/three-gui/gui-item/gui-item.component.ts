@@ -22,6 +22,9 @@ export class ThreeGUIItemComponent  {
   get textvalue(): string {
     return this.item.object[this.item.property].toString();
   }
+  set textvalue(newvalue: string) {
+    this.item.object[this.item.property] = newvalue;
+  }
   get boolvalue(): boolean {
     return this.item.object[this.item.property];
   }

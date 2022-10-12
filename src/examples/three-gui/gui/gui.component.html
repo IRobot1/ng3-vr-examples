@@ -21,9 +21,9 @@
 <flat-ui-keyboard *ngIf="showkeyboard" [text]="textvalue"
                   [position]="keyboardposition" [rotation]="keyboardrotation" [selectable]="selectable"
                   (pressed)="pressed($event)" (close)="showkeyboard=false;changeinput()">
-</flat-ui-keyboard>
+</flat-ui-keyboard>-->
 
-<flat-ui-numpad *ngIf="shownumpad" [text]="textvalue"
-                [position]="numpadposition" [rotation]="numpadrotation" [selectable]="selectable"
-                (pressed)="pressed($event)" (close)="shownumpad=false;changeinput()">
-</flat-ui-numpad>-->
+<flat-ui-numpad *ngIf="input.shownumpad" [text]="input.method.text"
+                [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
+                (change)="input.method.text = $event" (close)="input.shownumpad=false">
+</flat-ui-numpad>

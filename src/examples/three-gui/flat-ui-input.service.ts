@@ -22,7 +22,7 @@ export class FlatUIInputService {
 
   shownumpad = false;
 
-  opennumpad(object: Object3D, input: UIInput) {
+  opennumpad(object: Object3D, input: UIInput, text: string) {
     this.changeinput(input);
 
     object.getWorldPosition(this.position);
@@ -33,6 +33,7 @@ export class FlatUIInputService {
     object.getWorldQuaternion(quat);
     this.rotation.setFromQuaternion(quat);
 
+    this.method.text = text;
     this.shownumpad = true;
   }
 
