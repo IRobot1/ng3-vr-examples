@@ -135,6 +135,7 @@ import { FlatUISelect } from '../examples/flat-ui/select/select.component';
 import { HorizontalLayoutDirective } from '../examples/flat-ui/horizontal-layout.directive';
 import { VerticalLayoutDirective } from '../examples/flat-ui/vertical-layout.directive';
 import { FlatUIExpansionPanel } from '../examples/flat-ui/expansion-panel/expansion-panel.component';
+import { LoadingExample } from '../examples/loading/loading.component';
 
 
 @NgModule({
@@ -273,6 +274,7 @@ import { FlatUIExpansionPanel } from '../examples/flat-ui/expansion-panel/expans
     HorizontalLayoutDirective,
     VerticalLayoutDirective,
 
+    LoadingExample,
   ],
   imports: [
     BrowserModule,

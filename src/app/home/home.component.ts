@@ -37,6 +37,7 @@ export class HomeComponent implements OnInit {
     { asset: 'graph', text: 'Directed Graph Layout' },
     { asset: 'collisions', text: 'Collisions' },
     { asset: 'flat-ui', text: 'Flat UI' },
+    { asset: 'loading', text: 'Loading' },
   ]
 
   panels: Array<PanelSetting> = [];
