@@ -42,7 +42,40 @@ export class ThreeGUIExample implements OnInit {
     gui.add(this.parameters, 'p', 1, 10, 1);
     gui.add(this.parameters, 'q', 0, 10, 1);
     this.gui = gui;
-   
+
+    const xgui = new FlatGUI({width:300, height:150});
+
+		const folder = xgui.addFolder( 'Folder' );
+
+		const folderParams = {
+			number: 0.5,
+			boolean: false,
+			color: '#0cf',
+			function() { console.log( 'hi' ) }
+		};
+
+		folder.add( folderParams, 'number', 0, 1 );
+		folder.add( folderParams, 'boolean' );
+		folder.addColor( folderParams, 'color' );
+		folder.add( folderParams, 'function' );
+
+		const params = {
+			options: 10,
+			boolean: true,
+			string: 'lil-gui',
+			number: 0,
+			color: '#aa00ff',
+			function() { console.log( 'hi' ) }
+		};
+
+		xgui.add( params, 'options', { Small: 1, Medium: 10, Large: 100 } );
+		xgui.add( params, 'boolean' );
+		xgui.add( params, 'string' );
+		xgui.add( params, 'number' );
+		xgui.addColor( params, 'color' );
+		xgui.add( params, 'function' ).name( 'Custom Name' );
+
+    this.gui = xgui;
   }
 
   tick(torus: Mesh) {

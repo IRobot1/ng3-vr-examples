@@ -138,6 +138,7 @@ import { FlatUIExpansionPanel } from '../examples/flat-ui/expansion-panel/expans
 import { ThreeGUIExample } from '../examples/three-gui/three-gui.component';
 import { ThreeGUIComponent } from '../examples/three-gui/gui/gui.component';
 import { ThreeGUIItemComponent } from '../examples/three-gui/gui-item/gui-item.component';
+import { ThreeGUIFolderComponent } from '../examples/three-gui/gui-folder/gui-folder.component';
 
 
 @NgModule({
@@ -279,6 +280,7 @@ import { ThreeGUIItemComponent } from '../examples/three-gui/gui-item/gui-item.c
     ThreeGUIExample,
     ThreeGUIComponent,
     ThreeGUIItemComponent,
+    ThreeGUIFolderComponent,
   ],
   imports: [
     BrowserModule,
