@@ -1,0 +1,30 @@
+<ngt-color attach="background" color="darkgray"></ngt-color>
+
+<line-room></line-room>
+
+<ngt-directional-light [position]="[10, 10, 10]" castShadow></ngt-directional-light>
+
+<ngt-mesh [position]="[0, 1, -2]" [scale]="0.5" (beforeRender)="tick($event.object)">
+  <ngt-torus-knot-geometry [args]="[
+    parameters.radius,
+    parameters.tube,
+    parameters.tubularSegments,
+    parameters.radialSegments,
+    parameters.p,
+    parameters.q]">
+  </ngt-torus-knot-geometry>
+  <ngt-mesh-standard-material color="cornflowerblue"></ngt-mesh-standard-material>
+</ngt-mesh>
+
+<ngt-mesh [position]="[0, 0.2, -2]">
+  <ngt-cylinder-geometry [args]="[0.6, 0.6, 0.4, 50]"></ngt-cylinder-geometry>
+  <ngt-mesh-standard-material color="darkgray"></ngt-mesh-standard-material>
+</ngt-mesh>
+
+<vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
+<vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
+
+<three-gui [position]="[-0.75, 1, -1]" [rotation]="[0, 3.14/4, 0]" [scale]="[0.5, 0.5, 0.5]" [gui]="gui" [selectable]="selectable"></three-gui>
+
+
+

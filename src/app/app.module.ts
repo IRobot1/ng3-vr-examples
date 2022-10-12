@@ -135,6 +135,9 @@ import { FlatUISelect } from '../examples/flat-ui/select/select.component';
 import { HorizontalLayoutDirective } from '../examples/flat-ui/horizontal-layout.directive';
 import { VerticalLayoutDirective } from '../examples/flat-ui/vertical-layout.directive';
 import { FlatUIExpansionPanel } from '../examples/flat-ui/expansion-panel/expansion-panel.component';
+import { ThreeGUIExample } from '../examples/three-gui/three-gui.component';
+import { ThreeGUIComponent } from '../examples/three-gui/gui/gui.component';
+import { ThreeGUIItemComponent } from '../examples/three-gui/gui-item/gui-item.component';
 
 
 @NgModule({
@@ -273,6 +276,9 @@ import { FlatUIExpansionPanel } from '../examples/flat-ui/expansion-panel/expans
     HorizontalLayoutDirective,
     VerticalLayoutDirective,
 
+    ThreeGUIExample,
+    ThreeGUIComponent,
+    ThreeGUIItemComponent,
   ],
   imports: [
     BrowserModule,

@@ -18,32 +18,43 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
   @Input()
   get value(): number { return this._value }
   set value(newvalue: number) {
-    if (this.min > this.max) {
-      console.warn(`min ${this.min} is greater than max ${this.max}`);
-      let temp = this.min;
-      this.min = this.max;
-      this.max = temp;
+    if (this.min != undefined && this.max != undefined) {
+      if (this.min > this.max) {
+        console.warn(`min ${this.min} is greater than max ${this.max}`);
+        let temp = this.min;
+        this.min = this.max;
+        this.max = temp;
+      }
+      this._value = MathUtils.clamp(newvalue, this.min, this.max);
+      this.change.next(this._value);
     }
-    this._value = MathUtils.clamp(newvalue, this.min, this.max);
-    if (this._value != newvalue) {
+    else {
+      this._value = newvalue
       this.change.next(this._value);
     }
   }
 
-  @Input() min = 0;
-  @Input() max = 10;
+  @Input() min?: number = 0;
+  @Input() max?: number = 10;
 
-  private _step = 1;
+  private _step?= 1;
   @Input()
-  get step(): number { return this._step }
-  set step(newvalue: number) {
+  get step(): number | undefined { return this._step }
+  set step(newvalue: number | undefined) {
     this._step = newvalue;
 
-    let cur = newvalue;
-    this.precision = 1
-    while (Math.floor(cur) !== cur) {
-      cur *= 10
-      this.precision++
+    if (newvalue != undefined) {
+      let cur = newvalue;
+      this.precision = 1
+      while (Math.floor(cur) !== cur) {
+        cur *= 10
+        this.precision++
+      }
+    }
+    else {
+      if (this.min != undefined && this.max != undefined) {
+        this._step = (this.max - this.min) / 10;
+      }
     }
   }
   private precision = 1;
@@ -109,7 +120,12 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
   geometry!: BufferGeometry;
   material!: MeshBasicMaterial;
 
-  get x(): number { return MathUtils.mapLinear(this.value, this.min, this.max, -this.width / 2, this.width / 2); }
+  get x(): number {
+    if (this.min != undefined && this.max != undefined) {
+      return MathUtils.mapLinear(this.value, this.min, this.max, -this.width / 2, this.width / 2);
+    }
+    return this.width / 2;
+  }
 
   side: Side = DoubleSide;
   innerscale = 0.7;
@@ -188,18 +204,20 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
   private doclicked(mesh: Mesh, event: Intersection) {
     if (!this.enabled || !this.visible) return;
 
-    mesh.worldToLocal(event.point);
+    if (this.min != undefined && this.max != undefined && this.step != undefined) {
+      mesh.worldToLocal(event.point);
 
-    const buttonmin = -(this.width / 2) * this.innerscale + this.radius;
-    const buttonmax = (this.width / 2) * this.innerscale - this.radius;
-    const buttonx = MathUtils.clamp(event.point.x * this.innerscale, buttonmin, buttonmax);
+      const buttonmin = -(this.width / 2) * this.innerscale + this.radius;
+      const buttonmax = (this.width / 2) * this.innerscale - this.radius;
+      const buttonx = MathUtils.clamp(event.point.x * this.innerscale, buttonmin, buttonmax);
 
-    const value = MathUtils.mapLinear(buttonx, buttonmin, buttonmax, this.min, this.max);
+      const value = MathUtils.mapLinear(buttonx, buttonmin, buttonmax, this.min, this.max);
 
-    // avoid problems when step is fractional
-    this.value = +((Math.round(value / this.step) * this.step).toPrecision(this.precision));
+      // avoid problems when step is fractional
+      this.value = +((Math.round(value / this.step) * this.step).toFixed(this.precision));
 
-    this.change.next(this.value);
+      this.change.next(this.value);
+    }
   }
 
   over(mesh: Mesh, event: Intersection) {
