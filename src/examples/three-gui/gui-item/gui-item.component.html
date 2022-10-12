@@ -2,14 +2,14 @@
   <ng-template [ngSwitchCase]="'options'">
     <ngt-group horizontal-layout [margin]="[0.02, 0, 0]">
       <flat-ui-label [text]="item.property" [width]="0.8"></flat-ui-label>
-      <flat-ui-select [text]="listvalue" [width]="0.8"></flat-ui-select>
+      <flat-ui-select #list [text]="listvalue" [width]="0.8" (change)="listvalue=$event" (openinput)="input.openlist($event, list, item.min, listvalue)"></flat-ui-select>
     </ngt-group>
   </ng-template>
   <ng-template [ngSwitchCase]="'number'">
     <ngt-group horizontal-layout [margin]="[0.02, 0, 0]">
       <flat-ui-label [text]="item.title" [width]="0.8"></flat-ui-label>
       <flat-ui-input-slider [visible]="item.min && item.max" [width]="0.5" [min]="item.min" [max]="item.max" [step]="item.step" [value]="value" [selectable]="selectable" (change)="value=$event"></flat-ui-input-slider>
-      <flat-ui-input-number [min]="item.min" [max]="item.max" [text]="textvalue" [enabled]="!(item.min && item.max)"></flat-ui-input-number>
+      <flat-ui-input-number #numpad [min]="item.min" [max]="item.max" [text]="textvalue" [enabled]="!(item.min && item.max)"  (openinput)="input.opennumpad($event, numpad)"></flat-ui-input-number>
     </ngt-group>
   </ng-template>
   <ng-template [ngSwitchCase]="'boolean'">
@@ -21,7 +21,7 @@
   <ng-template [ngSwitchCase]="'string'">
     <ngt-group horizontal-layout [margin]="[0.02, 0, 0]">
       <flat-ui-label [text]="item.title" [width]="0.8"></flat-ui-label>
-      <flat-ui-input-text [text]="textvalue" [overflow]="10"></flat-ui-input-text>
+      <flat-ui-input-text #keyboard [text]="textvalue" [overflow]="10" (openinput)="input.openkeyboard($event, keyboard)"></flat-ui-input-text>
     </ngt-group>
   </ng-template>
   <ng-template [ngSwitchCase]="'function'">
@@ -32,7 +32,7 @@
   <ng-template [ngSwitchCase]="'color'">
     <ngt-group horizontal-layout [margin]="[0.02, 0, 0]">
       <flat-ui-label [text]="item.title" [width]="0.8"></flat-ui-label>
-      <flat-ui-input-color [value]="textvalue"></flat-ui-input-color>
+      <flat-ui-input-color #color [value]="textvalue"  (openinput)="input.opencolor($event, color)"></flat-ui-input-color>
       <flat-ui-input-text [text]="textvalue" [overflow]="10" [enabled]="false"></flat-ui-input-text>
     </ngt-group>
   </ng-template>

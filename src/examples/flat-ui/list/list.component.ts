@@ -71,7 +71,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
   count = 7;  // default when height is is 1
   data: Array<ListData> = [];
 
-  listindex = 0;
+  firstdrawindex = 0;
 
   override preInit() {
     super.preInit();
@@ -126,7 +126,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.selectedindex != -1)
-      this.listindex = this.selectedindex;
+      this.firstdrawindex = this.selectedindex;
 
     this.renderlist();
 
@@ -136,26 +136,32 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
   }
 
   renderlist() {
+    let drawindex = this.firstdrawindex;
 
-    let listindex = this.listindex;
+    // if the whole list is shorter than what can be displayed, start from the first item in the list
+    if (this.list.length < this.count) {
+      this.firstdrawindex = drawindex = 0;
+    }
+
     this.data.length = 0;
 
     for (let i = 0; i < this.count; i++) {
-
       let text = '';
       let enabled = false;
-      if (listindex < this.list.length) {
-        text = this.list[listindex++].text;
+
+      const highlight = (this.selectedindex == drawindex)
+
+      if (drawindex < this.list.length) {
+        text = this.list[drawindex++].text;
         enabled = true;
       }
 
-      const highlight = (this.listindex + i == this.selectedindex)
       this.data.push(new ListData(text.substring(0, this.overflow * this.width), enabled, highlight));
     }
   }
 
   selected(index: number) {
-    this.selectedindex = this.listindex + index;
+    this.selectedindex = this.firstdrawindex + index;
 
     this.change.next(this.list[this.selectedindex]);
 
@@ -165,15 +171,15 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
     if (!this.visible) return;
 
     if (keycode == '|<')
-      this.listindex = 0;
+      this.firstdrawindex = 0;
     else if (keycode == '<') {
-      if (this.listindex) this.listindex--;
+      if (this.firstdrawindex) this.firstdrawindex--;
     }
     else if (keycode == '>') {
-      if (this.list.length > this.count && this.listindex < this.list.length - this.count) this.listindex++;
+      if (this.list.length > this.count && this.firstdrawindex < this.list.length - this.count) this.firstdrawindex++;
     }
     else if (keycode == '>|') {
-      this.listindex = Math.max(this.list.length - this.count, 0);
+      this.firstdrawindex = Math.max(this.list.length - this.count, 0);
     }
     this.renderlist();
   }

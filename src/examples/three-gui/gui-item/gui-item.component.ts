@@ -3,6 +3,7 @@ import { InteractiveObjects } from "../../flat-ui/interactive-objects";
 import { ListItem } from "../../flat-ui/list/list.component";
 
 import { Controller } from "../flat-gui";
+import { FlatUIInputService } from "../flat-ui-input.service";
 
 @Component({
   selector: 'three-gui-item',
@@ -14,6 +15,9 @@ export class ThreeGUIItemComponent  {
   @Input() item!: Controller;
 
   @Input() selectable?: InteractiveObjects;
+
+  constructor(public input: FlatUIInputService) { }
+
 
   get textvalue(): string {
     return this.item.object[this.item.property].toString();
@@ -34,9 +38,16 @@ export class ThreeGUIItemComponent  {
     const item = list.find(x => x.data == data);
     return item ? item.text : '';
   }
+  set listvalue(newvalue: string) {
+    const list = (this.item.min as Array<ListItem>)
+    const item = list.find(x => x.text == newvalue);
+    if (item) this.item.object[this.item.property] = item.data;
+  }
 
   execute() {
     const func = this.item.object[this.item.property];
     func.call(this.item.object)
   }
+
+
 }

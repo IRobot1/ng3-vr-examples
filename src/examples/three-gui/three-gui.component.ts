@@ -1,3 +1,4 @@
+import { NgtTriple } from "@angular-three/core";
 import { Component, OnInit } from "@angular/core";
 import { Mesh } from "three";
 import { CameraService } from "../../app/camera.service";
@@ -19,6 +20,8 @@ export class ThreeGUIExample implements OnInit {
   };
 
   public gui!: FlatGUI;
+  public guiscale = [0.5, 0.5, 0.5] as NgtTriple;
+
   public meshes: Array<Mesh> = [];
 
   selectable = new InteractiveObjects();
