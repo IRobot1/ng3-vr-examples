@@ -16,8 +16,12 @@ export class FlatUIInputService {
 
   changeinput(input: UIInput) {
     if (this.method && this.method != input)
-      this.method.inputopen = false;
+      this.closeinput();
     this.method = input;
+  }
+
+  closeinput() {
+    this.method.inputopen = false;
   }
 
   shownumpad = false;
@@ -38,8 +42,9 @@ export class FlatUIInputService {
   }
 
   showkeyboard = false;
+  allowenter = false;
 
-  openkeyboard(object: Object3D, input: UIInput) {
+  openkeyboard(object: Object3D, input: UIInput, text: string) {
     this.changeinput(input);
 
     object.getWorldPosition(this.position);
@@ -51,6 +56,7 @@ export class FlatUIInputService {
     object.getWorldQuaternion(quat);
     this.rotation.setFromQuaternion(quat);
 
+    this.method.text = text;
     this.showkeyboard = true;
   }
 
@@ -73,7 +79,6 @@ export class FlatUIInputService {
 
   showlist = false;
   list!: Array<ListItem>;
-  selectedtext!: string;
 
   openlist(object: Object3D, input: UIInput, list: Array<ListItem>, selected: string) {
     this.changeinput(input);
@@ -89,14 +94,9 @@ export class FlatUIInputService {
     this.rotation.setFromQuaternion(quat);
 
     this.list = list;
-    this.selectedtext = this.method.text = selected;
+    this.method.text = selected;
 
     this.showlist = true;
-  }
-
-  listitem(item: string) {
-    this.selectedtext = item;
-    this.showlist = false
   }
 
 }

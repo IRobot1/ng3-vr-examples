@@ -8,22 +8,22 @@
   </ng-template>
 </flat-ui-drag-panel>
 
-<flat-ui-list *ngIf="input.showlist" [list]="input.list" [selectedtext]="input.selectedtext"
+<flat-ui-list *ngIf="input.showlist" [list]="input.list" [selectedtext]="input.method.text"
               [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
-              (change)="input.method.text = $event.text;input.showlist=false" (close)="input.showlist=false">
+              (change)="input.method.text = $event.text;input.showlist=false" (close)="input.showlist=false;input.closeinput()">
 </flat-ui-list>
 
 <!--<flat-ui-color-picker *ngIf="showpicker" [colorvalue]="colorvalue"
                       [position]="colorposition" [rotation]="colorrotation" [selectable]="selectable"
                       (colorpicked)="colorpicked($event)" (close)="showpicker=false;changeinput()">
-</flat-ui-color-picker>
+</flat-ui-color-picker>-->
 
-<flat-ui-keyboard *ngIf="showkeyboard" [text]="textvalue"
-                  [position]="keyboardposition" [rotation]="keyboardrotation" [selectable]="selectable"
-                  (pressed)="pressed($event)" (close)="showkeyboard=false;changeinput()">
-</flat-ui-keyboard>-->
+<flat-ui-keyboard *ngIf="input.showkeyboard" [text]="input.method.text"
+                  [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
+                  (change)="input.method.text = $event" (close)="input.showkeyboard=false;input.closeinput()">
+</flat-ui-keyboard>
 
 <flat-ui-numpad *ngIf="input.shownumpad" [text]="input.method.text"
                 [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
-                (change)="input.method.text = $event" (close)="input.shownumpad=false">
+                (change)="input.method.text = $event" (close)="input.shownumpad=false;input.closeinput()">
 </flat-ui-numpad>

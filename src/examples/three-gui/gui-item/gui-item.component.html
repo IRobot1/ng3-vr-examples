@@ -21,7 +21,7 @@
   <ng-template [ngSwitchCase]="'string'">
     <ngt-group horizontal-layout [margin]="[0.02, 0, 0]">
       <flat-ui-label [text]="item.title" [width]="0.8"></flat-ui-label>
-      <flat-ui-input-text #keyboard [text]="textvalue" [overflow]="10" (openinput)="input.openkeyboard($event, keyboard)"></flat-ui-input-text>
+      <flat-ui-input-text #keyboard [text]="textvalue" [overflow]="10" (change)="textvalue=$event" (openinput)="input.openkeyboard($event, keyboard, textvalue)"></flat-ui-input-text>
     </ngt-group>
   </ng-template>
   <ng-template [ngSwitchCase]="'function'">
