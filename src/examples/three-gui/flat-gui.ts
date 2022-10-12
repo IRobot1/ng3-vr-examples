@@ -35,7 +35,6 @@ export class FlatGUI {
     this.title = title;
     this.width = width / 150;
     this.height = height / 150;
-    console.warn(this.width, this.height)
   }
 
   add(object: any, property: string, min?: number | object | any[], max?: number, step?: number): Controller {

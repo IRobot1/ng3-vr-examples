@@ -107,6 +107,8 @@ export class VerticalLayout extends Layout {
 
       y -= item.height + margin * 2;  // move down based on height of this item
     });
+
+    group.dispatchEvent({ type: HEIGHT_CHANGED_EVENT, height: Math.abs(y) });
   }
 
   override listen(group: Object3D) {
