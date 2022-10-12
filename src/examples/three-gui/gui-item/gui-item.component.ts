@@ -1,5 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { InteractiveObjects } from "../../flat-ui/interactive-objects";
+import { ListItem } from "../../flat-ui/list/list.component";
 
 import { Controller } from "../flat-gui";
 
@@ -25,5 +26,17 @@ export class ThreeGUIItemComponent  {
   }
   set value(newvalue: number) {
     this.item.object[this.item.property] = newvalue;
-  } 
+  }
+
+  get listvalue(): string {
+    const list = (this.item.min as Array<ListItem>)
+    const data = this.item.object[this.item.property];
+    const item = list.find(x => x.data == data);
+    return item ? item.text : '';
+  }
+
+  execute() {
+    const func = this.item.object[this.item.property];
+    func.call(this.item.object)
+  }
 }

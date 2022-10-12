@@ -8,6 +8,7 @@ import { FlatUITheme, GlobalFlatUITheme } from "./flat-ui-theme";
 
 import { UIInput } from "./flat-ui-utils";
 import { InteractiveObjects } from "./interactive-objects";
+import { ListItem } from "./list/list.component";
 
 
 const MatrixTheme: FlatUITheme = {
@@ -58,7 +59,7 @@ export class FlatUIExample implements OnInit, AfterViewInit {
 
   position = [0, 1, 0.2] as NgtTriple;
 
-  list: Array<string> = [];
+  list: Array<ListItem> = [];
   selectedtext!: string;
 
   panelcolor = GlobalFlatUITheme.PanelColor;
@@ -73,28 +74,28 @@ export class FlatUIExample implements OnInit, AfterViewInit {
     //this.cameraService.lookAt = [0, 0, -1.5];
     //this.cameraService.fov = 65;
 
-    this.list.push('Criminal Of Nightmares')
-    this.list.push('Knight Of The Ancients and Scorcery')
-    this.list.push('Pilots Without Duty')
-    this.list.push('Horses With Pride')
-    this.list.push('Swindlers And Men')
-    this.list.push('Aliens And Mice')
-    this.list.push('Planet Of The Forsaken')
-    this.list.push('Rise With Pride')
-    this.list.push('Becoming The Town')
-    this.list.push('Battling In The River')
-    this.list.push('Warrior Of Greatness')
-    this.list.push('Enemy Without Courage')
-    this.list.push('Humans Of Earth')
-    this.list.push('Giants Of The Sea')
-    this.list.push('Girls And Strangers')
-    this.list.push('Rebels And Giants')
-    this.list.push('Beginning Of The Frontline')
-    this.list.push('Family Of Dread')
-    this.list.push('Amusing The River')
-    this.list.push('Bravery In The Swamp')
+    this.list.push({ text: 'Criminal Of Nightmares' })
+    this.list.push({ text: 'Knight Of The Ancients and Scorcery' })
+    this.list.push({ text: 'Pilots Without Duty' })
+    this.list.push({ text: 'Horses With Pride' })
+    this.list.push({ text: 'Swindlers And Men' })
+    this.list.push({ text: 'Aliens And Mice' })
+    this.list.push({ text: 'Planet Of The Forsaken' })
+    this.list.push({ text: 'Rise With Pride' })
+    this.list.push({ text: 'Becoming The Town' })
+    this.list.push({ text: 'Battling In The River' })
+    this.list.push({ text: 'Warrior Of Greatness' })
+    this.list.push({ text: 'Enemy Without Courage' })
+    this.list.push({ text: 'Humans Of Earth' })
+    this.list.push({ text: 'Giants Of The Sea' })
+    this.list.push({ text: 'Girls And Strangers' })
+    this.list.push({ text: 'Rebels And Giants' })
+    this.list.push({ text: 'Beginning Of The Frontline' })
+    this.list.push({ text: 'Family Of Dread' })
+    this.list.push({ text: 'Amusing The River' })
+    this.list.push({ text: 'Bravery In The Swamp' })
 
-    this.selectedtext = this.list[9];
+    this.selectedtext = this.list[9].text;
 
     const s = this.loader.use(TextureLoader, 'assets/mandelbrot2.jpg').subscribe(next => {
       this.texture = next;

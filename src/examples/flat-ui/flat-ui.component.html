@@ -111,7 +111,7 @@
 
 <flat-ui-list *ngIf="showlist" [list]="list" [width]="1.5" [height]="1.2" [selectedtext]="selectedtext"
               [position]="listposition" [rotation]="listrotation" [selectable]="selectable"
-              (change)="listitem($event)" (close)="showlist=false;changeinput()">
+              (change)="listitem($event.text)" (close)="showlist=false;changeinput()">
 </flat-ui-list>
 
 <flat-ui-color-picker *ngIf="showpicker" [colorvalue]="colorvalue"
