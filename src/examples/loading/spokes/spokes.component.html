@@ -1,0 +1,12 @@
+<ngt-group [position]="position" [rotation]="rotation" [scale]="scale"
+           (beforeRender)="beforeRender($event.object)">
+
+  <ngt-group *ngFor="let item of spokes" [rotation]="[0, 0, item.angle]">
+
+    <ngt-mesh [geometry]="item.geometry" [material]="item.material"
+              [position]="[item.offset, 0, 0]" [rotation]="[0, 0, angle]"
+              (ready)="meshes.push($event)">
+    </ngt-mesh>
+
+  </ngt-group>
+</ngt-group>

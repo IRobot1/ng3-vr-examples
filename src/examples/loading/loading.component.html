@@ -2,8 +2,59 @@
 
 <line-room></line-room>
 
-<ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
+<ngt-point-light></ngt-point-light>
 
+<ngt-group [position]="[0, 0.6, -1]">
+  <ngt-group [position]="[-0.8, 0, 0]">
+
+    <spokes [count]="1" [position]="[-0.1, 0, 0]" [geometry]="spk7ageometry" [material]="blackmaterial"></spokes>
+    <spokes [count]="20" [offset]="0.12" [animate]="[0, 0, 0.02]" [geometry]="spk7bgeometry" [material]="blackmaterial"></spokes>
+    <spokes [count]="20" [offset]="0.1" [animate]="[0, 0, 0.03]" [geometry]="spk7bgeometry" [material]="blackmaterial"></spokes>
+    <spokes [count]="20" [offset]="0.08" [animate]="[0, 0, 0.04]" [geometry]="spk7bgeometry" [material]="blackmaterial"></spokes>
+  </ngt-group>
+
+  <spokes [count]="1" [position]="[-0.5, 0, 0]" [geometry]="spk7ageometry" [material]="blackmaterial"></spokes>
+  <spokes [count]="20" [offset]="0.16" [position]="[-0.4, 0, 0]" [animate]="[0, 0, 0.02]" [geometry]="spk7bgeometry" [material]="blackmaterial"></spokes>
+</ngt-group>
+
+<ngt-group [position]="[0, 1, -1]">
+  <spokes [count]="12" [offset]="0.01" [position]="[-1.2, 0, 0]" [animate]="[0, 0, 0.02]" [geometry]="spk6geometry" [material]="blackmaterial"></spokes>
+  <spokes [count]="10" [offset]="0" [position]="[-0.8, 0, 0]" [animate]="[0, 0, 0.02]" [geometry]="spk3geometry" [material]="blackmaterial"></spokes>
+  <spokes [count]="45" [offset]="0.13" [angle]="0.1" [position]="[-0.4, 0, 0]" [animate]="[0, 0, 0.02]" [geometry]="spk2geometry" [material]="blackmaterial"></spokes>
+
+  <spokes [count]="10" [offset]="0.13" [angle]="3.14/6" [position]="[0, 0, 0]" [animate]="[0, 0, 0.02]" [geometry]="spk0geometry" [material]="blackmaterial"></spokes>
+
+  <spokes [count]="8" [position]="[0.4, 0, 0]" [geometry]="spk1geometry" (tick)="animate8colors($event, skp1context)"></spokes>
+  <spokes [count]="8" [offset]="0.11" [position]="[0.8, 0, 0]" [geometry]="spk4geometry" (tick)="animate8colors($event, skp4context)"></spokes>
+</ngt-group>
+
+<ngt-group [position]="[0, 0.6, -1]">
+  <spokes [count]="8" [position]="[0.4, 0, 0]" [animate]="[0, 0, -0.02]" (tick)="generate8shapes($event);animate8colors($event, skp5context)"></spokes>
+  <spokes [count]="8" [position]="[0.8, 0, 0]" [animate]="[0, 0, -0.02]" [geometry]="spk8geometry" (tick)="animate8colors($event, skp8context)"></spokes>
+</ngt-group>
+
+<ngt-group [position]="[0, 1.4, -1]">
+  <ngt-group [position]="[-0.8, 0, 0]">
+    <ngt-mesh [geometry]="ring10geometry" [material]="blackmaterial" (beforeRender)="animatering($event.object, 0.01)"></ngt-mesh>
+  </ngt-group>
+
+  <ngt-group [position]="[-0.4, 0, 0]">
+    <ngt-mesh [geometry]="ring1geometry" [material]="blackmaterial"></ngt-mesh>
+    <ngt-mesh [geometry]="ring2geometry" [material]="blackmaterial" (beforeRender)="animatering($event.object, 0.01)"></ngt-mesh>
+    <ngt-mesh [geometry]="ring3geometry" [material]="blackmaterial"></ngt-mesh>
+  </ngt-group>
+
+  <ngt-group [position]="[0.4, 0, 0]">
+    <ngt-mesh [geometry]="ring4geometry" [material]="color1material" (beforeRender)="animatering($event.object, 0.03)"></ngt-mesh>
+    <ngt-mesh [geometry]="ring5geometry" [material]="color2material" (beforeRender)="animatering($event.object, -0.02)"></ngt-mesh>
+    <ngt-mesh [geometry]="ring6geometry" [material]="color3material" (beforeRender)="animatering($event.object, 0.01)"></ngt-mesh>
+  </ngt-group>
+
+  <ngt-group [position]="[0.8, 0, 0]">
+    <ngt-mesh [geometry]="ring7geometry" [material]="blackmaterial"></ngt-mesh>
+    <spokes [count]="1" [offset]="0.11" [position]="[0, 0, 0.001]" [geometry]="spk9geometry" [material]="color3material" [animate]="[0, 0, 0.04]"></spokes>
+  </ngt-group>
+</ngt-group>
 
 <vr-controller navhome></vr-controller>
 <vr-controller [index]="1" navhome></vr-controller>

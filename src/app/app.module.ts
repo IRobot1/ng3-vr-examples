@@ -136,6 +136,7 @@ import { HorizontalLayoutDirective } from '../examples/flat-ui/horizontal-layout
 import { VerticalLayoutDirective } from '../examples/flat-ui/vertical-layout.directive';
 import { FlatUIExpansionPanel } from '../examples/flat-ui/expansion-panel/expansion-panel.component';
 import { LoadingExample } from '../examples/loading/loading.component';
+import { SpokesLoadingComponent } from '../examples/loading/spokes/spokes.component';
 
 
 @NgModule({
@@ -275,6 +276,7 @@ import { LoadingExample } from '../examples/loading/loading.component';
     VerticalLayoutDirective,
 
     LoadingExample,
+    SpokesLoadingComponent,
   ],
   imports: [
     BrowserModule,
