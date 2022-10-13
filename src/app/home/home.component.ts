@@ -13,7 +13,7 @@ class PanelSetting {
   templateUrl: 'home.component.html',
 })
 export class HomeComponent implements OnInit {
-  examples = [
+  examples1 = [
     { asset: 'ballshooter', text: 'Ball Shooter' },
     { asset: 'dragging', text: 'Dragging' },
     { asset: 'handinput', text: 'Hand input' },
@@ -26,10 +26,13 @@ export class HomeComponent implements OnInit {
     { asset: 'behaviors', text: 'Toggle Controller Behaviors' },
     { asset: 'studio', text: 'Lights, Camera, Action' },
     { asset: 'paint', text: 'Paint' },
-    { asset: 'htmlgui', text: 'HTML Mesh GUI' },
     { asset: 'scale', text: 'World Scale' },
-    { asset: 'buttons', text: 'Buttons' },
     { asset: 'morphwall', text: 'Morphing Wall' },
+  ]
+
+  examples2 = [
+    { asset: 'htmlgui', text: 'HTML Mesh GUI' },
+    { asset: 'buttons', text: 'Buttons' },
     { asset: 'forcelayout', text: 'Force Layout' },
     { asset: 'spirograph', text: 'Spirograph' },
     { asset: 'artlife', text: 'Particle Life' },
@@ -41,7 +44,8 @@ export class HomeComponent implements OnInit {
     { asset: 'loading', text: 'Loading' },
   ]
 
-  panels: Array<PanelSetting> = [];
+  panels1: Array<PanelSetting> = [];
+  panels2: Array<PanelSetting> = [];
 
   selectable: Array<Object3D> = [];
 
@@ -56,14 +60,24 @@ export class HomeComponent implements OnInit {
     this.camera.position = [0, 2, 4];
     this.camera.fov = 55;
 
-    const angle = 360 / this.examples.length;
+    let angle = 360 / this.examples1.length;
 
-    this.examples.forEach((item, index) => {
+    this.examples1.forEach((item, index) => {
       const position = [0, 0, 0] as NgtTriple;
       const rotation = angle * index;
 
       const panel = new PanelSetting(position, rotation, item.asset, item.text)
-      this.panels.push(panel);
+      this.panels1.push(panel);
+    });
+
+    angle = 360 / this.examples2.length;
+
+    this.examples2.forEach((item, index) => {
+      const position = [0, 0, 0] as NgtTriple;
+      const rotation = angle * index;
+
+      const panel = new PanelSetting(position, rotation, item.asset, item.text)
+      this.panels2.push(panel);
     });
   }
 
