@@ -27,6 +27,7 @@ import { ForceLayoutExample } from '../examples/force-layout/force-layout.compon
 import { GraphExample } from '../examples/graph/graph.component';
 import { CollisionsExample } from '../examples/collisions/collisions.component';
 import { FlatUIExample } from '../examples/flat-ui/flat-ui.component';
+import { ThreeGUIExample } from '../examples/three-gui/three-gui.component';
 import { LoadingExample } from '../examples/loading/loading.component';
 
 const routes: Routes = [
@@ -57,6 +58,7 @@ const routes: Routes = [
   { path: 'graph', component: GraphExample },
   { path: 'collisions', component: CollisionsExample },
   { path: 'flat-ui', component: FlatUIExample },
+  { path: 'three-gui', component: ThreeGUIExample },
   { path: 'loading', component: LoadingExample },
 ];
 

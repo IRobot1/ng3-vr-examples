@@ -1,0 +1,29 @@
+<flat-ui-drag-panel [selectable]="selectable" [title]="gui.title" [width]="gui.width" [height]="gui.height" [position]="position" [rotation]="rotation" [scale]="scale">
+  <ng-template let-parent="parent">
+    <ngt-group vertical-layout (heightchange)="gui.height=$event" [appendTo]="parent" [margin]="[0, 0.02, 0]" [position]="[-gui.width/2, gui.height/2, 0.001]">
+
+      <three-gui-item *ngFor="let item of gui.list" [item]="item" [width]="gui.width" [selectable]="selectable"></three-gui-item>
+
+    </ngt-group>
+  </ng-template>
+</flat-ui-drag-panel>
+
+<flat-ui-list *ngIf="input.showlist" [list]="input.list" [selectedtext]="input.method.text"
+              [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
+              (change)="input.method.text = $event.text;input.showlist=false" (close)="input.showlist=false;input.closeinput()">
+</flat-ui-list>
+
+<flat-ui-color-picker *ngIf="input.showpicker" [colorvalue]="input.method.text"
+                      [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
+                      (colorpicked)="input.method.text = $event" (close)="input.showpicker=false;input.closeinput()">
+</flat-ui-color-picker>
+
+<flat-ui-keyboard *ngIf="input.showkeyboard" [text]="input.method.text"
+                  [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
+                  (change)="input.method.text = $event" (close)="input.showkeyboard=false;input.closeinput()">
+</flat-ui-keyboard>
+
+<flat-ui-numpad *ngIf="input.shownumpad" [text]="input.method.text"
+                [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
+                (change)="input.method.text = $event" (close)="input.shownumpad=false;input.closeinput()">
+</flat-ui-numpad>

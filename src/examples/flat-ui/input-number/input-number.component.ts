@@ -14,7 +14,7 @@ import { InteractiveObjects } from "../interactive-objects";
   templateUrl: './input-number.component.html',
 })
 export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterViewInit, UIInput {
-private _text = '';
+  private _text = '';
   @Input()
   get text(): string { return this._text }
   set text(newvalue: string) {
@@ -24,17 +24,18 @@ private _text = '';
     else {
       let value = +newvalue;
       if (!isNaN(value)) {
-        value = MathUtils.clamp(value, this.min, this.max);
+        if (this.min != undefined && this.max != undefined)
+          value = MathUtils.clamp(value, this.min, this.max);
         this.change.next(value);
 
         this._text = newvalue;
       }
     }
   }
-  @Input() overflow = 6; 
+  @Input() overflow = 6;
 
-  @Input() min = -Infinity;
-  @Input() max = Infinity;
+  @Input() min?= -Infinity;
+  @Input() max?= Infinity;
 
   @Input() enabled = true;
 

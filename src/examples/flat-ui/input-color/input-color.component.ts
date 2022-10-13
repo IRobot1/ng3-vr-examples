@@ -14,17 +14,16 @@ import { THEME_CHANGE_EVENT, GlobalFlatUITheme } from "../flat-ui-theme";
   templateUrl: './input-color.component.html',
 })
 export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewInit, UIInput {
-  private _value = GlobalFlatUITheme.ButtonColor;
+  private _text = GlobalFlatUITheme.ButtonColor;
   @Input()
-  get value(): string { return this._value }
-  set value(newvalue: string) {
-    this._value = newvalue;
+  get text(): string { return this._text }
+  set text(newvalue: string) {
+    this._text = newvalue;
     if (this.material) {
       this.updatecolor();
     }
+    this.change.next(newvalue);
   }
-
-  @Input() text = '';
 
   @Input() enabled = true;
 
@@ -74,11 +73,13 @@ export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewI
   inputopen = false;
   @Output() openinput = new EventEmitter<Object3D>();
 
+  @Output() change = new EventEmitter<string>();
+
   geometry!: BufferGeometry;
   material!: MeshBasicMaterial;
 
   updatecolor() {
-    this.material.color.setStyle(this.value);
+    this.material.color.setStyle(this.text);
   }
 
   override preInit() {
@@ -149,7 +150,7 @@ export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewI
     this.isover = true;
   }
   out() {
-    this.material.color.setStyle(this.buttoncolor);
+    this.material.color.setStyle(this.text);
     this.isover = false;
   }
 }

@@ -109,6 +109,7 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
     this.keys.push(new NumKeySetting([0, yback, z], 'Back', 0.3));
 
     this.selectable?.add(mesh);
+    mesh.addEventListener('click', (e: any) => { e.stop = true; });
     mesh.addEventListener('raymissed', (e: any) => { this.missed(); e.stop = true; });
 
     this.mesh = mesh;

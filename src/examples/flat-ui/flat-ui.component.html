@@ -27,7 +27,7 @@
 
       <ngt-group horizontal-layout>
         <flat-ui-label [text]="'panel color'" [width]="0.6"></flat-ui-label>
-        <flat-ui-input-color #color [value]="panelcolor" [selectable]="selectable" (openinput)="opencolor($event, color)"></flat-ui-input-color>
+        <flat-ui-input-color #color [text]="panelcolor" [selectable]="selectable" (openinput)="opencolor($event, color)"></flat-ui-input-color>
         <flat-ui-input-text #tinput2 [text]="panelcolor" [overflow]="7" [width]="0.5" [enabled]="false" (openinput)="openkeyboard($event, tinput2)"></flat-ui-input-text>
       </ngt-group>
 
@@ -111,7 +111,7 @@
 
 <flat-ui-list *ngIf="showlist" [list]="list" [width]="1.5" [height]="1.2" [selectedtext]="selectedtext"
               [position]="listposition" [rotation]="listrotation" [selectable]="selectable"
-              (change)="listitem($event)" (close)="showlist=false;changeinput()">
+              (change)="listitem($event.text)" (close)="showlist=false;changeinput()">
 </flat-ui-list>
 
 <flat-ui-color-picker *ngIf="showpicker" [colorvalue]="colorvalue"

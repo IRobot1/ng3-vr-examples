@@ -14,7 +14,14 @@ import { InteractiveObjects } from "../interactive-objects";
   templateUrl: './input-text.component.html',
 })
 export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewInit, UIInput {
-  @Input() text = '';
+  private _text = '';
+  @Input()
+  get text(): string { return this._text }
+  set text(newvalue: string) {
+    this._text = newvalue;
+    this.change.next(newvalue);
+  }
+
   @Input() overflow = 6;
 
   @Input() enabled = true;
@@ -71,6 +78,8 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
 
   inputopen = false;
   @Output() openinput = new EventEmitter<Object3D>();
+
+  @Output() change = new EventEmitter<string>();
 
   geometry!: BufferGeometry;
   material!: MeshBasicMaterial;

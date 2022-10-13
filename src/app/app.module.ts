@@ -135,6 +135,10 @@ import { FlatUISelect } from '../examples/flat-ui/select/select.component';
 import { HorizontalLayoutDirective } from '../examples/flat-ui/horizontal-layout.directive';
 import { VerticalLayoutDirective } from '../examples/flat-ui/vertical-layout.directive';
 import { FlatUIExpansionPanel } from '../examples/flat-ui/expansion-panel/expansion-panel.component';
+import { ThreeGUIExample } from '../examples/three-gui/three-gui.component';
+import { ThreeGUIComponent } from '../examples/three-gui/gui/gui.component';
+import { ThreeGUIItemComponent } from '../examples/three-gui/gui-item/gui-item.component';
+import { ThreeGUIFolderComponent } from '../examples/three-gui/gui-folder/gui-folder.component';
 import { LoadingExample } from '../examples/loading/loading.component';
 import { SpokesLoadingComponent } from '../examples/loading/spokes/spokes.component';
 
@@ -275,6 +279,10 @@ import { SpokesLoadingComponent } from '../examples/loading/spokes/spokes.compon
     HorizontalLayoutDirective,
     VerticalLayoutDirective,
 
+    ThreeGUIExample,
+    ThreeGUIComponent,
+    ThreeGUIItemComponent,
+    ThreeGUIFolderComponent,
     LoadingExample,
     SpokesLoadingComponent,
   ],

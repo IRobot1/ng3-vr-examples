@@ -25,6 +25,7 @@ type KeyCase = 'lower' | 'upper' | 'numbers';
 export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
   @Input() text: string = ''
   @Input() enabled = true;
+  @Input() allowenter = false;
 
   @Input() selectable?: InteractiveObjects;
 
@@ -116,14 +117,16 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
     bottom.forEach((lower, index) => {
       this.keys.push(new KeySetting([(-width / 2 + index * buttonwidth), ybottom, z], lower, lower.toUpperCase(), bottomalpha[index]));
     })
-    this.keys.push(new KeySetting([(-width / 2 + bottom.length * buttonwidth + 0.16), ybottom, z], 'Enter', 'Enter', 'Enter', 0.4, 0.1));
-
+    if (this.allowenter) {
+      this.keys.push(new KeySetting([(-width / 2 + bottom.length * buttonwidth + 0.16), ybottom, z], 'Enter', 'Enter', 'Enter', 0.4, 0.1));
+    }
     this.keys.push(new KeySetting([-0.56, yspace, z], '123', '123', 'abc', 0.3, 0.1));
     this.keys.push(new KeySetting([0, yspace, z], ' ', ' ', ' ', 0.8));
     this.keys.push(new KeySetting([0.51, yspace, z], '.', ',', ':'));
     this.keys.push(new KeySetting([0.62, yspace, z], '@', '?', '/'));
 
     this.selectable?.add(mesh);
+    mesh.addEventListener('click', (e: any) => { e.stop = true; });
     mesh.addEventListener('raymissed', (e: any) => { this.missed(); e.stop = true; });
 
     this.mesh = mesh;
@@ -173,7 +176,7 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
     }
     else {
       this.pressed.emit(keycode);
-      if (keycode == 'Return') {
+      if (keycode == 'Enter' && this.allowenter) {
         this.change.emit(this.text);
         this.text = '';
       }
