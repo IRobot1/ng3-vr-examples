@@ -141,6 +141,7 @@ import { ThreeGUIItemComponent } from '../examples/three-gui/gui-item/gui-item.c
 import { ThreeGUIFolderComponent } from '../examples/three-gui/gui-folder/gui-folder.component';
 import { LoadingExample } from '../examples/loading/loading.component';
 import { SpokesLoadingComponent } from '../examples/loading/spokes/spokes.component';
+import { ShapesExample } from '../examples/shapes/shapes.component';
 
 
 @NgModule({
@@ -283,8 +284,12 @@ import { SpokesLoadingComponent } from '../examples/loading/spokes/spokes.compon
     ThreeGUIComponent,
     ThreeGUIItemComponent,
     ThreeGUIFolderComponent,
+
     LoadingExample,
     SpokesLoadingComponent,
+
+    ShapesExample,
+
   ],
   imports: [
     BrowserModule,
