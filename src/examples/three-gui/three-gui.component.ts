@@ -20,6 +20,7 @@ export class ThreeGUIExample implements OnInit {
   };
 
   public gui!: FlatGUI;
+  public basic!: FlatGUI;
   public guiscale = [0.5, 0.5, 0.5] as NgtTriple;
 
   public meshes: Array<Mesh> = [];
@@ -29,8 +30,8 @@ export class ThreeGUIExample implements OnInit {
   constructor(
     public camera: CameraService,
   ) {
-    this.camera.position = [0, 1, 0];
-    this.camera.lookAt = [-1.3, 1, -3];
+    this.camera.position = [0, 1, 0.5];
+    this.camera.lookAt = [0, 1, -3];
     this.camera.fov = 55;
 
 
@@ -46,9 +47,9 @@ export class ThreeGUIExample implements OnInit {
     gui.add(this.parameters, 'q', 0, 10, 1);
     this.gui = gui;
 
-    const xgui = new FlatGUI({width:300, height:150});
+    const basic = new FlatGUI({width:300, height:150});
 
-		const folder = xgui.addFolder( 'Folder' );
+		const folder = basic.addFolder( 'Folder' );
 
 		const folderParams = {
 			number: 0.5,
@@ -71,14 +72,14 @@ export class ThreeGUIExample implements OnInit {
 			function() { console.log( 'hi' ) }
 		};
 
-		xgui.add( params, 'options', { Small: 1, Medium: 10, Large: 100 } );
-		xgui.add( params, 'boolean' );
-		xgui.add( params, 'string' );
-		xgui.add( params, 'number' );
-		xgui.addColor( params, 'color' );
-		xgui.add( params, 'function' ).name( 'Custom Name' );
+		basic.add( params, 'options', { Small: 1, Medium: 10, Large: 100 } );
+		basic.add( params, 'boolean' );
+		basic.add( params, 'string' );
+		basic.add( params, 'number' );
+		basic.addColor( params, 'color' );
+		basic.add( params, 'function' ).name( 'Custom Name' );
 
-    this.gui = xgui;
+    this.basic = basic;
   }
 
   tick(torus: Mesh) {

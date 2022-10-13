@@ -126,6 +126,7 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
     this.keys.push(new KeySetting([0.62, yspace, z], '@', '?', '/'));
 
     this.selectable?.add(mesh);
+    mesh.addEventListener('click', (e: any) => { e.stop = true; });
     mesh.addEventListener('raymissed', (e: any) => { this.missed(); e.stop = true; });
 
     this.mesh = mesh;

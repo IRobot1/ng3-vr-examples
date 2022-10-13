@@ -28,6 +28,7 @@ export class FlatUIInputService {
 
   opennumpad(object: Object3D, input: UIInput, text: string) {
     this.changeinput(input);
+    this.showkeyboard = this.showlist = this.showpicker = false;
 
     object.getWorldPosition(this.position);
     this.position.y -= 0.35 * this.scale.y;
@@ -46,6 +47,7 @@ export class FlatUIInputService {
 
   openkeyboard(object: Object3D, input: UIInput, text: string) {
     this.changeinput(input);
+    this.showlist = this.shownumpad = this.showpicker = false;
 
     object.getWorldPosition(this.position);
     this.position.x += 0.01;
@@ -64,6 +66,7 @@ export class FlatUIInputService {
 
   opencolor(object: Object3D, input: UIInput) {
     this.changeinput(input);
+    this.showkeyboard = this.showlist = this.shownumpad = false;
 
     object.getWorldPosition(this.position);
     this.position.x -= 0.02;
@@ -82,6 +85,7 @@ export class FlatUIInputService {
 
   openlist(object: Object3D, input: UIInput, list: Array<ListItem>, selected: string) {
     this.changeinput(input);
+    this.showkeyboard = this.shownumpad = this.showpicker = false;
 
     object.getWorldPosition(this.position);
     this.position.x -= 0.02;
