@@ -35,6 +35,7 @@ export abstract class Layout {
 
     const event = { type: LAYOUT_EVENT, width: 0, height: 0, updated: false };
     children.forEach(child => {
+
       if (child.type == 'Group') {
         const x = this.getSizes(child.children);
         let width = 0
@@ -46,6 +47,7 @@ export abstract class Layout {
         sizes.push({ object: child, width: width, height: height })
       }
       else {
+        if (!child.visible) return;
         if (child.type != 'Mesh') return;
 
         event.width = event.height = 0;
