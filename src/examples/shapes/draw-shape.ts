@@ -59,8 +59,8 @@ export abstract class DrawShape {
   bezierCurveTo(ctx: Shape, aCP1x: number, aCP1y: number, aCP2x: number, aCP2y: number, aX: number, aY: number): DrawShape {
     if (this.track) {
       this.dots.push({ position: new Vector3(aCP1x, aCP1y), color: 'red' })
-      this.dots.push({ position: new Vector3(aCP2x, aCP2y), color: 'red' })
-      this.dots.push({ position: new Vector3(aX, aY), color: 'red' })
+      this.dots.push({ position: new Vector3(aCP2x, aCP2y), color: 'darkred' })
+      this.dots.push({ position: new Vector3(aX, aY), color: 'pink' })
     }
     ctx.bezierCurveTo(aCP1x, aCP1y, aCP2x, aCP2y, aX, aY)
     return this;

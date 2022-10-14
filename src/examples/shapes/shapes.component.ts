@@ -3,6 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { BufferGeometry, CircleBufferGeometry, Curve, DoubleSide, Path, Shape, ShapeGeometry, ShapeUtils, Side, Texture, TextureLoader, Vector2, Vector3 } from "three";
 import { DrawShape } from "./draw-shape";
 import { Label1Geometry } from "./label1";
+import { Label2Geometry } from "./label2";
 import { RoundRectangeGeometry } from "./round-rectangle";
 
 
@@ -25,14 +26,14 @@ export class ShapesExample implements OnInit {
 
   ngOnInit(): void {
     //this.shape = new RoundRectangeGeometry()
-    this.shape = new Label1Geometry()
-    this.border = this.shape.drawborder(0.05)
+    this.shape = new Label2Geometry()
+    this.border = this.shape.drawborder(0.07)
 
-    //const s = this.loader.use(TextureLoader, 'assets/label1.png').subscribe(next => {
-    //  this.texture = next; 
-    //},
-    //  () => { },
-    //  () => { s.unsubscribe(); }
-    //);
+    const s = this.loader.use(TextureLoader, 'assets/label.png').subscribe(next => {
+      this.texture = next; 
+    },
+      () => { },
+      () => { s.unsubscribe(); }
+    );
   }
 }
