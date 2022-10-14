@@ -1,27 +1,38 @@
 <ngt-group [position]="position" [rotation]="rotation" [scale]="scale">
-  <ngt-mesh [geometry]="shape.geometry">
-    <ngt-mesh-basic-material color="gray"></ngt-mesh-basic-material>
+  <ngt-mesh [geometry]="shape.geometry" [material]="backgroundmaterial">
 
-    <ngt-mesh [geometry]="close.geometry" [position]="[width/2-0.05, height/2-0.1, 0.001]">
-      <ngt-mesh-basic-material color="red"></ngt-mesh-basic-material>
-      <ngt-soba-text [text]="'x'" archorX="'middle'" [position]="[-0.02, 0.01, 0.001]" [scale]="[0.9, 0.9, 0.9]"></ngt-soba-text>
+    <ngt-soba-text [text]="'SIGN UP'" [color]="textcolor" [position]="[0, innerscale.y/2-0.1, 0.001]" [scale]="[0.9, 0.9, 0.9]"></ngt-soba-text>
+
+    <ngt-group [position]="[0, innerscale.y/2-0.2, 0.001]">
+
+      <ngt-mesh [material]="bordermaterial" [position]="[-innerscale.x/2+0.25, 0, 0]">
+        <ngt-plane-geometry [args]="[innerscale.x/2-0.1, 0.005]"></ngt-plane-geometry>
+      </ngt-mesh>
+
+      <ngt-mesh [material]="bordermaterial" [position]="[innerscale.x/2-0.25, 0, 0]">
+        <ngt-plane-geometry [args]="[innerscale.x/2-0.1, 0.005]"></ngt-plane-geometry>
+      </ngt-mesh>
+
+      <ngt-mesh [material]="bordermaterial" [rotation]="[0, 0, 30 | radian]">
+        <ngt-circle-geometry [args]="[0.02, 3]"></ngt-circle-geometry>
+      </ngt-mesh>
+
+    </ngt-group>
+
+    <ngt-mesh [geometry]="close.geometry" [material]="closematerial" [position]="[innerscale.x/2-0.05, innerscale.y/2-0.1, 0.001]">
+      <ngt-soba-text [text]="'x'" [color]="textcolor" [position]="[-0.03, 0.01, 0.001]" [scale]="[0.9, 0.9, 0.9]"></ngt-soba-text>
     </ngt-mesh>
 
+    <ngt-group [position]="[0, -innerscale.x/2+0.15, 0.001]" [scale]="0.6">
 
-    <ngt-group [position]="[0, -height/2+0.1, 0.001]" [scale]="[0.9, 0.9, 0.9]">
-
-      <ngt-mesh [geometry]="buttonborder">
-        <ngt-mesh-basic-material color="red"></ngt-mesh-basic-material>
+      <ngt-mesh [geometry]="button.geometry" [material]="signupmaterial">
+        <ngt-soba-text [text]="'SIGN UP'" [color]="textcolor" [fontSize]="0.1" [position]="[0, 0, 0.001]"></ngt-soba-text>
       </ngt-mesh>
 
-      <ngt-mesh [geometry]="button.geometry">
-        <ngt-mesh-basic-material color="orange"></ngt-mesh-basic-material>
-        <ngt-soba-text [text]="'SIGN UP'" [fontSize]="0.1" [position]="[0, 0, 0.001]"></ngt-soba-text>
-      </ngt-mesh>
+      <ngt-mesh [geometry]="buttonborder" [material]="signupmaterial"></ngt-mesh>
+
     </ngt-group>
   </ngt-mesh>
 
-  <ngt-mesh [geometry]="border">
-    <ngt-mesh-basic-material color="black"></ngt-mesh-basic-material>
-  </ngt-mesh>
+  <ngt-mesh [geometry]="border" [material]="bordermaterial"></ngt-mesh>
 </ngt-group>

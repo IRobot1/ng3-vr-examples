@@ -4,6 +4,11 @@ import { DrawShape } from "./draw-shape";
 
 export class Dialog1Geometry extends DrawShape {
 
+  constructor(track = true) {
+    super(1, 1, {}, track)
+  }
+
+
   drawshape(ctx: Shape, width: number, height: number, radius: number): void {
     const p1offsetx = width / 4
     const p2offsetx = width/ 4 - 0.05

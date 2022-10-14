@@ -4,7 +4,13 @@ import { DrawShape } from "./draw-shape";
 
 export class Label1Geometry extends DrawShape {
 
-  drawshape(ctx: Shape, width: number, height: number, radius: number): void {
+  constructor(track = true) {
+    super(1, 1, { radius: 0.02}, track)
+  }
+
+  drawshape(ctx: Shape, width: number, height: number, parameters?: any): void {
+    const radius = parameters?.radius ?? 0;
+
     const offset = 0.15;
 
     this.moveTo(ctx, 0, height/2);

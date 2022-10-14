@@ -28,8 +28,11 @@
   <ngt-mesh-basic-material [color]="item.color"></ngt-mesh-basic-material>
 </ngt-mesh>-->
 
+<ngt-mesh-basic-material #bordermaterial color="black"></ngt-mesh-basic-material>
 
-<sign-up [position] ="[-2, 0, 0]" [rotation]="[0, 90 | radian , 0]"></sign-up>
+<sign-up [position] ="[-2, 0, 0]" [rotation]="[0, 90 | radian , 0]" [scale]="[0.8, 1, 1]"
+         [textcolor]="'black'"
+         [bordermaterial]="bordermaterial.instance.value"></sign-up>
 
 <vr-controller navhome></vr-controller>
 <vr-controller [index]="1" navhome></vr-controller>

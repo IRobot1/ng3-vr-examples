@@ -4,24 +4,24 @@ import { DrawShape } from "./draw-shape";
 
 export class CloseButtonGeometry extends DrawShape {
 
+  constructor(track = true) {
+    super(0.15, 0.1, {}, track)
+  }
+
   drawshape(ctx: Shape, width: number, height: number, parameters: any): void {
-    const leftoffset = parameters?.leftoffset ?? 0;
-    const rightoffset = parameters?.rightoffset ?? 0;
-  
     this.moveTo(ctx, 0, height / 2);
 
     // top left
-    this.lineTo(ctx, width / 2 + rightoffset, 0)
+    this.lineTo(ctx, width / 2 - 0.075, height / 2)
+    this.lineTo(ctx, width / 2 - 0.025, height / 2 - 0.05)
 
     // bottom left
-    this.lineTo(ctx, width / 2 + rightoffset, -height / 2)
-    this.lineTo(ctx, 0, -height / 2)
+    this.lineTo(ctx, width / 2 - 0.025, -height / 2)
 
     // bottom right
-    this.lineTo(ctx, -width / 4 - leftoffset, -height / 2)
-    this.lineTo(ctx, -width * 0.75 - leftoffset, 0)
+    this.lineTo(ctx, -width / 2, -height / 2)
 
-    //  // top left
-    this.lineTo(ctx, -width * 1.25 - leftoffset, height / 2)
+    // top left
+    this.lineTo(ctx, -width / 2 - 0.05, height / 2)
   }
 }

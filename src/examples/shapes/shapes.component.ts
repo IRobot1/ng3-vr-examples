@@ -29,7 +29,7 @@ export class ShapesExample implements OnInit {
   constructor(private loader: NgtLoader) { }
 
   ngOnInit(): void {
-    this.shape = new Button1Geometry()
+    this.shape = new Label1Geometry()
     this.border = this.shape.drawborder()
 
   //  const s = this.loader.use(TextureLoader, 'assets/label.png').subscribe(next => {

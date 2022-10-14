@@ -31,6 +31,7 @@ export abstract class DrawShape {
 
     // outer edge
     let points = this.shape.getPoints();
+    
     points.forEach(item => {
       if (item.x < 0)
         item.x -= borderoffset + borderwidth
