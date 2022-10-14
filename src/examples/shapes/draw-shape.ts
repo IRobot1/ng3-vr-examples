@@ -15,8 +15,8 @@ export abstract class DrawShape {
 
   private shape = new Shape()
 
-  constructor(public width = 1, public height = 1, public radius = 0.05, public track = true) {
-    this.drawshape(this.shape, width, height, radius);
+  constructor(public width = 1, public height = 1, public parameters?: any, public track = true) {
+    this.drawshape(this.shape, width, height, parameters);
   }
 
   get geometry() { return this.buildshape(this.shape) }
@@ -25,13 +25,39 @@ export abstract class DrawShape {
     return new ShapeGeometry(shape)
   }
 
-  abstract drawshape(ctx: Shape, width: number, height: number, radius: number): void;
+  abstract drawshape(ctx: Shape, width: number, height: number, parameters?: any): void;
 
-  drawborder(width = 0.02): BufferGeometry {
-    const points = this.shape.getPoints();
+  drawborder(borderwidth = 0.01, borderoffset = 0): BufferGeometry {
+
+    // outer edge
+    let points = this.shape.getPoints();
+    points.forEach(item => {
+      if (item.x < 0)
+        item.x -= borderoffset + borderwidth
+      else
+        item.x += borderoffset + borderwidth
+
+      if (item.y < 0)
+        item.y -= borderoffset + borderwidth
+      else
+        item.y += borderoffset + borderwidth
+    })
+
     const shape = new Shape(points);
 
-    points.forEach(item => item.multiplyScalar(1 - width))
+    // inner edge
+    points = this.shape.getPoints();
+    points.forEach(item => {
+      if (item.x < 0)
+        item.x -= borderoffset
+      else
+        item.x += borderoffset
+
+      if (item.y < 0)
+        item.y -= borderoffset
+      else
+        item.y += borderoffset
+    })
 
     shape.holes.push(new Shape(points.reverse()));
 

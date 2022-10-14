@@ -1,0 +1,27 @@
+<ngt-group [position]="position" [rotation]="rotation" [scale]="scale">
+  <ngt-mesh [geometry]="shape.geometry">
+    <ngt-mesh-basic-material color="gray"></ngt-mesh-basic-material>
+
+    <ngt-mesh [geometry]="close.geometry" [position]="[width/2-0.05, height/2-0.1, 0.001]">
+      <ngt-mesh-basic-material color="red"></ngt-mesh-basic-material>
+      <ngt-soba-text [text]="'x'" archorX="'middle'" [position]="[-0.02, 0.01, 0.001]" [scale]="[0.9, 0.9, 0.9]"></ngt-soba-text>
+    </ngt-mesh>
+
+
+    <ngt-group [position]="[0, -height/2+0.1, 0.001]" [scale]="[0.9, 0.9, 0.9]">
+
+      <ngt-mesh [geometry]="buttonborder">
+        <ngt-mesh-basic-material color="red"></ngt-mesh-basic-material>
+      </ngt-mesh>
+
+      <ngt-mesh [geometry]="button.geometry">
+        <ngt-mesh-basic-material color="orange"></ngt-mesh-basic-material>
+        <ngt-soba-text [text]="'SIGN UP'" [fontSize]="0.1" [position]="[0, 0, 0.001]"></ngt-soba-text>
+      </ngt-mesh>
+    </ngt-group>
+  </ngt-mesh>
+
+  <ngt-mesh [geometry]="border">
+    <ngt-mesh-basic-material color="black"></ngt-mesh-basic-material>
+  </ngt-mesh>
+</ngt-group>

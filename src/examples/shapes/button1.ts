@@ -4,7 +4,11 @@ import { DrawShape } from "./draw-shape";
 
 export class Button1Geometry extends DrawShape {
 
-  drawshape(ctx: Shape, width: number, height: number, radius: number): void {
+  constructor(track = true) {
+    super(0.5, 0.2, {}, track)
+  }
+
+  drawshape(ctx: Shape, width: number, height: number, parameters?: any): void {
     const offset = 0.25 * width / 2
 
     this.moveTo(ctx, 0, height / 2);

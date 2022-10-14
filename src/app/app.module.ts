@@ -142,6 +142,7 @@ import { ThreeGUIFolderComponent } from '../examples/three-gui/gui-folder/gui-fo
 import { LoadingExample } from '../examples/loading/loading.component';
 import { SpokesLoadingComponent } from '../examples/loading/spokes/spokes.component';
 import { ShapesExample } from '../examples/shapes/shapes.component';
+import { SignupComponent } from '../examples/shapes/sign-up/sign-up.component';
 
 
 @NgModule({
@@ -289,6 +290,7 @@ import { ShapesExample } from '../examples/shapes/shapes.component';
     SpokesLoadingComponent,
 
     ShapesExample,
+    SignupComponent,
 
   ],
   imports: [
