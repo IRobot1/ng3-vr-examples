@@ -1,6 +1,7 @@
 import { NgtLoader, NgtTriple } from "@angular-three/core";
 import { Component, OnInit } from "@angular/core";
 import { BufferGeometry, CircleBufferGeometry, Curve, DoubleSide, Path, Shape, ShapeGeometry, ShapeUtils, Side, Texture, TextureLoader, Vector2, Vector3 } from "three";
+import { Button1Geometry } from "./button1";
 import { Dialog1Geometry } from "./dialog1";
 import { DrawShape } from "./draw-shape";
 import { Label1Geometry } from "./label1";
@@ -27,7 +28,7 @@ export class ShapesExample implements OnInit {
 
   ngOnInit(): void {
     //this.shape = new RoundRectangeGeometry()
-    this.shape = new Dialog1Geometry()
+    this.shape = new Button1Geometry(0.5, 0.25)
     this.border = this.shape.drawborder(0.07)
 
     const s = this.loader.use(TextureLoader, 'assets/label.png').subscribe(next => {

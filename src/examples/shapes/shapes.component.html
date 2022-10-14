@@ -17,14 +17,14 @@
   <ngt-mesh-basic-material color="gray" [side]="side"></ngt-mesh-basic-material>
 </ngt-mesh>
 
-<ngt-mesh [geometry]="border" [scale]="scaleborder">
+<!--<ngt-mesh [geometry]="border" [scale]="scaleborder">
   <ngt-mesh-basic-material color="black" [side]="side"></ngt-mesh-basic-material>
-</ngt-mesh>
+</ngt-mesh>-->
 
-<!--<ngt-mesh *ngFor="let item of shape.dots" [position]="item.position">
+<ngt-mesh *ngFor="let item of shape.dots" [position]="item.position">
   <ngt-sphere-geometry [args]="[item.color == 'black' ? 0.02 : 0.01]"></ngt-sphere-geometry>
   <ngt-mesh-basic-material [color]="item.color"></ngt-mesh-basic-material>
-</ngt-mesh>-->
+</ngt-mesh>
 
 <ngt-point-light></ngt-point-light>
 
