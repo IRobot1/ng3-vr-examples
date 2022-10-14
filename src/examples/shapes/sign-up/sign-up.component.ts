@@ -8,6 +8,7 @@ import { DrawShape } from "../draw-shape";
 import { Dialog1Geometry } from "../dialog1";
 import { CloseButtonGeometry } from "../close-button";
 import { Button1Geometry } from "../button1";
+import { RectangleGeometry } from "../rectangle";
 
 @Component({
   selector: 'sign-up',
@@ -29,6 +30,7 @@ export class SignupComponent extends NgtObjectProps<Group> {
   protected shape!: DrawShape;
   protected close!: DrawShape;
   protected border!: BufferGeometry;
+  protected rectangle!: BufferGeometry;
 
   protected button!: DrawShape;
   protected buttonborder!: BufferGeometry;
@@ -38,6 +40,8 @@ export class SignupComponent extends NgtObjectProps<Group> {
   override ngOnInit(): void {
     super.ngOnInit();
 
+    const rectangle = new RectangleGeometry(this.innerscale.x - 0.15, 0.1);
+    this.rectangle = rectangle.drawborder();
 
     this.shape = new Dialog1Geometry()
     this.close = new CloseButtonGeometry()
@@ -50,6 +54,8 @@ export class SignupComponent extends NgtObjectProps<Group> {
     if (!this.closematerial) this.closematerial = this.createCloseButtonMaterial()
     if (!this.signupmaterial) this.signupmaterial = this.createSignupButtonMaterial()
     if (!this.bordermaterial) this.bordermaterial = this.createBorderMaterial()
+
+    this.createGeometry()
   }
 
   override ngOnDestroy() {
@@ -60,6 +66,8 @@ export class SignupComponent extends NgtObjectProps<Group> {
     this.signupmaterial.dispose();
     this.bordermaterial.dispose();
   }
+
+  createGeometry(): BufferGeometry | undefined { return undefined }
 
   createBackgroundMaterial(): Material {
     return new MeshBasicMaterial({ color: this.backgroundcolor })
