@@ -9,23 +9,30 @@ import { Dialog1Geometry } from "../dialog1";
 import { CloseButtonGeometry } from "../close-button";
 import { Button1Geometry } from "../button1";
 import { RectangleGeometry } from "../rectangle";
+import { FlatUIInputService } from "../../three-gui/flat-ui-input.service";
+import { InteractiveObjects } from "../../flat-ui/interactive-objects";
 
 @Component({
   selector: 'sign-up',
   templateUrl: './sign-up.component.html',
 })
 export class SignupComponent extends NgtObjectProps<Group> {
+  @Input() email: string = 'hello@gmail.com';
+  @Input() nickname: string = 'Nick Name';
+  @Input() password: string = '*****';
+
   @Input() backgroundcolor = 'gray';
   @Input() closecolor = 'red';
   @Input() signupcolor = 'orange';
   @Input() bordercolor = 'black';
   @Input() textcolor = 'white'
 
-
   @Input() backgroundmaterial!: Material
   @Input() closematerial!: Material
   @Input() signupmaterial!: Material
   @Input() bordermaterial!: Material
+
+  @Input() selectable?: InteractiveObjects;
 
   protected shape!: DrawShape;
   protected close!: DrawShape;
@@ -36,6 +43,10 @@ export class SignupComponent extends NgtObjectProps<Group> {
   protected buttonborder!: BufferGeometry;
 
   protected innerscale = <Vector3>this.scale;
+
+  constructor(public input: FlatUIInputService) {
+    super()
+  }
 
   override ngOnInit(): void {
     super.ngOnInit();

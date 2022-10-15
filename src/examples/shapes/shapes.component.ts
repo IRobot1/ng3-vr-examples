@@ -1,6 +1,8 @@
 import { NgtLoader, NgtTriple } from "@angular-three/core";
 import { Component, OnInit } from "@angular/core";
 import { BoxGeometry, BufferGeometry, CircleBufferGeometry, Curve, DoubleSide, Path, Shape, ShapeGeometry, ShapeUtils, Side, Texture, TextureLoader, Vector2, Vector3 } from "three";
+import { InteractiveObjects } from "../flat-ui/interactive-objects";
+import { FlatUIInputService } from "../three-gui/flat-ui-input.service";
 import { Button1Geometry } from "./button1";
 import { CloseButtonGeometry } from "./close-button";
 import { Dialog1Geometry } from "./dialog1";
@@ -13,8 +15,10 @@ import { RoundRectangeGeometry } from "./round-rectangle";
 
 @Component({
   templateUrl: './shapes.component.html',
+  providers: [FlatUIInputService]
 })
 export class ShapesExample implements OnInit {
+  selectable = new InteractiveObjects()
 
   shape!:DrawShape;
   border!: BufferGeometry;
@@ -27,7 +31,11 @@ export class ShapesExample implements OnInit {
   height = 1
   width = 1
 
-  constructor(private loader: NgtLoader) { }
+  constructor(
+    private loader: NgtLoader,
+    public input: FlatUIInputService
+  ) { }
+
 
   ngOnInit(): void {
     this.shape = new RectangleGeometry()
