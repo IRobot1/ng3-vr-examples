@@ -32,12 +32,12 @@
 
 <ngt-mesh-basic-material #bordermaterial color="red"></ngt-mesh-basic-material>
 
-<sign-up *ngIf="showsignin" [position]="[-0, 0, 0]" [rotation]="[0, 0 | radian , 0]" [scale]="[0.8, 1, 1]"
+<sign-up *ngIf="showsignin" [position]="[0, 1, -1]" [rotation]="[0, 0 | radian , 0]" [scale]="[0.8, 1, 1]"
          [textcolor]="'black'" [selectable]="selectable" [bordermaterial]="bordermaterial.instance.value"
          (close)="showsignin=false" (signup)="signup($event)"></sign-up>
 
-<vr-controller navhome></vr-controller>
-<vr-controller [index]="1" navhome></vr-controller>
+<vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
+<vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
 
 <ngt-soba-orbit-controls></ngt-soba-orbit-controls>
 

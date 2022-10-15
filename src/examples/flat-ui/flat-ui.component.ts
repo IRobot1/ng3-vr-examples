@@ -30,6 +30,7 @@ const MatrixTheme: FlatUITheme = {
   PopupColor: '#2c4e2c',
   SelectColor: 'gray',
   ProgressColor: 'lime',
+  DisabledColor: '#666666'
 }
 
 @Component({

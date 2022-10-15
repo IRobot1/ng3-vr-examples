@@ -55,7 +55,7 @@
       </ngt-group>
     </ngt-group>
 
-    <flat-ui-button [text]="'x'" [textjustify]="'right'" [labelcolor]="textcolor"
+    <flat-ui-button [text]="'x'" [textjustify]="'right'" [labelcolor]="textcolor" [selectable]="selectable"
                     [buttoncolor]="closecolor" [hovercolor]="hovercolor"
                     [geometry]="closegeometry" [material]="closematerial"
                     [position]="[innerscale.x/2-0.05, innerscale.y/2-0.1, 0.001]" (pressed)="close.next(true)">
@@ -63,8 +63,8 @@
 
     <ngt-group [position]="[0, -innerscale.x/2+0.15, 0.001]" [scale]="0.6">
 
-      <flat-ui-button [text]="'SIGN UP'" [labelcolor]="textcolor"
-                      [geometry]="buttongeometry" [material]="signupmaterial"
+      <flat-ui-button [text]="'SIGN UP'" [labelcolor]="textcolor" [selectable]="selectable"
+                      [geometry]="buttongeometry" [material]="signupmaterial" [enabled]="isinputvalid"
                       [buttoncolor]="signupcolor" [hovercolor]="hovercolor" [fontsize]="0.1"
                       (pressed)="signupPressed()">
       </flat-ui-button>

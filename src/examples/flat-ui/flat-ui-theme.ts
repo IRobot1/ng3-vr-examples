@@ -21,6 +21,7 @@ export interface FlatUITheme {
   PopupColor: string,
   SelectColor: string,
   ProgressColor: string,
+  DisabledColor: string,
 }
 // just in case you want to add to the scheme when saving to GLTF
 
@@ -43,6 +44,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   PopupColor = 'gray';
   SelectColor = 'white';
   ProgressColor = 'green';
+  DisabledColor = '#666666'
 
   // notify any object using the theme that it changed
   notify() {
@@ -68,6 +70,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     this.PopupColor = newtheme.PopupColor
     this.SelectColor = newtheme.SelectColor
     this.ProgressColor = newtheme.ProgressColor
+    this.DisabledColor = newtheme.DisabledColor
     this.notify();
   }
 }

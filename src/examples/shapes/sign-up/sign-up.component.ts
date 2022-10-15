@@ -107,8 +107,14 @@ export class SignupComponent extends NgtObjectProps<Group> {
     return new MeshBasicMaterial({ color: this.bordercolor })
   }
 
+  protected get isinputvalid(): boolean {
+    var re = /\S+@\S+\.\S+/;  // basic check
+    const validateEmail = re.test(this.email);
+    
+    return validateEmail && this.nickname.length > 0 && this.password.length > 0;
+  }
   protected signupPressed() {
-    if (this.email.length > 0 && this.nickname.length > 0 && this.password.length > 0) {
+    if (this.isinputvalid) {
       this.signup.next({ email: this.email, nickname: this.nickname, password: this.password });
     }
   }

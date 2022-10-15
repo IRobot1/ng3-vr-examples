@@ -38,8 +38,20 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
     }
   }
 
-  @Input() enabled = true;
   @Input() active = false;
+
+private _enabled = true;
+  @Input()
+  get enabled(): boolean { return this._enabled }
+  set enabled(newvalue: boolean) {
+    this._enabled = newvalue;
+    if (newvalue) {
+      this.setButtonColor(this.buttoncolor);
+    }
+    else {
+      this.setButtonColor(this.disabledcolor);
+    }
+  }
 
   private _buttoncolor?: string;
   @Input()
@@ -49,6 +61,16 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
   }
   set buttoncolor(newvalue: string) {
     this._buttoncolor = newvalue;
+  }
+
+  private _disabledcolor?: string;
+  @Input()
+  get disabledcolor(): string {
+    if (this._disabledcolor) return this._disabledcolor;
+    return GlobalFlatUITheme.DisabledColor;
+  }
+  set disabledcolor(newvalue: string) {
+    this._disabledcolor = newvalue;
   }
 
   private _hovercolor?: string;
@@ -134,7 +156,7 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
     });
 
     GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.setButtonColor(this.buttoncolor);
+      if (this.enabled) this.setButtonColor(this.buttoncolor);
     })
   }
 
@@ -182,6 +204,7 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
     this.isover = true;
   }
   out() {
+    if (!this.enabled) return;
     this.setButtonColor(this.buttoncolor);
     this.isover = false;
   }
