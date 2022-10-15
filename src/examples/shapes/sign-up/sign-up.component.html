@@ -19,24 +19,34 @@
 
     </ngt-group>
 
-    <ngt-mesh name="email" [material]="bordermaterial" [geometry]="rectangle" [position]="[0, 0.15, 0.001]">
-      <ngt-group horizontal-layout [margin]="[0.01, 0, 0]" [position]="[-innerscale.x/2+0.08, 0, 0]">
-        <flat-ui-icon-button [url]="'assets/sign-in/email.svg'" [iconcolor]="bordercolor" [enabled]="false" [buttoncolor]="backgroundcolor"></flat-ui-icon-button>
-        <flat-ui-input-text [text]="'hello@gmail.com'" [width]="innerscale.x-0.3" [buttoncolor]="backgroundcolor"></flat-ui-input-text>
+    <ngt-group vertical-layout [margin]="[0, 0.08, 0]" [position]="[0, innerscale.y/4, 0.001]">
+      <ngt-group>
+        <ngt-mesh name="email" [material]="bordermaterial" [geometry]="rectangle" [position]="[0, 0, 0.001]">
+          <ngt-group horizontal-layout [margin]="[0.01, 0, 0]" [position]="[-innerscale.x/2+0.08, 0, 0]">
+            <flat-ui-icon-button [url]="'assets/sign-in/email.svg'" [iconmaterial]="bordermaterial" [enabled]="false" [buttoncolor]="backgroundcolor"></flat-ui-icon-button>
+            <flat-ui-input-text [text]="'hello@gmail.com'" [width]="innerscale.x-0.3" [buttoncolor]="backgroundcolor"></flat-ui-input-text>
+          </ngt-group>
+        </ngt-mesh>
       </ngt-group>
-    </ngt-mesh>
-    <ngt-mesh name="name" [material]="bordermaterial" [geometry]="rectangle" [position]="[0, 0, 0.001]">
-      <ngt-group horizontal-layout [margin]="[0.01, 0, 0]" [position]="[-innerscale.x/2+0.08, 0, 0]">
-        <flat-ui-icon-button [url]="'assets/sign-in/person.svg'" [iconcolor]="bordercolor" [enabled]="false" [buttoncolor]="backgroundcolor"></flat-ui-icon-button>
-        <flat-ui-input-text [text]="'Nick Name'" [width]="innerscale.x-0.3" [buttoncolor]="backgroundcolor"></flat-ui-input-text>
+
+      <ngt-group>
+        <ngt-mesh name="name" [material]="bordermaterial" [geometry]="rectangle" [position]="[0, 0, 0.001]">
+          <ngt-group horizontal-layout [margin]="[0.01, 0, 0]" [position]="[-innerscale.x/2+0.08, 0, 0]">
+            <flat-ui-icon-button [url]="'assets/sign-in/person.svg'" [iconmaterial]="bordermaterial" [enabled]="false" [buttoncolor]="backgroundcolor"></flat-ui-icon-button>
+            <flat-ui-input-text [text]="'Nick Name'" [width]="innerscale.x-0.3" [buttoncolor]="backgroundcolor"></flat-ui-input-text>
+          </ngt-group>
+        </ngt-mesh>
       </ngt-group>
-    </ngt-mesh>
-    <ngt-mesh name="password" [material]="bordermaterial" [geometry]="rectangle" [position]="[0, -0.15, 0.001]">
-      <ngt-group horizontal-layout [margin]="[0.01, 0, 0]" [position]="[-innerscale.x/2+0.08, 0, 0]">
-        <flat-ui-icon-button [url]="'assets/sign-in/password.svg'" [iconcolor]="bordercolor" [enabled]="false" [buttoncolor]="backgroundcolor"></flat-ui-icon-button>
-        <flat-ui-input-text [text]="'*****'" [width]="innerscale.x-0.3" [buttoncolor]="backgroundcolor"></flat-ui-input-text>
+
+      <ngt-group>
+        <ngt-mesh name="password" [material]="bordermaterial" [geometry]="rectangle" [position]="[0, 0, 0.001]">
+          <ngt-group horizontal-layout [margin]="[0.01, 0, 0]" [position]="[-innerscale.x/2+0.08, 0, 0]">
+            <flat-ui-icon-button [url]="'assets/sign-in/password.svg'" [iconmaterial]="bordermaterial" [enabled]="false" [buttoncolor]="backgroundcolor"></flat-ui-icon-button>
+            <flat-ui-input-text [text]="'*****'" [width]="innerscale.x-0.3" [buttoncolor]="backgroundcolor"></flat-ui-input-text>
+          </ngt-group>
+        </ngt-mesh>
       </ngt-group>
-    </ngt-mesh>
+    </ngt-group>
 
     <ngt-mesh [geometry]="close.geometry" [material]="closematerial" [position]="[innerscale.x/2-0.05, innerscale.y/2-0.1, 0.001]">
       <ngt-soba-text [text]="'x'" [color]="textcolor" [position]="[-0.03, 0.01, 0.001]" [scale]="[0.9, 0.9, 0.9]"></ngt-soba-text>

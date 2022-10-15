@@ -4,7 +4,5 @@
           [geometry]="geometry" [material]="material"
           (ready)="meshready($event)">
 
-  <ngt-mesh [position]="[0, 0, 0.001]" [scale]="svgscale" [geometry]="svggeometry">
-    <ngt-mesh-basic-material [color]="iconcolor" [side]="side"></ngt-mesh-basic-material>
-  </ngt-mesh>
+  <ngt-mesh [position]="[0, 0, 0.001]" [scale]="svgscale" [geometry]="icongeometry" [material]="iconmaterial"></ngt-mesh>
 </ngt-mesh>

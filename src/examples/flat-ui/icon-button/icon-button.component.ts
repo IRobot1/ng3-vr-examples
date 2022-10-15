@@ -18,7 +18,7 @@ import { InteractiveObjects } from "../interactive-objects";
   exportAs: 'flatUIIconButton',
   templateUrl: './icon-button.component.html',
 })
-export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewInit{
+export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewInit {
   @Input() enabled = true;
 
   private _width = 0.1;
@@ -71,32 +71,40 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
     this._iconcolor = newvalue;
   }
 
-
-  @Input() svggeometry!: BufferGeometry;
+  @Input() iconmaterial!: Material;
 
   @Input() selectable?: InteractiveObjects;
 
   @Output() pressed = new EventEmitter<boolean>();
 
-  geometry!: BufferGeometry;
-  material!: MeshBasicMaterial;
+  protected geometry!: BufferGeometry;
+  protected material!: MeshBasicMaterial;
+  protected icongeometry!: BufferGeometry;
 
-  side: Side = DoubleSide;
-  svgscale!: Vector3;
+  protected svgscale!: Vector3;
 
   override preInit() {
     super.preInit();
 
-    if (!this.geometry) {
-      const flat = new Shape();
-      roundedRect(flat, 0, 0, this.width, 0.1, 0.02);
+    if (!this.geometry) this.createButtonGeometry();
+    if (!this.material) this.createButtonMaterial();
+    if (!this.iconmaterial) this.createIconMaterial();
+  }
 
-      this.geometry = new ShapeGeometry(flat);
-      this.geometry.center();
-    }
-    if (!this.material) {
-      this.material = new MeshBasicMaterial({ color: this.buttoncolor, side: DoubleSide, opacity: 0.5, transparent: true });
-    }
+  createButtonGeometry() {
+    const flat = new Shape();
+    roundedRect(flat, 0, 0, this.width, 0.1, 0.02);
+
+    this.geometry = new ShapeGeometry(flat);
+    this.geometry.center();
+  }
+
+  createButtonMaterial() {
+    this.material = new MeshBasicMaterial({ color: this.buttoncolor });
+  }
+
+  createIconMaterial() {
+    this.iconmaterial = new MeshBasicMaterial({ color: this.iconcolor });
   }
 
   override ngOnDestroy() {
@@ -239,7 +247,7 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
       size.z = 1;
       this.svgscale = new Vector3(this.width * 0.8, -this.width * 0.8, 1).divide(size);
 
-      this.svggeometry = geometry;
+      this.icongeometry = geometry;
     }
   }
 
