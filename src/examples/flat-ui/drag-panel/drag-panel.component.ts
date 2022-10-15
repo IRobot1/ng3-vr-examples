@@ -14,7 +14,7 @@ import { InteractiveObjects } from "../interactive-objects";
 })
 export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   @Input() title = '';
-  @Input() titlefontsize = 0.09;
+  @Input() titlefontsize = 0.07;
   @Input() overflow = 16;
 
   @Input() width = 1

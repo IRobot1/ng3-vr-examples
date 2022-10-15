@@ -14,7 +14,7 @@ import { GlobalFlatUITheme } from "../flat-ui-theme";
 export class FlatUILabel implements AfterViewInit {
   @Input() text = '';
   @Input() font = ''; // for example, https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff
-  @Input() fontsize = 0.1;
+  @Input() fontsize = 0.07;
 
   private _color?: string;
   @Input()
