@@ -1,16 +1,13 @@
 import { NgtLoader, NgtTriple } from "@angular-three/core";
 import { Component, OnInit } from "@angular/core";
-import { BoxGeometry, BufferGeometry, CircleBufferGeometry, Curve, DoubleSide, Path, Shape, ShapeGeometry, ShapeUtils, Side, Texture, TextureLoader, Vector2, Vector3 } from "three";
+import { BufferGeometry, Texture } from "three";
 import { InteractiveObjects } from "../flat-ui/interactive-objects";
 import { FlatUIInputService } from "../three-gui/flat-ui-input.service";
-import { Button1Geometry } from "./button1";
-import { CloseButtonGeometry } from "./close-button";
-import { Dialog1Geometry } from "./dialog1";
+
 import { DrawShape } from "./draw-shape";
-import { Label1Geometry } from "./label1";
-import { Label2Geometry } from "./label2";
+
 import { RectangleGeometry } from "./rectangle";
-import { RoundRectangeGeometry } from "./round-rectangle";
+import { SignUpEvent } from "./sign-up/sign-up.component";
 
 
 @Component({
@@ -22,7 +19,7 @@ export class ShapesExample implements OnInit {
 
   showsignin = true;
 
-  shape!:DrawShape;
+  shape!: DrawShape;
   border!: BufferGeometry;
 
   scale = 1.05
@@ -43,11 +40,15 @@ export class ShapesExample implements OnInit {
     this.shape = new RectangleGeometry()
     this.border = this.shape.drawborder()
 
-  //  const s = this.loader.use(TextureLoader, 'assets/label.png').subscribe(next => {
-  //    this.texture = next; 
-  //  },
-  //    () => { },
-  //    () => { s.unsubscribe(); }
-  //  );
+    //  const s = this.loader.use(TextureLoader, 'assets/label.png').subscribe(next => {
+    //    this.texture = next; 
+    //  },
+    //    () => { },
+    //    () => { s.unsubscribe(); }
+    //  );
+  }
+
+  signup(event: SignUpEvent) {
+    console.warn('sign up', event);
   }
 }

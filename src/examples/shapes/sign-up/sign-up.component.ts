@@ -10,6 +10,12 @@ import { RectangleGeometry } from "../rectangle";
 import { FlatUIInputService } from "../../three-gui/flat-ui-input.service";
 import { InteractiveObjects } from "../../flat-ui/interactive-objects";
 
+export interface SignUpEvent {
+  email: string;
+  nickname: string;
+  password: string;
+}
+
 @Component({
   selector: 'sign-up',
   templateUrl: './sign-up.component.html',
@@ -24,6 +30,7 @@ export class SignupComponent extends NgtObjectProps<Group> {
   @Input() signupcolor = 'orange';
   @Input() bordercolor = 'black';
   @Input() textcolor = 'white'
+  @Input() hovercolor = 'white'
 
   @Input() backgroundmaterial!: Material
   @Input() closematerial!: Material
@@ -33,6 +40,7 @@ export class SignupComponent extends NgtObjectProps<Group> {
   @Input() selectable?: InteractiveObjects;
 
   @Output() close = new EventEmitter<boolean>();
+  @Output() signup = new EventEmitter<SignUpEvent>();
 
   protected panelgeometry!: BufferGeometry;
   protected closegeometry!: BufferGeometry;
@@ -99,4 +107,9 @@ export class SignupComponent extends NgtObjectProps<Group> {
     return new MeshBasicMaterial({ color: this.bordercolor })
   }
 
+  protected signupPressed() {
+    if (this.email.length > 0 && this.nickname.length > 0 && this.password.length > 0) {
+      this.signup.next({ email: this.email, nickname: this.nickname, password: this.password });
+    }
+  }
 }

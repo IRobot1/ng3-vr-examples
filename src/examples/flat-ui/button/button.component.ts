@@ -16,6 +16,7 @@ import { InteractiveObjects } from "../interactive-objects";
 export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit {
   @Input() text = '';
   @Input() textjustify: number | 'left' | 'center' | 'right' = 'center';
+  @Input() fontsize = 0.07;
 
   private _width = 0.5;
   @Input()
