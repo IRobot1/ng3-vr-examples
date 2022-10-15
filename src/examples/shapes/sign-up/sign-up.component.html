@@ -1,5 +1,5 @@
 <ngt-group [position]="position" [rotation]="rotation" [scale]="scale">
-  <ngt-mesh [geometry]="shape.geometry" [material]="backgroundmaterial">
+  <ngt-mesh [geometry]="panelgeometry" [material]="backgroundmaterial">
 
     <ngt-soba-text [text]="'SIGN UP'" [color]="textcolor" [position]="[0, innerscale.y/2-0.1, 0.001]" [scale]="[0.9, 0.9, 0.9]"></ngt-soba-text>
 
@@ -55,13 +55,13 @@
       </ngt-group>
     </ngt-group>
 
-    <ngt-mesh [geometry]="close.geometry" [material]="closematerial" [position]="[innerscale.x/2-0.05, innerscale.y/2-0.1, 0.001]">
+    <ngt-mesh [geometry]="closegeometry" [material]="closematerial" [position]="[innerscale.x/2-0.05, innerscale.y/2-0.1, 0.001]">
       <ngt-soba-text [text]="'x'" [color]="textcolor" [position]="[-0.03, 0.01, 0.001]" [scale]="[0.9, 0.9, 0.9]"></ngt-soba-text>
     </ngt-mesh>
 
     <ngt-group [position]="[0, -innerscale.x/2+0.15, 0.001]" [scale]="0.6">
 
-      <ngt-mesh [geometry]="button.geometry" [material]="signupmaterial">
+      <ngt-mesh [geometry]="buttongeometry" [material]="signupmaterial">
         <ngt-soba-text [text]="'SIGN UP'" [color]="textcolor" [fontSize]="0.1" [position]="[0, 0, 0.001]"></ngt-soba-text>
       </ngt-mesh>
 
@@ -70,6 +70,6 @@
     </ngt-group>
   </ngt-mesh>
 
-  <ngt-mesh [geometry]="border" [material]="bordermaterial"></ngt-mesh>
+  <ngt-mesh [geometry]="bordergeometry" [material]="bordermaterial"></ngt-mesh>
 </ngt-group>
 

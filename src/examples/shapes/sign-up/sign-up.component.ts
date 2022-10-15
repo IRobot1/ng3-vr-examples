@@ -1,9 +1,7 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, Group, Material, MeshBasicMaterial, Vector3 } from "three";
-import { make, NgtObjectProps, NgtTriple } from "@angular-three/core";
-
-import { DrawShape } from "../draw-shape";
+import { make, NgtObjectProps } from "@angular-three/core";
 
 import { Dialog1Geometry } from "../dialog1";
 import { CloseButtonGeometry } from "../close-button";
@@ -34,12 +32,14 @@ export class SignupComponent extends NgtObjectProps<Group> {
 
   @Input() selectable?: InteractiveObjects;
 
-  protected shape!: DrawShape;
-  protected close!: DrawShape;
-  protected border!: BufferGeometry;
+  @Output() close = new EventEmitter<boolean>();
+
+  protected panelgeometry!: BufferGeometry;
+  protected closegeometry!: BufferGeometry;
+  protected bordergeometry!: BufferGeometry;
   protected rectangle!: BufferGeometry;
 
-  protected button!: DrawShape;
+  protected buttongeometry!: BufferGeometry;
   protected buttonborder!: BufferGeometry;
 
   protected innerscale = <Vector3>this.scale;
@@ -54,12 +54,15 @@ export class SignupComponent extends NgtObjectProps<Group> {
     const rectangle = new RectangleGeometry(this.innerscale.x - 0.15, 0.1);
     this.rectangle = rectangle.drawborder();
 
-    this.shape = new Dialog1Geometry()
-    this.close = new CloseButtonGeometry()
-    this.border = this.shape.drawborder(0.01)
+    const panel = new Dialog1Geometry();
+    this.panelgeometry = panel.geometry;
+    this.bordergeometry = panel.drawborder(0.01)
 
-    this.button = new Button1Geometry()
-    this.buttonborder = this.button.drawborder(0.01, 0.01)
+    this.closegeometry = new CloseButtonGeometry().geometry;
+
+    const button = new Button1Geometry()
+    this.buttongeometry = button.geometry;
+    this.buttonborder = button.drawborder(0.01, 0.01)
 
     if (!this.backgroundmaterial) this.backgroundmaterial = this.createBackgroundMaterial()
     if (!this.closematerial) this.closematerial = this.createCloseButtonMaterial()
