@@ -4,7 +4,7 @@
           [geometry]="geometry" [material]="material"
           (ready)="meshready($event)" (pointermissed)="missed()">
 
-  <flat-ui-button *ngFor="let item of keys" [transparent]="false" [selectable]="selectable"
+  <flat-ui-button *ngFor="let item of keys" [selectable]="selectable"
                   [position]="item.position" [width]="item.size" [text]="item.numkey" 
                   (pressed)="clicked($event)">
 

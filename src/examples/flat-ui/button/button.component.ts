@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, DoubleSide, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Material, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -15,6 +15,7 @@ import { InteractiveObjects } from "../interactive-objects";
 })
 export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit {
   @Input() text = '';
+  @Input() textjustify: number | 'left' | 'center' | 'right' = 'center';
 
   private _width = 0.5;
   @Input()
@@ -79,43 +80,49 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
     this._labelcolor = newvalue;
   }
 
-  @Input() opacity = 0.5;
-  @Input() transparent = true;
-
   @Input() selectable?: InteractiveObjects;
+
+  @Input() geometry!: BufferGeometry;
+  @Input() material!: Material;
 
   @Output() pressed = new EventEmitter<string>();
 
-  geometry!: BufferGeometry;
-  material!: MeshBasicMaterial;
 
   private mesh!: Mesh;
 
   override preInit() {
     super.preInit();
 
-    if (!this.geometry) {
-      const flat = new Shape();
-      roundedRect(flat, 0, 0, this.width, this.height, 0.02);
-
-      this.geometry = new ShapeGeometry(flat);
-      this.geometry.center();
-    }
-    if (!this.material) {
-      this.material = new MeshBasicMaterial({ color: this.buttoncolor, side: DoubleSide, opacity: this.opacity, transparent: this.transparent });
-    }
-
+    if (!this.geometry) this.createButtonGeometry();
+    if (!this.material) this.createButtonMaterial();
+      
     if (this.active)
       this.over();
     else
       this.out();
   }
 
+  createButtonGeometry() {
+    const flat = new Shape();
+    roundedRect(flat, 0, 0, this.width, this.height, 0.02);
+
+    this.geometry = new ShapeGeometry(flat);
+    this.geometry.center();
+  }
+
+  createButtonMaterial() {
+    this.material = new MeshBasicMaterial({ color: this.buttoncolor  });
+  }
+
+  setButtonColor(color: string) {
+    (this.material as MeshBasicMaterial).color.setStyle(color);
+  }
+
   override ngOnDestroy() {
     super.ngOnDestroy();
     this.selectable?.remove(this.mesh);
-    this.geometry.dispose();
-    this.material.dispose();
+    this.geometry?.dispose();
+    this.material?.dispose();
   }
 
   ngAfterViewInit(): void {
@@ -126,7 +133,7 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
     });
 
     GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.material.color.setStyle(this.buttoncolor);
+      this.setButtonColor(this.buttoncolor);
     })
   }
 
@@ -151,14 +158,14 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
   private doclick() {
     if (!this.enabled || !this.visible) return;
 
-    this.material.color.setStyle(this.clickcolor);
+    this.setButtonColor(this.clickcolor);
     this.clicking = true;
 
     const timer = setTimeout(() => {
       if (this.isover)
-        this.material.color.setStyle(this.hovercolor);
+        this.setButtonColor(this.hovercolor);
       else
-        this.material.color.setStyle(this.buttoncolor);
+        this.setButtonColor(this.buttoncolor);
 
       this.pressed.emit(this.text);
 
@@ -170,11 +177,11 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
   isover = false;
   over() {
     if (this.clicking || this.isover || !this.enabled) return;
-    this.material.color.setStyle(this.hovercolor);
+    this.setButtonColor(this.hovercolor);
     this.isover = true;
   }
   out() {
-    this.material.color.setStyle(this.buttoncolor);
+    this.setButtonColor(this.buttoncolor);
     this.isover = false;
   }
 }

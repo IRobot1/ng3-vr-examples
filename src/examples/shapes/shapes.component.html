@@ -32,9 +32,9 @@
 
 <ngt-mesh-basic-material #bordermaterial color="red"></ngt-mesh-basic-material>
 
-<sign-up [position]="[-0, 0, 0]" [rotation]="[0, 0 | radian , 0]" [scale]="[0.8, 1, 1]"
-         [textcolor]="'black'" [selectable]="selectable"
-         [bordermaterial]="bordermaterial.instance.value"></sign-up>
+<sign-up *ngIf="showsignin" [position]="[-0, 0, 0]" [rotation]="[0, 0 | radian , 0]" [scale]="[0.8, 1, 1]"
+         [textcolor]="'black'" [selectable]="selectable" [bordermaterial]="bordermaterial.instance.value"
+         (close)="showsignin=false"></sign-up>
 
 <vr-controller navhome></vr-controller>
 <vr-controller [index]="1" navhome></vr-controller>

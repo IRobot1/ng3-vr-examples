@@ -20,6 +20,8 @@ import { RoundRectangeGeometry } from "./round-rectangle";
 export class ShapesExample implements OnInit {
   selectable = new InteractiveObjects()
 
+  showsignin = true;
+
   shape!:DrawShape;
   border!: BufferGeometry;
 
