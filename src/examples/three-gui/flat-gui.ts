@@ -110,7 +110,7 @@ export class FlatGUI {
 
       const list: Array<ListItem> = [];
       names.forEach((name, index) => {
-        list.push({ text: name, data: values[index] });
+        list.push({ text: name.toString(), data: values[index] });
       });
 
       data = list

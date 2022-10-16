@@ -43,7 +43,7 @@ export class ThreeGUIExample implements OnInit {
     return callback(gui) || gui;
   }
 
-  getDepth(g:any) {
+  getDepth(g: any) {
     let depth = 0;
     while (g !== g.root) {
       g = g.parent;
@@ -116,20 +116,20 @@ export class ThreeGUIExample implements OnInit {
 
     //});
 
-    this.basic = this.make({ title: 'Folders', width: 300 }, gui => {
+    //this.basic = this.make({ title: 'Folders', width: 300 }, gui => {
 
-      const folder1 = gui.addFolder('Folder');
-      this.addFiller(folder1);
+    //  const folder1 = gui.addFolder('Folder');
+    //  this.addFiller(folder1);
 
-      this.addFiller(gui);
+    //  this.addFiller(gui);
 
-      gui.addFolder('Empty Folder');
+    //  gui.addFolder('Empty Folder');
 
-      const folder2 = gui.addFolder('Closed Folder').close();
+    //  const folder2 = gui.addFolder('Closed Folder').close();
 
-      this.addFiller(folder2);
+    //  this.addFiller(folder2);
 
-    });
+    //});
 
     //this.basic = this.make({ title: 'Nested Folders', width: 300 }, gui => {
 
@@ -253,7 +253,7 @@ export class ThreeGUIExample implements OnInit {
 
     //});
 
-    //    this.basic = basic;
+    this.basic = basic;
   }
 
 
