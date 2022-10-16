@@ -135,6 +135,7 @@ export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterView
   }
 
   out() {
+    if (!this.enabled) return;
     this.material.color.setStyle(this.buttoncolor);
     this.isover = false;
   }

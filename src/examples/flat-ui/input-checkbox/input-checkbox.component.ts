@@ -154,6 +154,7 @@ export class FlatUIInputCheckbox extends NgtObjectProps<Mesh> implements AfterVi
     this.isover = true;
   }
   out() {
+    if (!this.enabled) return;
     this.material.color.setStyle(this.buttoncolor);
     this.isover = false;
   }

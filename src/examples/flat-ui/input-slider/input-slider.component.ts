@@ -230,6 +230,7 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
   }
 
   out() {
+    if (!this.enabled) return;
     this.material.color.setStyle(this.buttoncolor);
   }
 }

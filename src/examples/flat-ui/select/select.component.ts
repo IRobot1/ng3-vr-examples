@@ -157,11 +157,12 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
 
   isover = false;
   over() {
-    if (this.isover) return;
+    if (this.isover || !this.enabled) return;
     this.material.color.setStyle(this.hovercolor);
     this.isover = true;
   }
   out() {
+    if (!this.enabled) return;
     this.material.color.setStyle(this.buttoncolor);
     this.isover = false;
   }

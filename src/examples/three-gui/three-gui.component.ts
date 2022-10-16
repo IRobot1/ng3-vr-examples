@@ -127,71 +127,71 @@ export class ThreeGUIExample implements OnInit {
 
     //});
 
-    //this.basic = this.make({ title: 'Disable', width:300 }, gui => {
+    this.basic = this.make({ title: 'Disable', width:300 }, gui => {
 
-    //  gui.add({ Number: 0 }, 'Number').disable().enable();
-    //  gui.add({ Number: 0 }, 'Number').disable();
+      gui.add({ Number: 0 }, 'Number').disable().enable();
+      gui.add({ Number: 0 }, 'Number').disable();
 
-    //  gui.add({ Slider: 0 }, 'Slider', 0, 1).disable().enable();
-    //  gui.add({ Slider: 0 }, 'Slider', 0, 1).disable();
+      gui.add({ Slider: 0 }, 'Slider', 0, 1).disable().enable();
+      gui.add({ Slider: 0 }, 'Slider', 0, 1).disable();
 
-    //  gui.add({ String: 'foo' }, 'String').disable().enable();
-    //  gui.add({ String: 'foo' }, 'String').disable();
+      gui.add({ String: 'foo' }, 'String').disable().enable();
+      gui.add({ String: 'foo' }, 'String').disable();
 
-    //  gui.add({ Boolean: true }, 'Boolean').disable().enable();
-    //  gui.add({ Boolean: true }, 'Boolean').disable();
+      gui.add({ Boolean: true }, 'Boolean').disable().enable();
+      gui.add({ Boolean: true }, 'Boolean').disable();
 
-    //  gui.add({ Options: 'a' }, 'Options', ['a', 'b', 'c']).disable().enable();
-    //  gui.add({ Options: 'a' }, 'Options', ['a', 'b', 'c']).disable();
+      gui.add({ Options: 'a' }, 'Options', ['a', 'b', 'c']).disable().enable();
+      gui.add({ Options: 'a' }, 'Options', ['a', 'b', 'c']).disable();
 
-    //  gui.add({ func() { console.log('hi'); } }, 'func').name('Function').disable().enable();
-    //  gui.add({ func() { console.log('hi'); } }, 'func').name('Function').disable();
+      gui.add({ func() { console.log('hi'); } }, 'func').name('Function').disable().enable();
+      gui.add({ func() { console.log('hi'); } }, 'func').name('Function').disable();
 
-    //  gui.addColor({ Color: 0xaa00ff }, 'Color').disable().enable();
-    //  gui.addColor({ Color: 0xaa00ff }, 'Color').disable();
-
-    //});
-
-    this.basic = this.make({ title: 'Listen', width:300 }, gui => {
-
-      const params = { animate: false };
-
-      gui.add(params, 'animate');
-
-      function listenTester(name: string, cycle: any, ...addArgs: any) {
-
-        const obj : any= {};
-        obj[name] = cycle[cycle.length - 1];
-        gui.add(obj, name, ...addArgs).listen();
-        let index = 0;
-
-        const loop = () => {
-
-          if (params.animate) obj[name] = cycle[index];
-          if (++index > cycle.length - 1) {
-            index = 0;
-          }
-
-          setTimeout(loop, 1000);
-
-        };
-
-        loop();
-
-      }
-
-      listenTester('Number', [1, 2, 3, 4, 5]);
-      listenTester('Slider', [5, 4, 3, 2, 1], 1, 5);
-
-      listenTester('String', ['foo', 'bar', 'baz']);
-      listenTester('Boolean', [true, false]);
-
-      listenTester('Options', ['a', 'b', 'c'], ['a', 'b', 'c']);
-
-      gui.add = gui.addColor; // hehe
-      listenTester('Color', [0xaa00ff, 0x00aaff, 0xffaa00]);
+      gui.addColor({ Color: 0xaa00ff }, 'Color').disable().enable();
+      gui.addColor({ Color: 0xaa00ff }, 'Color').disable();
 
     });
+
+    //this.basic = this.make({ title: 'Listen', width:300 }, gui => {
+
+    //  const params = { animate: false };
+
+    //  gui.add(params, 'animate');
+
+    //  function listenTester(name: string, cycle: any, ...addArgs: any) {
+
+    //    const obj : any= {};
+    //    obj[name] = cycle[cycle.length - 1];
+    //    gui.add(obj, name, ...addArgs).listen();
+    //    let index = 0;
+
+    //    const loop = () => {
+
+    //      if (params.animate) obj[name] = cycle[index];
+    //      if (++index > cycle.length - 1) {
+    //        index = 0;
+    //      }
+
+    //      setTimeout(loop, 1000);
+
+    //    };
+
+    //    loop();
+
+    //  }
+
+    //  listenTester('Number', [1, 2, 3, 4, 5]);
+    //  listenTester('Slider', [5, 4, 3, 2, 1], 1, 5);
+
+    //  listenTester('String', ['foo', 'bar', 'baz']);
+    //  listenTester('Boolean', [true, false]);
+
+    //  listenTester('Options', ['a', 'b', 'c'], ['a', 'b', 'c']);
+
+    //  gui.add = gui.addColor; // hehe
+    //  listenTester('Color', [0xaa00ff, 0x00aaff, 0xffaa00]);
+
+    //});
 
     //this.basic = this.make({ title: 'onChange', width: 300 }, gui => {
 

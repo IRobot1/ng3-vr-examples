@@ -180,10 +180,10 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterView
 
   over() {
     if (!this.enabled) return;
-
     this.material.color.setStyle(this.hovercolor);
   }
   out() {
+    if (!this.enabled) return;
     this.material.color.setStyle(this.buttoncolor);
   }
 
