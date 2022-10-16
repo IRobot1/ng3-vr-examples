@@ -1,8 +1,9 @@
 import { NgtLoader, NgtTriple } from "@angular-three/core";
 import { Component, OnInit } from "@angular/core";
-import { BufferGeometry, Texture, TextureLoader } from "three";
+import { BufferGeometry, RepeatWrapping, Texture, TextureLoader, Vector2 } from "three";
 import { InteractiveObjects } from "../flat-ui/interactive-objects";
 import { FlatUIInputService } from "../three-gui/flat-ui-input.service";
+import { Dialog1Geometry } from "./dialog1";
 
 import { DrawShape } from "./draw-shape";
 
@@ -37,15 +38,17 @@ export class ShapesExample implements OnInit {
 
 
   ngOnInit(): void {
-    this.shape = new RectangleGeometry()
+    this.shape = new Dialog1Geometry()
     this.border = this.shape.drawborder()
 
-  //  const s = this.loader.use(TextureLoader, 'assets/T_Wood_Pine_D.png').subscribe(next => {
-  //      this.texture = next; 
-  //    },
-  //      () => { },
-  //      () => { s.unsubscribe(); }
-  //    );
+    const s = this.loader.use(TextureLoader, 'assets/uv_grid_opengl.jpg').subscribe(next => {
+      this.texture = next;
+      //next.offset = new Vector2(0.5, 0.5)
+      //next.wrapS = next.wrapT = RepeatWrapping
+      },
+        () => { },
+        () => { s.unsubscribe(); }
+      );
   }
 
   signup(event: SignUpEvent) {
