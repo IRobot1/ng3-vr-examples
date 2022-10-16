@@ -21,9 +21,15 @@ export interface SignUpEvent {
   templateUrl: './sign-up.component.html',
 })
 export class SignupComponent extends NgtObjectProps<Group> {
-  @Input() email: string = 'hello@gmail.com';
-  @Input() nickname: string = 'Nick Name';
-  @Input() password: string = '*****';
+  @Input() email: string = '';
+  @Input() nickname: string = '';
+  @Input() password: string = '';
+
+  @Input() emailplaceholder: string = 'Enter email';
+  @Input() nicknameplaceholder: string = 'Enter nick name';
+  @Input() passwordplaceholder: string = 'Enter password';
+
+  
 
   @Input() backgroundcolor = 'gray';
   @Input() closecolor = 'red';

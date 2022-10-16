@@ -24,7 +24,7 @@
         <ngt-mesh name="email" [material]="bordermaterial" [geometry]="rectangle" [position]="[0, 0, 0.001]">
           <ngt-group horizontal-layout [margin]="[0.01, 0, 0]" [position]="[-innerscale.x/2+0.08, 0, 0]">
             <flat-ui-icon-button [url]="'assets/sign-in/email.svg'" [iconmaterial]="bordermaterial" [enabled]="false" [buttoncolor]="backgroundcolor"></flat-ui-icon-button>
-            <flat-ui-input-text #inputemail [text]="email" [overflow]="17" [width]="innerscale.x-0.3" [buttoncolor]="backgroundcolor" [selectable]="selectable"
+            <flat-ui-input-text #inputemail [text]="email" [placeholder]="emailplaceholder" [overflow]="17" [width]="innerscale.x-0.3" [buttoncolor]="backgroundcolor" [selectable]="selectable"
                                 (change)="email=$event" (openinput)="input.openkeyboard($event, inputemail, email)">
 
             </flat-ui-input-text>
@@ -36,7 +36,7 @@
         <ngt-mesh name="name" [material]="bordermaterial" [geometry]="rectangle" [position]="[0, 0, 0.001]">
           <ngt-group horizontal-layout [margin]="[0.01, 0, 0]" [position]="[-innerscale.x/2+0.08, 0, 0]">
             <flat-ui-icon-button [url]="'assets/sign-in/person.svg'" [iconmaterial]="bordermaterial" [enabled]="false" [buttoncolor]="backgroundcolor"></flat-ui-icon-button>
-            <flat-ui-input-text #inputnickname [text]="nickname" [overflow]="17" [width]="innerscale.x-0.3" [buttoncolor]="backgroundcolor" [selectable]="selectable"
+            <flat-ui-input-text #inputnickname [text]="nickname" [placeholder]="nicknameplaceholder" [overflow]="17" [width]="innerscale.x-0.3" [buttoncolor]="backgroundcolor" [selectable]="selectable"
                                 (change)="nickname=$event" (openinput)="input.openkeyboard($event, inputnickname, nickname)">
             </flat-ui-input-text>
           </ngt-group>
@@ -47,7 +47,7 @@
         <ngt-mesh name="password" [material]="bordermaterial" [geometry]="rectangle" [position]="[0, 0, 0.001]">
           <ngt-group horizontal-layout [margin]="[0.01, 0, 0]" [position]="[-innerscale.x/2+0.08, 0, 0]">
             <flat-ui-icon-button [url]="'assets/sign-in/password.svg'" [iconmaterial]="bordermaterial" [enabled]="false" [buttoncolor]="backgroundcolor"></flat-ui-icon-button>
-            <flat-ui-input-text #inputpassword [text]="password" [password]="true" [overflow]="17" [width]="innerscale.x-0.3" [buttoncolor]="backgroundcolor" [selectable]="selectable"
+            <flat-ui-input-text #inputpassword [text]="password" [placeholder]="passwordplaceholder" [password]="true" [overflow]="17" [width]="innerscale.x-0.3" [buttoncolor]="backgroundcolor" [selectable]="selectable"
                                 (change)="password=$event" (openinput)="input.openkeyboard($event, inputpassword, password)">
             </flat-ui-input-text>
           </ngt-group>
