@@ -137,7 +137,9 @@ export class FlatGUI {
     return controller;
   }
 
-  close(): FlatGUI { return this; }
+  expanded = true;
+  open(): FlatGUI { this.expanded = true; return this; }
+  close(): FlatGUI { this.expanded = false; return this; }
 
   public _changeCallback!: (event: any) => void;
   onChange(callback: (e: any) => void): FlatGUI { this._changeCallback = callback; return this; }

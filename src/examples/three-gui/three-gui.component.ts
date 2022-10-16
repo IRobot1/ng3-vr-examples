@@ -100,7 +100,11 @@ export class ThreeGUIExample implements OnInit {
     basic.addColor(params, 'color');
     basic.add(params, 'function').name('Custom Name');
 
-    //this.basic = this.make({ title: 'Options' }, gui => {
+    //
+    // taken from https://github.com/georgealways/lil-gui/blob/master/examples/kitchen-sink/kitchen-sink.js
+    //
+
+    //this.basic = this.make({ title: 'Options', width: 300 }, gui => {
 
     //  gui.add({ x: 0 }, 'x', [0, 1, 2]).name('Array');
     //  gui.add({ x: 0 }, 'x', { Label1: 0, Label2: 1, Label3: 2 }).name('Object');
@@ -112,45 +116,61 @@ export class ThreeGUIExample implements OnInit {
 
     //});
 
-    //this.basic = this.make({ title: 'Folders' }, gui => {
+    this.basic = this.make({ title: 'Folders', width: 300 }, gui => {
 
-    //  const folder1 = gui.addFolder('Folder');
-    //  this.addFiller(folder1);
+      const folder1 = gui.addFolder('Folder');
+      this.addFiller(folder1);
 
-    //  this.addFiller(gui);
+      this.addFiller(gui);
 
-    //  gui.addFolder('Empty Folder');
+      gui.addFolder('Empty Folder');
 
-    //  const folder2 = gui.addFolder('Closed Folder').close();
+      const folder2 = gui.addFolder('Closed Folder').close();
 
-    //  this.addFiller(folder2);
+      this.addFiller(folder2);
+
+    });
+
+    //this.basic = this.make({ title: 'Nested Folders', width: 300 }, gui => {
+
+    //  const folder3 = gui.addFolder('Folder');
+
+    //  this.addFiller(folder3);
+
+    //  const folder4 = folder3.addFolder('Nested Folder');
+
+    //  this.addFiller(folder4);
+
+    //  folder4.addFolder('Nested Folder');
+
+    //  this.addFiller(folder4);
 
     //});
 
-    this.basic = this.make({ title: 'Disable', width:300 }, gui => {
+    //this.basic = this.make({ title: 'Disable', width:300 }, gui => {
 
-      gui.add({ Number: 0 }, 'Number').disable().enable();
-      gui.add({ Number: 0 }, 'Number').disable();
+    //  gui.add({ Number: 0 }, 'Number').disable().enable();
+    //  gui.add({ Number: 0 }, 'Number').disable();
 
-      gui.add({ Slider: 0 }, 'Slider', 0, 1).disable().enable();
-      gui.add({ Slider: 0 }, 'Slider', 0, 1).disable();
+    //  gui.add({ Slider: 0 }, 'Slider', 0, 1).disable().enable();
+    //  gui.add({ Slider: 0 }, 'Slider', 0, 1).disable();
 
-      gui.add({ String: 'foo' }, 'String').disable().enable();
-      gui.add({ String: 'foo' }, 'String').disable();
+    //  gui.add({ String: 'foo' }, 'String').disable().enable();
+    //  gui.add({ String: 'foo' }, 'String').disable();
 
-      gui.add({ Boolean: true }, 'Boolean').disable().enable();
-      gui.add({ Boolean: true }, 'Boolean').disable();
+    //  gui.add({ Boolean: true }, 'Boolean').disable().enable();
+    //  gui.add({ Boolean: true }, 'Boolean').disable();
 
-      gui.add({ Options: 'a' }, 'Options', ['a', 'b', 'c']).disable().enable();
-      gui.add({ Options: 'a' }, 'Options', ['a', 'b', 'c']).disable();
+    //  gui.add({ Options: 'a' }, 'Options', ['a', 'b', 'c']).disable().enable();
+    //  gui.add({ Options: 'a' }, 'Options', ['a', 'b', 'c']).disable();
 
-      gui.add({ func() { console.log('hi'); } }, 'func').name('Function').disable().enable();
-      gui.add({ func() { console.log('hi'); } }, 'func').name('Function').disable();
+    //  gui.add({ func() { console.log('hi'); } }, 'func').name('Function').disable().enable();
+    //  gui.add({ func() { console.log('hi'); } }, 'func').name('Function').disable();
 
-      gui.addColor({ Color: 0xaa00ff }, 'Color').disable().enable();
-      gui.addColor({ Color: 0xaa00ff }, 'Color').disable();
+    //  gui.addColor({ Color: 0xaa00ff }, 'Color').disable().enable();
+    //  gui.addColor({ Color: 0xaa00ff }, 'Color').disable();
 
-    });
+    //});
 
     //this.basic = this.make({ title: 'Listen', width:300 }, gui => {
 
