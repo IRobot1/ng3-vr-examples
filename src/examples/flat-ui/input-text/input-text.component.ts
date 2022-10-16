@@ -18,11 +18,19 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
   @Input()
   get text(): string { return this._text }
   set text(newvalue: string) {
-    this._text = newvalue;
-    this.change.next(newvalue);
+    let valid = true;
+    if (this.pattern) {
+      valid = new RegExp(newvalue).test(newvalue);
+    }
+    if (valid) {
+      this._text = newvalue;
+      this.change.next(newvalue);
+    }
   }
 
   @Input() overflow = 6;
+  @Input() password = false;
+  @Input() pattern?: string; // regular expression
 
   @Input() enabled = true;
 
@@ -85,7 +93,14 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
   material!: MeshBasicMaterial;
 
   get displaytext() {
-    let text = this.text.substring(this.text.length - this.overflow);
+    const length = this.text.length - this.overflow;
+
+    let text
+    if (this.password)
+      text = '*'.repeat(this.text.length);
+    else
+      text = this.text.substring(length);
+
     if (this.inputopen && this.enabled) text += '_'
     return text;
   }
