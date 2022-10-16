@@ -133,7 +133,7 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
   }
 
   @HostListener('document:keydown', ['$event'])
-  private onKeyUp(event: KeyboardEvent) {
+  private onKeyDown(event: KeyboardEvent) {
     let keycode = event.key;
     if (event.key == 'Backspace')
       keycode = 'Back';
@@ -150,6 +150,19 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
     const key = this.keys.find(x => x.lower == keycode || x.upper == keycode || x.alpha == keycode);
     if (key)
       this.clicked(keycode);
+  }
+
+  @HostListener('document:keyup', ['$event'])
+  private onKeyUp(event: KeyboardEvent) {
+    let keycode = event.key;
+    if (event.key == 'Shift') {
+      if (this.keycase == 'lower') {
+        keycode = 'ABC';
+      } else if (this.keycase == 'upper') {
+        keycode = 'abc';
+      }
+      this.clicked(keycode);
+    }
   }
 
   keycase: KeyCase = 'lower';
