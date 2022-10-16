@@ -64,7 +64,7 @@ export class FlatUIExpansionPanel extends NgtObjectProps<Mesh> implements AfterV
 
     }
 
-    this.panel.scale.y = newvalue ? 1 : 0;
+    if (this.panel) this.panel.scale.y = newvalue ? 1 : 0;
   }
 
   private _panelcolor?: string;
