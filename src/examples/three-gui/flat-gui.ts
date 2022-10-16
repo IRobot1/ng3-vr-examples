@@ -17,6 +17,15 @@ export class Controller {
     this._decimals = 0;
   }
 
+  getValue(): any { return this.object[this.property] }
+  setValue(newvalue: any): Controller {
+    if (this.object[this.property] != newvalue) {
+      this.object[this.property] = newvalue
+      this._callOnChange();
+    }
+    return this;
+  }
+
   name(newvalue: string): Controller { this.title = newvalue; return this; }
   max(newvalue: number): Controller { this._max = newvalue; return this; }
   min(newvalue: number): Controller { this._min = newvalue; return this; }
@@ -28,8 +37,38 @@ export class Controller {
   disable(): Controller { this.enabled = false; return this; }
   enable(): Controller { this.enabled = true; return this; }
 
-  onChange(change: (e: any) => void): Controller { return this; }
-  onFinishChange(finishChange: (e: any) => void): Controller { return this; }
+  public _changeCallback!: (event: any) => void;
+  onChange(callback: (e: any) => void): Controller { this._changeCallback = callback; return this; }
+  protected _callOnChange() {
+    //this.parent._callOnChange(this);
+
+    if (this._changeCallback !== undefined) {
+      this._changeCallback.call(this, this);
+    }
+    this._changed = true;
+
+  }
+
+  public _finishCallback!: (event: any) => void;
+  onFinishChange(callback: (e: any) => void): Controller { this._finishCallback = callback; return this; }
+
+
+  _changed = false;
+  protected _callOnFinishChange(newvalue: any) {
+
+    if (this._changed) {
+
+      //this.parent._callOnFinishChange(this);
+
+      if (this._finishCallback !== undefined) {
+        this._finishCallback.call(this, this.getValue());
+      }
+
+    }
+
+    this._changed = false;
+
+  }
 
 }
 

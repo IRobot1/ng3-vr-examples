@@ -23,16 +23,28 @@ export class ThreeGUIItemComponent  {
     return this.item.object[this.item.property].toString();
   }
   set textvalue(newvalue: string) {
-    this.item.object[this.item.property] = newvalue;
+    this.item.setValue(newvalue);
   }
+
   get boolvalue(): boolean {
     return this.item.object[this.item.property];
   }
-  get value(): number {
+  set boolValue(newvalue: boolean) {
+    this.item.setValue(newvalue);
+  }
+
+  get numbervalue(): number {
     return this.item.object[this.item.property];
   }
-  set value(newvalue: number) {
-    this.item.object[this.item.property] = newvalue;
+  set numbervalue(newvalue: number) {
+    this.item.setValue(newvalue);
+  }
+
+  get colorvalue(): string {
+    return this.item.object[this.item.property];
+  }
+  set colorvalue(newvalue: string) {
+    this.item.setValue(newvalue);
   }
 
   get listvalue(): string {
@@ -44,8 +56,10 @@ export class ThreeGUIItemComponent  {
   set listvalue(newvalue: string) {
     const list = (this.item._min as Array<ListItem>)
     const item = list.find(x => x.text == newvalue);
-    if (item) this.item.object[this.item.property] = item.data;
-  }
+    if (item) {
+      this.item.setValue(item.data);
+    }
+}
 
   execute() {
     const func = this.item.object[this.item.property];

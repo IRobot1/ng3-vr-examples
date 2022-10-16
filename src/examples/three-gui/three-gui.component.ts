@@ -193,7 +193,7 @@ export class ThreeGUIExample implements OnInit {
 
     //});
 
-    this.basic = this.make({ title: 'onChange' }, gui => {
+    this.basic = this.make({ title: 'onChange', width: 300 }, gui => {
 
       const tallies = { onChange: 0, onFinishChange: 0 };
 

@@ -1,6 +1,6 @@
 import { NgtLoader, NgtTriple } from "@angular-three/core";
 import { Component, OnInit } from "@angular/core";
-import { BufferGeometry, Texture } from "three";
+import { BufferGeometry, Texture, TextureLoader } from "three";
 import { InteractiveObjects } from "../flat-ui/interactive-objects";
 import { FlatUIInputService } from "../three-gui/flat-ui-input.service";
 
@@ -40,12 +40,12 @@ export class ShapesExample implements OnInit {
     this.shape = new RectangleGeometry()
     this.border = this.shape.drawborder()
 
-    //  const s = this.loader.use(TextureLoader, 'assets/label.png').subscribe(next => {
-    //    this.texture = next; 
-    //  },
-    //    () => { },
-    //    () => { s.unsubscribe(); }
-    //  );
+  //  const s = this.loader.use(TextureLoader, 'assets/T_Wood_Pine_D.png').subscribe(next => {
+  //      this.texture = next; 
+  //    },
+  //      () => { },
+  //      () => { s.unsubscribe(); }
+  //    );
   }
 
   signup(event: SignUpEvent) {

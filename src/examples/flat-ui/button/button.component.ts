@@ -40,7 +40,7 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
 
   @Input() active = false;
 
-private _enabled = true;
+  private _enabled = true;
   @Input()
   get enabled(): boolean { return this._enabled }
   set enabled(newvalue: boolean) {
@@ -82,7 +82,7 @@ private _enabled = true;
   set hovercolor(newvalue: string) {
     this._hovercolor = newvalue;
   }
-    
+
   private _clickcolor?: string;
   @Input()
   get clickcolor(): string {
@@ -97,7 +97,7 @@ private _enabled = true;
   @Input()
   get labelcolor(): string {
     if (this._labelcolor) return this._labelcolor;
-    return  GlobalFlatUITheme.ButtonLabelColor;
+    return GlobalFlatUITheme.ButtonLabelColor;
   }
   set labelcolor(newvalue: string) {
     this._labelcolor = newvalue;
@@ -118,7 +118,7 @@ private _enabled = true;
 
     if (!this.geometry) this.createButtonGeometry();
     if (!this.material) this.createButtonMaterial();
-      
+
     if (this.active)
       this.over();
     else
@@ -134,11 +134,12 @@ private _enabled = true;
   }
 
   createButtonMaterial() {
-    this.material = new MeshBasicMaterial({ color: this.buttoncolor  });
+    this.material = new MeshBasicMaterial({ color: this.buttoncolor });
   }
 
   setButtonColor(color: string) {
-    (this.material as MeshBasicMaterial).color.setStyle(color);
+    if (this.material)
+      (this.material as MeshBasicMaterial).color.setStyle(color);
   }
 
   override ngOnDestroy() {
