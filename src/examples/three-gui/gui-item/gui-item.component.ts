@@ -36,13 +36,13 @@ export class ThreeGUIItemComponent  {
   }
 
   get listvalue(): string {
-    const list = (this.item.min as Array<ListItem>)
+    const list = (this.item._min as Array<ListItem>)
     const data = this.item.object[this.item.property];
     const item = list.find(x => x.data == data);
     return item ? item.text : '';
   }
   set listvalue(newvalue: string) {
-    const list = (this.item.min as Array<ListItem>)
+    const list = (this.item._min as Array<ListItem>)
     const item = list.find(x => x.text == newvalue);
     if (item) this.item.object[this.item.property] = item.data;
   }
