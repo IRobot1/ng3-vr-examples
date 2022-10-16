@@ -96,7 +96,7 @@ export class FlatGUI {
     this.title = title;
     this.width = width / 150;
     this.height = height / 150;
-    if (!this.root) this.root = this;
+    this.root = parent ? parent.root : this;
   }
 
   add(object: any, property: string, min?: number | object | any[], max?: number, step?: number): Controller {
