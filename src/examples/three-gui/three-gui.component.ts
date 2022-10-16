@@ -127,7 +127,7 @@ export class ThreeGUIExample implements OnInit {
 
     //});
 
-    //this.basic = this.make({ title: 'Disable' }, gui => {
+    //this.basic = this.make({ title: 'Disable', width:300 }, gui => {
 
     //  gui.add({ Number: 0 }, 'Number').disable().enable();
     //  gui.add({ Number: 0 }, 'Number').disable();
@@ -152,86 +152,86 @@ export class ThreeGUIExample implements OnInit {
 
     //});
 
-    //this.basic = this.make({ title: 'Listen' }, gui => {
+    this.basic = this.make({ title: 'Listen', width:300 }, gui => {
 
-    //  const params = { animate: false };
+      const params = { animate: false };
 
-    //  gui.add(params, 'animate');
+      gui.add(params, 'animate');
 
-    //  function listenTester(name: string, cycle: any, ...addArgs: any) {
+      function listenTester(name: string, cycle: any, ...addArgs: any) {
 
-    //    const obj : any= {};
-    //    obj[name] = cycle[cycle.length - 1];
-    //    gui.add(obj, name, ...addArgs).listen();
-    //    let index = 0;
+        const obj : any= {};
+        obj[name] = cycle[cycle.length - 1];
+        gui.add(obj, name, ...addArgs).listen();
+        let index = 0;
 
-    //    const loop = () => {
+        const loop = () => {
 
-    //      if (params.animate) obj[name] = cycle[index];
-    //      if (++index > cycle.length - 1) {
-    //        index = 0;
-    //      }
+          if (params.animate) obj[name] = cycle[index];
+          if (++index > cycle.length - 1) {
+            index = 0;
+          }
 
-    //      setTimeout(loop, 1000);
+          setTimeout(loop, 1000);
 
-    //    };
+        };
 
-    //    loop();
+        loop();
 
-    //  }
-
-    //  listenTester('Number', [1, 2, 3, 4, 5]);
-    //  listenTester('Slider', [5, 4, 3, 2, 1], 1, 5);
-
-    //  listenTester('String', ['foo', 'bar', 'baz']);
-    //  listenTester('Boolean', [true, false]);
-
-    //  listenTester('Options', ['a', 'b', 'c'], ['a', 'b', 'c']);
-
-    //  gui.add = gui.addColor; // hehe
-    //  listenTester('Color', [0xaa00ff, 0x00aaff, 0xffaa00]);
-
-    //});
-
-    this.basic = this.make({ title: 'onChange', width: 300 }, gui => {
-
-      const tallies = { onChange: 0, onFinishChange: 0 };
-
-      const change = (e: any) => {
-        console.log(e.property + ' onChange');
-        tallies.onChange++;
       }
 
-      const finishChange = (e: any) => {
-        console.log(e.property + ' onFinishChange');
-        tallies.onFinishChange++;
-      }
+      listenTester('Number', [1, 2, 3, 4, 5]);
+      listenTester('Slider', [5, 4, 3, 2, 1], 1, 5);
 
-      let folder;
+      listenTester('String', ['foo', 'bar', 'baz']);
+      listenTester('Boolean', [true, false]);
 
-      folder = gui.addFolder('Tallies');
-      folder.add(tallies, 'onChange').disable().listen();
-      folder.add(tallies, 'onFinishChange').disable().listen();
+      listenTester('Options', ['a', 'b', 'c'], ['a', 'b', 'c']);
 
-      gui.add({ Number: 0 }, 'Number').onChange(change).onFinishChange(finishChange);
-
-      gui.add({ Slider: 0 }, 'Slider', 0, 1).onChange(change).onFinishChange(finishChange);
-
-      gui.add({ String: 'foo' }, 'String').onChange(change).onFinishChange(finishChange);
-
-      gui.add({ Boolean: true }, 'Boolean').onChange(change).onFinishChange(finishChange);
-
-      gui.add({ Options: 'a' }, 'Options', ['a', 'b', 'c']).onChange(change).onFinishChange(finishChange);
-
-      gui.add({ func() { console.log('hi'); } }, 'func').onChange(change).onFinishChange(finishChange);
-
-      gui.addColor({ Color: 0xaa00ff }, 'Color').onChange(change).onFinishChange(finishChange);
-
-      gui.onFinishChange(e => {
-        console.log('gui.onFinishChange', e);
-      });
+      gui.add = gui.addColor; // hehe
+      listenTester('Color', [0xaa00ff, 0x00aaff, 0xffaa00]);
 
     });
+
+    //this.basic = this.make({ title: 'onChange', width: 300 }, gui => {
+
+    //  const tallies = { onChange: 0, onFinishChange: 0 };
+
+    //  const change = (e: any) => {
+    //    console.log(e.property + ' onChange');
+    //    tallies.onChange++;
+    //  }
+
+    //  const finishChange = (e: any) => {
+    //    console.log(e.property + ' onFinishChange');
+    //    tallies.onFinishChange++;
+    //  }
+
+    //  let folder;
+
+    //  folder = gui.addFolder('Tallies');
+    //  folder.add(tallies, 'onChange').disable().listen();
+    //  folder.add(tallies, 'onFinishChange').disable().listen();
+
+    //  gui.add({ Number: 0 }, 'Number').onChange(change).onFinishChange(finishChange);
+
+    //  gui.add({ Slider: 0 }, 'Slider', 0, 1).onChange(change).onFinishChange(finishChange);
+
+    //  gui.add({ String: 'foo' }, 'String').onChange(change).onFinishChange(finishChange);
+
+    //  gui.add({ Boolean: true }, 'Boolean').onChange(change).onFinishChange(finishChange);
+
+    //  gui.add({ Options: 'a' }, 'Options', ['a', 'b', 'c']).onChange(change).onFinishChange(finishChange);
+
+    //  gui.add({ func() { console.log('hi'); } }, 'func').onChange(change).onFinishChange(finishChange);
+
+    //  gui.addColor({ Color: 0xaa00ff }, 'Color').onChange(change).onFinishChange(finishChange);
+
+    //  gui.onFinishChange(e => {
+    //    console.log('gui.onFinishChange', e);
+    //  });
+
+    //});
 
     //    this.basic = basic;
   }

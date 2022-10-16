@@ -1,4 +1,5 @@
 import { Component, Input } from "@angular/core";
+import { Color } from "three";
 import { InteractiveObjects } from "../../flat-ui/interactive-objects";
 import { ListItem } from "../../flat-ui/list/list.component";
 
@@ -41,7 +42,11 @@ export class ThreeGUIItemComponent  {
   }
 
   get colorvalue(): string {
-    return this.item.object[this.item.property];
+    const value = this.item.object[this.item.property];
+    if (typeof value == 'number') {
+      return '#' + new Color(value).getHexString()
+    }
+    return value;
   }
   set colorvalue(newvalue: string) {
     this.item.setValue(newvalue);

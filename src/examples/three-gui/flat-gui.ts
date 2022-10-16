@@ -6,6 +6,7 @@ export class Controller {
   enabled = true;
 
   constructor(
+    public parent: FlatGUI,
     public object: any,
     public property: string,
     public classname: string,
@@ -40,34 +41,33 @@ export class Controller {
   public _changeCallback!: (event: any) => void;
   onChange(callback: (e: any) => void): Controller { this._changeCallback = callback; return this; }
   protected _callOnChange() {
-    //this.parent._callOnChange(this);
+    this.parent._callOnChange(this);
 
     if (this._changeCallback !== undefined) {
-      this._changeCallback.call(this, this);
+      this._changeCallback.call(this, this.getValue());
     }
     this._changed = true;
-
   }
 
   public _finishCallback!: (event: any) => void;
   onFinishChange(callback: (e: any) => void): Controller { this._finishCallback = callback; return this; }
 
-
+  //
+  // implemented, but not called.  Requires Flat UI to support focus lost event
+  //
   _changed = false;
   protected _callOnFinishChange(newvalue: any) {
 
     if (this._changed) {
 
-      //this.parent._callOnFinishChange(this);
+      this.parent._callOnFinishChange(this);
 
       if (this._finishCallback !== undefined) {
         this._finishCallback.call(this, this.getValue());
       }
 
     }
-
     this._changed = false;
-
   }
 
 }
@@ -119,25 +119,69 @@ export class FlatGUI {
       const initialValue = object[property];
       classname = typeof initialValue;
     }
-    const controller = new Controller(object, property, classname, data, max, step);
+    const controller = new Controller(this, object, property, classname, data, max, step);
     this.list.push(controller);
     return controller;
   }
 
   addFolder(title: string): FlatGUI {
     const gui = new FlatGUI({ parent: this, title, width: this.width * 150, height: this.height * 150 });
-    const controller = new Controller(gui, title, 'folder');
+    const controller = new Controller(this, gui, title, 'folder');
     this.list.push(controller);
     return gui;
   }
 
   addColor(object: any, property: string): Controller {
-    const controller = new Controller(object, property, 'color');
+    const controller = new Controller(this, object, property, 'color');
     this.list.push(controller);
     return controller;
   }
 
   close(): FlatGUI { return this; }
 
-  onFinishChange(change: (e: any) => void) { }
+  public _changeCallback!: (event: any) => void;
+  onChange(callback: (e: any) => void): FlatGUI { this._changeCallback = callback; return this; }
+
+  _callOnChange(controller: { object: any; property: any; getValue: () => any; }) {
+    if (this.parent) {
+      this.parent?._callOnChange(controller);
+    }
+
+    if (this._changeCallback !== undefined) {
+      this._changeCallback.call(this, {
+        object: controller.object,
+        property: controller.property,
+        value: controller.getValue(),
+        controller
+      });
+    }
+  }
+
+  public _finishCallback!: (event: any) => void;
+  onFinishChange(callback: (e: any) => void): FlatGUI { this._finishCallback = callback; return this; }
+
+
+  _changed = false;
+
+  //
+  // implemented, but not called.  Requires Flat UI to support focus lost event
+  //
+  _callOnFinishChange(controller: Controller) {
+
+    if (this._changed) {
+
+      this.parent?._callOnFinishChange(controller);
+
+      if (this._finishCallback !== undefined) {
+        this._finishCallback.call(this, {
+          object: controller.object,
+          property: controller.property,
+          value: controller.getValue(),
+          controller
+        });
+      }
+
+    }
+    this._changed = false;
+  }
 }
