@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
     { asset: 'paint', text: 'Paint' },
     { asset: 'scale', text: 'World Scale' },
     { asset: 'morphwall', text: 'Morphing Wall' },
-    { asset: 'shapes', text: 'Shapes' },
   ]
 
   examples2 = [

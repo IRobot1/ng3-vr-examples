@@ -141,8 +141,6 @@ import { ThreeGUIItemComponent } from '../examples/three-gui/gui-item/gui-item.c
 import { ThreeGUIFolderComponent } from '../examples/three-gui/gui-folder/gui-folder.component';
 import { LoadingExample } from '../examples/loading/loading.component';
 import { SpokesLoadingComponent } from '../examples/loading/spokes/spokes.component';
-import { ShapesExample } from '../examples/shapes/shapes.component';
-import { SignupComponent } from '../examples/shapes/sign-up/sign-up.component';
 
 
 @NgModule({
@@ -289,8 +287,6 @@ import { SignupComponent } from '../examples/shapes/sign-up/sign-up.component';
     LoadingExample,
     SpokesLoadingComponent,
 
-    ShapesExample,
-    SignupComponent,
 
   ],
   imports: [
