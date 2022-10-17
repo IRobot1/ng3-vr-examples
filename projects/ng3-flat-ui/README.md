@@ -1,7 +1,6 @@
 # Angular UI component library for [three.js](https://threejs.org/) 
 
-Components use [angular-three](https://github.com/nartc/angular-three) as a foundation for defining scene objects.
-
+![image](https://user-images.githubusercontent.com/25032599/196293607-20a6bd40-83d6-4e19-a3c6-8949389f682c.png)
 
 Components work in browser window using touch or mouse.
 
@@ -34,6 +33,8 @@ Input methods include
 Group directives are provided for automatic vertical or horiztonal layout.
 
 A default theme is provided, but can be override. A matrix theme provides example of doing this.
+
+Components use [angular-three](https://github.com/nartc/angular-three) as a foundation for defining scene objects.
 
 # Getting started
 Start with recent Angular CLI project
@@ -105,6 +106,10 @@ body {
   margin: 0px;
 }
 ```
+
+Click the button to change the cube blue
+
+![image](https://user-images.githubusercontent.com/25032599/196293920-adfa3833-45b2-4847-aae6-e4b574e63397.png)
 
 ## Questions
 ### Are you planning a version that works without angular-three
