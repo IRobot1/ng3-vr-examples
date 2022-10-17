@@ -23,7 +23,7 @@
 
   <ngt-mesh #parent *ngIf="expanded" (ready)="panelready($event)">
     <ngt-plane-geometry [args]="[width, height]"></ngt-plane-geometry>
-    <ngt-mesh-standard-material [color]="panelcolor"></ngt-mesh-standard-material>
+    <ngt-mesh-basic-material [color]="panelcolor"></ngt-mesh-basic-material>
 
     <ngt-group *ngIf="resizable">
       <ngt-mesh #left [position]="[-width/2-0.01, 0, 0.01]" [visible]="showscaling"

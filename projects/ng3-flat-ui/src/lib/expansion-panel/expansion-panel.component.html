@@ -17,7 +17,7 @@
 
     <ngt-mesh #parent [visible]="expanded" [position]="[0, -height/2, 0]" (ready)="panel = $event">
       <ngt-plane-geometry [args]="[width, height-titleheight]"></ngt-plane-geometry>
-      <ngt-mesh-standard-material [color]="panelcolor"></ngt-mesh-standard-material>
+      <ngt-mesh-basic-material [color]="panelcolor"></ngt-mesh-basic-material>
 
       <ng-container *ngIf="templateRef"
                     [ngTemplateOutlet]="templateRef"

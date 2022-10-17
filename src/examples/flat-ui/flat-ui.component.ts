@@ -1,15 +1,11 @@
-import { make, NgtLoader, NgtTriple } from "@angular-three/core";
 import { AfterViewInit, Component, OnInit } from "@angular/core";
 
 import { DoubleSide, Euler, Object3D, Quaternion, Side, Texture, TextureLoader, Vector3 } from "three";
+import { make, NgtLoader, NgtTriple } from "@angular-three/core";
+
+import { FlatUITheme, GlobalFlatUITheme, InteractiveObjects, ListItem, UIInput } from "ng3-flat-ui";
+
 import { CameraService } from "../../app/camera.service";
-
-import { FlatUITheme, GlobalFlatUITheme } from "./flat-ui-theme";
-
-import { UIInput } from "./flat-ui-utils";
-import { InteractiveObjects } from "./interactive-objects";
-import { ListItem } from "./list/list.component";
-
 
 const MatrixTheme: FlatUITheme = {
   LabelColor: 'gray',

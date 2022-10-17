@@ -1,10 +1,13 @@
-import { NgtTriple } from "@angular-three/core";
 import { Component, OnInit } from "@angular/core";
+
 import { Mesh } from "three";
+import { NgtTriple } from "@angular-three/core";
+
 import { CameraService } from "../../app/camera.service";
-import { FlatUIButton } from "../flat-ui/button/button.component";
-import { InteractiveObjects } from "../flat-ui/interactive-objects";
+
 import { FlatGUI } from "./flat-gui";
+
+import { InteractiveObjects } from "ng3-flat-ui";
 
 
 @Component({

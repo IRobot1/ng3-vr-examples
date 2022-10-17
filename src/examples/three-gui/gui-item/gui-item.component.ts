@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
+
 import { Color } from "three";
-import { InteractiveObjects } from "../../flat-ui/interactive-objects";
-import { ListItem } from "../../flat-ui/list/list.component";
+import { InteractiveObjects, ListItem } from "ng3-flat-ui";
 
 import { Controller } from "../flat-gui";
 import { FlatUIInputService } from "../flat-ui-input.service";

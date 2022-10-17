@@ -115,32 +115,15 @@ import { PlanetComponent } from '../components/planet/planet.component';
 import { CollisionDirective } from '../examples/collisions/collision.directive';
 import { RotatingSquaresComponent } from '../art/rotating-squares/rotating-squares.component';
 import { FlatUIExample } from '../examples/flat-ui/flat-ui.component';
-import { FlatUIButton } from '../examples/flat-ui/button/button.component';
-import { FlatUIColorPicker } from '../examples/flat-ui/color-picker/color-picker.component';
-import { FlatUIDragPanel } from '../examples/flat-ui/drag-panel/drag-panel.component';
-import { FlatUIIconButton } from '../examples/flat-ui/icon-button/icon-button.component';
-import { FlatUIInputCheckbox } from '../examples/flat-ui/input-checkbox/input-checkbox.component';
-import { FlatUIInputColor } from '../examples/flat-ui/input-color/input-color.component';
-import { FlatUIInputNumber } from '../examples/flat-ui/input-number/input-number.component';
-import { FlatUIInputSlider } from '../examples/flat-ui/input-slider/input-slider.component';
-import { FlatUIInputText } from '../examples/flat-ui/input-text/input-text.component';
-import { FlatUIInputToggle } from '../examples/flat-ui/input-toggle/input-toggle.component';
-import { FlatUIKeyboard } from '../examples/flat-ui/keyboard/keyboard.component';
-import { FlatUILabel } from '../examples/flat-ui/label/label.component';
-import { FlatUIList } from '../examples/flat-ui/list/list.component';
-import { FlatUINumpad } from '../examples/flat-ui/numpad/numpad.component';
-import { FlatUIProgressBar } from '../examples/flat-ui/progress-bar/progress-bar.component';
-import { FlatUIRadioButton } from '../examples/flat-ui/radio-button/radio-button.component';
-import { FlatUISelect } from '../examples/flat-ui/select/select.component';
-import { HorizontalLayoutDirective } from '../examples/flat-ui/horizontal-layout.directive';
-import { VerticalLayoutDirective } from '../examples/flat-ui/vertical-layout.directive';
-import { FlatUIExpansionPanel } from '../examples/flat-ui/expansion-panel/expansion-panel.component';
 import { ThreeGUIExample } from '../examples/three-gui/three-gui.component';
 import { ThreeGUIComponent } from '../examples/three-gui/gui/gui.component';
 import { ThreeGUIItemComponent } from '../examples/three-gui/gui-item/gui-item.component';
 import { ThreeGUIFolderComponent } from '../examples/three-gui/gui-folder/gui-folder.component';
 import { LoadingExample } from '../examples/loading/loading.component';
 import { SpokesLoadingComponent } from '../examples/loading/spokes/spokes.component';
+
+import { Ng3FlatUiModule } from 'ng3-flat-ui';
+
 
 
 @NgModule({
@@ -255,29 +238,6 @@ import { SpokesLoadingComponent } from '../examples/loading/spokes/spokes.compon
     CollisionDirective,
 
     FlatUIExample,
-    FlatUIButton,
-    FlatUIIconButton,
-    FlatUIInputCheckbox,
-    FlatUIInputColor,
-    FlatUIInputNumber,
-    FlatUIInputSlider,
-    FlatUIInputText,
-    FlatUIInputToggle,
-    FlatUILabel,
-    FlatUIProgressBar,
-    FlatUIRadioButton,
-    FlatUISelect,
-
-    FlatUIColorPicker,
-    FlatUIKeyboard,
-    FlatUIList,
-    FlatUINumpad,
-
-    FlatUIDragPanel,
-    FlatUIExpansionPanel,
-
-    HorizontalLayoutDirective,
-    VerticalLayoutDirective,
 
     ThreeGUIExample,
     ThreeGUIComponent,
@@ -295,6 +255,7 @@ import { SpokesLoadingComponent } from '../examples/loading/spokes/spokes.compon
     HttpClientModule,
 
     Ng3WebxrModule,
+    Ng3FlatUiModule,
 
     // core
     NgtCanvasModule,

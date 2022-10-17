@@ -2,8 +2,10 @@ import { Component, Input } from "@angular/core";
 
 import { Group, Vector3 } from "three";
 import { make, NgtObjectProps } from "@angular-three/core";
+
+import { InteractiveObjects } from "ng3-flat-ui";
+
 import { FlatGUI } from "../flat-gui";
-import { InteractiveObjects } from "../../flat-ui/interactive-objects";
 import { FlatUIInputService } from "../flat-ui-input.service";
 
 @Component({

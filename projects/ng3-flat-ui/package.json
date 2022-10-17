@@ -1,0 +1,33 @@
+{
+  "name": "ng3-flat-ui",
+  "version": "0.0.2",
+  "author": "anidivr",
+  "license": "MIT",
+  "keywords": [
+    "three",
+    "three.js",
+    "threejs",
+    "3d",
+    "virtual-reality",
+    "augmented-reality",
+    "webgl",
+    "webgl2",
+    "webxr",
+    "canvas",
+    "angular",
+    "angular-three",
+    "ar",
+    "vr",
+    "ng3",
+    "ngt"
+  ],
+  "peerDependencies": {
+    "@angular/common": "^14.1.0",
+    "@angular/core": "^14.1.0",
+    "@angular-three/core": "^6.0.1",
+    "@angular-three/soba": "^6.0.1"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

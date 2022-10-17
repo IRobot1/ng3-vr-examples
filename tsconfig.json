@@ -11,6 +11,9 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "paths": {
+      "ng3-flat-ui": [
+        "dist/ng3-flat-ui"
+      ],
       "ng3-webxr": [
         "dist/ng3-webxr"
       ]

@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, DoubleSide, Group, Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Side, Vector3 } from "three";
+import { BufferGeometry, Group, Material, Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Vector3 } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { SVGLoader, SVGResult } from "three-stdlib";
 
-import { BufferGeometryUtils } from "../../svg/BufferGeometryUtils";
+import { BufferGeometryUtils } from "..//BufferGeometryUtils";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { THEME_CHANGE_EVENT, GlobalFlatUITheme } from "../flat-ui-theme";

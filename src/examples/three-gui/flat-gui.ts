@@ -1,4 +1,4 @@
-import { ListItem } from "../flat-ui/list/list.component";
+import { ListItem } from "ng3-flat-ui";
 
 export class Controller {
   title!: string;
