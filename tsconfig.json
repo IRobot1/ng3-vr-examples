@@ -12,10 +12,10 @@
     "sourceMap": true,
     "paths": {
       "ng3-flat-ui": [
-        "dist/ng3-flat-ui"
+        "projects/ng3-flat-ui/src/public-api"
       ],
       "ng3-webxr": [
-        "dist/ng3-webxr"
+        "projects/ng3-webxr/src/public-api"
       ]
     },
     "declaration": false,
