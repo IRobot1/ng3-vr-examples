@@ -6,7 +6,7 @@ export class Controller {
   enabled = true;
 
   constructor(
-    public parent: FlatGUI,
+    public parent: Ng3GUI,
     public object: any,
     public property: string,
     public classname: string,
@@ -72,11 +72,11 @@ export class Controller {
 
 }
 
-export class FlatGUI {
+export class Ng3GUI {
   list: Array<Controller> = [];
 
-  parent?: FlatGUI;
-  root!: FlatGUI;
+  parent?: Ng3GUI;
+  root!: Ng3GUI;
   title = '';
   width = 150;
   height = 150;
@@ -87,7 +87,7 @@ export class FlatGUI {
     width = 150,
     height = 150,
   }: {
-    parent?: FlatGUI,
+    parent?: Ng3GUI,
     title?: string,
     width?: number,
     height?: number,
@@ -124,8 +124,8 @@ export class FlatGUI {
     return controller;
   }
 
-  addFolder(title: string): FlatGUI {
-    const gui = new FlatGUI({ parent: this, title, width: this.width * 150, height: this.height * 150 });
+  addFolder(title: string): Ng3GUI {
+    const gui = new Ng3GUI({ parent: this, title, width: this.width * 150, height: this.height * 150 });
     const controller = new Controller(this, gui, title, 'folder');
     this.list.push(controller);
     return gui;
@@ -138,11 +138,11 @@ export class FlatGUI {
   }
 
   expanded = true;
-  open(): FlatGUI { this.expanded = true; return this; }
-  close(): FlatGUI { this.expanded = false; return this; }
+  open(): Ng3GUI { this.expanded = true; return this; }
+  close(): Ng3GUI { this.expanded = false; return this; }
 
   public _changeCallback!: (event: any) => void;
-  onChange(callback: (e: any) => void): FlatGUI { this._changeCallback = callback; return this; }
+  onChange(callback: (e: any) => void): Ng3GUI { this._changeCallback = callback; return this; }
 
   _callOnChange(controller: { object: any; property: any; getValue: () => any; }) {
     if (this.parent) {
@@ -160,7 +160,7 @@ export class FlatGUI {
   }
 
   public _finishCallback!: (event: any) => void;
-  onFinishChange(callback: (e: any) => void): FlatGUI { this._finishCallback = callback; return this; }
+  onFinishChange(callback: (e: any) => void): Ng3GUI { this._finishCallback = callback; return this; }
 
 
   _changed = false;

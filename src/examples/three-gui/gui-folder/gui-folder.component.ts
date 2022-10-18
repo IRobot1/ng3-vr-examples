@@ -5,15 +5,15 @@ import { NgtObjectProps } from "@angular-three/core";
 
 import { InteractiveObjects } from "ng3-flat-ui";
 
-import { FlatGUI } from "../flat-gui";
+import { Ng3GUI } from "../ng3-gui";
 
 @Component({
-  selector: 'three-gui-folder',
-  exportAs: 'threeGUIFolder',
+  selector: 'ng3-gui-folder',
+  exportAs: 'ng3GUIFolder',
   templateUrl: './gui-folder.component.html',
 })
-export class ThreeGUIFolderComponent extends NgtObjectProps<Group> {
-  @Input() gui!: FlatGUI;
+export class Ng3GUIFolderComponent extends NgtObjectProps<Group> {
+  @Input() gui!: Ng3GUI;
 
   @Input() selectable?: InteractiveObjects;
 }

@@ -2,7 +2,7 @@
   <ng-template let-parent="parent">
     <ngt-group vertical-layout (heightchange)="gui.height=$event" [appendTo]="parent" [margin]="[0, 0.02, 0]" [position]="[-gui.width/2, gui.height/2, 0.001]">
 
-      <three-gui-item *ngFor="let item of gui.list" [item]="item" [width]="gui.width" [selectable]="selectable"></three-gui-item>
+      <ng3-gui-item *ngFor="let item of gui.list" [item]="item" [width]="gui.width" [selectable]="selectable"></ng3-gui-item>
 
     </ngt-group>
   </ng-template>

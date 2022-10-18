@@ -116,9 +116,9 @@ import { CollisionDirective } from '../examples/collisions/collision.directive';
 import { RotatingSquaresComponent } from '../art/rotating-squares/rotating-squares.component';
 import { FlatUIExample } from '../examples/flat-ui/flat-ui.component';
 import { ThreeGUIExample } from '../examples/three-gui/three-gui.component';
-import { ThreeGUIComponent } from '../examples/three-gui/gui/gui.component';
-import { ThreeGUIItemComponent } from '../examples/three-gui/gui-item/gui-item.component';
-import { ThreeGUIFolderComponent } from '../examples/three-gui/gui-folder/gui-folder.component';
+import { Ng3GUIComponent } from '../examples/three-gui/gui/gui.component';
+import { Ng3GUIItemComponent } from '../examples/three-gui/gui-item/gui-item.component';
+import { Ng3GUIFolderComponent } from '../examples/three-gui/gui-folder/gui-folder.component';
 import { LoadingExample } from '../examples/loading/loading.component';
 import { SpokesLoadingComponent } from '../examples/loading/spokes/spokes.component';
 
@@ -240,9 +240,9 @@ import { Ng3FlatUiModule } from 'ng3-flat-ui';
     FlatUIExample,
 
     ThreeGUIExample,
-    ThreeGUIComponent,
-    ThreeGUIItemComponent,
-    ThreeGUIFolderComponent,
+    Ng3GUIComponent,
+    Ng3GUIItemComponent,
+    Ng3GUIFolderComponent,
 
     LoadingExample,
     SpokesLoadingComponent,

@@ -1,17 +1,16 @@
 import { Component, Input } from "@angular/core";
 
 import { Color } from "three";
-import { InteractiveObjects, ListItem } from "ng3-flat-ui";
+import { FlatUIInputService, InteractiveObjects, ListItem } from "ng3-flat-ui";
 
-import { Controller } from "../flat-gui";
-import { FlatUIInputService } from "../flat-ui-input.service";
+import { Controller } from "../ng3-gui";
 
 @Component({
-  selector: 'three-gui-item',
-  exportAs: 'threeGUIItem',
+  selector: 'ng3-gui-item',
+  exportAs: 'ng3GUIItem',
   templateUrl: './gui-item.component.html',
 })
-export class ThreeGUIItemComponent  {
+export class Ng3GUIItemComponent  {
   @Input() width = 1;
   @Input() item!: Controller;
 

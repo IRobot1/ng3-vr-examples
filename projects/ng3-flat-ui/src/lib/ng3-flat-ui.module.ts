@@ -62,52 +62,19 @@ import { CommonModule } from '@angular/common';
     CommonModule,
 
     NgtCanvasModule,
-    //NgtPrimitiveModule,
-    //NgtColorAttributeModule,
-    //NgtBufferAttributeModule,
     NgtRadianPipeModule,
-    //NgtStatsModule,
     NgtObjectPassThrough,
 
-    //NgtPerspectiveCameraModule,
-    //NgtCameraHelperModule,
-
-    //NgtGridHelperModule,
-    //NgtBoxHelperModule,
-
-    //NgtAmbientLightModule,
-    //NgtDirectionalLightModule,
-
-    //NgtSpotLightModule,
-    //NgtSpotLightHelperModule,
-
-    //NgtPointLightModule,
-    //NgtPointLightHelperModule,
-
-    //NgtLineModule,
-    //NgtLineSegmentsModule,
-    //NgtPointsModule,
     NgtMeshModule,
-    //NgtInstancedMeshModule,
     NgtGroupModule,
 
     NgtBufferGeometryModule,
     NgtBoxGeometryModule,
-    //NgtSphereGeometryModule,
     NgtPlaneGeometryModule,
-    //NgtConeGeometryModule,
-    //NgtCylinderGeometryModule,
-    //NgtIcosahedronGeometryModule,
-    //NgtTorusGeometryModule,
-    //NgtTorusKnotGeometryModule,
     NgtCircleGeometryModule,
-    //NgtTubeGeometryModule,
     NgtRingGeometryModule,
 
     NgtMeshBasicMaterialModule,
-    //NgtLineBasicMaterialModule,
-    //NgtMeshStandardMaterialModule,
-    //NgtPointsMaterialModule,
 
     // soba
     NgtSobaTextModule,

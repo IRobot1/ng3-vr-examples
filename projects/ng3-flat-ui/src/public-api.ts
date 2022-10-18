@@ -28,4 +28,6 @@ export * from './lib/interactive-objects';
 export * from './lib/layout';
 export * from './lib/vertical-layout.directive';
 
+export * from './lib/flat-ui-input.service';
+
 export * from './lib/ng3-flat-ui.module';

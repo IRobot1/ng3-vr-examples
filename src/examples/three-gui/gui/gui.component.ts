@@ -3,19 +3,18 @@ import { Component, Input } from "@angular/core";
 import { Group, Vector3 } from "three";
 import { make, NgtObjectProps } from "@angular-three/core";
 
-import { InteractiveObjects } from "ng3-flat-ui";
+import { FlatUIInputService, InteractiveObjects } from "ng3-flat-ui";
 
-import { FlatGUI } from "../flat-gui";
-import { FlatUIInputService } from "../flat-ui-input.service";
+import { Ng3GUI } from "../ng3-gui";
 
 @Component({
   selector: 'three-gui',
-  exportAs: 'threeGUI',
+  exportAs: 'ng3GUI',
   templateUrl: './gui.component.html',
   providers: [FlatUIInputService]
 })
-export class ThreeGUIComponent extends NgtObjectProps<Group> {
-  @Input() gui!: FlatGUI;
+export class Ng3GUIComponent extends NgtObjectProps<Group> {
+  @Input() gui!: Ng3GUI;
 
   @Input() selectable?: InteractiveObjects;
 

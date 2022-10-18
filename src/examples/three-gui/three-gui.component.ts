@@ -5,7 +5,7 @@ import { NgtTriple } from "@angular-three/core";
 
 import { CameraService } from "../../app/camera.service";
 
-import { FlatGUI } from "./flat-gui";
+import { Ng3GUI } from "./ng3-gui";
 
 import { InteractiveObjects } from "ng3-flat-ui";
 
@@ -23,8 +23,8 @@ export class ThreeGUIExample implements OnInit {
     q: 3
   };
 
-  public gui!: FlatGUI;
-  public basic!: FlatGUI;
+  public gui!: Ng3GUI;
+  public basic!: Ng3GUI;
   public guiscale = [0.5, 0.5, 0.5] as NgtTriple;
 
   public meshes: Array<Mesh> = [];
@@ -41,8 +41,8 @@ export class ThreeGUIExample implements OnInit {
 
   }
 
-  make(options: any, callback = (gui: FlatGUI): any => { }): FlatGUI {
-    const gui = new FlatGUI(options);
+  make(options: any, callback = (gui: Ng3GUI): any => { }): Ng3GUI {
+    const gui = new Ng3GUI(options);
     return callback(gui) || gui;
   }
 
@@ -62,7 +62,7 @@ export class ThreeGUIExample implements OnInit {
   }
 
   ngOnInit(): void {
-    const gui = new FlatGUI({ width: 300 });
+    const gui = new Ng3GUI({ width: 300 });
     gui.add(this.parameters, 'radius', 0.1, 1.0, 0.01);
     gui.add(this.parameters, 'tube', 0.01, 1.0, 0.01);
     gui.add(this.parameters, 'tubularSegments', 10, 150, 1);
@@ -71,7 +71,7 @@ export class ThreeGUIExample implements OnInit {
     gui.add(this.parameters, 'q', 0, 10, 1);
     this.gui = gui;
 
-    const basic = new FlatGUI({ width: 300, height: 150 });
+    const basic = new Ng3GUI({ width: 300, height: 150 });
 
     const folder = basic.addFolder('Folder');
 

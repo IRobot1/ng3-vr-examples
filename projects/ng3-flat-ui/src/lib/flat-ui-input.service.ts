@@ -2,7 +2,9 @@ import { Injectable } from "@angular/core";
 
 import { Euler, Object3D, Quaternion, Vector3 } from "three";
 
-import { ListItem, UIInput } from "ng3-flat-ui";
+import { UIInput } from "./flat-ui-utils";
+import { ListItem } from "./list/list.component";
+
 
 
 
