@@ -116,13 +116,11 @@ import { CollisionDirective } from '../examples/collisions/collision.directive';
 import { RotatingSquaresComponent } from '../art/rotating-squares/rotating-squares.component';
 import { FlatUIExample } from '../examples/flat-ui/flat-ui.component';
 import { ThreeGUIExample } from '../examples/three-gui/three-gui.component';
-import { Ng3GUIComponent } from '../examples/three-gui/gui/gui.component';
-import { Ng3GUIItemComponent } from '../examples/three-gui/gui-item/gui-item.component';
-import { Ng3GUIFolderComponent } from '../examples/three-gui/gui-folder/gui-folder.component';
 import { LoadingExample } from '../examples/loading/loading.component';
 import { SpokesLoadingComponent } from '../examples/loading/spokes/spokes.component';
 
 import { Ng3FlatUiModule } from 'ng3-flat-ui';
+import { Ng3GuiModule } from '../../projects/ng3-gui/src/public-api';
 
 
 
@@ -240,9 +238,6 @@ import { Ng3FlatUiModule } from 'ng3-flat-ui';
     FlatUIExample,
 
     ThreeGUIExample,
-    Ng3GUIComponent,
-    Ng3GUIItemComponent,
-    Ng3GUIFolderComponent,
 
     LoadingExample,
     SpokesLoadingComponent,
@@ -256,6 +251,7 @@ import { Ng3FlatUiModule } from 'ng3-flat-ui';
 
     Ng3WebxrModule,
     Ng3FlatUiModule,
+    Ng3GuiModule,
 
     // core
     NgtCanvasModule,

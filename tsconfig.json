@@ -14,6 +14,9 @@
       "ng3-flat-ui": [
         "projects/ng3-flat-ui/src/public-api"
       ],
+      "ng3-gui": [
+        "projects/ng3-gui/src/public-api"
+      ],
       "ng3-webxr": [
         "projects/ng3-webxr/src/public-api"
       ]

@@ -1,9 +1,11 @@
 import { Component, Input } from "@angular/core";
 
-import { Color } from "three";
+import { Color, Group } from "three";
+import { NgtObjectProps } from "@angular-three/core";
+
 import { FlatUIInputService, InteractiveObjects, ListItem } from "ng3-flat-ui";
 
-import { Controller } from "../ng3-gui";
+import { Controller, Ng3GUI } from "../ng3-gui";
 
 @Component({
   selector: 'ng3-gui-item',
@@ -71,4 +73,20 @@ export class Ng3GUIItemComponent  {
   }
 
 
+}
+
+//
+// move here to work around
+//  NG3003: One or more import cycles would need to be created to compile this component, which is not supported by the current compiler configuration.
+//
+
+@Component({
+  selector: 'ng3-gui-folder',
+  exportAs: 'ng3GUIFolder',
+  templateUrl: './gui-folder.component.html',
+})
+export class Ng3GUIFolderComponent extends NgtObjectProps<Group> {
+  @Input() gui!: Ng3GUI;
+
+  @Input() selectable?: InteractiveObjects;
 }

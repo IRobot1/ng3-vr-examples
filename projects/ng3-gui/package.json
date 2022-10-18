@@ -1,0 +1,35 @@
+{
+  "name": "ng3-gui",
+  "version": "0.0.3",
+  "author": "anidivr",
+  "license": "MIT",
+  "keywords": [
+    "three",
+    "three.js",
+    "threejs",
+    "3d",
+    "virtual-reality",
+    "augmented-reality",
+    "webgl",
+    "webgl2",
+    "webxr",
+    "canvas",
+    "angular",
+    "angular-three",
+    "ar",
+    "vr",
+    "ng3",
+    "ngt",
+    "user-interface",
+    "UI",
+    "GUI"
+  ],
+  "peerDependencies": {
+    "@angular/common": "^14.1.0",
+    "@angular/core": "^14.1.0",
+    "ng3-flat-ui": "^0.0.3"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

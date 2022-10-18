@@ -5,9 +5,9 @@ import { NgtTriple } from "@angular-three/core";
 
 import { CameraService } from "../../app/camera.service";
 
-import { Ng3GUI } from "./ng3-gui";
-
 import { InteractiveObjects } from "ng3-flat-ui";
+
+import { Ng3GUI } from "ng3-gui";
 
 
 @Component({

@@ -8,7 +8,7 @@ import { FlatUIInputService, InteractiveObjects } from "ng3-flat-ui";
 import { Ng3GUI } from "../ng3-gui";
 
 @Component({
-  selector: 'three-gui',
+  selector: 'ng3-gui',
   exportAs: 'ng3GUI',
   templateUrl: './gui.component.html',
   providers: [FlatUIInputService]

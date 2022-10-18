@@ -163,6 +163,37 @@
           }
         }
       }
+    },
+    "ng3-gui": {
+      "projectType": "library",
+      "root": "projects/ng3-gui",
+      "sourceRoot": "projects/ng3-gui/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ng3-gui/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ng3-gui/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ng3-gui/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ng3-gui/src/test.ts",
+            "tsConfig": "projects/ng3-gui/tsconfig.spec.json",
+            "karmaConfig": "projects/ng3-gui/karma.conf.js"
+          }
+        }
+      }
     }
   }
 }
