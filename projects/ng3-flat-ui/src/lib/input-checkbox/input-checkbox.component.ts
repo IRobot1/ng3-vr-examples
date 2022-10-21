@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, DoubleSide, Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Side } from "three";
+import { BufferGeometry, Material, Mesh, MeshBasicMaterial, PlaneGeometry, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -55,6 +55,16 @@ export class FlatUIInputCheckbox extends NgtObjectProps<Mesh> implements AfterVi
     this._hovercolor = newvalue;
   }
 
+  private _disabledcolor?: string;
+  @Input()
+  get disabledcolor(): string {
+    if (this._disabledcolor) return this._disabledcolor;
+    return GlobalFlatUITheme.DisabledColor;
+  }
+  set disabledcolor(newvalue: string) {
+    this._disabledcolor = newvalue;
+  }
+
   private _truecolor?: string;
   @Input()
   get truecolor(): string {
@@ -65,28 +75,65 @@ export class FlatUIInputCheckbox extends NgtObjectProps<Mesh> implements AfterVi
     this._truecolor = newvalue;
   }
 
-  @Input() enabled = true;
+  private _enabled = true;
+  @Input()
+  get enabled(): boolean { return this._enabled }
+  set enabled(newvalue: boolean) {
+    this._enabled = newvalue;
+    if (newvalue) {
+      this.setButtonColor(this.buttoncolor);
+    }
+    else {
+      this.setButtonColor(this.disabledcolor);
+    }
+  }
+
+  @Input() geometry!: BufferGeometry;
+  @Input() material!: Material;
 
   @Input() selectable?: InteractiveObjects;
 
+  @Input() checkgeometry!: BufferGeometry;
+  @Input() checkmaterial!: Material;
+
   @Output() change = new EventEmitter<boolean>();
 
-  geometry!: BufferGeometry;
-  material!: MeshBasicMaterial;
-
-  side: Side = DoubleSide;
 
   private checkmesh!: Mesh;
 
   override preInit() {
     super.preInit();
 
+    if (!this.geometry) this.createButtonGeometry();
+    if (!this.material) this.createButtonMaterial();
+
+    if (!this.checkgeometry) this.createCheckGeometry();
+    if (!this.checkmaterial) this.createCheckMaterial();
+  }
+
+  createButtonGeometry() {
     const flat = new Shape();
     roundedRect(flat, 0, 0, this.width, this.width, 0.02);
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
-    this.material = new MeshBasicMaterial({ color: this.buttoncolor, side: this.side, opacity: 0.5, transparent: true });
+  }
+
+  createButtonMaterial() {
+    this.material = new MeshBasicMaterial({ color: this.buttoncolor });
+  }
+
+  createCheckGeometry() {
+    this.checkgeometry = new PlaneGeometry(this.width * 0.7, this.width * 0.7)
+  }
+
+  createCheckMaterial() {
+    this.checkmaterial = new MeshBasicMaterial({ color: this.truecolor });
+  }
+
+  setButtonColor(color: string) {
+    if (this.material)
+      (this.material as MeshBasicMaterial).color.setStyle(color);
   }
 
   override ngOnDestroy() {
@@ -97,6 +144,9 @@ export class FlatUIInputCheckbox extends NgtObjectProps<Mesh> implements AfterVi
 
     this.geometry.dispose();
     this.material.dispose();
+
+    this.checkgeometry.dispose();
+    this.checkmaterial.dispose();
   }
 
   ngAfterViewInit(): void {
@@ -107,13 +157,13 @@ export class FlatUIInputCheckbox extends NgtObjectProps<Mesh> implements AfterVi
     });
 
     GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.material.color.setStyle(this.buttoncolor);
+      this.setButtonColor(this.buttoncolor);
     })
   }
 
   private mesh!: Mesh;
 
-  meshready(mesh: Mesh) {
+  protected meshready(mesh: Mesh) {
     this.selectable?.add(mesh);
 
     mesh.addEventListener('pointermove', () => { this.over() });
@@ -122,7 +172,7 @@ export class FlatUIInputCheckbox extends NgtObjectProps<Mesh> implements AfterVi
     this.mesh = mesh;
   }
 
-  checkready(mesh: Mesh) {
+  protected checkready(mesh: Mesh) {
     this.selectable?.add(mesh)
 
     mesh.visible = this.checked;
@@ -134,7 +184,7 @@ export class FlatUIInputCheckbox extends NgtObjectProps<Mesh> implements AfterVi
     this.checkmesh = mesh;
   }
 
-  clicked(event: NgtEvent<MouseEvent>) {
+  protected clicked(event: NgtEvent<MouseEvent>) {
     if (event.object != this.checkmesh) return;
     event.stopPropagation();
 
@@ -147,15 +197,15 @@ export class FlatUIInputCheckbox extends NgtObjectProps<Mesh> implements AfterVi
     this.change.next(this.checked);
   }
 
-  isover = false;
-  over() {
+  private isover = false;
+  protected over() {
     if (this.isover || !this.enabled) return;
-    this.material.color.setStyle(this.hovercolor);
+    this.setButtonColor(this.hovercolor);
     this.isover = true;
   }
-  out() {
+  protected out() {
     if (!this.enabled) return;
-    this.material.color.setStyle(this.buttoncolor);
+    this.setButtonColor(this.buttoncolor);
     this.isover = false;
   }
 
