@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, DoubleSide, MathUtils, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, MathUtils, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -34,8 +34,8 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
   }
   @Input() overflow = 6;
 
-  @Input() min?= -Infinity;
-  @Input() max?= Infinity;
+  @Input() min?: number;
+  @Input() max?: number;
 
   @Input() enabled = true;
 
@@ -90,12 +90,13 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
     }
   }
 
+  @Input() geometry!: BufferGeometry;
+  @Input() material!: MeshBasicMaterial;
+
   inputopen = false;
   @Output() openinput = new EventEmitter<Object3D>();
   @Output() change = new EventEmitter<number>();
 
-  geometry!: BufferGeometry;
-  material!: MeshBasicMaterial;
 
   get textvalue(): string {
     let text = this.text.substring(this.text.length - this.overflow);
@@ -106,16 +107,20 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
   override preInit() {
     super.preInit();
 
-    if (!this.geometry) {
-      const flat = new Shape();
-      roundedRect(flat, 0, 0, this.width, this.height, 0.02);
+    if (!this.geometry) this.createButtonGeometry();
+    if (!this.material) this.createButtonMaterial();
+  }
 
-      this.geometry = new ShapeGeometry(flat);
-      this.geometry.center();
-    }
-    if (!this.material) {
-      this.material = new MeshBasicMaterial({ color: this.buttoncolor, side: DoubleSide, opacity: 0.5, transparent: true });
-    }
+  createButtonGeometry() {
+    const flat = new Shape();
+    roundedRect(flat, 0, 0, this.width, this.height, 0.02);
+
+    this.geometry = new ShapeGeometry(flat);
+    this.geometry.center();
+  }
+
+  createButtonMaterial() {
+    this.material = new MeshBasicMaterial({ color: this.buttoncolor });
   }
 
   override ngOnDestroy() {
@@ -139,11 +144,9 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
     })
   }
 
-
-
   private mesh!: Mesh;
 
-  meshready(mesh: Mesh) {
+  protected meshready(mesh: Mesh) {
     this.selectable?.add(mesh);
 
     mesh.addEventListener('click', (e: any) => { this.enableinput(mesh); e.stop = true; })
@@ -154,20 +157,20 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
   }
 
 
-  enableinput(mesh: Mesh) {
+  protected enableinput(mesh: Mesh) {
     if (!this.enabled || !this.visible) return;
 
     this.inputopen = true;
     this.openinput.next(mesh);
   }
 
-  isover = false;
-  over() {
+  private isover = false;
+  protected over() {
     if (this.isover || !this.enabled) return;
     this.material.color.setStyle(this.hovercolor);
     this.isover = true;
   }
-  out() {
+  protected out() {
     if (!this.enabled) return;
     this.material.color.setStyle(this.buttoncolor);
     this.isover = false;
