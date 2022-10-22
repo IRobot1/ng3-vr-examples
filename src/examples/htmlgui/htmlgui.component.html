@@ -26,5 +26,5 @@
 <vr-controller guipointer showcontroller trackedpointer navhome [guis]="meshes"></vr-controller>
 <vr-controller [index]="1" guipointer showcontroller trackedpointer navhome  [guis]="meshes"></vr-controller>
 
-<ng3-lil-gui #lil (ready)="meshes.push($event)" [position]="[-0.75, 1, -1]" [rotation]="[0, 3.14/4, 0]" scalar="2" [gui]="gui" ></ng3-lil-gui>
+<ng3-gui [position]="[-0.75, 1, -1]" [rotation]="[0, 3.14/4, 0]" scalar="2" [gui]="gui" [scale]="0.5" ></ng3-gui>
 
