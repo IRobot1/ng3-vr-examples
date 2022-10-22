@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
     { asset: 'graph', text: 'Directed Graph Layout' },
     { asset: 'collisions', text: 'Collisions' },
     { asset: 'flat-ui', text: 'Flat UI' },
-    { asset: 'three-gui', text: 'Three GUI' },
+    { asset: 'three-gui', text: 'Ng3 GUI' },
     { asset: 'loading', text: 'Loading' },
   ]
 

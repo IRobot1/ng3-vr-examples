@@ -4,29 +4,46 @@
 
 <ngt-directional-light [position]="[10, 10, 10]" castShadow></ngt-directional-light>
 
-<ngt-mesh [position]="[0, 1, -2]" [scale]="0.5" (beforeRender)="tick($event.object)">
-  <ngt-torus-knot-geometry [args]="[
-    parameters.radius,
-    parameters.tube,
-    parameters.tubularSegments,
-    parameters.radialSegments,
-    parameters.p,
-    parameters.q]">
-  </ngt-torus-knot-geometry>
-  <ngt-mesh-standard-material color="cornflowerblue"></ngt-mesh-standard-material>
-</ngt-mesh>
-
-<ngt-mesh [position]="[0, 0.2, -2]">
-  <ngt-cylinder-geometry [args]="[0.6, 0.6, 0.4, 50]"></ngt-cylinder-geometry>
-  <ngt-mesh-standard-material color="darkgray"></ngt-mesh-standard-material>
-</ngt-mesh>
 
 <vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
 <vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
 
-<ng3-gui [position]="[-1.5, 1, -2]" [gui]="gui" [selectable]="selectable"></ng3-gui>
+<ngt-group [rotation]="[0, 70 | radian, 0]" [position]="[-0.5, 0, 0]">
 
-<ng3-gui [position]="[1.7, 1, -2]"  [gui]="basic" [selectable]="selectable"></ng3-gui>
+  <ng3-gui *ngFor="let item of leftwall"
+           [position]="item.position" [scale]="0.8"
+           [gui]="item.gui" [selectable]="selectable"
+           [showclose]="false" [resizable]="false" [expanded]="true">
+  </ng3-gui>
+</ngt-group>
+
+<ngt-group [rotation]="[0, 10 | radian, 0]" [position]="[-0.5, 0, 0]">
+
+  <ng3-gui *ngFor="let item of frontwall"
+           [position]="item.position" [scale]="0.8"
+           [gui]="item.gui" [selectable]="selectable"
+           [showclose]="false" [resizable]="false" [expanded]="false">
+  </ng3-gui>
+</ngt-group>
+
+<ngt-group [rotation]="[0, -70 | radian, 0]" [position]="[0.5, 0.5, 0]">
+
+  <ng3-gui *ngFor="let item of rightwall"
+           [position]="item.position" [scale]="0.8"
+           [gui]="item.gui" [selectable]="selectable"
+           [showclose]="false" [resizable]="false" [expanded]="true">
+  </ng3-gui>
+</ngt-group>
+
+<ngt-group [rotation]="[0, -10 | radian, 0]" [position]="[0.5, 0, 0]">
+
+  <ng3-gui *ngFor="let item of backwall"
+           [position]="item.position" [scale]="0.8"
+           [gui]="item.gui" [selectable]="selectable"
+           [showclose]="false" [resizable]="false" [expanded]="false">
+  </ng3-gui>
+</ngt-group>
 
 
+<ngt-soba-orbit-controls></ngt-soba-orbit-controls>
 
