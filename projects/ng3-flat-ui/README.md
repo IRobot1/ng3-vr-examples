@@ -36,6 +36,13 @@ A default theme is provided, but can be override. A matrix theme provides exampl
 
 Components use [angular-three](https://github.com/nartc/angular-three) as a foundation for defining scene objects.
 
+# Documentation
+
+See [ng3-flat-ui](https://github.com/IRobot1/ng3-vr-examples/wiki/ng3-flat-ui-components) for detailed documentation
+
+# Before you Start
+This library assumes you have a decent understanding of three.js scene, lighting, geometry and material.  Also, being familiar with angular-three really helps.
+
 # Getting started
 Start with recent Angular CLI project
 
@@ -117,3 +124,16 @@ No.  This would be a great student project.
 
 ### Are you planning a version that works with react-fiber
 No.  This would be a great student project.
+
+# Roadmap
+List of features that would be nice to add (in no particular order)
+* multi-line, sizable text box
+* UI sounds
+* divider
+* keyboard multi-language support (requires better default font)
+* text regular expression support
+* scrollbar (difficult without clipping support, so probably needs to be re-imagined)
+* date picker
+* time picker
+* chips
+* hand input
