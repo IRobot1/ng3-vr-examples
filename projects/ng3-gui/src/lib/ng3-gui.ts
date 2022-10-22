@@ -148,7 +148,7 @@ export class Ng3GUI {
     this.list.forEach(c => c.reset());
     return this;
   }
-  settitle(newvalue: string) { this.title = newvalue; }
+  settitle(newvalue: string): Ng3GUI { this.title = newvalue; return this; }
 
   expanded = true;
   open(): Ng3GUI { this.expanded = true; return this; }

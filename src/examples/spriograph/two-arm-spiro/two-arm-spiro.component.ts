@@ -19,9 +19,26 @@ export class TwoArmSpiroComponent extends NgtObjectProps<Group> {
 
   private enabled = false;
 
-  changex = true
-  changey = false
-  changez = true
+  private _changex = true
+  get changex(): boolean { return this._changex }
+  set changex(newvalue: boolean) {
+    this._changex = newvalue;
+    this.redraw();
+  }
+
+  private _changey = false
+  get changey(): boolean { return this._changey }
+  set changey(newvalue: boolean) {
+    this._changey = newvalue;
+    this.redraw();
+  }
+
+  private _changez = true
+  get changez(): boolean { return this._changez }
+  set changez(newvalue: boolean) {
+    this._changez = newvalue;
+    this.redraw();
+  }
 
   private _radius = 0.01;
   get radius(): number { return this._radius }
