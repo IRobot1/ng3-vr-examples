@@ -158,8 +158,10 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
     });
 
     GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      if (this.enabled) this.setButtonColor(this.buttoncolor);
+      this.setButtonColor(this.enabled ? this.buttoncolor : this.disabledcolor);
     })
+
+    this.setButtonColor(this.enabled ? this.buttoncolor : this.disabledcolor);
   }
 
   meshready(mesh: Mesh) {

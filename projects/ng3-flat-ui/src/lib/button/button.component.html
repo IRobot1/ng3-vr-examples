@@ -1,5 +1,5 @@
 <ngt-mesh #mesh [name]="name" [visible]="visible"
-          (click)="clicked(mesh.instance.value, $event)" (pointermove)="over();$event.stopPropagation()" (pointerout)="out()"
+          (click)="clicked(mesh.instance.value, $event)" (pointerover)="over();$event.stopPropagation()" (pointerout)="out();$event.stopPropagation()"
           [position]="position" [rotation]="rotation" [scale]="scale"
           [geometry]="geometry" [material]="material"
           (ready)="meshready($event)">

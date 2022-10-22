@@ -139,18 +139,19 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
       this.over();
     });
 
-    const dragend = () => {
+    const dragend = (e: any) => {
       if (this.locked) return;
       this.dragging = false;
       scene.attach(panel);
       this.out();
+      e.stop = true;
     };
 
     mesh.addEventListener('pointerup', dragend);
     mesh.addEventListener('pointerout', dragend);
     mesh.addEventListener('raymissed', dragend);
 
-    mesh.addEventListener('pointermove', () => { this.over() });
+    mesh.addEventListener('pointermove', (e: any) => { this.over(); e.stop = true; });
   }
 
   showscaling = false;
