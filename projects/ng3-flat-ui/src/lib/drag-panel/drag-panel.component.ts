@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 
-import { BufferGeometry, Intersection, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Vector3 } from "three";
+import { BufferGeometry, Intersection, Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Vector3 } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
@@ -47,14 +47,14 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     this._hovercolor = newvalue;
   }
 
-  private _labelcolor?: string;
+  private _labelmaterial!: Material
   @Input()
-  get labelcolor(): string {
-    if (this._labelcolor) return this._labelcolor;
-    return GlobalFlatUITheme.LabelColor;
+  get labelmaterial(): Material {
+    if (this._labelmaterial) return this._labelmaterial;
+    return GlobalFlatUITheme.LabelMaterial;
   }
-  set labelcolor(newvalue: string) {
-    this._labelcolor = newvalue;
+  set labelmaterial(newvalue: Material) {
+    this._labelmaterial = newvalue;
   }
 
   @Input() locked = false;

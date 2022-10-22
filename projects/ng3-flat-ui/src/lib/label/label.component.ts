@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
-import { Group, Object3D } from "three";
+import { Group, Material, Object3D } from "three";
 import { NgtObjectProps, NgtTriple } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -17,14 +17,14 @@ export class FlatUILabel extends NgtObjectProps<Group> implements AfterViewInit 
   @Input() font = ''; // for example, https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff
   @Input() fontsize = 0.07;
 
-  private _color?: string;
+  private _labelmaterial!: Material
   @Input()
-  get labelcolor(): string {
-    if (this._color) return this._color;
-    return GlobalFlatUITheme.LabelColor;
+  get labelmaterial(): Material {
+    if (this._labelmaterial) return this._labelmaterial;
+    return GlobalFlatUITheme.LabelMaterial;
   }
-  set labelcolor(newvalue: string) {
-    this._color = newvalue;
+  set labelmaterial(newvalue: Material) {
+    this._labelmaterial = newvalue;
   }
 
   private _width = 1;

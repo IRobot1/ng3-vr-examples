@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef } from "@angular/core";
 
-import { Group, Mesh, MeshBasicMaterial, Object3D } from "three";
+import { Group, Material, Mesh, MeshBasicMaterial, Object3D } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -78,14 +78,14 @@ export class FlatUIExpansionPanel extends NgtObjectProps<Mesh> implements AfterV
     this._panelcolor = newvalue;
   }
 
-  private _labelcolor?: string;
+  private _labelmaterial!: Material
   @Input()
-  get labelcolor(): string {
-    if (this._labelcolor) return this._labelcolor;
-    return GlobalFlatUITheme.LabelColor;
+  get labelmaterial(): Material {
+    if (this._labelmaterial) return this._labelmaterial;
+    return GlobalFlatUITheme.LabelMaterial;
   }
-  set labelcolor(newvalue: string) {
-    this._labelcolor = newvalue;
+  set labelmaterial(newvalue: Material) {
+    this._labelmaterial = newvalue;
   }
 
 

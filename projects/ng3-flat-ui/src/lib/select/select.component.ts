@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, DoubleSide, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Side } from "three";
+import { BufferGeometry, DoubleSide, Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Side } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -48,15 +48,17 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
     this._hovercolor = newvalue;
   }
 
-  private _textcolor?: string;
+  private _textmaterial!: Material
   @Input()
-  get textcolor(): string {
-    if (this._textcolor) return this._textcolor;
-    return GlobalFlatUITheme.StringColor;
+  get textmaterial(): Material {
+    if (this._textmaterial) return this._textmaterial;
+    return GlobalFlatUITheme.StringMaterial;
   }
-  set textcolor(newvalue: string) {
-    this._textcolor = newvalue;
+  set textmaterial(newvalue: Material) {
+    this._textmaterial = newvalue;
   }
+
+
   private _selectcolor?: string;
   @Input()
   get selectcolor(): string {

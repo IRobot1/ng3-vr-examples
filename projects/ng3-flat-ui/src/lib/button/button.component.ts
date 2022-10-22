@@ -94,14 +94,14 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
     this._clickcolor = newvalue;
   }
 
-  private _labelcolor?: string;
+  private _labelmaterial!: Material
   @Input()
-  get labelcolor(): string {
-    if (this._labelcolor) return this._labelcolor;
-    return GlobalFlatUITheme.ButtonLabelColor;
+  get labelmaterial(): Material {
+    if (this._labelmaterial) return this._labelmaterial;
+    return GlobalFlatUITheme.LabelMaterial;
   }
-  set labelcolor(newvalue: string) {
-    this._labelcolor = newvalue;
+  set labelmaterial(newvalue: Material) {
+    this._labelmaterial = newvalue;
   }
 
   @Input() selectable?: InteractiveObjects;

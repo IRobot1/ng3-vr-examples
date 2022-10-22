@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, MathUtils, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Material, MathUtils, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -66,15 +66,17 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
   set hovercolor(newvalue: string) {
     this._hovercolor = newvalue;
   }
-  private _numbercolor?: string;
+
+  private _numbermaterial!: Material
   @Input()
-  get numbercolor(): string {
-    if (this._numbercolor) return this._numbercolor;
-    return GlobalFlatUITheme.NumberColor;
+  get numbermaterial(): Material {
+    if (this._numbermaterial) return this._numbermaterial;
+    return GlobalFlatUITheme.NumberMaterial;
   }
-  set numbercolor(newvalue: string) {
-    this._numbercolor = newvalue;
+  set numbermaterial(newvalue: Material) {
+    this._numbermaterial = newvalue;
   }
+
 
   @Input() selectable?: InteractiveObjects;
 

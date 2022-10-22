@@ -1,4 +1,4 @@
-import { Object3D } from "three";
+import { Material, MeshBasicMaterial, Object3D } from "three";
 
 export const THEME_CHANGE_EVENT = 'themechanged';
 
@@ -70,9 +70,48 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     this.PopupColor = newtheme.PopupColor
     this.SelectColor = newtheme.SelectColor
     this.ProgressColor = newtheme.ProgressColor
-    this.DisabledColor = newtheme.DisabledColor
+    this.DisabledColor = newtheme.DisabledColor;
+
+    (this.LabelMaterial as MeshBasicMaterial).color.setStyle(newtheme.LabelColor);
+    (this.NumberMaterial as MeshBasicMaterial).color.setStyle(newtheme.NumberColor);
+    (this.StringMaterial as MeshBasicMaterial).color.setStyle(newtheme.StringColor);
+
+
     this.notify();
   }
+
+  LabelMaterial !: Material;
+  ButtonMaterial !: Material;
+  HoverMaterial !: Material;
+  ClickMaterial !: Material;
+  ButtonLabelMaterial !: Material;
+  NumberMaterial !: Material;
+  StringMaterial !: Material;
+  CheckMaterial !: Material;
+  SlideMaterial !: Material;
+  ToggleFalseMaterial !: Material;
+  ToggleTrueMaterial !: Material;
+  RadioFalseMaterial !: Material;
+  RadioTrueMaterial !: Material;
+  IconMaterial !: Material;
+  PanelMaterial !: Material;
+  PopupMaterial !: Material;
+  SelectMaterial !: Material;
+  ProgressMaterial !: Material;
+  DisabledMaterial !: Material
+
+  constructor() {
+    super();
+
+    this.LabelMaterial = new MeshBasicMaterial({ color: this.LabelColor });
+    this.NumberMaterial = new MeshBasicMaterial({ color: this.NumberColor });
+    this.StringMaterial = new MeshBasicMaterial({ color: this.StringColor });
+
+    this.ButtonMaterial = new MeshBasicMaterial({ color: this.ButtonColor });
+    
+  }
+
+
 }
 
 export const GlobalFlatUITheme = new FlatUIThemeObject();
