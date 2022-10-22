@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, DoubleSide, Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Side } from "three";
+import { BufferGeometry, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -94,7 +94,6 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterView
   geometry!: BufferGeometry;
   material!: MeshBasicMaterial;
 
-  side: Side = DoubleSide;
   togglecolor = this.falsecolor;
 
   override preInit() {
@@ -108,7 +107,7 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterView
       this.geometry.center();
     }
     if (!this.material) {
-      this.material = new MeshBasicMaterial({ color: this.buttoncolor, side: this.side, opacity: 0.5, transparent: true });
+      this.material = new MeshBasicMaterial({ color: this.buttoncolor });
     }
   }
 

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, DoubleSide, Group, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Group, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps, NgtTriple } from "@angular-three/core";
 
 import { roundedRect } from "../flat-ui-utils";
@@ -81,7 +81,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
-    this.material = new MeshBasicMaterial({ color: this.popupcolor, side: DoubleSide });
+    this.material = new MeshBasicMaterial({ color: this.popupcolor });
   }
 
   override ngOnInit() {

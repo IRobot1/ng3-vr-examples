@@ -1,6 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, Output } from "@angular/core";
 
-import { BufferGeometry, DoubleSide, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps, NgtTriple } from "@angular-three/core";
 
 import { roundedRect } from "../flat-ui-utils";
@@ -55,7 +55,7 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
-    this.material = new MeshBasicMaterial({ color: this.popupcolor, side: DoubleSide });
+    this.material = new MeshBasicMaterial({ color: this.popupcolor });
   }
 
   override ngOnDestroy() {

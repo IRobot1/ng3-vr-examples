@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
-import { BufferGeometry, DoubleSide, MathUtils, Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Side } from "three";
+import { BufferGeometry, MathUtils, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -73,12 +73,8 @@ export class FlatUIProgressBar extends NgtObjectProps<Mesh> implements AfterView
     this._progresscolor = newvalue;
   }
 
-
-
   geometry!: BufferGeometry;
   material!: MeshBasicMaterial;
-
-  side: Side = DoubleSide;
 
   progress!: BufferGeometry;
   showprogress = true;
@@ -92,7 +88,7 @@ export class FlatUIProgressBar extends NgtObjectProps<Mesh> implements AfterView
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
 
-    this.material = new MeshBasicMaterial({ color: this.buttoncolor, side: this.side, opacity: 0.5, transparent: true });
+    this.material = new MeshBasicMaterial({ color: this.buttoncolor });
   }
 
   override ngOnDestroy() {

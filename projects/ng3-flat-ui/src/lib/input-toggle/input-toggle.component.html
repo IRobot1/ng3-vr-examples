@@ -5,7 +5,7 @@
 
   <ngt-mesh (ready)="toggleready($event)" (click)="clicked(mesh.instance.value, $event)" [position]="[0, 0, 0.0001]">
     <ngt-circle-geometry [args]="[0.04,32]"></ngt-circle-geometry>
-    <ngt-mesh-basic-material [color]="togglecolor" [side]="side"></ngt-mesh-basic-material>
+    <ngt-mesh-basic-material [color]="togglecolor"></ngt-mesh-basic-material>
   </ngt-mesh>
 
 </ngt-mesh>

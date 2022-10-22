@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { DoubleSide, Mesh, MeshBasicMaterial, Side } from "three";
+import { Mesh, MeshBasicMaterial  } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -66,14 +66,12 @@ export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterView
 
   material!: MeshBasicMaterial;
 
-  side: Side = DoubleSide;
-
 
   override preInit() {
     super.preInit();
 
     if (!this.material) {
-      this.material = new MeshBasicMaterial({ color: this.buttoncolor, side: this.side, opacity: 0.5, transparent: true });
+      this.material = new MeshBasicMaterial({ color: this.buttoncolor });
     }
   }
 
