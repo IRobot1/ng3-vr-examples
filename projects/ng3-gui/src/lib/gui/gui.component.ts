@@ -21,6 +21,7 @@ export class Ng3GUIComponent extends NgtObjectProps<Group> {
   @Input() showclose = true;
   @Input() resizable = true;
 
+  @Input() expanded = true;
 
   @Input() selectable?: InteractiveObjects;
 

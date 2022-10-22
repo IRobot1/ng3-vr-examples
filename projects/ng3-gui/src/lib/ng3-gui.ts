@@ -138,7 +138,7 @@ export class Ng3GUI {
     return gui;
   }
 
-  addColor(object: any, property: string): Controller {
+  addColor(object: any, property: string, rgbScale = 1): Controller {
     const controller = new Controller(this, object, property, 'color');
     this.list.push(controller);
     return controller;
