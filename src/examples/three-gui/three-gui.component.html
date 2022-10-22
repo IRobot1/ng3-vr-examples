@@ -1,46 +1,48 @@
 <ngt-color attach="background" color="darkgray"></ngt-color>
 
-<line-room></line-room>
+<ngt-mesh>
+  <ngt-cylinder-geometry [args]="[1, 1, 0.1, 32]"></ngt-cylinder-geometry>
+</ngt-mesh>
 
-<ngt-directional-light [position]="[10, 10, 10]" castShadow></ngt-directional-light>
+<ngt-point-light></ngt-point-light>
 
 
 <vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
 <vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
 
-<ngt-group [rotation]="[0, 70 | radian, 0]" [position]="[-0.5, 0, 0]">
+<ngt-group>
 
   <ng3-gui *ngFor="let item of leftwall"
            [position]="item.position" [scale]="0.8"
            [gui]="item.gui" [selectable]="selectable"
-           [showclose]="false" [resizable]="false" [expanded]="true">
+           [showclose]="false" [resizable]="false" [expanded]="item.expanded">
   </ng3-gui>
 </ngt-group>
 
-<ngt-group [rotation]="[0, 10 | radian, 0]" [position]="[-0.5, 0, 0]">
+<ngt-group>
 
   <ng3-gui *ngFor="let item of frontwall"
            [position]="item.position" [scale]="0.8"
            [gui]="item.gui" [selectable]="selectable"
-           [showclose]="false" [resizable]="false" [expanded]="false">
+           [showclose]="false" [resizable]="false" [expanded]="item.expanded">
   </ng3-gui>
 </ngt-group>
 
-<ngt-group [rotation]="[0, -70 | radian, 0]" [position]="[0.5, 0.5, 0]">
+<ngt-group>
 
   <ng3-gui *ngFor="let item of rightwall"
            [position]="item.position" [scale]="0.8"
            [gui]="item.gui" [selectable]="selectable"
-           [showclose]="false" [resizable]="false" [expanded]="true">
+           [showclose]="false" [resizable]="false" [expanded]="item.expanded">
   </ng3-gui>
 </ngt-group>
 
-<ngt-group [rotation]="[0, -10 | radian, 0]" [position]="[0.5, 0, 0]">
+<ngt-group>
 
   <ng3-gui *ngFor="let item of backwall"
            [position]="item.position" [scale]="0.8"
            [gui]="item.gui" [selectable]="selectable"
-           [showclose]="false" [resizable]="false" [expanded]="false">
+           [showclose]="false" [resizable]="false" [expanded]="item.expanded">
   </ng3-gui>
 </ngt-group>
 

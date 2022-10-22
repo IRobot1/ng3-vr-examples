@@ -1,4 +1,4 @@
-import { Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 
 import { BufferGeometry, Intersection, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Vector3 } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
@@ -11,6 +11,7 @@ import { InteractiveObjects } from "../interactive-objects";
   selector: 'flat-ui-drag-panel',
   exportAs: 'flatUIIconDragPanel',
   templateUrl: './drag-panel.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   @Input() title = '';

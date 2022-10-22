@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, DoubleSide, Intersection, MathUtils, Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Side } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
@@ -12,6 +12,7 @@ import { InteractiveObjects } from "../interactive-objects";
   selector: 'flat-ui-input-slider',
   exportAs: 'flatUIInputSlider',
   templateUrl: './input-slider.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterViewInit {
   private _value = 0;
@@ -34,8 +35,8 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
     }
   }
 
-  @Input() min?: number = 0;
-  @Input() max?: number = 10;
+  @Input() min?: number;
+  @Input() max?: number;
 
   private _step?= 1;
   @Input()
@@ -124,10 +125,9 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
     if (this.min != undefined && this.max != undefined) {
       return MathUtils.mapLinear(this.value, this.min, this.max, -this.width / 2, this.width / 2);
     }
-    return this.width / 2;
+    return this.width / 2 ;
   }
 
-  side: Side = DoubleSide;
   innerscale = 0.7;
   radius = 0.04;
 
@@ -142,7 +142,7 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
       this.geometry.center();
     }
     if (!this.material) {
-      this.material = new MeshBasicMaterial({ color: this.buttoncolor, side: this.side, opacity: 0.5, transparent: true });
+      this.material = new MeshBasicMaterial({ color: this.buttoncolor });
     }
   }
 

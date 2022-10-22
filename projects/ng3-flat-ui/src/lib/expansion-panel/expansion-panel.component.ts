@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ContentChild, Input, TemplateRef } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef } from "@angular/core";
 
 import { Group, Mesh, MeshBasicMaterial, Object3D } from "three";
 import { NgtObjectProps } from "@angular-three/core";
@@ -13,6 +13,7 @@ import { InteractiveObjects } from "../interactive-objects";
   selector: 'flat-ui-expansion-panel',
   exportAs: 'flatUIIconExpansionPanel',
   templateUrl: './expansion-panel.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatUIExpansionPanel extends NgtObjectProps<Mesh> implements AfterViewInit {
   @Input() title = '';

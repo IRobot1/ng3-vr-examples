@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, DoubleSide, Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Side } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
@@ -12,6 +12,7 @@ import { InteractiveObjects } from "../interactive-objects";
   selector: 'flat-ui-input-toggle',
   exportAs: 'flatUIInputToggle',
   templateUrl: './input-toggle.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterViewInit {
   private _checked = false;

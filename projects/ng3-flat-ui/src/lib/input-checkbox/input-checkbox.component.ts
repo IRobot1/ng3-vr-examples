@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, Material, Mesh, MeshBasicMaterial, PlaneGeometry, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
@@ -12,6 +12,7 @@ import { InteractiveObjects } from "../interactive-objects";
   selector: 'flat-ui-input-checkbox',
   exportAs: 'flatUIInputCheckbox',
   templateUrl: './input-checkbox.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatUIInputCheckbox extends NgtObjectProps<Mesh> implements AfterViewInit {
   private _checked = false;

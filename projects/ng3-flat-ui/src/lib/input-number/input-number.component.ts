@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, MathUtils, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry } from "three";
 import { NgtObjectProps } from "@angular-three/core";
@@ -12,6 +12,7 @@ import { InteractiveObjects } from "../interactive-objects";
   selector: 'flat-ui-input-number',
   exportAs: 'flatUIInputNumber',
   templateUrl: './input-number.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterViewInit, UIInput {
   private _text = '';
@@ -31,13 +32,20 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
         this._text = newvalue;
       }
     }
+    this.updatedisplaytext();
   }
   @Input() overflow = 6;
 
   @Input() min?: number;
   @Input() max?: number;
 
-  @Input() enabled = true;
+  private _enabled = true;
+  @Input()
+  get enabled(): boolean { return this._enabled }
+  set enabled(newvalue: boolean) {
+    this._enabled = newvalue;
+    this.updatedisplaytext();
+  }
 
   private _buttoncolor?: string;
   @Input()
@@ -93,15 +101,21 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
   @Input() geometry!: BufferGeometry;
   @Input() material!: MeshBasicMaterial;
 
-  inputopen = false;
+  private _inputopen = false;
+  get inputopen(): boolean { return this._inputopen }
+  set inputopen(newvalue: boolean) {
+    this._inputopen = true;
+    this.updatedisplaytext();
+  }
   @Output() openinput = new EventEmitter<Object3D>();
   @Output() change = new EventEmitter<number>();
 
+  protected displaytext!: string;
 
-  get textvalue(): string {
+  private updatedisplaytext() {
     let text = this.text.substring(this.text.length - this.overflow);
     if (this.inputopen && this.enabled) text += '_'
-    return text;
+    this.displaytext = text;
   }
 
   override preInit() {

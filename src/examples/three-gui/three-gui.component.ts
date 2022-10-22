@@ -14,7 +14,7 @@ import { Ng3GUI } from "ng3-gui";
 //
 
 class GUIData {
-  constructor(public gui: Ng3GUI, public position: NgtTriple) { }
+  constructor(public gui: Ng3GUI, public position: NgtTriple, public expanded = false) { }
 }
 
 @Component({
@@ -48,7 +48,7 @@ export class ThreeGUIExample implements OnInit {
     g.add({ x: function () { } }, 'x').name(`${nested}Button`);
   }
 
-  makeNumbers(position: NgtTriple) {
+  makeNumbers(position: NgtTriple, expanded: boolean) {
     const gui = this.make({ title: 'Numbers', width: 300 }, gui => {
 
       gui.add({ x: 0 }, 'x').name('No Parameters');
@@ -64,10 +64,10 @@ export class ThreeGUIExample implements OnInit {
 
     });
 
-    this.leftwall.push(new GUIData(gui, position));
+    this.leftwall.push(new GUIData(gui, position, expanded));
   }
 
-  makeImplicitStep(position: NgtTriple) {
+  makeImplicitStep(position: NgtTriple, expanded = false) {
     const gui = this.make({ title: 'Implicit step', width: 300 }, gui => {
 
       const implicitStep = (min: number, max: number) => {
@@ -84,10 +84,10 @@ export class ThreeGUIExample implements OnInit {
       implicitStep(0, 1e32);
 
     });
-    this.leftwall.push(new GUIData(gui, position));
+    this.leftwall.push(new GUIData(gui, position, expanded));
   }
 
-  makeExplicitStep(position: NgtTriple) {
+  makeExplicitStep(position: NgtTriple, expanded = false) {
     const gui = this.make({ title: 'Explicit step', width: 300 }, gui => {
 
       const explicitStep = (min: number, max: number, step: number, label: string = step.toString()) => {
@@ -102,10 +102,10 @@ export class ThreeGUIExample implements OnInit {
       explicitStep(0, 5, 1 / 3, '1/3');
 
     });
-    this.leftwall.push(new GUIData(gui, position));
+    this.leftwall.push(new GUIData(gui, position, expanded));
   }
 
-  makeMiscNumbers(position: NgtTriple) {
+  makeMiscNumbers(position: NgtTriple, expanded = false) {
     const gui = this.make({ title: 'Numbers Misc.', width: 300 }, gui => {
 
       let folder = gui.addFolder('Out of bounds');
@@ -132,10 +132,10 @@ export class ThreeGUIExample implements OnInit {
 
     });
 
-    this.frontwall.push(new GUIData(gui, position));
+    this.frontwall.push(new GUIData(gui, position, expanded));
   }
 
-  makeOptions(position: NgtTriple) {
+  makeOptions(position: NgtTriple, expanded = false) {
     const gui = this.make({ title: 'Options', width: 300 }, gui => {
 
       gui.add({ x: 0 }, 'x', [0, 1, 2]).name('Array');
@@ -148,10 +148,10 @@ export class ThreeGUIExample implements OnInit {
 
     });
 
-    this.frontwall.push(new GUIData(gui, position));
+    this.frontwall.push(new GUIData(gui, position, expanded));
   }
 
-  makeColors(position: NgtTriple) {
+  makeColors(position: NgtTriple, expanded = false) {
     const gui = this.make({ title: 'Colors', width: 300 }, gui => {
 
       const colorString = (str: string) => gui.addColor({ x: str }, 'x').name(`"${str}"`);
@@ -165,10 +165,10 @@ export class ThreeGUIExample implements OnInit {
 
     });
 
-    this.frontwall.push(new GUIData(gui, position));
+    this.frontwall.push(new GUIData(gui, position, expanded));
   }
 
-  makeColorStrings(position: NgtTriple) {
+  makeColorStrings(position: NgtTriple, expanded = false) {
     const gui = this.make({ title: 'Color Strings', width: 300 }, gui => {
 
       gui.addColor({ x: 0xaa00ff }, 'x').name('Hex Integer');
@@ -182,10 +182,10 @@ export class ThreeGUIExample implements OnInit {
 
     });
 
-    this.rightwall.push(new GUIData(gui, position));
+    this.rightwall.push(new GUIData(gui, position, expanded));
   }
 
-  makeFolders(position: NgtTriple) {
+  makeFolders(position: NgtTriple, expanded = false) {
     const gui = this.make({ title: 'Folders', width: 300 }, gui => {
 
       const folder1 = gui.addFolder('Folder');
@@ -201,10 +201,10 @@ export class ThreeGUIExample implements OnInit {
 
     });
 
-    this.rightwall.push(new GUIData(gui, position));
+    this.rightwall.push(new GUIData(gui, position, expanded));
   }
 
-  makeNestedFolders(position: NgtTriple) {
+  makeNestedFolders(position: NgtTriple, expanded = false) {
     const gui = this.make({ title: 'Nested Folders', width: 300 }, gui => {
 
       const folder3 = gui.addFolder('Folder');
@@ -221,10 +221,10 @@ export class ThreeGUIExample implements OnInit {
 
     });
 
-    this.rightwall.push(new GUIData(gui, position));
+    this.rightwall.push(new GUIData(gui, position, expanded));
   }
 
-  makeDisable(position: NgtTriple) {
+  makeDisable(position: NgtTriple, expanded = false) {
     const gui = this.make({ title: 'Disable', width: 300 }, gui => {
 
       gui.add({ Number: 0 }, 'Number').disable().enable();
@@ -250,19 +250,19 @@ export class ThreeGUIExample implements OnInit {
 
     });
 
-    this.backwall.push(new GUIData(gui, position));
+    this.backwall.push(new GUIData(gui, position, expanded));
   }
 
-  makeListen(position: NgtTriple) {
+  makeListen(position: NgtTriple, expanded = false) {
     const gui = this.make({ title: 'Listen', width: 300 }, gui => {
 
-            const params = { animate: false };
+      const params = { animate: false };
 
       gui.add(params, 'animate');
 
       function listenTester(name: string, cycle: any, ...addArgs: any) {
 
-        const obj : any= {};
+        const obj: any = {};
         obj[name] = cycle[cycle.length - 1];
         gui.add(obj, name, ...addArgs).listen();
         let index = 0;
@@ -295,10 +295,10 @@ export class ThreeGUIExample implements OnInit {
 
     });
 
-    this.backwall.push(new GUIData(gui, position));
+    this.backwall.push(new GUIData(gui, position, expanded));
   }
 
-  makeOnChange(position: NgtTriple) {
+  makeOnChange(position: NgtTriple, expanded = false) {
     const gui = this.make({ title: 'onChange', width: 300 }, gui => {
 
       const tallies = { onChange: 0, onFinishChange: 0 };
@@ -339,24 +339,30 @@ export class ThreeGUIExample implements OnInit {
 
     });
 
-    this.backwall.push(new GUIData(gui, position));
+    this.backwall.push(new GUIData(gui, position, expanded));
   }
 
   ngOnInit(): void {
-    this.makeNumbers([0, 3, -1.9]);
-    this.makeImplicitStep([0, 1.7, -1.9]);
-    this.makeExplicitStep([0, 0.5, -1.9]);
+    const z = -1.9
 
-    this.makeMiscNumbers([0, 3, -1.9]);
-    this.makeOptions([0, 1.7, -1.9]);
-    this.makeColors([0, 0.5, -1.9]);
+    const col1 = -2.6
+    this.makeNumbers([col1, 3, z], true);
+    this.makeImplicitStep([col1, 1.7, z], true);
+    this.makeExplicitStep([col1, 0.5, z], true);
 
-    this.makeColorStrings([0, 3, -1.9]);
-    this.makeFolders([0, 1.9, -1.9]);
-    this.makeNestedFolders([0, 0.5, -1.9]);
+    const col2 = -0.9
+    this.makeMiscNumbers([col2, 3, z], true);
+    this.makeOptions([col2, 1.7, z], true);
+    this.makeColors([col2, 0.5, z], true);
 
-    this.makeDisable([0, 3, -1.9]);
-    this.makeListen([0, 1.6, -1.9]);
-    this.makeOnChange([0, 0.5, -1.9]);
+    const col3 = 0.9
+    this.makeColorStrings([col3, 3, z], true);
+    this.makeFolders([col3, 1.9, z], true);
+    this.makeNestedFolders([col3, 0.5, z], true);
+
+    const col4 = 2.6
+    this.makeDisable([col4, 3, z], true);
+    this.makeListen([col4, 1.6, z], true);
+    this.makeOnChange([col4, 0.5, z], true);
   }
 }

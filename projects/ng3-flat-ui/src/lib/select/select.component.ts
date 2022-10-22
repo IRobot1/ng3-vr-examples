@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, DoubleSide, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Side } from "three";
 import { NgtObjectProps } from "@angular-three/core";
@@ -12,6 +12,7 @@ import { InteractiveObjects } from "../interactive-objects";
   selector: 'flat-ui-select',
   exportAs: 'flatUISelect',
   templateUrl: './select.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit, UIInput {
   private _text = '';
@@ -20,6 +21,7 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
   set text(newvalue: string) {
     this._text = newvalue;
     this.change.next(newvalue);
+    this.displaytext = this.text.substring(0, this.overflow * this.width);
   }
 
   @Input() overflow = 24;
@@ -96,11 +98,7 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
   geometry!: BufferGeometry;
   material!: MeshBasicMaterial;
 
-  side: Side = DoubleSide;
-
-  get displaytext() {
-    return this.text.substring(0, this.overflow * this.width);
-  }
+  protected displaytext!: string;
 
   override preInit() {
     super.preInit();
@@ -111,7 +109,7 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
 
-    this.material = new MeshBasicMaterial({ color: this.buttoncolor, side: this.side, opacity: 0.5, transparent: true });
+    this.material = new MeshBasicMaterial({ color: this.buttoncolor });
   }
 
   override ngOnDestroy() {

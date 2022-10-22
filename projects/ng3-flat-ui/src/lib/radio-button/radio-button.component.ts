@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { DoubleSide, Mesh, MeshBasicMaterial, Side } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
@@ -12,6 +12,7 @@ import { InteractiveObjects } from "../interactive-objects";
   selector: 'flat-ui-radio-button',
   exportAs: 'flatUIRadioButton',
   templateUrl: './radio-button.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterViewInit {
   @Input() checked = false;

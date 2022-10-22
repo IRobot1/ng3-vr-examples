@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry } from "three";
 import { NgtObjectProps } from "@angular-three/core";
@@ -12,6 +12,7 @@ import { THEME_CHANGE_EVENT, GlobalFlatUITheme } from "../flat-ui-theme";
   selector: 'flat-ui-input-color',
   exportAs: 'flatUIInputColor',
   templateUrl: './input-color.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewInit, UIInput {
   private _text = GlobalFlatUITheme.ButtonColor;

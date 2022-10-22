@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, Group, Material, Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Vector3 } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
@@ -17,6 +17,7 @@ import { InteractiveObjects } from "../interactive-objects";
   selector: 'flat-ui-icon-button',
   exportAs: 'flatUIIconButton',
   templateUrl: './icon-button.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewInit {
   @Input() enabled = true;

@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
 import { Color, Group } from "three";
 import { NgtObjectProps } from "@angular-three/core";
@@ -11,6 +11,7 @@ import { Controller, Ng3GUI } from "../ng3-gui";
   selector: 'ng3-gui-item',
   exportAs: 'ng3GUIItem',
   templateUrl: './gui-item.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Ng3GUIItemComponent  {
   @Input() width = 1;

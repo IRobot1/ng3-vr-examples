@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, Input } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
-import { Object3D } from "three";
-import { NgtTriple } from "@angular-three/core";
+import { Group, Object3D } from "three";
+import { NgtObjectProps, NgtTriple } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
@@ -10,19 +10,20 @@ import { GlobalFlatUITheme } from "../flat-ui-theme";
   selector: 'flat-ui-label',
   exportAs: 'flatUILabel',
   templateUrl: './label.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FlatUILabel implements AfterViewInit {
+export class FlatUILabel extends NgtObjectProps<Group> implements AfterViewInit {
   @Input() text = '';
   @Input() font = ''; // for example, https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff
   @Input() fontsize = 0.07;
 
   private _color?: string;
   @Input()
-  get color(): string {
+  get labelcolor(): string {
     if (this._color) return this._color;
     return GlobalFlatUITheme.LabelColor;
   }
-  set color(newvalue: string) {
+  set labelcolor(newvalue: string) {
     this._color = newvalue;
   }
 
@@ -45,10 +46,6 @@ export class FlatUILabel implements AfterViewInit {
       this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
     }
   }
-
-  @Input() position = [0, 0, 0] as NgtTriple;
-  @Input() rotation = [0, 0, 0] as NgtTriple;
-  @Input() scale = [1, 1, 1] as NgtTriple;
 
   ngAfterViewInit(): void {
     this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {

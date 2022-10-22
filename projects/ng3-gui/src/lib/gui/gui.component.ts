@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
 import { Group, Vector3 } from "three";
 import { make, NgtObjectProps } from "@angular-three/core";
@@ -11,6 +11,7 @@ import { Ng3GUI } from "../ng3-gui";
   selector: 'ng3-gui',
   exportAs: 'ng3GUI',
   templateUrl: './gui.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [FlatUIInputService]
 })
 export class Ng3GUIComponent extends NgtObjectProps<Group> {
