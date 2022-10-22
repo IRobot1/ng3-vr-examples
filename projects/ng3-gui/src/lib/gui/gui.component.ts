@@ -16,6 +16,12 @@ import { Ng3GUI } from "../ng3-gui";
 export class Ng3GUIComponent extends NgtObjectProps<Group> {
   @Input() gui!: Ng3GUI;
 
+  @Input() locked = false;
+  @Input() showexpand = true;
+  @Input() showclose = true;
+  @Input() resizable = true;
+
+
   @Input() selectable?: InteractiveObjects;
 
   constructor(public input: FlatUIInputService) {

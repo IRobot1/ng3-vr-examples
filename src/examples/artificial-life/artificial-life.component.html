@@ -14,11 +14,11 @@
 <vr-controller guipointer showcontroller trackedpointer navhome [guis]="meshes"></vr-controller>
 <vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="meshes"></vr-controller>
 
-<ng3-lil-gui (ready)="meshes.push($event)" [position]="[0, 1, -2]" scalar="3" [gui]="maingui"></ng3-lil-gui>
+<ng3-gui [position]="[0, 1, -2]" [scale]="0.5" [gui]="maingui" [locked]="true" [showclose]="false" [showexpand]="false" [resizable]="false"></ng3-gui>
 
-<ng3-lil-gui (ready)="meshes.push($event)" [position]="[-1.8, 1, -1.2]" [rotation]="[0, 3.14/3, 0]" scalar="3.5"  [gui]="redgui"></ng3-lil-gui>
-<ng3-lil-gui (ready)="meshes.push($event)" [position]="[-1, 1, -1.8]" [rotation]="[0, 3.14/8, 0]" scalar="3.5" [gui]="greengui"></ng3-lil-gui>
-<ng3-lil-gui (ready)="meshes.push($event)" [position]="[1, 1, -1.8]" [rotation]="[0, -3.14/8, 0]" scalar="3.5" [gui]="bluegui"></ng3-lil-gui>
-<ng3-lil-gui (ready)="meshes.push($event)" [position]="[1.8, 1, -1.2]" [rotation]="[0, -3.14/3, 0]" scalar="3.5" [gui]="yellowgui"></ng3-lil-gui>
+<ng3-gui [position]="[-1.8, 1, -1.2]" [rotation]="[0, 3.14/3, 0]" [scale]="0.5" [gui]="redgui" [locked]="true" [showclose]="false" [showexpand]="false" [resizable]="false"></ng3-gui>
+<ng3-gui [position]="[-1, 1, -1.8]" [rotation]="[0, 3.14/8, 0]" [scale]="0.5" [gui]="greengui" [locked]="true" [showclose]="false" [showexpand]="false" [resizable]="false"></ng3-gui>
+<ng3-gui [position]="[1, 1, -1.8]" [rotation]="[0, -3.14/8, 0]" [scale]="0.5" [gui]="bluegui" [locked]="true" [showclose]="false" [showexpand]="false" [resizable]="false"></ng3-gui>
+<ng3-gui [position]="[1.8, 1, -1.2]" [rotation]="[0, -3.14/3, 0]" [scale]="0.5" [gui]="yellowgui" [locked]="true" [showclose]="false" [showexpand]="false" [resizable]="false"></ng3-gui>
 
 <ngt-soba-orbit-controls></ngt-soba-orbit-controls>

@@ -4,6 +4,7 @@ export class Controller {
   title!: string;
   _decimals: number;
   enabled = true;
+  private initialValue: any;
 
   constructor(
     public parent: Ng3GUI,
@@ -16,6 +17,7 @@ export class Controller {
   ) {
     this.title = property;
     this._decimals = 0;
+    this.initialValue = this.getValue();
   }
 
   getValue(): any { return this.object[this.property] }
@@ -37,6 +39,11 @@ export class Controller {
 
   disable(): Controller { this.enabled = false; return this; }
   enable(): Controller { this.enabled = true; return this; }
+  reset(): Controller {
+    this.setValue(this.initialValue);
+    this._callOnFinishChange();
+    return this;
+  }
 
   public _changeCallback!: (event: any) => void;
   onChange(callback: (e: any) => void): Controller { this._changeCallback = callback; return this; }
@@ -56,7 +63,7 @@ export class Controller {
   // implemented, but not called.  Requires Flat UI to support focus lost event
   //
   _changed = false;
-  protected _callOnFinishChange(newvalue: any) {
+  protected _callOnFinishChange() {
 
     if (this._changed) {
 
@@ -136,6 +143,12 @@ export class Ng3GUI {
     this.list.push(controller);
     return controller;
   }
+
+  reset(recursive = true) {
+    this.list.forEach(c => c.reset());
+    return this;
+  }
+  settitle(newvalue: string) { this.title = newvalue; }
 
   expanded = true;
   open(): Ng3GUI { this.expanded = true; return this; }

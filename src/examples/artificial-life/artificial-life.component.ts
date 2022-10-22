@@ -2,7 +2,8 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 
 import { Color, InstancedMesh, MathUtils, Matrix4, Mesh, Vector3 } from "three";
 
-import GUI from "lil-gui";
+import { Ng3GUI } from "ng3-gui";
+
 import { Exporter } from "../spriograph/export";
 
 //
@@ -24,11 +25,11 @@ class Cell {
   templateUrl: './artificial-life.component.html',
 })
 export class ArtificialLifeExample implements OnInit, OnDestroy {
-  public maingui!: GUI;
-  public redgui!: GUI;
-  public greengui!: GUI;
-  public bluegui!: GUI;
-  public yellowgui!: GUI;
+  public maingui!: Ng3GUI;
+  public redgui!: Ng3GUI;
+  public greengui!: Ng3GUI;
+  public bluegui!: Ng3GUI;
+  public yellowgui!: Ng3GUI;
 
   public meshes: Array<Mesh> = [];
 
@@ -179,9 +180,9 @@ export class ArtificialLifeExample implements OnInit, OnDestroy {
     const ex = new Exporter();
     ex.saveString(JSON.stringify(this.parameters), filename)
 
-    this.maingui.title('Saved to ' + filename);
+    this.maingui.settitle('Saved to ' + filename);
     const timer = setTimeout(() => {
-      this.maingui.title('Settings');
+      this.maingui.settitle('Settings');
       clearTimeout(timer);
     }, 3000)
   }
@@ -211,10 +212,6 @@ export class ArtificialLifeExample implements OnInit, OnDestroy {
   }
 
   updateGUI() {
-    this.redgui.controllers.forEach(c => c.updateDisplay());
-    this.greengui.controllers.forEach(c => c.updateDisplay());
-    this.bluegui.controllers.forEach(c => c.updateDisplay());
-    this.yellowgui.controllers.forEach(c => c.updateDisplay());
   }
 
 
@@ -246,8 +243,8 @@ export class ArtificialLifeExample implements OnInit, OnDestroy {
     const max = 1;
     const delta = 0.01;
 
-    let gui = new GUI({ width: 300 });
-    gui.title('Settings')
+    let gui = new Ng3GUI({ width: 300 });
+    gui.settitle('Settings')
     gui.add(this, 'size', 0.001, 0.03, 0.001).name('Particle Size');
     gui.add(this, 'save').name('Save to JSON');
     gui.add(this, 'random').name('Random Setting');
@@ -255,32 +252,32 @@ export class ArtificialLifeExample implements OnInit, OnDestroy {
     gui.add(this, 'reset').name('Reset to Original');
     this.maingui = gui;
 
-    gui = new GUI({ width: 300 });
-    gui.title('Red Particles')
+    gui = new Ng3GUI({ width: 300 });
+    gui.settitle('Red Particles')
     gui.add(this.parameters, 'redred', min, max, delta).name('Red / Red Gravity');
     gui.add(this.parameters, 'redgreen', min, max, delta).name('Red / Green Gravity');
     gui.add(this.parameters, 'redblue', min, max, delta).name('Red / Blue Gravity');
     gui.add(this.parameters, 'redyellow', min, max, delta).name('Red / Yellow Gravity');
     this.redgui = gui;
 
-    gui = new GUI({ width: 300 });
-    gui.title('Green Particles')
+    gui = new Ng3GUI({ width: 300 });
+    gui.settitle('Green Particles')
     gui.add(this.parameters, 'greengreen', min, max, delta).name('Green / Green Gravity');
     gui.add(this.parameters, 'greenred', min, max, delta).name('Green / Red Gravity');
     gui.add(this.parameters, 'greenblue', min, max, delta).name('Green / Blue Gravity');
     gui.add(this.parameters, 'greenyellow', min, max, delta).name('Green / Yellow Gravity');
     this.greengui = gui;
 
-    gui = new GUI({ width: 300 });
-    gui.title('Blue Particles')
+    gui = new Ng3GUI({ width: 300 });
+    gui.settitle('Blue Particles')
     gui.add(this.parameters, 'blueblue', min, max, delta).name('Blue / Blue Gravity');
     gui.add(this.parameters, 'bluered', min, max, delta).name('Blue / Red Gravity');
     gui.add(this.parameters, 'bluegreen', min, max, delta).name('Blue / Green Gravity');
     gui.add(this.parameters, 'blueyellow', min, max, delta).name('Blue / Yellow Gravity');
     this.bluegui = gui;
 
-    gui = new GUI({ width: 300 });
-    gui.title('Yellow Particles')
+    gui = new Ng3GUI({ width: 300 });
+    gui.settitle('Yellow Particles')
     gui.add(this.parameters, 'yellowyellow', min, max, delta).name('Yellow / Yellow Gravity');
     gui.add(this.parameters, 'yellowred', min, max, delta).name('Yellow / Red Gravity');
     gui.add(this.parameters, 'yellowgreen', min, max, delta).name('Yellow / Green Gravity');
