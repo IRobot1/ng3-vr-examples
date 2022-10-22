@@ -52,7 +52,6 @@
     "@types/dagre": "^0.7.48",
     "@types/webxr": "^0.4.0",
     "dagre": "^0.8.5",
-    "lil-gui": "^0.17.0",
     "ng3-flat-ui": "^0.0.3",
     "ng3-gui": "^0.0.3",
     "ng3-webxr": "^0.0.11",

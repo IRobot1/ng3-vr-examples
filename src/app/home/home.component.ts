@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
   ]
 
   examples2 = [
-    { asset: 'htmlgui', text: 'HTML Mesh GUI' },
+    { asset: 'htmlgui', text: 'GUI Window' },
     { asset: 'buttons', text: 'Buttons' },
     { asset: 'forcelayout', text: 'Force Layout' },
     { asset: 'spirograph', text: 'Spirograph' },
