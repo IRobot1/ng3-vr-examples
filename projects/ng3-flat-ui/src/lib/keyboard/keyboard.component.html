@@ -1,7 +1,7 @@
 <ngt-mesh #mesh [name]="name" [visible]="visible"
           (click)="ignore(mesh.instance.value, $event)" (pointerover)="$event.stopPropagation()"
           [position]="position" [rotation]="rotation" [scale]="scale"
-          [geometry]="geometry" [material]="material"
+          [geometry]="geometry" [material]="popupmaterial"
           (ready)="meshready($event)" (pointermissed)="missed()">
 
   <flat-ui-button *ngFor="let item of keys" [selectable]="selectable"

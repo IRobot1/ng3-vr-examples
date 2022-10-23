@@ -1,6 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, Output } from "@angular/core";
 
-import { BufferGeometry, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Material, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps, NgtTriple } from "@angular-three/core";
 
 import { roundedRect } from "../flat-ui-utils";
@@ -24,19 +24,18 @@ type KeyCase = 'lower' | 'upper' | 'numbers';
 })
 export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
   @Input() text: string = ''
-  @Input() enabled = true;
   @Input() allowenter = false;
 
   @Input() selectable?: InteractiveObjects;
 
-  private _popupcolor?: string;
+  private _popupmaterial!: Material
   @Input()
-  get popupcolor(): string {
-    if (this._popupcolor) return this._popupcolor;
-    return GlobalFlatUITheme.PopupColor;
+  get popupmaterial(): Material {
+    if (this._popupmaterial) return this._popupmaterial;
+    return GlobalFlatUITheme.PopupMaterial;
   }
-  set popupcolor(newvalue: string) {
-    this._popupcolor = newvalue;
+  set popupmaterial(newvalue: Material) {
+    this._popupmaterial = newvalue;
   }
 
 
@@ -45,7 +44,6 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
   @Output() close = new EventEmitter<boolean>();
 
   @Input() geometry!: BufferGeometry;
-  @Input() material!: MeshBasicMaterial;
 
   protected keys: Array<KeySetting> = [];
 
@@ -53,7 +51,6 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
     super.preInit();
 
     if (!this.geometry) this.createKeyboardGeometry();
-    if (!this.material) this.createKeyboardMaterial();
   }
 
   createKeyboardGeometry() {
@@ -67,17 +64,12 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
     this.geometry.center();
   }
 
-  createKeyboardMaterial() {
-    this.material = new MeshBasicMaterial({ color: this.popupcolor });
-  }
-
   override ngOnDestroy() {
     super.ngOnDestroy();
 
     this.selectable?.remove(this.mesh);
 
     this.geometry.dispose();
-    this.material.dispose();
   }
 
   protected missed() {
@@ -87,9 +79,6 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
   private mesh!: Mesh;
 
   protected meshready(mesh: Mesh) {
-    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.material.color.setStyle(this.popupcolor);
-    })
 
     const top = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p']
     const topalpha = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']

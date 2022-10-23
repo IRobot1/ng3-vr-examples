@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, Group, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Group, Material, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps, NgtTriple } from "@angular-three/core";
 
 import { roundedRect } from "../flat-ui-utils";
@@ -46,14 +46,14 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
   @Input() width = 1;
   @Input() height = 1;
 
-  private _popupcolor?: string;
+  private _popupmaterial!: Material
   @Input()
-  get popupcolor(): string {
-    if (this._popupcolor) return this._popupcolor;
-    return GlobalFlatUITheme.PopupColor;
+  get popupmaterial(): Material {
+    if (this._popupmaterial) return this._popupmaterial;
+    return GlobalFlatUITheme.PopupMaterial;
   }
-  set popupcolor(newvalue: string) {
-    this._popupcolor = newvalue;
+  set popupmaterial(newvalue: Material) {
+    this._popupmaterial = newvalue;
   }
 
 
@@ -63,7 +63,6 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
   @Output() close = new EventEmitter<boolean>();
 
   @Input() geometry!: BufferGeometry;
-  @Input() material!: MeshBasicMaterial;
 
   protected keys: Array<NumKeySetting> = [];
 
@@ -76,7 +75,6 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
     super.preInit();
 
     if (!this.geometry) this.createListGeometry();
-    if (!this.material) this.createListMaterial();
   }
 
   createListGeometry() {
@@ -87,9 +85,6 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
     this.geometry.center();
   }
 
-  createListMaterial() {
-    this.material = new MeshBasicMaterial({ color: this.popupcolor });
-  }
 
   override ngOnInit() {
     super.ngOnInit();
@@ -105,7 +100,6 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
     this.selectable?.remove(this.mesh);
 
     this.geometry.dispose();
-    this.material.dispose();
   }
 
   private mesh!: Mesh;
@@ -136,10 +130,6 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
       this.firstdrawindex = this.selectedindex;
 
     this.renderlist();
-
-    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.material.color.setStyle(this.popupcolor);
-    })
   }
 
   private renderlist() {

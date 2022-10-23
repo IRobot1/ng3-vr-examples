@@ -1,6 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, Output } from "@angular/core";
 
-import { BufferGeometry, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Material, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps, NgtTriple } from "@angular-three/core";
 
 import { roundedRect } from "../flat-ui-utils";
@@ -23,23 +23,21 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
 
   @Input() selectable?: InteractiveObjects;
 
-  private _popupcolor?: string;
+  private _popupmaterial!: Material
   @Input()
-  get popupcolor(): string {
-    if (this._popupcolor) return this._popupcolor;
-    return GlobalFlatUITheme.PopupColor;
+  get popupmaterial(): Material {
+    if (this._popupmaterial) return this._popupmaterial;
+    return GlobalFlatUITheme.PopupMaterial;
   }
-  set popupcolor(newvalue: string) {
-    this._popupcolor = newvalue;
+  set popupmaterial(newvalue: Material) {
+    this._popupmaterial = newvalue;
   }
-
 
   @Output() pressed = new EventEmitter<string>();
   @Output() change = new EventEmitter<string>();
   @Output() close = new EventEmitter<boolean>();
 
   @Input() geometry!: BufferGeometry;
-  @Input() material!: MeshBasicMaterial;
 
   protected keys: Array<NumKeySetting> = [];
 
@@ -47,7 +45,6 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
     super.preInit();
 
     if (!this.geometry) this.createNumpadGeometry();
-    if (!this.material) this.createNumpadMaterial();    
   }
 
   createNumpadGeometry() {
@@ -61,26 +58,17 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
     this.geometry.center();
   }
 
-  createNumpadMaterial() {
-    this.material = new MeshBasicMaterial({ color: this.popupcolor });
-  }
-
   override ngOnDestroy() {
     super.ngOnDestroy();
 
     this.selectable?.remove(this.mesh);
 
     this.geometry.dispose();
-    this.material.dispose();
   }
 
   private mesh!: Mesh;
 
   protected meshready(mesh: Mesh) {
-    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.material.color.setStyle(this.popupcolor);
-    })
-
     const top = ['7', '8', '9']
     const middle = ['4', '5', '6']
     const bottom = ['1', '2', '3']

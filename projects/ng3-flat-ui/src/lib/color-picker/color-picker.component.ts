@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { CanvasTexture, Intersection, MathUtils, Mesh, MeshBasicMaterial, Object3D, sRGBEncoding } from "three";
+import { CanvasTexture, Intersection, Material, MathUtils, Mesh, MeshBasicMaterial, Object3D, sRGBEncoding } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { GlobalFlatUITheme } from "../flat-ui-theme";
@@ -20,14 +20,14 @@ import { InteractiveObjects } from "../interactive-objects";
 export class FlatUIColorPicker extends NgtObjectProps<Mesh> {
   @Input() colorvalue = '#ff0000';
 
-  private _popupcolor?: string;
+  private _popupmaterial!: Material
   @Input()
-  get popupcolor(): string {
-    if (this._popupcolor) return this._popupcolor;
-    return GlobalFlatUITheme.PopupColor;
+  get popupmaterial(): Material {
+    if (this._popupmaterial) return this._popupmaterial;
+    return GlobalFlatUITheme.PopupMaterial;
   }
-  set popupcolor(newvalue: string) {
-    this._popupcolor = newvalue;
+  set popupmaterial(newvalue: Material) {
+    this._popupmaterial = newvalue;
   }
 
   @Input() selectable?: InteractiveObjects;
@@ -127,6 +127,11 @@ export class FlatUIColorPicker extends NgtObjectProps<Mesh> {
 
   protected missed() {
     this.close.next(true)
+  }
+
+  protected ignore(mesh: Mesh, event: NgtEvent<MouseEvent>) {
+    if (event.object != mesh) return;
+    event.stopPropagation();
   }
 
   private shademesh!: Mesh;
