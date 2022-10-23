@@ -119,11 +119,6 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
 
     if (!this.geometry) this.createButtonGeometry();
     if (!this.material) this.createButtonMaterial();
-
-    if (this.active)
-      this.over();
-    else
-      this.out();
   }
 
   createButtonGeometry() {
@@ -161,7 +156,15 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
       this.setButtonColor(this.enabled ? this.buttoncolor : this.disabledcolor);
     })
 
-    this.setButtonColor(this.enabled ? this.buttoncolor : this.disabledcolor);
+    if (this.enabled) {
+      if (this.active)
+        this.over();
+      else
+        this.out();
+    }
+    else {
+      this.setButtonColor(this.disabledcolor);
+    }
   }
 
   meshready(mesh: Mesh) {

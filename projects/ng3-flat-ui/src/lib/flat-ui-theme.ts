@@ -14,8 +14,6 @@ export interface FlatUITheme {
   SlideColor: string,
   ToggleFalseColor: string,
   ToggleTrueColor: string,
-  RadioFalseColor: string,
-  RadioTrueColor: string,
   IconColor: string,
   PanelColor: string,
   PopupColor: string,
@@ -37,8 +35,6 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   SlideColor = 'yellow';
   ToggleFalseColor = 'white';
   ToggleTrueColor = 'cornflowerblue';
-  RadioFalseColor = '#505050';
-  RadioTrueColor = 'cornflowerblue';
   IconColor = 'white';
   PanelColor = 'black';
   PopupColor = 'gray';
@@ -63,8 +59,6 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     this.SlideColor = newtheme.SlideColor
     this.ToggleFalseColor = newtheme.ToggleFalseColor
     this.ToggleTrueColor = newtheme.ToggleTrueColor
-    this.RadioFalseColor = newtheme.RadioFalseColor
-    this.RadioTrueColor = newtheme.RadioTrueColor
     this.IconColor = newtheme.IconColor
     this.PanelColor = newtheme.PanelColor
     this.PopupColor = newtheme.PopupColor
@@ -75,6 +69,15 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     (this.LabelMaterial as MeshBasicMaterial).color.setStyle(newtheme.LabelColor);
     (this.NumberMaterial as MeshBasicMaterial).color.setStyle(newtheme.NumberColor);
     (this.StringMaterial as MeshBasicMaterial).color.setStyle(newtheme.StringColor);
+
+    (this.ProgressMaterial as MeshBasicMaterial).color.setStyle(newtheme.ProgressColor);
+    (this.SliderMaterial as MeshBasicMaterial).color.setStyle(newtheme.SlideColor);
+    (this.CheckMaterial as MeshBasicMaterial).color.setStyle(newtheme.CheckColor);
+
+    (this.ToggleFalseMaterial as MeshBasicMaterial).color.setStyle(newtheme.ToggleFalseColor);
+    (this.ToggleTrueMaterial as MeshBasicMaterial).color.setStyle(newtheme.ToggleTrueColor);
+
+    (this.PanelMaterial as MeshBasicMaterial).color.setStyle(newtheme.PanelColor);
 
 
     this.notify();
@@ -88,11 +91,9 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   NumberMaterial !: Material;
   StringMaterial !: Material;
   CheckMaterial !: Material;
-  SlideMaterial !: Material;
+  SliderMaterial !: Material;
   ToggleFalseMaterial !: Material;
   ToggleTrueMaterial !: Material;
-  RadioFalseMaterial !: Material;
-  RadioTrueMaterial !: Material;
   IconMaterial !: Material;
   PanelMaterial !: Material;
   PopupMaterial !: Material;
@@ -107,7 +108,14 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     this.NumberMaterial = new MeshBasicMaterial({ color: this.NumberColor });
     this.StringMaterial = new MeshBasicMaterial({ color: this.StringColor });
 
-    this.ButtonMaterial = new MeshBasicMaterial({ color: this.ButtonColor });
+    this.ProgressMaterial = new MeshBasicMaterial({ color: this.ProgressColor });
+    this.SliderMaterial = new MeshBasicMaterial({ color: this.SlideColor });
+    this.CheckMaterial = new MeshBasicMaterial({ color: this.CheckColor });
+
+    this.ToggleFalseMaterial = new MeshBasicMaterial({ color: this.ToggleFalseColor });
+    this.ToggleTrueMaterial = new MeshBasicMaterial({ color: this.ToggleTrueColor });
+
+    this.PanelMaterial = new MeshBasicMaterial({ color: this.PanelColor });
     
   }
 

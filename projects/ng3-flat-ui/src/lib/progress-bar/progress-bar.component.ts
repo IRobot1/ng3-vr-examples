@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
-import { BufferGeometry, MathUtils, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Material, MathUtils, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -63,14 +63,14 @@ export class FlatUIProgressBar extends NgtObjectProps<Mesh> implements AfterView
   set buttoncolor(newvalue: string) {
     this._buttoncolor = newvalue;
   }
-  private _progresscolor?: string;
+  private _progressmaterial!: Material
   @Input()
-  get progresscolor(): string {
-    if (this._progresscolor) return this._progresscolor;
-    return GlobalFlatUITheme.ProgressColor;
+  get progressmaterial(): Material {
+    if (this._progressmaterial) return this._progressmaterial;
+    return GlobalFlatUITheme.ProgressMaterial;
   }
-  set progresscolor(newvalue: string) {
-    this._progresscolor = newvalue;
+  set progressmaterial(newvalue: Material) {
+    this._progressmaterial = newvalue;
   }
 
   geometry!: BufferGeometry;

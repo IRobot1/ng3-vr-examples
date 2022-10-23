@@ -14,7 +14,14 @@ import { InteractiveObjects } from "../interactive-objects";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
-  @Input() title = '';
+  private _title = '';
+  @Input()
+  get title(): string { return this._title }
+  set title(newvalue: string) {
+    this._title = newvalue;
+    this.displaytitle = this.title.substring(0, this.overflow * this.width);
+  }
+
   @Input() titlefontsize = 0.07;
   @Input() overflow = 16;
 
@@ -35,6 +42,16 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   }
   set panelcolor(newvalue: string) {
     this._panelcolor = newvalue;
+  }
+
+  private _panelmaterial?: Material;
+  @Input()
+  get panelmaterial(): Material {
+    if (this._panelmaterial) return this._panelmaterial;
+    return GlobalFlatUITheme.PanelMaterial;
+  }
+  set panelmaterial(newvalue: Material) {
+    this._panelmaterial = newvalue;
   }
 
   private _hovercolor?: string;
@@ -64,7 +81,7 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
 
   @Output() close = new EventEmitter<boolean>();
 
-  get displaytitle(): string { return this.title.slice(0, this.overflow * this.width); }
+  displaytitle!: string;
 
   @ContentChild(TemplateRef) templateRef?: TemplateRef<unknown>;
 
@@ -74,6 +91,12 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   override preInit() {
     super.preInit();
 
+    if (!this.geometry) this.createPanelGeometry();
+
+    this.titlematerial = new MeshBasicMaterial({ color: this.panelcolor, transparent: true, opacity: 0.3 });
+  }
+
+  createPanelGeometry() {
     const corner = new Shape();
     corner.lineTo(0.1, 0)
     corner.lineTo(0.1, -0.01)
@@ -83,9 +106,8 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     corner.lineTo(0, 0)
 
     this.geometry = new ShapeGeometry(corner);
-
-    this.titlematerial = new MeshBasicMaterial({ color: this.panelcolor, transparent: true, opacity: 0.3 });
   }
+
 
   override ngOnDestroy() {
     super.ngOnDestroy();

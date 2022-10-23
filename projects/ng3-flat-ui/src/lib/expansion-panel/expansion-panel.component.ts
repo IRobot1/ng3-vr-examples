@@ -16,7 +16,14 @@ import { InteractiveObjects } from "../interactive-objects";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatUIExpansionPanel extends NgtObjectProps<Mesh> implements AfterViewInit {
-  @Input() title = '';
+  private _title = '';
+  @Input()
+  get title(): string { return this._title }
+  set title(newvalue: string) {
+    this._title = newvalue;
+    this.displaytitle = this.title.substring(0, this.overflow * this.width);
+  }
+
   @Input() overflow = 24;
 
   titleheight = 0.1;
@@ -78,6 +85,16 @@ export class FlatUIExpansionPanel extends NgtObjectProps<Mesh> implements AfterV
     this._panelcolor = newvalue;
   }
 
+  private _panelmaterial?: Material;
+  @Input()
+  get panelmaterial(): Material {
+    if (this._panelmaterial) return this._panelmaterial;
+    return GlobalFlatUITheme.PanelMaterial;
+  }
+  set panelmaterial(newvalue: Material) {
+    this._panelmaterial = newvalue;
+  }
+
   private _labelmaterial!: Material
   @Input()
   get labelmaterial(): Material {
@@ -93,7 +110,7 @@ export class FlatUIExpansionPanel extends NgtObjectProps<Mesh> implements AfterV
 
   titlematerial!: MeshBasicMaterial;
 
-  get displaytitle(): string { return this.title.slice(0, this.overflow * this.width); }
+  displaytitle!: string
 
   @ContentChild(TemplateRef) templateRef?: TemplateRef<unknown>;
 
@@ -103,6 +120,7 @@ export class FlatUIExpansionPanel extends NgtObjectProps<Mesh> implements AfterV
 
     this.titlematerial = new MeshBasicMaterial({ color: this.panelcolor, transparent: true, opacity: 0.1 });
   }
+
   override ngOnDestroy() {
     super.ngOnDestroy();
 

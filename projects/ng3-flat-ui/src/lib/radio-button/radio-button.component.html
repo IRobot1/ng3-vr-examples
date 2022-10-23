@@ -5,8 +5,7 @@
 
   <ngt-ring-geometry [args]="[0.045, 0.05, segments]"></ngt-ring-geometry>
 
-  <ngt-mesh [position]="[0, 0, 0.0001]" [visible]="checked" (ready)="checkmeshready($event)">
+  <ngt-mesh [position]="[0, 0, 0.0001]" [visible]="checked" (ready)="checkmeshready($event)" [material]="checkmaterial">
     <ngt-circle-geometry [args]="[0.03,segments]"></ngt-circle-geometry>
-    <ngt-mesh-basic-material [color]="truecolor"></ngt-mesh-basic-material>
   </ngt-mesh>
 </ngt-mesh>

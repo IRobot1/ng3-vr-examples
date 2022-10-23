@@ -38,6 +38,16 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
     this._buttoncolor = newvalue;
   }
 
+  private _disabledcolor?: string;
+  @Input()
+  get disabledcolor(): string {
+    if (this._disabledcolor) return this._disabledcolor;
+    return GlobalFlatUITheme.DisabledColor;
+  }
+  set disabledcolor(newvalue: string) {
+    this._disabledcolor = newvalue;
+  }
+
   private _hovercolor?: string;
   @Input()
   get hovercolor(): string {
@@ -131,8 +141,10 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
     });
 
     GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.material.color.setStyle(this.buttoncolor);
+      this.material.color.setStyle(this.enabled ? this.buttoncolor : this.disabledcolor);
     })
+
+    this.material.color.setStyle(this.enabled ? this.buttoncolor : this.disabledcolor);
   }
 
 

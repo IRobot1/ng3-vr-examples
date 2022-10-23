@@ -66,16 +66,6 @@ export class FlatUIInputCheckbox extends NgtObjectProps<Mesh> implements AfterVi
     this._disabledcolor = newvalue;
   }
 
-  private _truecolor?: string;
-  @Input()
-  get truecolor(): string {
-    if (this._truecolor) return this._truecolor;
-    return GlobalFlatUITheme.CheckColor;
-  }
-  set truecolor(newvalue: string) {
-    this._truecolor = newvalue;
-  }
-
   private _enabled = true;
   @Input()
   get enabled(): boolean { return this._enabled }
@@ -129,7 +119,7 @@ export class FlatUIInputCheckbox extends NgtObjectProps<Mesh> implements AfterVi
   }
 
   createCheckMaterial() {
-    this.checkmaterial = new MeshBasicMaterial({ color: this.truecolor });
+    this.checkmaterial = GlobalFlatUITheme.CheckMaterial;
   }
 
   setButtonColor(color: string) {

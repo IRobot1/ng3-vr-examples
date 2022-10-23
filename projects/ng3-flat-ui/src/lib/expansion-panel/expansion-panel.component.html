@@ -15,9 +15,8 @@
       <ngt-soba-text [text]="displaytitle" [material]="labelmaterial" [fontSize]="0.07" [anchorX]="'left'" [position]="[-width/2+titleheight/2+0.04, 0, 0.0001]"></ngt-soba-text>
     </ngt-group>
 
-    <ngt-mesh #parent [visible]="expanded" [position]="[0, -height/2, 0]" (ready)="panel = $event">
+    <ngt-mesh #parent [visible]="expanded" [position]="[0, -height/2, 0]" (ready)="panel = $event" [material]="panelmaterial">
       <ngt-plane-geometry [args]="[width, height-titleheight]"></ngt-plane-geometry>
-      <ngt-mesh-basic-material [color]="panelcolor"></ngt-mesh-basic-material>
 
       <ng-container *ngIf="templateRef"
                     [ngTemplateOutlet]="templateRef"

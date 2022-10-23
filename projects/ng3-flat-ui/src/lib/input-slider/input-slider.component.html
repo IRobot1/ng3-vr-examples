@@ -5,8 +5,7 @@
           [position]="position" [rotation]="rotation" [scale]="scale"
           [geometry]="geometry" [material]="material" (ready)="meshready($event)">
 
-  <ngt-mesh [position]="[x*innerscale, 0, 0.0001]" (ready)="sliderready($event)">
+  <ngt-mesh [position]="[x*innerscale, 0, 0.0001]" (ready)="sliderready($event)" [material]="slidermaterial">
     <ngt-circle-geometry [args]="[radius, 32]"></ngt-circle-geometry>
-    <ngt-mesh-basic-material [color]="slidercolor"></ngt-mesh-basic-material>
   </ngt-mesh>
 </ngt-mesh>

@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { Mesh, MeshBasicMaterial  } from "three";
+import { Material, Mesh, MeshBasicMaterial  } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -39,16 +39,6 @@ export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterView
   set hovercolor(newvalue: string) {
     this._hovercolor = newvalue;
   }
-  private _truecolor?: string;
-  @Input()
-  get truecolor(): string {
-    if (this._truecolor) return this._truecolor;
-    return GlobalFlatUITheme.RadioTrueColor;
-  }
-  set truecolor(newvalue: string) {
-    this._truecolor = newvalue;
-  }
-
   private _width = 0.1;
   @Input()
   get width() { return this._width }
@@ -65,6 +55,7 @@ export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterView
   @Output() change = new EventEmitter<boolean>();
 
   material!: MeshBasicMaterial;
+  checkmaterial!: Material;
 
 
   override preInit() {
@@ -73,6 +64,8 @@ export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterView
     if (!this.material) {
       this.material = new MeshBasicMaterial({ color: this.buttoncolor });
     }
+
+    this.checkmaterial = GlobalFlatUITheme.CheckMaterial;
   }
 
   override ngOnDestroy() {

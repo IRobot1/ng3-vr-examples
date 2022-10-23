@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, Intersection, MathUtils, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Intersection, Material, MathUtils, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -93,6 +93,16 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
     this._buttoncolor = newvalue;
   }
 
+  private _disabledcolor?: string;
+  @Input()
+  get disabledcolor(): string {
+    if (this._disabledcolor) return this._disabledcolor;
+    return GlobalFlatUITheme.DisabledColor;
+  }
+  set disabledcolor(newvalue: string) {
+    this._disabledcolor = newvalue;
+  }
+
   private _hovercolor?: string;
   @Input()
   get hovercolor(): string {
@@ -103,14 +113,14 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
     this._hovercolor = newvalue;
   }
 
-  private _slidercolor?: string;
+  private _slidermaterial!: Material
   @Input()
-  get slidercolor(): string {
-    if (this._slidercolor) return this._slidercolor;
-    return GlobalFlatUITheme.SlideColor;
+  get slidermaterial(): Material {
+    if (this._slidermaterial) return this._slidermaterial;
+    return GlobalFlatUITheme.SliderMaterial;
   }
-  set slidercolor(newvalue: string) {
-    this._slidercolor = newvalue;
+  set slidermaterial(newvalue: Material) {
+    this._slidermaterial = newvalue;
   }
 
 
@@ -164,8 +174,10 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
     });
 
     GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.material.color.setStyle(this.buttoncolor);
+      this.material.color.setStyle(this.enabled ? this.buttoncolor : this.disabledcolor);
     })
+
+    this.material.color.setStyle(this.enabled ? this.buttoncolor : this.disabledcolor);
   }
 
   private mesh!: Mesh;

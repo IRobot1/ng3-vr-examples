@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Material, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -20,7 +20,7 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterView
   get checked(): boolean { return this._checked }
   set checked(newvalue: boolean) {
     this._checked = newvalue;
-    this.togglecolor = newvalue ? this.truecolor : this.falsecolor;
+    this.togglematerial = newvalue ? this.truematerial : this.falsematerial;
 
     if (this.togglemesh) {
       this.updatetoggle();
@@ -48,23 +48,25 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterView
   set hovercolor(newvalue: string) {
     this._hovercolor = newvalue;
   }
-  private _falsecolor?: string;
+
+  private _falsematerial!: Material
   @Input()
-  get falsecolor(): string {
-    if (this._falsecolor) return this._falsecolor;
-    return GlobalFlatUITheme.ToggleFalseColor;
+  get falsematerial(): Material {
+    if (this._falsematerial) return this._falsematerial;
+    return GlobalFlatUITheme.ToggleFalseMaterial;
   }
-  set falsecolor(newvalue: string) {
-    this._falsecolor = newvalue;
+  set falsematerial(newvalue: Material) {
+    this._falsematerial = newvalue;
   }
-  private _truecolor?: string;
+
+  private _truematerial!: Material
   @Input()
-  get truecolor(): string {
-    if (this._truecolor) return this._truecolor;
-    return GlobalFlatUITheme.ToggleTrueColor;
+  get truematerial(): Material {
+    if (this._truematerial) return this._truematerial;
+    return GlobalFlatUITheme.ToggleTrueMaterial;
   }
-  set truecolor(newvalue: string) {
-    this._truecolor = newvalue;
+  set truematerial(newvalue: Material) {
+    this._truematerial = newvalue;
   }
 
   private _width = 0.2;
@@ -94,7 +96,7 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterView
   geometry!: BufferGeometry;
   material!: MeshBasicMaterial;
 
-  togglecolor = this.falsecolor;
+  togglematerial = this.falsematerial;
 
   override preInit() {
     super.preInit();
