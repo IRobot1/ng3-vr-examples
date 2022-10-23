@@ -42,7 +42,6 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
   @Input() selectedindex = -1;
 
   @Input() overflow = 20;
-  @Input() enabled = true;
 
   @Input() width = 1;
   @Input() height = 1;
@@ -63,24 +62,32 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
   @Output() change = new EventEmitter<ListItem>();
   @Output() close = new EventEmitter<boolean>();
 
-  geometry!: BufferGeometry;
-  material!: MeshBasicMaterial;
+  @Input() geometry!: BufferGeometry;
+  @Input() material!: MeshBasicMaterial;
 
-  keys: Array<NumKeySetting> = [];
+  protected keys: Array<NumKeySetting> = [];
 
-  count = 7;  // default when height is is 1
-  data: Array<ListData> = [];
+  private count = 7;  // default when height is is 1
+  protected data: Array<ListData> = [];
 
-  firstdrawindex = 0;
+  private firstdrawindex = 0;
 
   override preInit() {
     super.preInit();
 
+    if (!this.geometry) this.createListGeometry();
+    if (!this.material) this.createListMaterial();
+  }
+
+  createListGeometry() {
     const flat = new Shape();
     roundedRect(flat, 0, 0, this.width, this.height, 0.02);
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
+  }
+
+  createListMaterial() {
     this.material = new MeshBasicMaterial({ color: this.popupcolor });
   }
 
@@ -103,7 +110,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
 
   private mesh!: Mesh;
 
-  meshready(mesh: Mesh) {
+  protected meshready(mesh: Mesh) {
     const top = ['|<', '<', '>', '>|']
 
     const buttonwidth = 0.11
@@ -120,7 +127,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
     this.mesh = mesh;
   }
 
-  missed() {
+  protected missed() {
     this.close.next(true);
   }
 
@@ -135,7 +142,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
     })
   }
 
-  renderlist() {
+  private renderlist() {
     let drawindex = this.firstdrawindex;
 
     // if the whole list is shorter than what can be displayed, start from the first item in the list
@@ -160,14 +167,14 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
     }
   }
 
-  selected(index: number) {
+  protected selected(index: number) {
     this.selectedindex = this.firstdrawindex + index;
 
     this.change.next(this.list[this.selectedindex]);
 
   }
 
-  clicked(keycode: string) {
+  protected clicked(keycode: string) {
     if (!this.visible) return;
 
     if (keycode == '|<')
@@ -184,7 +191,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
     this.renderlist();
   }
 
-  ignore(mesh: Mesh, event: NgtEvent<MouseEvent>) {
+  protected ignore(mesh: Mesh, event: NgtEvent<MouseEvent>) {
     if (event.object != mesh) return;
     event.stopPropagation();
   }

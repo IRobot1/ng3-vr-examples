@@ -20,7 +20,6 @@ class NumKeySetting {
 })
 export class FlatUINumpad extends NgtObjectProps<Mesh> {
   @Input() text: string = ''
-  @Input() enabled = true;
 
   @Input() selectable?: InteractiveObjects;
 
@@ -39,14 +38,19 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
   @Output() change = new EventEmitter<string>();
   @Output() close = new EventEmitter<boolean>();
 
-  geometry!: BufferGeometry;
-  material!: MeshBasicMaterial;
+  @Input() geometry!: BufferGeometry;
+  @Input() material!: MeshBasicMaterial;
 
-  keys: Array<NumKeySetting> = [];
+  protected keys: Array<NumKeySetting> = [];
 
   override preInit() {
     super.preInit();
 
+    if (!this.geometry) this.createNumpadGeometry();
+    if (!this.material) this.createNumpadMaterial();    
+  }
+
+  createNumpadGeometry() {
     const keyboardwidth = 0.40;
     const keyboardheight = 0.60;
 
@@ -55,6 +59,9 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
+  }
+
+  createNumpadMaterial() {
     this.material = new MeshBasicMaterial({ color: this.popupcolor });
   }
 
@@ -69,7 +76,7 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
 
   private mesh!: Mesh;
 
-  meshready(mesh: Mesh) {
+  protected meshready(mesh: Mesh) {
     GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
       this.material.color.setStyle(this.popupcolor);
     })
@@ -115,7 +122,7 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
     this.mesh = mesh;
   }
 
-  missed() {
+  protected missed() {
     this.close.next(true)
   }
 
@@ -130,7 +137,7 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
       this.clicked(keycode);
   }
 
-  clicked(keycode: string) {
+  protected clicked(keycode: string) {
     if (!this.visible) return;
 
     this.pressed.emit(keycode);
@@ -146,7 +153,7 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
     }
   }
 
-  ignore(mesh: Mesh, event: NgtEvent<MouseEvent>) {
+  protected ignore(mesh: Mesh, event: NgtEvent<MouseEvent>) {
     if (event.object != mesh) return;
     event.stopPropagation();
   }

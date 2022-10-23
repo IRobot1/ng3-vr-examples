@@ -63,6 +63,7 @@ export class FlatUIProgressBar extends NgtObjectProps<Mesh> implements AfterView
   set buttoncolor(newvalue: string) {
     this._buttoncolor = newvalue;
   }
+
   private _progressmaterial!: Material
   @Input()
   get progressmaterial(): Material {
@@ -73,21 +74,28 @@ export class FlatUIProgressBar extends NgtObjectProps<Mesh> implements AfterView
     this._progressmaterial = newvalue;
   }
 
-  geometry!: BufferGeometry;
-  material!: MeshBasicMaterial;
+  @Input() geometry!: BufferGeometry;
+  @Input() material!: Material;
 
-  progress!: BufferGeometry;
-  showprogress = true;
+  protected progress!: BufferGeometry;
+  protected showprogress = true;
 
   override preInit() {
     super.preInit();
 
+    if (!this.geometry) this.createProgressGeometry();
+    if (!this.material) this.createProgressMaterial();
+  }
+
+  createProgressGeometry() {
     const flat = new Shape();
     roundedRect(flat, 0, 0, this.width, this.height, 0.025);
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
+  }
 
+  createProgressMaterial() {
     this.material = new MeshBasicMaterial({ color: this.buttoncolor });
   }
 
@@ -106,13 +114,13 @@ export class FlatUIProgressBar extends NgtObjectProps<Mesh> implements AfterView
     });
 
     GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.material.color.setStyle(this.buttoncolor);
+      (this.material as MeshBasicMaterial).color.setStyle(this.buttoncolor);
     })
   }
 
   private mesh!: Mesh;
 
-  meshready(mesh: Mesh) {
+  protected meshready(mesh: Mesh) {
     this.mesh = mesh;
   }
 

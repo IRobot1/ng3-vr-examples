@@ -21,7 +21,24 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
   set text(newvalue: string) {
     this._text = newvalue;
     this.change.next(newvalue);
-    this.displaytext = this.text.substring(0, this.overflow * this.width);
+    this.updatedisplaytext();
+  }
+
+  private _placeholder?: string;
+  @Input()
+  get placeholder(): string | undefined { return this._placeholder }
+  set placeholder(newvalue: string | undefined) {
+    this._placeholder = newvalue;
+    this.updatedisplaytext();
+  }
+
+  private updatedisplaytext() {
+    if (this.text == '' && this.placeholder) {
+      this.displaytext = this.placeholder;
+    }
+    else {
+      this.displaytext = this.text.substring(0, this.overflow * this.width);
+    }
   }
 
   @Input() overflow = 24;
@@ -107,20 +124,27 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
 
   @Output() change = new EventEmitter<string>();
 
-  geometry!: BufferGeometry;
-  material!: MeshBasicMaterial;
+  @Input() geometry!: BufferGeometry;
+  @Input() material!: MeshBasicMaterial;
 
   protected displaytext!: string;
 
   override preInit() {
     super.preInit();
 
+    if (!this.geometry) this.createSelectGeoemetry();
+    if (!this.material) this.createSelectMaterial();
+  }
+
+  createSelectGeoemetry() {
     const flat = new Shape();
     roundedRect(flat, 0, 0, this.width + 0.1, this.height, 0.02);
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
+  }
 
+  createSelectMaterial() {
     this.material = new MeshBasicMaterial({ color: this.buttoncolor });
   }
 
@@ -150,7 +174,7 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
 
   private mesh!: Mesh;
 
-  meshready(mesh: Mesh) {
+  protected meshready(mesh: Mesh) {
     this.selectable?.add(mesh);
 
     mesh.addEventListener('click', (e: any) => { this.enableinput(mesh); e.stop = true; });
@@ -160,20 +184,21 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
     this.mesh = mesh;
   }
 
-  enableinput(mesh: Mesh) {
+  protected enableinput(mesh: Mesh) {
     if (!this.enabled || !this.visible) return;
 
     this.inputopen = true;
     this.openinput.next(mesh);
   }
 
-  isover = false;
-  over() {
+  private isover = false;
+  protected over() {
     if (this.isover || !this.enabled) return;
     this.material.color.setStyle(this.hovercolor);
     this.isover = true;
   }
-  out() {
+
+  protected out() {
     if (!this.enabled) return;
     this.material.color.setStyle(this.buttoncolor);
     this.isover = false;

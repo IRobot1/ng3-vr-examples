@@ -78,6 +78,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     (this.ToggleTrueMaterial as MeshBasicMaterial).color.setStyle(newtheme.ToggleTrueColor);
 
     (this.PanelMaterial as MeshBasicMaterial).color.setStyle(newtheme.PanelColor);
+    (this.PopupMaterial as MeshBasicMaterial).color.setStyle(newtheme.PopupColor);
 
 
     this.notify();
@@ -116,6 +117,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     this.ToggleTrueMaterial = new MeshBasicMaterial({ color: this.ToggleTrueColor });
 
     this.PanelMaterial = new MeshBasicMaterial({ color: this.PanelColor });
+    this.PopupMaterial = new MeshBasicMaterial({ color: this.PopupColor });
     
   }
 

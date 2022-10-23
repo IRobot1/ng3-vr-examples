@@ -35,10 +35,10 @@ export class FlatUIColorPicker extends NgtObjectProps<Mesh> {
   @Output() colorpicked = new EventEmitter<string>();
   @Output() close = new EventEmitter<boolean>();
 
-  picker!: MeshBasicMaterial;
-  rainbow!: MeshBasicMaterial;
+  protected picker!: MeshBasicMaterial;
+  protected rainbow!: MeshBasicMaterial;
 
-  shadesize = 0.7;
+  protected shadesize = 0.7;
 
   override ngOnInit(): void {
     super.ngOnInit();
@@ -50,8 +50,7 @@ export class FlatUIColorPicker extends NgtObjectProps<Mesh> {
 
   private pickercontext!: CanvasRenderingContext2D;
 
-
-  initpicker(color: string): void {
+  private initpicker(color: string): void {
     const canvas = document.createElement('canvas');
     canvas.width = 100;
     canvas.height = 100;
@@ -83,9 +82,9 @@ export class FlatUIColorPicker extends NgtObjectProps<Mesh> {
     this.pickercontext = context;
   }
 
-  rainbowcontext!: CanvasRenderingContext2D;
+  private rainbowcontext!: CanvasRenderingContext2D;
 
-  initrainbow(): void {
+  private initrainbow(): void {
     const canvas = document.createElement('canvas');
     canvas.width = 10;
     canvas.height = 100;
@@ -126,13 +125,13 @@ export class FlatUIColorPicker extends NgtObjectProps<Mesh> {
   }
 
 
-  missed() {
+  protected missed() {
     this.close.next(true)
   }
 
   private shademesh!: Mesh;
 
-  shadesready(mesh: Mesh) {
+  protected shadesready(mesh: Mesh) {
     this.selectable?.add(mesh);
 
     // e: {type: 'click', data: Intersection, target: Mesh}
@@ -142,8 +141,8 @@ export class FlatUIColorPicker extends NgtObjectProps<Mesh> {
     this.shademesh = mesh;
   }
 
-  ringx = 0;
-  ringy = 0;
+  protected ringx = 0;
+  protected ringy = 0;
 
   pickshade(mesh: Mesh, event: NgtEvent<MouseEvent>) {
     if (event.object != mesh) return;
@@ -172,7 +171,7 @@ export class FlatUIColorPicker extends NgtObjectProps<Mesh> {
 
   private colormesh!: Mesh;
 
-  colorready(mesh: Mesh) {
+  protected colorready(mesh: Mesh) {
     this.selectable?.add(mesh);
 
     // e: {type: 'click', data: Vector2, target: Mesh}
@@ -201,7 +200,7 @@ export class FlatUIColorPicker extends NgtObjectProps<Mesh> {
     this.initpicker(this.getStyleColor(imageData[0], imageData[1], imageData[2]));
   }
 
-  getStyleColor(r: number, g: number, b: number) {
+  private getStyleColor(r: number, g: number, b: number) {
     return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
   }
 }

@@ -29,14 +29,14 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
 
   @Input() selectable?: InteractiveObjects;
 
-  private _keyboardcolor?: string;
+  private _popupcolor?: string;
   @Input()
-  get keyboardcolor(): string {
-    if (this._keyboardcolor) return this._keyboardcolor;
+  get popupcolor(): string {
+    if (this._popupcolor) return this._popupcolor;
     return GlobalFlatUITheme.PopupColor;
   }
-  set keyboardcolor(newvalue: string) {
-    this._keyboardcolor = newvalue;
+  set popupcolor(newvalue: string) {
+    this._popupcolor = newvalue;
   }
 
 
@@ -44,27 +44,31 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
   @Output() change = new EventEmitter<string>();
   @Output() close = new EventEmitter<boolean>();
 
-  geometry!: BufferGeometry;
-  material!: MeshBasicMaterial;
+  @Input() geometry!: BufferGeometry;
+  @Input() material!: MeshBasicMaterial;
 
-  keys: Array<KeySetting> = [];
+  protected keys: Array<KeySetting> = [];
 
   override preInit() {
     super.preInit();
 
+    if (!this.geometry) this.createKeyboardGeometry();
+    if (!this.material) this.createKeyboardMaterial();
+  }
+
+  createKeyboardGeometry() {
     const keyboardwidth = 1.8;
     const keyboardheight = 0.48;
 
-    if (!this.geometry) {
-      const flat = new Shape();
-      roundedRect(flat, 0, 0, keyboardwidth, keyboardheight, 0.02);
+    const flat = new Shape();
+    roundedRect(flat, 0, 0, keyboardwidth, keyboardheight, 0.02);
 
-      this.geometry = new ShapeGeometry(flat);
-      this.geometry.center();
-    }
-    if (!this.material) {
-      this.material = new MeshBasicMaterial({ color: this.keyboardcolor });
-    }
+    this.geometry = new ShapeGeometry(flat);
+    this.geometry.center();
+  }
+
+  createKeyboardMaterial() {
+    this.material = new MeshBasicMaterial({ color: this.popupcolor });
   }
 
   override ngOnDestroy() {
@@ -76,15 +80,15 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
     this.material.dispose();
   }
 
-  missed() {
+  protected missed() {
     this.close.next(true);
   }
 
   private mesh!: Mesh;
 
-  meshready(mesh: Mesh) {
+  protected meshready(mesh: Mesh) {
     GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.material.color.setStyle(this.keyboardcolor);
+      this.material.color.setStyle(this.popupcolor);
     })
 
     const top = ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p']
@@ -165,9 +169,9 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
     }
   }
 
-  keycase: KeyCase = 'lower';
+  private keycase: KeyCase = 'lower';
 
-  keycode(keys: KeySetting): string {
+  protected keycode(keys: KeySetting): string {
     if (this.keycase == 'lower')
       return keys.lower;
     else if (this.keycase == 'upper')
@@ -176,7 +180,7 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
       return keys.alpha ? keys.alpha : keys.lower;
   }
 
-  clicked(keycode: string) {
+  protected clicked(keycode: string) {
     if (!this.visible) return;
 
 
@@ -206,7 +210,7 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
     }
   }
 
-  ignore(mesh: Mesh, event: NgtEvent<MouseEvent>) {
+  protected ignore(mesh: Mesh, event: NgtEvent<MouseEvent>) {
     if (event.object != mesh) return;
     event.stopPropagation();
   }
