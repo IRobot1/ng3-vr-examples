@@ -10,12 +10,12 @@
   <ng-template [ngSwitchCase]="'number'">
     <ngt-group horizontal-layout [margin]="[0.02, 0, 0]">
       <flat-ui-label [text]="item.title" [width]="0.8"></flat-ui-label>
-      <flat-ui-input-slider [visible]="item._min && item._max" [width]="0.5" [min]="item._min" [max]="item._max"
+      <flat-ui-input-slider [visible]="item._min != undefined && item._max != undefined" [width]="0.5" [min]="item._min" [max]="item._max"
                             [step]="item._step" [value]="numbervalue" [selectable]="selectable" [enabled]="item.enabled"
                             (change)="numbervalue=$event">
       </flat-ui-input-slider>
       <flat-ui-input-number #numpad [min]="item._min" [max]="item._max" [text]="textvalue"
-                            [enabled]="item.enabled && !(item._min && item._max)" [selectable]="selectable"
+                            [enabled]="item.enabled" [selectable]="selectable"
                             (change)="numbervalue=$event" (openinput)="input.opennumpad($event, numpad, textvalue)">
       </flat-ui-input-number>
     </ngt-group>

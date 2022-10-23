@@ -116,7 +116,7 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
   private _inputopen = false;
   get inputopen(): boolean { return this._inputopen }
   set inputopen(newvalue: boolean) {
-    this._inputopen = true;
+    this._inputopen = newvalue;
     this.updatedisplaytext();
   }
   @Output() openinput = new EventEmitter<Object3D>();
