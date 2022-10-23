@@ -120,6 +120,9 @@ import { SpokesLoadingComponent } from '../examples/loading/spokes/spokes.compon
 
 import { Ng3FlatUiModule } from 'ng3-flat-ui';
 import { Ng3GuiModule } from '../../projects/ng3-gui/src/public-api';
+import { StatsExample } from '../examples/stats/stats.component';
+import { FlatUIStatsComponent } from '../examples/stats/stats/stats.component';
+import { FlatUIStatsPanelComponent } from '../examples/stats/stats-panel/stats-panel.component';
 
 
 
@@ -240,7 +243,9 @@ import { Ng3GuiModule } from '../../projects/ng3-gui/src/public-api';
     LoadingExample,
     SpokesLoadingComponent,
 
-
+    StatsExample,
+    FlatUIStatsPanelComponent,
+    FlatUIStatsComponent,
   ],
   imports: [
     BrowserModule,

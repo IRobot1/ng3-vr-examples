@@ -1,0 +1,11 @@
+<ngt-mesh #inst [name]="name" [visible]="visible"
+          [position]="position" [rotation]="rotation" [scale]="scale" [material]="panelmaterial"
+          (click)="clicked(inst.instance.value, $event)" (ready)="meshready($event)" (beforeRender)="tick()">
+
+  <ngt-plane-geometry [args]="[width, height]"></ngt-plane-geometry>
+
+  <flat-ui-stats-panel #fps [visible]="panel==0" [name]="'FPS'" [barcolor]="'#0ff'"></flat-ui-stats-panel>
+  <flat-ui-stats-panel #ms [visible]="panel==1" [name]="'MS'" [barcolor]="'#0f0'"></flat-ui-stats-panel>
+  <flat-ui-stats-panel #mem [visible]="panel==2" [name]="'MB'" [barcolor]="'#f08'"></flat-ui-stats-panel>
+
+</ngt-mesh>

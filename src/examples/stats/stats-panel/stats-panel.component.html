@@ -1,0 +1,11 @@
+<ngt-group [name]="name" [visible]="visible"
+           [position]="position" [rotation]="rotation" [scale]="scale">
+
+  <ngt-soba-text (ready)="titleready($event)" [text]="''" [anchorX]="'left'" [anchorY]="'top'" [fontSize]="0.05" [material]="labelmaterial" [position]="[-width/2+0.01, height/2, 0.001]"></ngt-soba-text>
+
+  <ngt-instanced-mesh [count]="60" [position]="[0, 0, 0.001]" (ready)="instready($event)">
+    <ngt-plane-geometry [args]="[0.01, height]"></ngt-plane-geometry>
+  </ngt-instanced-mesh>
+
+</ngt-group>
+
