@@ -60,7 +60,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
   @Input() selectable?: InteractiveObjects;
 
   @Output() change = new EventEmitter<ListItem>();
-  @Output() close = new EventEmitter<boolean>();
+  @Output() close = new EventEmitter<void>();
 
   @Input() geometry!: BufferGeometry;
 
@@ -122,7 +122,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
   }
 
   protected missed() {
-    this.close.next(true);
+    this.close.next();
   }
 
   ngAfterViewInit(): void {

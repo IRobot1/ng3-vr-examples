@@ -33,7 +33,7 @@ export class FlatUIColorPicker extends NgtObjectProps<Mesh> {
   @Input() selectable?: InteractiveObjects;
 
   @Output() colorpicked = new EventEmitter<string>();
-  @Output() close = new EventEmitter<boolean>();
+  @Output() close = new EventEmitter<void>();
 
   protected picker!: MeshBasicMaterial;
   protected rainbow!: MeshBasicMaterial;
@@ -124,9 +124,13 @@ export class FlatUIColorPicker extends NgtObjectProps<Mesh> {
     this.picker.dispose();
   }
 
+  meshready(mesh: Mesh) {
+    mesh.addEventListener('click', (e: any) => { e.stop = true; });
+    mesh.addEventListener('raymissed', (e: any) => { this.missed(); e.stop = true; });
+  }
 
   protected missed() {
-    this.close.next(true)
+    this.close.next()
   }
 
   protected ignore(mesh: Mesh, event: NgtEvent<MouseEvent>) {

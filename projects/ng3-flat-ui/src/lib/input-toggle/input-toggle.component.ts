@@ -93,24 +93,28 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterView
 
   @Output() change = new EventEmitter<boolean>();
 
-  geometry!: BufferGeometry;
-  material!: MeshBasicMaterial;
+  @Input() geometry!: BufferGeometry;
+  @Input() material!: MeshBasicMaterial;
 
-  togglematerial = this.falsematerial;
+  protected togglematerial = this.falsematerial;
 
   override preInit() {
     super.preInit();
 
-    if (!this.geometry) {
-      const flat = new Shape();
-      roundedRect(flat, 0, 0, this.width, this.height, this.height / 2);
+    if (!this.geometry) this.createToggleGeometry();
+    if (!this.material) this.createToggleMaterial();
+  }
 
-      this.geometry = new ShapeGeometry(flat);
-      this.geometry.center();
-    }
-    if (!this.material) {
-      this.material = new MeshBasicMaterial({ color: this.buttoncolor });
-    }
+  createToggleGeometry() {
+    const flat = new Shape();
+    roundedRect(flat, 0, 0, this.width, this.height, this.height / 2);
+
+    this.geometry = new ShapeGeometry(flat);
+    this.geometry.center();
+  }
+
+  createToggleMaterial() {
+    this.material = new MeshBasicMaterial({ color: this.buttoncolor });
   }
 
   override ngOnDestroy() {
@@ -137,7 +141,7 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterView
 
   private mesh!: Mesh;
 
-  meshready(mesh: Mesh) {
+  protected meshready(mesh: Mesh) {
     this.selectable?.add(mesh);
 
     mesh.addEventListener('click', (e: any) => { this.doclicked(); e.stop = true; });
@@ -150,7 +154,7 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterView
 
   private togglemesh!: Mesh;
 
-  toggleready(mesh: Mesh) {
+  protected toggleready(mesh: Mesh) {
     this.selectable?.add(mesh);
 
     mesh.addEventListener('click', (e: any) => { this.doclicked(); e.stop = true; });
@@ -161,12 +165,12 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterView
 
   }
 
-  updatetoggle() {
+  private updatetoggle() {
     const offset = this.width / 4;
     this.togglemesh.position.x = this.checked ? offset : -offset;
   }
 
-  clicked(mesh: Mesh, event: NgtEvent<MouseEvent>) {
+  protected clicked(mesh: Mesh, event: NgtEvent<MouseEvent>) {
     if (event.object != mesh) return;
     event.stopPropagation();
 
@@ -180,11 +184,11 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterView
     this.change.next(this.checked);
   }
 
-  over() {
+  protected over() {
     if (!this.enabled) return;
     this.material.color.setStyle(this.hovercolor);
   }
-  out() {
+  protected out() {
     if (!this.enabled) return;
     this.material.color.setStyle(this.buttoncolor);
   }

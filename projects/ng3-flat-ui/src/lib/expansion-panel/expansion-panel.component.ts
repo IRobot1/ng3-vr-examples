@@ -108,9 +108,9 @@ export class FlatUIExpansionPanel extends NgtObjectProps<Mesh> implements AfterV
 
   @Input() selectable?: InteractiveObjects;
 
-  titlematerial!: MeshBasicMaterial;
+  @Input() titlematerial!: MeshBasicMaterial;
 
-  displaytitle!: string
+  protected displaytitle!: string
 
   @ContentChild(TemplateRef) templateRef?: TemplateRef<unknown>;
 
@@ -118,6 +118,11 @@ export class FlatUIExpansionPanel extends NgtObjectProps<Mesh> implements AfterV
   override preInit() {
     super.preInit();
 
+    if (!this.titlematerial) this.createTitleMaterial()
+    
+  }
+
+  createTitleMaterial() {
     this.titlematerial = new MeshBasicMaterial({ color: this.panelcolor, transparent: true, opacity: 0.1 });
   }
 
@@ -137,12 +142,12 @@ export class FlatUIExpansionPanel extends NgtObjectProps<Mesh> implements AfterV
     });
   }
 
-  group!: Group;
-  panel!: Mesh;
+  protected group!: Group;
+  protected panel!: Mesh;
 
   private mesh!: Object3D;
 
-  meshready(mesh: Object3D) {
+  protected meshready(mesh: Object3D) {
     this.selectable?.add(mesh);
 
     this.mesh = mesh;

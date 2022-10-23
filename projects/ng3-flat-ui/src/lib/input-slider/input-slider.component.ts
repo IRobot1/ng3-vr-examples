@@ -128,8 +128,8 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
 
   @Output() change = new EventEmitter<number>();
 
-  geometry!: BufferGeometry;
-  material!: MeshBasicMaterial;
+  @Input() geometry!: BufferGeometry;
+  @Input() material!: MeshBasicMaterial;
 
   get x(): number {
     if (this.min != undefined && this.max != undefined) {
@@ -138,22 +138,26 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
     return this.width / 2 ;
   }
 
-  innerscale = 0.7;
-  radius = 0.04;
+  protected innerscale = 0.7;
+  protected radius = 0.04;
 
   override preInit() {
     super.preInit();
 
-    if (!this.geometry) {
-      const flat = new Shape();
-      roundedRect(flat, 0, 0, this.width, this.height, this.height / 2);
+    if (!this.geometry) this.createSliderGeometry();
+    if (!this.material) this.createSliderMaterial();
+  }
 
-      this.geometry = new ShapeGeometry(flat);
-      this.geometry.center();
-    }
-    if (!this.material) {
-      this.material = new MeshBasicMaterial({ color: this.buttoncolor });
-    }
+  createSliderGeometry() {
+    const flat = new Shape();
+    roundedRect(flat, 0, 0, this.width, this.height, this.height / 2);
+
+    this.geometry = new ShapeGeometry(flat);
+    this.geometry.center();
+  }
+
+  createSliderMaterial() {
+    this.material = new MeshBasicMaterial({ color: this.buttoncolor });
   }
 
   override ngOnDestroy() {
@@ -182,7 +186,7 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
 
   private mesh!: Mesh;
 
-  meshready(mesh: Mesh) {
+  protected meshready(mesh: Mesh) {
     this.selectable?.add(mesh);
 
     mesh.addEventListener('click', (e: any) => { this.doclicked(mesh, e.data); e.stop = true; });
@@ -198,7 +202,7 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
 
   private slidermesh!: Mesh;
 
-  sliderready(mesh: Mesh) {
+  protected sliderready(mesh: Mesh) {
     this.selectable?.add(mesh);
 
     this.slidermesh = mesh;
@@ -206,7 +210,7 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
 
   dragging = false;
 
-  clicked(mesh: Mesh, event: NgtEvent<MouseEvent>) {
+  protected clicked(mesh: Mesh, event: NgtEvent<MouseEvent>) {
     if (event.object != mesh) return;
     event.stopPropagation();
 
@@ -232,7 +236,7 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
     }
   }
 
-  over(mesh: Mesh, event: Intersection) {
+  protected over(mesh: Mesh, event: Intersection) {
     if (!this.enabled) return;
 
     if (this.dragging) {
@@ -241,7 +245,7 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
     this.material.color.setStyle(this.hovercolor);
   }
 
-  out() {
+  protected out() {
     if (!this.enabled) return;
     this.material.color.setStyle(this.buttoncolor);
   }

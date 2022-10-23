@@ -85,15 +85,14 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
 
   @ContentChild(TemplateRef) templateRef?: TemplateRef<unknown>;
 
-  geometry!: BufferGeometry;
-  titlematerial!: MeshBasicMaterial;
+  @Input() geometry!: BufferGeometry;
+  @Input() titlematerial!: MeshBasicMaterial;
 
   override preInit() {
     super.preInit();
 
     if (!this.geometry) this.createPanelGeometry();
-
-    this.titlematerial = new MeshBasicMaterial({ color: this.panelcolor, transparent: true, opacity: 0.3 });
+    if (!this.titlematerial) this.createTitleMaterial()
   }
 
   createPanelGeometry() {
@@ -108,6 +107,9 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     this.geometry = new ShapeGeometry(corner);
   }
 
+  createTitleMaterial() {
+    this.titlematerial = new MeshBasicMaterial({ color: this.panelcolor, transparent: true, opacity: 0.3 });
+  }
 
   override ngOnDestroy() {
     super.ngOnDestroy();

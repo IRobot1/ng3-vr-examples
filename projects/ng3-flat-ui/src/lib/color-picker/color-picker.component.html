@@ -2,7 +2,7 @@
           [position]="position" [rotation]="rotation" [scale]="scale"
           [material]="popupmaterial"
           (click)="ignore(mesh.instance.value, $event)" (pointerover)="$event.stopPropagation()"
-          (pointermissed)="missed()">
+          (pointermissed)="missed()" (ready)="meshready($event)">
 
   <ngt-plane-geometry [args]="[1, 0.8]"></ngt-plane-geometry>
 

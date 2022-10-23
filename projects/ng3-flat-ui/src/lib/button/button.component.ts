@@ -197,7 +197,7 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
       else
         this.setButtonColor(this.buttoncolor);
 
-      this.pressed.emit(this.text);
+      this.pressed.next(this.text);
 
       clearTimeout(timer);
       this.clicking = false;

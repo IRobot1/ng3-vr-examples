@@ -162,7 +162,7 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
       else
         this.material.color.setStyle(this.buttoncolor);
 
-      this.pressed.emit(true);
+      this.pressed.next(true);
 
       clearTimeout(timer);
       this.clicking = false;

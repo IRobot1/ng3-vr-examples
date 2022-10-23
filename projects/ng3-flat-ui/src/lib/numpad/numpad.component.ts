@@ -35,7 +35,7 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
 
   @Output() pressed = new EventEmitter<string>();
   @Output() change = new EventEmitter<string>();
-  @Output() close = new EventEmitter<boolean>();
+  @Output() close = new EventEmitter<void>();
 
   @Input() geometry!: BufferGeometry;
 
@@ -111,7 +111,7 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
   }
 
   protected missed() {
-    this.close.next(true)
+    this.close.next()
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -128,16 +128,16 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
   protected clicked(keycode: string) {
     if (!this.visible) return;
 
-    this.pressed.emit(keycode);
+    this.pressed.next(keycode);
     if (keycode == 'Back') {
       if (this.text.length > 0) {
         this.text = this.text.slice(0, this.text.length - 1);
-        this.change.emit(this.text);
+        this.change.next(this.text);
       }
     }
     else {
       this.text += keycode;
-      this.change.emit(this.text);
+      this.change.next(this.text);
     }
   }
 

@@ -125,8 +125,8 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
 
   @Output() change = new EventEmitter<string>();
 
-  geometry!: BufferGeometry;
-  material!: MeshBasicMaterial;
+  @Input() geometry!: BufferGeometry;
+  @Input() material!: MeshBasicMaterial;
 
   protected displaytext!: string;
 
@@ -152,12 +152,19 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
   override preInit() {
     super.preInit();
 
+    if (!this.geometry) this.createTextGeometry();
+    if (!this.material) this.createTextMaterial();
+  }
+
+  createTextGeometry() {
     const flat = new Shape();
     roundedRect(flat, 0, 0, this.width, this.height, 0.02);
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
+  }
 
+  createTextMaterial() {
     this.material = new MeshBasicMaterial({ color: this.buttoncolor });
   }
 
