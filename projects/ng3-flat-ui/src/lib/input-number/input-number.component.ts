@@ -67,6 +67,16 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
     this._hovercolor = newvalue;
   }
 
+  private _disabledcolor?: string;
+  @Input()
+  get disabledcolor(): string {
+    if (this._disabledcolor) return this._disabledcolor;
+    return GlobalFlatUITheme.DisabledColor;
+  }
+  set disabledcolor(newvalue: string) {
+    this._disabledcolor = newvalue;
+  }
+
   private _numbermaterial!: Material
   @Input()
   get numbermaterial(): Material {
@@ -156,8 +166,10 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
     });
 
     GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.material.color.setStyle(this.buttoncolor);
+      this.material.color.setStyle(this.enabled ? this.buttoncolor : this.disabledcolor);
     })
+
+    this.material.color.setStyle(this.enabled ? this.buttoncolor : this.disabledcolor);
   }
 
   private mesh!: Mesh;

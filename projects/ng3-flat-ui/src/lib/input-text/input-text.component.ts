@@ -39,7 +39,7 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
   @Input()
   get enabled(): boolean { return this._enabled }
   set enabled(newvalue: boolean) {
-    this._enabled = true;
+    this._enabled = newvalue;
     this.updatedisplaytext();
   }
 
