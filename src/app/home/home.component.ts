@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit {
     { asset: 'three-gui', text: 'Ng3 GUI' },
     { asset: 'loading', text: 'Loading' },
     { asset: 'stats', text: 'Stats' },
+    { asset: 'work-surface', text: 'Work Surface' },
   ]
 
   panels1: Array<PanelSetting> = [];

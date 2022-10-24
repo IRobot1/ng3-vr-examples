@@ -123,6 +123,7 @@ import { Ng3GuiModule } from '../../projects/ng3-gui/src/public-api';
 import { StatsExample } from '../examples/stats/stats.component';
 import { FlatUIStatsComponent } from '../examples/stats/stats/stats.component';
 import { FlatUIStatsPanelComponent } from '../examples/stats/stats-panel/stats-panel.component';
+import { WorkSurfaceExample } from '../examples/work-surface/work-surface.component';
 
 
 
@@ -246,6 +247,9 @@ import { FlatUIStatsPanelComponent } from '../examples/stats/stats-panel/stats-p
     StatsExample,
     FlatUIStatsPanelComponent,
     FlatUIStatsComponent,
+
+    WorkSurfaceExample,
+
   ],
   imports: [
     BrowserModule,

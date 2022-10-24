@@ -1,0 +1,46 @@
+<ngt-color attach="background" color="darkgray"></ngt-color>
+
+<line-room></line-room>
+
+
+<ngt-point-light [position]="[0, 2.5, 0]" intensity="0.5"></ngt-point-light>
+
+<ngt-group [position]="[0, 0, -0.25]">
+
+  <ngt-group [position]="[0, 0, -1]">
+    <!--legs-->
+    <ngt-mesh [position]="[-0.5, height/2, 0]">
+      <ngt-cylinder-geometry [args]="[0.05, 0.2, height, 4]"></ngt-cylinder-geometry>
+    </ngt-mesh>
+    <ngt-mesh [position]="[0.5, height/2, 0]">
+      <ngt-cylinder-geometry [args]="[0.05, 0.2, height, 4]"></ngt-cylinder-geometry>
+    </ngt-mesh>
+
+    <!--desk surface-->
+    <ngt-mesh [position]="[0, height+0.05, 0]">
+      <ngt-box-geometry [args]="[deskwidth, 0.1, deskdepth]"></ngt-box-geometry>
+      <ngt-mesh-standard-material color="gray"></ngt-mesh-standard-material>
+    </ngt-mesh>
+
+    <!--work surface-->
+    <ngt-mesh [position]="[0, height+0.101, 0]" [rotation]="[-90 | radian, 0, 0]">
+      <ngt-plane-geometry [args]="[deskwidth-0.05, deskdepth-0.05]"></ngt-plane-geometry>
+      <ngt-mesh-standard-material color="black"></ngt-mesh-standard-material>
+    </ngt-mesh>
+
+  </ngt-group>
+
+  <!--side shelf-->
+  <ngt-group [position]="[0, 0, 0.6]">
+    <ngt-mesh [position]="[0, height/2, 0]">
+      <ngt-box-geometry [args]="[2, height, 0.5]"></ngt-box-geometry>
+      <ngt-mesh-standard-material color="gray"></ngt-mesh-standard-material>
+    </ngt-mesh>
+
+  </ngt-group>
+</ngt-group>
+
+<vr-controller navhome></vr-controller>
+<vr-controller [index]="1" navhome></vr-controller>
+
+<ngt-soba-orbit-controls></ngt-soba-orbit-controls>
