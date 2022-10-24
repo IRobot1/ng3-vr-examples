@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, ViewChild } from "@angular/core";
 
-import { Mesh, Object3D } from "three";
+import { MathUtils, Mesh, Object3D } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { GlobalFlatUITheme, InteractiveObjects } from "ng3-flat-ui";
@@ -20,7 +20,14 @@ export class FlatUIStatsComponent extends NgtObjectProps<Mesh> {
   @ViewChild('fps') fpsPanel!: FlatUIStatsPanelComponent;
   @ViewChild('mem') memPanel!: FlatUIStatsPanelComponent;
 
-  panel = 0;
+  private _panel = 0;
+  @Input()
+  get panel(): number { return this._panel }
+  set panel(newvalue: number) {
+    this._panel = MathUtils.clamp(newvalue, 0, 2);
+  }
+
+  @Input() locked = false;
 
   protected width = 0.6;
   protected height = 0.45;
@@ -39,13 +46,14 @@ export class FlatUIStatsComponent extends NgtObjectProps<Mesh> {
   mesh!: Mesh;
   meshready(mesh: Mesh) {
     this.selectable?.add(mesh);
-    mesh.addEventListener('click', (e: any) => { this.doclick(); e.stop = true });
+    mesh.addEventListener('click', (e: any) => { this.nextpanel(); e.stop = true });
 
     this.mesh = mesh;
   }
 
-  protected doclick() {
-    this.nextpanel();
+  nextpanel() {
+    if (this.locked) return;
+    this.panel = ++this.panel % 3;
   }
 
   clicked(object: Object3D, event: NgtEvent<MouseEvent>) {
@@ -53,7 +61,7 @@ export class FlatUIStatsComponent extends NgtObjectProps<Mesh> {
 
     event.stopPropagation();
 
-    this.doclick();
+    this.nextpanel();
   }
 
   tick() {
@@ -79,7 +87,4 @@ export class FlatUIStatsComponent extends NgtObjectProps<Mesh> {
     this.beginTime = time;
   }
 
-  nextpanel() {
-    this.panel = ++this.panel % 3;
-  }
 }

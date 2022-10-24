@@ -21,7 +21,7 @@ export class FlatUIStatsPanelComponent extends NgtObjectProps<Group> {
 
   protected labelmaterial = GlobalFlatUITheme.LabelMaterial;
 
-  protected title! : NgtSobaText;
+  protected title!: NgtSobaText;
   titleready(text: NgtSobaText) {
     this.title = text;
   }
@@ -62,7 +62,7 @@ export class FlatUIStatsPanelComponent extends NgtObjectProps<Group> {
     }
 
     const range = value / maxValue;
-    
+
     this.data.forEach((item, index) => {
       this._matrix.identity();  // reset
       // scale to 88% of height.  Top reserved for text

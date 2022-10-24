@@ -8,11 +8,17 @@
   <ng-template let-parent="parent">
     <ngt-group [appendTo]="parent" [position]="[0, 0, 0.001]">
 
-      <flat-ui-stats [scale]="1" [selectable]="selectable"></flat-ui-stats>
+      <flat-ui-stats [selectable]="selectable"></flat-ui-stats>
 
     </ngt-group>
   </ng-template>
 </flat-ui-drag-panel>
+
+<ngt-group [position]="[0, 1, -1.1]">
+  <flat-ui-stats [position]="[-0.61, 0, 0]" [locked]="true" [panel]="0" [selectable]="selectable"></flat-ui-stats>
+  <flat-ui-stats [locked]="true" [panel]="1" [selectable]="selectable"></flat-ui-stats>
+  <flat-ui-stats [position]="[0.61, 0, 0]" [locked]="true" [panel]="2" [selectable]="selectable"></flat-ui-stats>
+</ngt-group>
 
 <vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
 <vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
