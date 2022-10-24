@@ -9,6 +9,7 @@ import { TwoArmSpiroComponent } from "./two-arm-spiro/two-arm-spiro.component";
 
 import { Exporter } from "./export";
 import { Mesh } from "three";
+import { InteractiveObjects } from "../../../projects/ng3-flat-ui/src/public-api";
 
 @Component({
   templateUrl: './spirograph.component.html'
@@ -19,6 +20,8 @@ export class SpirographExample {
   twoarm!: TwoArmSpiroComponent;
   filename = 'model';
 
+  selectable = new InteractiveObjects();
+
   constructor(
     private cameraService: CameraService,
   ) {
@@ -28,7 +31,6 @@ export class SpirographExample {
   }
 
   public gui!: Ng3GUI;
-  public meshes: Array<Mesh> = [];
 
   private count = 0;
   saveobj() {

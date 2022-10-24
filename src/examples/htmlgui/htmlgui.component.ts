@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 
 import { Mesh } from "three";
+
+import { InteractiveObjects } from "ng3-flat-ui";
+
 import { Ng3GUI } from "ng3-gui";
 
 import { CameraService } from "../../app/camera.service";
@@ -20,7 +23,7 @@ export class HTMLGUIExample implements OnInit {
   };
 
   public gui!: Ng3GUI;
-  public meshes: Array<Mesh> = [];
+  selectable = new InteractiveObjects();
 
   constructor(
     private camera: CameraService,

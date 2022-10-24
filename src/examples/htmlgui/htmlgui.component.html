@@ -21,8 +21,8 @@
   <ngt-mesh-standard-material color="darkgray"></ngt-mesh-standard-material>
 </ngt-mesh>
 
-<vr-controller guipointer showcontroller trackedpointer navhome [guis]="meshes"></vr-controller>
-<vr-controller [index]="1" guipointer showcontroller trackedpointer navhome  [guis]="meshes"></vr-controller>
+<vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
+<vr-controller [index]="1" guipointer showcontroller trackedpointer navhome  [guis]="selectable.list"></vr-controller>
 
-<ng3-gui [position]="[-0.75, 1, -1]" [rotation]="[0, 3.14/4, 0]" scalar="2" [gui]="gui" [scale]="0.5" [resizable]="false" [showclose]="false"></ng3-gui>
+<ng3-gui [position]="[-0.75, 1, -1]" [rotation]="[0, 3.14/4, 0]" scalar="2" [gui]="gui" [scale]="0.5" [resizable]="false" [showclose]="false" [selectable]="selectable"></ng3-gui>
 

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 
 import { Color, InstancedMesh, MathUtils, Matrix4, Mesh, Vector3 } from "three";
 
+import { InteractiveObjects } from "ng3-flat-ui";
 import { Ng3GUI } from "ng3-gui";
 
 import { Exporter } from "../spriograph/export";
@@ -31,7 +32,7 @@ export class ArtificialLifeExample implements OnInit, OnDestroy {
   public bluegui!: Ng3GUI;
   public yellowgui!: Ng3GUI;
 
-  public meshes: Array<Mesh> = [];
+  selectable = new InteractiveObjects()
 
   public data: Array<Cell> = [];
 
