@@ -2,6 +2,12 @@
   <!--[referenceSpaceType]="'viewer'"-->
   <ngt-canvas webvr cameraman [camera]="{ fov: 55, position: [0, 2, 4]}" shadows>
 
+    <ngt-group [position]="[0, 2.5, -2.999]">
+      <flat-ui-stats [position]="[-0.61, 0, 0]" [locked]="true" [panel]="0"></flat-ui-stats>
+      <flat-ui-stats [locked]="true" [panel]="1"></flat-ui-stats>
+      <flat-ui-stats [position]="[0.61, 0, 0]" [locked]="true" [panel]="2"></flat-ui-stats>
+    </ngt-group>
+
     <router-outlet></router-outlet>
 
     <ngt-stats></ngt-stats>
