@@ -5,6 +5,8 @@
 
 <ngt-point-light [position]="[0, 2.5, 0]" intensity="0.5"></ngt-point-light>
 
+<ngt-ring-geometry #ring [args]="[0.1, 0.15, 1, 1, 0, 0.5236]"></ngt-ring-geometry>
+
 <ngt-group [position]="[0, 0, -0.25]">
 
   <ngt-group [position]="[0, 0, -1]">
@@ -26,8 +28,18 @@
     <ngt-mesh [position]="[0, height+0.101, 0]" [rotation]="[-90 | radian, 0, 0]">
       <ngt-plane-geometry [args]="[deskwidth-0.05, deskdepth-0.05]"></ngt-plane-geometry>
       <ngt-mesh-standard-material color="black"></ngt-mesh-standard-material>
-    </ngt-mesh>
 
+      <ng3-gui [position]="[0, 0, 0.001]" [gui]="gui" [scale]="0.5" [resizable]="false" [showclose]="true" [selectable]="selectable"></ng3-gui>
+
+      <!--animated loader and wireframe cube-->
+      <!--<ngt-group [position]="[-deskwidth/2*0.8, -deskdepth/2*0.7, 0.001]">
+          <spokes [count]="10" [offset]="0" [animate]="[0, 0, 0.01]" [geometry]="ring.instance.value" [scale]="0.3"></spokes>
+          <ngt-mesh [position]="[0, 0, 0.05/2]">
+            <ngt-box-geometry [args]="[0.05, 0.05, 0.05]"></ngt-box-geometry>
+            <ngt-mesh-basic-material wireframe></ngt-mesh-basic-material>
+          </ngt-mesh>
+      </ngt-group>-->
+    </ngt-mesh>
   </ngt-group>
 
   <!--side shelf-->
@@ -40,7 +52,7 @@
   </ngt-group>
 </ngt-group>
 
-<vr-controller navhome></vr-controller>
+<vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
 <vr-controller [index]="1" navhome></vr-controller>
 
 <ngt-soba-orbit-controls></ngt-soba-orbit-controls>
