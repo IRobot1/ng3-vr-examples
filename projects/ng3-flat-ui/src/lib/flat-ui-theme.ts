@@ -1,4 +1,4 @@
-import { Material, MeshBasicMaterial, Object3D } from "three";
+import { LineBasicMaterial, Material, MeshBasicMaterial, Object3D } from "three";
 
 export const THEME_CHANGE_EVENT = 'themechanged';
 
@@ -20,6 +20,7 @@ export interface FlatUITheme {
   SelectColor: string,
   ProgressColor: string,
   DisabledColor: string,
+  OutlineColor: string,
 }
 // just in case you want to add to the scheme when saving to GLTF
 
@@ -40,7 +41,8 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   PopupColor = 'gray';
   SelectColor = 'white';
   ProgressColor = 'green';
-  DisabledColor = '#666666'
+  DisabledColor = '#666666';
+  OutlineColor = 'white';
 
   // notify any object using the theme that it changed
   notify() {
@@ -65,6 +67,9 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     this.SelectColor = newtheme.SelectColor
     this.ProgressColor = newtheme.ProgressColor
     this.DisabledColor = newtheme.DisabledColor;
+    this.OutlineColor = newtheme.OutlineColor;
+
+    (this.ButtonMaterial as MeshBasicMaterial).color.setStyle(newtheme.ButtonColor);
 
     (this.LabelMaterial as MeshBasicMaterial).color.setStyle(newtheme.LabelColor);
     (this.NumberMaterial as MeshBasicMaterial).color.setStyle(newtheme.NumberColor);
@@ -80,30 +85,35 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     (this.PanelMaterial as MeshBasicMaterial).color.setStyle(newtheme.PanelColor);
     (this.PopupMaterial as MeshBasicMaterial).color.setStyle(newtheme.PopupColor);
 
+    (this.OutlineMaterial as LineBasicMaterial).color.setStyle(newtheme.OutlineColor);
+
 
     this.notify();
   }
 
-  LabelMaterial !: Material;
-  ButtonMaterial !: Material;
-  HoverMaterial !: Material;
-  ClickMaterial !: Material;
-  ButtonLabelMaterial !: Material;
-  NumberMaterial !: Material;
-  StringMaterial !: Material;
-  CheckMaterial !: Material;
-  SliderMaterial !: Material;
-  ToggleFalseMaterial !: Material;
-  ToggleTrueMaterial !: Material;
-  IconMaterial !: Material;
-  PanelMaterial !: Material;
-  PopupMaterial !: Material;
-  SelectMaterial !: Material;
-  ProgressMaterial !: Material;
-  DisabledMaterial !: Material
+  LabelMaterial!: Material;
+  ButtonMaterial!: Material;
+  HoverMaterial!: Material;
+  ClickMaterial!: Material;
+  ButtonLabelMaterial!: Material;
+  NumberMaterial!: Material;
+  StringMaterial!: Material;
+  CheckMaterial!: Material;
+  SliderMaterial!: Material;
+  ToggleFalseMaterial!: Material;
+  ToggleTrueMaterial!: Material;
+  IconMaterial!: Material;
+  PanelMaterial!: Material;
+  PopupMaterial!: Material;
+  SelectMaterial!: Material;
+  ProgressMaterial!: Material;
+  DisabledMaterial!: Material;
+  OutlineMaterial!: Material;
 
   constructor() {
     super();
+
+    this.ButtonMaterial = new MeshBasicMaterial({ color: this.ButtonColor });
 
     this.LabelMaterial = new MeshBasicMaterial({ color: this.LabelColor });
     this.NumberMaterial = new MeshBasicMaterial({ color: this.NumberColor });
@@ -118,7 +128,10 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
 
     this.PanelMaterial = new MeshBasicMaterial({ color: this.PanelColor });
     this.PopupMaterial = new MeshBasicMaterial({ color: this.PopupColor });
-    
+
+    this.OutlineMaterial = new LineBasicMaterial({ color: this.OutlineColor });
+
+
   }
 
 
