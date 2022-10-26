@@ -65,8 +65,8 @@ export class TouchMoveDirective implements OnInit, OnDestroy {
 
     this.subs.add(this.xr.touchpadaxis.subscribe(next => {
       if (this.touchmove) {
-        this.position.x += next.x * this.speed;
-        this.position.y += next.y * this.speed;
+        this.position.x += next.axis.x * this.speed;
+        this.position.y += next.axis.y * this.speed;
 
         const offsetPosition = <DOMPointReadOnly>{ x: -this.position.x, z: -this.position.y, y: 0, w: 1 };
         const offsetRotation = <DOMPointReadOnly>{ x: 0, y: 0, z: 0, w: 1 };

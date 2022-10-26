@@ -73,7 +73,7 @@ export class PaintBrushDirective implements OnInit, OnDestroy {
 
     this.subs.add(this.xr.joystickaxis.subscribe(next => {
       if (this.paintbrush) {
-        const scale = MathUtils.clamp(this.tip.scale.x - next.y / 50, 0.1, 5)
+        const scale = MathUtils.clamp(this.tip.scale.x - next.axis.y / 50, 0.1, 5)
         this.tip.scale.setScalar(scale);
         this.painter.setSize(scale);
       }

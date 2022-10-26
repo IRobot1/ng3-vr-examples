@@ -12,6 +12,10 @@ export class ConnectedEvent {
   constructor(public controller: Group, public xrinput: XRInputSource) { }
 }
 
+export class AxisEvent {
+  constructor(public axis: Vector2, public deltaTime: number) { }
+}
+
 @Component({
   selector: 'vr-controller',
   template: '<ngt-group (beforeRender)="tick($event)"></ngt-group>',
@@ -31,10 +35,10 @@ export class VRControllerComponent implements OnInit, OnDestroy {
   @Output() gripend = new EventEmitter<XRInputSource>()
 
   @Output() touchpad = new EventEmitter<boolean>()
-  @Output() touchpadaxis = new EventEmitter<Vector2>()
+  @Output() touchpadaxis = new EventEmitter<AxisEvent>()
 
   @Output() joystick = new EventEmitter<boolean>()
-  @Output() joystickaxis = new EventEmitter<Vector2>()
+  @Output() joystickaxis = new EventEmitter<AxisEvent>()
 
   @Output() connected = new BehaviorSubject<ConnectedEvent | undefined>(undefined)
   @Output() disconnected = new EventEmitter<boolean>()
@@ -135,8 +139,8 @@ export class VRControllerComponent implements OnInit, OnDestroy {
 
   touchpad_pressed = false;
   joystick_pressed = false;
-  touchpad_axis = new Vector2();
-  joystick_axis = new Vector2();
+  touchpad_event = new AxisEvent(new Vector2(), 0);
+  joystick_event = new AxisEvent(new Vector2(), 0);
 
   tick(event: { state: NgtRenderState, object: Object3D }) {
     if (this.gamepad) {
@@ -166,14 +170,16 @@ export class VRControllerComponent implements OnInit, OnDestroy {
       }
 
       if (this.touchpadaxis.observed) {
-        this.touchpad_axis.x = this.gamepad.axes[0];
-        this.touchpad_axis.y = this.gamepad.axes[1];
-        this.touchpadaxis.next(this.touchpad_axis);
+        this.touchpad_event.axis.x = this.gamepad.axes[0];
+        this.touchpad_event.axis.y = this.gamepad.axes[1];
+        this.touchpad_event.deltaTime = event.state.delta;
+        this.touchpadaxis.next(this.touchpad_event);
       }
       if (this.joystickaxis.observed) {
-        this.joystick_axis.x = this.gamepad.axes[2];
-        this.joystick_axis.y = this.gamepad.axes[3];
-        this.joystickaxis.next(this.joystick_axis);
+        this.joystick_event.axis.x = this.gamepad.axes[2];
+        this.joystick_event.axis.y = this.gamepad.axes[3];
+        this.joystick_event.deltaTime = event.state.delta;
+        this.joystickaxis.next(this.joystick_event);
       }
     }
     if (this.beforeRender.observed) {
