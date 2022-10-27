@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 
-import { BufferGeometry, Intersection, Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Vector3 } from "three";
+import { BufferGeometry, Intersection, Line, Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Vector3 } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
@@ -34,16 +34,6 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
 
   @Input() selectable?: InteractiveObjects;
 
-  private _panelcolor?: string;
-  @Input()
-  get panelcolor(): string {
-    if (this._panelcolor) return this._panelcolor;
-    return GlobalFlatUITheme.PanelColor;
-  }
-  set panelcolor(newvalue: string) {
-    this._panelcolor = newvalue;
-  }
-
   private _panelmaterial?: Material;
   @Input()
   get panelmaterial(): Material {
@@ -54,15 +44,16 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     this._panelmaterial = newvalue;
   }
 
-  private _hovercolor?: string;
+  private _titlematerial!: Material
   @Input()
-  get hovercolor(): string {
-    if (this._hovercolor) return this._hovercolor;
-    return GlobalFlatUITheme.HoverColor;
+  get titlematerial(): Material {
+    if (this._titlematerial) return this._titlematerial;
+    return GlobalFlatUITheme.TitleMaterial;
   }
-  set hovercolor(newvalue: string) {
-    this._hovercolor = newvalue;
+  set titlematerial(newvalue: Material) {
+    this._titlematerial = newvalue;
   }
+
 
   private _labelmaterial!: Material
   @Input()
@@ -73,6 +64,27 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   set labelmaterial(newvalue: Material) {
     this._labelmaterial = newvalue;
   }
+
+  private _outlinematerial!: Material
+  @Input()
+  get outlinematerial(): Material {
+    if (this._outlinematerial) return this._outlinematerial;
+    return GlobalFlatUITheme.OutlineMaterial;
+  }
+  set outlinematerial(newvalue: Material) {
+    this._outlinematerial = newvalue;
+  }
+
+  private _resizematerial!: Material
+  @Input()
+  get resizematerial(): Material {
+    if (this._resizematerial) return this._resizematerial;
+    return GlobalFlatUITheme.ResizeMaterial;
+  }
+  set resizematerial(newvalue: Material) {
+    this._resizematerial = newvalue;
+  }
+
 
   @Input() locked = false;
   @Input() showexpand = true;
@@ -85,47 +97,35 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
 
   @ContentChild(TemplateRef) templateRef?: TemplateRef<unknown>;
 
-  @Input() geometry!: BufferGeometry;
-  @Input() titlematerial!: MeshBasicMaterial;
+  @Input() geometry!: BufferGeometry; // panel geometry 
+  protected outline!: BufferGeometry; // outline material
+
+  protected titleheight = 0.1;
 
   override preInit() {
     super.preInit();
 
-    if (!this.geometry) this.createPanelGeometry();
-    if (!this.titlematerial) this.createTitleMaterial()
-  }
+    const halfwidth = this.width / 2 - 0.1;
+    const halfheight = this.titleheight / 2;
 
-  createPanelGeometry() {
-    const corner = new Shape();
-    corner.lineTo(0.1, 0)
-    corner.lineTo(0.1, -0.01)
-    corner.lineTo(0.01, -0.01)
-    corner.lineTo(0.01, -0.1)
-    corner.lineTo(0, -0.1)
-    corner.lineTo(0, 0)
+    const title = new Shape();
+    title.moveTo(-halfwidth, halfheight)
+    title.lineTo(halfwidth, halfheight)
+    title.lineTo(halfwidth, -halfheight)
+    title.lineTo(-halfwidth, -halfheight)
+    title.closePath();
 
-    this.geometry = new ShapeGeometry(corner);
-  }
-
-  createTitleMaterial() {
-    this.titlematerial = new MeshBasicMaterial({ color: this.panelcolor, transparent: true, opacity: 0.3 });
+    this.outline = new BufferGeometry().setFromPoints(title.getPoints());
+    this.outline.center();
   }
 
   override ngOnDestroy() {
     super.ngOnDestroy();
 
     this.selectable?.remove(this.mesh);
-
-    this.geometry.dispose();
-    this.titlematerial.dispose();
   }
 
   panelready(panel: Mesh) {
-
-    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.titlematerial.color.setStyle(this.panelcolor);
-    })
-
     panel.visible = false;
     // when expanding, hide long enough for layout to complete once
     const timer = setTimeout(() => {
@@ -134,15 +134,22 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     }, 150)
   }
 
+  line!: Line;
+  lineready(line: Line) {
+    line.visible = false;
+    this.line = line;
+  }
+
+
   isover = false;
   over() {
-    if (this.locked) return;
-    if (this.isover) return;
-    this.titlematerial.color.setStyle(this.hovercolor);
+    if (this.locked || this.isover) return;
+
+    this.line.visible = true;
     this.isover = true;
   }
   out() {
-    this.titlematerial.color.setStyle(this.panelcolor);
+    this.line.visible = false;
     this.isover = false;
   }
 

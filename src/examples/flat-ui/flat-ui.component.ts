@@ -26,6 +26,7 @@ const MatrixTheme: FlatUITheme = {
   ProgressColor: 'lime',
   DisabledColor: '#666666',
   OutlineColor: 'white',
+  ResizeColor: 'white',
 }
 
 @Component({
@@ -169,7 +170,8 @@ export class FlatUIExample implements OnInit, AfterViewInit {
 
   colorpicked(color: string) {
     this.colorvalue = color;
-    this.panelcolor = color;
+    GlobalFlatUITheme.PanelColor = color;
+    GlobalFlatUITheme.notify();
   }
 
   clicked(event: any) {

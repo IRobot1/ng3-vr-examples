@@ -21,6 +21,7 @@ export interface FlatUITheme {
   ProgressColor: string,
   DisabledColor: string,
   OutlineColor: string,
+  ResizeColor: string,
 }
 // just in case you want to add to the scheme when saving to GLTF
 
@@ -43,9 +44,11 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   ProgressColor = 'green';
   DisabledColor = '#666666';
   OutlineColor = 'white';
+  ResizeColor = 'white';
 
   // notify any object using the theme that it changed
   notify() {
+    this.updateMaterial();
     this.dispatchEvent({ type: THEME_CHANGE_EVENT })
   }
 
@@ -68,25 +71,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     this.ProgressColor = newtheme.ProgressColor
     this.DisabledColor = newtheme.DisabledColor;
     this.OutlineColor = newtheme.OutlineColor;
-
-    (this.ButtonMaterial as MeshBasicMaterial).color.setStyle(newtheme.ButtonColor);
-
-    (this.LabelMaterial as MeshBasicMaterial).color.setStyle(newtheme.LabelColor);
-    (this.NumberMaterial as MeshBasicMaterial).color.setStyle(newtheme.NumberColor);
-    (this.StringMaterial as MeshBasicMaterial).color.setStyle(newtheme.StringColor);
-
-    (this.ProgressMaterial as MeshBasicMaterial).color.setStyle(newtheme.ProgressColor);
-    (this.SliderMaterial as MeshBasicMaterial).color.setStyle(newtheme.SlideColor);
-    (this.CheckMaterial as MeshBasicMaterial).color.setStyle(newtheme.CheckColor);
-
-    (this.ToggleFalseMaterial as MeshBasicMaterial).color.setStyle(newtheme.ToggleFalseColor);
-    (this.ToggleTrueMaterial as MeshBasicMaterial).color.setStyle(newtheme.ToggleTrueColor);
-
-    (this.PanelMaterial as MeshBasicMaterial).color.setStyle(newtheme.PanelColor);
-    (this.PopupMaterial as MeshBasicMaterial).color.setStyle(newtheme.PopupColor);
-
-    (this.OutlineMaterial as LineBasicMaterial).color.setStyle(newtheme.OutlineColor);
-
+    this.ResizeColor = newtheme.ResizeColor;
 
     this.notify();
   }
@@ -109,6 +94,8 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   ProgressMaterial!: Material;
   DisabledMaterial!: Material;
   OutlineMaterial!: Material;
+  TitleMaterial!: Material;
+  ResizeMaterial!: Material;
 
   constructor() {
     super();
@@ -127,13 +114,38 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     this.ToggleTrueMaterial = new MeshBasicMaterial({ color: this.ToggleTrueColor });
 
     this.PanelMaterial = new MeshBasicMaterial({ color: this.PanelColor });
+    this.TitleMaterial = new MeshBasicMaterial({ color: this.PanelColor, transparent: true, opacity: 0.3 });
+
     this.PopupMaterial = new MeshBasicMaterial({ color: this.PopupColor });
+    this.ResizeMaterial = new MeshBasicMaterial({ color: this.ResizeColor });
 
     this.OutlineMaterial = new LineBasicMaterial({ color: this.OutlineColor });
 
 
   }
 
+  updateMaterial() {
+    (this.ButtonMaterial as MeshBasicMaterial).color.setStyle(this.ButtonColor);
+
+    (this.LabelMaterial as MeshBasicMaterial).color.setStyle(this.LabelColor);
+    (this.NumberMaterial as MeshBasicMaterial).color.setStyle(this.NumberColor);
+    (this.StringMaterial as MeshBasicMaterial).color.setStyle(this.StringColor);
+
+    (this.ProgressMaterial as MeshBasicMaterial).color.setStyle(this.ProgressColor);
+    (this.SliderMaterial as MeshBasicMaterial).color.setStyle(this.SlideColor);
+    (this.CheckMaterial as MeshBasicMaterial).color.setStyle(this.CheckColor);
+
+    (this.ToggleFalseMaterial as MeshBasicMaterial).color.setStyle(this.ToggleFalseColor);
+    (this.ToggleTrueMaterial as MeshBasicMaterial).color.setStyle(this.ToggleTrueColor);
+
+    (this.PanelMaterial as MeshBasicMaterial).color.setStyle(this.PanelColor);
+    (this.TitleMaterial as MeshBasicMaterial).color.setStyle(this.PanelColor);
+
+    (this.PopupMaterial as MeshBasicMaterial).color.setStyle(this.PopupColor);
+    (this.ResizeMaterial as MeshBasicMaterial).color.setStyle(this.ResizeColor);
+
+    (this.OutlineMaterial as LineBasicMaterial).color.setStyle(this.OutlineColor);
+  }
 
 }
 
