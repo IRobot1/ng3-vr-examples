@@ -55,7 +55,8 @@ export class FlatUIColorPicker extends NgtObjectProps<Mesh> {
     canvas.width = 100;
     canvas.height = 100;
 
-    const context = canvas.getContext('2d');
+    const options: CanvasRenderingContext2DSettings = { willReadFrequently: true }
+    const context = canvas.getContext('2d', options);
     if (!context) return;
 
     const white = context.createLinearGradient(0, 0, 100, 0);
@@ -89,7 +90,8 @@ export class FlatUIColorPicker extends NgtObjectProps<Mesh> {
     canvas.width = 10;
     canvas.height = 100;
 
-    const context = canvas.getContext('2d');
+    const options: CanvasRenderingContext2DSettings = { willReadFrequently: true }
+    const context = canvas.getContext('2d', options);
     if (!context) return;
 
 
