@@ -1,7 +1,7 @@
 <ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale">
   <ngt-mesh #mesh 
             (click)="clicked(mesh.instance.value, $event)" (pointermove)="over()" (pointerout)="out()"
-            [geometry]="geometry" [material]="material"
+            [geometry]="geometry" 
             (ready)="meshready($event)">
 
     <ngt-mesh [position]="[0, 0, 0.001]" [scale]="svgscale" [geometry]="icongeometry" [material]="iconmaterial"></ngt-mesh>

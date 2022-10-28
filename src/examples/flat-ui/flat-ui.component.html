@@ -75,9 +75,15 @@
       </ngt-group>
 
       <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
-        <flat-ui-label [text]="'boolean'" [width]="0.5"></flat-ui-label>
+        <flat-ui-label [text]="'check box'" [width]="0.5"></flat-ui-label>
         <flat-ui-input-checkbox [position]="[0.4, 0, 0]" [checked]="checked" [selectable]="selectable" (change)="changed($event)"></flat-ui-input-checkbox>
+        <flat-ui-input-checkbox [position]="[0.4, 0, 0]" [enabled]="false" [checked]="checked" [selectable]="selectable" (change)="changed($event)"></flat-ui-input-checkbox>
+      </ngt-group>
+
+      <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
+        <flat-ui-label [text]="'toggle'" [width]="0.5"></flat-ui-label>
         <flat-ui-input-toggle [position]="[0.55, 0, 0]" [checked]="checked" [selectable]="selectable" (change)="changed($event)"></flat-ui-input-toggle>
+        <flat-ui-input-toggle [position]="[0.55, 0, 0]" [enabled]="false" [checked]="checked" [selectable]="selectable" (change)="changed($event)"></flat-ui-input-toggle>
       </ngt-group>
 
       <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">

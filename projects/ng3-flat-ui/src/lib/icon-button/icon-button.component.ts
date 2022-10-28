@@ -25,7 +25,8 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
   get enabled(): boolean { return this._enabled }
   set enabled(newvalue: boolean) {
     this._enabled = newvalue;
-    this.setButtonColor();
+    if (this.mesh)
+      this.setButtonColor();
   }
 
 
@@ -88,7 +89,6 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
   protected geometry!: BufferGeometry;
   protected icongeometry!: BufferGeometry;
 
-  protected material!: Material; // button or disabled material
   protected outline!: BufferGeometry; // outline material
 
   protected svgscale!: Vector3;
@@ -114,10 +114,10 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
 
   setButtonColor() {
     if (this.enabled) {
-      this.material = this.buttonmaterial;
+      this.mesh.material = this.buttonmaterial;
     }
     else {
-      this.material = this.disabledmaterial;
+      this.mesh.material = this.disabledmaterial;
     }
   }
 
@@ -137,10 +137,9 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
       e.height = this.width;
       e.updated = true;
     });
-    this.setButtonColor();
   }
 
-  line!: Line;
+  private line!: Line;
   lineready(line: Line) {
     line.visible = false;
     this.line = line;
@@ -157,6 +156,7 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
     mesh.addEventListener('pointerout', () => { this.out() });
 
     this.mesh = mesh;
+    this.setButtonColor();
   }
 
 

@@ -39,7 +39,7 @@ export class FlatUIExample implements OnInit, AfterViewInit {
   panelheight = 0.4;
   showimage = true;
 
-  checked = false;
+  checked = true;
   textvalue = 'string';
   buttonvalue = 'Start'
   numbervalue = 0.1;

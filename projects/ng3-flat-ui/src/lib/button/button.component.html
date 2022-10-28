@@ -2,7 +2,7 @@
 
   <ngt-mesh #mesh
             (click)="clicked(mesh.instance.value, $event)"
-            [geometry]="geometry" [material]="material"
+            [geometry]="geometry" 
             (pointerover)="over();$event.stopPropagation()" (pointerout)="out();$event.stopPropagation()"
             (ready)="meshready($event)">
 

@@ -46,7 +46,8 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
   get enabled(): boolean { return this._enabled }
   set enabled(newvalue: boolean) {
     this._enabled = newvalue;
-    this.setButtonColor();
+    if (this.mesh)
+      this.setButtonColor();
   }
 
 
@@ -98,7 +99,6 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
 
   @Output() pressed = new EventEmitter<string>();
 
-  protected material!: Material; // button material
   protected outline!: BufferGeometry; // outline material
 
   private mesh!: Mesh; // button mesh
@@ -122,10 +122,10 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
 
   setButtonColor() {
     if (this.enabled) {
-      this.material = this.buttonmaterial;
+      this.mesh.material = this.buttonmaterial;
     }
     else {
-      this.material = this.disabledmaterial;
+      this.mesh.material = this.disabledmaterial;
     }
   }
 
@@ -144,8 +144,6 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
       e.height = this.height;
       e.updated = true;
     });
-
-    this.setButtonColor();
   }
 
   private line!: Line;
@@ -162,6 +160,7 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
     mesh.addEventListener('pointerout', (e: any) => { this.out(); e.stop = true; });
 
     this.mesh = mesh;
+    this.setButtonColor();
   }
 
   clicked(mesh: Mesh, event: NgtEvent<MouseEvent>) {
