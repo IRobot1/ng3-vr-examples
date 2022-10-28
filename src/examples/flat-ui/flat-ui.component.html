@@ -15,9 +15,15 @@
       </ngt-group>
 
       <ngt-group horizontal-layout>
+        <flat-ui-label [text]="'number'" [width]="0.6"></flat-ui-label>
+        <flat-ui-input-number #num2 [min]="-10" [max]="10" [text]="slidertext" [width]="0.4" [selectable]="selectable" (openinput)="opennumpad($event, num2)" (change)="slidervalue=$event"></flat-ui-input-number>
+        <flat-ui-input-number [enabled]="false" [min]="-10" [max]="10" [text]="slidertext" [width]="0.4"></flat-ui-input-number>
+      </ngt-group>
+
+      <ngt-group horizontal-layout>
         <flat-ui-label [text]="'slider'" [width]="0.6"></flat-ui-label>
-        <flat-ui-input-number #num2 [position]="[0.5, 0, 0]" [min]="-10" [max]="10" [text]="slidertext" [width]="0.4" [selectable]="selectable" (openinput)="opennumpad($event, num2)" (change)="slidervalue=$event"></flat-ui-input-number>
         <flat-ui-input-slider [min]="-10" [max]="10" [width]="0.4" [value]="slidervalue" [selectable]="selectable" (change)="slidervalue=$event"></flat-ui-input-slider>
+        <flat-ui-input-slider [enabled]="false" [min]="-10" [max]="10" [width]="0.4" [value]="slidervalue"></flat-ui-input-slider>
       </ngt-group>
 
       <ngt-group horizontal-layout>
@@ -29,12 +35,6 @@
         <flat-ui-label [text]="'panel color'" [width]="0.6"></flat-ui-label>
         <flat-ui-input-color #color [text]="colorvalue" [selectable]="selectable" (openinput)="opencolor($event, color)"></flat-ui-input-color>
         <flat-ui-input-text #tinput2 [text]="colorvalue" [overflow]="7" [width]="0.5" [enabled]="false" (openinput)="openkeyboard($event, tinput2)"></flat-ui-input-text>
-      </ngt-group>
-
-
-      <ngt-group horizontal-layout>
-        <flat-ui-label [text]="'number'" [width]="0.6"></flat-ui-label>
-        <flat-ui-input-number #num1 [text]="numbertext" [width]="0.4" [selectable]="selectable" (openinput)="opennumpad($event, num1)" (change)="numbervalue=$event"></flat-ui-input-number>
       </ngt-group>
 
       <ngt-group horizontal-layout [margin]="[0.1, 0, 0]">
@@ -55,7 +55,7 @@
 
 <flat-ui-drag-panel [title]="'Draggable Panel'" [showclose]="false"  [position]="[0, 1.25, -2.5]" [selectable]="selectable">
   <ng-template let-parent="parent">
-    <ngt-group vertical-layout [margin]="[0, 0.02, 0]" [appendTo]="parent" [position]="[-0.5, 0.5, 0.002]">
+    <ngt-group vertical-layout  [margin]="[0, 0.02, 0]" [appendTo]="parent" [position]="[-0.5, 0.5, 0.002]">
 
       <ngt-group horizontal-layout>
         <flat-ui-expansion-panel [title]="'Folder1'" [height]="panelheight" [selectable]="selectable">

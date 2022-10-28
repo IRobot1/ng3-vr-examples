@@ -17,7 +17,7 @@ const MatrixTheme: FlatUITheme = {
   StringColor: 'lime',
   CheckColor: 'lime',
   SlideColor: 'lime',
-  ToggleFalseColor: 'darkgreen',
+  ToggleFalseColor: 'green',
   ToggleTrueColor: 'lime',
   IconColor: 'lime',
   PanelColor: '#0e410e',
@@ -36,7 +36,7 @@ export class FlatUIExample implements OnInit, AfterViewInit {
 
   selectable = new InteractiveObjects();;
 
-  panelheight = 0.4;
+  panelheight = 0.3;
   showimage = true;
 
   checked = true;

@@ -1,10 +1,10 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, Intersection, Material, MathUtils, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Intersection, Line, Material, MathUtils, Mesh, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
-import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
+import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 
@@ -81,36 +81,43 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
   }
 
 
-  @Input() enabled = true;
-
-  private _buttoncolor?: string;
+  private _enabled = true;
   @Input()
-  get buttoncolor(): string {
-    if (this._buttoncolor) return this._buttoncolor;
-    return GlobalFlatUITheme.ButtonColor;
-  }
-  set buttoncolor(newvalue: string) {
-    this._buttoncolor = newvalue;
+  get enabled(): boolean { return this._enabled }
+  set enabled(newvalue: boolean) {
+    this._enabled = newvalue;
+    if (this.mesh)
+      this.setBackgroundColor();
   }
 
-  private _disabledcolor?: string;
+  private _backgroundmaterial!: Material
   @Input()
-  get disabledcolor(): string {
-    if (this._disabledcolor) return this._disabledcolor;
-    return GlobalFlatUITheme.DisabledColor;
+  get backgroundmaterial(): Material {
+    if (this._backgroundmaterial) return this._backgroundmaterial;
+    return GlobalFlatUITheme.ButtonMaterial;
   }
-  set disabledcolor(newvalue: string) {
-    this._disabledcolor = newvalue;
+  set backgroundmaterial(newvalue: Material) {
+    this._backgroundmaterial = newvalue;
   }
 
-  private _hovercolor?: string;
+  private _outlinematerial!: Material
   @Input()
-  get hovercolor(): string {
-    if (this._hovercolor) return this._hovercolor;
-    return GlobalFlatUITheme.HoverColor;
+  get outlinematerial(): Material {
+    if (this._outlinematerial) return this._outlinematerial;
+    return GlobalFlatUITheme.OutlineMaterial;
   }
-  set hovercolor(newvalue: string) {
-    this._hovercolor = newvalue;
+  set outlinematerial(newvalue: Material) {
+    this._outlinematerial = newvalue;
+  }
+
+  private _disabledmaterial!: Material
+  @Input()
+  get disabledmaterial(): Material {
+    if (this._disabledmaterial) return this._disabledmaterial;
+    return GlobalFlatUITheme.DisabledMaterial;
+  }
+  set disabledmaterial(newvalue: Material) {
+    this._disabledmaterial = newvalue;
   }
 
   private _slidermaterial!: Material
@@ -123,13 +130,11 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
     this._slidermaterial = newvalue;
   }
 
-
   @Input() selectable?: InteractiveObjects;
 
   @Output() change = new EventEmitter<number>();
 
   @Input() geometry!: BufferGeometry;
-  @Input() material!: MeshBasicMaterial;
 
   get x(): number {
     if (this.min != undefined && this.max != undefined) {
@@ -141,11 +146,12 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
   protected innerscale = 0.7;
   protected radius = 0.04;
 
+  protected outline!: BufferGeometry; // outline material
+
   override preInit() {
     super.preInit();
 
     if (!this.geometry) this.createSliderGeometry();
-    if (!this.material) this.createSliderMaterial();
   }
 
   createSliderGeometry() {
@@ -154,11 +160,20 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
+
+    this.outline = new BufferGeometry().setFromPoints(flat.getPoints());
+    this.outline.center();
   }
 
-  createSliderMaterial() {
-    this.material = new MeshBasicMaterial({ color: this.buttoncolor });
+  setBackgroundColor() {
+    if (this.enabled) {
+      this.mesh.material = this.backgroundmaterial;
+    }
+    else {
+      this.mesh.material = this.disabledmaterial;
+    }
   }
+
 
   override ngOnDestroy() {
     super.ngOnDestroy();
@@ -167,7 +182,6 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
     this.selectable?.remove(this.slidermesh);
 
     this.geometry.dispose();
-    this.material.dispose();
   }
 
   ngAfterViewInit(): void {
@@ -176,13 +190,14 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
       e.height = this.height;
       e.updated = true;
     });
-
-    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.material.color.setStyle(this.enabled ? this.buttoncolor : this.disabledcolor);
-    })
-
-    this.material.color.setStyle(this.enabled ? this.buttoncolor : this.disabledcolor);
   }
+
+  private line!: Line;
+  lineready(line: Line) {
+    line.visible = false;
+    this.line = line;
+  }
+
 
   private mesh!: Mesh;
 
@@ -198,6 +213,7 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
     mesh.addEventListener('raymissed', () => { this.dragging = false; });
 
     this.mesh = mesh;
+    this.setBackgroundColor();
   }
 
   private slidermesh!: Mesh;
@@ -242,11 +258,10 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
     if (this.dragging) {
       this.doclicked(mesh, event);
     }
-    this.material.color.setStyle(this.hovercolor);
+    this.line.visible = true;
   }
 
   protected out() {
-    if (!this.enabled) return;
-    this.material.color.setStyle(this.buttoncolor);
+    this.line.visible = false;
   }
 }

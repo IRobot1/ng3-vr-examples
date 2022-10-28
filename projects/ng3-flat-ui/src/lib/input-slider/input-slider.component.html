@@ -1,11 +1,18 @@
-<ngt-mesh #mesh [name]="name" [visible]="visible"
-          (click)="clicked(mesh.instance.value, $event)"
-          (pointerdown)="dragging=true" (pointerup)="dragging=false"
-          (pointermove)="over(mesh.instance.value, $event)" (pointerout)="out();dragging=false"
-          [position]="position" [rotation]="rotation" [scale]="scale"
-          [geometry]="geometry" [material]="material" (ready)="meshready($event)">
+<ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale">
 
-  <ngt-mesh [position]="[x*innerscale, 0, 0.0001]" (ready)="sliderready($event)" [material]="slidermaterial">
-    <ngt-circle-geometry [args]="[radius, 32]"></ngt-circle-geometry>
+  <ngt-mesh #mesh
+            (click)="clicked(mesh.instance.value, $event)"
+            (pointerdown)="dragging=true" (pointerup)="dragging=false"
+            (pointermove)="over(mesh.instance.value, $event)" (pointerout)="out();dragging=false"
+            [geometry]="geometry"
+            (ready)="meshready($event)">
+
+    <ngt-mesh [position]="[x*innerscale, 0, 0.0001]" (ready)="sliderready($event)" [material]="slidermaterial">
+      <ngt-circle-geometry [args]="[radius, 32]"></ngt-circle-geometry>
+    </ngt-mesh>
   </ngt-mesh>
-</ngt-mesh>
+
+  <ngt-line (ready)="lineready($event)"
+            [geometry]="outline" [material]="outlinematerial"> </ngt-line>
+
+</ngt-group>
