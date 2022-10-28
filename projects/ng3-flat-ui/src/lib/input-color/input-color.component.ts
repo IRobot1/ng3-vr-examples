@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Line, Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -20,9 +20,7 @@ export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewI
   get text(): string { return this._text }
   set text(newvalue: string) {
     this._text = newvalue;
-    if (this.material) {
-      this.updatecolor();
-    }
+    this.updatecolor();
     this.change.next(newvalue);
   }
 
@@ -49,39 +47,33 @@ export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewI
   }
 
 
-  private _buttoncolor?: string;
+  private _outlinematerial!: Material
   @Input()
-  get buttoncolor(): string {
-    if (this._buttoncolor) return this._buttoncolor;
-    return GlobalFlatUITheme.ButtonColor;
+  get outlinematerial(): Material {
+    if (this._outlinematerial) return this._outlinematerial;
+    return GlobalFlatUITheme.OutlineMaterial;
   }
-  set buttoncolor(newvalue: string) {
-    this._buttoncolor = newvalue;
+  set outlinematerial(newvalue: Material) {
+    this._outlinematerial = newvalue;
   }
 
-  private _hovercolor?: string;
-  @Input()
-  get hovercolor(): string {
-    if (this._hovercolor) return this._hovercolor;
-    return GlobalFlatUITheme.HoverColor;
-  }
-  set hovercolor(newvalue: string) {
-    this._hovercolor = newvalue;
-  }
 
   @Input() selectable?: InteractiveObjects;
 
   @Input() geometry!: BufferGeometry;
-  @Input() material!: Material;
 
   inputopen = false;
   @Output() openinput = new EventEmitter<Object3D>();
 
   @Output() change = new EventEmitter<string>();
 
+  protected outline!: BufferGeometry; // outline material
+  protected material!: Material;
 
-  updatecolor() {
-    (this.material as MeshBasicMaterial).color.setStyle(this.text);
+  private updatecolor() {
+    if (!this.mesh) return;
+
+    (this.mesh.material as MeshBasicMaterial).color.setStyle(this.text);
   }
 
   override preInit() {
@@ -92,25 +84,22 @@ export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewI
   }
 
   createButtonGeometry() {
-    const flat = new Shape();
+    let flat = new Shape();
     roundedRect(flat, 0, 0, this.width, this.height, 0.02);
+
+    this.outline = new BufferGeometry().setFromPoints(flat.getPoints());
+    this.outline.center();
+
+    flat = new Shape();
+    roundedRect(flat, 0, 0, this.width-0.01, this.height-0.01, 0.02);
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
+
   }
 
   createButtonMaterial() {
-    this.material = new MeshBasicMaterial({ color: this.buttoncolor });
-  }
-
-  setButtonColor(color: string) {
-    if (this.material)
-      (this.material as MeshBasicMaterial).color.setStyle(color);
-  }
-
-
-  override ngOnInit() {
-    super.ngOnInit();
+    this.material = new MeshBasicMaterial();
     this.updatecolor();
   }
 
@@ -129,10 +118,12 @@ export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewI
       e.height = this.height;
       e.updated = true;
     });
+  }
 
-    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.setButtonColor(this.buttoncolor);
-    })
+  private line!: Line;
+  lineready(line: Line) {
+    line.visible = false;
+    this.line = line;
   }
 
 
@@ -146,6 +137,7 @@ export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewI
     mesh.addEventListener('pointerout', () => { this.out() });
 
     this.mesh = mesh;
+    this.updatecolor();
   }
 
   protected enableinput(mesh: Mesh) {
@@ -158,12 +150,12 @@ export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewI
   private isover = false;
   protected over() {
     if (this.isover || !this.enabled) return;
-    this.setButtonColor(this.hovercolor);
+    this.line.visible = true;
     this.isover = true;
   }
   protected out() {
     if (!this.enabled) return;
-    this.setButtonColor(this.text);
+    this.line.visible = false;
     this.isover = false;
   }
 }
