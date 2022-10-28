@@ -8,8 +8,8 @@ import { FlatUITheme, GlobalFlatUITheme, InteractiveObjects, ListItem, UIInput }
 import { CameraService } from "../../app/camera.service";
 
 const MatrixTheme: FlatUITheme = {
-  LabelColor: 'gray',
-  ButtonColor: 'green',
+  LabelColor: 'silver',
+  ButtonColor: 'darkgreen',
   HoverColor: 'lightgreen',
   ClickColor: 'black',
   ButtonLabelColor: 'gray',
@@ -24,9 +24,9 @@ const MatrixTheme: FlatUITheme = {
   PopupColor: '#2c4e2c',
   SelectColor: 'gray',
   ProgressColor: 'lime',
-  DisabledColor: '#666666',
-  OutlineColor: 'white',
-  ResizeColor: 'white',
+  DisabledColor: '#555555',
+  OutlineColor: 'lime',
+  ResizeColor: 'lime',
 }
 
 @Component({
