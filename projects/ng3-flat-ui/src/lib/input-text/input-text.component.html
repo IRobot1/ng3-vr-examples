@@ -1,14 +1,20 @@
-<ngt-mesh #mesh [name]="name" [visible]="visible"
-          (click)="enableinput(mesh.instance.value)" (pointermove)="over()" (pointerout)="out()"
-          [position]="position" [rotation]="rotation" [scale]="scale"
-          [geometry]="geometry" [material]="material"
-          (ready)="meshready($event)">
+<ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale">
 
-  <ngt-soba-text [text]="displaytext"
-                 [material]="textmaterial"
-                 [anchorX]="'left'"
-                 [fontSize]="0.07"
-                 [position]="[-width/2+0.01, 0, 0.001]">
-  </ngt-soba-text>
+  <ngt-mesh #mesh
+            (click)="enableinput(mesh.instance.value)" (pointermove)="over()" (pointerout)="out()"
+            [geometry]="geometry"
+            (ready)="meshready($event)">
 
-</ngt-mesh>
+    <ngt-soba-text [text]="displaytext"
+                   [material]="textmaterial"
+                   [anchorX]="'left'"
+                   [fontSize]="0.07"
+                   [position]="[-width/2+0.01, 0, 0.001]">
+    </ngt-soba-text>
+
+  </ngt-mesh>
+
+  <ngt-line (ready)="lineready($event)"
+            [geometry]="outline" [material]="outlinematerial"> </ngt-line>
+
+</ngt-group>

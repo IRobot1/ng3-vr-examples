@@ -1,10 +1,10 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Line, Material, Mesh, Object3D, Shape, ShapeGeometry } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
-import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
+import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 
@@ -41,6 +41,8 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
   set enabled(newvalue: boolean) {
     this._enabled = newvalue;
     this.updatedisplaytext();
+    if (this.mesh)
+      this.setBackgroundColor();
   }
 
   private _placeholder?: string;
@@ -54,34 +56,34 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
 
   @Input() selectable?: InteractiveObjects;
 
-  private _buttoncolor?: string;
+  private _backgroundmaterial!: Material
   @Input()
-  get buttoncolor(): string {
-    if (this._buttoncolor) return this._buttoncolor;
-    return GlobalFlatUITheme.ButtonColor;
+  get backgroundmaterial(): Material {
+    if (this._backgroundmaterial) return this._backgroundmaterial;
+    return GlobalFlatUITheme.ButtonMaterial;
   }
-  set buttoncolor(newvalue: string) {
-    this._buttoncolor = newvalue;
+  set backgroundmaterial(newvalue: Material) {
+    this._backgroundmaterial = newvalue;
   }
 
-  private _disabledcolor?: string;
+  private _outlinematerial!: Material
   @Input()
-  get disabledcolor(): string {
-    if (this._disabledcolor) return this._disabledcolor;
-    return GlobalFlatUITheme.DisabledColor;
+  get outlinematerial(): Material {
+    if (this._outlinematerial) return this._outlinematerial;
+    return GlobalFlatUITheme.OutlineMaterial;
   }
-  set disabledcolor(newvalue: string) {
-    this._disabledcolor = newvalue;
+  set outlinematerial(newvalue: Material) {
+    this._outlinematerial = newvalue;
   }
 
-  private _hovercolor?: string;
+  private _disabledmaterial!: Material
   @Input()
-  get hovercolor(): string {
-    if (this._hovercolor) return this._hovercolor;
-    return GlobalFlatUITheme.HoverColor;
+  get disabledmaterial(): Material {
+    if (this._disabledmaterial) return this._disabledmaterial;
+    return GlobalFlatUITheme.DisabledMaterial;
   }
-  set hovercolor(newvalue: string) {
-    this._hovercolor = newvalue;
+  set disabledmaterial(newvalue: Material) {
+    this._disabledmaterial = newvalue;
   }
 
   private _textmaterial!: Material
@@ -126,9 +128,9 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
   @Output() change = new EventEmitter<string>();
 
   @Input() geometry!: BufferGeometry;
-  @Input() material!: MeshBasicMaterial;
 
   protected displaytext!: string;
+  protected outline!: BufferGeometry; // outline material
 
   private updatedisplaytext() {
     let text
@@ -153,7 +155,6 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
     super.preInit();
 
     if (!this.geometry) this.createTextGeometry();
-    if (!this.material) this.createTextMaterial();
   }
 
   createTextGeometry() {
@@ -162,10 +163,18 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
+
+    this.outline = new BufferGeometry().setFromPoints(flat.getPoints());
+    this.outline.center();
   }
 
-  createTextMaterial() {
-    this.material = new MeshBasicMaterial({ color: this.buttoncolor });
+  setBackgroundColor() {
+    if (this.enabled) {
+      this.mesh.material = this.backgroundmaterial;
+    }
+    else {
+      this.mesh.material = this.disabledmaterial;
+    }
   }
 
   override ngOnDestroy() {
@@ -174,7 +183,6 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
     this.selectable?.remove(this.mesh);
 
     this.geometry.dispose();
-    this.material.dispose();
   }
 
   ngAfterViewInit(): void {
@@ -183,12 +191,12 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
       e.height = this.height;
       e.updated = true;
     });
+  }
 
-    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.material.color.setStyle(this.enabled ? this.buttoncolor : this.disabledcolor);
-    })
-
-    this.material.color.setStyle(this.enabled ? this.buttoncolor : this.disabledcolor);
+  private line!: Line;
+  lineready(line: Line) {
+    line.visible = false;
+    this.line = line;
   }
 
 
@@ -202,6 +210,7 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
     mesh.addEventListener('pointerout', () => { this.out() });
 
     this.mesh = mesh;
+    this.setBackgroundColor();
   }
 
   enableinput(mesh: Mesh) {
@@ -215,12 +224,12 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
   isover = false;
   over() {
     if (this.isover || !this.enabled) return;
-    this.material.color.setStyle(this.hovercolor);
+    this.line.visible = true;
     this.isover = true;
   }
   out() {
     if (!this.enabled) return;
-    this.material.color.setStyle(this.buttoncolor);
+    this.line.visible = false;
     this.isover = false;
   }
 }
