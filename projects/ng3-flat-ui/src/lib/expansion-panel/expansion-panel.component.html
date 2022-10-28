@@ -2,10 +2,9 @@
            [position]="position" [rotation]="rotation" [scale]="scale">
 
   <ngt-group [position]="[0, height/2-titleheight/2, 0]" (ready)="group = $event">
-    <ngt-mesh [material]="titlematerial" [position]="[titleheight/2, 0, 0]"
-              (ready)="meshready($event)">
 
-      <ngt-plane-geometry [args]="[width-titleheight-0.04, titleheight]"></ngt-plane-geometry>
+    <ngt-mesh [material]="panelmaterial" (ready)="meshready($event)">
+      <ngt-plane-geometry [args]="[width, titleheight]"></ngt-plane-geometry>
     </ngt-mesh>
 
     <ngt-group [position]="[titleheight/2, 0, 0]">
