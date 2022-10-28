@@ -18,26 +18,43 @@ export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterView
   @Input() checked = false;
   @Input() segments = 32;
 
-  @Input() enabled = true;
 
-  private _buttoncolor?: string;
+  private _enabled = true;
   @Input()
-  get buttoncolor(): string {
-    if (this._buttoncolor) return this._buttoncolor;
-    return GlobalFlatUITheme.ButtonColor;
-  }
-  set buttoncolor(newvalue: string) {
-    this._buttoncolor = newvalue;
+  get enabled(): boolean { return this._enabled }
+  set enabled(newvalue: boolean) {
+    this._enabled = newvalue;
+    this.setBackgroundColor();
   }
 
-  private _hovercolor?: string;
+  private _backgroundmaterial!: Material
   @Input()
-  get hovercolor(): string {
-    if (this._hovercolor) return this._hovercolor;
-    return GlobalFlatUITheme.HoverColor;
+  get backgroundmaterial(): Material {
+    if (this._backgroundmaterial) return this._backgroundmaterial;
+    return GlobalFlatUITheme.ButtonMaterial;
   }
-  set hovercolor(newvalue: string) {
-    this._hovercolor = newvalue;
+  set backgroundmaterial(newvalue: Material) {
+    this._backgroundmaterial = newvalue;
+  }
+
+  private _outlinematerial!: Material
+  @Input()
+  get outlinematerial(): Material {
+    if (this._outlinematerial) return this._outlinematerial;
+    return GlobalFlatUITheme.OutlineMaterial;
+  }
+  set outlinematerial(newvalue: Material) {
+    this._outlinematerial = newvalue;
+  }
+
+  private _disabledmaterial!: Material
+  @Input()
+  get disabledmaterial(): Material {
+    if (this._disabledmaterial) return this._disabledmaterial;
+    return GlobalFlatUITheme.DisabledMaterial;
+  }
+  set disabledmaterial(newvalue: Material) {
+    this._disabledmaterial = newvalue;
   }
   private _width = 0.1;
   @Input()
@@ -54,8 +71,6 @@ export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterView
 
   @Output() change = new EventEmitter<boolean>();
 
-  @Input() material!: MeshBasicMaterial;
-
   private _checkmaterial!: Material
   @Input()
   get checkmaterial(): Material {
@@ -66,23 +81,22 @@ export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterView
     this._checkmaterial = newvalue;
   }
 
+  setBackgroundColor() {
+    if (!this.mesh) return;
 
-  override preInit() {
-    super.preInit();
-
-    if (!this.material) this.createRadioMaterial()
+    if (this.enabled) {
+      this.mesh.material = this.backgroundmaterial;
+    }
+    else {
+      this.mesh.material = this.disabledmaterial;
+    }
   }
 
-  createRadioMaterial() {
-    this.material = new MeshBasicMaterial({ color: this.buttoncolor });
-  }
 
   override ngOnDestroy() {
     super.ngOnDestroy();
 
     this.selectable?.remove(this.checkmesh);
-
-    this.material.dispose();
   }
 
   ngAfterViewInit(): void {
@@ -91,16 +105,13 @@ export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterView
       e.height = this.width;
       e.updated = true;
     });
-
-    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.material.color.setStyle(this.buttoncolor);
-    })
   }
 
   private mesh!: Mesh;
 
   protected meshready(mesh: Mesh) {
     this.mesh = mesh;
+    this.setBackgroundColor();
   }
 
   private checkmesh!: Mesh;
@@ -131,13 +142,13 @@ export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterView
   private isover = false;
   protected over() {
     if (this.isover || !this.enabled) return;
-    this.material.color.setStyle(this.hovercolor);
+    this.mesh.material = this.outlinematerial;
     this.isover = true;
   }
 
   protected out() {
     if (!this.enabled) return;
-    this.material.color.setStyle(this.buttoncolor);
+    this.mesh.material = this.backgroundmaterial;
     this.isover = false;
   }
 
