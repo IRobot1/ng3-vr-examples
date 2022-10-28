@@ -51,6 +51,8 @@
   </ng-template>
 </flat-ui-drag-panel>
 
+<ngt-mesh-basic-material #iconmaterial noAppend color="#990000"></ngt-mesh-basic-material>
+
 <flat-ui-drag-panel [title]="'Draggable Panel'" [showclose]="false"  [position]="[0, 1.25, -2.5]" [selectable]="selectable">
   <ng-template let-parent="parent">
     <ngt-group vertical-layout [margin]="[0, 0.02, 0]" [appendTo]="parent" [position]="[-0.5, 0.5, 0.002]">
@@ -63,7 +65,7 @@
               <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
                 <flat-ui-label [text]="'icon button'" [width]="0.6"></flat-ui-label>
                 <flat-ui-icon-button [svg]="svg" [enabled]="false" (pressed)="clicked($event)" [selectable]="selectable"></flat-ui-icon-button>
-                <flat-ui-icon-button [url]="'assets/webgl.svg'" [iconcolor]="'#990000'" [selectable]="selectable" (pressed)="clicked($event)"></flat-ui-icon-button>
+                <flat-ui-icon-button [url]="'assets/webgl.svg'" [iconmaterial]="iconmaterial.instance.value" [selectable]="selectable" (pressed)="clicked($event)"></flat-ui-icon-button>
               </ngt-group>
 
               </ngt-group>
@@ -71,12 +73,6 @@
 
         </flat-ui-expansion-panel>
       </ngt-group>
-
-      <!--<ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
-        <flat-ui-label [text]="'icon button'" [width]="0.6"></flat-ui-label>
-        <flat-ui-icon-button [svg]="svg" [enabled]="false" (pressed)="clicked($event)" [selectable]="selectable"></flat-ui-icon-button>
-        <flat-ui-icon-button [url]="'assets/webgl.svg'" [iconcolor]="'#990000'" [selectable]="selectable" (pressed)="clicked($event)"></flat-ui-icon-button>
-      </ngt-group>-->
 
       <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
         <flat-ui-label [text]="'boolean'" [width]="0.5"></flat-ui-label>

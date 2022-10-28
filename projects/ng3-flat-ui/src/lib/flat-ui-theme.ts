@@ -101,6 +101,8 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     super();
 
     this.ButtonMaterial = new MeshBasicMaterial({ color: this.ButtonColor });
+    this.IconMaterial = new MeshBasicMaterial({ color: this.IconColor });
+    this.DisabledMaterial = new MeshBasicMaterial({ color: this.DisabledColor });
 
     this.LabelMaterial = new MeshBasicMaterial({ color: this.LabelColor });
     this.NumberMaterial = new MeshBasicMaterial({ color: this.NumberColor });
@@ -126,6 +128,8 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
 
   updateMaterial() {
     (this.ButtonMaterial as MeshBasicMaterial).color.setStyle(this.ButtonColor);
+    (this.IconMaterial as MeshBasicMaterial).color.setStyle(this.IconColor);
+    (this.DisabledMaterial as MeshBasicMaterial).color.setStyle(this.DisabledColor);
 
     (this.LabelMaterial as MeshBasicMaterial).color.setStyle(this.LabelColor);
     (this.NumberMaterial as MeshBasicMaterial).color.setStyle(this.NumberColor);

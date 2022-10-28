@@ -4,7 +4,7 @@ import { BufferGeometry, Line, Material, Mesh, Shape, ShapeGeometry } from "thre
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
-import { THEME_CHANGE_EVENT, GlobalFlatUITheme } from "../flat-ui-theme";
+import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 
@@ -107,7 +107,6 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
     super.preInit();
 
     if (!this.geometry) this.createButtonGeometry();
-    if (!this.material) this.createButtonMaterial();
   }
 
   createButtonGeometry() {
@@ -119,10 +118,6 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
 
     this.outline = new BufferGeometry().setFromPoints(flat.getPoints());
     this.outline.center();
-  }
-
-  createButtonMaterial() {
-    this.material = this.buttonmaterial;
   }
 
   setButtonColor() {
@@ -150,14 +145,10 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
       e.updated = true;
     });
 
-    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.setButtonColor();
-    })
-
     this.setButtonColor();
   }
 
-  line!: Line;
+  private line!: Line;
   lineready(line: Line) {
     line.visible = false;
     this.line = line;

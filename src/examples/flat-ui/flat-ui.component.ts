@@ -175,7 +175,7 @@ export class FlatUIExample implements OnInit, AfterViewInit {
   }
 
   clicked(event: any) {
-    console.warn('clicked', event)
+    console.warn('clicked')
   }
 
   listposition = new Vector3();
