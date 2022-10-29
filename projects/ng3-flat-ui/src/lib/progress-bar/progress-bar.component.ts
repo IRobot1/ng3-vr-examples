@@ -1,10 +1,10 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
-import { BufferGeometry, Material, MathUtils, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Material, MathUtils, Mesh, Shape, ShapeGeometry } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
-import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
+import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 @Component({
   selector: 'flat-ui-progress-bar',
@@ -54,14 +54,14 @@ export class FlatUIProgressBar extends NgtObjectProps<Mesh> implements AfterView
 
   @Input() progressheight = 0.08;
 
-  private _buttoncolor?: string;
+  private _backgroundmaterial!: Material
   @Input()
-  get buttoncolor(): string {
-    if (this._buttoncolor) return this._buttoncolor;
-    return GlobalFlatUITheme.ButtonColor;
+  get backgroundmaterial(): Material {
+    if (this._backgroundmaterial) return this._backgroundmaterial;
+    return GlobalFlatUITheme.ButtonMaterial;
   }
-  set buttoncolor(newvalue: string) {
-    this._buttoncolor = newvalue;
+  set backgroundmaterial(newvalue: Material) {
+    this._backgroundmaterial = newvalue;
   }
 
   private _progressmaterial!: Material
@@ -75,7 +75,6 @@ export class FlatUIProgressBar extends NgtObjectProps<Mesh> implements AfterView
   }
 
   @Input() geometry!: BufferGeometry;
-  @Input() material!: Material;
 
   protected progress!: BufferGeometry;
   protected showprogress = true;
@@ -84,7 +83,6 @@ export class FlatUIProgressBar extends NgtObjectProps<Mesh> implements AfterView
     super.preInit();
 
     if (!this.geometry) this.createProgressGeometry();
-    if (!this.material) this.createProgressMaterial();
   }
 
   createProgressGeometry() {
@@ -95,15 +93,10 @@ export class FlatUIProgressBar extends NgtObjectProps<Mesh> implements AfterView
     this.geometry.center();
   }
 
-  createProgressMaterial() {
-    this.material = new MeshBasicMaterial({ color: this.buttoncolor });
-  }
-
   override ngOnDestroy() {
     super.ngOnDestroy();
 
     this.geometry?.dispose();
-    this.material?.dispose();
   }
 
   ngAfterViewInit(): void {
@@ -112,10 +105,6 @@ export class FlatUIProgressBar extends NgtObjectProps<Mesh> implements AfterView
       e.height = this.height;
       e.updated = true;
     });
-
-    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      (this.material as MeshBasicMaterial).color.setStyle(this.buttoncolor);
-    })
   }
 
   private mesh!: Mesh;
