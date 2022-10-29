@@ -5,8 +5,6 @@ export const THEME_CHANGE_EVENT = 'themechanged';
 export interface FlatUITheme {
   LabelColor: string,
   ButtonColor: string,
-  HoverColor: string,
-  ClickColor: string,
   ButtonLabelColor: string,
   NumberColor: string,
   StringColor: string,
@@ -28,8 +26,6 @@ export interface FlatUITheme {
 export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   LabelColor = 'white';
   ButtonColor = '#111111';
-  HoverColor = 'blue';
-  ClickColor = 'cornflowerblue';
   ButtonLabelColor = 'white';
   NumberColor = 'cornflowerblue';
   StringColor = 'lime';
@@ -55,8 +51,6 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   changeTheme(newtheme: FlatUITheme) {
     this.LabelColor = newtheme.LabelColor
     this.ButtonColor = newtheme.ButtonColor
-    this.HoverColor = newtheme.HoverColor
-    this.ClickColor = newtheme.ClickColor
     this.ButtonLabelColor = newtheme.ButtonLabelColor
     this.NumberColor = newtheme.NumberColor
     this.StringColor = newtheme.StringColor
@@ -78,8 +72,6 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
 
   LabelMaterial!: Material;
   ButtonMaterial!: Material;
-  HoverMaterial!: Material;
-  ClickMaterial!: Material;
   ButtonLabelMaterial!: Material;
   NumberMaterial!: Material;
   StringMaterial!: Material;
@@ -94,8 +86,10 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   ProgressMaterial!: Material;
   DisabledMaterial!: Material;
   OutlineMaterial!: Material;
-  TitleMaterial!: Material;
   ResizeMaterial!: Material;
+
+  // additional materials
+  TitleMaterial!: Material;
 
   constructor() {
     super();
@@ -115,6 +109,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     this.CheckMaterial = new MeshBasicMaterial({ color: this.CheckColor });
     this.ToggleFalseMaterial = new MeshBasicMaterial({ color: this.ToggleFalseColor });
     this.ToggleTrueMaterial = new MeshBasicMaterial({ color: this.ToggleTrueColor });
+    this.SelectMaterial = new MeshBasicMaterial({ color: this.SelectColor });
 
     this.PanelMaterial = new MeshBasicMaterial({ color: this.PanelColor });
     this.TitleMaterial = new MeshBasicMaterial({ color: this.PanelColor, transparent: true, opacity: 0.3 });
@@ -143,6 +138,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     (this.CheckMaterial as MeshBasicMaterial).color.setStyle(this.CheckColor);
     (this.ToggleFalseMaterial as MeshBasicMaterial).color.setStyle(this.ToggleFalseColor);
     (this.ToggleTrueMaterial as MeshBasicMaterial).color.setStyle(this.ToggleTrueColor);
+    (this.SelectMaterial as MeshBasicMaterial).color.setStyle(this.SelectColor);
 
     (this.PanelMaterial as MeshBasicMaterial).color.setStyle(this.PanelColor);
     (this.TitleMaterial as MeshBasicMaterial).color.setStyle(this.PanelColor);

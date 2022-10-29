@@ -10,8 +10,6 @@ import { CameraService } from "../../app/camera.service";
 const MatrixTheme: FlatUITheme = {
   LabelColor: 'silver',
   ButtonColor: 'darkgreen',
-  HoverColor: 'lightgreen',
-  ClickColor: 'black',
   ButtonLabelColor: 'gray',
   NumberColor: 'lime',
   StringColor: 'lime',

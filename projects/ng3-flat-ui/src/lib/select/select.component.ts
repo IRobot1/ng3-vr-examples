@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Line, Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -43,36 +43,35 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
 
   @Input() overflow = 24;
 
-  @Input() enabled = true;
-
-  private _buttoncolor?: string;
+  private _enabled = true;
   @Input()
-  get buttoncolor(): string {
-    if (this._buttoncolor) return this._buttoncolor;
-    return GlobalFlatUITheme.ButtonColor;
-  }
-  set buttoncolor(newvalue: string) {
-    this._buttoncolor = newvalue;
+  get enabled(): boolean { return this._enabled }
+  set enabled(newvalue: boolean) {
+    this._enabled = newvalue;
+    if (this.mesh)
+      this.setBackgroundColor();
   }
 
-  private _disabledcolor?: string;
+
+  private _buttonmaterial!: Material
   @Input()
-  get disabledcolor(): string {
-    if (this._disabledcolor) return this._disabledcolor;
-    return GlobalFlatUITheme.DisabledColor;
+  get buttonmaterial(): Material {
+    if (this._buttonmaterial) return this._buttonmaterial;
+    return GlobalFlatUITheme.ButtonMaterial;
   }
-  set disabledcolor(newvalue: string) {
-    this._disabledcolor = newvalue;
+  set buttonmaterial(newvalue: Material) {
+    this._buttonmaterial = newvalue;
   }
 
-  private _hovercolor?: string;
+
+  private _disabledmaterial!: Material
   @Input()
-  get hovercolor(): string {
-    if (this._hovercolor) return this._hovercolor;
-    return GlobalFlatUITheme.HoverColor;
+  get disabledmaterial(): Material {
+    if (this._disabledmaterial) return this._disabledmaterial;
+    return GlobalFlatUITheme.DisabledMaterial;
   }
-  set hovercolor(newvalue: string) {
-    this._hovercolor = newvalue;
+  set disabledmaterial(newvalue: Material) {
+    this._disabledmaterial = newvalue;
   }
 
   private _textmaterial!: Material
@@ -85,15 +84,24 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
     this._textmaterial = newvalue;
   }
 
-
-  private _selectcolor?: string;
+  private _selectmaterial!: Material
   @Input()
-  get selectcolor(): string {
-    if (this._selectcolor) return this._selectcolor;
-    return GlobalFlatUITheme.SelectColor;
+  get selectmaterial(): Material {
+    if (this._selectmaterial) return this._selectmaterial;
+    return GlobalFlatUITheme.SelectMaterial;
   }
-  set selectcolor(newvalue: string) {
-    this._selectcolor = newvalue;
+  set selectmaterial(newvalue: Material) {
+    this._selectmaterial = newvalue;
+  }
+
+  private _outlinematerial!: Material
+  @Input()
+  get outlinematerial(): Material {
+    if (this._outlinematerial) return this._outlinematerial;
+    return GlobalFlatUITheme.OutlineMaterial;
+  }
+  set outlinematerial(newvalue: Material) {
+    this._outlinematerial = newvalue;
   }
 
   private _width = 1;
@@ -125,15 +133,14 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
   @Output() change = new EventEmitter<string>();
 
   @Input() geometry!: BufferGeometry;
-  @Input() material!: MeshBasicMaterial;
 
   protected displaytext!: string;
+  protected outline!: BufferGeometry; // outline material
 
   override preInit() {
     super.preInit();
 
     if (!this.geometry) this.createSelectGeoemetry();
-    if (!this.material) this.createSelectMaterial();
   }
 
   createSelectGeoemetry() {
@@ -142,10 +149,18 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
+
+    this.outline = new BufferGeometry().setFromPoints(flat.getPoints());
+    this.outline.center();
   }
 
-  createSelectMaterial() {
-    this.material = new MeshBasicMaterial({ color: this.buttoncolor });
+  setBackgroundColor() {
+    if (this.enabled) {
+      this.mesh.material = this.buttonmaterial;
+    }
+    else {
+      this.mesh.material = this.disabledmaterial;
+    }
   }
 
   override ngOnDestroy() {
@@ -154,7 +169,6 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
     this.selectable?.remove(this.mesh);
 
     this.geometry.dispose();
-    this.material.dispose();
   }
 
   ngAfterViewInit(): void {
@@ -163,12 +177,12 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
       e.height = this.height;
       e.updated = true;
     });
+  }
 
-    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.material.color.setStyle(this.enabled ? this.buttoncolor : this.disabledcolor);
-    })
-
-    this.material.color.setStyle(this.enabled ? this.buttoncolor : this.disabledcolor);
+  private line!: Line;
+  lineready(line: Line) {
+    line.visible = false;
+    this.line = line;
   }
 
 
@@ -182,6 +196,7 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
     mesh.addEventListener('pointerout', (e: any) => { this.out(); e.stop = true; });
 
     this.mesh = mesh;
+    this.setBackgroundColor();
   }
 
   protected enableinput(mesh: Mesh) {
@@ -194,13 +209,13 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
   private isover = false;
   protected over() {
     if (this.isover || !this.enabled) return;
-    this.material.color.setStyle(this.hovercolor);
+    this.line.visible = true;
     this.isover = true;
   }
 
   protected out() {
     if (!this.enabled) return;
-    this.material.color.setStyle(this.buttoncolor);
+    this.line.visible = false;
     this.isover = false;
   }
 }
