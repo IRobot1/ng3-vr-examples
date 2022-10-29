@@ -87,7 +87,7 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
       this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), ytop, z], numkey));
     })
 
-    width = (middle.length - 1) * (buttonwidth + 0.01);
+    width = (middle.length - 1) * buttonwidth;
     middle.forEach((numkey, index) => {
       this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), ymiddle, z], numkey));
     })

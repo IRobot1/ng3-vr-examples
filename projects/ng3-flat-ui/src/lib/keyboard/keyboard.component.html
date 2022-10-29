@@ -1,8 +1,12 @@
-<ngt-mesh #mesh [name]="name" [visible]="visible"
-          (click)="ignore(mesh.instance.value, $event)" (pointerover)="$event.stopPropagation()"
-          [position]="position" [rotation]="rotation" [scale]="scale"
-          [geometry]="geometry" [material]="popupmaterial"
-          (ready)="meshready($event)" (pointermissed)="missed()">
+<ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale">
+
+  <ngt-mesh #mesh
+            [geometry]="geometry" [material]="popupmaterial"
+            (click)="ignore(mesh.instance.value, $event)" (pointerover)="$event.stopPropagation()"
+            (ready)="meshready($event)" (pointermissed)="missed()">
+
+
+  </ngt-mesh>
 
   <flat-ui-button *ngFor="let item of keys" [selectable]="selectable"
                   [position]="item.position" [width]="item.size" [text]="keycode(item)"
@@ -10,5 +14,4 @@
 
   </flat-ui-button>
 
-</ngt-mesh>
-
+</ngt-group>
