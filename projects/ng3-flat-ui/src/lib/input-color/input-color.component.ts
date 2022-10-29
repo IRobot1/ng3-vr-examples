@@ -6,7 +6,7 @@ import { NgtObjectProps } from "@angular-three/core";
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 
 import { InteractiveObjects } from "../interactive-objects";
-import { THEME_CHANGE_EVENT, GlobalFlatUITheme } from "../flat-ui-theme";
+import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 @Component({
   selector: 'flat-ui-input-color',

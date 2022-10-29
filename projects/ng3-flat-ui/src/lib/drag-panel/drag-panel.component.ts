@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 
-import { BufferGeometry, Intersection, Line, Material, Mesh, MeshBasicMaterial, Object3D, PlaneGeometry, Shape, ShapeGeometry, Vector3 } from "three";
+import { BufferGeometry, Intersection, Line, Material, Mesh, Object3D, Shape, Vector3 } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { GlobalFlatUITheme } from "../flat-ui-theme";
