@@ -4,9 +4,11 @@
 
 <ngt-ambient-light></ngt-ambient-light>
 
-<flat-ui-drag-panel [title]="'Controls Panel'" [showclose]="false" [width]="2" [height]="1.5" [panelcolor]="panelcolor" [position]="[-1.6, 1, -2.001]" [rotation]="[0, 30 | radian, 0]" [selectable]="selectable">
+<flat-ui-drag-panel [title]="'Controls Panel'" [scalable]="false" [resizable]="true"
+                    [width]="controlwidth" [height]="controlheight" (heightchange)="controlheight=$event" (widthchange)="controlwidth=$event"
+                    [showclose]="false" [position]="[-1.6, 1, -2.001]" [rotation]="[0, 30 | radian, 0]" [selectable]="selectable">
   <ng-template let-parent="parent">
-    <ngt-group vertical-layout [appendTo]="parent" [margin]="[0, 0.02, 0]" [position]="[-0.95, 0.75, 0.002]">
+    <ngt-group vertical-layout [appendTo]="parent" [margin]="[0, 0.02, 0]" [position]="[-controlwidth/2+0.05, controlheight/2, 0.002]">
 
       <ngt-group horizontal-layout>
         <flat-ui-label [text]="'radio'" [width]="0.6"></flat-ui-label>
@@ -15,26 +17,26 @@
       </ngt-group>
 
       <ngt-group horizontal-layout>
+        <flat-ui-label [text]="'number'" [width]="0.6"></flat-ui-label>
+        <flat-ui-input-number #num2 [min]="-10" [max]="10" [text]="slidertext" [width]="0.4" [selectable]="selectable" (openinput)="input.opennumpad($event, num2, slidertext)" (change)="slidervalue=$event"></flat-ui-input-number>
+        <flat-ui-input-number [enabled]="false" [min]="-10" [max]="10" [text]="slidertext" [width]="0.4"></flat-ui-input-number>
+      </ngt-group>
+
+      <ngt-group horizontal-layout>
         <flat-ui-label [text]="'slider'" [width]="0.6"></flat-ui-label>
-        <flat-ui-input-number #num2 [position]="[0.5, 0, 0]" [min]="-10" [max]="10" [text]="slidertext" [width]="0.4" [selectable]="selectable" (openinput)="opennumpad($event, num2)" (change)="slidervalue=$event"></flat-ui-input-number>
         <flat-ui-input-slider [min]="-10" [max]="10" [width]="0.4" [value]="slidervalue" [selectable]="selectable" (change)="slidervalue=$event"></flat-ui-input-slider>
+        <flat-ui-input-slider [enabled]="false" [min]="-10" [max]="10" [width]="0.4" [value]="slidervalue"></flat-ui-input-slider>
       </ngt-group>
 
       <ngt-group horizontal-layout>
         <flat-ui-label [text]="'string'" [width]="0.6"></flat-ui-label>
-        <flat-ui-input-text #tinput [text]="textvalue" [width]="0.4" [selectable]="selectable" (openinput)="openkeyboard($event, tinput)"></flat-ui-input-text>
+        <flat-ui-input-text #tinput [text]="textvalue" [width]="0.4" [selectable]="selectable" (openinput)="input.openkeyboard($event, tinput, textvalue)"></flat-ui-input-text>
       </ngt-group>
 
       <ngt-group horizontal-layout>
         <flat-ui-label [text]="'panel color'" [width]="0.6"></flat-ui-label>
-        <flat-ui-input-color #color [text]="panelcolor" [selectable]="selectable" (openinput)="opencolor($event, color)"></flat-ui-input-color>
-        <flat-ui-input-text #tinput2 [text]="panelcolor" [overflow]="7" [width]="0.5" [enabled]="false" (openinput)="openkeyboard($event, tinput2)"></flat-ui-input-text>
-      </ngt-group>
-
-
-      <ngt-group horizontal-layout>
-        <flat-ui-label [text]="'number'" [width]="0.6"></flat-ui-label>
-        <flat-ui-input-number #num1 [text]="numbertext" [width]="0.4" [selectable]="selectable" (openinput)="opennumpad($event, num1)" (change)="numbervalue=$event"></flat-ui-input-number>
+        <flat-ui-input-color #color [text]="colorvalue" [selectable]="selectable" (change)="colorpicked($event)" (openinput)="input.opencolor($event, color)"></flat-ui-input-color>
+        <flat-ui-input-text #tinput2 [text]="colorvalue" [overflow]="7" [width]="0.5" [enabled]="false"></flat-ui-input-text>
       </ngt-group>
 
       <ngt-group horizontal-layout [margin]="[0.1, 0, 0]">
@@ -44,44 +46,46 @@
 
       <ngt-group horizontal-layout>
         <flat-ui-label [text]="'options'" [width]="0.6"></flat-ui-label>
-        <flat-ui-select #list1 [width]="1" [selectable]="selectable" (openinput)="openlist($event, list1)" [text]="selectedtext"></flat-ui-select>
+        <flat-ui-select #list1 [width]="1" [selectable]="selectable" (openinput)="input.openlist($event, list1, list, selectedtext)" [text]="selectedtext"></flat-ui-select>
       </ngt-group>
 
     </ngt-group>
   </ng-template>
 </flat-ui-drag-panel>
 
-<flat-ui-drag-panel [title]="'Draggable Panel'" [showclose]="false"  [panelcolor]="panelcolor" [position]="[0, 1.25, -2.5]" [selectable]="selectable">
+<ngt-mesh-basic-material #iconmaterial noAppend color="#990000"></ngt-mesh-basic-material>
+
+<flat-ui-drag-panel [title]="'Draggable Panel'" [showclose]="false" [position]="[0, 1.25, -2.5]" [selectable]="selectable">
   <ng-template let-parent="parent">
     <ngt-group vertical-layout [margin]="[0, 0.02, 0]" [appendTo]="parent" [position]="[-0.5, 0.5, 0.002]">
 
       <ngt-group horizontal-layout>
-        <flat-ui-expansion-panel [title]="'Folder1'" [height]="panelheight" [panelcolor]="panelcolor" [selectable]="selectable">
+        <flat-ui-expansion-panel [title]="'Folder1'" [height]="panelheight" [selectable]="selectable">
           <ng-template let-parent="parent">
             <ngt-group vertical-layout [margin]="[0, 0.02, 0]" [appendTo]="parent" [position]="[-0.5, panelheight/2, 0.002]">
 
               <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
                 <flat-ui-label [text]="'icon button'" [width]="0.6"></flat-ui-label>
                 <flat-ui-icon-button [svg]="svg" [enabled]="false" (pressed)="clicked($event)" [selectable]="selectable"></flat-ui-icon-button>
-                <flat-ui-icon-button [url]="'assets/webgl.svg'" [iconcolor]="'#990000'" [selectable]="selectable" (pressed)="clicked($event)"></flat-ui-icon-button>
+                <flat-ui-icon-button [url]="'assets/webgl.svg'" [iconmaterial]="iconmaterial.instance.value" [selectable]="selectable" (pressed)="clicked($event)"></flat-ui-icon-button>
               </ngt-group>
 
-              </ngt-group>
-            </ng-template>
+            </ngt-group>
+          </ng-template>
 
         </flat-ui-expansion-panel>
       </ngt-group>
 
-      <!--<ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
-        <flat-ui-label [text]="'icon button'" [width]="0.6"></flat-ui-label>
-        <flat-ui-icon-button [svg]="svg" [enabled]="false" (pressed)="clicked($event)" [selectable]="selectable"></flat-ui-icon-button>
-        <flat-ui-icon-button [url]="'assets/webgl.svg'" [iconcolor]="'#990000'" [selectable]="selectable" (pressed)="clicked($event)"></flat-ui-icon-button>
-      </ngt-group>-->
+      <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
+        <flat-ui-label [text]="'check box'" [width]="0.5"></flat-ui-label>
+        <flat-ui-input-checkbox [position]="[0.4, 0, 0]" [checked]="checked" [selectable]="selectable" (change)="changed($event)"></flat-ui-input-checkbox>
+        <flat-ui-input-checkbox [position]="[0.4, 0, 0]" [enabled]="false" [checked]="checked" [selectable]="selectable" (change)="changed($event)"></flat-ui-input-checkbox>
+      </ngt-group>
 
       <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
-        <flat-ui-label [text]="'boolean'" [width]="0.5"></flat-ui-label>
-        <flat-ui-input-checkbox [position]="[0.4, 0, 0]" [checked]="checked" [selectable]="selectable" (change)="changed($event)"></flat-ui-input-checkbox>
+        <flat-ui-label [text]="'toggle'" [width]="0.5"></flat-ui-label>
         <flat-ui-input-toggle [position]="[0.55, 0, 0]" [checked]="checked" [selectable]="selectable" (change)="changed($event)"></flat-ui-input-toggle>
+        <flat-ui-input-toggle [position]="[0.55, 0, 0]" [enabled]="false" [checked]="checked" [selectable]="selectable" (change)="changed($event)"></flat-ui-input-toggle>
       </ngt-group>
 
       <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
@@ -96,39 +100,38 @@
   </ng-template>
 </flat-ui-drag-panel>
 
-<flat-ui-drag-panel *ngIf="showimage" [title]="'Image Panel'" [showexpand]="false" [locked]="true" [resizable]="false" [width]="2" [height]="1.5" [panelcolor]="panelcolor"
+<flat-ui-drag-panel *ngIf="showimage" [title]="'Image Panel'" [showexpand]="false" [locked]="true" [scalable]="false" [width]="2" [height]="1.5"
                     [position]="[1.6, 1, -2.001]" [rotation]="[0, -30 | radian, 0]" [selectable]="selectable" (close)="showimage=false">
   <ng-template let-parent="parent">
     <ngt-group [appendTo]="parent" [position]="[0, 0, 0.002]">
       <ngt-mesh>
         <ngt-plane-geometry [args]="[1.95, 1.45]"></ngt-plane-geometry>
-        <ngt-mesh-standard-material [map]="texture"></ngt-mesh-standard-material>
+        <ngt-mesh-basic-material [map]="texture"></ngt-mesh-basic-material>
       </ngt-mesh>
     </ngt-group>
   </ng-template>
 </flat-ui-drag-panel>
 
 
-<flat-ui-list *ngIf="showlist" [list]="list" [width]="1.5" [height]="1.2" [selectedtext]="selectedtext"
-              [position]="listposition" [rotation]="listrotation" [selectable]="selectable"
-              (change)="listitem($event.text)" (close)="showlist=false;changeinput()">
+<flat-ui-list *ngIf="input.showlist" [list]="input.list" [selectedtext]="input.method.text"
+              [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
+              (change)="input.method.text = $event.text;input.showlist=false" (close)="input.showlist=false;input.closeinput()">
 </flat-ui-list>
 
-<flat-ui-color-picker *ngIf="showpicker" [colorvalue]="colorvalue"
-                      [position]="colorposition" [rotation]="colorrotation" [selectable]="selectable"
-                      (colorpicked)="colorpicked($event)" (close)="showpicker=false;changeinput()">
+<flat-ui-color-picker *ngIf="input.showpicker" [colorvalue]="input.method.text"
+                      [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
+                      (colorpicked)="input.method.text = $event;" (close)="input.showpicker=false;input.closeinput()">
 </flat-ui-color-picker>
 
-<flat-ui-keyboard *ngIf="showkeyboard" [text]="textvalue"
-                  [position]="keyboardposition" [rotation]="keyboardrotation" [selectable]="selectable"
-                  (pressed)="pressed($event)" (close)="showkeyboard=false;changeinput()">
+<flat-ui-keyboard *ngIf="input.showkeyboard" [text]="input.method.text"
+                  [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
+                  (change)="input.method.text = $event" (close)="input.showkeyboard=false;input.closeinput()">
 </flat-ui-keyboard>
 
-<flat-ui-numpad *ngIf="shownumpad" [text]="textvalue"
-                [position]="numpadposition" [rotation]="numpadrotation" [selectable]="selectable"
-                (pressed)="pressed($event)" (close)="shownumpad=false;changeinput()">
+<flat-ui-numpad *ngIf="input.shownumpad" [text]="input.method.text"
+                [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
+                (change)="input.method.text = $event" (close)="input.shownumpad=false;input.closeinput()">
 </flat-ui-numpad>
-
 
 <vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
 <vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>

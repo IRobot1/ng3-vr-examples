@@ -20,7 +20,7 @@ export class Ng3GUIComponent extends NgtObjectProps<Group> {
   @Input() locked = false;
   @Input() showexpand = true;
   @Input() showclose = true;
-  @Input() resizable = true;
+  @Input() scalable = true;
 
   @Input() expanded = true;
 

@@ -3,8 +3,9 @@ import { NgModule } from '@angular/core';
 import { NgtCanvasModule, NgtObjectPassThrough, NgtRadianPipeModule } from '@angular-three/core';
 import { NgtBoxGeometryModule, NgtBufferGeometryModule, NgtCircleGeometryModule, NgtPlaneGeometryModule, NgtRingGeometryModule } from '@angular-three/core/geometries';
 import { NgtGroupModule } from '@angular-three/core/group';
-import { NgtMeshBasicMaterialModule } from '@angular-three/core/materials';
+import { NgtMeshBasicMaterialModule, NgtLineBasicMaterialModule, } from '@angular-three/core/materials';
 import { NgtMeshModule } from '@angular-three/core/meshes';
+import { NgtLineModule } from '@angular-three/core/lines';
 
 import { NgtSobaTextModule } from '@angular-three/soba/abstractions';
 
@@ -66,6 +67,7 @@ import { CommonModule } from '@angular/common';
     NgtObjectPassThrough,
 
     NgtMeshModule,
+    NgtLineModule,
     NgtGroupModule,
 
     NgtBufferGeometryModule,
@@ -75,6 +77,7 @@ import { CommonModule } from '@angular/common';
     NgtRingGeometryModule,
 
     NgtMeshBasicMaterialModule,
+    NgtLineBasicMaterialModule,
 
     // soba
     NgtSobaTextModule,

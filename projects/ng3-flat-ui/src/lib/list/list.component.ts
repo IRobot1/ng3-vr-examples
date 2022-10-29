@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, Group, Material, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Group, Material, Mesh, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps, NgtTriple } from "@angular-three/core";
 
 import { roundedRect } from "../flat-ui-utils";
-import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
+import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 

@@ -1,10 +1,10 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, Material, MathUtils, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Line, Material, MathUtils, Mesh, Object3D, Shape, ShapeGeometry } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
-import { THEME_CHANGE_EVENT, GlobalFlatUITheme } from "../flat-ui-theme";
+import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 
@@ -45,36 +45,38 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
   set enabled(newvalue: boolean) {
     this._enabled = newvalue;
     this.updatedisplaytext();
+    if (this.mesh)
+      this.setBackgroundColor();
   }
 
-  private _buttoncolor?: string;
+  private _backgroundmaterial!: Material
   @Input()
-  get buttoncolor(): string {
-    if (this._buttoncolor) return this._buttoncolor;
-    return GlobalFlatUITheme.ButtonColor;
+  get backgroundmaterial(): Material {
+    if (this._backgroundmaterial) return this._backgroundmaterial;
+    return GlobalFlatUITheme.ButtonMaterial;
   }
-  set buttoncolor(newvalue: string) {
-    this._buttoncolor = newvalue;
+  set backgroundmaterial(newvalue: Material) {
+    this._backgroundmaterial = newvalue;
   }
 
-  private _hovercolor?: string;
+  private _outlinematerial!: Material
   @Input()
-  get hovercolor(): string {
-    if (this._hovercolor) return this._hovercolor;
-    return GlobalFlatUITheme.HoverColor;
+  get outlinematerial(): Material {
+    if (this._outlinematerial) return this._outlinematerial;
+    return GlobalFlatUITheme.OutlineMaterial;
   }
-  set hovercolor(newvalue: string) {
-    this._hovercolor = newvalue;
+  set outlinematerial(newvalue: Material) {
+    this._outlinematerial = newvalue;
   }
 
-  private _disabledcolor?: string;
+  private _disabledmaterial!: Material
   @Input()
-  get disabledcolor(): string {
-    if (this._disabledcolor) return this._disabledcolor;
-    return GlobalFlatUITheme.DisabledColor;
+  get disabledmaterial(): Material {
+    if (this._disabledmaterial) return this._disabledmaterial;
+    return GlobalFlatUITheme.DisabledMaterial;
   }
-  set disabledcolor(newvalue: string) {
-    this._disabledcolor = newvalue;
+  set disabledmaterial(newvalue: Material) {
+    this._disabledmaterial = newvalue;
   }
 
   private _numbermaterial!: Material
@@ -111,7 +113,6 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
   }
 
   @Input() geometry!: BufferGeometry;
-  @Input() material!: MeshBasicMaterial;
 
   private _inputopen = false;
   get inputopen(): boolean { return this._inputopen }
@@ -124,6 +125,8 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
 
   protected displaytext!: string;
 
+  protected outline!: BufferGeometry; // outline material
+
   private updatedisplaytext() {
     let text = this.text.substring(this.text.length - this.overflow);
     if (this.inputopen && this.enabled) text += '_'
@@ -134,7 +137,6 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
     super.preInit();
 
     if (!this.geometry) this.createButtonGeometry();
-    if (!this.material) this.createButtonMaterial();
   }
 
   createButtonGeometry() {
@@ -143,10 +145,18 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
+
+    this.outline = new BufferGeometry().setFromPoints(flat.getPoints());
+    this.outline.center();
   }
 
-  createButtonMaterial() {
-    this.material = new MeshBasicMaterial({ color: this.buttoncolor });
+  setBackgroundColor() {
+    if (this.enabled) {
+      this.mesh.material = this.backgroundmaterial;
+    }
+    else {
+      this.mesh.material = this.disabledmaterial;
+    }
   }
 
   override ngOnDestroy() {
@@ -155,7 +165,6 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
     this.selectable?.remove(this.mesh);
 
     this.geometry.dispose();
-    this.material.dispose();
   }
 
   ngAfterViewInit(): void {
@@ -164,13 +173,14 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
       e.height = this.height;
       e.updated = true;
     });
-
-    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.material.color.setStyle(this.enabled ? this.buttoncolor : this.disabledcolor);
-    })
-
-    this.material.color.setStyle(this.enabled ? this.buttoncolor : this.disabledcolor);
   }
+
+  private line!: Line;
+  lineready(line: Line) {
+    line.visible = false;
+    this.line = line;
+  }
+
 
   private mesh!: Mesh;
 
@@ -182,6 +192,7 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
     mesh.addEventListener('pointerout', (e: any) => { this.out(); e.stop = true; });
 
     this.mesh = mesh;
+    this.setBackgroundColor();
   }
 
 
@@ -195,12 +206,12 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
   private isover = false;
   protected over() {
     if (this.isover || !this.enabled) return;
-    this.material.color.setStyle(this.hovercolor);
+    this.line.visible = true;
     this.isover = true;
   }
   protected out() {
     if (!this.enabled) return;
-    this.material.color.setStyle(this.buttoncolor);
+    this.line.visible = false;
     this.isover = false;
   }
 

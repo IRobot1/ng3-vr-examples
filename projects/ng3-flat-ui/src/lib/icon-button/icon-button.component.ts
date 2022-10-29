@@ -1,6 +1,6 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, Group, Material, Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Vector3 } from "three";
+import { BufferGeometry, Group, Line, Material, Mesh, Shape, ShapeGeometry, Vector3 } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { SVGLoader, SVGResult } from "three-stdlib";
@@ -8,7 +8,7 @@ import { SVGLoader, SVGResult } from "three-stdlib";
 import { BufferGeometryUtils } from "..//BufferGeometryUtils";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
-import { THEME_CHANGE_EVENT, GlobalFlatUITheme } from "../flat-ui-theme";
+import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 
@@ -20,7 +20,15 @@ import { InteractiveObjects } from "../interactive-objects";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewInit {
-  @Input() enabled = true;
+  private _enabled = true;
+  @Input()
+  get enabled(): boolean { return this._enabled }
+  set enabled(newvalue: boolean) {
+    this._enabled = newvalue;
+    if (this.mesh)
+      this.setButtonColor();
+  }
+
 
   private _width = 0.1;
   @Input()
@@ -33,63 +41,64 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
     }
   }
 
-  private _buttoncolor?: string;
+  private _buttonmaterial!: Material
   @Input()
-  get buttoncolor(): string {
-    if (this._buttoncolor) return this._buttoncolor;
-    return GlobalFlatUITheme.ButtonColor;
+  get buttonmaterial(): Material {
+    if (this._buttonmaterial) return this._buttonmaterial;
+    return GlobalFlatUITheme.ButtonMaterial;
   }
-  set buttoncolor(newvalue: string) {
-    this._buttoncolor = newvalue;
+  set buttonmaterial(newvalue: Material) {
+    this._buttonmaterial = newvalue;
   }
 
-  private _hovercolor?: string;
+  private _outlinematerial!: Material
   @Input()
-  get hovercolor(): string {
-    if (this._hovercolor) return this._hovercolor;
-    return GlobalFlatUITheme.HoverColor;
+  get outlinematerial(): Material {
+    if (this._outlinematerial) return this._outlinematerial;
+    return GlobalFlatUITheme.OutlineMaterial;
   }
-  set hovercolor(newvalue: string) {
-    this._hovercolor = newvalue;
+  set outlinematerial(newvalue: Material) {
+    this._outlinematerial = newvalue;
   }
 
-  private _clickcolor?: string;
+  private _disabledmaterial!: Material
   @Input()
-  get clickcolor(): string {
-    if (this._clickcolor) return this._clickcolor;
-    return GlobalFlatUITheme.ClickColor;
+  get disabledmaterial(): Material {
+    if (this._disabledmaterial) return this._disabledmaterial;
+    return GlobalFlatUITheme.DisabledMaterial;
   }
-  set clickcolor(newvalue: string) {
-    this._clickcolor = newvalue;
-  }
-  private _iconcolor?: string;
-  @Input()
-  get iconcolor(): string {
-    if (this._iconcolor) return this._iconcolor;
-    return GlobalFlatUITheme.IconColor;
-  }
-  set iconcolor(newvalue: string) {
-    this._iconcolor = newvalue;
+  set disabledmaterial(newvalue: Material) {
+    this._disabledmaterial = newvalue;
   }
 
-  @Input() iconmaterial!: Material;
+
+  private _iconmaterial!: Material
+  @Input()
+  get iconmaterial(): Material {
+    if (this._iconmaterial) return this._iconmaterial;
+    return GlobalFlatUITheme.IconMaterial;
+  }
+  set iconmaterial(newvalue: Material) {
+    this._iconmaterial = newvalue;
+  }
 
   @Input() selectable?: InteractiveObjects;
 
-  @Output() pressed = new EventEmitter<boolean>();
+  @Output() pressed = new EventEmitter<void>();
 
   protected geometry!: BufferGeometry;
-  protected material!: MeshBasicMaterial;
   protected icongeometry!: BufferGeometry;
 
+  protected outline!: BufferGeometry; // outline material
+
   protected svgscale!: Vector3;
+
+  constructor(private cd: ChangeDetectorRef) { super() }
 
   override preInit() {
     super.preInit();
 
     if (!this.geometry) this.createButtonGeometry();
-    if (!this.material) this.createButtonMaterial();
-    if (!this.iconmaterial) this.createIconMaterial();
   }
 
   createButtonGeometry() {
@@ -98,14 +107,18 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
+
+    this.outline = new BufferGeometry().setFromPoints(flat.getPoints());
+    this.outline.center();
   }
 
-  createButtonMaterial() {
-    this.material = new MeshBasicMaterial({ color: this.buttoncolor });
-  }
-
-  createIconMaterial() {
-    this.iconmaterial = new MeshBasicMaterial({ color: this.iconcolor });
+  setButtonColor() {
+    if (this.enabled) {
+      this.mesh.material = this.buttonmaterial;
+    }
+    else {
+      this.mesh.material = this.disabledmaterial;
+    }
   }
 
   override ngOnDestroy() {
@@ -114,7 +127,8 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
     this.selectable?.remove(this.mesh);
 
     this.geometry.dispose();
-    this.material.dispose();
+    this.buttonmaterial?.dispose();
+    this.iconmaterial?.dispose();
   }
 
   ngAfterViewInit(): void {
@@ -123,11 +137,14 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
       e.height = this.width;
       e.updated = true;
     });
-
-    GlobalFlatUITheme.addEventListener(THEME_CHANGE_EVENT, () => {
-      this.material.color.setStyle(this.buttoncolor);
-    })
   }
+
+  private line!: Line;
+  lineready(line: Line) {
+    line.visible = false;
+    this.line = line;
+  }
+
 
   private mesh!: Mesh;
 
@@ -139,6 +156,7 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
     mesh.addEventListener('pointerout', () => { this.out() });
 
     this.mesh = mesh;
+    this.setButtonColor();
   }
 
 
@@ -153,16 +171,15 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
   private doclick() {
     if (!this.enabled || !this.visible) return;
 
-    this.material.color.setStyle(this.clickcolor);
+    this.mesh.scale.addScalar(-0.1);
+    this.line.scale.addScalar(-0.1);
     this.clicking = true;
 
     const timer = setTimeout(() => {
-      if (this.isover)
-        this.material.color.setStyle(this.hovercolor);
-      else
-        this.material.color.setStyle(this.buttoncolor);
+      this.mesh.scale.addScalar(0.1);
+      this.line.scale.addScalar(0.1);
 
-      this.pressed.next(true);
+      this.pressed.next();
 
       clearTimeout(timer);
       this.clicking = false;
@@ -172,11 +189,11 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
   isover = false;
   over() {
     if (this.clicking || this.isover || !this.enabled) return;
-    this.material.color.setStyle(this.hovercolor);
+    this.line.visible = true;
     this.isover = true;
   }
   out() {
-    this.material.color.setStyle(this.buttoncolor);
+    this.line.visible = false;
     this.isover = false;
   }
 
@@ -193,10 +210,10 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
   @Input() set svg(text: string) {
     this.loaded = false;
     if (text) {
-      setTimeout(() => {
+      this.zone.run(() => {
         this.process(this.loader.parse(text));
         this.loaded = true;
-      }, 0);
+      })
     }
   }
 
@@ -210,6 +227,7 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
     this.loader.load(this._url, (data: SVGResult) => {
       this.process(data);
       this.loaded = true;
+      this.cd.detectChanges(); // force change detection to render icon
     });
   }
 

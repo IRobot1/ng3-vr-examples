@@ -9,8 +9,11 @@
               (pointermove)="movepanel(title.instance.value, $event, panel.instance.value)"
               (ready)="meshready($event, panel.instance.value)">
 
-      <ngt-plane-geometry [args]="[width-0.2, 0.1]"></ngt-plane-geometry>
+      <ngt-plane-geometry [args]="[width-0.2, titleheight]"></ngt-plane-geometry>
     </ngt-mesh>
+
+    <ngt-line (ready)="lineready($event)"
+              [geometry]="outline" [material]="outlinematerial"> </ngt-line>
 
     <ngt-soba-text [text]="displaytitle" [material]="labelmaterial" [fontSize]="titlefontsize" [anchorX]="'left'" [position]="[-width/2+0.1, 0, 0.0001]"></ngt-soba-text>
 
@@ -24,32 +27,46 @@
   <ngt-mesh #parent *ngIf="expanded" (ready)="panelready($event)" [material]="panelmaterial">
     <ngt-plane-geometry [args]="[width, height]"></ngt-plane-geometry>
 
+    <ngt-group *ngIf="scalable">
+      <ngt-mesh #scaleleft [position]="[-width/2, -height/2, 0.01]" [visible]="showscaling" [material]="scalematerial"
+                (pointerdown)="scaling=true" (pointerup)="scaling=false"
+                (pointerover)="showscaling=true" (pointerout)="showscaling=false;scaling=false"
+                (pointermove)="scalepanel(scaleleft.instance.value, $event, panel.instance.value)"
+                (ready)="scaleready($event, panel.instance.value)">
+        <ngt-plane-geometry [args]="[0.1, 0.1]"></ngt-plane-geometry>
+      </ngt-mesh>
+
+      <ngt-mesh #scaleright [position]="[width/2, -height/2, 0.01]" [visible]="showscaling" [material]="scalematerial"
+                (pointerdown)="scaling=true" (pointerup)="scaling=false"
+                (pointerover)="showscaling=true" (pointerout)="showscaling=false;scaling=false"
+                (pointermove)="scalepanel(scaleright.instance.value, $event, panel.instance.value)"
+                (ready)="scaleready($event, panel.instance.value)">
+        <ngt-plane-geometry [args]="[0.1, 0.1]"></ngt-plane-geometry>
+      </ngt-mesh>
+    </ngt-group>
+
     <ngt-group *ngIf="resizable">
-      <ngt-mesh #left [position]="[-width/2-0.01, 0, 0.01]" [visible]="showscaling"
-                (pointerdown)="scaling=true" (pointerup)="scaling=false"
-                (pointerover)="showscaling=true" (pointerout)="showscaling=false;scaling=false"
-                (pointermove)="scalehorizontal(left.instance.value, $event, panel.instance.value)"
-                (ready)="scaleready($event, panel.instance.value, true)">
+      <ngt-mesh #resizeleft [position]="[-width/2, 0, 0.01]" [visible]="showresizing" [material]="resizematerial"
+                (pointerdown)="resizing=true" (pointerup)="resizing=false"
+                (pointerover)="showresizing=true" (pointerout)="showresizing=false;resizing=false"
+                (pointermove)="resizepanel(resizeleft.instance.value, $event, panel.instance.value, true)"
+                (ready)="resizeready($event, panel.instance.value, true)">
         <ngt-plane-geometry [args]="[0.1, 0.1]"></ngt-plane-geometry>
-        <ngt-mesh-basic-material [color]="'white'"></ngt-mesh-basic-material>
       </ngt-mesh>
 
-      <ngt-mesh #right [position]="[width/2, 0, 0.01]" [visible]="showscaling"
-                (pointerdown)="scaling=true" (pointerup)="scaling=false"
-                (pointerover)="showscaling=true" (pointerout)="showscaling=false;scaling=false"
-                (pointermove)="scalehorizontal(right.instance.value, $event, panel.instance.value)"
-                (ready)="scaleready($event, panel.instance.value, true)">
+      <ngt-mesh #resizeright [position]="[width/2, 0, 0.01]" [visible]="showresizing" [material]="resizematerial"
+                (pointerdown)="resizing=true" (pointerup)="resizing=false"
+                (pointerover)="showresizing=true" (pointerout)="showresizing=false;resizing=false"
+                (pointermove)="resizepanel(resizeleft.instance.value, $event, panel.instance.value, true)"
+                (ready)="resizeready($event, panel.instance.value, true)">
         <ngt-plane-geometry [args]="[0.1, 0.1]"></ngt-plane-geometry>
-        <ngt-mesh-basic-material [color]="'white'"></ngt-mesh-basic-material>
       </ngt-mesh>
-
-      <ngt-mesh #bottom [position]="[0, -height/2, 0.01]" [visible]="showscaling"
-                (pointerdown)="scaling=true" (pointerup)="scaling=false"
-                (pointerover)="showscaling=true" (pointerout)="showscaling=false;scaling=false"
-                (pointermove)="scalevertical(bottom.instance.value, $event, panel.instance.value)"
-                (ready)="scaleready($event, panel.instance.value, false)">
+      <ngt-mesh #resizebottom [position]="[0, -height/2, 0.01]" [visible]="showresizing" [material]="resizematerial"
+                (pointerdown)="resizing=true" (pointerup)="resizing=false"
+                (pointerover)="showresizing=true" (pointerout)="showresizing=false;resizing=false"
+                (pointermove)="resizepanel(resizebottom.instance.value, $event, panel.instance.value, false)"
+                (ready)="resizeready($event, panel.instance.value, false)">
         <ngt-plane-geometry [args]="[0.1, 0.1]"></ngt-plane-geometry>
-        <ngt-mesh-basic-material [color]="'white'"></ngt-mesh-basic-material>
       </ngt-mesh>
     </ngt-group>
 

@@ -1,10 +1,10 @@
 import { Component, EventEmitter, HostListener, Input, Output } from "@angular/core";
 
-import { BufferGeometry, Material, Mesh, MeshBasicMaterial, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Material, Mesh, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps, NgtTriple } from "@angular-three/core";
 
 import { roundedRect } from "../flat-ui-utils";
-import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
+import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 
@@ -87,7 +87,7 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
       this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), ytop, z], numkey));
     })
 
-    width = (middle.length - 1) * (buttonwidth + 0.01);
+    width = (middle.length - 1) * buttonwidth;
     middle.forEach((numkey, index) => {
       this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), ymiddle, z], numkey));
     })

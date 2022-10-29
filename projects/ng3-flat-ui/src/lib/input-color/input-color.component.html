@@ -1,6 +1,18 @@
-<ngt-mesh #mesh [name]="name" [visible]="visible"
-          (pointerover)="over()" (pointerout)="out()" (click)="enableinput(mesh.instance.value)"
-          [position]="position" [rotation]="rotation" [scale]="scale"
-          [geometry]="geometry" [material]="material" (ready)="meshready($event)">
-</ngt-mesh>
+<ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale">
 
+  <flat-ui-button [width]="width" [height]="height"></flat-ui-button>
+
+  <ngt-group [position]="[0, 0, 0.001]">
+
+    <ngt-mesh #mesh
+              (pointerover)="over()" (pointerout)="out()" (click)="enableinput(mesh.instance.value)"
+              [geometry]="geometry"
+              (ready)="meshready($event)">
+    </ngt-mesh>
+
+    <ngt-line (ready)="lineready($event)"
+              [geometry]="outline" [material]="outlinematerial"> </ngt-line>
+
+  </ngt-group>
+
+</ngt-group>

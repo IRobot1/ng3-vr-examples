@@ -1,10 +1,17 @@
-<ngt-mesh [name]="name" [visible]="visible"
-          (pointermove)="over()" (pointerout)="out()" (ready)="meshready($event)"
-          [position]="position" [rotation]="rotation" [scale]="scale"
-          [geometry]="geometry" [material]="material">
+<ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale">
 
-  <ngt-mesh [position]="[0, 0, 0.0001]" [geometry]="checkgeometry" [material]="checkmaterial"
-            (ready)="checkready($event)" (click)="clicked($event)">
+  <ngt-mesh (pointermove)="over()" (pointerout)="out()"
+            [geometry]="geometry" 
+            (ready)="meshready($event)">
+
+    <ngt-mesh [position]="[0, 0, 0.0001]" [geometry]="checkgeometry" [material]="checkmaterial"
+              (ready)="checkready($event)" (click)="clicked($event)">
+    </ngt-mesh>
+
   </ngt-mesh>
 
-</ngt-mesh>
+  <ngt-line (ready)="lineready($event)"
+            [geometry]="outline" [material]="outlinematerial"> </ngt-line>
+
+
+</ngt-group>

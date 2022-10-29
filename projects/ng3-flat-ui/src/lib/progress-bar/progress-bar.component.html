@@ -1,6 +1,6 @@
 <ngt-mesh [name]="name" [visible]="visible"
           [position]="position" [rotation]="rotation" [scale]="scale"
-          [geometry]="geometry" [material]="material" (ready)="meshready($event)">
+          [geometry]="geometry" [material]="backgroundmaterial" (ready)="meshready($event)">
 
   <ngt-mesh [visible]="showprogress" [position]="[-width/2+0.01 , -progressheight/2, 0.001]" [geometry]="progress" [material]="progressmaterial">
   </ngt-mesh>

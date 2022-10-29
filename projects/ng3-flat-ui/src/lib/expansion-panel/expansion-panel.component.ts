@@ -1,6 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef } from "@angular/core";
 
-import { Group, Material, Mesh, MeshBasicMaterial, Object3D } from "three";
+import { Group, Material, Mesh, Object3D } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -75,16 +75,6 @@ export class FlatUIExpansionPanel extends NgtObjectProps<Mesh> implements AfterV
     if (this.panel) this.panel.scale.y = newvalue ? 1 : 0;
   }
 
-  private _panelcolor?: string;
-  @Input()
-  get panelcolor(): string {
-    if (this._panelcolor) return this._panelcolor;
-    return GlobalFlatUITheme.PanelColor;
-  }
-  set panelcolor(newvalue: string) {
-    this._panelcolor = newvalue;
-  }
-
   private _panelmaterial?: Material;
   @Input()
   get panelmaterial(): Material {
@@ -105,33 +95,16 @@ export class FlatUIExpansionPanel extends NgtObjectProps<Mesh> implements AfterV
     this._labelmaterial = newvalue;
   }
 
-
   @Input() selectable?: InteractiveObjects;
-
-  @Input() titlematerial!: MeshBasicMaterial;
 
   protected displaytitle!: string
 
   @ContentChild(TemplateRef) templateRef?: TemplateRef<unknown>;
 
-
-  override preInit() {
-    super.preInit();
-
-    if (!this.titlematerial) this.createTitleMaterial()
-    
-  }
-
-  createTitleMaterial() {
-    this.titlematerial = new MeshBasicMaterial({ color: this.panelcolor, transparent: true, opacity: 0.1 });
-  }
-
   override ngOnDestroy() {
     super.ngOnDestroy();
 
     this.selectable?.remove(this.mesh);
-
-    this.titlematerial.dispose();
   }
 
   ngAfterViewInit(): void {
