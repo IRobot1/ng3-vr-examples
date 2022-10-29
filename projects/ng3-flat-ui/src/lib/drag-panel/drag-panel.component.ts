@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 
-import { BufferGeometry, Intersection, Line, Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, Vector3 } from "three";
+import { BufferGeometry, Intersection, Line, Material, Mesh, MeshBasicMaterial, Object3D, PlaneGeometry, Shape, ShapeGeometry, Vector3 } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
@@ -89,15 +89,15 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   @Input() locked = false;
   @Input() showexpand = true;
   @Input() showclose = true;
-  @Input() resizable = true;
+  @Input() scalable = true;
 
+ 
   @Output() close = new EventEmitter<boolean>();
 
   displaytitle!: string;
 
   @ContentChild(TemplateRef) templateRef?: TemplateRef<unknown>;
 
-  @Input() geometry!: BufferGeometry; // panel geometry 
   protected outline!: BufferGeometry; // outline material
 
   protected titleheight = 0.1;
@@ -221,15 +221,12 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
 
   private scalemeshes: Array<Mesh> = [];
 
-  scaleready(mesh: Mesh, panel: Object3D, horizontal: boolean) {
+  scaleready(mesh: Mesh, panel: Object3D) {
     this.selectable?.add(mesh);
 
     mesh.addEventListener('pointermove', (e: any) => {
       this.showscaling = true;
-      if (horizontal)
-        this.doscalehorizontal(mesh, e.data, panel);
-      else
-        this.doscalevertical(mesh, e.data, panel);
+      this.doscale(mesh, e.data, panel);
       e.stop = true;
     });
 
@@ -243,49 +240,30 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
 
 
   scaling = false;
-  scalehorizontal(mesh: Mesh, event: NgtEvent<PointerEvent>, panel: Object3D) {
+  scalepanel(mesh: Mesh, event: NgtEvent<PointerEvent>, panel: Object3D) {
     if (event.object != mesh) return;
     event.stopPropagation();
 
-    this.doscalehorizontal(mesh, event, panel);
+    this.doscale(mesh, event, panel);
     this.postscale(panel);
   }
 
-  private doscalehorizontal(mesh: Mesh, event: Intersection, panel: Object3D) {
+  private doscale(mesh: Mesh, event: Intersection, panel: Object3D) {
 
     if (this.scaling) {
       panel.worldToLocal(event.point);
 
-      let diff;
+      let diffx;
       if (mesh.position.x < 0)  // left side
-        diff = mesh.position.x - event.point.x;
+        diffx = mesh.position.x - event.point.x;
       else
-        diff = event.point.x - mesh.position.x;
+        diffx = event.point.x - mesh.position.x;
+      const diffy = mesh.position.y - event.point.y;
 
       // scale width and height by same amount
-      panel.scale.x += diff;
-      panel.scale.y += diff;
+      panel.scale.x += diffx;
+      panel.scale.y += diffy;
 
-      this.postscale(panel);
-    }
-  }
-
-  scalevertical(mesh: Mesh, event: NgtEvent<PointerEvent>, panel: Object3D) {
-    if (event.object != mesh) return;
-    event?.stopPropagation();
-
-    this.doscalevertical(mesh, event, panel);
-    this.postscale(panel);
-  }
-
-  private doscalevertical(mesh: Mesh, event: Intersection, panel: Object3D) {
-    if (this.scaling) {
-      panel.worldToLocal(event.point);
-
-      let diff = mesh.position.y - event.point.y;
-      // scale width and height by same amount
-      panel.scale.x += diff;
-      panel.scale.y += diff;
 
       this.postscale(panel);
     }

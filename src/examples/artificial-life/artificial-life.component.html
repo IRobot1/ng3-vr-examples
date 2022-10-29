@@ -10,15 +10,15 @@
   <ngt-mesh-standard-material></ngt-mesh-standard-material>
 </ngt-instanced-mesh>
 
-<ng3-gui [position]="[0, 1, -2]" [scale]="0.5" [gui]="maingui" [locked]="true" [showclose]="false" [showexpand]="false" [resizable]="false" [selectable]="selectable"></ng3-gui>
+<ng3-gui [position]="[0, 1, -2]" [scale]="0.5" [gui]="maingui" [locked]="true" [showclose]="false" [showexpand]="false" [scalable]="false" [selectable]="selectable"></ng3-gui>
 
-<ng3-gui [position]="[-1.8, 1, -1.2]" [rotation]="[0, 3.14/3, 0]" [scale]="0.5" [gui]="redgui" [locked]="true" [showclose]="false" [showexpand]="false" [resizable]="false" [selectable]="selectable"></ng3-gui>
+<ng3-gui [position]="[-1.8, 1, -1.2]" [rotation]="[0, 3.14/3, 0]" [scale]="0.5" [gui]="redgui" [locked]="true" [showclose]="false" [showexpand]="false" [scalable]="false" [selectable]="selectable"></ng3-gui>
 
-<ng3-gui [position]="[-1, 1, -1.8]" [rotation]="[0, 3.14/8, 0]" [scale]="0.5" [gui]="greengui" [locked]="true" [showclose]="false" [showexpand]="false" [resizable]="false" [selectable]="selectable"></ng3-gui>
+<ng3-gui [position]="[-1, 1, -1.8]" [rotation]="[0, 3.14/8, 0]" [scale]="0.5" [gui]="greengui" [locked]="true" [showclose]="false" [showexpand]="false" [scalable]="false" [selectable]="selectable"></ng3-gui>
 
-<ng3-gui [position]="[1, 1, -1.8]" [rotation]="[0, -3.14/8, 0]" [scale]="0.5" [gui]="bluegui" [locked]="true" [showclose]="false" [showexpand]="false" [resizable]="false" [selectable]="selectable"></ng3-gui>
+<ng3-gui [position]="[1, 1, -1.8]" [rotation]="[0, -3.14/8, 0]" [scale]="0.5" [gui]="bluegui" [locked]="true" [showclose]="false" [showexpand]="false" [scalable]="false" [selectable]="selectable"></ng3-gui>
 
-<ng3-gui [position]="[1.8, 1, -1.2]" [rotation]="[0, -3.14/3, 0]" [scale]="0.5" [gui]="yellowgui" [locked]="true" [showclose]="false" [showexpand]="false" [resizable]="false" [selectable]="selectable"></ng3-gui>
+<ng3-gui [position]="[1.8, 1, -1.2]" [rotation]="[0, -3.14/3, 0]" [scale]="0.5" [gui]="yellowgui" [locked]="true" [showclose]="false" [showexpand]="false" [scalable]="false" [selectable]="selectable"></ng3-gui>
 
 <vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
 <vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>

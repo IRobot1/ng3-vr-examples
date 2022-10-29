@@ -27,30 +27,23 @@
   <ngt-mesh #parent *ngIf="expanded" (ready)="panelready($event)" [material]="panelmaterial">
     <ngt-plane-geometry [args]="[width, height]"></ngt-plane-geometry>
 
-    <ngt-group *ngIf="resizable">
-      <ngt-mesh #left [position]="[-width/2-0.01, 0, 0.01]" [visible]="showscaling" [material]="scalematerial"
+    <ngt-group *ngIf="scalable">
+      <ngt-mesh #scaleleft [position]="[-width/2, -height/2, 0.01]" [visible]="showscaling" [material]="scalematerial"
                 (pointerdown)="scaling=true" (pointerup)="scaling=false"
                 (pointerover)="showscaling=true" (pointerout)="showscaling=false;scaling=false"
-                (pointermove)="scalehorizontal(left.instance.value, $event, panel.instance.value)"
-                (ready)="scaleready($event, panel.instance.value, true)">
+                (pointermove)="scalepanel(scaleleft.instance.value, $event, panel.instance.value)"
+                (ready)="scaleready($event, panel.instance.value)">
         <ngt-plane-geometry [args]="[0.1, 0.1]"></ngt-plane-geometry>
       </ngt-mesh>
 
-      <ngt-mesh #right [position]="[width/2, 0, 0.01]" [visible]="showscaling" [material]="scalematerial"
+      <ngt-mesh #scaleright [position]="[width/2, -height/2, 0.01]" [visible]="showscaling" [material]="scalematerial"
                 (pointerdown)="scaling=true" (pointerup)="scaling=false"
                 (pointerover)="showscaling=true" (pointerout)="showscaling=false;scaling=false"
-                (pointermove)="scalehorizontal(right.instance.value, $event, panel.instance.value)"
-                (ready)="scaleready($event, panel.instance.value, true)">
+                (pointermove)="scalepanel(scaleright.instance.value, $event, panel.instance.value)"
+                (ready)="scaleready($event, panel.instance.value)">
         <ngt-plane-geometry [args]="[0.1, 0.1]"></ngt-plane-geometry>
       </ngt-mesh>
 
-      <ngt-mesh #bottom [position]="[0, -height/2, 0.01]" [visible]="showscaling" [material]="scalematerial"
-                (pointerdown)="scaling=true" (pointerup)="scaling=false"
-                (pointerover)="showscaling=true" (pointerout)="showscaling=false;scaling=false"
-                (pointermove)="scalevertical(bottom.instance.value, $event, panel.instance.value)"
-                (ready)="scaleready($event, panel.instance.value, false)">
-        <ngt-plane-geometry [args]="[0.1, 0.1]"></ngt-plane-geometry>
-      </ngt-mesh>
     </ngt-group>
 
     <ng-container *ngIf="templateRef"
