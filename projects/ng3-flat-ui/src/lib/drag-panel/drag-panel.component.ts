@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, 
 import { BufferGeometry, Intersection, Line, Material, Mesh, MeshBasicMaterial, Object3D, PlaneGeometry, Shape, ShapeGeometry, Vector3 } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
-import { GlobalFlatUITheme, THEME_CHANGE_EVENT } from "../flat-ui-theme";
+import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 
@@ -26,11 +26,14 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   @Input() overflow = 16;
 
   @Input() width = 1
+  @Input() minwidth = 0.5;
+
   @Input() height = 1;
+  @Input() minheight = 0.5;
+
+  @Input() resizable = false;
 
   @Input() expanded = true;
-
-  @Input() minscale = 0.5;
 
   @Input() selectable?: InteractiveObjects;
 
@@ -85,16 +88,30 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     this._scalematerial = newvalue;
   }
 
+  private _resizematerial!: Material
+  @Input()
+  get resizematerial(): Material {
+    if (this._resizematerial) return this._resizematerial;
+    return GlobalFlatUITheme.ScaleMaterial;
+  }
+  set resizematerial(newvalue: Material) {
+    this._resizematerial = newvalue;
+  }
+
 
   @Input() locked = false;
   @Input() showexpand = true;
   @Input() showclose = true;
-  @Input() scalable = true;
 
- 
+  @Input() scalable = true;
+  @Input() minscale = 0.5;
+
+  @Output() widthchange = new EventEmitter<number>();
+  @Output() heightchange = new EventEmitter<number>();
+
   @Output() close = new EventEmitter<boolean>();
 
-  displaytitle!: string;
+  protected displaytitle!: string;
 
   @ContentChild(TemplateRef) templateRef?: TemplateRef<unknown>;
 
@@ -105,6 +122,10 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   override preInit() {
     super.preInit();
 
+    this.createOutline()
+  }
+
+  private createOutline() {
     const halfwidth = this.width / 2 - 0.1;
     const halfheight = this.titleheight / 2;
 
@@ -115,6 +136,7 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     title.lineTo(-halfwidth, -halfheight)
     title.closePath();
 
+    if (this.outline) this.outline.dispose();
     this.outline = new BufferGeometry().setFromPoints(title.getPoints());
     this.outline.center();
   }
@@ -125,7 +147,7 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     this.selectable?.remove(this.mesh);
   }
 
-  panelready(panel: Mesh) {
+  protected panelready(panel: Mesh) {
     panel.visible = false;
     // when expanding, hide long enough for layout to complete once
     const timer = setTimeout(() => {
@@ -134,14 +156,14 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     }, 150)
   }
 
-  line!: Line;
+  private line!: Line;
   lineready(line: Line) {
     line.visible = false;
     this.line = line;
   }
 
 
-  isover = false;
+  private isover = false;
   over() {
     if (this.locked || this.isover) return;
 
@@ -156,7 +178,7 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
 
   private mesh!: Mesh;
 
-  meshready(mesh: Mesh, panel: Object3D) {
+  protected meshready(mesh: Mesh, panel: Object3D) {
     this.selectable?.add(mesh);
 
     const camera = this.store.get(s => s.camera);
@@ -185,10 +207,12 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     mesh.addEventListener('pointermove', (e: any) => { this.over(); e.stop = true; });
   }
 
-  showscaling = false;
-  dragging = false;
-  offset = 0;
-  movepanel(titlebar: Mesh, event: NgtEvent<PointerEvent>, panel: Object3D) {
+  //
+  // dragging
+  //
+  protected dragging = false;
+  private offset = 0;
+  protected movepanel(titlebar: Mesh, event: NgtEvent<PointerEvent>, panel: Object3D) {
     if (event.object != titlebar) return;
     event.stopPropagation();
 
@@ -219,9 +243,13 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     }
   }
 
+  //
+  // scaling
+  //
+  protected showscaling = false;
   private scalemeshes: Array<Mesh> = [];
 
-  scaleready(mesh: Mesh, panel: Object3D) {
+  protected scaleready(mesh: Mesh, panel: Object3D) {
     this.selectable?.add(mesh);
 
     mesh.addEventListener('pointermove', (e: any) => {
@@ -239,8 +267,8 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   }
 
 
-  scaling = false;
-  scalepanel(mesh: Mesh, event: NgtEvent<PointerEvent>, panel: Object3D) {
+  protected scaling = false;
+  protected scalepanel(mesh: Mesh, event: NgtEvent<PointerEvent>, panel: Object3D) {
     if (event.object != mesh) return;
     event.stopPropagation();
 
@@ -279,6 +307,75 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
         mesh.scale.y = 1 / panel.scale.y;
       }
     });
-
   }
+
+  //
+  // resizing
+  //
+  protected showresizing = false;
+
+  protected resizeready(mesh: Mesh, panel: Object3D, iswidth: boolean) {
+    this.selectable?.add(mesh);
+
+    mesh.addEventListener('pointermove', (e: any) => {
+      this.showresizing = true;
+      this.doresize(mesh, e.data, panel, iswidth);
+      e.stop = true;
+    });
+
+    mesh.addEventListener('pointerdown', (e: any) => { this.resizing = true; e.stop = true; });
+    mesh.addEventListener('pointerup', (e: any) => { this.resizing = false; });
+    mesh.addEventListener('pointerout', () => { this.showresizing = false; });
+    mesh.addEventListener('raymissed', () => { this.resizing = false; });
+
+    this.scalemeshes.push(mesh);
+  }
+
+
+  private _resizing = false;
+  protected get resizing(): boolean { return this._resizing }
+  protected set resizing(newvalue: boolean) {
+    this._resizing = newvalue;
+    // done resizing, update outline
+    if (!newvalue) {
+      this.createOutline();
+    }
+  }
+  protected resizepanel(mesh: Mesh, event: NgtEvent<PointerEvent>, panel: Object3D, iswidth: boolean) {
+    if (event.object != mesh) return;
+    event.stopPropagation();
+
+    this.doresize(mesh, event, panel, iswidth);
+  }
+
+  private doresize(mesh: Mesh, event: Intersection, panel: Object3D, iswidth: boolean) {
+
+    if (this.resizing) {
+      panel.worldToLocal(event.point);
+
+
+      // resize width and height by same amount
+      if (iswidth) {
+        let diff;
+        if (mesh.position.x < 0)  // left side
+          diff = mesh.position.x - event.point.x;
+        else
+          diff = event.point.x - mesh.position.x;
+
+        this.width += diff;
+        this.width = Math.max(this.minwidth, this.width);
+
+        this.widthchange.next(this.width)
+      }
+      else {
+        const diff = mesh.position.y - event.point.y;
+        this.height += diff;
+
+        this.height = Math.max(this.minheight, this.height);
+
+        this.heightchange.next(this.height)
+      }
+    }
+  }
+
 }

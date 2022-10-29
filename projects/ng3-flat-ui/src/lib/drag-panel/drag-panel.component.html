@@ -43,7 +43,31 @@
                 (ready)="scaleready($event, panel.instance.value)">
         <ngt-plane-geometry [args]="[0.1, 0.1]"></ngt-plane-geometry>
       </ngt-mesh>
+    </ngt-group>
 
+    <ngt-group *ngIf="resizable">
+      <ngt-mesh #resizeleft [position]="[-width/2, 0, 0.01]" [visible]="showresizing" [material]="resizematerial"
+                (pointerdown)="resizing=true" (pointerup)="resizing=false"
+                (pointerover)="showresizing=true" (pointerout)="showresizing=false;resizing=false"
+                (pointermove)="resizepanel(resizeleft.instance.value, $event, panel.instance.value, true)"
+                (ready)="resizeready($event, panel.instance.value, true)">
+        <ngt-plane-geometry [args]="[0.1, 0.1]"></ngt-plane-geometry>
+      </ngt-mesh>
+
+      <ngt-mesh #resizeright [position]="[width/2, 0, 0.01]" [visible]="showresizing" [material]="resizematerial"
+                (pointerdown)="resizing=true" (pointerup)="resizing=false"
+                (pointerover)="showresizing=true" (pointerout)="showresizing=false;resizing=false"
+                (pointermove)="resizepanel(resizeleft.instance.value, $event, panel.instance.value, true)"
+                (ready)="resizeready($event, panel.instance.value, true)">
+        <ngt-plane-geometry [args]="[0.1, 0.1]"></ngt-plane-geometry>
+      </ngt-mesh>
+      <ngt-mesh #resizebottom [position]="[0, -height/2, 0.01]" [visible]="showresizing" [material]="resizematerial"
+                (pointerdown)="resizing=true" (pointerup)="resizing=false"
+                (pointerover)="showresizing=true" (pointerout)="showresizing=false;resizing=false"
+                (pointermove)="resizepanel(resizebottom.instance.value, $event, panel.instance.value, false)"
+                (ready)="resizeready($event, panel.instance.value, false)">
+        <ngt-plane-geometry [args]="[0.1, 0.1]"></ngt-plane-geometry>
+      </ngt-mesh>
     </ngt-group>
 
     <ng-container *ngIf="templateRef"

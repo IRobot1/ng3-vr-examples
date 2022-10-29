@@ -4,9 +4,11 @@
 
 <ngt-ambient-light></ngt-ambient-light>
 
-<flat-ui-drag-panel [title]="'Controls Panel'" [showclose]="false" [width]="2" [height]="1.5" [position]="[-1.6, 1, -2.001]" [rotation]="[0, 30 | radian, 0]" [selectable]="selectable">
+<flat-ui-drag-panel [title]="'Controls Panel'" [scalable]="false" [resizable]="true"
+                    [width]="controlwidth" [height]="controlheight" (heightchange)="controlheight=$event" (widthchange)="controlwidth=$event"
+                    [showclose]="false" [position]="[-1.6, 1, -2.001]" [rotation]="[0, 30 | radian, 0]" [selectable]="selectable">
   <ng-template let-parent="parent">
-    <ngt-group vertical-layout [appendTo]="parent" [margin]="[0, 0.02, 0]" [position]="[-0.95, 0.75, 0.002]">
+    <ngt-group vertical-layout [appendTo]="parent" [margin]="[0, 0.02, 0]" [position]="[-controlwidth/2+0.05, controlheight/2, 0.002]">
 
       <ngt-group horizontal-layout>
         <flat-ui-label [text]="'radio'" [width]="0.6"></flat-ui-label>
