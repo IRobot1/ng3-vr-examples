@@ -1,6 +1,6 @@
 {
   "name": "ng3-gui",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "anidivr",
   "homepage": "https://ng3vr.z9.web.core.windows.net/",
   "repository": "https://github.com/IRobot1/ng3-vr-examples/tree/master/projects/ng3-gui",
@@ -29,7 +29,9 @@
   "peerDependencies": {
     "@angular/common": "^14.1.0",
     "@angular/core": "^14.1.0",
-    "ng3-flat-ui": "^0.0.3"
+    "@angular-three/core": "^6.0.1",
+    "@angular-three/soba": "^6.0.1",
+    "ng3-flat-ui": "^0.0.5"
   },
   "dependencies": {
     "tslib": "^2.3.0"
