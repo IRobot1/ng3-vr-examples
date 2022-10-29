@@ -19,7 +19,7 @@ export interface FlatUITheme {
   ProgressColor: string,
   DisabledColor: string,
   OutlineColor: string,
-  ResizeColor: string,
+  ScaleColor: string,
 }
 // just in case you want to add to the scheme when saving to GLTF
 
@@ -40,7 +40,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   ProgressColor = 'green';
   DisabledColor = '#222222';
   OutlineColor = 'white';
-  ResizeColor = 'white';
+  ScaleColor = 'white';
 
   // notify any object using the theme that it changed
   notify() {
@@ -65,7 +65,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     this.ProgressColor = newtheme.ProgressColor
     this.DisabledColor = newtheme.DisabledColor;
     this.OutlineColor = newtheme.OutlineColor;
-    this.ResizeColor = newtheme.ResizeColor;
+    this.ScaleColor = newtheme.ScaleColor;
 
     this.notify();
   }
@@ -86,7 +86,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   ProgressMaterial!: Material;
   DisabledMaterial!: Material;
   OutlineMaterial!: Material;
-  ResizeMaterial!: Material;
+  ScaleMaterial!: Material;
 
   // additional materials
   TitleMaterial!: Material;
@@ -115,7 +115,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     this.TitleMaterial = new MeshBasicMaterial({ color: this.PanelColor, transparent: true, opacity: 0.3 });
 
     this.PopupMaterial = new MeshBasicMaterial({ color: this.PopupColor });
-    this.ResizeMaterial = new MeshBasicMaterial({ color: this.ResizeColor });
+    this.ScaleMaterial = new MeshBasicMaterial({ color: this.ScaleColor });
 
     this.OutlineMaterial = new LineBasicMaterial({ color: this.OutlineColor });
 
@@ -144,7 +144,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     (this.TitleMaterial as MeshBasicMaterial).color.setStyle(this.PanelColor);
 
     (this.PopupMaterial as MeshBasicMaterial).color.setStyle(this.PopupColor);
-    (this.ResizeMaterial as MeshBasicMaterial).color.setStyle(this.ResizeColor);
+    (this.ScaleMaterial as MeshBasicMaterial).color.setStyle(this.ScaleColor);
 
     (this.OutlineMaterial as LineBasicMaterial).color.setStyle(this.OutlineColor);
   }

@@ -24,7 +24,7 @@ const MatrixTheme: FlatUITheme = {
   ProgressColor: 'lime',
   DisabledColor: '#555555',
   OutlineColor: 'lime',
-  ResizeColor: 'lime',
+  ScaleColor: 'lime',
 }
 
 @Component({

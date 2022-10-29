@@ -75,14 +75,14 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     this._outlinematerial = newvalue;
   }
 
-  private _resizematerial!: Material
+  private _scalematerial!: Material
   @Input()
-  get resizematerial(): Material {
-    if (this._resizematerial) return this._resizematerial;
-    return GlobalFlatUITheme.ResizeMaterial;
+  get scalematerial(): Material {
+    if (this._scalematerial) return this._scalematerial;
+    return GlobalFlatUITheme.ScaleMaterial;
   }
-  set resizematerial(newvalue: Material) {
-    this._resizematerial = newvalue;
+  set scalematerial(newvalue: Material) {
+    this._scalematerial = newvalue;
   }
 
 
