@@ -7,7 +7,7 @@
   </ngt-mesh>
 
   <flat-ui-button *ngFor="let item of keys" [selectable]="selectable"
-                  [position]="item.position" [width]="item.size" [text]="item.numkey"
+                  [position]="item.position" [width]="item.size" [text]="item.numkey" [enabled]="item.numkey!=''"
                   (pressed)="clicked($event)">
 
   </flat-ui-button>

@@ -48,11 +48,11 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
   }
 
   createNumpadGeometry() {
-    const keyboardwidth = 0.40;
-    const keyboardheight = 0.60;
+    const numpadwidth = 0.50;
+    const numpadheight = 0.50;
 
     const flat = new Shape();
-    roundedRect(flat, 0, 0, keyboardwidth, keyboardheight, 0.02);
+    roundedRect(flat, 0, 0, numpadwidth, numpadheight, 0.02);
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
@@ -69,18 +69,17 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
   private mesh!: Mesh;
 
   protected meshready(mesh: Mesh) {
-    const top = ['7', '8', '9']
-    const middle = ['4', '5', '6']
-    const bottom = ['1', '2', '3']
-    const last = ['-', '0', '.']
+    const top = ['7', '8', '9', '-']
+    const middle = ['4', '5', '6', '']
+    const bottom = ['1', '2', '3', '']
+    const last = [',', '0', '.', '<-']
 
-    const buttonwidth = 0.11
+    const buttonwidth = 0.12
     const z = 0.001;
-    const ytop = 0.22
-    const ymiddle = 0.11
-    const ybottom = 0
-    const ylast = -0.11
-    const yback = -0.22
+    const ytop = 0.18
+    const ymiddle = 0.06
+    const ybottom = -0.06
+    const ylast = -0.18
 
     let width = (top.length - 1) * buttonwidth;
     top.forEach((numkey, index) => {
@@ -101,7 +100,6 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
     last.forEach((numkey, index) => {
       this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), ylast, z], numkey));
     })
-    this.keys.push(new NumKeySetting([0, yback, z], 'Back', 0.3));
 
     this.selectable?.add(mesh);
     mesh.addEventListener('click', (e: any) => { e.stop = true; });
@@ -118,7 +116,7 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
   private onKeyUp(event: KeyboardEvent) {
     let keycode = event.key;
     if (event.key == 'Backspace')
-      keycode = 'Back';
+      keycode = '<-';
 
     const key = this.keys.find(x => x.numkey == keycode);
     if (key)
@@ -129,7 +127,7 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
     if (!this.visible) return;
 
     this.pressed.next(keycode);
-    if (keycode == 'Back') {
+    if (keycode == '<-') {
       if (this.text.length > 0) {
         this.text = this.text.slice(0, this.text.length - 1);
         this.change.next(this.text);
