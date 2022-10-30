@@ -8,9 +8,9 @@
   <flat-ui-button *ngFor="let item of data; index as index"
                   [selectable]="selectable" [text]="item.text" [visible]="item.enabled"
                   [active]="item.highlight" [width]="width-0.1"
-                  [position]="[0, height/2-0.1-index*0.12, 0.001]" (pressed)="selected(index)"></flat-ui-button>
+                  [position]="[0, height/2-0.1-index*0.11, 0.001]" (pressed)="selected(index)"></flat-ui-button>
 
-  <ngt-group [position]="[0, -height/2 + 0.15, 0.001]">
+  <ngt-group [position]="[0, -height/2 + 0.1, 0.001]">
 
     <flat-ui-button *ngFor="let item of keys" [selectable]="selectable"
                     [position]="item.position" [width]="item.size" [text]="item.numkey"

@@ -86,7 +86,7 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
 
   @Output() pressed = new EventEmitter<void>();
 
-  protected geometry!: BufferGeometry;
+  @Input() geometry!: BufferGeometry;
   protected icongeometry!: BufferGeometry;
 
   protected outline!: BufferGeometry; // outline material

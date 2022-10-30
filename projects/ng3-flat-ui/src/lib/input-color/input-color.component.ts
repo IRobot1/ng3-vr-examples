@@ -80,7 +80,7 @@ export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewI
     super.preInit();
 
     if (!this.geometry) this.createButtonGeometry()
-    if (!this.material) this.createButtonMaterial()
+    this.createButtonMaterial()
   }
 
   createButtonGeometry() {

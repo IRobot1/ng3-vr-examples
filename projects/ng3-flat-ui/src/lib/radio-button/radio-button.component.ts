@@ -56,6 +56,18 @@ export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterView
   set disabledmaterial(newvalue: Material) {
     this._disabledmaterial = newvalue;
   }
+
+  private _radiomaterial!: Material
+  @Input()
+  get radiomaterial(): Material {
+    if (this._radiomaterial) return this._radiomaterial;
+    return GlobalFlatUITheme.CheckMaterial;
+  }
+  set radiomaterial(newvalue: Material) {
+    this._radiomaterial = newvalue;
+  }
+
+
   private _width = 0.1;
   @Input()
   get width() { return this._width }
@@ -70,16 +82,6 @@ export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterView
   @Input() selectable?: InteractiveObjects;
 
   @Output() change = new EventEmitter<boolean>();
-
-  private _checkmaterial!: Material
-  @Input()
-  get checkmaterial(): Material {
-    if (this._checkmaterial) return this._checkmaterial;
-    return GlobalFlatUITheme.CheckMaterial;
-  }
-  set checkmaterial(newvalue: Material) {
-    this._checkmaterial = newvalue;
-  }
 
   setBackgroundColor() {
     if (!this.mesh) return;

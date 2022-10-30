@@ -53,14 +53,14 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
   }
 
 
-  private _buttonmaterial!: Material
+  private _backgroundmaterial!: Material
   @Input()
-  get buttonmaterial(): Material {
-    if (this._buttonmaterial) return this._buttonmaterial;
+  get backgroundmaterial(): Material {
+    if (this._backgroundmaterial) return this._backgroundmaterial;
     return GlobalFlatUITheme.ButtonMaterial;
   }
-  set buttonmaterial(newvalue: Material) {
-    this._buttonmaterial = newvalue;
+  set backgroundmaterial(newvalue: Material) {
+    this._backgroundmaterial = newvalue;
   }
 
 
@@ -74,14 +74,14 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
     this._disabledmaterial = newvalue;
   }
 
-  private _textmaterial!: Material
+  private _labelmaterial!: Material
   @Input()
-  get textmaterial(): Material {
-    if (this._textmaterial) return this._textmaterial;
-    return GlobalFlatUITheme.StringMaterial;
+  get labelmaterial(): Material {
+    if (this._labelmaterial) return this._labelmaterial;
+    return GlobalFlatUITheme.LabelMaterial;
   }
-  set textmaterial(newvalue: Material) {
-    this._textmaterial = newvalue;
+  set labelmaterial(newvalue: Material) {
+    this._labelmaterial = newvalue;
   }
 
   private _selectmaterial!: Material
@@ -156,7 +156,7 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
 
   setBackgroundColor() {
     if (this.enabled) {
-      this.mesh.material = this.buttonmaterial;
+      this.mesh.material = this.backgroundmaterial;
     }
     else {
       this.mesh.material = this.disabledmaterial;
