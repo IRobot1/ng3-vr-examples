@@ -1,12 +1,13 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Optional, Output } from "@angular/core";
 
 import { Material, Mesh } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
-import { GlobalFlatUITheme   } from "../flat-ui-theme";
+import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
+import { FlatUIRadioGroup } from "../radio-group/radio-group.component";
 
 @Component({
   selector: 'flat-ui-radio-button',
@@ -15,7 +16,19 @@ import { InteractiveObjects } from "../interactive-objects";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterViewInit {
-  @Input() checked = false;
+  @Input() value: any;
+
+  private _checked = false;
+  @Input()
+  get checked(): boolean { return this._checked }
+  set checked(newvalue: boolean) {
+    this._checked = newvalue;
+    if (this.checkmesh)
+      this.checkmesh.visible = newvalue;
+    this.change.next(newvalue);
+  }
+
+
   @Input() segments = 32;
 
 
@@ -94,11 +107,25 @@ export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterView
     }
   }
 
+  constructor(
+    @Optional() private radiogroup?: FlatUIRadioGroup
+  ) {
+    super();
+  }
+
+  override ngOnInit() {
+    super.ngOnInit();
+
+    // add if part of a group
+    this.radiogroup?.addbutton(this);
+  }
 
   override ngOnDestroy() {
     super.ngOnDestroy();
 
     this.selectable?.remove(this.checkmesh);
+
+    this.radiogroup?.removebutton(this);
   }
 
   ngAfterViewInit(): void {
@@ -126,6 +153,7 @@ export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterView
     mesh.addEventListener('pointerout', (e: any) => { this.out(); e.stop = true; });
 
     this.checkmesh = mesh;
+    this.checkmesh.visible = this.checked;
   }
 
   protected clicked(event: NgtEvent<MouseEvent>) {
@@ -135,10 +163,11 @@ export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterView
   }
 
   private doclicked() {
-    if (!this.enabled || !this.visible) return;
+    if (!this.enabled || !this.visible || this.checked) return;
 
-    this.checked = !this.checked;
-    this.change.next(this.checked);
+    this.checked = true;
+    if (this.radiogroup)
+      this.radiogroup.value = this.value;
   }
 
   private isover = false;

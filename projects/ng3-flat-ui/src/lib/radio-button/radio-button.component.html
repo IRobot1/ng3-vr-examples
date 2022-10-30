@@ -5,7 +5,7 @@
 
   <ngt-ring-geometry [args]="[0.045, 0.05, segments]"></ngt-ring-geometry>
 
-  <ngt-mesh [position]="[0, 0, 0.0001]" [visible]="checked" (ready)="checkmeshready($event)" [material]="radiomaterial">
+  <ngt-mesh [position]="[0, 0, 0.0001]" (ready)="checkmeshready($event)" [material]="radiomaterial">
     <ngt-circle-geometry [args]="[0.03,segments]"></ngt-circle-geometry>
   </ngt-mesh>
 </ngt-mesh>

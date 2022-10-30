@@ -30,6 +30,7 @@ import { FlatUIRadioButton } from './radio-button/radio-button.component';
 import { FlatUISelect } from './select/select.component';
 import { VerticalLayoutDirective } from './vertical-layout.directive';
 import { CommonModule } from '@angular/common';
+import { FlatUIRadioGroup } from './radio-group/radio-group.component';
 
 
 
@@ -46,6 +47,7 @@ import { CommonModule } from '@angular/common';
     FlatUILabel,
     FlatUIProgressBar,
     FlatUIRadioButton,
+    FlatUIRadioGroup,
     FlatUISelect,
 
     FlatUIColorPicker,
@@ -95,6 +97,7 @@ import { CommonModule } from '@angular/common';
     FlatUILabel,
     FlatUIProgressBar,
     FlatUIRadioButton,
+    FlatUIRadioGroup,
     FlatUISelect,
 
     FlatUIColorPicker,

@@ -42,6 +42,7 @@ export class FlatUIExample implements OnInit, AfterViewInit {
   panelheight = 0.3;
   showimage = true;
 
+  radiovalue = 0;
   checked = true;
   textvalue = 'string';
   buttonvalue = 'Start'
@@ -110,6 +111,10 @@ export class FlatUIExample implements OnInit, AfterViewInit {
     GlobalFlatUITheme.notify();
   }
 
+  radiochange(value: any) {
+    //console.warn('radio group value', value);
+  }
+
   clicked(event: any) {
     console.warn('clicked')
   }
@@ -137,7 +142,7 @@ export class FlatUIExample implements OnInit, AfterViewInit {
     let factor = 1;
     setInterval(() => {
       this.checked = !this.checked;
-
+      this.radiovalue = ++this.radiovalue % 3;
       this.textvalue = count.toString() + 's';
       this.numbervalue = count + 0.1;
       this.buttonvalue = this.checked ? 'Start' : 'Stop';

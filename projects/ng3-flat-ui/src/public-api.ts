@@ -20,6 +20,7 @@ export * from './lib/list/list.component';
 export * from './lib/numpad/numpad.component';
 export * from './lib/progress-bar/progress-bar.component';
 export * from './lib/radio-button/radio-button.component';
+export * from './lib/radio-group/radio-group.component';
 export * from './lib/select/select.component';
 export * from './lib/flat-ui-theme';
 export * from './lib/flat-ui-utils';

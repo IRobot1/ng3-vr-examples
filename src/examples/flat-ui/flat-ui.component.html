@@ -12,8 +12,14 @@
 
       <ngt-group horizontal-layout>
         <flat-ui-label [text]="'radio'" [width]="0.6"></flat-ui-label>
-        <flat-ui-radio-button [checked]="checked" [selectable]="selectable" (change)="changed($event)"></flat-ui-radio-button>
-        <flat-ui-radio-button [checked]="checked" [selectable]="selectable" [enabled]="false" (change)="changed($event)" [segments]="8" [rotation]="[0, 0, 22.5 |radian]"></flat-ui-radio-button>
+        <flat-ui-radio-group [value]="radiovalue" (change)="radiochange($event)">
+          <flat-ui-radio-button [value]="0" [selectable]="selectable" (change)="changed($event)"></flat-ui-radio-button>
+          <flat-ui-label [text]="'Zero'" [width]="0.4"></flat-ui-label>
+          <flat-ui-radio-button [value]="1" [selectable]="selectable" (change)="changed($event)" [segments]="6"></flat-ui-radio-button>
+          <flat-ui-label [text]="'One'" [width]="0.4"></flat-ui-label>
+          <flat-ui-radio-button [value]="2" [selectable]="selectable" [enabled]="false" (change)="changed($event)" [segments]="8" [rotation]="[0, 0, 22.5 |radian]"></flat-ui-radio-button>
+          <flat-ui-label [text]="'Two'" [width]="0.4"></flat-ui-label>
+        </flat-ui-radio-group>
       </ngt-group>
 
       <ngt-group horizontal-layout>
