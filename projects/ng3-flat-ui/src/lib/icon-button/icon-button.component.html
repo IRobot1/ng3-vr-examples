@@ -4,7 +4,7 @@
             [geometry]="geometry" 
             (ready)="meshready($event)">
 
-    <ngt-mesh [position]="[0, 0, 0.001]" [scale]="svgscale" [geometry]="icongeometry" [material]="iconmaterial"></ngt-mesh>
+    <flat-ui-icon [position]="[0, 0, 0.001]" [width]="width" [svg]="svg" [url]="url" [iconmaterial]="iconmaterial"></flat-ui-icon>
   </ngt-mesh>
 
   <ngt-line (ready)="lineready($event)"

@@ -1,11 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, Group, Line, Material, Mesh, Shape, ShapeGeometry, Vector3 } from "three";
+import { BufferGeometry, Line, Material, Mesh, Shape, ShapeGeometry, Vector3 } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
-
-import { SVGLoader, SVGResult } from "three-stdlib";
-
-import { BufferGeometryUtils } from "..//BufferGeometryUtils";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
@@ -20,6 +16,9 @@ import { InteractiveObjects } from "../interactive-objects";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewInit {
+  @Input() url?: string;
+  @Input() svg?: string;
+
   private _enabled = true;
   @Input()
   get enabled(): boolean { return this._enabled }
@@ -195,79 +194,6 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
   out() {
     this.line.visible = false;
     this.isover = false;
-  }
-
-  private _url!: string;
-  @Input()
-  get url(): string { return this._url }
-  set url(newvalue: string) {
-    this._url = newvalue;
-    if (newvalue) {
-      this.loaded = false;
-      this.load();
-    }
-  }
-  @Input() set svg(text: string) {
-    this.loaded = false;
-    if (text) {
-      this.zone.run(() => {
-        this.process(this.loader.parse(text));
-        this.loaded = true;
-      })
-    }
-  }
-
-  loaded = false;
-
-  private group = new Group();
-  private loader = new SVGLoader();
-
-
-  private load(): void {
-    this.loader.load(this._url, (data: SVGResult) => {
-      this.process(data);
-      this.loaded = true;
-      this.cd.detectChanges(); // force change detection to render icon
-    });
-  }
-
-  private process(data: SVGResult) {
-    const paths = data.paths;
-
-    // cleanup last loaded group of mesh geometries
-    this.group.children.forEach(child => {
-      (child as Mesh).geometry.dispose();
-      this.group.remove(child);
-    });
-    this.group.children.length = 0;
-
-    const geometries: Array<BufferGeometry> = [];
-
-    for (let i = 0; i < paths.length; i++) {
-
-      const path = paths[i];
-
-
-      const shapes = SVGLoader.createShapes(path);
-
-      for (let j = 0; j < shapes.length; j++) {
-        const shape = shapes[j];
-        geometries.push(new ShapeGeometry(shape));
-
-      }
-    }
-
-    const geometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
-    if (geometry) {
-      geometry.center();
-
-      const size = new Vector3();
-      geometry.boundingBox?.getSize(size);
-      size.z = 1;
-      this.svgscale = new Vector3(this.width * 0.8, -this.width * 0.8, 1).divide(size);
-
-      this.icongeometry = geometry;
-    }
   }
 
 }

@@ -3,6 +3,7 @@
  */
 
 export * from './lib/button/button.component';
+export * from './lib/icon/icon.component';
 export * from './lib/color-picker/color-picker.component';
 export * from './lib/drag-panel/drag-panel.component';
 export * from './lib/expansion-panel/expansion-panel.component';

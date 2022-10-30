@@ -31,12 +31,14 @@ import { FlatUISelect } from './select/select.component';
 import { VerticalLayoutDirective } from './vertical-layout.directive';
 import { CommonModule } from '@angular/common';
 import { FlatUIRadioGroup } from './radio-group/radio-group.component';
+import { FlatUIIcon } from './icon/icon.component';
 
 
 
 @NgModule({
   declarations: [
     FlatUIButton,
+    FlatUIIcon,
     FlatUIIconButton,
     FlatUIInputCheckbox,
     FlatUIInputColor,
@@ -87,6 +89,7 @@ import { FlatUIRadioGroup } from './radio-group/radio-group.component';
   ],
   exports: [
     FlatUIButton,
+    FlatUIIcon,
     FlatUIIconButton,
     FlatUIInputCheckbox,
     FlatUIInputColor,

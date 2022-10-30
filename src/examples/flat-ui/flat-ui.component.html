@@ -71,6 +71,12 @@
             <ngt-group vertical-layout [margin]="[0, 0.02, 0]" [appendTo]="parent" [position]="[-0.5, panelheight/2, 0.002]">
 
               <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
+                <flat-ui-label [text]="'icon'" [width]="0.6"></flat-ui-label>
+                <flat-ui-icon [svg]="svg"></flat-ui-icon>
+                <flat-ui-icon [url]="'assets/webgl.svg'" [iconmaterial]="iconmaterial.instance.value"></flat-ui-icon>
+              </ngt-group>
+
+              <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
                 <flat-ui-label [text]="'icon button'" [width]="0.6"></flat-ui-label>
                 <flat-ui-icon-button [svg]="svg" [enabled]="false" (pressed)="clicked($event)" [selectable]="selectable"></flat-ui-icon-button>
                 <flat-ui-icon-button [url]="'assets/webgl.svg'" [iconmaterial]="iconmaterial.instance.value" [selectable]="selectable" (pressed)="clicked($event)"></flat-ui-icon-button>
