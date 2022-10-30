@@ -5,10 +5,17 @@
             (ready)="meshready($event)" (pointermissed)="missed()">
   </ngt-mesh>
 
+  <ngt-mesh *ngFor="let item of data; index as index"
+            [visible]="item.highlight" [position]="[-width/2+0.04, height/2-0.1-index*0.11, 0.001]"
+            [material]="listselectmaterial">
+    <ngt-plane-geometry [args]="[0.02, 0.1]"></ngt-plane-geometry>
+  </ngt-mesh>
+
   <flat-ui-button *ngFor="let item of data; index as index"
                   [selectable]="selectable" [text]="item.text" [visible]="item.enabled"
-                  [active]="item.highlight" [width]="width-0.1"
-                  [position]="[0, height/2-0.1-index*0.11, 0.001]" (pressed)="selected(index)"></flat-ui-button>
+                  [width]="width-0.16" [position]="[0, height/2-0.1-index*0.11, 0.001]"
+                  (pressed)="selected(index)">
+  </flat-ui-button>
 
   <ngt-group [position]="[0, -height/2 + 0.1, 0.001]">
 

@@ -56,6 +56,16 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
     this._popupmaterial = newvalue;
   }
 
+  private _listselectmaterial!: Material
+  @Input()
+  get listselectmaterial(): Material {
+    if (this._listselectmaterial) return this._listselectmaterial;
+    return GlobalFlatUITheme.ListSelectMaterial;
+  }
+  set listselectmaterial(newvalue: Material) {
+    this._listselectmaterial = newvalue;
+  }
+
 
   @Input() selectable?: InteractiveObjects;
 

@@ -20,6 +20,7 @@ export interface FlatUITheme {
   DisabledColor: string,
   OutlineColor: string,
   ScaleColor: string,
+  ListSelectColor: string,
 }
 // just in case you want to add to the scheme when saving to GLTF
 
@@ -41,6 +42,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   DisabledColor = '#222222';
   OutlineColor = 'white';
   ScaleColor = 'white';
+  ListSelectColor = 'white';
 
   // notify any object using the theme that it changed
   notify() {
@@ -66,6 +68,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     this.DisabledColor = newtheme.DisabledColor;
     this.OutlineColor = newtheme.OutlineColor;
     this.ScaleColor = newtheme.ScaleColor;
+    this.ListSelectColor = newtheme.ListSelectColor;
 
     this.notify();
   }
@@ -87,6 +90,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   DisabledMaterial!: Material;
   OutlineMaterial!: Material;
   ScaleMaterial!: Material;
+  ListSelectMaterial!: Material;
 
   // additional materials
   TitleMaterial!: Material;
@@ -110,6 +114,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     this.ToggleFalseMaterial = new MeshBasicMaterial({ color: this.ToggleFalseColor });
     this.ToggleTrueMaterial = new MeshBasicMaterial({ color: this.ToggleTrueColor });
     this.SelectMaterial = new MeshBasicMaterial({ color: this.SelectColor });
+    this.ListSelectMaterial = new MeshBasicMaterial({ color: this.ListSelectColor });
 
     this.PanelMaterial = new MeshBasicMaterial({ color: this.PanelColor });
     this.TitleMaterial = new MeshBasicMaterial({ color: this.PanelColor, transparent: true, opacity: 0.3 });
@@ -139,6 +144,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
     (this.ToggleFalseMaterial as MeshBasicMaterial).color.setStyle(this.ToggleFalseColor);
     (this.ToggleTrueMaterial as MeshBasicMaterial).color.setStyle(this.ToggleTrueColor);
     (this.SelectMaterial as MeshBasicMaterial).color.setStyle(this.SelectColor);
+    (this.ListSelectMaterial as MeshBasicMaterial).color.setStyle(this.ListSelectColor);
 
     (this.PanelMaterial as MeshBasicMaterial).color.setStyle(this.PanelColor);
     (this.TitleMaterial as MeshBasicMaterial).color.setStyle(this.PanelColor);

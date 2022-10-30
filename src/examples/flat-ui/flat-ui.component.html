@@ -52,7 +52,7 @@
 
       <ngt-group horizontal-layout>
         <flat-ui-label [text]="'options'" [width]="0.6"></flat-ui-label>
-        <flat-ui-select #list1 [width]="1" [selectable]="selectable" (openinput)="input.openlist($event, list1, list, selectedtext)" [text]="selectedtext"></flat-ui-select>
+        <flat-ui-select #list1 [width]="1" [selectable]="selectable" (change)="selectedtext=$event" (openinput)="input.openlist($event, list1, list, selectedtext)" [text]="selectedtext"></flat-ui-select>
       </ngt-group>
 
     </ngt-group>

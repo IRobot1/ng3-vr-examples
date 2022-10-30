@@ -39,8 +39,6 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
     }
   }
 
-  @Input() active = false;
-
   private _enabled = true;
   @Input()
   get enabled(): boolean { return this._enabled }

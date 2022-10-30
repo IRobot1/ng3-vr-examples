@@ -25,6 +25,7 @@ const MatrixTheme: FlatUITheme = {
   DisabledColor: '#555555',
   OutlineColor: 'lime',
   ScaleColor: 'lime',
+  ListSelectColor: 'lime',
 }
 
 @Component({
@@ -117,10 +118,6 @@ export class FlatUIExample implements OnInit, AfterViewInit {
 
   clicked(event: any) {
     console.warn('clicked')
-  }
-
-  listitem(item: string) {
-    this.selectedtext = item;
   }
 
   button(item: string) {
