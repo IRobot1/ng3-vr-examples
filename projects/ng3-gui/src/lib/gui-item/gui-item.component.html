@@ -1,6 +1,6 @@
 <ngt-group [ngSwitch]="item.classname">
   <ng-template [ngSwitchCase]="'options'">
-    <ngt-group horizontal-layout [margin]="[0.02, 0, 0]">
+    <ngt-group horizontal-layout [margin]="[0.04, 0, 0]">
       <flat-ui-label [text]="item.title" [width]="0.8"></flat-ui-label>
       <flat-ui-select #list [text]="listvalue" [width]="0.8" [selectable]="selectable" [enabled]="item.enabled"
                       (change)="listvalue=$event" (openinput)="input.openlist($event, list, item._min, listvalue)">

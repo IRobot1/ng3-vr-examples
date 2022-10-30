@@ -68,6 +68,7 @@ export class FlatUIExpansionPanel extends NgtObjectProps<Mesh> implements AfterV
       const timer = setTimeout(() => {
         this.group.visible = true;
         clearTimeout(timer);
+        this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
       }, 100)
 
     }
