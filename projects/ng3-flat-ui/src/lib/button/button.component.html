@@ -2,15 +2,20 @@
 
   <ngt-mesh #mesh
             (click)="clicked(mesh.instance.value, $event)"
-            [geometry]="geometry" 
+            [geometry]="geometry"
             (pointerover)="over();$event.stopPropagation()" (pointerout)="out();$event.stopPropagation()"
             (ready)="meshready($event)">
 
     <ngt-soba-text [text]="text" [material]="labelmaterial" [fontSize]="fontsize" [anchorX]="textjustify" [position]="[0, 0, 0.001]"></ngt-soba-text>
 
+    <ng-container *ngIf="templateRef"
+                  [ngTemplateOutlet]="templateRef"
+                  [ngTemplateOutletContext]="{ parent: mesh.instance.value }">
+    </ng-container>
   </ngt-mesh>
 
   <ngt-line (ready)="lineready($event)"
             [geometry]="outline" [material]="outlinematerial"> </ngt-line>
+
 
 </ngt-group>

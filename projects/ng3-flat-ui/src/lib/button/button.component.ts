@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 
 import { BufferGeometry, Line, Material, Mesh, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
@@ -96,6 +96,8 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
   @Input() geometry!: BufferGeometry;
 
   @Output() pressed = new EventEmitter<string>();
+
+  @ContentChild(TemplateRef) templateRef?: TemplateRef<unknown>;
 
   protected outline!: BufferGeometry; // outline material
 

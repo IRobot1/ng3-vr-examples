@@ -4,6 +4,8 @@
 
 <ngt-ambient-light></ngt-ambient-light>
 
+<ngt-mesh-basic-material #blackmaterial noAppend color="black"></ngt-mesh-basic-material>
+
 <flat-ui-drag-panel [title]="'Controls Panel'" [scalable]="false" [resizable]="true"
                     [width]="controlwidth" [height]="controlheight" (heightchange)="controlheight=$event" (widthchange)="controlwidth=$event"
                     [showclose]="false" [position]="[-1.6, 1, -2.001]" [rotation]="[0, 30 | radian, 0]" [selectable]="selectable">
@@ -53,6 +55,24 @@
       <ngt-group horizontal-layout>
         <flat-ui-label [text]="'options'" [width]="0.6"></flat-ui-label>
         <flat-ui-select #list1 [width]="1" [selectable]="selectable" (change)="selectedtext=$event" (openinput)="input.openlist($event, list1, list, selectedtext)" [text]="selectedtext"></flat-ui-select>
+      </ngt-group>
+
+      <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
+        <flat-ui-label [text]="'tab'" [width]="0.6"></flat-ui-label>
+        <flat-ui-tab [text]="'One'" [selected]="true" [height]="tabcontentheight" [panelmaterial]="blackmaterial.instance.value">
+          <ng-template let-parent="parent">
+            <ngt-group [appendTo]="parent" [position]="[0, tabcontentheight/2-0.05, 0.002]">
+              <flat-ui-label [text]="'One Content'"></flat-ui-label>
+            </ngt-group>
+          </ng-template>
+        </flat-ui-tab>
+        <flat-ui-tab [text]="'Two'" [height]="tabcontentheight" [panelmaterial]="blackmaterial.instance.value">
+          <ng-template let-parent="parent">
+            <ngt-group [appendTo]="parent" [position]="[0, tabcontentheight/2-0.05, 0.002]">
+              <flat-ui-label [text]="'Two Content'"></flat-ui-label>
+            </ngt-group>
+          </ng-template>
+        </flat-ui-tab>
       </ngt-group>
 
     </ngt-group>

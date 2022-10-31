@@ -11,7 +11,7 @@ import { InteractiveObjects } from "../interactive-objects";
 
 @Component({
   selector: 'flat-ui-expansion-panel',
-  exportAs: 'flatUIIconExpansionPanel',
+  exportAs: 'flatUIExpansionPanel',
   templateUrl: './expansion-panel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -32,6 +32,7 @@ import { VerticalLayoutDirective } from './vertical-layout.directive';
 import { CommonModule } from '@angular/common';
 import { FlatUIRadioGroup } from './radio-group/radio-group.component';
 import { FlatUIIcon } from './icon/icon.component';
+import { FlatUITab } from './tab/tab.component';
 
 
 
@@ -51,6 +52,7 @@ import { FlatUIIcon } from './icon/icon.component';
     FlatUIRadioButton,
     FlatUIRadioGroup,
     FlatUISelect,
+    FlatUITab,
 
     FlatUIColorPicker,
     FlatUIKeyboard,
@@ -102,6 +104,7 @@ import { FlatUIIcon } from './icon/icon.component';
     FlatUIRadioButton,
     FlatUIRadioGroup,
     FlatUISelect,
+    FlatUITab,
 
     FlatUIColorPicker,
     FlatUIKeyboard,

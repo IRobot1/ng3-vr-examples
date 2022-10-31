@@ -40,6 +40,8 @@ export class FlatUIExample implements OnInit, AfterViewInit {
   controlwidth = 2;
   controlheight = 1.5
 
+  tabcontentheight = 0.5
+
   panelheight = 0.3;
   showimage = true;
 
