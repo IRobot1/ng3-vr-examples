@@ -1,0 +1,10 @@
+<ngt-group [name]="name" [visible]="visible" [ngtObjectPassThrough]="this"
+           [position]="position" [rotation]="rotation" [scale]="scale">
+  <ngt-mesh #content [position]="[width/2, -height/2, 0]" (ready)="mesh = $event" [material]="panelmaterial">
+    <ngt-plane-geometry [args]="[width, height-tabheight]"></ngt-plane-geometry>
+
+    <ng-container *ngIf="templateRef"
+                  [ngTemplateOutlet]="templateRef"
+                  [ngTemplateOutletContext]="{ parent: content.instance.value }"></ng-container>
+  </ngt-mesh>
+</ngt-group>

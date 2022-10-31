@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Optional, Output, TemplateRef } from "@angular/core";
 
 import { Group, Material, Mesh, Object3D } from "three";
 import { NgtObjectProps } from "@angular-three/core";
@@ -7,6 +7,7 @@ import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
+import { FlatUITabGroup } from "../tab-group/tab-group.component";
 
 
 @Component({
@@ -16,24 +17,32 @@ import { InteractiveObjects } from "../interactive-objects";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatUITab extends NgtObjectProps<Mesh> implements AfterViewInit {
+  @Input() label: string = 'tab'
 
-  private _text = '';
+  private _text! : string;
   @Input()
-  get text(): string { return this._text }
-  set text(newvalue: string) {
+  get text(): string  {
+    if (this._text) return this._text;
+    return this.label;
+  }
+  set text(newvalue: string ) {
     this._text = newvalue;
-    this.displaytitle = this.text.substring(0, this.overflow * this.tabwidth);
+
+    let text = this.label;
+    if (newvalue) text = newvalue;
+    
+    this.displaytitle = text.substring(0, this.overflow * this.tabwidth);
   }
 
   @Input() overflow = 24;
 
-  @Input() data: any;
 
-  private _selected = false;
+  private _active = false;
   @Input()
-  get selected(): boolean { return this._selected }
-  set selected(newvalue: boolean) {
-    this._selected = newvalue;
+  get active(): boolean { return this._active }
+  set active(newvalue: boolean) {
+    this._active = newvalue;
+
     if (this.mesh) {
       this.mesh.visible = newvalue;
     }
@@ -85,40 +94,6 @@ export class FlatUITab extends NgtObjectProps<Mesh> implements AfterViewInit {
     this._listselectmaterial = newvalue;
   }
 
-  // content panel width and height
-  private _width = 1;
-  @Input()
-  get width() { return this._width }
-  set width(newvalue: number) {
-    this._width = newvalue;
-    if (this.mesh) {
-      this.mesh.dispatchEvent({ type: WIDTH_CHANGED_EVENT });
-    }
-  }
-
-  private _height = 1;
-  @Input()
-  get height() {
-    let height = this.tabheight;
-    if (this.selected) height += this._height;
-    return height
-  }
-  set height(newvalue: number) {
-    this._height = newvalue;
-    if (this.mesh) {
-      this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
-    }
-  }
-
-  private _panelmaterial?: Material;
-  @Input()
-  get panelmaterial(): Material {
-    if (this._panelmaterial) return this._panelmaterial;
-    return GlobalFlatUITheme.PanelMaterial;
-  }
-  set panelmaterial(newvalue: Material) {
-    this._panelmaterial = newvalue;
-  }
 
   @Input() selectable?: InteractiveObjects;
 
@@ -129,10 +104,23 @@ export class FlatUITab extends NgtObjectProps<Mesh> implements AfterViewInit {
 
   @ContentChild(TemplateRef) templateRef?: TemplateRef<unknown>;
 
+  constructor(
+    @Optional() private tabgroup?: FlatUITabGroup
+  ) {
+    super();
+  }
+
+  override ngOnInit() {
+    super.ngOnInit();
+
+    // add if part of a group
+    this.tabgroup?.addtab(this);
+
+  }
   override ngOnDestroy() {
     super.ngOnDestroy();
 
-    this.selectable?.remove(this.mesh);
+    this.tabgroup?.removetab(this);
   }
 
   ngAfterViewInit(): void {
@@ -144,15 +132,19 @@ export class FlatUITab extends NgtObjectProps<Mesh> implements AfterViewInit {
   }
 
   protected group!: Group;
-  protected panel!: Mesh;
 
   private mesh!: Object3D;
 
   protected meshready(mesh: Object3D) {
     this.mesh = mesh;
+    this.mesh.visible = this.active;
   }
 
-  pressed(event: any) {
+  pressed() {
+    if (!this.enabled || !this.visible || this.active) return;
 
+    this.active = true;
+    if (this.tabgroup)
+      this.tabgroup.label = this.label;
   }
 }

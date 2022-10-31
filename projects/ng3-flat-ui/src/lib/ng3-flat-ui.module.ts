@@ -33,6 +33,7 @@ import { CommonModule } from '@angular/common';
 import { FlatUIRadioGroup } from './radio-group/radio-group.component';
 import { FlatUIIcon } from './icon/icon.component';
 import { FlatUITab } from './tab/tab.component';
+import { FlatUITabGroup } from './tab-group/tab-group.component';
 
 
 
@@ -53,6 +54,7 @@ import { FlatUITab } from './tab/tab.component';
     FlatUIRadioGroup,
     FlatUISelect,
     FlatUITab,
+    FlatUITabGroup,
 
     FlatUIColorPicker,
     FlatUIKeyboard,
@@ -105,6 +107,7 @@ import { FlatUITab } from './tab/tab.component';
     FlatUIRadioGroup,
     FlatUISelect,
     FlatUITab,
+    FlatUITabGroup,
 
     FlatUIColorPicker,
     FlatUIKeyboard,

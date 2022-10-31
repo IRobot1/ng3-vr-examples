@@ -59,20 +59,29 @@
 
       <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
         <flat-ui-label [text]="'tab'" [width]="0.6"></flat-ui-label>
-        <flat-ui-tab [text]="'One'" [selected]="true" [height]="tabcontentheight" [panelmaterial]="blackmaterial.instance.value">
-          <ng-template let-parent="parent">
-            <ngt-group [appendTo]="parent" [position]="[0, tabcontentheight/2-0.05, 0.002]">
-              <flat-ui-label [text]="'One Content'"></flat-ui-label>
-            </ngt-group>
-          </ng-template>
-        </flat-ui-tab>
-        <flat-ui-tab [text]="'Two'" [height]="tabcontentheight" [panelmaterial]="blackmaterial.instance.value">
-          <ng-template let-parent="parent">
-            <ngt-group [appendTo]="parent" [position]="[0, tabcontentheight/2-0.05, 0.002]">
-              <flat-ui-label [text]="'Two Content'"></flat-ui-label>
-            </ngt-group>
-          </ng-template>
-        </flat-ui-tab>
+        <flat-ui-tab-group [enabled]="true" [width]="tabcontentwidth" [height]="tabcontentheight">
+          <flat-ui-tab [label]="'One'" [active]="true" [tabwidth]="0.3">
+            <ng-template let-parent="parent">
+              <ngt-group [appendTo]="parent" horizontal-layout [margin]="[0.02, 0, 0]" [position]="[-tabcontentwidth/2, tabcontentheight/2, 0.001]">
+                <flat-ui-label [text]="'One Content'" [position]="[0, -0.05, 0]"></flat-ui-label>
+              </ngt-group>
+            </ng-template>
+          </flat-ui-tab>
+          <flat-ui-tab [label]="'Two'" [tabwidth]="0.4">
+            <ng-template let-parent="parent">
+              <ngt-group [appendTo]="parent" horizontal-layout [margin]="[0.02, 0, 0]" [position]="[-tabcontentwidth/2, tabcontentheight/2, 0.001]">
+                <flat-ui-button [text]="'Two Content'" [position]="[0.25, -0.05-0.02, 0]"></flat-ui-button>
+              </ngt-group>
+            </ng-template>
+          </flat-ui-tab>
+          <flat-ui-tab [label]="'Three'" [tabwidth]="0.5">
+            <ng-template let-parent="parent">
+              <ngt-group [appendTo]="parent" horizontal-layout [margin]="[0.02, 0, 0]" [position]="[-tabcontentwidth/2, tabcontentheight/2, 0.001]">
+                <flat-ui-button [text]="'Three Content'" [position]="[0.25, -0.05-0.02, 0]"></flat-ui-button>
+              </ngt-group>
+            </ng-template>
+          </flat-ui-tab>
+        </flat-ui-tab-group>
       </ngt-group>
 
     </ngt-group>
