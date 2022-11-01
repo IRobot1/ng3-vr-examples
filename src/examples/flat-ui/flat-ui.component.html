@@ -6,6 +6,10 @@
 
 <ngt-mesh-basic-material #blackmaterial noAppend color="black"></ngt-mesh-basic-material>
 
+<ngt-group ngtBoxHelper>
+</ngt-group>
+
+
 <flat-ui-drag-panel [title]="'Controls Panel'" [scalable]="false" [resizable]="true"
                     [width]="controlwidth" [height]="controlheight" (heightchange)="controlheight=$event" (widthchange)="controlwidth=$event"
                     [showclose]="false" [position]="[-1.6, 1, -2.001]" [rotation]="[0, 30 | radian, 0]" [selectable]="selectable">
@@ -54,7 +58,7 @@
 
       <ngt-group horizontal-layout>
         <flat-ui-label [text]="'tab'" [width]="0.6"></flat-ui-label>
-        <flat-ui-tab-group [enabled]="true" [width]="tabcontentwidth" [height]="tabcontentheight" [panelmaterial]="blackmaterial.instance.value">
+        <flat-ui-tab-group [enabled]="true" [tabheader]="'above'" [width]="tabcontentwidth" [height]="tabcontentheight" [panelmaterial]="blackmaterial.instance.value">
           <flat-ui-tab [label]="'One'" [active]="true" [tabwidth]="0.2">
             <ng-template let-parent="parent">
               <ngt-group [appendTo]="parent" horizontal-layout [margin]="[0.02, 0, 0]" [position]="[-tabcontentwidth/2, tabcontentheight/2-0.1, 0.001]">

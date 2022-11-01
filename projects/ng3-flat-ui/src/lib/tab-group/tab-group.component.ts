@@ -9,6 +9,7 @@ import { GlobalFlatUITheme } from "../flat-ui-theme";
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { InteractiveObjects } from "../interactive-objects";
 
+export type FlatUITabHeaderPosition = 'above' | 'below';
 
 @Component({
   selector: 'flat-ui-tab-group',
@@ -31,6 +32,19 @@ export class FlatUITabGroup extends NgtObjectProps<Group> {
 
   @Input() enabled = true;
 
+  @Input() tabheader: FlatUITabHeaderPosition = 'above';
+
+  get tabposition(): number {
+    if (this.tabheader == 'above')
+      return -this.tabheight / 2 + 0.01;
+    return this.tabheight / 2 - 0.01
+  }
+
+  get panelposition(): number {
+    if (this.tabheader == 'above')
+      return -this.tabheight / 2;
+    return this.tabheight / 2;
+  }
   // content panel width and height
   private _width = 1;
   @Input()
@@ -123,7 +137,9 @@ export class FlatUITabGroup extends NgtObjectProps<Group> {
     }
     this.xoffset += tab.tabwidth / 2
     tab.position.x = this.xoffset;
-    tab.position.y = this.height / 2;
+    tab.position.y = this.height / 2 - this.tabheight/2;
+    // move to the bottom of the panel
+    if (this.tabheader == 'below') tab.position.y = -tab.position.y;
     this.xoffset += (tab.tabwidth / 2 + 0.01); // add small space between tabs
 
     if (this.label == tab.label || tab.active) {
