@@ -47,11 +47,6 @@
         <flat-ui-input-text #tinput2 [text]="colorvalue" [overflow]="7" [width]="0.5" [enabled]="false"></flat-ui-input-text>
       </ngt-group>
 
-      <ngt-group horizontal-layout [margin]="[0.1, 0, 0]">
-        <flat-ui-button [text]="'Enabled Button'" [width]="0.8" [selectable]="selectable" (pressed)="button($event)"></flat-ui-button>
-        <flat-ui-button [text]="'Disabled Button'" [enabled]="false" [width]="0.8"></flat-ui-button>
-      </ngt-group>
-
       <ngt-group horizontal-layout>
         <flat-ui-label [text]="'options'" [width]="0.6"></flat-ui-label>
         <flat-ui-select #list1 [width]="1" [selectable]="selectable" (change)="selectedtext=$event" (openinput)="input.openlist($event, list1, list, selectedtext)" [text]="selectedtext"></flat-ui-select>
@@ -62,15 +57,15 @@
         <flat-ui-tab-group [enabled]="true" [width]="tabcontentwidth" [height]="tabcontentheight" [panelmaterial]="blackmaterial.instance.value">
           <flat-ui-tab [label]="'One'" [active]="true" [tabwidth]="0.2">
             <ng-template let-parent="parent">
-              <ngt-group [appendTo]="parent" horizontal-layout [margin]="[0.02, 0, 0]" [position]="[-tabcontentwidth/2, tabcontentheight/2, 0.001]">
-                <flat-ui-label [text]="'One Content'" [position]="[0, -0.05, 0]"></flat-ui-label>
+              <ngt-group [appendTo]="parent" horizontal-layout [margin]="[0.02, 0, 0]" [position]="[-tabcontentwidth/2, tabcontentheight/2-0.1, 0.001]">
+                <flat-ui-button [text]="'Enabled Button'" [width]="0.8" [selectable]="selectable" (pressed)="button($event)"></flat-ui-button>
               </ngt-group>
             </ng-template>
           </flat-ui-tab>
-          <flat-ui-tab [label]="'Two'" [tabwidth]="0.4">
+          <flat-ui-tab [label]="'Two'" [tabwidth]="0.3">
             <ng-template let-parent="parent">
-              <ngt-group [appendTo]="parent" horizontal-layout [margin]="[0.02, 0, 0]" [position]="[-tabcontentwidth/2, tabcontentheight/2, 0.001]">
-                <flat-ui-button [text]="'Two Content'" [position]="[0.25, -0.05-0.02, 0]"></flat-ui-button>
+              <ngt-group [appendTo]="parent" horizontal-layout [margin]="[0.02, 0, 0]" [position]="[-tabcontentwidth/2, tabcontentheight/2-0.1, 0.001]">
+                <flat-ui-button [text]="'Disabled Button'" [enabled]="false" [width]="0.8"></flat-ui-button>
               </ngt-group>
             </ng-template>
           </flat-ui-tab>
@@ -82,8 +77,8 @@
           </flat-ui-tab>
           <flat-ui-tab [label]="'Four'" [tabwidth]="0.3">
             <ng-template let-parent="parent">
-              <ngt-group [appendTo]="parent" horizontal-layout [margin]="[0.02, 0, 0]" [position]="[-tabcontentwidth/2, tabcontentheight/2, 0.001]">
-                <flat-ui-button [text]="'Four Content'" [position]="[0.25, -0.05-0.02, 0]"></flat-ui-button>
+              <ngt-group [appendTo]="parent" horizontal-layout [margin]="[0.02, 0, 0]" [position]="[-tabcontentwidth/2, tabcontentheight/2-0.1, 0.001]">
+                <flat-ui-button [text]="'Tab four content'" [width]="0.6"></flat-ui-button>
               </ngt-group>
             </ng-template>
           </flat-ui-tab>

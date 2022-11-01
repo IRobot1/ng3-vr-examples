@@ -38,10 +38,10 @@ export class FlatUIExample implements OnInit, AfterViewInit {
   selectable = new InteractiveObjects();;
 
   controlwidth = 2;
-  controlheight = 2
+  controlheight = 1.6;
 
   tabcontentheight = 0.5
-  tabcontentwidth = 1
+  tabcontentwidth = 1.3
 
   panelheight = 0.3;
   showimage = true;
