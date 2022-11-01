@@ -51,7 +51,7 @@ export class TrackedPointerDirective implements OnInit, OnDestroy {
     }));
 
     this.subs.add(this.xr.disconnected.subscribe(next => {
-      if (this.trackedpointer) this.hide();
+      if (this.trackedpointer && this.controller) this.hide();
     }));
   }
 
