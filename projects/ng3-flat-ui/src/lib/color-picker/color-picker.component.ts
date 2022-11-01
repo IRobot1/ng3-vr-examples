@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { CanvasTexture, Intersection, Material, MathUtils, Mesh, MeshBasicMaterial, Object3D, sRGBEncoding } from "three";
+import { BufferGeometry, CanvasTexture, Intersection, Material, MathUtils, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, sRGBEncoding } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
+import { roundedRect } from "../flat-ui-utils";
 
 
 //
@@ -32,6 +33,8 @@ export class FlatUIColorPicker extends NgtObjectProps<Mesh> {
 
   @Input() selectable?: InteractiveObjects;
 
+  @Input() geometry!: BufferGeometry;
+
   @Output() colorpicked = new EventEmitter<string>();
   @Output() close = new EventEmitter<void>();
 
@@ -46,6 +49,18 @@ export class FlatUIColorPicker extends NgtObjectProps<Mesh> {
     this.initpicker(this.colorvalue);
     this.initrainbow();
 
+    if (!this.geometry) this.createColorPickerGeometry();
+  }
+
+  createColorPickerGeometry() {
+    const colorpickerwidth = 1;
+    const colorpickerheight = 0.8;
+
+    const flat = new Shape();
+    roundedRect(flat, 0, 0, colorpickerwidth, colorpickerheight, 0.02);
+
+    this.geometry = new ShapeGeometry(flat);
+    this.geometry.center();
   }
 
   private pickercontext!: CanvasRenderingContext2D;

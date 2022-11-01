@@ -1,10 +1,8 @@
 <ngt-mesh #mesh [name]="name" [visible]="visible"
           [position]="position" [rotation]="rotation" [scale]="scale"
-          [material]="popupmaterial"
+          [geometry]="geometry" [material]="popupmaterial"
           (click)="ignore(mesh.instance.value, $event)" (pointerover)="$event.stopPropagation()"
           (pointermissed)="missed()" (ready)="meshready($event)">
-
-  <ngt-plane-geometry [args]="[1, 0.8]"></ngt-plane-geometry>
 
   <ngt-mesh #shades [position]="[-0.1, 0, 0.0001]" [material]="picker"
             (ready)="shadesready($event)"
