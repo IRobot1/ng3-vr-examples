@@ -58,7 +58,7 @@
 
       <ngt-group horizontal-layout>
         <flat-ui-label [text]="'tab'" [width]="0.6"></flat-ui-label>
-        <flat-ui-tab-group [enabled]="true" [tabheader]="'above'" [width]="tabcontentwidth" [height]="tabcontentheight" [panelmaterial]="blackmaterial.instance.value">
+        <flat-ui-tab-group [enabled]="true" [tabheader]="'above'" [width]="tabcontentwidth" [height]="tabcontentheight" [selectable]="selectable" [panelmaterial]="blackmaterial.instance.value">
           <flat-ui-tab [label]="'One'" [active]="true" [tabwidth]="0.2">
             <ng-template let-parent="parent">
               <ngt-group [appendTo]="parent" horizontal-layout [margin]="[0.02, 0, 0]" [position]="[-tabcontentwidth/2, tabcontentheight/2-0.1, 0.001]">
@@ -82,7 +82,7 @@
           <flat-ui-tab [label]="'Four'" [tabwidth]="0.3">
             <ng-template let-parent="parent">
               <ngt-group [appendTo]="parent" horizontal-layout [margin]="[0.02, 0, 0]" [position]="[-tabcontentwidth/2, tabcontentheight/2-0.1, 0.001]">
-                <flat-ui-button [text]="'Tab four content'" [width]="0.6"></flat-ui-button>
+                <flat-ui-button [text]="'Tab four content'" [width]="0.6" [selectable]="selectable"></flat-ui-button>
               </ngt-group>
             </ng-template>
           </flat-ui-tab>
