@@ -145,7 +145,7 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
 
   createSelectGeoemetry() {
     const flat = new Shape();
-    roundedRect(flat, 0, 0, this.width + 0.1, this.height, 0.02);
+    roundedRect(flat, 0, 0, this.width, this.height, 0.02);
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
