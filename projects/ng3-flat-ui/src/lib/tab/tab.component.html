@@ -1,18 +1,7 @@
-<ngt-group [name]="name" [visible]="visible" [ngtObjectPassThrough]="this"
+<ngt-group [name]="name" [visible]="visible" 
            [position]="position" [rotation]="rotation" [scale]="scale">
 
-  <flat-ui-button [text]="text" [width]="tabwidth" [height]="tabheight" [selectable]="selectable" [enabled]="enabled"
-                  [buttonmaterial]="buttonmaterial" [disabledmaterial]="disabledmaterial" [labelmaterial]="labelmaterial"
-                  (pressed)="pressed()">
-
-    <ng-template let-parent="parent">
-      <ngt-mesh [appendTo]="parent" [position]="[0, tabheight/2-0.005, 0.001]"
-                [material]="listselectmaterial" (ready)="meshready($event)">
-        <ngt-plane-geometry [args]="[tabwidth, 0.02]"></ngt-plane-geometry>
-      </ngt-mesh>
-    </ng-template>
-  </flat-ui-button>
-
+  <!--rendering done in tab group-->
 
 </ngt-group>
 

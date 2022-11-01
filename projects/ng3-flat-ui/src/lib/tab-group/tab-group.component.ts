@@ -4,8 +4,10 @@ import { Group, Material, Mesh } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { FlatUITab } from "../tab/tab.component";
+
 import { GlobalFlatUITheme } from "../flat-ui-theme";
-import { HEIGHT_CHANGED_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { InteractiveObjects } from "../interactive-objects";
 
 
 @Component({
@@ -27,14 +29,7 @@ export class FlatUITabGroup extends NgtObjectProps<Group> {
     }
   }
 
-  private _enabled = true;
-  @Input()
-  get enabled(): boolean { return this._enabled }
-  set enabled(newvalue: boolean) {
-    this._enabled = newvalue;
-    this.tabs.forEach(tab => tab.enabled = newvalue);
-  }
-
+  @Input() enabled = true;
 
   // content panel width and height
   private _width = 1;
@@ -69,32 +64,44 @@ export class FlatUITabGroup extends NgtObjectProps<Group> {
     this._panelmaterial = newvalue;
   }
 
+  @Input() tabheight = 0.15;
+
+  @Input() selectable?: InteractiveObjects;
+
+  @Output() change = new EventEmitter<any>();
+
   protected mesh!: Mesh;
 
   tabs: Array<FlatUITab> = [];
 
-  @Output() change = new EventEmitter<any>();
 
   @ContentChild(TemplateRef) templateRef?: TemplateRef<unknown>;
 
   private selected?: FlatUITab;
 
-  protected tabheight = 0;
+  ngAfterViewInit(): void {
+    this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
+      e.width = Math.max(this.xoffset, this.width);
+      e.height = this.tabheight + this.height;
+      e.updated = true;
+    });
+  }
 
   private selectTab(newtab: FlatUITab) {
     if (this.selected)
       this.selected.active = false;
 
-    this.tabheight = Math.max(this.tabheight, newtab.tabheight);
     newtab.active = true;
     this.change.next(newtab.label);
 
     // hide the panel when switching content.  Visible when layout called
     if (this.mesh) {
+      this.mesh.userData['layout'] = true;  // hint to still layout even though invisible
       this.mesh.visible = false;
       this.templateRef = newtab.templateRef;
       const timer = setTimeout(() => {
         this.mesh.visible = true;
+        this.mesh.userData['layout'] = false;
         clearTimeout(timer);
       }, 100)
     }
@@ -102,12 +109,22 @@ export class FlatUITabGroup extends NgtObjectProps<Group> {
     this.selected = newtab;
   }
 
+  private xoffset = 0;
+
   addtab(tab: FlatUITab) {
     const dup = this.tabs.find(item => item.label == tab.label);
     if (dup) console.warn('duplicate tab with label', tab.label);
 
     this.tabs.push(tab);
-    tab.enabled = this.enabled;
+
+    // offset center of first tab
+    if (this.xoffset == 0) {
+      this.xoffset = -this.width / 2;
+    }
+    this.xoffset += tab.tabwidth / 2
+    tab.position.x = this.xoffset;
+    tab.position.y = this.height / 2;
+    this.xoffset += (tab.tabwidth / 2 + 0.01); // add small space between tabs
 
     if (this.label == tab.label || tab.active) {
       this.selectTab(tab);

@@ -35,7 +35,7 @@ export abstract class Layout {
 
     const event = { type: LAYOUT_EVENT, width: 0, height: 0, updated: false };
     children.forEach(child => {
-        if (!child.visible) return;
+        if (!child.visible && !child.userData['layout']) return;
 
       if (child.type == 'Group') {
         const x = this.getSizes(child.children);

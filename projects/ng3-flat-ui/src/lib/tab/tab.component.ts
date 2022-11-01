@@ -6,7 +6,6 @@ import { NgtObjectProps } from "@angular-three/core";
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
-import { InteractiveObjects } from "../interactive-objects";
 import { FlatUITabGroup } from "../tab-group/tab-group.component";
 
 
@@ -16,7 +15,7 @@ import { FlatUITabGroup } from "../tab-group/tab-group.component";
   templateUrl: './tab.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FlatUITab extends NgtObjectProps<Mesh> implements AfterViewInit {
+export class FlatUITab extends NgtObjectProps<Mesh> {
   @Input() label: string = 'tab'
 
   private _text! : string;
@@ -52,7 +51,6 @@ export class FlatUITab extends NgtObjectProps<Mesh> implements AfterViewInit {
   @Input() enabled = true;
 
   @Input() tabwidth = 0.5; // tab width
-  @Input() tabheight = 0.15; // tab height
 
   private _buttonmaterial!: Material
   @Input()
@@ -95,8 +93,6 @@ export class FlatUITab extends NgtObjectProps<Mesh> implements AfterViewInit {
   }
 
 
-  @Input() selectable?: InteractiveObjects;
-
   @Output() change = new EventEmitter<boolean>();
 
 
@@ -123,19 +119,9 @@ export class FlatUITab extends NgtObjectProps<Mesh> implements AfterViewInit {
     this.tabgroup?.removetab(this);
   }
 
-  ngAfterViewInit(): void {
-    this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
-      e.width = this.tabwidth;
-      e.height = this.tabheight;
-      e.updated = true;
-    });
-  }
-
-  protected group!: Group;
-
   private mesh!: Object3D;
 
-  protected meshready(mesh: Object3D) {
+  meshready(mesh: Object3D) {
     this.mesh = mesh;
     this.mesh.visible = this.active;
   }
