@@ -1,6 +1,6 @@
 <flat-ui-expansion-panel [selectable]="selectable" [title]="gui.title" [width]="gui.width" [height]="gui.height" [expanded]="gui.expanded" [position]="position" [rotation]="rotation" [scale]="scale">
   <ng-template let-parent="parent">
-    <ngt-group vertical-layout (heightchange)="gui.height=$event" [appendTo]="parent" [margin]="[0, 0.02, 0]" [position]="[-gui.width/2, gui.height/2, 0.001]">
+    <ngt-group vertical-layout (heightchange)="gui.height=$event" [appendTo]="parent" [margin]="0.02" [position]="[-gui.width/2, gui.height/2, 0.001]">
 
       <ng3-gui-item *ngFor="let item of gui.list" [item]="item" [width]="gui.width" [selectable]="selectable"></ng3-gui-item>
 

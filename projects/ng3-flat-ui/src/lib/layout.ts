@@ -1,4 +1,5 @@
-import { Object3D, Vector3 } from "three";
+import { make, NgtVector2 } from "@angular-three/core";
+import { Object3D, Vector2, Vector3 } from "three";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "./flat-ui-utils";
 
@@ -12,7 +13,7 @@ interface ObjectSizeData {
 export abstract class Layout {
   protected updateFlag = true;
 
-  margin = new Vector3();
+  margin : NgtVector2 = 0;
 
   constructor(private group: Object3D) { }
 
@@ -71,12 +72,20 @@ export class HorizontalLayout extends Layout {
   override reflow(group: Object3D) {
     const sizes = this.getSizes(group.children);
 
-    let x = 0;
-    let margin = this.margin.x;
-    sizes.forEach(item => {
-      item.object.position.x = x + item.width / 2 + margin;
+    let marginleft = this.margin as number;
+    let marginright = this.margin as number;
 
-      x += item.width + margin * 2;  // move left based on width of this item
+    if (Array.isArray(this.margin)) {
+      const margin = make(Vector2,this.margin);
+      marginleft = margin.x;
+      marginright = margin.y;
+    }
+
+    let x = 0;
+    sizes.forEach(item => {
+      item.object.position.x = x + item.width / 2 + marginleft;
+
+      x += item.width + marginleft + marginright;  // move left based on width of this item
     });
   }
 
@@ -102,12 +111,20 @@ export class VerticalLayout extends Layout {
   override reflow(group: Object3D) {
     const sizes = this.getSizes(group.children);
 
-    let y = 0;
-    let margin = this.margin.y;
-    sizes.forEach(item => {
-      item.object.position.y = y - item.height / 2 - margin;
+    let margintop = this.margin as number;
+    let marginbottom = this.margin as number;
 
-      y -= item.height + margin * 2;  // move down based on height of this item
+    if (Array.isArray(this.margin)) {
+      const margin = make(Vector2,this.margin);
+      margintop = margin.x;
+      marginbottom = margin.y;
+    }
+
+    let y = 0;
+    sizes.forEach(item => {
+      item.object.position.y = y - item.height / 2 - margintop;
+
+      y -= item.height + margintop + marginbottom;  // move down based on height of this item
     });
 
     group.dispatchEvent({ type: HEIGHT_CHANGED_EVENT, height: Math.abs(y) });

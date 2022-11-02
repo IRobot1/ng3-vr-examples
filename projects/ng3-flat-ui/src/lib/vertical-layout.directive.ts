@@ -1,7 +1,6 @@
 import { Directive, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 
-import { Vector3 } from "three";
-import { make, NgtTriple } from "@angular-three/core";
+import { NgtVector2 } from "@angular-three/core";
 import { NgtGroup } from "@angular-three/core/group";
 
 import { VerticalLayout } from "./layout";
@@ -14,7 +13,7 @@ import { HEIGHT_CHANGED_EVENT } from "./flat-ui-utils";
   exportAs: 'verticalLayout',
 })
 export class VerticalLayoutDirective implements OnInit, OnDestroy {
-  @Input() margin = [0, 0, 0] as NgtTriple;
+  @Input() margin: NgtVector2 = 0;
 
   @Output() heightchange = new EventEmitter<number>();
 
@@ -39,7 +38,7 @@ export class VerticalLayoutDirective implements OnInit, OnDestroy {
     })
 
     this.panel = new VerticalLayout(group);
-    this.panel.margin = make(Vector3, this.margin);
+    this.panel.margin = this.margin;
 
     this.updatetimer = setInterval(() => {
       this.panel.update();

@@ -1,7 +1,6 @@
 import { Directive, Input, OnDestroy, OnInit } from "@angular/core";
 
-import { Vector3 } from "three";
-import { make, NgtTriple } from "@angular-three/core";
+import { make, NgtVector2 } from "@angular-three/core";
 import { NgtGroup } from "@angular-three/core/group";
 
 import { HorizontalLayout } from "./layout";
@@ -13,7 +12,7 @@ import { HorizontalLayout } from "./layout";
   exportAs: 'horizontalLayout',
 })
 export class HorizontalLayoutDirective implements OnInit, OnDestroy {
-  @Input() margin = [0, 0, 0] as NgtTriple;
+  @Input() margin: NgtVector2 = 0;
 
   private panel!: HorizontalLayout;
 
@@ -31,7 +30,7 @@ export class HorizontalLayoutDirective implements OnInit, OnDestroy {
     const group = this.ngtgroup.instance.value;
 
     this.panel = new HorizontalLayout(group);
-    this.panel.margin = make(Vector3, this.margin);
+    this.panel.margin = this.margin;
 
     this.updatetimer = setInterval(() => {
       this.panel.update();

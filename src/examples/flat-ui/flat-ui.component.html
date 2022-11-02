@@ -14,7 +14,7 @@
                     [width]="controlwidth" [height]="controlheight" (heightchange)="controlheight=$event" (widthchange)="controlwidth=$event"
                     [showclose]="false" [position]="[-1.6, 1, -2.001]" [rotation]="[0, 30 | radian, 0]" [selectable]="selectable">
   <ng-template let-parent="parent">
-    <ngt-group vertical-layout [appendTo]="parent" [margin]="[0, 0.02, 0]" [position]="[-controlwidth/2+0.05, controlheight/2, 0.002]">
+    <ngt-group vertical-layout [appendTo]="parent" [margin]="0.02" [position]="[-controlwidth/2+0.05, controlheight/2, 0.002]">
 
       <ngt-group horizontal-layout>
         <flat-ui-label [text]="'radio'" [width]="0.6"></flat-ui-label>
@@ -61,27 +61,27 @@
         <flat-ui-tab-group [enabled]="true" [tabheader]="'above'" [width]="tabcontentwidth" [height]="tabcontentheight" [selectable]="selectable" [panelmaterial]="blackmaterial.instance.value">
           <flat-ui-tab [label]="'One'" [active]="true" [tabwidth]="0.2">
             <ng-template let-parent="parent">
-              <ngt-group [appendTo]="parent" horizontal-layout [margin]="[0.02, 0, 0]" [position]="[-tabcontentwidth/2, tabcontentheight/2-0.1, 0.001]">
+              <ngt-group [appendTo]="parent" horizontal-layout [margin]="0.02" [position]="[-tabcontentwidth/2, tabcontentheight/2-0.1, 0.001]">
                 <flat-ui-button [text]="'Enabled Button'" [width]="0.8" [selectable]="selectable" (pressed)="button($event)"></flat-ui-button>
               </ngt-group>
             </ng-template>
           </flat-ui-tab>
           <flat-ui-tab [label]="'Two'" [tabwidth]="0.3">
             <ng-template let-parent="parent">
-              <ngt-group [appendTo]="parent" horizontal-layout [margin]="[0.02, 0, 0]" [position]="[-tabcontentwidth/2, tabcontentheight/2-0.1, 0.001]">
+              <ngt-group [appendTo]="parent" horizontal-layout [margin]="0.02" [position]="[-tabcontentwidth/2, tabcontentheight/2-0.1, 0.001]">
                 <flat-ui-button [text]="'Disabled Button'" [enabled]="false" [width]="0.8"></flat-ui-button>
               </ngt-group>
             </ng-template>
           </flat-ui-tab>
           <flat-ui-tab [label]="'Disabled'" [tabwidth]="0.4" [enabled]="false">
             <ng-template let-parent="parent">
-              <ngt-group [appendTo]="parent" horizontal-layout [margin]="[0.02, 0, 0]" [position]="[-tabcontentwidth/2, tabcontentheight/2, 0.001]">
+              <ngt-group [appendTo]="parent" horizontal-layout [margin]="0.02" [position]="[-tabcontentwidth/2, tabcontentheight/2, 0.001]">
               </ngt-group>
             </ng-template>
           </flat-ui-tab>
           <flat-ui-tab [label]="'Four'" [tabwidth]="0.3">
             <ng-template let-parent="parent">
-              <ngt-group [appendTo]="parent" horizontal-layout [margin]="[0.02, 0, 0]" [position]="[-tabcontentwidth/2, tabcontentheight/2-0.1, 0.001]">
+              <ngt-group [appendTo]="parent" horizontal-layout [margin]="0.02" [position]="[-tabcontentwidth/2, tabcontentheight/2-0.1, 0.001]">
                 <flat-ui-button [text]="'Tab four content'" [width]="0.6" [selectable]="selectable"></flat-ui-button>
               </ngt-group>
             </ng-template>
@@ -97,20 +97,20 @@
 
 <flat-ui-drag-panel [title]="'Draggable Panel'" [showclose]="false" [position]="[0, 1.25, -2.5]" [selectable]="selectable">
   <ng-template let-parent="parent">
-    <ngt-group vertical-layout [margin]="[0, 0.02, 0]" [appendTo]="parent" [position]="[-0.5, 0.5, 0.002]">
+    <ngt-group vertical-layout [margin]="0.02" [appendTo]="parent" [position]="[-0.5, 0.5, 0.002]">
 
       <ngt-group horizontal-layout>
         <flat-ui-expansion-panel [title]="'Folder1'" [height]="panelheight" [selectable]="selectable">
           <ng-template let-parent="parent">
-            <ngt-group vertical-layout [margin]="[0, 0.02, 0]" [appendTo]="parent" [position]="[-0.5, panelheight/2, 0.002]">
+            <ngt-group vertical-layout [margin]="0.02" [appendTo]="parent" [position]="[-0.5, panelheight/2, 0.002]">
 
-              <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
+              <ngt-group horizontal-layout [margin]="0.01">
                 <flat-ui-label [text]="'icon'" [width]="0.6"></flat-ui-label>
                 <flat-ui-icon [svg]="svg"></flat-ui-icon>
                 <flat-ui-icon [url]="'assets/webgl.svg'" [iconmaterial]="iconmaterial.instance.value"></flat-ui-icon>
               </ngt-group>
 
-              <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
+              <ngt-group horizontal-layout [margin]="0.01">
                 <flat-ui-label [text]="'icon button'" [width]="0.6"></flat-ui-label>
                 <flat-ui-icon-button [svg]="svg" [enabled]="false" (pressed)="clicked($event)" [selectable]="selectable"></flat-ui-icon-button>
                 <flat-ui-icon-button [url]="'assets/webgl.svg'" [iconmaterial]="iconmaterial.instance.value" [selectable]="selectable" (pressed)="clicked($event)"></flat-ui-icon-button>
@@ -122,23 +122,23 @@
         </flat-ui-expansion-panel>
       </ngt-group>
 
-      <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
+      <ngt-group horizontal-layout [margin]="0.01">
         <flat-ui-label [text]="'check box'" [width]="0.5"></flat-ui-label>
         <flat-ui-input-checkbox [position]="[0.4, 0, 0]" [checked]="checked" [selectable]="selectable" (change)="changed($event)"></flat-ui-input-checkbox>
         <flat-ui-input-checkbox [position]="[0.4, 0, 0]" [enabled]="false" [checked]="checked" [selectable]="selectable" (change)="changed($event)"></flat-ui-input-checkbox>
       </ngt-group>
 
-      <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
+      <ngt-group horizontal-layout [margin]="0.01">
         <flat-ui-label [text]="'toggle'" [width]="0.5"></flat-ui-label>
         <flat-ui-input-toggle [position]="[0.55, 0, 0]" [checked]="checked" [selectable]="selectable" (change)="changed($event)"></flat-ui-input-toggle>
         <flat-ui-input-toggle [position]="[0.55, 0, 0]" [enabled]="false" [checked]="checked" [selectable]="selectable" (change)="changed($event)"></flat-ui-input-toggle>
       </ngt-group>
 
-      <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
+      <ngt-group horizontal-layout [margin]="0.01">
         <flat-ui-label [text]="'progress bar'" [width]="0.5"></flat-ui-label>
       </ngt-group>
 
-      <ngt-group horizontal-layout [margin]="[0.01, 0, 0]">
+      <ngt-group horizontal-layout [margin]="0.01">
         <flat-ui-progress-bar [value]="slidervalue" [width]="0.98"></flat-ui-progress-bar>
       </ngt-group>
 

@@ -1,14 +1,14 @@
 <ngt-group [ngSwitch]="item.classname">
   <ng-template [ngSwitchCase]="'options'">
-    <ngt-group horizontal-layout [margin]="[0.04, 0, 0]">
+    <ngt-group horizontal-layout [margin]="0.02">
       <flat-ui-label [text]="item.title" [width]="0.8"></flat-ui-label>
-      <flat-ui-select #list [text]="listvalue" [width]="0.8" [selectable]="selectable" [enabled]="item.enabled"
+      <flat-ui-select #list [text]="listvalue" [width]="1" [selectable]="selectable" [enabled]="item.enabled"
                       (change)="listvalue=$event" (openinput)="input.openlist($event, list, item._min, listvalue)">
       </flat-ui-select>
     </ngt-group>
   </ng-template>
   <ng-template [ngSwitchCase]="'number'">
-    <ngt-group horizontal-layout [margin]="[0.02, 0, 0]">
+    <ngt-group horizontal-layout [margin]="0.02">
       <flat-ui-label [text]="item.title" [width]="0.8"></flat-ui-label>
       <flat-ui-input-slider [visible]="item._min != undefined && item._max != undefined" [width]="0.5" [min]="item._min" [max]="item._max"
                             [step]="item._step" [value]="numbervalue" [selectable]="selectable" [enabled]="item.enabled"
@@ -21,14 +21,14 @@
     </ngt-group>
   </ng-template>
   <ng-template [ngSwitchCase]="'boolean'">
-    <ngt-group horizontal-layout [margin]="[0.02, 0, 0]">
+    <ngt-group horizontal-layout [margin]="0.02">
       <flat-ui-label [text]="item.title" [width]="0.8"></flat-ui-label>
       <flat-ui-input-checkbox [checked]="boolvalue" (change)="boolValue=$event" [selectable]="selectable" [enabled]="item.enabled">
       </flat-ui-input-checkbox>
     </ngt-group>
   </ng-template>
   <ng-template [ngSwitchCase]="'string'">
-    <ngt-group horizontal-layout [margin]="[0.02, 0, 0]">
+    <ngt-group horizontal-layout [margin]="0.02">
       <flat-ui-label [text]="item.title" [width]="0.8"></flat-ui-label>
       <flat-ui-input-text #keyboard [text]="textvalue" [overflow]="10" [selectable]="selectable" [enabled]="item.enabled"
                           (change)="textvalue=$event" (openinput)="input.openkeyboard($event, keyboard, textvalue)">
@@ -36,14 +36,14 @@
     </ngt-group>
   </ng-template>
   <ng-template [ngSwitchCase]="'function'">
-    <ngt-group horizontal-layout [margin]="[0.02, 0, 0]">
+    <ngt-group horizontal-layout [margin]="0.02">
       <flat-ui-button [text]="item.title" [width]="width-0.04" [selectable]="selectable" [enabled]="item.enabled"
                       (pressed)="execute()">
       </flat-ui-button>
     </ngt-group>
   </ng-template>
   <ng-template [ngSwitchCase]="'color'">
-    <ngt-group horizontal-layout [margin]="[0.02, 0, 0]">
+    <ngt-group horizontal-layout [margin]="0.02">
       <flat-ui-label [text]="item.title" [width]="0.8"></flat-ui-label>
       <flat-ui-input-color #color [text]="colorvalue" [selectable]="selectable" [enabled]="item.enabled"
                            (change)="colorvalue=$event" (openinput)="input.opencolor($event, color)">
