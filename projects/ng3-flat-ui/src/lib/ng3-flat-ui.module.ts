@@ -34,6 +34,8 @@ import { FlatUIRadioGroup } from './radio-group/radio-group.component';
 import { FlatUIIcon } from './icon/icon.component';
 import { FlatUITab } from './tab/tab.component';
 import { FlatUITabGroup } from './tab-group/tab-group.component';
+import { FlatUIDataGrid } from './data-grid/data-grid.component';
+import { FlatUIDataGridColumn } from './data-grid-column/data-grid-column.component';
 
 
 
@@ -63,6 +65,9 @@ import { FlatUITabGroup } from './tab-group/tab-group.component';
 
     FlatUIDragPanel,
     FlatUIExpansionPanel,
+
+    FlatUIDataGrid,
+    FlatUIDataGridColumn,
 
     HorizontalLayoutDirective,
     VerticalLayoutDirective,
@@ -116,6 +121,9 @@ import { FlatUITabGroup } from './tab-group/tab-group.component';
 
     FlatUIDragPanel,
     FlatUIExpansionPanel,
+
+    FlatUIDataGrid,
+    FlatUIDataGridColumn,
 
     HorizontalLayoutDirective,
     VerticalLayoutDirective,

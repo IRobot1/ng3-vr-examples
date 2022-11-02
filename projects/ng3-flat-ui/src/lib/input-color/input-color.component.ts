@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, Line, Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry } from "three";
-import { NgtObjectProps } from "@angular-three/core";
+import { BufferGeometry, Color, Line, Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry } from "three";
+import { make, NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 
@@ -19,9 +19,10 @@ export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewI
   @Input()
   get text(): string { return this._text }
   set text(newvalue: string) {
-    this._text = newvalue;
+    this._text = '#' + make(Color, newvalue).getHexString();
     this.updatecolor();
     this.change.next(newvalue);
+
   }
 
   @Input() enabled = true;

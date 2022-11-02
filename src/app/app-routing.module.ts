@@ -30,6 +30,7 @@ import { FlatUIExample } from '../examples/flat-ui/flat-ui.component';
 import { ThreeGUIExample } from '../examples/three-gui/three-gui.component';
 import { LoadingExample } from '../examples/loading/loading.component';
 import { StatsExample } from '../examples/stats/stats.component';
+import { DataGridExample } from '../examples/data-grid/data-grid.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -62,6 +63,7 @@ const routes: Routes = [
   { path: 'three-gui', component: ThreeGUIExample },
   { path: 'loading', component: LoadingExample },
   { path: 'stats', component: StatsExample },
+  { path: 'datagrid', component: DataGridExample },
 ];
 
 @NgModule({

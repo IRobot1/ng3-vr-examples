@@ -124,6 +124,7 @@ import { StatsExample } from '../examples/stats/stats.component';
 import { FlatUIStatsComponent } from '../examples/stats/stats/stats.component';
 import { FlatUIStatsPanelComponent } from '../examples/stats/stats-panel/stats-panel.component';
 import { VROrbitDirective } from '../app/vrorbit.directive';
+import { DataGridExample } from '../examples/data-grid/data-grid.component';
 
 
 
@@ -248,6 +249,8 @@ import { VROrbitDirective } from '../app/vrorbit.directive';
     StatsExample,
     FlatUIStatsPanelComponent,
     FlatUIStatsComponent,
+
+    DataGridExample,
   ],
   imports: [
     BrowserModule,

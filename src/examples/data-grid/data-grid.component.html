@@ -1,0 +1,29 @@
+<ngt-color attach="background" color="darkgray"></ngt-color>
+
+<line-room></line-room>
+
+<ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
+
+<ngt-group ngtBoxHelper [position]="[-0.5, 1, 2]">
+  <flat-ui-data-grid [datasource]="datasource" [displaycolumns]="['Name','Color']">
+
+    <flat-ui-data-grid-column [name]="'Name'">
+      <!--render using default label-->
+
+    </flat-ui-data-grid-column>
+
+    <flat-ui-data-grid-column [name]="'Color'">
+      <ng-template #columnRow let-row="row" let-column="column" let-parent="parent">
+        <ngt-group [appendTo]="parent">
+          <flat-ui-input-color [visible]="row.name" [width]="column.width" text="rgb({{row.r}},{{row.g}},{{row.b}})"></flat-ui-input-color>
+        </ngt-group>
+      </ng-template>
+    </flat-ui-data-grid-column>
+
+  </flat-ui-data-grid>
+</ngt-group>
+
+<vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
+<vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
+
+<ngt-soba-orbit-controls></ngt-soba-orbit-controls>
