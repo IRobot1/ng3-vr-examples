@@ -5,11 +5,27 @@
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
 <ngt-group ngtBoxHelper [position]="[-0.5, 1, 2]">
-  <flat-ui-data-grid [datasource]="datasource" [displaycolumns]="['Name','Color']">
+  <flat-ui-data-grid [datasource]="elements" [displaycolumns]="['Name', 'Weight', 'Symbol']" [rowheight]="0.2">
 
     <flat-ui-data-grid-column [name]="'Name'">
       <!--render using default label-->
 
+    </flat-ui-data-grid-column>
+
+    <flat-ui-data-grid-column [name]="'Weight'">
+      <ng-template #columnRow let-row="row" let-column="column" let-parent="parent">
+        <ngt-group [appendTo]="parent">
+          <flat-ui-label [width]="column.width" [height]="0.2" [text]="row.weight"></flat-ui-label>
+        </ngt-group>
+      </ng-template>
+    </flat-ui-data-grid-column>
+
+    <flat-ui-data-grid-column [name]="'Symbol'">
+      <ng-template #columnRow let-row="row" let-column="column" let-parent="parent">
+        <ngt-group [appendTo]="parent">
+          <flat-ui-label [width]="column.width" [fontsize]="0.2" [text]="row.symbol"></flat-ui-label>
+        </ngt-group>
+      </ng-template>
     </flat-ui-data-grid-column>
 
     <flat-ui-data-grid-column [name]="'Color'">

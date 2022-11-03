@@ -50,7 +50,7 @@ export class FlatUILabel extends NgtObjectProps<Group> implements AfterViewInit 
   ngAfterViewInit(): void {
     this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
       e.width = this.width;
-      e.height = this.height;
+      e.height = Math.max(this.height, this.fontsize);
       e.updated = true;
     });
   }

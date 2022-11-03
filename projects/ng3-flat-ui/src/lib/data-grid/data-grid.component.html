@@ -11,11 +11,11 @@
     </ng-container>
 
     <ng-template #defaultColumnHeader let-column="column">
-      <flat-ui-label  [text]="column.name" [width]="column.width"></flat-ui-label>
+      <flat-ui-label  [text]="column.name" [width]="column.width" [height]="column.height"></flat-ui-label>
     </ng-template>
 
     <ng-template #defaultColumnRow let-row="row" let-column="column">
-      <flat-ui-label [text]="row.name" [width]="column.width"></flat-ui-label>
+      <flat-ui-label [text]="row.name" [width]="column.width" [height]="rowheight"></flat-ui-label>
     </ng-template>
 
   </ngt-group>
