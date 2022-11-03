@@ -13,6 +13,7 @@ export class FlatUIDataGridColumn implements OnInit {
   @Input() name!: string;
   @Input() rows: Array<any> = [];
   @Input() width = 0.5;
+  @Input() height = 0.1;
 
   @ContentChild('columnHeader')
   columnHeader!: TemplateRef<any>;

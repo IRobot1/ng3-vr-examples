@@ -27,15 +27,6 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
   @Input() font = ''; // for example, https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff
   @Input() fontsize = 0.07;
 
-  @Input()
-  private _password = false;
-  get password(): boolean { return this._password }
-  set password(newvalue: boolean) {
-    this._password = newvalue;
-    this.updatedisplaytext();
-  }
-
-
   private _enabled = true;
   @Input()
   get enabled(): boolean { return this._enabled }
@@ -107,7 +98,7 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
     }
   }
 
-  private _height = 0.1;
+  private _height = 0.17;
   @Input()
   get height() { return this._height }
   set height(newvalue: number) {
@@ -142,10 +133,7 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
         text = this.placeholder;
     }
     else {
-      if (this.password)
-        text = '*'.repeat(this.text.length);
-      else
-        text = this.text;
+      text = this.text;
 
       if (this.inputopen && this.enabled) text += '_'
     }
