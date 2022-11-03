@@ -17,6 +17,8 @@ export class FlatUILabel extends NgtObjectProps<Group> implements AfterViewInit 
   @Input() font = ''; // for example, https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff
   @Input() fontsize = 0.07;
 
+  @Input() enabled = false; // doesn't do anything, just avoids error when switching from input-textarea or input-text
+
   private _labelmaterial!: Material
   @Input()
   get labelmaterial(): Material {
@@ -41,7 +43,6 @@ export class FlatUILabel extends NgtObjectProps<Group> implements AfterViewInit 
   @Input()
   get height() { return this._height }
   set height(newvalue: number) {
-    console.warn(newvalue)
     this._height = newvalue;
     if (this.mesh) {
       this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
