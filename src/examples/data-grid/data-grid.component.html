@@ -4,14 +4,22 @@
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
+<ngt-mesh-basic-material noAttach #blackmaterial color="black"></ngt-mesh-basic-material>
+
 <!--'Name', 'Weight', 'Symbol'-->
 <ngt-group ngtBoxHelper [position]="[-2, 1.5, 0]">
-  <flat-ui-data-grid [datasource]="elements" [displaycolumns]="['Name','Weight', 'Symbol','Description']" [pivot]="pivot">
+  <flat-ui-data-grid [datasource]="elements" [displaycolumns]="['Name','Weight', 'Symbol','Description']" [rowcount]="3" [pivot]="pivot">
+
+    <ng-template #columnHeader let-column="column" let-parent="parent">
+      <ngt-group [appendTo]="parent">
+        <flat-ui-label [width]="column.width" [text]="column.name" [labelmaterial]="blackmaterial.instance.value"></flat-ui-label>
+      </ngt-group>
+    </ng-template>
 
     <flat-ui-data-grid-column [name]="'Name'">
       <ng-template #columnRow let-row="row" let-column="column" let-parent="parent">
         <ngt-group [appendTo]="parent">
-          <flat-ui-label [width]="column.width" [height]="pivot ? 0.1 : 0.25" [text]="row.name"></flat-ui-label>
+          <flat-ui-label [width]="pivot ? 2.7 : column.width" [height]="pivot ? 0.1 : 0.25" [text]="row.name"></flat-ui-label>
         </ngt-group>
       </ng-template>
     </flat-ui-data-grid-column>
@@ -19,7 +27,7 @@
     <flat-ui-data-grid-column [name]="'Weight'">
       <ng-template #columnRow let-row="row" let-column="column" let-parent="parent">
         <ngt-group [appendTo]="parent">
-          <flat-ui-label [width]="column.width" [height]="pivot ? 0.1 : 0.25" [text]="row.weight"></flat-ui-label>
+          <flat-ui-label [width]="pivot ? 2.7 : column.width" [height]="pivot ? 0.1 : 0.25" [text]="row.weight"></flat-ui-label>
         </ngt-group>
       </ng-template>
     </flat-ui-data-grid-column>
@@ -27,7 +35,7 @@
     <flat-ui-data-grid-column [name]="'Symbol'">
       <ng-template #columnRow let-row="row" let-column="column" let-parent="parent">
         <ngt-group [appendTo]="parent">
-          <flat-ui-label [width]="column.width" [fontsize]="0.2" [height]="pivot ? 0.1 : 0.25" [text]="row.symbol"></flat-ui-label>
+          <flat-ui-label [width]="pivot ? 2.7 : column.width" [fontsize]="0.2" [height]="pivot ? 0.1 : 0.25" [text]="row.symbol"></flat-ui-label>
         </ngt-group>
       </ng-template>
     </flat-ui-data-grid-column>

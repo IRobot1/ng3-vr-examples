@@ -1,7 +1,7 @@
 <ngt-group *ngIf="!pivot" horizontal-layout>
   <ngt-group #parent *ngFor="let column of columns" vertical-layout [margin]="margin">
 
-    <ng-container [ngTemplateOutlet]="column.columnHeader ? column.columnHeader : defaultColumnHeader"
+    <ng-container [ngTemplateOutlet]="columnHeader ? columnHeader : defaultColumnHeader"
                   [ngTemplateOutletContext]="{ column: column, parent: parent.instance.value }">
     </ng-container>
 
@@ -25,7 +25,7 @@
 <ngt-group *ngIf="pivot" vertical-layout>
   <ngt-group #parent *ngFor="let column of columns" horizontal-layout [margin]="margin">
 
-    <ng-container [ngTemplateOutlet]="column.columnHeader ? column.columnHeader : defaultColumnHeader"
+    <ng-container [ngTemplateOutlet]="columnHeader ? columnHeader : defaultColumnHeader"
                   [ngTemplateOutletContext]="{ column: column, parent: parent.instance.value }">
     </ng-container>
 
