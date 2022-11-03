@@ -1,4 +1,4 @@
-<ngt-group horizontal-layout>
+<ngt-group *ngIf="!pivot" horizontal-layout>
   <ngt-group #parent *ngFor="let column of columns" vertical-layout [margin]="margin">
 
     <ng-container [ngTemplateOutlet]="column.columnHeader ? column.columnHeader : defaultColumnHeader"
@@ -11,7 +11,31 @@
     </ng-container>
 
     <ng-template #defaultColumnHeader let-column="column">
-      <flat-ui-label  [text]="column.name" [width]="column.width" [height]="column.height"></flat-ui-label>
+      <flat-ui-label [text]="column.name" [width]="column.width" [height]="column.height"></flat-ui-label>
+    </ng-template>
+
+    <ng-template #defaultColumnRow let-row="row" let-column="column">
+      <flat-ui-label [text]="row.name" [width]="column.width" [height]="rowheight"></flat-ui-label>
+    </ng-template>
+
+  </ngt-group>
+
+</ngt-group>
+
+<ngt-group *ngIf="pivot" vertical-layout>
+  <ngt-group #parent *ngFor="let column of columns" horizontal-layout [margin]="margin">
+
+    <ng-container [ngTemplateOutlet]="column.columnHeader ? column.columnHeader : defaultColumnHeader"
+                  [ngTemplateOutletContext]="{ column: column, parent: parent.instance.value }">
+    </ng-container>
+
+    <ng-container *ngFor="let row of data"
+                  [ngTemplateOutlet]="column.columnRow ? column.columnRow : defaultColumnRow"
+                  [ngTemplateOutletContext]="{ column: column, row: row, parent: parent.instance.value }">
+    </ng-container>
+
+    <ng-template #defaultColumnHeader let-column="column">
+      <flat-ui-label [text]="column.name" [width]="column.width" [height]="column.height"></flat-ui-label>
     </ng-template>
 
     <ng-template #defaultColumnRow let-row="row" let-column="column">

@@ -25,6 +25,8 @@ export class DataGridExample {
 
   selectable = new InteractiveObjects();;
 
+  pivot = true;
+
   // taken from https://material.angular.io/components/table/examples
 
   elements: Array<PeriodicElement> = [

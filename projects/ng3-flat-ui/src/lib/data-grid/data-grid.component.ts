@@ -19,6 +19,8 @@ export class FlatUIDataGrid extends NgtObjectProps<Group> {
   @Input() rowcount = 5;
   @Input() rowheight = 0.1;
 
+  @Input() pivot = true;
+
   private _displaycolumns: Array<string> = []
   @Input()
   get displaycolumns(): Array<string> { return this._displaycolumns }
