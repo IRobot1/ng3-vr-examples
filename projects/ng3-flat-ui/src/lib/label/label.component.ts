@@ -41,6 +41,7 @@ export class FlatUILabel extends NgtObjectProps<Group> implements AfterViewInit 
   @Input()
   get height() { return this._height }
   set height(newvalue: number) {
+    console.warn(newvalue)
     this._height = newvalue;
     if (this.mesh) {
       this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });

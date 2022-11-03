@@ -4,8 +4,9 @@
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
-<ngt-group ngtBoxHelper [position]="[-0.5, 1, 2]">
-  <flat-ui-data-grid [datasource]="elements" [displaycolumns]="['Name', 'Weight', 'Symbol']" [pivot]="pivot">
+<!--'Name', 'Weight', 'Symbol'-->
+<ngt-group ngtBoxHelper [position]="[-0.5, 1, 1]">
+  <flat-ui-data-grid [datasource]="elements" [displaycolumns]="['Description']" [pivot]="pivot">
 
     <flat-ui-data-grid-column [name]="'Name'">
       <ng-template #columnRow let-row="row" let-column="column" let-parent="parent">
@@ -35,6 +36,19 @@
       <ng-template #columnRow let-row="row" let-column="column" let-parent="parent">
         <ngt-group [appendTo]="parent">
           <flat-ui-input-color [visible]="row.name" [width]="column.width" text="rgb({{row.r}},{{row.g}},{{row.b}})"></flat-ui-input-color>
+        </ngt-group>
+      </ng-template>
+    </flat-ui-data-grid-column>
+
+    <flat-ui-data-grid-column [name]="'Description'">
+      <ng-template #columnHeader let-row="row" let-column="column" let-parent="parent">
+        <ngt-group [appendTo]="parent">
+          <flat-ui-label [width]="column.width" [text]="column.name"></flat-ui-label>
+        </ngt-group>
+      </ng-template>
+      <ng-template #columnRow let-row="row" let-column="column" let-parent="parent">
+        <ngt-group [appendTo]="parent">
+          <flat-ui-input-textarea [visible]="row.name" [enabled]="false" [width]="3" [height]="0.25" [text]="row.description"></flat-ui-input-textarea>
         </ngt-group>
       </ng-template>
     </flat-ui-data-grid-column>

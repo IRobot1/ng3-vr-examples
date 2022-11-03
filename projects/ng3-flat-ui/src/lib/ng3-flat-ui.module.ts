@@ -36,6 +36,7 @@ import { FlatUITab } from './tab/tab.component';
 import { FlatUITabGroup } from './tab-group/tab-group.component';
 import { FlatUIDataGrid } from './data-grid/data-grid.component';
 import { FlatUIDataGridColumn } from './data-grid-column/data-grid-column.component';
+import { FlatUIInputTextArea } from './input-textarea/input-textarea.component';
 
 
 
@@ -49,6 +50,7 @@ import { FlatUIDataGridColumn } from './data-grid-column/data-grid-column.compon
     FlatUIInputNumber,
     FlatUIInputSlider,
     FlatUIInputText,
+    FlatUIInputTextArea,
     FlatUIInputToggle,
     FlatUILabel,
     FlatUIProgressBar,
@@ -105,6 +107,7 @@ import { FlatUIDataGridColumn } from './data-grid-column/data-grid-column.compon
     FlatUIInputNumber,
     FlatUIInputSlider,
     FlatUIInputText,
+    FlatUIInputTextArea,
     FlatUIInputToggle,
     FlatUILabel,
     FlatUIProgressBar,

@@ -15,6 +15,7 @@ export * from './lib/input-color/input-color.component';
 export * from './lib/input-number/input-number.component';
 export * from './lib/input-slider/input-slider.component';
 export * from './lib/input-text/input-text.component';
+export * from './lib/input-textarea/input-textarea.component';
 export * from './lib/input-toggle/input-toggle.component';
 export * from './lib/input-toggle/input-toggle.component';
 export * from './lib/keyboard/keyboard.component';
