@@ -54,7 +54,7 @@ export class FlatUIDataGrid extends NgtObjectProps<Group> {
 
   data: Array<any> = [];
 
-  private updaterows() {
+  refresh() {
     let drawindex = this.firstdrawindex;
 
     // if the whole list is shorter than what can be displayed, start from the first item in the list
@@ -75,6 +75,6 @@ export class FlatUIDataGrid extends NgtObjectProps<Group> {
   override ngOnInit() {
     super.ngOnInit();
 
-    this.updaterows();
+    this.refresh();
   }
 }
