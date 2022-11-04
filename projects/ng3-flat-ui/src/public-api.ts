@@ -22,6 +22,7 @@ export * from './lib/keyboard/keyboard.component';
 export * from './lib/label/label.component';
 export * from './lib/list/list.component';
 export * from './lib/numpad/numpad.component';
+export * from './lib/paginator/paginator.component';
 export * from './lib/progress-bar/progress-bar.component';
 export * from './lib/radio-button/radio-button.component';
 export * from './lib/radio-group/radio-group.component';

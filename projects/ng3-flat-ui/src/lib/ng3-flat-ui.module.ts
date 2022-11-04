@@ -37,6 +37,7 @@ import { FlatUITabGroup } from './tab-group/tab-group.component';
 import { FlatUIDataGrid } from './data-grid/data-grid.component';
 import { FlatUIDataGridColumn } from './data-grid-column/data-grid-column.component';
 import { FlatUIInputTextArea } from './input-textarea/input-textarea.component';
+import { FlatUIPaginator } from './paginator/paginator.component';
 
 
 
@@ -70,6 +71,7 @@ import { FlatUIInputTextArea } from './input-textarea/input-textarea.component';
 
     FlatUIDataGrid,
     FlatUIDataGridColumn,
+    FlatUIPaginator,
 
     HorizontalLayoutDirective,
     VerticalLayoutDirective,
@@ -127,6 +129,7 @@ import { FlatUIInputTextArea } from './input-textarea/input-textarea.component';
 
     FlatUIDataGrid,
     FlatUIDataGridColumn,
+    FlatUIPaginator,
 
     HorizontalLayoutDirective,
     VerticalLayoutDirective,

@@ -1,10 +1,13 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef, ViewChild } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef } from "@angular/core";
 
 import { Group, Object3D } from "three";
 import { NgtObjectProps, NgtVector2 } from "@angular-three/core";
-import { LAYOUT_EVENT } from "../flat-ui-utils";
+
 import { FlatUIDataGridColumn } from "../data-grid-column/data-grid-column.component";
 
+class GridData {
+  constructor(public data: any) { }
+}
 
 @Component({
   selector: 'flat-ui-data-grid[datasource]',
@@ -21,8 +24,17 @@ export class FlatUIDataGrid extends NgtObjectProps<Group> {
 
   @Input() pivot = true;
 
+  @Input() buttonsize = 0.1;
+
+  width = 0;
+  height = 0;
+
   @ContentChild('columnHeader')
   columnHeader!: TemplateRef<any>;
+
+  tick(object: Object3D) {
+    object.rotation.y += 0.001
+  }
 
   private _displaycolumns: Array<string> = []
   @Input()
@@ -52,7 +64,7 @@ export class FlatUIDataGrid extends NgtObjectProps<Group> {
 
   private firstdrawindex = 0;
 
-  data: Array<any> = [];
+  rows: Array<GridData> = [];
 
   refresh() {
     let drawindex = this.firstdrawindex;
@@ -62,14 +74,40 @@ export class FlatUIDataGrid extends NgtObjectProps<Group> {
       this.firstdrawindex = drawindex = 0;
     }
 
-    this.data.length = 0;
-
     for (let i = 0; i < this.rowcount; i++) {
+      let value = {}
       if (drawindex < this.datasource.length)
-        this.data.push(this.datasource[drawindex++]);
+        value = this.datasource[drawindex++];
+
+      if (this.rows.length < this.rowcount)
+        this.rows.push(new GridData(value));
       else
-        this.data.push({});
+        this.rows[i].data = value;
     }
+  }
+
+  movefirst() {
+    this.firstdrawindex = 0;
+    this.refresh();
+  }
+
+  moveprevious() {
+    if (this.firstdrawindex) {
+      this.firstdrawindex--;
+      this.refresh();
+    }
+  }
+
+  movenext() {
+    if (this.datasource.length > this.rowcount && this.firstdrawindex < this.datasource.length - this.rowcount) {
+      this.firstdrawindex++;
+      this.refresh();
+    }
+  }
+
+  movelast() {
+    this.firstdrawindex = Math.max(this.datasource.length - this.rowcount, 0);
+    this.refresh();
   }
 
   override ngOnInit() {

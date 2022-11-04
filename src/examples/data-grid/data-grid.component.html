@@ -6,9 +6,10 @@
 
 <ngt-mesh-basic-material noAttach #blackmaterial color="black"></ngt-mesh-basic-material>
 
-<!--'Name', 'Weight', 'Symbol'-->
-<ngt-group ngtBoxHelper [position]="[-2, 1.5, 0]">
-  <flat-ui-data-grid [datasource]="elements" [displaycolumns]="['Name','Weight', 'Symbol','Description']" [rowcount]="3" [pivot]="pivot">
+<ngt-group ngtBoxHelper>
+  <flat-ui-data-grid #grid [position]="[-2, 1.5, 0]" [datasource]="elements" [displaycolumns]="['Name','Weight', 'Symbol','Description']" [rowcount]="5" [pivot]="pivot" [buttonsize]="0.2">
+
+    <flat-ui-paginator [position]="[0, -grid.height-pagebuttonsize/2, 0]" [buttonsize]="pagebuttonsize" [selectable]="selectable" [appendTo]="grid.instance.value"></flat-ui-paginator>
 
     <ng-template #columnHeader let-column="column" let-parent="parent">
       <ngt-group [appendTo]="parent">
@@ -58,6 +59,7 @@
 
   </flat-ui-data-grid>
 </ngt-group>
+
 
 <vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
 <vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>

@@ -1,10 +1,10 @@
-import { Directive, Input, OnDestroy, OnInit } from "@angular/core";
+import { Directive, EventEmitter, Input, OnDestroy, OnInit, Output } from "@angular/core";
 
-import { make, NgtVector2 } from "@angular-three/core";
+import { NgtVector2 } from "@angular-three/core";
 import { NgtGroup } from "@angular-three/core/group";
 
 import { HorizontalLayout } from "./layout";
-
+import { WIDTH_CHANGED_EVENT } from "./flat-ui-utils";
 
 
 @Directive({
@@ -13,6 +13,8 @@ import { HorizontalLayout } from "./layout";
 })
 export class HorizontalLayoutDirective implements OnInit, OnDestroy {
   @Input() margin: NgtVector2 = 0;
+
+  @Output() widthchange = new EventEmitter<number>();
 
   private panel!: HorizontalLayout;
 
@@ -28,6 +30,10 @@ export class HorizontalLayoutDirective implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     const group = this.ngtgroup.instance.value;
+
+    group.addEventListener(WIDTH_CHANGED_EVENT, (e: any) => {
+      this.widthchange.next(e.width);
+    })
 
     this.panel = new HorizontalLayout(group);
     this.panel.margin = this.margin;

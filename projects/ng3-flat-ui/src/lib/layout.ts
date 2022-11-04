@@ -13,7 +13,7 @@ interface ObjectSizeData {
 export abstract class Layout {
   protected updateFlag = true;
 
-  margin : NgtVector2 = 0;
+  margin: NgtVector2 = 0;
 
   constructor(private group: Object3D) { }
 
@@ -36,9 +36,11 @@ export abstract class Layout {
 
     const event = { type: LAYOUT_EVENT, width: 0, height: 0, updated: false };
     children.forEach(child => {
-        if (!child.visible && !child.userData['layout']) return;
+      if (!child.visible && !child.userData['layout']) return;
+      if (child.userData['skiplayout']) return;
 
       if (child.type == 'Group') {
+
         const x = this.getSizes(child.children);
         let width = 0
         let height = 0;
@@ -76,7 +78,7 @@ export class HorizontalLayout extends Layout {
     let marginright = this.margin as number;
 
     if (Array.isArray(this.margin)) {
-      const margin = make(Vector2,this.margin);
+      const margin = make(Vector2, this.margin);
       marginleft = margin.x;
       marginright = margin.y;
     }
@@ -87,6 +89,8 @@ export class HorizontalLayout extends Layout {
 
       x += item.width + marginleft + marginright;  // move left based on width of this item
     });
+
+    group.dispatchEvent({ type: WIDTH_CHANGED_EVENT, width: Math.abs(x) });
   }
 
   override listen(group: Object3D) {
@@ -115,7 +119,7 @@ export class VerticalLayout extends Layout {
     let marginbottom = this.margin as number;
 
     if (Array.isArray(this.margin)) {
-      const margin = make(Vector2,this.margin);
+      const margin = make(Vector2, this.margin);
       margintop = margin.x;
       marginbottom = margin.y;
     }

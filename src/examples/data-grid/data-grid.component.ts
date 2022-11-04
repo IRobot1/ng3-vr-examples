@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { InteractiveObjects } from "ng3-flat-ui";
+import { Object3D } from "three";
 
 // taken from https://material.angular.io/components/table/examples
 export interface PeriodicElement {
@@ -26,6 +27,8 @@ export class DataGridExample {
   selectable = new InteractiveObjects();;
 
   pivot = false;
+  pagebuttonsize = 0.2
+
 
   // taken from https://material.angular.io/components/table/examples
 

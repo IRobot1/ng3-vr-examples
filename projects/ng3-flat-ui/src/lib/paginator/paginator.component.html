@@ -1,0 +1,9 @@
+<ngt-group [ngtObjectPassThrough]="this" [appendTo]="appendTo" [userData]="{ skiplayout: true}">
+
+  <flat-ui-button *ngFor="let item of buttons" [selectable]="selectable"
+                  [position]="item.position" [width]="buttonsize" [height]="buttonsize" [text]="item.text"
+                  (pressed)="clicked($event)">
+
+  </flat-ui-button>
+
+</ngt-group>
