@@ -31,6 +31,8 @@ export class DataGridExample implements OnInit {
   pivot = false;
   showheading = true;
   showfooter = true;
+  headingheight = 0.2
+  footerheight = 0.2
 
   pagebuttonsize = 0.2
 
