@@ -87,25 +87,8 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterView
     this._truematerial = newvalue;
   }
 
-  private _width = 0.2;
-  @Input()
-  get width() { return this._width }
-  set width(newvalue: number) {
-    this._width = newvalue;
-    if (this.mesh) {
-      this.mesh.dispatchEvent({ type: WIDTH_CHANGED_EVENT });
-    }
-  }
-
-  private _height = 0.1;
-  @Input()
-  get height() { return this._height }
-  set height(newvalue: number) {
-    this._height = newvalue;
-    if (this.mesh) {
-      this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
-    }
-  }
+  protected width = 0.2;
+  protected height = 0.1;
 
   @Input() selectable?: InteractiveObjects;
 
