@@ -1,5 +1,5 @@
-<ngt-group *ngIf="!pivot" horizontal-layout (widthchange)="width=$event" [ngtObjectPassThrough]="this">
-  <ngt-group #parent *ngFor="let column of columns" vertical-layout [margin]="margin" (heightchange)="height=$event" [name]="column.name">
+<ngt-group *ngIf="!pivot" horizontal-layout [margin]="hmargin" (widthchange)="width=$event" [ngtObjectPassThrough]="this">
+  <ngt-group #parent *ngFor="let column of columns" vertical-layout [margin]="vmargin" (heightchange)="height=$event">
 
     <ng-container [ngTemplateOutlet]="columnHeader ? columnHeader : defaultColumnHeader"
                   [ngTemplateOutletContext]="{ column: column, parent: parent.instance.value }">
@@ -22,8 +22,8 @@
 
 </ngt-group>
 
-<ngt-group *ngIf="pivot" vertical-layout (heightchange)="height=$event" [ngtObjectPassThrough]="this">
-  <ngt-group #parent *ngFor="let column of columns" horizontal-layout [margin]="margin" (widthchange)="width=$event">
+<ngt-group *ngIf="pivot" vertical-layout [margin]="vmargin" (heightchange)="height=$event" [ngtObjectPassThrough]="this">
+  <ngt-group #parent *ngFor="let column of columns" horizontal-layout [margin]="hmargin" (widthchange)="width=$event">
 
     <ng-container [ngTemplateOutlet]="columnHeader ? columnHeader : defaultColumnHeader"
                   [ngTemplateOutletContext]="{ column: column, parent: parent.instance.value }">

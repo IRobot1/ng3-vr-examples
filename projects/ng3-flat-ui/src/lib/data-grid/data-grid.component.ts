@@ -16,7 +16,8 @@ class GridData {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatUIDataGrid extends NgtObjectProps<Group> {
-  @Input() margin: NgtVector2 = 0.01;
+  @Input() vmargin: NgtVector2 = 0.01;
+  @Input() hmargin: NgtVector2 = 0.01;
   @Input() datasource!: Array<any>;
 
   @Input() rowcount = 5;

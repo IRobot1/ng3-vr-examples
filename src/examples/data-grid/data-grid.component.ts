@@ -1,5 +1,5 @@
-import { Component } from "@angular/core";
-import { InteractiveObjects } from "ng3-flat-ui";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { FlatUIDataGrid, InteractiveObjects } from "ng3-flat-ui";
 import { Object3D } from "three";
 
 // taken from https://material.angular.io/components/table/examples
@@ -14,7 +14,9 @@ export interface PeriodicElement {
 @Component({
   templateUrl: './data-grid.component.html',
 })
-export class DataGridExample {
+export class DataGridExample implements OnInit {
+  @ViewChild('grid') grid!: FlatUIDataGrid;
+
   datasource = [
     { name: 'red', r: 255, g: 0, b: 0 },
     { name: 'green', r: 0, g: 255, b: 0 },
@@ -29,10 +31,50 @@ export class DataGridExample {
   pivot = false;
   pagebuttonsize = 0.2
 
+  elements: Array<PeriodicElement> = []
+
+  ngOnInit() {
+    //this.elements.push(this.xelements[0])
+    //setTimeout(() => {
+    //  this.elements.push(this.xelements[1])
+    //  this.grid.refresh();
+    //}, 1000)
+    let mode = true; // true - add, false - remove
+    let duration = 20;
+    let index = 0;
+
+    // alternate between adding and remove items
+    setInterval(() => {
+      if (mode) {
+        if (index == this.xelements.length) {
+          this.elements.length = 0;
+          index = 0;
+        }
+        this.elements.push(this.xelements[index]);
+        index++;
+      }
+      else {
+        if (index == 0) {
+          index = this.xelements.length;
+        }
+        this.elements = this.xelements.filter((item, i) => i < index);
+        index--;
+      }
+      this.grid.refresh();
+
+      duration--;
+      if (duration == 0) {
+        mode = !mode;
+        duration = 20;
+        this.elements.length = 0;
+        index = 0;
+      }
+    }, 1000)
+  }
 
   // taken from https://material.angular.io/components/table/examples
 
-  elements: Array<PeriodicElement> = [
+  xelements: Array<PeriodicElement> = [
     {
       position: 1,
       name: 'Hydrogen',

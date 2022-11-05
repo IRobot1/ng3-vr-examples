@@ -9,7 +9,7 @@
 <ngt-group ngtBoxHelper>
   <flat-ui-data-grid #grid [position]="[-2, 1.5, 0]" [datasource]="elements" [displaycolumns]="['Name','Weight', 'Symbol','Description']" [rowcount]="5" [pivot]="pivot" [buttonsize]="0.2">
 
-    <flat-ui-paginator [position]="[0, -grid.height-pagebuttonsize/2, 0]" [buttonsize]="pagebuttonsize" [selectable]="selectable" [appendTo]="grid.instance.value"></flat-ui-paginator>
+    <flat-ui-paginator [position]="[0, -grid.height-pagebuttonsize/2, 0]" [showfirstlast]="true" [buttonsize]="pagebuttonsize" [selectable]="selectable" [appendTo]="grid.instance.value"></flat-ui-paginator>
 
     <ng-template #columnHeader let-column="column" let-parent="parent">
       <ngt-group [appendTo]="parent">
@@ -44,7 +44,7 @@
     <flat-ui-data-grid-column [name]="'Color'">
       <ng-template #columnRow let-row="row" let-column="column" let-parent="parent">
         <ngt-group [appendTo]="parent">
-          <flat-ui-input-color [visible]="row.name" [width]="column.width" text="rgb({{row.r}},{{row.g}},{{row.b}})"></flat-ui-input-color>
+          <flat-ui-input-color [width]="column.width" text="rgb({{row.r}},{{row.g}},{{row.b}})"></flat-ui-input-color>
         </ngt-group>
       </ng-template>
     </flat-ui-data-grid-column>
@@ -52,7 +52,7 @@
     <flat-ui-data-grid-column [name]="'Description'">
       <ng-template #columnRow let-row="row" let-column="column" let-parent="parent">
         <ngt-group [appendTo]="parent">
-          <flat-ui-label [visible]="row.name" [enabled]="false" [width]="2.7" [height]="0.25" [text]="row.description"></flat-ui-label>
+          <flat-ui-label [enabled]="false" [width]="2.7" [height]="0.25" [text]="row.description"></flat-ui-label>
         </ngt-group>
       </ng-template>
     </flat-ui-data-grid-column>

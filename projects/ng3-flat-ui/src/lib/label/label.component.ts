@@ -13,7 +13,14 @@ import { GlobalFlatUITheme } from "../flat-ui-theme";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FlatUILabel extends NgtObjectProps<Group> implements AfterViewInit {
-  @Input() text = '';
+private _text = '';
+  @Input()
+  get text(): string { return this._text }
+  set text(newvalue: string) {
+    if (newvalue == undefined) newvalue = '';
+    this._text = newvalue;
+  }
+
   @Input() font = ''; // for example, https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff
   @Input() fontsize = 0.07;
 
