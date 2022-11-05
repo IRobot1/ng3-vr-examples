@@ -29,6 +29,9 @@ export class DataGridExample implements OnInit {
   selectable = new InteractiveObjects();;
 
   pivot = false;
+  showheading = true;
+  showfooter = true;
+
   pagebuttonsize = 0.2
 
   elements: Array<PeriodicElement> = []
@@ -60,6 +63,12 @@ export class DataGridExample implements OnInit {
   ngOnInit() {
     this.addremove();
     //this.update();
+  }
+
+  get totalweight(): string {
+    let total = 0;
+    this.elements.forEach(item => total += item.weight)
+    return total.toFixed(2);
   }
 
   update() {
