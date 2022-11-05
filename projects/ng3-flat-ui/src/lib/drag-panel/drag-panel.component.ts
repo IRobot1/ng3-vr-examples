@@ -9,7 +9,7 @@ import { InteractiveObjects } from "../interactive-objects";
 
 @Component({
   selector: 'flat-ui-drag-panel',
-  exportAs: 'flatUIIconDragPanel',
+  exportAs: 'flatUIDragPanel',
   templateUrl: './drag-panel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
