@@ -28,6 +28,7 @@ export class FlatUIDataGrid extends NgtObjectProps<Group> {
   @Input() buttonsize = 0.1;
 
   @Output() widthchange = new EventEmitter<number>();
+  @Output() heightchange = new EventEmitter<number>();
 
   private _width = 0;
   get width(): number { return this._width }
@@ -36,7 +37,12 @@ export class FlatUIDataGrid extends NgtObjectProps<Group> {
     this.widthchange.next(newvalue);
   }
 
-  height = 0;
+  private _height = 0;
+  get height(): number { return this._height }
+  set height(newvalue: number) {
+    this._height = newvalue;
+    this.heightchange.next(newvalue);
+  }
 
   @ContentChild('columnHeader')
   columnHeader!: TemplateRef<any>;

@@ -35,14 +35,26 @@ export class DataGridExample implements OnInit {
 
   hline!: BufferGeometry;
 
-  widthchange(newwidth: number) {
+  widthchange(newvalue: number) {
     if (this.hline) this.hline.dispose();
 
     const points: Array<Vector2> = [
       new Vector2(),
-      new Vector2(newwidth, 0)
+      new Vector2(newvalue, 0)
     ]
     this.hline = new BufferGeometry().setFromPoints(points);
+  }
+
+  vline!: BufferGeometry;
+  
+  heightchange(newvalue: number) {
+    if (this.vline) this.vline.dispose();
+
+    const points: Array<Vector2> = [
+      new Vector2(),
+      new Vector2(0, -newvalue)
+    ]
+    this.vline = new BufferGeometry().setFromPoints(points);
   }
 
   ngOnInit() {

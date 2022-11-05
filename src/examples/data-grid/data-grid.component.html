@@ -7,9 +7,9 @@
 <ngt-mesh-basic-material noAttach #blackmaterial color="black"></ngt-mesh-basic-material>
 
 <ngt-group ngtBoxHelper>
-  <flat-ui-data-grid #grid [position]="[-2, 1.5, 0]" [datasource]="elements" [displaycolumns]="['Name','Weight', 'Symbol','Description']"
+  <flat-ui-data-grid #grid [position]="[-2, 1.5, 0]" [vmargin]="[0, 0]" [datasource]="elements" [displaycolumns]="['Name','Weight', 'Symbol','Description']"
                      [rowcount]="5" [pivot]="pivot" [buttonsize]="0.2"
-                     (widthchange)="widthchange($event)">
+                     (widthchange)="widthchange($event)" (heightchange)="heightchange($event)">
 
     <flat-ui-paginator #page [showlabel]="true" [position]="[0, -grid.height-pagebuttonsize/2, 0]" [showfirstlast]="true" [buttonsize]="pagebuttonsize" [selectable]="selectable" [appendTo]="grid.instance.value"></flat-ui-paginator>
 
@@ -18,6 +18,7 @@
         <flat-ui-label [width]="column.width" [text]="column.name" [labelmaterial]="blackmaterial.instance.value"></flat-ui-label>
 
         <ngt-line *ngIf="index==0" [position]="[-column.width/2, -0.05, 0]" [geometry]="hline" [material]="blackmaterial.instance.value"></ngt-line>
+        <ngt-line [position]="[column.width/2, 0.05, 0]" [geometry]="vline" [material]="blackmaterial.instance.value"></ngt-line>
       </ngt-group>
     </ng-template>
 
@@ -55,10 +56,10 @@
       </ng-template>
     </flat-ui-data-grid-column>
 
-    <flat-ui-data-grid-column [name]="'Description'">
+    <flat-ui-data-grid-column [name]="'Description'" [width]="2.7" >
       <ng-template #columnRow let-row="row" let-column="column" let-parent="parent">
         <ngt-group [appendTo]="parent">
-          <flat-ui-label [enabled]="false" [width]="2.7" [height]="0.25" [text]="row.description"></flat-ui-label>
+          <flat-ui-label [enabled]="false" [width]="column.width" [height]="0.25" [text]="row.description"></flat-ui-label>
         </ngt-group>
       </ng-template>
     </flat-ui-data-grid-column>
