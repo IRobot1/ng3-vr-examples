@@ -18,8 +18,23 @@ class PageButtonData {
 })
 export class FlatUIPaginator extends NgtObjectProps<Group> {
   @Input() showlabel = true;
-  @Input() showfirstlast = true;
-  @Input() buttonsize = 0.1;
+
+  private _showfirstlast = true;
+  @Input()
+  get showfirstlast(): boolean { return this._showfirstlast }
+  set showfirstlast(newvalue: boolean) {
+    this._showfirstlast = newvalue;
+    this.buildbuttons();
+  }
+
+  private _buttonsize = 0.1;
+  @Input()
+  get buttonsize(): number { return this._buttonsize }
+  set buttonsize(newvalue: number) {
+    this._buttonsize = newvalue;
+    this.buildbuttons();
+  }
+
   @Input() buttonspacing = 0.01;
 
   @Input() selectable?: InteractiveObjects;
@@ -44,6 +59,12 @@ export class FlatUIPaginator extends NgtObjectProps<Group> {
 
   override ngOnInit() {
     super.ngOnInit();
+
+    this.buildbuttons();
+  }
+
+  private buildbuttons() {
+    this.buttons.length = 0;
 
     const buttonwidth = this.buttonsize + this.buttonspacing;
     const halfwidth = this.buttonsize / 2;
@@ -71,7 +92,7 @@ export class FlatUIPaginator extends NgtObjectProps<Group> {
 
     if (this.showlabel) {
       const labelwidth = 1;
-      this.textposition.x = width + labelwidth / 2 + 0.02;
+      this.textposition = new Vector3(width + labelwidth / 2 + 0.02);
 
       this.width += labelwidth / 2 + 0.02;
     }

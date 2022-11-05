@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
+
+import { BufferGeometry, Vector2 } from "three";
+
 import { FlatUIDataGrid, InteractiveObjects } from "ng3-flat-ui";
-import { BufferGeometry, Object3D, Vector2 } from "three";
+import { Ng3GUI } from "ng3-gui";
 
 // taken from https://material.angular.io/components/table/examples
 export interface PeriodicElement {
@@ -33,13 +36,37 @@ export class DataGridExample implements OnInit {
   showfooter = true;
   headingheight = 0.2
   footerheight = 0.2
-
+  showhlines = true;
+  showvlines = true;
+  showpaging = true;
+  showfirstlast = true;
+  showpagelabel = true;
   pagebuttonsize = 0.2
+
+  gui!: Ng3GUI
+  makegui() {
+    const gui = new Ng3GUI({ width: 300 });
+    gui.settitle('Pivot')
+    //gui.add(this, 'pivot').name('Pivot');
+    gui.add(this, 'showheading').name('Show Heading');
+    gui.add(this, 'showfooter').name('Show Footer');
+    gui.add(this, 'headingheight', 0.1, 0.5).name('Heading Height');
+    gui.add(this, 'footerheight', 0.1, 0.5).name('Footer Height');
+    gui.add(this, 'showhlines').name('Show Horizontal Lines');
+    gui.add(this, 'showvlines').name('Show Vertical Lines');
+
+    gui.add(this, 'showpaging').name('Show Pagination');
+    gui.add(this, 'showfirstlast').name('Show Page First Last');
+    gui.add(this, 'showpagelabel').name('Show Page Label');
+    //gui.add(this, 'pagebuttonsize', 0.1, 0.4).name('Page Button Size');
+
+    this.gui = gui;
+  }
 
   elements: Array<PeriodicElement> = []
 
   hline!: BufferGeometry;
-
+  width = 0;
   widthchange(newvalue: number) {
     if (this.hline) this.hline.dispose();
 
@@ -48,10 +75,11 @@ export class DataGridExample implements OnInit {
       new Vector2(newvalue, 0)
     ]
     this.hline = new BufferGeometry().setFromPoints(points);
+    this.width = newvalue;
   }
 
   vline!: BufferGeometry;
-  
+  height = 0
   heightchange(newvalue: number) {
     if (this.vline) this.vline.dispose();
 
@@ -60,9 +88,12 @@ export class DataGridExample implements OnInit {
       new Vector2(0, -newvalue)
     ]
     this.vline = new BufferGeometry().setFromPoints(points);
+    this.height = newvalue;
+    if (this.showpaging) this.height += this.pagebuttonsize
   }
 
   ngOnInit() {
+    this.makegui();
     this.addremove();
     //this.update();
   }
