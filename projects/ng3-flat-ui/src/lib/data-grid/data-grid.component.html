@@ -1,7 +1,7 @@
 <ngt-group *ngIf="!pivot" horizontal-layout [margin]="hmargin" (widthchange)="width=$event" [ngtObjectPassThrough]="this">
   <ngt-group #parent *ngFor="let column of columns; index as index" vertical-layout [margin]="vmargin" (heightchange)="height=$event">
 
-    <ng-container *ngIf="showheading" [ngTemplateOutlet]="columnHeader ? columnHeader : defaultColumnHeader"
+    <ng-container [ngTemplateOutlet]="columnHeader ? columnHeader : defaultColumnHeader"
                   [ngTemplateOutletContext]="{ column: column, index: index, parent: parent.instance.value }">
     </ng-container>
 
@@ -10,7 +10,7 @@
                   [ngTemplateOutletContext]="{ column: column, row: row.data, parent: parent.instance.value }">
     </ng-container>
 
-    <ng-container *ngIf="showfooter" [ngTemplateOutlet]="columnFooter ? columnFooter : defaultColumnFooter"
+    <ng-container [ngTemplateOutlet]="columnFooter ? columnFooter : defaultColumnFooter"
                   [ngTemplateOutletContext]="{ column: column, index: index, parent: parent.instance.value }">
     </ng-container>
 
@@ -33,7 +33,7 @@
 <ngt-group *ngIf="pivot" vertical-layout [margin]="vmargin" (heightchange)="height=$event" [ngtObjectPassThrough]="this">
   <ngt-group #parent *ngFor="let column of columns; index as index" horizontal-layout [margin]="hmargin" (widthchange)="width=$event">
 
-    <ng-container *ngIf="showheading" [ngTemplateOutlet]="columnHeader ? columnHeader : defaultColumnHeader"
+    <ng-container [ngTemplateOutlet]="columnHeader ? columnHeader : defaultColumnHeader"
                   [ngTemplateOutletContext]="{ column: column, index: index, parent: parent.instance.value }">
     </ng-container>
 
@@ -42,7 +42,7 @@
                   [ngTemplateOutletContext]="{ column: column, row: row.data, parent: parent.instance.value }">
     </ng-container>
 
-    <ng-container *ngIf="showfooter" [ngTemplateOutlet]="columnFooter ? columnFooter : defaultColumnFooter"
+    <ng-container [ngTemplateOutlet]="columnFooter ? columnFooter : defaultColumnFooter"
                   [ngTemplateOutletContext]="{ column: column, index: index, parent: parent.instance.value }">
     </ng-container>
 

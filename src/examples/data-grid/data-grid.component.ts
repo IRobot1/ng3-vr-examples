@@ -55,7 +55,12 @@ export class DataGridExample implements OnInit {
     gui.add(this, 'showhlines').name('Show Horizontal Lines');
     gui.add(this, 'showvlines').name('Show Vertical Lines');
 
-    gui.add(this, 'showpaging').name('Show Pagination');
+    gui.add(this, 'showpaging').name('Show Pagination').onChange(() => {
+      if (this.showpaging)
+        this.height += this.pagebuttonsize;
+      else
+        this.height -= this.pagebuttonsize;
+    });
     gui.add(this, 'showfirstlast').name('Show Page First Last');
     gui.add(this, 'showpagelabel').name('Show Page Label');
     //gui.add(this, 'pagebuttonsize', 0.1, 0.4).name('Page Button Size');

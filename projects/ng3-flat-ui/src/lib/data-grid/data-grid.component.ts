@@ -20,9 +20,6 @@ export class FlatUIDataGrid extends NgtObjectProps<Group> {
   @Input() hmargin: NgtVector2 = 0.01;
   @Input() datasource!: Array<any>;
 
-  @Input() showheading = true;
-  @Input() showfooter = false;
-
   @Input() rowcount = 5;
   @Input() rowheight = 0.1;
 

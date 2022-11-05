@@ -17,7 +17,7 @@
 
       <flat-ui-data-grid #grid [vmargin]="[0, 0]" [hmargin]="[0, 0]"
                          [datasource]="elements" [displaycolumns]="['Name','Weight', 'Symbol','Description']"
-                         [rowcount]="5" [pivot]="pivot" [buttonsize]="0.2" [showheading]="showheading" [showfooter]="showfooter"
+                         [rowcount]="5" [pivot]="pivot" [buttonsize]="0.2"
                          (widthchange)="widthchange($event)" (heightchange)="heightchange($event)">
 
         <flat-ui-paginator #page [visible]="showpaging" [showlabel]="showpagelabel"
@@ -28,14 +28,14 @@
         <!-- heading -->
         <ng-template #columnHeader let-column="column" let-index="index" let-parent="parent">
           <ngt-group [appendTo]="parent">
-            <flat-ui-label [width]="column.width" [text]="column.name" [height]="headingheight" [labelmaterial]="blackmaterial.instance.value"></flat-ui-label>
+            <flat-ui-label [visible]="showheading" [width]="column.width" [text]="column.name" [height]="showheading ? headingheight : 0" [labelmaterial]="blackmaterial.instance.value"></flat-ui-label>
 
-            <ngt-group *ngIf="showhlines">
+            <ngt-group *ngIf="showheading && showhlines">
               <ngt-line *ngIf="index==0" [position]="[-column.width/2, -headingheight/2, 0]" [geometry]="hline" [material]="blackmaterial.instance.value"></ngt-line>
               <ngt-line *ngIf="index==0" [position]="[-column.width/2, headingheight/2, 0]" [geometry]="hline" [material]="blackmaterial.instance.value"></ngt-line>
             </ngt-group>
 
-            <ngt-group *ngIf="showvlines">
+            <ngt-group *ngIf="showheading && showvlines">
               <ngt-line *ngIf="index==0" [position]="[-column.width/2, headingheight/2, 0]" [geometry]="vline" [material]="blackmaterial.instance.value"></ngt-line>
               <ngt-line [position]="[column.width/2, headingheight/2, 0]" [geometry]="vline" [material]="blackmaterial.instance.value"></ngt-line>
             </ngt-group>
@@ -88,10 +88,10 @@
         <!-- footer -->
         <ng-template #columnFooter let-column="column" let-index="index" let-parent="parent">
           <ngt-group [appendTo]="parent">
-            <flat-ui-label *ngIf="index==1" [width]="column.width" [height]="footerheight" [text]="totalweight" [labelmaterial]="blackmaterial.instance.value"></flat-ui-label>
-            <flat-ui-label *ngIf="index!=1" [width]="column.width" [height]="footerheight" [text]="''"></flat-ui-label>
+            <flat-ui-label *ngIf="index==1" [visible]="showfooter" [width]="column.width" [height]="showfooter ? footerheight :0" [text]="totalweight" [labelmaterial]="blackmaterial.instance.value"></flat-ui-label>
+            <flat-ui-label *ngIf="index!=1" [visible]="showfooter" [width]="column.width" [height]="showfooter ? footerheight :0" [text]="''"></flat-ui-label>
 
-            <ngt-group *ngIf="showhlines">
+            <ngt-group *ngIf="showfooter && showhlines">
               <ngt-line *ngIf="index==0" [position]="[-column.width/2, -footerheight/2, 0]" [geometry]="hline" [material]="blackmaterial.instance.value"></ngt-line>
               <ngt-line *ngIf="index==0" [position]="[-column.width/2, footerheight/2, 0]" [geometry]="hline" [material]="blackmaterial.instance.value"></ngt-line>
             </ngt-group>

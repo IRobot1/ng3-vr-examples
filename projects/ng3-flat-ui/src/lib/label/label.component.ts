@@ -58,8 +58,10 @@ private _text = '';
 
   ngAfterViewInit(): void {
     this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
+      const height = this.height
+      if (height) Math.max(this.height, this.fontsize);
       e.width = this.width;
-      e.height = Math.max(this.height, this.fontsize);
+      e.height = height;
       e.updated = true;
     });
   }
