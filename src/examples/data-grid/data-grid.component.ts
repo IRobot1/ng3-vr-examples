@@ -34,11 +34,30 @@ export class DataGridExample implements OnInit {
   elements: Array<PeriodicElement> = []
 
   ngOnInit() {
-    //this.elements.push(this.xelements[0])
-    //setTimeout(() => {
-    //  this.elements.push(this.xelements[1])
-    //  this.grid.refresh();
-    //}, 1000)
+    //this.addremove();
+    this.update();
+  }
+
+  update() {
+    const data: PeriodicElement = { name: '', description: '', weight: 0, symbol: '', position: 0 };
+    this.elements.push(data);
+    let index = 0;
+
+    setInterval(() => {
+      const next = this.xelements[index];
+      data.name = next.name;
+      data.symbol = next.symbol;
+      data.weight = next.weight;
+      data.description = next.description;
+
+      index++;
+      if (index == this.xelements.length)
+        index = 0;
+    }, 1000)
+
+  }
+
+  addremove() {
     let mode = true; // true - add, false - remove
     let duration = 20;
     let index = 0;
