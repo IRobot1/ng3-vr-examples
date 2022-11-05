@@ -34,8 +34,8 @@ export class DataGridExample implements OnInit {
   elements: Array<PeriodicElement> = []
 
   ngOnInit() {
-    //this.addremove();
-    this.update();
+    this.addremove();
+    //this.update();
   }
 
   update() {

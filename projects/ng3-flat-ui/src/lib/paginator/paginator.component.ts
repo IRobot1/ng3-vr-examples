@@ -1,6 +1,6 @@
 import { NgtObjectProps, NgtTriple } from "@angular-three/core";
 
-import { Group } from "three";
+import { Group, Vector3 } from "three";
 import { ChangeDetectionStrategy, Component, Input, Optional } from "@angular/core";
 
 import { InteractiveObjects } from "../interactive-objects";
@@ -17,7 +17,7 @@ class PageButtonData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FlatUIPaginator extends NgtObjectProps<Group> {
-  @Input() rowcount = 0;
+  @Input() showlabel = true;
   @Input() showfirstlast = true;
   @Input() buttonsize = 0.1;
   @Input() buttonspacing = 0.01;
@@ -26,6 +26,16 @@ export class FlatUIPaginator extends NgtObjectProps<Group> {
 
   width = 0
   protected buttons: Array<PageButtonData> = [];
+  protected get text(): string {
+    if (this.datagrid) {
+      const first = this.datagrid.firstindex;
+      const length = this.datagrid.datasource.length;
+      const count = Math.min(this.datagrid.rowcount, length);
+      return `${first + 1} - ${first + count} of ${length}`;
+    }
+    return ''
+  }
+  protected textposition = new Vector3()
 
   constructor(
     @Optional() private datagrid: FlatUIDataGrid) {
@@ -44,7 +54,7 @@ export class FlatUIPaginator extends NgtObjectProps<Group> {
       this.buttons.push(new PageButtonData([x, 0, 0], '|<'));
       x += buttonwidth;
     }
-    
+
     this.buttons.push(new PageButtonData([x, 0, 0], '<'));
     x += buttonwidth;
 
@@ -56,7 +66,15 @@ export class FlatUIPaginator extends NgtObjectProps<Group> {
       x += buttonwidth;
     }
 
-    this.width = buttonwidth * this.buttons.length - this.buttonspacing * 2;
+    const width = buttonwidth * this.buttons.length - this.buttonspacing * 2;
+    this.width = width;
+
+    if (this.showlabel) {
+      const labelwidth = 1;
+      this.textposition.x = width + labelwidth / 2 + 0.02;
+
+      this.width += labelwidth / 2 + 0.02;
+    }
   }
 
   clicked(keycode: string) {

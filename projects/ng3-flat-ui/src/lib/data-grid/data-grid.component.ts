@@ -64,6 +64,7 @@ export class FlatUIDataGrid extends NgtObjectProps<Group> {
   }
 
   private firstdrawindex = 0;
+  get firstindex(): number { return this.firstdrawindex }
 
   rows: Array<GridData> = [];
 

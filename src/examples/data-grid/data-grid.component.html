@@ -9,7 +9,7 @@
 <ngt-group ngtBoxHelper>
   <flat-ui-data-grid #grid [position]="[-2, 1.5, 0]" [datasource]="elements" [displaycolumns]="['Name','Weight', 'Symbol','Description']" [rowcount]="5" [pivot]="pivot" [buttonsize]="0.2">
 
-    <flat-ui-paginator [position]="[0, -grid.height-pagebuttonsize/2, 0]" [showfirstlast]="true" [buttonsize]="pagebuttonsize" [selectable]="selectable" [appendTo]="grid.instance.value"></flat-ui-paginator>
+    <flat-ui-paginator #page [showlabel]="true" [position]="[0, -grid.height-pagebuttonsize/2, 0]" [showfirstlast]="true" [buttonsize]="pagebuttonsize" [selectable]="selectable" [appendTo]="grid.instance.value"></flat-ui-paginator>
 
     <ng-template #columnHeader let-column="column" let-parent="parent">
       <ngt-group [appendTo]="parent">
