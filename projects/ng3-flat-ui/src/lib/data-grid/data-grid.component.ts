@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 
 import { Group, Object3D } from "three";
 import { NgtObjectProps, NgtVector2 } from "@angular-three/core";
@@ -27,7 +27,15 @@ export class FlatUIDataGrid extends NgtObjectProps<Group> {
 
   @Input() buttonsize = 0.1;
 
-  width = 0;
+  @Output() widthchange = new EventEmitter<number>();
+
+  private _width = 0;
+  get width(): number { return this._width }
+  set width(newvalue: number) {
+    this._width = newvalue;
+    this.widthchange.next(newvalue);
+  }
+
   height = 0;
 
   @ContentChild('columnHeader')

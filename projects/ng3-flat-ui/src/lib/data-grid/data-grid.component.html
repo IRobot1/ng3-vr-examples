@@ -1,8 +1,8 @@
 <ngt-group *ngIf="!pivot" horizontal-layout [margin]="hmargin" (widthchange)="width=$event" [ngtObjectPassThrough]="this">
-  <ngt-group #parent *ngFor="let column of columns" vertical-layout [margin]="vmargin" (heightchange)="height=$event">
+  <ngt-group #parent *ngFor="let column of columns; index as index" vertical-layout [margin]="vmargin" (heightchange)="height=$event">
 
     <ng-container [ngTemplateOutlet]="columnHeader ? columnHeader : defaultColumnHeader"
-                  [ngTemplateOutletContext]="{ column: column, parent: parent.instance.value }">
+                  [ngTemplateOutletContext]="{ column: column, index: index, parent: parent.instance.value }">
     </ng-container>
 
     <ng-container *ngFor="let row of rows"

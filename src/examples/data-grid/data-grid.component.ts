@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { FlatUIDataGrid, InteractiveObjects } from "ng3-flat-ui";
-import { Object3D } from "three";
+import { BufferGeometry, Object3D, Vector2 } from "three";
 
 // taken from https://material.angular.io/components/table/examples
 export interface PeriodicElement {
@@ -32,6 +32,18 @@ export class DataGridExample implements OnInit {
   pagebuttonsize = 0.2
 
   elements: Array<PeriodicElement> = []
+
+  hline!: BufferGeometry;
+
+  widthchange(newwidth: number) {
+    if (this.hline) this.hline.dispose();
+
+    const points: Array<Vector2> = [
+      new Vector2(),
+      new Vector2(newwidth, 0)
+    ]
+    this.hline = new BufferGeometry().setFromPoints(points);
+  }
 
   ngOnInit() {
     this.addremove();
