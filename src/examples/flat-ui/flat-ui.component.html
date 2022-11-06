@@ -150,10 +150,7 @@
                     [position]="[1.6, 1, -2.001]" [rotation]="[0, -30 | radian, 0]" [selectable]="selectable" (close)="showimage=false">
   <ng-template let-parent="parent">
     <ngt-group [appendTo]="parent" [position]="[0, 0, 0.002]">
-      <ngt-mesh>
-        <ngt-plane-geometry [args]="[1.95, 1.45]"></ngt-plane-geometry>
-        <ngt-mesh-basic-material [map]="texture"></ngt-mesh-basic-material>
-      </ngt-mesh>
+      <flat-ui-basic-image [width]="1.95" [height]="1.45" [map]="'assets/mandelbrot1.jpg'"></flat-ui-basic-image>
     </ngt-group>
   </ng-template>
 </flat-ui-drag-panel>

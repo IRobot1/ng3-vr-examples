@@ -1,0 +1,18 @@
+<ngt-mesh [ngtObjectPassThrough]="this" (ready)="meshready($event, mat.instance.value)">
+  <ngt-plane-geometry [args]="[width, height]"></ngt-plane-geometry>
+  <ngt-mesh-basic-material #mat [map]="maptexture"
+                           [lightMap]="lightMaptexture"
+                           [aoMap]="aoMaptexture"
+                           [alphaMap]="alphaMaptexture"
+                           [envMap]="envMaptexture">
+  </ngt-mesh-basic-material>
+</ngt-mesh>
+
+<!-- 
+[emissiveMap]="emissiveMaptexture"
+[bumpMap]="bumpMaptexture"
+[normalMap]="normalMaptexture"
+[displacementMap]="displacementMaptexture"
+[roughnessMap]="roughnessMaptexture"
+[metalnessMap]="metalnessMaptexture"
+ -->

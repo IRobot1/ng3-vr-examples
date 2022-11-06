@@ -10,6 +10,7 @@ export * from './lib/data-grid-column/data-grid-column.component';
 export * from './lib/drag-panel/drag-panel.component';
 export * from './lib/expansion-panel/expansion-panel.component';
 export * from './lib/icon-button/icon-button.component';
+export * from './lib/basic-image/basic-image.component';
 export * from './lib/input-checkbox/input-checkbox.component';
 export * from './lib/input-color/input-color.component';
 export * from './lib/input-number/input-number.component';
