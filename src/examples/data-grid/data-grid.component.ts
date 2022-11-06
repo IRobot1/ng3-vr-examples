@@ -42,6 +42,9 @@ export class DataGridExample implements OnInit {
   showfirstlast = true;
   showpagelabel = true;
   pagebuttonsize = 0.2
+  vmargin = 0.02
+  hmargin = 0.02
+  rowheight = 0.25
 
   gui!: Ng3GUI
   makegui() {
@@ -64,6 +67,9 @@ export class DataGridExample implements OnInit {
     gui.add(this, 'showfirstlast').name('Show Page First Last');
     gui.add(this, 'showpagelabel').name('Show Page Label');
     //gui.add(this, 'pagebuttonsize', 0.1, 0.4).name('Page Button Size');
+    gui.add(this, 'vmargin', 0, 0.1, 0.01).name('Vertical Margin')
+    gui.add(this, 'hmargin', 0, 0.1, 0.01).name('Horiztonal Margin')
+    gui.add(this, 'rowheight', 0.1, 0.4).name('Row Height')
 
     this.gui = gui;
   }
@@ -77,7 +83,7 @@ export class DataGridExample implements OnInit {
 
     const points: Array<Vector2> = [
       new Vector2(),
-      new Vector2(newvalue, 0)
+      new Vector2(newvalue-this.hmargin*2, 0)
     ]
     this.hline = new BufferGeometry().setFromPoints(points);
     this.width = newvalue;
@@ -90,7 +96,7 @@ export class DataGridExample implements OnInit {
 
     const points: Array<Vector2> = [
       new Vector2(),
-      new Vector2(0, -newvalue)
+      new Vector2(0, -newvalue+this.vmargin*2)
     ]
     this.vline = new BufferGeometry().setFromPoints(points);
     this.height = newvalue;

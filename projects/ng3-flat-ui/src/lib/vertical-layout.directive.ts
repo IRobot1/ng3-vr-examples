@@ -13,7 +13,15 @@ import { HEIGHT_CHANGED_EVENT } from "./flat-ui-utils";
   exportAs: 'verticalLayout',
 })
 export class VerticalLayoutDirective implements OnInit, OnDestroy {
-  @Input() margin: NgtVector2 = 0;
+  private _margin: NgtVector2 = 0;
+  @Input()
+  get margin(): NgtVector2 { return this._margin }
+  set margin(newvalue: NgtVector2) {
+    this._margin = newvalue;
+    if (this.panel) {
+      this.panel.margin = newvalue;
+    }
+  }
 
   @Output() heightchange = new EventEmitter<number>();
 

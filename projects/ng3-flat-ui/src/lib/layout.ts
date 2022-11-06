@@ -13,7 +13,13 @@ interface ObjectSizeData {
 export abstract class Layout {
   protected updateFlag = true;
 
-  margin: NgtVector2 = 0;
+  private _margin: NgtVector2 = 0;
+  get margin(): NgtVector2 { return this._margin }
+  set margin(newvalue: NgtVector2) {
+    this._margin = newvalue;
+    this.updateFlag = true;
+  }
+
 
   constructor(private group: Object3D) { }
 
@@ -24,8 +30,8 @@ export abstract class Layout {
     this.updateFlag = true;
   }
 
-  public update() {
-    if (this.updateFlag) {
+  public update(force = false) {
+    if (this.updateFlag || force) {
       this.updateFlag = false;
       this.reflow(this.group);
     }

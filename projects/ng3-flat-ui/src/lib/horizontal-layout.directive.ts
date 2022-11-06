@@ -12,7 +12,15 @@ import { WIDTH_CHANGED_EVENT } from "./flat-ui-utils";
   exportAs: 'horizontalLayout',
 })
 export class HorizontalLayoutDirective implements OnInit, OnDestroy {
-  @Input() margin: NgtVector2 = 0;
+  private _margin: NgtVector2 = 0;
+  @Input()
+  get margin(): NgtVector2 { return this._margin }
+  set margin(newvalue: NgtVector2) {
+    this._margin = newvalue;
+    if (this.panel) {
+      this.panel.margin = newvalue;
+    }
+  }
 
   @Output() widthchange = new EventEmitter<number>();
 

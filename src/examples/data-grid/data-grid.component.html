@@ -7,15 +7,15 @@
 <ngt-mesh-basic-material noAttach #blackmaterial color="black"></ngt-mesh-basic-material>
 <ngt-mesh-basic-material noAttach #graymaterial color="gray"></ngt-mesh-basic-material>
 
-<ng3-gui [position]="[0, 2.2, -2]" [rotation]="[10 | radian, 0, 0]" [scale]="0.7" [gui]="gui" [scalable]="false" [selectable]="selectable"></ng3-gui>
+<ng3-gui [position]="[-1.5, 1, -2]" [scale]="0.7" [gui]="gui" [scalable]="false" [selectable]="selectable"></ng3-gui>
 
 <flat-ui-drag-panel [selectable]="selectable" [title]="'Data Grid'" [width]="width" [height]="height"
-                    [position]="[0, 1, -2]" [scale]="0.7" [scalable]="false" [panelmaterial]="graymaterial.instance.value">
+                    [position]="[1, 1, -2]" [scale]="0.7" [scalable]="false" [panelmaterial]="graymaterial.instance.value">
 
   <ng-template let-parent="parent">
     <ngt-group [appendTo]="parent" [position]="[-width/2, height/2,0.001]">
 
-      <flat-ui-data-grid #grid [vmargin]="[0, 0]" [hmargin]="[0, 0]"
+      <flat-ui-data-grid #grid [vmargin]="vmargin" [hmargin]="hmargin"
                          [datasource]="elements" [displaycolumns]="['Name','Weight', 'Symbol','Description']"
                          [rowcount]="5" [pivot]="pivot" [buttonsize]="0.2"
                          (widthchange)="widthchange($event)" (heightchange)="heightchange($event)">
@@ -30,14 +30,12 @@
           <ngt-group [appendTo]="parent">
             <flat-ui-label [visible]="showheading" [width]="column.width" [text]="column.name" [height]="showheading ? headingheight : 0" [labelmaterial]="blackmaterial.instance.value"></flat-ui-label>
 
-            <ngt-group *ngIf="showheading && showhlines">
-              <ngt-line *ngIf="index==0" [position]="[-column.width/2, -headingheight/2, 0]" [geometry]="hline" [material]="blackmaterial.instance.value"></ngt-line>
-              <ngt-line *ngIf="index==0" [position]="[-column.width/2, headingheight/2, 0]" [geometry]="hline" [material]="blackmaterial.instance.value"></ngt-line>
-            </ngt-group>
+            <ngt-line *ngIf="index==0 && showhlines" [position]="[-column.width/2, showheading ? -headingheight/2 : 0, 0]" [geometry]="hline" [material]="blackmaterial.instance.value"></ngt-line>
+            <ngt-line *ngIf="index==0 && showheading && showhlines" [position]="[-column.width/2, headingheight/2, 0]" [geometry]="hline" [material]="blackmaterial.instance.value"></ngt-line>
 
-            <ngt-group *ngIf="showheading && showvlines">
-              <ngt-line *ngIf="index==0" [position]="[-column.width/2, headingheight/2, 0]" [geometry]="vline" [material]="blackmaterial.instance.value"></ngt-line>
-              <ngt-line [position]="[column.width/2, headingheight/2, 0]" [geometry]="vline" [material]="blackmaterial.instance.value"></ngt-line>
+            <ngt-group *ngIf="showvlines">
+              <ngt-line *ngIf="index==0" [position]="[-column.width/2, showheading ? headingheight/2 : 0, 0]" [geometry]="vline" [material]="blackmaterial.instance.value"></ngt-line>
+              <ngt-line [position]="[column.width/2, showheading ? headingheight/2 : 0, 0]" [geometry]="vline" [material]="blackmaterial.instance.value"></ngt-line>
             </ngt-group>
           </ngt-group>
         </ng-template>
@@ -46,9 +44,9 @@
         <flat-ui-data-grid-column [name]="'Name'">
           <ng-template #columnRow let-row="row" let-column="column" let-parent="parent">
             <ngt-group [appendTo]="parent">
-              <flat-ui-label [width]="pivot ? 2.7 : column.width" [height]="pivot ? 0.1 : 0.25" [text]="row.name"></flat-ui-label>
+              <flat-ui-label [width]="pivot ? 2.7 : column.width" [height]="pivot ? 0.1 : rowheight" [text]="row.name"></flat-ui-label>
 
-              <ngt-line *ngIf="showhlines" [visible]="row.name" [position]="[-column.width/2, -0.125, 0]" [geometry]="hline"></ngt-line>
+              <ngt-line *ngIf="showhlines" [visible]="row.name" [position]="[-column.width/2, -rowheight/2-vmargin, 0]" [geometry]="hline"></ngt-line>
             </ngt-group>
           </ng-template>
         </flat-ui-data-grid-column>
@@ -56,7 +54,7 @@
         <flat-ui-data-grid-column [name]="'Weight'">
           <ng-template #columnRow let-row="row" let-column="column" let-parent="parent">
             <ngt-group [appendTo]="parent">
-              <flat-ui-label [width]="pivot ? 2.7 : column.width" [height]="pivot ? 0.1 : 0.25" [text]="row.weight"></flat-ui-label>
+              <flat-ui-label [width]="pivot ? 2.7 : column.width" [height]="pivot ? 0.1 : rowheight" [text]="row.weight"></flat-ui-label>
             </ngt-group>
           </ng-template>
         </flat-ui-data-grid-column>
@@ -64,7 +62,7 @@
         <flat-ui-data-grid-column [name]="'Symbol'">
           <ng-template #columnRow let-row="row" let-column="column" let-parent="parent">
             <ngt-group [appendTo]="parent">
-              <flat-ui-label [width]="pivot ? 2.7 : column.width" [fontsize]="0.2" [height]="pivot ? 0.1 : 0.25" [text]="row.symbol"></flat-ui-label>
+              <flat-ui-label [width]="pivot ? 2.7 : column.width" [fontsize]="0.2" [height]="pivot ? 0.1 : rowheight" [text]="row.symbol"></flat-ui-label>
             </ngt-group>
           </ng-template>
         </flat-ui-data-grid-column>
@@ -80,7 +78,7 @@
         <flat-ui-data-grid-column [name]="'Description'" [width]="2.7">
           <ng-template #columnRow let-row="row" let-column="column" let-parent="parent">
             <ngt-group [appendTo]="parent">
-              <flat-ui-label [enabled]="false" [width]="column.width" [height]="0.25" [text]="row.description"></flat-ui-label>
+              <flat-ui-label [enabled]="false" [width]="column.width" [height]="rowheight" [text]="row.description"></flat-ui-label>
             </ngt-group>
           </ng-template>
         </flat-ui-data-grid-column>
