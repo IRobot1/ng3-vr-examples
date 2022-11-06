@@ -25,7 +25,14 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   @Input() titlefontsize = 0.07;
   @Input() overflow = 16;
 
-  @Input() width = 1
+  private _width = 1
+  @Input()
+  get width(): number { return this._width }
+  set width(newvalue: number) {
+    this._width = newvalue;
+    this.createOutline();
+  }
+
   @Input() minwidth = 0.5;
 
   @Input() height = 1;
@@ -119,8 +126,8 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
 
   protected titleheight = 0.1;
 
-  override preInit() {
-    super.preInit();
+  override ngOnInit() {
+    super.ngOnInit();
 
     this.createOutline()
   }
