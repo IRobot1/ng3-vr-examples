@@ -1,9 +1,8 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Optional, Output, TemplateRef } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Optional, Output, TemplateRef } from "@angular/core";
 
-import { Group, Material, Mesh, Object3D } from "three";
+import { Material, Mesh, Object3D } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
-import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { FlatUITabGroup } from "../tab-group/tab-group.component";
