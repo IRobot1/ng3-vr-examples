@@ -17,7 +17,7 @@
 
       <flat-ui-data-grid #grid [vmargin]="vmargin" [hmargin]="hmargin"
                          [datasource]="elements" [displaycolumns]="['Name','Weight', 'Symbol','Description']"
-                         [rowcount]="5" [pivot]="pivot" [buttonsize]="0.2"
+                         [rowcount]="rowcount" [pivot]="pivot" [buttonsize]="0.2"
                          (widthchange)="widthchange($event)" (heightchange)="heightchange($event)">
 
         <flat-ui-paginator #page [visible]="showpaging" [showlabel]="showpagelabel"

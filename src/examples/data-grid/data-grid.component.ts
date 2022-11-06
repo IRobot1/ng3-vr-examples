@@ -45,6 +45,7 @@ export class DataGridExample implements OnInit {
   vmargin = 0.02
   hmargin = 0.02
   rowheight = 0.25
+  rowcount = 5;
 
   gui!: Ng3GUI
   makegui() {
@@ -69,6 +70,7 @@ export class DataGridExample implements OnInit {
     //gui.add(this, 'pagebuttonsize', 0.1, 0.4).name('Page Button Size');
     gui.add(this, 'vmargin', 0, 0.1, 0.01).name('Vertical Margin')
     gui.add(this, 'hmargin', 0, 0.1, 0.01).name('Horiztonal Margin')
+    gui.add(this, 'rowcount', 1, 10, 1).name('Row Count')
     gui.add(this, 'rowheight', 0.1, 0.4).name('Row Height')
 
     this.gui = gui;

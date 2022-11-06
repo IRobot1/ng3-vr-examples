@@ -20,7 +20,24 @@ export class FlatUIDataGrid extends NgtObjectProps<Group> {
   @Input() hmargin: NgtVector2 = 0.01;
   @Input() datasource!: Array<any>;
 
-  @Input() rowcount = 5;
+  private _rowcount = 5;
+  @Input()
+  get rowcount(): number { return this._rowcount }
+  set rowcount(newvalue: number) {
+    this._rowcount = newvalue;
+
+    // reset columns and rows to force a full redraw
+    this.columns.length = 0;
+    this.rows.length = 0;
+
+    requestAnimationFrame(() => {
+      this.updatecolumns();
+      this.refresh();
+
+      this.heightchange.next(0) // recalculate height
+    })
+  }
+
   @Input() rowheight = 0.1;
 
   @Input() pivot = true;
