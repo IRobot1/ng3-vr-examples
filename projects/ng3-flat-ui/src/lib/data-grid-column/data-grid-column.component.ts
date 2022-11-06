@@ -11,9 +11,9 @@ import { FlatUIDataGrid } from "../data-grid/data-grid.component";
 })
 export class FlatUIDataGridColumn implements OnInit {
   @Input() name!: string;
-  @Input() rows: Array<any> = [];
   @Input() width = 0.5;
-  @Input() height = 0.1;
+
+  rows: Array<any> = [];  // set by data grid
 
   @ContentChild('columnRow')
   columnRow!: TemplateRef<any>;

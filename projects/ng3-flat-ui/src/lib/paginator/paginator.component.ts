@@ -39,7 +39,12 @@ export class FlatUIPaginator extends NgtObjectProps<Group> {
 
   @Input() selectable?: InteractiveObjects;
 
-  width = 0
+  private _width = 0
+  get width(): number { return this._width }
+  protected set width(newvalue: number) {
+    this._width = newvalue;
+  }
+
   protected buttons: Array<PageButtonData> = [];
   protected get text(): string {
     if (this.datagrid) {
@@ -98,7 +103,7 @@ export class FlatUIPaginator extends NgtObjectProps<Group> {
     }
   }
 
-  clicked(keycode: string) {
+  protected clicked(keycode: string) {
     if (!this.datagrid) return;
 
     if (keycode == '|<')
