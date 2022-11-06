@@ -50,7 +50,7 @@ export class DataGridExample implements OnInit {
   gui!: Ng3GUI
   makegui() {
     const gui = new Ng3GUI({ width: 300 });
-    gui.settitle('Pivot')
+    gui.settitle('Data Grid Settings')
     //gui.add(this, 'pivot').name('Pivot');
     gui.add(this, 'showheading').name('Show Heading');
     gui.add(this, 'showfooter').name('Show Footer');
