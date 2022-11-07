@@ -46,5 +46,8 @@ export class ListsExample implements OnInit {
 
   }
 
+  selected(item: ListItem) {
+    console.warn(item)
+  }
 
 }
