@@ -18,7 +18,8 @@
 
 </flat-ui-list>
 
-<flat-ui-list [position]="[0, 1, 0]" [list]="images" [rowcount]="3" [rowheight]="imagesize" [height]="1.5" [width]="0.5" [selectedindex]="0" [selectable]="selectable"
+<flat-ui-list [position]="[0, 1, 0]" [list]="images" [rowcount]="3" [rowheight]="imagesize" [height]="1.3" [width]="0.5" [selectedindex]="0"
+              [selectable]="selectable" [showpaging]="false"
               [listselectmaterial]="redmaterial.instance.value"  (change)="selected($event)">
 
   <ng-template #listItem let-list="list" let-text="text" let-width="width" let-index="index" let-parent="parent">

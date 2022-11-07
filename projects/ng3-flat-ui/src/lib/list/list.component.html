@@ -5,26 +5,23 @@
             (ready)="meshready($event)" (pointermissed)="missed()">
   </ngt-mesh>
 
-  <ngt-mesh *ngFor="let item of data; index as index"
-            [visible]="item.highlight" [position]="[-width/2+margin/2, height/2-rowheight/2-margin-index*(rowheight+rowspacing), 0.002]"
-            [material]="listselectmaterial">
-    <ngt-plane-geometry [args]="[0.02, rowheight]"></ngt-plane-geometry>
-  </ngt-mesh>
+  <ngt-group #parent *ngFor="let item of data; index as index" [position]="item.position" [visible]="item.enabled">
 
-  <ngt-group #parent *ngFor="let item of data; index as index" [position]="[0, height/2-rowheight/2-margin-index*(rowheight+rowspacing), 0.001]" [visible]="item.enabled">
+    <ngt-mesh [visible]="item.highlight" [position]="item.highlightposition" [material]="listselectmaterial">
+      <ngt-plane-geometry [args]="[0.02, rowheight]"></ngt-plane-geometry>
+    </ngt-mesh>
 
     <ng-container [ngTemplateOutlet]="listItem ? listItem : defaultListItem"
                   [ngTemplateOutletContext]="{ index: index, list: this, text: item.text, width: width-margin*2, parent: parent.instance.value }">
     </ng-container>
 
-
     <ng-template #defaultListItem let-text="text" let-width="width">
-       <flat-ui-button [selectable]="selectable" [text]="text" [width]="width" (pressed)="selected(index)"></flat-ui-button>
+      <flat-ui-button [selectable]="selectable" [text]="text" [width]="width" (pressed)="selected(index)"></flat-ui-button>
     </ng-template>
 
   </ngt-group>
 
 
-  <flat-ui-paginator [paging]="this" [buttonsize]="pagebuttonsize" [position]="[-pagewidth/2, -height/2 + pagebuttonsize/2+margin, 0.001]" [showlabel]="false" (widthchange)="pagewidth=$event"></flat-ui-paginator>
+  <flat-ui-paginator *ngIf="showpaging" [paging]="this" [buttonsize]="pagebuttonsize" [position]="[-pagewidth/2, -height/2 + pagebuttonsize/2+margin, 0.001]" [showlabel]="false" (widthchange)="pagewidth=$event"></flat-ui-paginator>
 
 </ngt-group>

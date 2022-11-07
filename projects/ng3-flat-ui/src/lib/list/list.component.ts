@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 
 import { BufferGeometry, Group, Material, Mesh, Shape, ShapeGeometry } from "three";
-import { NgtEvent, NgtObjectProps } from "@angular-three/core";
+import { NgtEvent, NgtObjectProps, NgtTriple } from "@angular-three/core";
 
 import { Paging, roundedRect } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
@@ -14,7 +14,7 @@ export interface ListItem {
 }
 
 class ListData {
-  constructor(public text: string, public enabled: boolean, public highlight: boolean) { }
+  constructor(public text: string, public enabled: boolean, public highlight: boolean, public position: NgtTriple, public highlightposition: NgtTriple) { }
 }
 
 @Component({
@@ -41,6 +41,8 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
   @Input() rowheight = 0.1;
   @Input() rowspacing = 0.01;
   @Input() pagebuttonsize = 0.1;
+
+  @Input() showpaging = true;
 
   @Input() width = 1;
   @Input() height = 1;
@@ -147,11 +149,16 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
         enabled = true;
       }
 
-      this.data.push(new ListData(text, enabled, highlight));
+      const position = [0, this.height / 2 - this.rowheight / 2 - this.margin - i * (this.rowheight + this.rowspacing), 0.001] as NgtTriple
+      const highlightposition = [-this.width / 2 + this.margin / 2, 0, 0.002] as NgtTriple;
+
+      this.data.push(new ListData(text, enabled, highlight, position, highlightposition));
     }
   }
 
   protected selected(index: number) {
+    if (!this.data[index].enabled) return;
+
     this.data.forEach(item => item.highlight = false)
     this.data[index].highlight = true;
 
