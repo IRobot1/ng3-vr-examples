@@ -23,3 +23,14 @@ export interface UIInput {
   inputopen: boolean;
   openinput: EventEmitter<Object3D>;
 }
+
+export interface Paging {
+  firstindex: number; // index in list of first item on page
+  length: number; // total number of items in list
+  pagesize: number;  // number of items displayed on a page
+
+  movefirst(): void;
+  moveprevious(): void;
+  movenext(): void;
+  movelast(): void;
+}

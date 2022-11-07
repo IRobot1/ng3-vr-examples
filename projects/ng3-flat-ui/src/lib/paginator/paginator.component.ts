@@ -4,7 +4,7 @@ import { Group, Vector3 } from "three";
 import { ChangeDetectionStrategy, Component, Input, Optional } from "@angular/core";
 
 import { InteractiveObjects } from "../interactive-objects";
-import { FlatUIDataGrid } from "../data-grid/data-grid.component";
+import { Paging } from "../flat-ui-utils";
 
 class PageButtonData {
   constructor(public position: NgtTriple, public text: string) { }
@@ -17,6 +17,8 @@ class PageButtonData {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FlatUIPaginator extends NgtObjectProps<Group> {
+  @Input() paging!: Paging;
+
   @Input() showlabel = true;
 
   private _showfirstlast = true;
@@ -47,20 +49,15 @@ export class FlatUIPaginator extends NgtObjectProps<Group> {
 
   protected buttons: Array<PageButtonData> = [];
   protected get text(): string {
-    if (this.datagrid) {
-      const first = this.datagrid.firstindex;
-      const length = this.datagrid.datasource.length;
-      const count = Math.min(this.datagrid.rowcount, length);
+    if (this.paging) {
+      const first = this.paging.firstindex;
+      const length = this.paging.length;
+      const count = Math.min(this.paging.pagesize, length);
       return `${first + 1} - ${first + count} of ${length}`;
     }
     return ''
   }
   protected textposition = new Vector3()
-
-  constructor(
-    @Optional() private datagrid: FlatUIDataGrid) {
-    super();
-  }
 
   override ngOnInit() {
     super.ngOnInit();
@@ -104,18 +101,18 @@ export class FlatUIPaginator extends NgtObjectProps<Group> {
   }
 
   protected clicked(keycode: string) {
-    if (!this.datagrid) return;
+    if (!this.paging) return;
 
     if (keycode == '|<')
-      this.datagrid.movefirst();
+      this.paging.movefirst();
     else if (keycode == '<') {
-      this.datagrid.moveprevious();
+      this.paging.moveprevious();
     }
     else if (keycode == '>') {
-      this.datagrid.movenext();
+      this.paging.movenext();
     }
     else if (keycode == '>|') {
-      this.datagrid.movelast();
+      this.paging.movelast();
     }
   }
 

@@ -4,6 +4,7 @@ import { Group, Object3D } from "three";
 import { NgtObjectProps, NgtVector2 } from "@angular-three/core";
 
 import { FlatUIDataGridColumn } from "../data-grid-column/data-grid-column.component";
+import { Paging } from "../flat-ui-utils";
 
 class GridData {
   constructor(public data: any) { }
@@ -15,7 +16,7 @@ class GridData {
   templateUrl: './data-grid.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FlatUIDataGrid extends NgtObjectProps<Group> {
+export class FlatUIDataGrid extends NgtObjectProps<Group> implements Paging {
   @Input() vmargin: NgtVector2 = 0.01;
   @Input() hmargin: NgtVector2 = 0.01;
   @Input() datasource!: Array<any>;
@@ -93,6 +94,8 @@ export class FlatUIDataGrid extends NgtObjectProps<Group> {
 
   private firstdrawindex = 0;
   get firstindex(): number { return this.firstdrawindex }
+  get length(): number { return this.datasource.length }
+  get pagesize(): number { return this.rowcount }
 
   protected rows: Array<GridData> = [];
 
