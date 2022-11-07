@@ -17,13 +17,6 @@
                   (pressed)="selected(index)">
   </flat-ui-button>
 
-  <ngt-group [position]="[0, -height/2 + 0.1, 0.001]">
-
-    <flat-ui-button *ngFor="let item of keys" [selectable]="selectable"
-                    [position]="item.position" [width]="item.size" [text]="item.numkey"
-                    (pressed)="clicked($event)">
-
-    </flat-ui-button>
-  </ngt-group>
+  <flat-ui-paginator [paging]="this" [position]="[-pagewidth/2, -height/2 + 0.1, 0.001]" [showlabel]="false" (widthchange)="pagewidth=$event"></flat-ui-paginator>
 
 </ngt-group>

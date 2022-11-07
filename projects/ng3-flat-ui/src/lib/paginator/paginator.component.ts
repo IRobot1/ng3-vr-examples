@@ -1,7 +1,7 @@
 import { NgtObjectProps, NgtTriple } from "@angular-three/core";
 
 import { Group, Vector3 } from "three";
-import { ChangeDetectionStrategy, Component, Input, Optional } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { InteractiveObjects } from "../interactive-objects";
 import { Paging } from "../flat-ui-utils";
@@ -41,11 +41,7 @@ export class FlatUIPaginator extends NgtObjectProps<Group> {
 
   @Input() selectable?: InteractiveObjects;
 
-  private _width = 0
-  get width(): number { return this._width }
-  protected set width(newvalue: number) {
-    this._width = newvalue;
-  }
+  @Output() widthchange = new EventEmitter<number>();
 
   protected buttons: Array<PageButtonData> = [];
   protected get text(): string {
@@ -89,15 +85,16 @@ export class FlatUIPaginator extends NgtObjectProps<Group> {
       x += buttonwidth;
     }
 
-    const width = buttonwidth * this.buttons.length - this.buttonspacing * 2;
-    this.width = width;
+    let width = buttonwidth * this.buttons.length - this.buttonspacing * 2;
 
     if (this.showlabel) {
       const labelwidth = 1;
       this.textposition = new Vector3(width + labelwidth / 2 + 0.02);
 
-      this.width += labelwidth / 2 + 0.02;
+      width += labelwidth / 2 + 0.02;
     }
+
+    this.widthchange.next(width)
   }
 
   protected clicked(keycode: string) {

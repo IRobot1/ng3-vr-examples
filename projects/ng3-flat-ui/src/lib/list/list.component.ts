@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, Group, Material, Mesh, Shape, ShapeGeometry } from "three";
-import { NgtEvent, NgtObjectProps, NgtTriple } from "@angular-three/core";
+import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
-import { roundedRect } from "../flat-ui-utils";
+import { Paging, roundedRect } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
@@ -11,10 +11,6 @@ import { InteractiveObjects } from "../interactive-objects";
 export interface ListItem {
   text: string,
   data?: any;
-}
-
-class NumKeySetting {
-  constructor(public position: NgtTriple, public numkey: string, public size = 0.1) { }
 }
 
 class ListData {
@@ -26,7 +22,7 @@ class ListData {
   exportAs: 'flatUIList',
   templateUrl: './list.component.html',
 })
-export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
+export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, Paging {
   @Input() list: Array<ListItem> = [];
 
   private _selectedtext = '';
@@ -66,6 +62,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
     this._listselectmaterial = newvalue;
   }
 
+  @Input() rowcount = 7;
 
   @Input() selectable?: InteractiveObjects;
 
@@ -74,12 +71,9 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
 
   @Input() geometry!: BufferGeometry;
 
-  protected keys: Array<NumKeySetting> = [];
-
-  private count = 7;  // default when height is is 1
   protected data: Array<ListData> = [];
 
-  private firstdrawindex = 0;
+  protected pagewidth = 1;
 
   override preInit() {
     super.preInit();
@@ -95,15 +89,6 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
     this.geometry.center();
   }
 
-
-  override ngOnInit() {
-    super.ngOnInit();
-
-    this.width = Math.max(0.5, this.width);
-    this.height = Math.max(0.4, this.height)
-    this.count = Math.floor(7 * this.height);
-  }
-
   override ngOnDestroy() {
     super.ngOnDestroy();
 
@@ -115,15 +100,6 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
   private mesh!: Mesh;
 
   protected meshready(mesh: Mesh) {
-    const top = ['|<', '<', '>', '>|']
-
-    const buttonwidth = 0.11
-
-    let width = (top.length - 1) * buttonwidth;
-    top.forEach((numkey, index) => {
-      this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), 0, 0], numkey));
-    });
-
     this.selectable?.add(mesh);
 
     mesh.addEventListener('raymissed', (e: any) => { this.missed(); e.stop = true; });
@@ -135,24 +111,26 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
     this.close.next();
   }
 
+  private firstdrawindex = 0;
+
   ngAfterViewInit(): void {
     if (this.selectedindex != -1)
       this.firstdrawindex = this.selectedindex;
 
-    this.renderlist();
+    this.refresh();
   }
 
-  private renderlist() {
+  private refresh() {
     let drawindex = this.firstdrawindex;
 
     // if the whole list is shorter than what can be displayed, start from the first item in the list
-    if (this.list.length < this.count) {
+    if (this.list.length < this.rowcount) {
       this.firstdrawindex = drawindex = 0;
     }
 
     this.data.length = 0;
 
-    for (let i = 0; i < this.count; i++) {
+    for (let i = 0; i < this.rowcount; i++) {
       let text = '';
       let enabled = false;
 
@@ -174,21 +152,32 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit {
 
   }
 
-  protected clicked(keycode: string) {
-    if (!this.visible) return;
+  get firstindex(): number { return this.firstdrawindex }
+  get length(): number { return this.list.length }
+  get pagesize(): number { return this.rowcount }
 
-    if (keycode == '|<')
-      this.firstdrawindex = 0;
-    else if (keycode == '<') {
-      if (this.firstdrawindex) this.firstdrawindex--;
+  movefirst() {
+    this.firstdrawindex = 0;
+    this.refresh();
+  }
+
+  moveprevious() {
+    if (this.firstdrawindex) {
+      this.firstdrawindex--;
+      this.refresh();
     }
-    else if (keycode == '>') {
-      if (this.list.length > this.count && this.firstdrawindex < this.list.length - this.count) this.firstdrawindex++;
+  }
+
+  movenext() {
+    if (this.list.length > this.rowcount && this.firstdrawindex < this.list.length - this.rowcount) {
+      this.firstdrawindex++;
+      this.refresh();
     }
-    else if (keycode == '>|') {
-      this.firstdrawindex = Math.max(this.list.length - this.count, 0);
-    }
-    this.renderlist();
+  }
+
+  movelast() {
+    this.firstdrawindex = Math.max(this.list.length - this.rowcount, 0);
+    this.refresh();
   }
 
   protected ignore(mesh: Mesh, event: NgtEvent<MouseEvent>) {
