@@ -152,11 +152,12 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
   }
 
   protected selected(index: number) {
+    this.data.forEach(item => item.highlight = false)
+    this.data[index].highlight = true;
+
     this.selectedindex = this.firstdrawindex + index;
 
     this.change.next(this.list[this.selectedindex]);
-
-    this.refresh();
   }
 
   get firstindex(): number { return this.firstdrawindex }
@@ -164,8 +165,10 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
   get pagesize(): number { return this.rowcount }
 
   movefirst() {
-    this.firstdrawindex = 0;
-    this.refresh();
+    if (this.firstdrawindex) {
+      this.firstdrawindex = 0;
+      this.refresh();
+    }
   }
 
   moveprevious() {
@@ -183,8 +186,11 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
   }
 
   movelast() {
-    this.firstdrawindex = Math.max(this.list.length - this.rowcount, 0);
-    this.refresh();
+    const index = Math.max(this.list.length - this.rowcount, 0);
+    if (index != this.firstdrawindex) {
+      this.firstdrawindex = index;
+      this.refresh();
+    }
   }
 
   protected ignore(mesh: Mesh, event: NgtEvent<MouseEvent>) {

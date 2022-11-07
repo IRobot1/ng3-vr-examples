@@ -120,8 +120,10 @@ export class FlatUIDataGrid extends NgtObjectProps<Group> implements Paging {
   }
 
   movefirst() {
-    this.firstdrawindex = 0;
-    this.refresh();
+    if (this.firstdrawindex) {
+      this.firstdrawindex = 0;
+      this.refresh();
+    }
   }
 
   moveprevious() {
@@ -139,8 +141,11 @@ export class FlatUIDataGrid extends NgtObjectProps<Group> implements Paging {
   }
 
   movelast() {
-    this.firstdrawindex = Math.max(this.datasource.length - this.rowcount, 0);
-    this.refresh();
+    const index = Math.max(this.datasource.length - this.rowcount, 0);
+    if (index != this.firstdrawindex) {
+      this.firstdrawindex = index;
+      this.refresh();
+    }
   }
 
   override ngOnInit() {
