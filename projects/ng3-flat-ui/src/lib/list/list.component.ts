@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 
 import { BufferGeometry, Group, Material, Mesh, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
@@ -71,10 +71,13 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
 
   @Input() selectable?: InteractiveObjects;
 
+  @Input() geometry!: BufferGeometry;
+
   @Output() change = new EventEmitter<ListItem>();
   @Output() close = new EventEmitter<void>();
 
-  @Input() geometry!: BufferGeometry;
+  @ContentChild('listItem')
+  protected listItem!: TemplateRef<any>;
 
   protected data: Array<ListData> = [];
 

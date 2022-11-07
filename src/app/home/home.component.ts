@@ -44,6 +44,7 @@ export class HomeComponent implements OnInit {
     { asset: 'loading', text: 'Loading' },
     { asset: 'stats', text: 'Stats' },
     { asset: 'datagrid', text: 'Data Grids' },
+    { asset: 'lists', text: 'Lists' },
   ]
 
   panels1: Array<PanelSetting> = [];

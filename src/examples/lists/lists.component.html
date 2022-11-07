@@ -1,0 +1,23 @@
+<ngt-color attach="background" color="darkgray"></ngt-color>
+
+<line-room></line-room>
+
+<ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
+
+<ngt-mesh-basic-material noAppend #blackmaterial color="black"></ngt-mesh-basic-material>
+<ngt-mesh-basic-material noAppend #redmaterial color="red"></ngt-mesh-basic-material>
+
+<flat-ui-list [position]="[0, 1, 0]" [list]="list" [rowcount]="10"  [height]="1.5" [selectedtext]="selectedtext" [selectable]="selectable" [listselectmaterial]="redmaterial.instance.value">
+
+  <ng-template #listItem let-list="list" let-text="text" let-width="width" let-index="index" let-parent="parent">
+    <ngt-group [appendTo]="parent">
+      <flat-ui-button [selectable]="selectable" [text]="text" [width]="width" (pressed)="list.selected(index)" [labelmaterial]="blackmaterial.instance.value"></flat-ui-button>
+    </ngt-group>
+  </ng-template>
+
+</flat-ui-list>
+
+<vr-controller navhome></vr-controller>
+<vr-controller [index]="1" navhome></vr-controller>
+
+<ngt-soba-orbit-controls></ngt-soba-orbit-controls>
