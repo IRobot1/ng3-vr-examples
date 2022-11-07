@@ -1,10 +1,11 @@
-import { AfterViewInit, Component, Input } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { Mesh, MeshBasicMaterial, Texture, TextureLoader } from "three";
-import { NgtLoader, NgtObjectProps } from "@angular-three/core";
+import { BufferGeometry, Line, Material, Mesh, MeshBasicMaterial, Shape, Texture, TextureLoader } from "three";
+import { NgtEvent, NgtLoader, NgtObjectProps } from "@angular-three/core";
+
+import { GlobalFlatUITheme, InteractiveObjects } from "ng3-flat-ui";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
-import { InteractiveObjects } from "../../../../../dist/ng3-flat-ui";
 
 @Component({
   selector: 'flat-ui-basic-image',
@@ -23,27 +24,27 @@ export class FlatUIBasicImage extends NgtObjectProps<Mesh> implements AfterViewI
   }
   @Input() maptexture!: Texture;
 
-  @Input()
-  set lightMap(newvalue: string) {
-    const s = this.loader.use(TextureLoader, newvalue).subscribe(next => {
-      this.lightMaptexture = next;
-    },
-      () => { },
-      () => { s.unsubscribe(); }
-    );
-  }
-  @Input() lightMaptexture!: Texture;
+  //@Input()
+  //set lightMap(newvalue: string) {
+  //  const s = this.loader.use(TextureLoader, newvalue).subscribe(next => {
+  //    this.lightMaptexture = next;
+  //  },
+  //    () => { },
+  //    () => { s.unsubscribe(); }
+  //  );
+  //}
+  //@Input() lightMaptexture!: Texture;
 
-  @Input()
-  set aoMap(newvalue: string) {
-    const s = this.loader.use(TextureLoader, newvalue).subscribe(next => {
-      this.aoMaptexture = next;
-    },
-      () => { },
-      () => { s.unsubscribe(); }
-    );
-  }
-  @Input() aoMaptexture!: Texture;
+  //@Input()
+  //set aoMap(newvalue: string) {
+  //  const s = this.loader.use(TextureLoader, newvalue).subscribe(next => {
+  //    this.aoMaptexture = next;
+  //  },
+  //    () => { },
+  //    () => { s.unsubscribe(); }
+  //  );
+  //}
+  //@Input() aoMaptexture!: Texture;
 
   //@Input()
   //set emissiveMap(newvalue: string) {
@@ -112,27 +113,27 @@ export class FlatUIBasicImage extends NgtObjectProps<Mesh> implements AfterViewI
   //@Input() metalnessMaptexture!: Texture;
 
 
-  @Input()
-  set alphaMap(newvalue: string) {
-    const s = this.loader.use(TextureLoader, newvalue).subscribe(next => {
-      this.alphaMaptexture = next;
-    },
-      () => { },
-      () => { s.unsubscribe(); }
-    );
-  }
-  @Input() alphaMaptexture!: Texture;
+  //@Input()
+  //set alphaMap(newvalue: string) {
+  //  const s = this.loader.use(TextureLoader, newvalue).subscribe(next => {
+  //    this.alphaMaptexture = next;
+  //  },
+  //    () => { },
+  //    () => { s.unsubscribe(); }
+  //  );
+  //}
+  //@Input() alphaMaptexture!: Texture;
 
-  @Input()
-  set envMap(newvalue: string) {
-    const s = this.loader.use(TextureLoader, newvalue).subscribe(next => {
-      this.envMaptexture = next;
-    },
-      () => { },
-      () => { s.unsubscribe(); }
-    );
-  }
-  @Input() envMaptexture!: Texture;
+  //@Input()
+  //set envMap(newvalue: string) {
+  //  const s = this.loader.use(TextureLoader, newvalue).subscribe(next => {
+  //    this.envMaptexture = next;
+  //  },
+  //    () => { },
+  //    () => { s.unsubscribe(); }
+  //  );
+  //}
+  //@Input() envMaptexture!: Texture;
 
 
   private _width = 1;
@@ -155,10 +156,25 @@ export class FlatUIBasicImage extends NgtObjectProps<Mesh> implements AfterViewI
     }
   }
 
+  private _outlinematerial!: Material
+  @Input()
+  get outlinematerial(): Material {
+    if (this._outlinematerial) return this._outlinematerial;
+    return GlobalFlatUITheme.OutlineMaterial;
+  }
+  set outlinematerial(newvalue: Material) {
+    this._outlinematerial = newvalue;
+  }
+
+  @Input() enabled = false;
+
   @Input() selectable?: InteractiveObjects;
+
+  @Output() pressed = new EventEmitter<void>();
 
   material!: MeshBasicMaterial;
   protected mesh!: Mesh;
+  protected outline!: BufferGeometry; // outline material
 
   constructor(private loader: NgtLoader) { super(); }
 
@@ -168,8 +184,33 @@ export class FlatUIBasicImage extends NgtObjectProps<Mesh> implements AfterViewI
     this.selectable?.remove(this.mesh);
   }
 
+  override ngOnInit() {
+    super.ngOnInit();
+
+    const halfwidth = this.width / 2;
+    const halfheight = this.height / 2;
+
+    const border = new Shape();
+    border.moveTo(-halfwidth, halfheight)
+    border.lineTo(halfwidth, halfheight)
+    border.lineTo(halfwidth, -halfheight)
+    border.lineTo(-halfwidth, -halfheight)
+    border.closePath();
+
+    this.outline = new BufferGeometry().setFromPoints(border.getPoints());
+    this.outline.center();
+  }
+
+  private line!: Line;
+  lineready(line: Line) {
+    line.visible = false;
+    this.line = line;
+  }
+
   protected meshready(mesh: Mesh, material: MeshBasicMaterial) {
     this.selectable?.add(mesh);
+
+    mesh.addEventListener('click', (e: any) => { this.doclick(); e.stop = true; })
 
     this.mesh = mesh;
     this.material = material;
@@ -181,6 +222,45 @@ export class FlatUIBasicImage extends NgtObjectProps<Mesh> implements AfterViewI
       e.height = this.height;
       e.updated = true;
     });
+  }
+
+  clicked(mesh: Mesh, event: NgtEvent<MouseEvent>) {
+    if (event.object != mesh) return;
+    event.stopPropagation();
+
+    this.doclick();
+  }
+
+  clicking = false;
+  private doclick() {
+    if (!this.enabled || !this.visible) return;
+
+    this.mesh.scale.addScalar(-0.05);
+    this.line.scale.addScalar(-0.05);
+
+    this.clicking = true;
+
+    const timer = setTimeout(() => {
+      this.mesh.scale.addScalar(0.05);
+      this.line.scale.addScalar(0.05);
+
+      this.pressed.next();
+
+      clearTimeout(timer);
+      this.clicking = false;
+    }, 100);
+  }
+
+  isover = false;
+  over() {
+    if (this.clicking || this.isover || !this.enabled) return;
+    this.line.visible = true;
+    this.isover = true;
+  }
+  out() {
+    if (!this.enabled) return;
+    this.line.visible = false;
+    this.isover = false;
   }
 
 }

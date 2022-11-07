@@ -1,14 +1,26 @@
-<ngt-mesh [ngtObjectPassThrough]="this" (ready)="meshready($event, mat.instance.value)">
-  <ngt-plane-geometry [args]="[width, height]"></ngt-plane-geometry>
-  <ngt-mesh-basic-material #mat [map]="maptexture"
-                           [lightMap]="lightMaptexture"
-                           [aoMap]="aoMaptexture"
-                           [alphaMap]="alphaMaptexture"
-                           [envMap]="envMaptexture">
-  </ngt-mesh-basic-material>
-</ngt-mesh>
+<ngt-group [ngtObjectPassThrough]="this">
 
-<!-- 
+  <ngt-mesh #mesh
+            (click)="clicked(mesh.instance.value, $event)"
+            (pointerover)="over();$event.stopPropagation()" (pointerout)="out();$event.stopPropagation()"
+            (ready)="meshready($event, mat.instance.value)">
+
+    <ngt-plane-geometry [args]="[width, height]"></ngt-plane-geometry>
+
+    <ngt-mesh-basic-material #mat [map]="maptexture"></ngt-mesh-basic-material>
+
+  </ngt-mesh>
+
+  <ngt-line (ready)="lineready($event)"
+            [geometry]="outline" [material]="outlinematerial"> </ngt-line>
+
+</ngt-group>
+
+<!--
+[lightMap]="lightMaptexture"
+[aoMap]="aoMaptexture"
+[alphaMap]="alphaMaptexture"
+[envMap]="envMaptexture"
 [emissiveMap]="emissiveMaptexture"
 [bumpMap]="bumpMaptexture"
 [normalMap]="normalMaptexture"
