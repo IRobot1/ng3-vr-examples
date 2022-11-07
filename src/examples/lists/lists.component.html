@@ -7,11 +7,21 @@
 <ngt-mesh-basic-material noAppend #blackmaterial color="black"></ngt-mesh-basic-material>
 <ngt-mesh-basic-material noAppend #redmaterial color="red"></ngt-mesh-basic-material>
 
-<flat-ui-list [position]="[0, 1, 0]" [list]="list" [rowcount]="10"  [height]="1.5" [selectedtext]="selectedtext" [selectable]="selectable" [listselectmaterial]="redmaterial.instance.value">
+<flat-ui-list [position]="[-1, 1, 0]" [list]="list" [rowcount]="10" [height]="1.5" [selectedtext]="selectedtext" [selectable]="selectable" [listselectmaterial]="redmaterial.instance.value">
 
   <ng-template #listItem let-list="list" let-text="text" let-width="width" let-index="index" let-parent="parent">
     <ngt-group [appendTo]="parent">
       <flat-ui-button [selectable]="selectable" [text]="text" [width]="width" (pressed)="list.selected(index)" [labelmaterial]="blackmaterial.instance.value"></flat-ui-button>
+    </ngt-group>
+  </ng-template>
+
+</flat-ui-list>
+
+<flat-ui-list [position]="[0, 1, 0]" [list]="images" [rowcount]="3" [rowheight]="imagesize" [height]="1.5" [width]="0.5" [selectedindex]="0" [selectable]="selectable" [listselectmaterial]="redmaterial.instance.value">
+
+  <ng-template #listItem let-list="list" let-text="text" let-width="width" let-index="index" let-parent="parent">
+    <ngt-group [appendTo]="parent">
+      <flat-ui-basic-image [selectable]="selectable" [map]="text" [enabled]="true" [width]="imagesize" [height]="imagesize" (pressed)="list.selected(index)"></flat-ui-basic-image>
     </ngt-group>
   </ng-template>
 

@@ -19,6 +19,8 @@ export class FlatUIButton extends NgtObjectProps<Mesh> implements AfterViewInit 
   @Input() textjustify: number | 'left' | 'center' | 'right' = 'center';
   @Input() fontsize = 0.07;
 
+  get displaytext(): string { return this.text.substring(0, this.width * 28) }
+
   private _width = 0.5;
   @Input()
   get width() { return this._width }

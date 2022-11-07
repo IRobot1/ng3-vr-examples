@@ -42,8 +42,6 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
   @Input() rowspacing = 0.01;
   @Input() pagebuttonsize = 0.1;
 
-  @Input() overflow = 20;
-
   @Input() width = 1;
   @Input() height = 1;
 
@@ -149,7 +147,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
         enabled = true;
       }
 
-      this.data.push(new ListData(text.substring(0, this.overflow * this.width), enabled, highlight));
+      this.data.push(new ListData(text, enabled, highlight));
     }
   }
 

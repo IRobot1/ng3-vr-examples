@@ -12,6 +12,13 @@ export class ListsExample implements OnInit {
 
   selectable = new InteractiveObjects();;
 
+  images: Array<ListItem> = [
+    { text: 'assets/mandelbrot1.jpg' },
+    { text: 'assets/mandelbrot2.jpg' },
+    { text: 'assets/mandelbrot3.jpg' },
+  ]
+  imagesize = 0.4;
+
   ngOnInit(): void {
 
     this.list.push({ text: 'Criminal Of Nightmares' })
