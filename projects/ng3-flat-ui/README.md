@@ -19,6 +19,9 @@ Components include
 * progress bar
 * radio button
 * drop-down list
+* icon
+* tabs
+* data grid with optional pagination
 
 Panels include
 * expansion panel
