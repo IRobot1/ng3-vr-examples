@@ -37,6 +37,11 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
   }
   @Input() selectedindex = -1;
 
+  @Input() margin = 0.03;
+  @Input() rowheight = 0.1;
+  @Input() rowspacing = 0.01;
+  @Input() pagebuttonsize = 0.1;
+
   @Input() overflow = 20;
 
   @Input() width = 1;
@@ -150,6 +155,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
 
     this.change.next(this.list[this.selectedindex]);
 
+    this.refresh();
   }
 
   get firstindex(): number { return this.firstdrawindex }
