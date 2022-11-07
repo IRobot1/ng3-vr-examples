@@ -8,6 +8,7 @@ export * from './lib/color-picker/color-picker.component';
 export * from './lib/data-grid/data-grid.component';
 export * from './lib/data-grid-column/data-grid-column.component';
 export * from './lib/drag-panel/drag-panel.component';
+export * from './lib/divider/divider.component';
 export * from './lib/expansion-panel/expansion-panel.component';
 export * from './lib/icon-button/icon-button.component';
 export * from './lib/basic-image/basic-image.component';

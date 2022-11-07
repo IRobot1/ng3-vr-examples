@@ -29,6 +29,10 @@
       </ngt-group>
 
       <ngt-group horizontal-layout>
+        <flat-ui-divider [width]="controlwidth-0.1"></flat-ui-divider>
+      </ngt-group>
+
+      <ngt-group horizontal-layout>
         <flat-ui-label [text]="'number'" [width]="0.6"></flat-ui-label>
         <flat-ui-input-number #num2 [min]="-10" [max]="10" [text]="slidertext" [width]="0.4" [selectable]="selectable" (openinput)="input.opennumpad($event, num2, slidertext)" (change)="slidervalue=$event"></flat-ui-input-number>
         <flat-ui-input-number [enabled]="false" [min]="-10" [max]="10" [text]="slidertext" [width]="0.4"></flat-ui-input-number>
@@ -54,6 +58,10 @@
       <ngt-group horizontal-layout>
         <flat-ui-label [text]="'options'" [width]="0.6"></flat-ui-label>
         <flat-ui-select #list1 [width]="1" [selectable]="selectable" (change)="selectedtext=$event" (openinput)="input.openlist($event, list1, list, selectedtext)" [text]="selectedtext"></flat-ui-select>
+      </ngt-group>
+
+      <ngt-group horizontal-layout>
+        <flat-ui-divider [width]="controlwidth-0.1"></flat-ui-divider>
       </ngt-group>
 
       <ngt-group horizontal-layout>
@@ -95,9 +103,9 @@
 
 <ngt-mesh-basic-material #iconmaterial noAppend color="#990000"></ngt-mesh-basic-material>
 
-<flat-ui-drag-panel [title]="'Draggable Panel'" [showclose]="false" [position]="[0, 1.25, -2.5]" [selectable]="selectable">
+<flat-ui-drag-panel [title]="'Draggable Panel'" [height]="1.1" [showclose]="false" [position]="[0, 1.25, -2.5]" [selectable]="selectable">
   <ng-template let-parent="parent">
-    <ngt-group vertical-layout [margin]="0.02" [appendTo]="parent" [position]="[-0.5, 0.5, 0.002]">
+    <ngt-group vertical-layout [margin]="0.02" [appendTo]="parent" [position]="[-0.5, 0.55, 0.002]">
 
       <ngt-group horizontal-layout>
         <flat-ui-expansion-panel [title]="'Folder1'" [height]="panelheight" [selectable]="selectable">
@@ -120,6 +128,10 @@
           </ng-template>
 
         </flat-ui-expansion-panel>
+      </ngt-group>
+
+      <ngt-group horizontal-layout>
+        <flat-ui-divider></flat-ui-divider>
       </ngt-group>
 
       <ngt-group horizontal-layout [margin]="0.01">

@@ -39,6 +39,7 @@ import { FlatUIDataGridColumn } from './data-grid-column/data-grid-column.compon
 import { FlatUIInputTextArea } from './input-textarea/input-textarea.component';
 import { FlatUIPaginator } from './paginator/paginator.component';
 import { FlatUIBasicImage } from './basic-image/basic-image.component';
+import { FlatUIDivider } from './divider/divider.component';
 
 
 
@@ -48,6 +49,7 @@ import { FlatUIBasicImage } from './basic-image/basic-image.component';
     FlatUIIcon,
     FlatUIIconButton,
     FlatUIBasicImage,
+    FlatUIDivider,
     FlatUIInputCheckbox,
     FlatUIInputColor,
     FlatUIInputNumber,
@@ -107,6 +109,7 @@ import { FlatUIBasicImage } from './basic-image/basic-image.component';
     FlatUIIcon,
     FlatUIIconButton,
     FlatUIBasicImage,
+    FlatUIDivider,
     FlatUIInputCheckbox,
     FlatUIInputColor,
     FlatUIInputNumber,
