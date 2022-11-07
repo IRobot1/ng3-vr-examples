@@ -1,7 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 
-import { Texture, TextureLoader } from "three";
-import { NgtLoader, NgtTriple } from "@angular-three/core";
+import { NgtTriple } from "@angular-three/core";
 
 import { FlatUIInputService, FlatUITheme, GlobalFlatUITheme, InteractiveObjects, ListItem } from "ng3-flat-ui";
 
@@ -68,11 +67,18 @@ export class FlatUIExample implements OnInit, AfterViewInit {
   selectedtext!: string;
 
   panelcolor = GlobalFlatUITheme.PanelColor;
-  texture!: Texture;
 
+  images: Array<string> = [
+    'assets/mandelbrot1.jpg',
+    'assets/mandelbrot2.jpg',
+    'assets/mandelbrot3.jpg',
+  ]
+  imageindex = 0;
+  image = this.images[this.imageindex];
+
+  
   constructor(
     private cameraService: CameraService,
-    private loader: NgtLoader,
     public input: FlatUIInputService,
   ) {
     //this.cameraService.position = this.position;
@@ -101,14 +107,12 @@ export class FlatUIExample implements OnInit, AfterViewInit {
     this.list.push({ text: 'Bravery In The Swamp' })
 
     this.selectedtext = this.list[9].text;
-
-    const s = this.loader.use(TextureLoader, 'assets/mandelbrot2.jpg').subscribe(next => {
-      this.texture = next;
-    },
-      () => { },
-      () => { s.unsubscribe(); }
-    );
   }
+
+  nextimage() {
+    this.image = this.images[++this.imageindex % this.images.length]
+  }
+
   colorpicked(color: string) {
     this.colorvalue = color;
     GlobalFlatUITheme.PanelColor = color;
