@@ -1,14 +1,14 @@
 <!-- https://github.com/nartc/angular-three/blob/main/libs/soba/abstractions/src/lib/text/text.ts -->
 <!-- https://protectwise.github.io/troika/troika-three-text/ -->
 
-<ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale">
+<ngt-group [ngtObjectPassThrough]="this">
   <ngt-soba-text [text]="text"
                  [material]="labelmaterial"
                  [fontSize]="fontsize"
                  [font]="font"
-                 [anchorX]="'left'"
+                 [anchorX]="align"
                  [maxWidth]="width"
-                 [position]="[-width/2+0.01, 0, 0.001]"
+                 [position]="[x, 0, 0.001]"
                  (ready)="meshready($event)">
   </ngt-soba-text>
 </ngt-group>

@@ -19,6 +19,13 @@ export class ListsExample implements OnInit {
   ]
   imagesize = 0.4;
 
+  icons: Array<ListItem> = [
+    { text: 'bug_report' },
+    { text: 'coronavirus' },
+    { text: 'local_florist' },
+  ]
+  fontsize = 0.4;
+
   ngOnInit(): void {
 
     this.list.push({ text: 'Criminal Of Nightmares' })

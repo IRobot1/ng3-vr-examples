@@ -18,9 +18,23 @@
 
 </flat-ui-list>
 
-<flat-ui-list [position]="[0.8, 1, 0]" [list]="images" [rowcount]="3" [rowsize]="imagesize" [rowspacing]="0.05" [margin]="0.05" [width]="1.4" [height]="0.5" [selectedindex]="0"
+<flat-ui-list [position]="[0.3, 1, 0]" [list]="icons" [rowcount]="3" [rowsize]="fontsize" [rowspacing]="0.05" [margin]="0.05"
+              [width]="0.5" [height]="1.4" [selectedindex]="0"
+              [selectable]="selectable" [showpaging]="false" [vertical]="true"
+              [listselectmaterial]="redmaterial.instance.value" (change)="selected($event)">
+
+  <ng-template #listItem let-list="list" let-text="text" let-width="width" let-index="index" let-parent="parent">
+    <ngt-group [appendTo]="parent">
+      <flat-ui-material-icon [text]="text" [fontsize]="fontsize" [labelmaterial]="blackmaterial.instance.value"></flat-ui-material-icon>
+    </ngt-group>
+  </ng-template>
+
+</flat-ui-list>
+
+<flat-ui-list [position]="[1.3, 1, 0]" [list]="images" [rowcount]="3" [rowsize]="imagesize" [rowspacing]="0.05" [margin]="0.05"
+              [width]="1.4" [height]="0.5" [selectedindex]="0"
               [selectable]="selectable" [showpaging]="false" [vertical]="false"
-              [listselectmaterial]="redmaterial.instance.value"  (change)="selected($event)">
+              [listselectmaterial]="redmaterial.instance.value" (change)="selected($event)">
 
   <ng-template #listItem let-list="list" let-text="text" let-width="width" let-index="index" let-parent="parent">
     <ngt-group [appendTo]="parent">
@@ -29,6 +43,8 @@
   </ng-template>
 
 </flat-ui-list>
+
+
 
 <vr-controller navhome></vr-controller>
 <vr-controller [index]="1" navhome></vr-controller>

@@ -40,6 +40,7 @@ import { FlatUIInputTextArea } from './input-textarea/input-textarea.component';
 import { FlatUIPaginator } from './paginator/paginator.component';
 import { FlatUIBasicImage } from './basic-image/basic-image.component';
 import { FlatUIDivider } from './divider/divider.component';
+import { FlatUIMaterialIcon } from './material-icon/material-icon.component';
 
 
 
@@ -58,6 +59,7 @@ import { FlatUIDivider } from './divider/divider.component';
     FlatUIInputTextArea,
     FlatUIInputToggle,
     FlatUILabel,
+    FlatUIMaterialIcon,
     FlatUIProgressBar,
     FlatUIRadioButton,
     FlatUIRadioGroup,
@@ -118,6 +120,7 @@ import { FlatUIDivider } from './divider/divider.component';
     FlatUIInputTextArea,
     FlatUIInputToggle,
     FlatUILabel,
+    FlatUIMaterialIcon,
     FlatUIProgressBar,
     FlatUIRadioButton,
     FlatUIRadioGroup,
