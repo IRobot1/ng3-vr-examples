@@ -7,8 +7,8 @@
 
   <ngt-group #parent *ngFor="let item of data; index as index" [position]="item.position" [visible]="item.enabled">
 
-    <ngt-mesh [visible]="item.highlight" [position]="item.highlightposition" [material]="listselectmaterial">
-      <ngt-plane-geometry [args]="[0.02, rowheight]"></ngt-plane-geometry>
+    <ngt-mesh [visible]="item.selected" [position]="item.selectposition" [material]="listselectmaterial">
+      <ngt-plane-geometry [args]="[planewidth, planeheight]"></ngt-plane-geometry>
     </ngt-mesh>
 
     <ng-container [ngTemplateOutlet]="listItem ? listItem : defaultListItem"

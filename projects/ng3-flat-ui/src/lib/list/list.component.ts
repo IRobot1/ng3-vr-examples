@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 
-import { BufferGeometry, Group, Material, Mesh, Shape, ShapeGeometry } from "three";
+import { BufferGeometry, Group, Material, Mesh, Shape, ShapeGeometry, Vector3 } from "three";
 import { NgtEvent, NgtObjectProps, NgtTriple } from "@angular-three/core";
 
 import { Paging, roundedRect } from "../flat-ui-utils";
@@ -14,7 +14,7 @@ export interface ListItem {
 }
 
 class ListData {
-  constructor(public text: string, public enabled: boolean, public highlight: boolean, public position: NgtTriple, public highlightposition: NgtTriple) { }
+  constructor(public text: string, public enabled: boolean, public selected: boolean, public position: Vector3, public selectposition: Vector3) { }
 }
 
 @Component({
@@ -38,7 +38,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
   @Input() selectedindex = -1;
 
   @Input() margin = 0.03;
-  @Input() rowheight = 0.1;
+  @Input() rowsize = 0.1;
   @Input() rowspacing = 0.01;
   @Input() pagebuttonsize = 0.1;
 
@@ -70,6 +70,25 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
   @Input() rowcount = 7;
 
   @Input() selectable?: InteractiveObjects;
+
+  protected planewidth = 0.02
+  protected planeheight = this.rowsize
+
+  private _vertical = true;
+  @Input()
+  get vertical(): boolean { return this._vertical }
+  set vertical(newvalue: boolean) {
+    this._vertical = newvalue;
+    if (newvalue) {
+      this.planewidth = 0.02;
+      this.planeheight = this.rowsize;
+    }
+    else {
+      this.planewidth = this.rowsize;
+      this.planeheight = 0.02;
+    }
+  }
+
 
   @Input() geometry!: BufferGeometry;
 
@@ -142,25 +161,33 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
       let text = '';
       let enabled = false;
 
-      const highlight = (this.selectedindex == drawindex)
+      const selected = (this.selectedindex == drawindex)
 
       if (drawindex < this.list.length) {
         text = this.list[drawindex++].text;
         enabled = true;
       }
 
-      const position = [0, this.height / 2 - this.rowheight / 2 - this.margin - i * (this.rowheight + this.rowspacing), 0.001] as NgtTriple
-      const highlightposition = [-this.width / 2 + this.margin / 2, 0, 0.002] as NgtTriple;
+      const position = new Vector3(0, 0, 0.001)
+      const selectposition = new Vector3(0, 0, 0.002)
+      if (this.vertical) {
+        position.y = this.height / 2 - this.rowsize / 2 - this.margin - i * (this.rowsize + this.rowspacing);
+        selectposition.x = -this.width / 2 + this.margin / 2
+      }
+      else {
+        position.x = -this.width / 2 + this.rowsize / 2 + this.margin + i * (this.rowsize + this.rowspacing);
+        selectposition.y = this.height / 2 - this.margin / 2
+      }
 
-      this.data.push(new ListData(text, enabled, highlight, position, highlightposition));
+      this.data.push(new ListData(text, enabled, selected, position, selectposition));
     }
   }
 
   protected selected(index: number) {
     if (!this.data[index].enabled) return;
 
-    this.data.forEach(item => item.highlight = false)
-    this.data[index].highlight = true;
+    this.data.forEach(item => item.selected = false)
+    this.data[index].selected = true;
 
     this.selectedindex = this.firstdrawindex + index;
 
