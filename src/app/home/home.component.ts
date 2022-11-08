@@ -39,11 +39,11 @@ export class HomeComponent implements OnInit {
     { asset: 'svg', text: 'SVG Icons' },
     { asset: 'graph', text: 'Directed Graph Layout' },
     { asset: 'collisions', text: 'Collisions' },
-    { asset: 'flat-ui', text: 'Flat UI' },
-    { asset: 'three-gui', text: 'Ng3 GUI' },
     { asset: 'loading', text: 'Loading' },
     { asset: 'stats', text: 'Stats' },
     { asset: 'datagrid', text: 'Data Grids' },
+    { asset: 'three-gui', text: 'Ng3 GUI' },
+    { asset: 'flat-ui', text: 'Flat UI' },
     { asset: 'lists', text: 'Lists' },
   ]
 
