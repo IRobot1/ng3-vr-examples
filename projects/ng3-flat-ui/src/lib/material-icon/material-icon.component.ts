@@ -12,7 +12,7 @@ import { GlobalFlatUITheme } from "../flat-ui-theme";
   templateUrl: './material-icon.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FlatUIMaterialIcon extends NgtObjectProps<Group> implements AfterViewInit {
+export class FlatUIMaterialIcon extends NgtObjectProps<Group> {
   private _text = '';
   @Input()
   get text(): string { return this._text }
@@ -23,8 +23,6 @@ export class FlatUIMaterialIcon extends NgtObjectProps<Group> implements AfterVi
 
   @Input() fontsize = 0.07;
 
-  @Input() enabled = false; // doesn't do anything, just avoids error when switching from input-textarea or input-text
-
   private _labelmaterial!: Material
   @Input()
   get labelmaterial(): Material {
@@ -33,19 +31,5 @@ export class FlatUIMaterialIcon extends NgtObjectProps<Group> implements AfterVi
   }
   set labelmaterial(newvalue: Material) {
     this._labelmaterial = newvalue;
-  }
-
-  ngAfterViewInit(): void {
-    this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
-      e.width = this.fontsize;
-      e.height = this.fontsize;
-      e.updated = true;
-    });
-  }
-
-  private mesh!: Object3D;
-
-  meshready(mesh: Object3D) {
-    this.mesh = mesh;
   }
 }

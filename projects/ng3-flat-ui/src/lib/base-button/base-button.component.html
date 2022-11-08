@@ -1,0 +1,23 @@
+<ngt-group [ngtObjectPassThrough]="this">
+
+  <ngt-mesh #mesh
+            (click)="clicked(mesh.instance.value, $event)"
+            [geometry]="geometry"
+            (pointerover)="over();$event.stopPropagation()" (pointerout)="out();$event.stopPropagation()"
+            (ready)="meshready($event)">
+
+    <ng-container [ngTemplateOutlet]="button ? button : defaultButton"
+                  [ngTemplateOutletContext]="{ parent: mesh.instance.value }">
+    </ng-container>
+
+    <ng-template #defaultButton>
+      <!--empty-->
+    </ng-template>
+
+  </ngt-mesh>
+
+  <ngt-line (ready)="lineready($event)"
+            [geometry]="outline" [material]="outlinematerial"> </ngt-line>
+
+
+</ngt-group>

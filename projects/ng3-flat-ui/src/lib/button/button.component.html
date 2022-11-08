@@ -1,21 +1,18 @@
-<ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale">
+<flat-ui-base-button #parent [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale"
+                     [text]="text" [enabled]="enabled"
+                     [width]="width" [height]="height"
+                     [buttonmaterial]="buttonmaterial"
+                     [disabledmaterial]="disabledmaterial"
+                     [outlinematerial]="outlinematerial"
+                     [selectable]="selectable"
+                     [geometry]="geometry"
+                     (pressed)="pressed.next($event)">
+  <ng-template #button let-parent="parent">
+    <ngt-soba-text [appendTo]="parent" [text]="displaytext" [material]="labelmaterial" [fontSize]="fontsize" [anchorX]="textjustify" [position]="[0, 0, 0.001]"></ngt-soba-text>
+  </ng-template>
 
-  <ngt-mesh #mesh
-            (click)="clicked(mesh.instance.value, $event)"
-            [geometry]="geometry"
-            (pointerover)="over();$event.stopPropagation()" (pointerout)="out();$event.stopPropagation()"
-            (ready)="meshready($event)">
-
-    <ngt-soba-text [text]="displaytext" [material]="labelmaterial" [fontSize]="fontsize" [anchorX]="textjustify" [position]="[0, 0, 0.001]"></ngt-soba-text>
-
-    <ng-container *ngIf="templateRef"
-                  [ngTemplateOutlet]="templateRef"
-                  [ngTemplateOutletContext]="{ parent: mesh.instance.value }">
-    </ng-container>
-  </ngt-mesh>
-
-  <ngt-line (ready)="lineready($event)"
-            [geometry]="outline" [material]="outlinematerial"> </ngt-line>
-
-
-</ngt-group>
+  <ng-container *ngIf="templateRef"
+                [ngTemplateOutlet]="templateRef"
+                [ngTemplateOutletContext]="{ parent: parent.instance.value }">
+  </ng-container>
+</flat-ui-base-button>

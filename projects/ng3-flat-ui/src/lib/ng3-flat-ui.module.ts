@@ -9,6 +9,7 @@ import { NgtLineModule } from '@angular-three/core/lines';
 
 import { NgtSobaTextModule } from '@angular-three/soba/abstractions';
 
+import { FlatUIBaseButton } from './base-button/base-button.component';
 import { FlatUIButton } from './button/button.component';
 import { FlatUIColorPicker } from './color-picker/color-picker.component';
 import { FlatUIDragPanel } from './drag-panel/drag-panel.component';
@@ -46,6 +47,7 @@ import { FlatUIMaterialIcon } from './material-icon/material-icon.component';
 
 @NgModule({
   declarations: [
+    FlatUIBaseButton,
     FlatUIButton,
     FlatUIIcon,
     FlatUIIconButton,
@@ -107,6 +109,7 @@ import { FlatUIMaterialIcon } from './material-icon/material-icon.component';
 
   ],
   exports: [
+    FlatUIBaseButton,
     FlatUIButton,
     FlatUIIcon,
     FlatUIIconButton,
