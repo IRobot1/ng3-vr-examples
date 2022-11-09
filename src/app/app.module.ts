@@ -126,6 +126,7 @@ import { FlatUIStatsPanelComponent } from '../examples/stats/stats-panel/stats-p
 import { VROrbitDirective } from '../app/vrorbit.directive';
 import { DataGridExample } from '../examples/data-grid/data-grid.component';
 import { ListsExample } from '../examples/lists/lists.component';
+import { KanbanExample } from '../examples/kanban/kanban.component';
 
 
 
@@ -254,6 +255,8 @@ import { ListsExample } from '../examples/lists/lists.component';
     DataGridExample,
 
     ListsExample,
+
+    KanbanExample,
   ],
   imports: [
     BrowserModule,

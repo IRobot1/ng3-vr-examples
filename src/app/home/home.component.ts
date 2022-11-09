@@ -43,8 +43,9 @@ export class HomeComponent implements OnInit {
     { asset: 'stats', text: 'Stats' },
     { asset: 'datagrid', text: 'Data Grids' },
     { asset: 'three-gui', text: 'Ng3 GUI' },
-    { asset: 'flat-ui', text: 'Flat UI' },
     { asset: 'lists', text: 'Lists' },
+    { asset: 'flat-ui', text: 'Flat UI' },
+    { asset: 'kanban', text: 'Kanban Board' },
   ]
 
   panels1: Array<PanelSetting> = [];
