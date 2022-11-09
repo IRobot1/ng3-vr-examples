@@ -12,7 +12,7 @@
     </ngt-mesh>
 
     <ng-container [ngTemplateOutlet]="listItem ? listItem : defaultListItem"
-                  [ngTemplateOutletContext]="{ index: index, list: this, text: item.text, width: width-margin*2, parent: parent.instance.value }">
+                  [ngTemplateOutletContext]="{ index: index, list: this, text: item.text, data: item.data, width: width-margin*2, parent: parent.instance.value }">
     </ng-container>
 
     <ng-template #defaultListItem let-text="text" let-width="width">

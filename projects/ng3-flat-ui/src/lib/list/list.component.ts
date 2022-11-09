@@ -3,7 +3,7 @@ import { AfterViewInit, Component, ContentChild, EventEmitter, Input, Output, Te
 import { BufferGeometry, Group, Material, Mesh, Shape, ShapeGeometry, Vector3 } from "three";
 import { NgtEvent, NgtObjectProps, NgtTriple } from "@angular-three/core";
 
-import { Paging, roundedRect } from "../flat-ui-utils";
+import { LAYOUT_EVENT, Paging, roundedRect } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
@@ -14,7 +14,7 @@ export interface ListItem {
 }
 
 class ListData {
-  constructor(public text: string, public enabled: boolean, public selected: boolean, public position: Vector3, public selectposition: Vector3) { }
+  constructor(public text: string, public data: any, public enabled: boolean, public selected: boolean, public position: Vector3, public selectposition: Vector3) { }
 }
 
 @Component({
@@ -144,6 +144,12 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
     if (this.selectedindex != -1)
       this.firstdrawindex = this.selectedindex;
 
+    this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
+      e.width = this.width;
+      e.height = this.height;
+      e.updated = true;
+    });
+
     this.refresh();
   }
 
@@ -159,12 +165,15 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
 
     for (let i = 0; i < this.rowcount; i++) {
       let text = '';
+      let data = undefined;
       let enabled = false;
 
       const selected = (this.selectedindex == drawindex)
 
       if (drawindex < this.list.length) {
-        text = this.list[drawindex++].text;
+        const item = this.list[drawindex++];
+        text = item.text;
+        data = item.data;
         enabled = true;
       }
 
@@ -179,7 +188,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
         selectposition.y = this.height / 2 - this.margin / 2
       }
 
-      this.data.push(new ListData(text, enabled, selected, position, selectposition));
+      this.data.push(new ListData(text, data, enabled, selected, position, selectposition));
     }
   }
 

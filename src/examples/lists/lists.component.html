@@ -28,7 +28,7 @@
       <flat-ui-base-button [width]="fontsize" [height]="fontsize" (pressed)="list.selected(index)" [selectable]="selectable">
         <ng-template #button>
           <flat-ui-material-icon [text]="text" [fontsize]="fontsize-0.1" [position]="[0, 0.03, 0]" [labelmaterial]="blackmaterial.instance.value"></flat-ui-material-icon>
-          <flat-ui-label [text]="text" [align]="'center'" [position]="[0, -fontsize/3, 0.001]"></flat-ui-label>
+          <flat-ui-label [text]="text" [alignx]="'center'" [position]="[0, -fontsize/3, 0.001]"></flat-ui-label>
         </ng-template>
       </flat-ui-base-button>
     </ngt-group>
