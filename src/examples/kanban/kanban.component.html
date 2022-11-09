@@ -4,6 +4,65 @@
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
+<ngt-mesh-basic-material noAppend #blackmaterial color="black"></ngt-mesh-basic-material>
+
+
+
+<ngt-group [position]="[-2.5, 2, 0]">
+
+  <ngt-group horizontal-layout [margin]="0.02">
+
+    <ngt-group *ngFor="let column of columns">
+
+      <flat-ui-divider [width]="0.02" [height]="listheight+0.1" [position]="[-column.width/2-0.02, -listheight/2-0.05, 0]"></flat-ui-divider>
+
+      <ngt-group vertical-layout>
+        <flat-ui-base-button [width]="column.width" [enabled]="false">
+          <ng-template #button let-parent="parent">
+            <ngt-group [appendTo]="parent">
+              <flat-ui-material-icon [text]="column.headericon" [position]="[-column.width/2+0.05, 0, 0]"></flat-ui-material-icon>
+              <flat-ui-label [text]="column.headertext" [width]="column.width" [position]="[0.1, 0, 0]"></flat-ui-label>
+              <flat-ui-button *ngIf="column.showcollapse" [text]="'x'" [width]="0.1" [position]="[column.width/2-0.05, 0, 0.001]" [selectable]="selectable"></flat-ui-button>
+            </ngt-group>
+          </ng-template>
+        </flat-ui-base-button>
+
+        <flat-ui-list [list]="getTasks(column.status)" [rowcount]="3" [rowsize]="cardheight" [margin]="listmargin"
+                      [width]="column.width" [height]="listheight" [selectable]="selectable" [vertical]="true">
+
+          <ng-template #listItem let-list="list" let-text="text" let-width="width" let-task="data" let-index="index" let-parent="parent">
+            <ngt-group *ngIf="task" [appendTo]="parent">
+              <flat-ui-base-button [width]="width" [height]="cardheight" [selectable]="selectable">
+                <ng-template #button let-parent="parent">
+                  <ngt-group [appendTo]="parent" [position]="[0, 0, 0.001]">
+                    <flat-ui-divider [width]="width-listmargin*2" [position]="[0, cardheight/2-0.01, 0]" [dividermaterial]="task.type.material"></flat-ui-divider>
+
+                    <flat-ui-material-icon [text]="task.type.icon" [labelmaterial]="task.type.material" [position]="[-width/2+0.05, cardheight/2-0.08, 0]"></flat-ui-material-icon>
+                    <flat-ui-label [text]="task.title" [width]="width-listmargin" [position]="[0.08, cardheight/2-0.08, 0]"></flat-ui-label>
+                    <flat-ui-avatar [radius]="0.05" [initials]="task.owner.initials" [iconcolor]="task.owner.color" [url]="task.owner.avatarurl" [position]="[width/2-0.1, cardheight/2-0.08, 0]"></flat-ui-avatar>
+
+                    <flat-ui-label [text]="task.description" [width]="width-0.01" [aligny]="'top'" [position]="[0, cardheight/2-0.15, 0]"></flat-ui-label>
+                    <ngt-group horizontal-layout [position]="[-width/2+0.01, -cardheight/2+0.06, 0]">
+                      <flat-ui-button *ngFor="let tag of task.tags" [text]="tag" [width]="0.3" [buttonmaterial]="blackmaterial.instance.value"></flat-ui-button>
+                    </ngt-group>
+
+                  </ngt-group>
+                </ng-template>
+              </flat-ui-base-button>
+            </ngt-group>
+          </ng-template>
+
+        </flat-ui-list>
+
+      </ngt-group>
+
+    </ngt-group>
+    <!--<flat-ui-divider [width]="0.02" [height]="listheight+0.1" [position]="[0.02, -listheight/2-0.05, 0]"></flat-ui-divider>-->
+  </ngt-group>
+
+
+
+</ngt-group>
 
 <vr-controller navhome></vr-controller>
 <vr-controller [index]="1" navhome></vr-controller>
