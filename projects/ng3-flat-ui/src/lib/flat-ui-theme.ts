@@ -22,7 +22,7 @@ export interface FlatUITheme {
   ScaleColor: string,
   ListSelectColor: string,
 }
-// just in case you want to add to the scheme when saving to GLTF
+// just in case you want to add to the scene when saving to GLTF
 
 export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   LabelColor = 'white';

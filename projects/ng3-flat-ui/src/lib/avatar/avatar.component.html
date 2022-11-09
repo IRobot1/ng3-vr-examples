@@ -1,0 +1,8 @@
+<ngt-mesh [ngtObjectPassThrough]="this">
+  <ngt-soba-text *ngIf="initials" [text]="initials" [fontSize]="radius" [position]="[0, 0, 0.001]"></ngt-soba-text>
+
+  <ngt-circle-geometry [args]="[radius, 32]"></ngt-circle-geometry>
+
+  <ngt-mesh-basic-material [color]="iconcolor" [map]="maptexture"></ngt-mesh-basic-material>
+
+</ngt-mesh>

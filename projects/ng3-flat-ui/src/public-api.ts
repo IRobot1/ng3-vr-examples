@@ -2,6 +2,7 @@
  * Public API Surface of ng3-flat-ui
  */
 
+export * from './lib/avatar/avatar.component';
 export * from './lib/button/button.component';
 export * from './lib/icon/icon.component';
 export * from './lib/color-picker/color-picker.component';

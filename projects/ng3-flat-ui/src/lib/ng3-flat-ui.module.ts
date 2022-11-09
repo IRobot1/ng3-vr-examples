@@ -42,11 +42,13 @@ import { FlatUIPaginator } from './paginator/paginator.component';
 import { FlatUIBasicImage } from './basic-image/basic-image.component';
 import { FlatUIDivider } from './divider/divider.component';
 import { FlatUIMaterialIcon } from './material-icon/material-icon.component';
+import { FlatUIAvatar } from './avatar/avatar.component';
 
 
 
 @NgModule({
   declarations: [
+    FlatUIAvatar,
     FlatUIBaseButton,
     FlatUIButton,
     FlatUIIcon,
@@ -109,6 +111,7 @@ import { FlatUIMaterialIcon } from './material-icon/material-icon.component';
 
   ],
   exports: [
+    FlatUIAvatar,
     FlatUIBaseButton,
     FlatUIButton,
     FlatUIIcon,
