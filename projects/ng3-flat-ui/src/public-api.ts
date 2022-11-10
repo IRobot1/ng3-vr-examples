@@ -5,6 +5,7 @@
 export * from './lib/avatar/avatar.component';
 export * from './lib/button/button.component';
 export * from './lib/icon/icon.component';
+export * from './lib/card/card.component';
 export * from './lib/color-picker/color-picker.component';
 export * from './lib/data-grid/data-grid.component';
 export * from './lib/data-grid-column/data-grid-column.component';

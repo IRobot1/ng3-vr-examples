@@ -8,7 +8,7 @@
 
 
 
-<ngt-group [position]="[-2.5, 2, 0]">
+<ngt-group [position]="[-2.5, 3, 2]">
 
   <ngt-group horizontal-layout [margin]="0.02">
 
@@ -32,8 +32,8 @@
 
           <ng-template #listItem let-list="list" let-text="text" let-width="width" let-task="data" let-index="index" let-parent="parent">
             <ngt-group *ngIf="task" [appendTo]="parent">
-              <flat-ui-base-button [width]="width" [height]="cardheight" [selectable]="selectable">
-                <ng-template #button let-parent="parent">
+              <flat-ui-card [width]="width" [height]="cardheight" [selectable]="selectable">
+                <ng-template #card let-parent="parent">
                   <ngt-group [appendTo]="parent" [position]="[0, 0, 0.001]">
                     <flat-ui-divider [width]="width-listmargin*2" [position]="[0, cardheight/2-0.01, 0]" [dividermaterial]="task.type.material"></flat-ui-divider>
 
@@ -48,7 +48,7 @@
 
                   </ngt-group>
                 </ng-template>
-              </flat-ui-base-button>
+              </flat-ui-card>
             </ngt-group>
           </ng-template>
 
@@ -67,4 +67,4 @@
 <vr-controller navhome></vr-controller>
 <vr-controller [index]="1" navhome></vr-controller>
 
-<ngt-soba-orbit-controls></ngt-soba-orbit-controls>
+<ngt-soba-orbit-controls [enableRotate]="false"></ngt-soba-orbit-controls>

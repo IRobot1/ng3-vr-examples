@@ -1,0 +1,23 @@
+<ngt-group #parent [ngtObjectPassThrough]="this" (ready)="panelready($event)">
+
+  <ngt-mesh #mesh
+            [geometry]="geometry" [material]="panelmaterial"
+            (pointerdown)="dragging=true" (pointerup)="dragging=false;out()"
+            (pointerover)="over()" (pointerout)="out()"
+            (pointermove)="movemesh($event)"
+            (ready)="meshready($event)">
+
+    <ng-container [ngTemplateOutlet]="card ? card : defaultCard"
+                  [ngTemplateOutletContext]="{ parent: parent.instance.value }">
+    </ng-container>
+
+    <ng-template #defaultCard>
+      <!--empty-->
+    </ng-template>
+
+  </ngt-mesh>
+
+  <ngt-line (ready)="lineready($event)"
+            [geometry]="outline" [material]="outlinematerial"> </ngt-line>
+
+</ngt-group>

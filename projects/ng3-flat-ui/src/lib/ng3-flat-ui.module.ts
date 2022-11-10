@@ -43,6 +43,7 @@ import { FlatUIBasicImage } from './basic-image/basic-image.component';
 import { FlatUIDivider } from './divider/divider.component';
 import { FlatUIMaterialIcon } from './material-icon/material-icon.component';
 import { FlatUIAvatar } from './avatar/avatar.component';
+import { FlatUICard } from './card/card.component';
 
 
 
@@ -51,6 +52,7 @@ import { FlatUIAvatar } from './avatar/avatar.component';
     FlatUIAvatar,
     FlatUIBaseButton,
     FlatUIButton,
+    FlatUICard,
     FlatUIIcon,
     FlatUIIconButton,
     FlatUIBasicImage,
@@ -114,6 +116,7 @@ import { FlatUIAvatar } from './avatar/avatar.component';
     FlatUIAvatar,
     FlatUIBaseButton,
     FlatUIButton,
+    FlatUICard,
     FlatUIIcon,
     FlatUIIconButton,
     FlatUIBasicImage,
