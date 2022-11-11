@@ -1,9 +1,14 @@
 <ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale">
   <ngt-mesh #mesh
             [geometry]="geometry" [material]="popupmaterial"
-            (click)="ignore(mesh.instance.value, $event)" (pointerover)="$event.stopPropagation()"
+            (pointerover)="over();$event.stopPropagation()"
+            (pointerout)="out();$event.stopPropagation()"
             (ready)="meshready($event)" (pointermissed)="missed()">
   </ngt-mesh>
+
+  <ngt-line (ready)="lineready($event)"
+            [geometry]="outline" [material]="outlinematerial"> </ngt-line>
+
 
   <ngt-group #parent *ngFor="let item of data; index as index" [position]="item.position" [visible]="item.enabled">
 

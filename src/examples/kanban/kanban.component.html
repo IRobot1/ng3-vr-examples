@@ -8,7 +8,7 @@
 
 
 
-<ngt-group [position]="[-2.5, 3, 2]">
+<ngt-group [position]="[-2.5, 3, 0]">
 
   <ngt-group horizontal-layout [margin]="0.02">
 
@@ -16,7 +16,7 @@
 
       <flat-ui-divider [width]="0.02" [height]="listheight+0.1" [position]="[-column.width/2-0.02, -listheight/2-0.05, 0]"></flat-ui-divider>
 
-      <ngt-group vertical-layout>
+      <ngt-group vertical-layout [name]="column.headertext">
         <flat-ui-base-button [width]="column.width" [enabled]="false">
           <ng-template #button let-parent="parent">
             <ngt-group [appendTo]="parent">
@@ -27,12 +27,12 @@
           </ng-template>
         </flat-ui-base-button>
 
-        <flat-ui-list [list]="getTasks(column.status)" [rowcount]="3" [rowsize]="cardheight" [margin]="listmargin"
-                      [width]="column.width" [height]="listheight" [selectable]="selectable" [vertical]="true">
+        <flat-ui-list [list]="column.tasks" [rowcount]="3" [rowsize]="cardheight" [margin]="listmargin" [name]="column.headertext"
+                      [width]="column.width" [height]="listheight" [selectable]="selectable" [vertical]="true" (dropped)="dropped($event, column.status)">
 
           <ng-template #listItem let-list="list" let-text="text" let-width="width" let-task="data" let-index="index" let-parent="parent">
             <ngt-group *ngIf="task" [appendTo]="parent">
-              <flat-ui-card [width]="width" [height]="cardheight" [selectable]="selectable">
+              <flat-ui-card [width]="width" [height]="cardheight" [selectable]="selectable" [data]="task">
                 <ng-template #card let-parent="parent">
                   <ngt-group [appendTo]="parent" [position]="[0, 0, 0.001]">
                     <flat-ui-divider [width]="width-listmargin*2" [position]="[0, cardheight/2-0.01, 0]" [dividermaterial]="task.type.material"></flat-ui-divider>

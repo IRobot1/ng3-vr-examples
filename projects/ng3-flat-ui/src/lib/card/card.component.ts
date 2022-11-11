@@ -7,6 +7,7 @@ import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 import { roundedRect } from "../flat-ui-utils";
+import { DRAG_END_EVENT, DRAG_START_EVENT } from "../drag-and-drop";
 
 @Component({
   selector: 'flat-ui-card',
@@ -24,7 +25,7 @@ export class FlatUICard extends NgtObjectProps<Mesh>{
   }
 
 
-private _height = 1;
+  private _height = 1;
   @Input()
   get height(): number { return this._height }
   set height(newvalue: number) {
@@ -33,6 +34,10 @@ private _height = 1;
   }
 
   @Input() selectable?: InteractiveObjects;
+  @Input() data: any;
+
+  @Input() cardtype = 'card';
+  @Input() allowdragging = true;
 
   private _panelmaterial?: Material;
   @Input()
@@ -81,6 +86,9 @@ private _height = 1;
     super.ngOnDestroy();
 
     this.selectable?.remove(this.mesh);
+
+    this.geometry.dispose();
+    this.outline.dispose();
   }
 
   private line!: Line;
@@ -103,29 +111,38 @@ private _height = 1;
   }
 
 
-  private mesh!: Mesh;
+  protected startdragging() {
+    if (!this.allowdragging) return;
+    this.dragging = true;
+    this.panel.position.z += 0.005;
+    this.panel.dispatchEvent({ type: DRAG_START_EVENT, dragtype: this.cardtype, data: this.data })
+    this.over();
+
+  }
+
+  protected enddragging() {
+    if (!this.allowdragging || !this.dragging) return;
+    this.dragging = false;
+    this.panel.position.z -= 0.005;
+    this.panel.dispatchEvent({ type: DRAG_END_EVENT, dragtype: this.cardtype, data: this.data })
+    this.out();
+  }
+
+  private _mesh!: Mesh;
+  get mesh(): Mesh { return this._mesh }
 
   protected meshready(mesh: Mesh) {
     this.selectable?.add(mesh);
 
-    mesh.addEventListener('pointerdown', (e: any) => {
-      this.dragging = true;
-      this.over();
-    });
+    mesh.addEventListener('pointerdown', (e: any) => { this.startdragging() });
 
-    const dragend = (e: any) => {
-      this.dragging = false;
-      this.out();
-      e.stop = true;
-    };
-
-    mesh.addEventListener('pointerup', dragend);
-    mesh.addEventListener('pointerout', dragend);
-    mesh.addEventListener('raymissed', dragend);
+    mesh.addEventListener('pointerup', () => { this.enddragging(); });
+    mesh.addEventListener('pointerout', () => { this.enddragging(); });
+    mesh.addEventListener('raymissed', () => { this.enddragging(); });
 
     mesh.addEventListener('pointermove', (e: any) => { this.domovemesh(e.data); e.stop = true; });
 
-    this.mesh = mesh;
+    this._mesh = mesh;
   }
 
   panel!: Object3D;
@@ -146,7 +163,7 @@ private _height = 1;
   }
 
   private domovemesh(event: Intersection) {
-    if (this.dragging) {
+    if (this.dragging && this.allowdragging) {
       const position = new Vector3();
       this.panel.getWorldPosition(position);
 

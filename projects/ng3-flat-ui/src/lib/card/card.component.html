@@ -1,8 +1,8 @@
-<ngt-group #parent [ngtObjectPassThrough]="this" (ready)="panelready($event)">
+<ngt-group #parent [ngtObjectPassThrough]="this" (ready)="panelready($event)" draggable>
 
   <ngt-mesh #mesh
             [geometry]="geometry" [material]="panelmaterial"
-            (pointerdown)="dragging=true" (pointerup)="dragging=false;out()"
+            (pointerdown)="startdragging();$event.stopPropagation()" (pointerup)="enddragging()"
             (pointerover)="over()" (pointerout)="out()"
             (pointermove)="movemesh($event)"
             (ready)="meshready($event)">

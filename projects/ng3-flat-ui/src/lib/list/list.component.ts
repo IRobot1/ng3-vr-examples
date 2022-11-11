@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 
-import { BufferGeometry, Group, Material, Mesh, Shape, ShapeGeometry, Vector3 } from "three";
-import { NgtEvent, NgtObjectProps, NgtTriple } from "@angular-three/core";
+import { BufferGeometry, Group, Line, Material, Mesh, Shape, ShapeGeometry, Vector3 } from "three";
+import { NgtObjectProps } from "@angular-three/core";
 
 import { LAYOUT_EVENT, Paging, roundedRect } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
@@ -44,6 +44,8 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
 
   @Input() showpaging = true;
 
+  @Input() enablehover = false;
+
   @Input() width = 1;
   @Input() height = 1;
 
@@ -67,6 +69,17 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
     this._listselectmaterial = newvalue;
   }
 
+  private _outlinematerial!: Material
+  @Input()
+  get outlinematerial(): Material {
+    if (this._outlinematerial) return this._outlinematerial;
+    return GlobalFlatUITheme.OutlineMaterial;
+  }
+  set outlinematerial(newvalue: Material) {
+    this._outlinematerial = newvalue;
+  }
+
+
   @Input() rowcount = 7;
 
   @Input() selectable?: InteractiveObjects;
@@ -89,7 +102,6 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
     }
   }
 
-
   @Input() geometry!: BufferGeometry;
 
   @Output() change = new EventEmitter<ListItem>();
@@ -101,6 +113,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
   protected data: Array<ListData> = [];
 
   protected pagewidth = 1;
+  protected outline!: BufferGeometry; // outline material
 
   override preInit() {
     super.preInit();
@@ -114,24 +127,38 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
+
+    this.outline = new BufferGeometry().setFromPoints(flat.getPoints());
+    this.outline.center();
   }
 
   override ngOnDestroy() {
     super.ngOnDestroy();
 
-    this.selectable?.remove(this.mesh);
+    if (this.enablehover)
+      this.selectable?.remove(this.mesh);
 
     this.geometry.dispose();
+  }
+
+  private line!: Line;
+  lineready(line: Line) {
+    line.visible = false;
+    this.line = line;
   }
 
   private mesh!: Mesh;
 
   protected meshready(mesh: Mesh) {
-    this.selectable?.add(mesh);
+    if (this.enablehover)
+      this.selectable?.add(mesh);
 
+    mesh.addEventListener('pointerover', (e: any) => { this.over(); e.stop = true; });
+    mesh.addEventListener('pointerout', (e: any) => { this.out() });
     mesh.addEventListener('raymissed', (e: any) => { this.missed(); e.stop = true; });
 
     this.mesh = mesh;
+
   }
 
   protected missed() {
@@ -236,8 +263,15 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
     }
   }
 
-  protected ignore(mesh: Mesh, event: NgtEvent<MouseEvent>) {
-    if (event.object != mesh) return;
-    event.stopPropagation();
+
+  private isover = false;
+  over() {
+    if (this.isover || !this.enablehover) return;
+    this.line.visible = true;
+    this.isover = true;
+  }
+  out() {
+    this.line.visible = false;
+    this.isover = false;
   }
 }

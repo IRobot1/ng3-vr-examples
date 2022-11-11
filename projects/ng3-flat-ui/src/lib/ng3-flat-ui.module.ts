@@ -44,6 +44,7 @@ import { FlatUIDivider } from './divider/divider.component';
 import { FlatUIMaterialIcon } from './material-icon/material-icon.component';
 import { FlatUIAvatar } from './avatar/avatar.component';
 import { FlatUICard } from './card/card.component';
+import { DraggableDirective, DropListDirective } from './drag-and-drop';
 
 
 
@@ -87,6 +88,9 @@ import { FlatUICard } from './card/card.component';
 
     HorizontalLayoutDirective,
     VerticalLayoutDirective,
+
+    DropListDirective,
+    DraggableDirective,
   ],
   imports: [
     CommonModule,
@@ -151,6 +155,9 @@ import { FlatUICard } from './card/card.component';
 
     HorizontalLayoutDirective,
     VerticalLayoutDirective,
+
+    DropListDirective,
+    DraggableDirective,
   ]
 })
 export class Ng3FlatUiModule { }

@@ -1,7 +1,8 @@
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 
 import { MeshBasicMaterial } from "three";
 import { ListItem , GlobalFlatUITheme, InteractiveObjects } from "ng3-flat-ui";
+import { DropListService } from "../../../projects/ng3-flat-ui/src/lib/drag-and-drop";
 
 
 export type TaskStatus = 'Open' | 'Progress' | 'Review' | 'Closed';
@@ -41,6 +42,7 @@ export class KanbanColumn {
     public headertext: string,
     public headericon: string,
     public status: TaskStatus, // key value in task state for filtering on this column
+    public tasks: Array<ListItem>,
     public showcollapse = false, // show collapse button
     public width = 1) // display width of column
   { }
@@ -48,6 +50,7 @@ export class KanbanColumn {
 
 @Component({
   templateUrl: './kanban.component.html',
+  providers: [DropListService],
 })
 export class KanbanExample {
   selectable = new InteractiveObjects();
@@ -65,13 +68,6 @@ export class KanbanExample {
   private zoidberg = new KanbanOwner('Zoidberg', 'DZ', 'salmon')
   private bender = new KanbanOwner('Bender', 'BR', '#666')
 
-  columns: Array<KanbanColumn> = [
-    new KanbanColumn('To Do', 'add_box', 'Open'),
-    new KanbanColumn('In Progress', 'more_horiz', 'Progress'),
-    new KanbanColumn('In Review', 'reviews', 'Review'),
-    new KanbanColumn('Done', 'done', 'Closed'),
-  ]
-
   tasks: Array<KanbanTask> = [
     new KanbanTask(1, this.task, 'Kill All Humans', this.bender, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry', 'Open', ['one', 'two', 'breaking issue']),
     new KanbanTask(2, this.bug, 'Feed the Owls', this.fry),
@@ -81,5 +77,21 @@ export class KanbanExample {
 
   getTasks(status: TaskStatus): Array<ListItem> {
     return this.tasks.filter(item => item.status == status).map((x) => { return { text: x.title, data: x } })
+  }
+
+  columns: Array<KanbanColumn> = [
+    new KanbanColumn('To Do', 'add_box', 'Open', this.getTasks('Open')),
+    new KanbanColumn('In Progress', 'more_horiz', 'Progress', this.getTasks('Progress')),
+    new KanbanColumn('In Review', 'reviews', 'Review', this.getTasks('Review')),
+    new KanbanColumn('Done', 'done', 'Closed', this.getTasks('Closed')),
+  ]
+
+
+  dropped(event: any, status: TaskStatus) {
+    (event.value as KanbanTask).status = status;
+    this.columns[0].tasks = this.getTasks('Open');
+    this.columns[1].tasks = this.getTasks('Progress');
+    this.columns[2].tasks = this.getTasks('Review');
+    this.columns[3].tasks = this.getTasks('Closed');
   }
 }
