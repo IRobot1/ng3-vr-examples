@@ -27,7 +27,7 @@
           </ng-template>
         </flat-ui-base-button>
 
-        <flat-ui-list [list]="column.tasks" [rowcount]="3" [rowsize]="cardheight" [margin]="listmargin" [name]="column.headertext"
+        <flat-ui-list drop-list [enablehover]="true" [list]="column.tasks" [rowcount]="3" [rowsize]="cardheight" [margin]="listmargin" [name]="column.headertext"
                       [width]="column.width" [height]="listheight" [selectable]="selectable" [vertical]="true" (dropped)="dropped($event, column.status)">
 
           <ng-template #listItem let-list="list" let-text="text" let-width="width" let-task="data" let-index="index" let-parent="parent">

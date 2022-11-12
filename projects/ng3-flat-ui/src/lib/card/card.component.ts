@@ -89,6 +89,7 @@ export class FlatUICard extends NgtObjectProps<Mesh>{
 
     this.geometry.dispose();
     this.outline.dispose();
+
   }
 
   private line!: Line;
@@ -140,7 +141,7 @@ export class FlatUICard extends NgtObjectProps<Mesh>{
     mesh.addEventListener('pointerout', () => { this.enddragging(); });
     mesh.addEventListener('raymissed', () => { this.enddragging(); });
 
-    mesh.addEventListener('pointermove', (e: any) => { this.domovemesh(e.data); e.stop = true; });
+    mesh.addEventListener('pointermove', (e: any) => { this.domovemesh(e.data) });
 
     this._mesh = mesh;
   }
@@ -157,7 +158,6 @@ export class FlatUICard extends NgtObjectProps<Mesh>{
 
   protected movemesh(event: NgtEvent<PointerEvent>) {
     if (event.object != this.mesh) return;
-    event.stopPropagation();
 
     this.domovemesh(event.intersections[0]);
   }

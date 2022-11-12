@@ -114,6 +114,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
 
   protected pagewidth = 1;
   protected outline!: BufferGeometry; // outline material
+  protected group!: Group;
 
   override preInit() {
     super.preInit();
@@ -147,7 +148,8 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
     this.line = line;
   }
 
-  private mesh!: Mesh;
+  private _mesh!: Mesh;
+  get mesh(): Mesh { return this._mesh }
 
   protected meshready(mesh: Mesh) {
     if (this.enablehover)
@@ -157,8 +159,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
     mesh.addEventListener('pointerout', (e: any) => { this.out() });
     mesh.addEventListener('raymissed', (e: any) => { this.missed(); e.stop = true; });
 
-    this.mesh = mesh;
-
+    this._mesh = mesh;
   }
 
   protected missed() {
@@ -178,9 +179,11 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
     });
 
     this.refresh();
+
+    this.ready.next(this.group)
   }
 
-  private refresh() {
+  refresh() {
     let drawindex = this.firstdrawindex;
 
     // if the whole list is shorter than what can be displayed, start from the first item in the list
@@ -264,7 +267,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
   }
 
 
-  private isover = false;
+  isover = false;
   over() {
     if (this.isover || !this.enablehover) return;
     this.line.visible = true;

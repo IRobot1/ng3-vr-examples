@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 
 import { MeshBasicMaterial } from "three";
-import { ListItem , GlobalFlatUITheme, InteractiveObjects } from "ng3-flat-ui";
+import { ListItem, GlobalFlatUITheme, InteractiveObjects } from "ng3-flat-ui";
 import { DropListService } from "../../../projects/ng3-flat-ui/src/lib/drag-and-drop";
 
 
@@ -86,12 +86,28 @@ export class KanbanExample {
     new KanbanColumn('Done', 'done', 'Closed', this.getTasks('Closed')),
   ]
 
+  updatetasks(status: TaskStatus) {
+    switch (status) {
+      case 'Open':
+        this.columns[0].tasks = this.getTasks('Open');
+        break;
+      case 'Progress':
+        this.columns[1].tasks = this.getTasks('Progress');
+        break;
+      case 'Review':
+        this.columns[2].tasks = this.getTasks('Review');
+        break;
+      case 'Closed':
+        this.columns[3].tasks = this.getTasks('Closed');
+        break;
+    }
+  }
 
   dropped(event: any, status: TaskStatus) {
+    const oldstatus = (event.value as KanbanTask).status;
     (event.value as KanbanTask).status = status;
-    this.columns[0].tasks = this.getTasks('Open');
-    this.columns[1].tasks = this.getTasks('Progress');
-    this.columns[2].tasks = this.getTasks('Review');
-    this.columns[3].tasks = this.getTasks('Closed');
+
+    this.updatetasks(oldstatus);
+    this.updatetasks(status);
   }
 }

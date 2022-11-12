@@ -1,13 +1,19 @@
-import { Directive, Injectable, OnInit } from "@angular/core";
+import { Directive, EventEmitter, Injectable, OnInit, Output } from "@angular/core";
 
 import { Object3D } from "three";
 import { NgtObject } from "@angular-three/core";
 
 import { ListItem } from "ng3-flat-ui";
+import { FlatUIList } from "./list/list.component";
 
 export const DRAG_START_EVENT = 'flat-ui-dragstart';
 export const DRAG_END_EVENT = 'flat-ui-dragend';
 export const DRAG_DROP_EVENT = 'flat-ui-drop';
+
+export interface DropEvent {
+  //list?: Array<ListItem>;
+  value: any;
+}
 
 @Injectable()
 export class DropListService {
@@ -32,18 +38,32 @@ export class DropListService {
 @Directive({
   selector: '[drop-list]',
   exportAs: 'dropList',
-  providers: [DropListService]
 })
 export class DropListDirective implements OnInit {
+
+  @Output() dropped = new EventEmitter<DropEvent>();
+
+
   constructor(
     public dropservice: DropListService,
-    public ngtobject: NgtObject,
+    public list: FlatUIList,
   ) { }
 
   ngOnInit(): void {
-    const object = this.ngtobject.instance.value;
-    console.warn(object)
-    this.dropservice.addlist(object);
+    this.list.ready.subscribe(next => {
+      const mesh = this.list.mesh;
+
+      this.dropservice.addlist(mesh);
+
+      mesh.addEventListener(DRAG_DROP_EVENT, (e: any) => {
+        if (this.list.isover) {
+          this.dropped.next({ value: e.data });
+        }
+        setTimeout(() => {
+          this.list.refresh();
+        }, 0)
+      });
+    });
   }
 }
 
