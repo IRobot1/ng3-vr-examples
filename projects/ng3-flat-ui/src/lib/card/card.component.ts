@@ -39,14 +39,14 @@ export class FlatUICard extends NgtObjectProps<Mesh>{
   @Input() cardtype = 'card';
   @Input() allowdragging = true;
 
-  private _panelmaterial?: Material;
+  private _cardmaterial?: Material;
   @Input()
-  get panelmaterial(): Material {
-    if (this._panelmaterial) return this._panelmaterial;
+  get cardmaterial(): Material {
+    if (this._cardmaterial) return this._cardmaterial;
     return GlobalFlatUITheme.PanelMaterial;
   }
-  set panelmaterial(newvalue: Material) {
-    this._panelmaterial = newvalue;
+  set cardmaterial(newvalue: Material) {
+    this._cardmaterial = newvalue;
   }
 
   private _outlinematerial!: Material
@@ -101,7 +101,7 @@ export class FlatUICard extends NgtObjectProps<Mesh>{
 
   private isover = false;
   over() {
-    if (this.isover) return;
+    if (this.isover || !this.allowdragging) return;
 
     this.line.visible = true;
     this.isover = true;

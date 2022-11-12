@@ -55,6 +55,7 @@ export class KanbanColumn {
 export class KanbanExample {
   selectable = new InteractiveObjects();
 
+  totalwidth = 0;
   listheight = 2;
   listmargin = 0.02;
   cardheight = 0.6;
