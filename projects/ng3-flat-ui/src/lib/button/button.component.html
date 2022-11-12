@@ -5,8 +5,8 @@
                      [disabledmaterial]="disabledmaterial"
                      [outlinematerial]="outlinematerial"
                      [selectable]="selectable"
-                     [geometry]="geometry"
                      (pressed)="pressed.next($event)">
+
   <ng-template #button let-parent="parent">
     <ngt-soba-text [appendTo]="parent" [text]="displaytext" [material]="labelmaterial" [fontSize]="fontsize" [anchorX]="textjustify" [position]="[0, 0, 0.001]"></ngt-soba-text>
   </ng-template>

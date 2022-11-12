@@ -1,10 +1,12 @@
-import { ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 
-import { Material } from "three";
+import { Material, Mesh } from "three";
 
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { FlatUIBaseButton } from "../base-button/base-button.component";
+import { InteractiveObjects } from "../interactive-objects";
+import { NgtObjectProps } from "@angular-three/core";
 
 @Component({
   selector: 'flat-ui-button',
@@ -12,7 +14,16 @@ import { FlatUIBaseButton } from "../base-button/base-button.component";
   templateUrl: './button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FlatUIButton extends FlatUIBaseButton {
+export class FlatUIButton extends NgtObjectProps<Mesh> {
+  @Input() text = '';
+  @Input() width = 0.5;
+  @Input() height = 0.1;
+  @Input() enabled = true;
+  @Input() buttonmaterial!: Material;
+  @Input() disabledmaterial!: Material;
+  @Input() outlinematerial!: Material;
+  @Input() selectable?: InteractiveObjects;
+
   @Input() textjustify: number | 'left' | 'center' | 'right' = 'center';
   @Input() fontsize = 0.07;
 
@@ -27,6 +38,8 @@ export class FlatUIButton extends FlatUIBaseButton {
   set labelmaterial(newvalue: Material) {
     this._labelmaterial = newvalue;
   }
+
+  @Output() pressed = new EventEmitter<string>();
 
   @ContentChild(TemplateRef) templateRef?: TemplateRef<unknown>;
 

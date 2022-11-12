@@ -122,11 +122,11 @@ export class FlatUICard extends NgtObjectProps<Mesh>{
   }
 
   protected enddragging() {
+    this.out();
     if (!this.allowdragging || !this.dragging) return;
     this.dragging = false;
     this.panel.position.z -= 0.005;
     this.panel.dispatchEvent({ type: DRAG_END_EVENT, dragtype: this.cardtype, data: this.data })
-    this.out();
   }
 
   private _mesh!: Mesh;
