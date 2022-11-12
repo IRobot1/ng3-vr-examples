@@ -4,7 +4,6 @@ import { Material, Mesh } from "three";
 
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
-import { FlatUIBaseButton } from "../base-button/base-button.component";
 import { InteractiveObjects } from "../interactive-objects";
 import { NgtObjectProps } from "@angular-three/core";
 

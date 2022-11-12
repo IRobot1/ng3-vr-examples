@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 
-import { Group, Object3D } from "three";
+import { Group } from "three";
 import { NgtObjectProps, NgtVector2 } from "@angular-three/core";
 
 import { FlatUIDataGridColumn } from "../data-grid-column/data-grid-column.component";

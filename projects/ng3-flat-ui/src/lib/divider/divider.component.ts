@@ -1,11 +1,10 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, Component, Input } from "@angular/core";
 
-import { BufferGeometry, Line, Material, Mesh, MeshBasicMaterial, Shape, Texture, TextureLoader } from "three";
-import { NgtEvent, NgtLoader, NgtObjectProps } from "@angular-three/core";
-
-import { GlobalFlatUITheme, InteractiveObjects } from "ng3-flat-ui";
+import { Material, Mesh } from "three";
+import { NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 @Component({
   selector: 'flat-ui-divider',

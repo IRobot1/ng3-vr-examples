@@ -3,8 +3,7 @@ import { Directive, EventEmitter, Injectable, OnInit, Output } from "@angular/co
 import { Object3D } from "three";
 import { NgtObject } from "@angular-three/core";
 
-import { ListItem } from "ng3-flat-ui";
-import { FlatUIList } from "./list/list.component";
+import { FlatUIList, ListItem } from "./list/list.component";
 
 export const DRAG_START_EVENT = 'flat-ui-dragstart';
 export const DRAG_END_EVENT = 'flat-ui-dragend';

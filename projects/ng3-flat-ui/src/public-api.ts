@@ -4,6 +4,7 @@
 
 export * from './lib/avatar/avatar.component';
 export * from './lib/button/button.component';
+export * from './lib/base-button/base-button.component';
 export * from './lib/icon/icon.component';
 export * from './lib/card/card.component';
 export * from './lib/color-picker/color-picker.component';
@@ -40,6 +41,7 @@ export * from './lib/horizontal-layout.directive';
 export * from './lib/interactive-objects';
 export * from './lib/layout';
 export * from './lib/vertical-layout.directive';
+export * from './lib/drag-and-drop';
 
 export * from './lib/flat-ui-input.service';
 

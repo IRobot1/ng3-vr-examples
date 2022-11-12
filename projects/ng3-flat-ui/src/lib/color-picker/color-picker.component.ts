@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, CanvasTexture, Intersection, Material, MathUtils, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, sRGBEncoding } from "three";
+import { BufferGeometry, CanvasTexture, Intersection, Material, MathUtils, Mesh, MeshBasicMaterial, Shape, ShapeGeometry, sRGBEncoding } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { GlobalFlatUITheme } from "../flat-ui-theme";

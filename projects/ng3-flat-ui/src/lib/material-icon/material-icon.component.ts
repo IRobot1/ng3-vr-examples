@@ -1,9 +1,8 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
-import { Group, Material, Object3D } from "three";
+import { Group, Material } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
-import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 @Component({
