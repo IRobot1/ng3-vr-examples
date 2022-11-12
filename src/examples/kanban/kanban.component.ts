@@ -51,6 +51,7 @@ export class KanbanColumn {
 @Component({
   templateUrl: './kanban.component.html',
   providers: [DropListService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class KanbanExample {
   selectable = new InteractiveObjects();
