@@ -1,6 +1,5 @@
 <ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale" (ready)="group = $event">
-  <ngt-mesh #mesh
-            [geometry]="geometry" [material]="popupmaterial"
+  <ngt-mesh [geometry]="geometry" [material]="popupmaterial"
             (pointerover)="over();$event.stopPropagation()"
             (pointerout)="out();$event.stopPropagation()"
             (ready)="meshready($event)" (pointermissed)="missed()">

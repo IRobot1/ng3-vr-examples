@@ -155,7 +155,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
     if (this.enablehover)
       this.selectable?.add(mesh);
 
-    mesh.addEventListener('pointerover', (e: any) => { this.over(); e.stop = true; });
+    mesh.addEventListener('pointermove', (e: any) => { this.over(); e.stop = true; });
     mesh.addEventListener('pointerout', (e: any) => { this.out() });
     mesh.addEventListener('raymissed', (e: any) => { this.missed(); e.stop = true; });
 

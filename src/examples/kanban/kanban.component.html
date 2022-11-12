@@ -7,7 +7,7 @@
 <ngt-mesh-basic-material noAppend #blackmaterial color="black" [name]="'black'"></ngt-mesh-basic-material>
 
 
-<ngt-group [position]="[-2.5, 3, -1]">
+<ngt-group [position]="[-1.5, 1.7, -2]" [scale]="0.75">
 
   <ngt-group horizontal-layout [margin]="0.02" (widthchange)="totalwidth=$event">
 
@@ -61,7 +61,7 @@
   <flat-ui-divider [width]="0.02" [height]="listheight+0.1" [position]="[totalwidth, -listheight/2-0.05, 0]"></flat-ui-divider>
 </ngt-group>
 
-<vr-controller navhome></vr-controller>
-<vr-controller [index]="1" navhome></vr-controller>
+<vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
+<vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
 
 <ngt-soba-orbit-controls [enableRotate]="false" [target]="[0, 2, 0]"></ngt-soba-orbit-controls>
