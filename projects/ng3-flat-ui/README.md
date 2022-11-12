@@ -1,4 +1,6 @@
-# Angular UI component library for [three.js](https://threejs.org/) 
+# Ng3 Flat UI
+
+Angular UI component library for [three.js](https://threejs.org/) 
 
 ![image](https://user-images.githubusercontent.com/25032599/196293607-20a6bd40-83d6-4e19-a3c6-8949389f682c.png)
 
@@ -22,6 +24,11 @@ Components include
 * icon
 * tabs
 * data grid with optional pagination
+* avatar icon
+* image
+* card with optional drag support
+* divider
+* material icon
 
 Panels include
 * expansion panel
@@ -132,11 +139,11 @@ No.  This would be a great student project.
 List of features that would be nice to add (in no particular order)
 * multi-line, sizable text box
 * UI sounds
-* divider
 * keyboard multi-language support (requires better default font)
 * text regular expression support
 * scrollbar (difficult without clipping support, so probably needs to be re-imagined)
 * date picker
 * time picker
-* chips
+* chips - requires knowing text length to size the chip correctly
 * hand input
+
