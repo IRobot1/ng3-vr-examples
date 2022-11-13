@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
 import { NgtTriple } from "@angular-three/core";
 
@@ -16,6 +16,7 @@ export interface CardAction {
   selector: 'flat-ui-card-action',
   exportAs: 'flatUICardAction',
   template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FlatUICardAction implements OnInit, CardAction {
   @Input() position = [0, 0, 0] as NgtTriple

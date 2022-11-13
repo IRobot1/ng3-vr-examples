@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { Subscription } from "rxjs";
 
 import { Group } from "three";
@@ -13,6 +13,7 @@ import { InteractiveObjects } from "../interactive-objects";
   selector: 'flat-ui-card-actions',
   exportAs: 'flatUICardActions',
   templateUrl: './card-actions.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FlatUICardActions extends NgtObjectProps<Group> {
   @Input() actions: Array<CardAction> = [];
@@ -69,7 +70,7 @@ export class FlatUICardActions extends NgtObjectProps<Group> {
         if (!this.delay)
           this.visible = false;
       }
-    }, 1000);
+    }, 250);
   }
 
   private show() {
@@ -78,7 +79,7 @@ export class FlatUICardActions extends NgtObjectProps<Group> {
   }
 
   private delayhide() {
-    this.delay = this.closedelay;
+    this.delay = this.closedelay * 4;
   }
 
   private hide() {

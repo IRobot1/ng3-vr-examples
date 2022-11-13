@@ -136,9 +136,10 @@ export class FlatUICard extends NgtObjectProps<Mesh>{
     this.selectable?.add(mesh);
 
     mesh.addEventListener('pointerdown', (e: any) => { this.startdragging() });
+    mesh.addEventListener('pointerover', (e: any) => { this.pointerover.next(e.data) });
 
     mesh.addEventListener('pointerup', () => { this.enddragging(); });
-    mesh.addEventListener('pointerout', () => { this.enddragging(); });
+    mesh.addEventListener('pointerout', (e: any) => { this.enddragging(); this.pointerout.next(e.data) });
     mesh.addEventListener('raymissed', () => { this.enddragging(); });
 
     mesh.addEventListener('pointermove', (e: any) => { this.domovemesh(e.data) });

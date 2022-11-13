@@ -27,6 +27,6 @@ export class ActionsExample implements OnInit  {
   ];
 
   doaction(source: string, action: CardAction) {
-    console.warn(source, action)
+    console.log(source, action)
   }
 }

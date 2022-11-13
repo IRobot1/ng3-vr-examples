@@ -93,10 +93,17 @@ export class GUIPointerDirective implements OnInit, OnDestroy {
             lastmove.forEach(intersection => {
               if (!objects.includes(intersection.object)) {
                 _event.type = 'pointerout';
-                _event.data = intersection; 
+                _event.data = intersection;
                 intersection.object.dispatchEvent(_event);
               }
             })
+          }
+          else {
+            intersections.forEach(intersection => {
+              _event.type = 'pointerover';
+              _event.data = intersection;
+              intersection.object.dispatchEvent(_event);
+            });
           }
           lastmove = intersections;
         }
