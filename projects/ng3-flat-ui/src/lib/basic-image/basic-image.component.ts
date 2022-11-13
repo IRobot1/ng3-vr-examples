@@ -211,6 +211,8 @@ export class FlatUIBasicImage extends NgtObjectProps<Mesh> implements AfterViewI
     this.selectable?.add(mesh);
 
     mesh.addEventListener('click', (e: any) => { this.doclick(); e.stop = true; })
+    mesh.addEventListener('pointerover', (e: any) => { this.over(); e.stop = true; })
+    mesh.addEventListener('pointerout', (e: any) => { this.out(); e.stop = true; })
 
     this.mesh = mesh;
     this.material = material;
