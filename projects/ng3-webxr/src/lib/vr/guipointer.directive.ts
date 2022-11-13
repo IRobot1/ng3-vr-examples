@@ -4,8 +4,7 @@ import { Subscription } from "rxjs";
 import { Group, Intersection, Matrix4, Object3D, Raycaster } from "three";
 import { BooleanInput, coerceBooleanProperty } from "@angular-three/core";
 
-import { VRControllerComponent } from "ng3-webxr";
-
+import { VRControllerComponent } from "./vr-controller.component";
 
 @Directive({
   selector: '[guipointer]',

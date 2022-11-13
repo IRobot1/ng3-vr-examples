@@ -12,10 +12,12 @@ import { WebVRDirective } from './vr/webvr.directive';
 import { ARControllerComponent } from './ar/ar-controller.component';
 import { WebARDirective } from './ar/webar.directive';
 import { ARGesturesComponent } from './ar/ar-gestures.component';
+import { GUIPointerDirective } from './vr/guipointer.directive';
 
 
 @NgModule({
   declarations: [
+    GUIPointerDirective,
     HighlightDirective,
     ShowControllerDirective,
     TeleportDirective,
@@ -31,6 +33,7 @@ import { ARGesturesComponent } from './ar/ar-gestures.component';
     NgtGroupModule,
   ],
   exports: [
+    GUIPointerDirective,
     HighlightDirective,
     ShowControllerDirective,
     TeleportDirective,

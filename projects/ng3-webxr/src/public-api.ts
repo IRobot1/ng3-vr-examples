@@ -2,6 +2,7 @@
  * Public API Surface of ng3-webxr
  */
 
+export * from './lib/vr/guipointer.directive';
 export * from './lib/vr/highlight.directive';
 export * from './lib/vr/showcontroller.directive';
 export * from './lib/vr/teleport.directive';
