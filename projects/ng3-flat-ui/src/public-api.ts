@@ -7,6 +7,8 @@ export * from './lib/button/button.component';
 export * from './lib/base-button/base-button.component';
 export * from './lib/icon/icon.component';
 export * from './lib/card/card.component';
+export * from './lib/card-actions/card-actions.component';
+export * from './lib/card-action/card-action.component';
 export * from './lib/color-picker/color-picker.component';
 export * from './lib/data-grid/data-grid.component';
 export * from './lib/data-grid-column/data-grid-column.component';

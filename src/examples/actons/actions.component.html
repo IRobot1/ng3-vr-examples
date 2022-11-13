@@ -5,21 +5,26 @@
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
 <ngt-group>
-
-  <flat-ui-card [allowdragging]="false" [width]="0.5" [height]="0.5" [position]="[0, 1.5, -1]"
-                (pointerover)="show()" (pointerout)="delayhide()">
-    <ng-template #card let-parent="parent">
-      <flat-ui-base-button [visible]="isover" [appendTo]="parent" [position]="[-0.20, 0.31, 0.001]" [width]="0.1" (pressed)="hide()">
-        <ng-template #button let-parent="parent">
-          <ngt-group [appendTo]="parent" [position]="[0, 0, 0.001]">
-            <flat-ui-material-icon [text]="'bug_report'"></flat-ui-material-icon>
-          </ngt-group>
-        </ng-template>
-      </flat-ui-base-button>
-    </ng-template>
-  </flat-ui-card>
-
 </ngt-group>
+
+<flat-ui-card [allowdragging]="false" [width]="cardsize" [height]="cardsize" [position]="[0, 1.5, -2]" [selectable]="selectable">
+  <ng-template #card let-parent="parent">
+    <ngt-group [appendTo]="parent">
+
+      <flat-ui-card-actions [actions]="actions" [showlabels]="true" [selectable]="selectable"
+                            [buttonwidth]="buttonwidth" [buttonheight]="buttonheight"
+                            (action)="doaction('actions', $event)">
+        <flat-ui-card-action [position]="[-cardsize/2-buttonwidth/2-padding, cardsize/2-buttonheight*0.5, 0]" [materialicon]="'open_with'" [label]="'Translate'"></flat-ui-card-action>
+        <flat-ui-card-action [position]="[-cardsize/2-buttonwidth/2-padding, cardsize/2-buttonheight*1.5-padding, 0]" [materialicon]="'sync'" [label]="'Rotate'"></flat-ui-card-action>
+        <flat-ui-card-action [position]="[-cardsize/2-buttonwidth/2-padding, cardsize/2-buttonheight*2.5-padding*2, 0]" [materialicon]="'zoom_out_map'" [label]="'Scale'"></flat-ui-card-action>
+      </flat-ui-card-actions>
+
+      <flat-ui-label [text]="'Hover mouse over card'" [alignx]="'center'" [position]="[0, 0.1, 0]"></flat-ui-label>
+      <flat-ui-label [text]="'In VR, point at card'" [alignx]="'center'" [position]="[0, -0.1, 0]"></flat-ui-label>
+    </ngt-group>
+  </ng-template>
+</flat-ui-card>
+
 
 <vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
 <vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>

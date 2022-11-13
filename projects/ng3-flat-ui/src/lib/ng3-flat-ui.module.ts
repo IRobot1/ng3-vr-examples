@@ -45,6 +45,8 @@ import { FlatUIMaterialIcon } from './material-icon/material-icon.component';
 import { FlatUIAvatar } from './avatar/avatar.component';
 import { FlatUICard } from './card/card.component';
 import { DraggableDirective, DropListDirective } from './drag-and-drop';
+import { FlatUICardActions } from './card-actions/card-actions.component';
+import { FlatUICardAction } from './card-action/card-action.component';
 
 
 
@@ -54,6 +56,8 @@ import { DraggableDirective, DropListDirective } from './drag-and-drop';
     FlatUIBaseButton,
     FlatUIButton,
     FlatUICard,
+    FlatUICardActions,
+    FlatUICardAction,
     FlatUIIcon,
     FlatUIIconButton,
     FlatUIBasicImage,
@@ -121,6 +125,8 @@ import { DraggableDirective, DropListDirective } from './drag-and-drop';
     FlatUIBaseButton,
     FlatUIButton,
     FlatUICard,
+    FlatUICardActions,
+    FlatUICardAction,
     FlatUIIcon,
     FlatUIIconButton,
     FlatUIBasicImage,

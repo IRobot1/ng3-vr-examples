@@ -1,0 +1,14 @@
+<ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale" [appendTo]="appendTo">
+
+  <flat-ui-base-button *ngFor="let item of actions" [position]="item.position" [width]="buttonwidth" [height]="buttonheight" [selectable]="selectable" (pressed)="clicked(item)">
+    <ng-template #button let-parent="parent">
+      <ngt-group [appendTo]="parent">
+
+        <flat-ui-material-icon [text]="item.materialicon" [fontsize]="buttonheight*0.7" [position]="[0, showlabels ? buttonheight*0.12 : 0, 0.001]"></flat-ui-material-icon>
+        <flat-ui-label *ngIf="showlabels && item.label" [text]="item.label" [alignx]="'center'" [fontsize]="buttonheight*0.25" [position]="[0, -buttonheight*0.3, 0.001]"></flat-ui-label>
+
+      </ngt-group>
+    </ng-template>
+  </flat-ui-base-button>
+
+</ngt-group>
