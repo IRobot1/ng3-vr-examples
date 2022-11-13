@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Injectable, OnInit, Output } from "@angular/core";
+import { Directive, EventEmitter, Injectable, OnInit, Optional, Output } from "@angular/core";
 
 import { Object3D } from "three";
 import { NgtObject } from "@angular-three/core";
@@ -72,11 +72,13 @@ export class DropListDirective implements OnInit {
 })
 export class DraggableDirective implements OnInit {
   constructor(
-    private dropservice: DropListService,
+    @Optional() private dropservice: DropListService,
     private ngtobject: NgtObject,
   ) { }
 
   ngOnInit(): void {
+    if (!this.dropservice) return;
+
     const object = this.ngtobject.instance.value;
     object.addEventListener(DRAG_START_EVENT, (e: any) => { this.dropservice.start(e.data) });
     object.addEventListener(DRAG_END_EVENT, (e: any) => { this.dropservice.dropped(e.data) });
