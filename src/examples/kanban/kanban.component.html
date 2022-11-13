@@ -16,7 +16,7 @@
       <flat-ui-divider [width]="0.02" [height]="listheight+0.1" [position]="[-column.width/2-0.02, -listheight/2-0.05, 0]"></flat-ui-divider>
 
       <ngt-group vertical-layout [name]="column.headertext">
-        <flat-ui-card [width]="column.width" [height]="0.1" [allowdragging]="false">
+        <flat-ui-card [width]="column.width" [height]="0.1" [allowdragging]="false" [showhover]="false">
           <ng-template #card let-parent="parent">
             <ngt-group [appendTo]="parent">
               <flat-ui-material-icon [text]="column.headericon" [position]="[-column.width/2+0.05, 0, 0]"></flat-ui-material-icon>

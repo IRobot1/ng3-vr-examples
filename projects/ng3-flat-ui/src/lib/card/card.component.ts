@@ -38,6 +38,7 @@ export class FlatUICard extends NgtObjectProps<Mesh>{
 
   @Input() cardtype = 'card';
   @Input() allowdragging = true;
+  @Input() showhover = true;
 
   private _cardmaterial?: Material;
   @Input()
@@ -101,7 +102,7 @@ export class FlatUICard extends NgtObjectProps<Mesh>{
 
   private isover = false;
   over() {
-    if (this.isover) return;
+    if (!this.showhover || this.isover) return;
 
     this.line.visible = true;
     this.isover = true;
