@@ -75,7 +75,6 @@ import { SpotlightModelComponent } from '../examples/studio/spotlight-model/spot
 import { PaintExample } from '../examples/paint/paint.component';
 import { PaintBrushDirective } from '../examples/paint/paintbrush.directive';
 import { HTMLGUIExample } from '../examples/htmlgui/htmlgui.component';
-import { GUIPointerDirective } from '../examples/htmlgui/guipointer.directive';
 import { ScaleExample } from '../examples/scale/scale.component';
 import { VRScaleComponent } from '../examples/scale/vr-scale.component';
 import { MouseTouchInput } from '../examples/htmlgui/mouse-touch-input.component';
@@ -209,7 +208,6 @@ import { ActionsExample } from '../examples/actons/actions.component';
     PaintBrushDirective,
 
     HTMLGUIExample,
-    GUIPointerDirective,
     MouseTouchInput,
 
     ScaleExample,

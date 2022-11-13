@@ -39,6 +39,7 @@ export * from './lib/tab/tab.component';
 export * from './lib/tab-group/tab-group.component';
 export * from './lib/flat-ui-theme';
 export * from './lib/flat-ui-utils';
+export * from './lib/guipointer.directive';
 export * from './lib/horizontal-layout.directive';
 export * from './lib/interactive-objects';
 export * from './lib/layout';

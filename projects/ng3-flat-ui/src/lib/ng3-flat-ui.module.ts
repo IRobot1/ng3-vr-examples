@@ -47,6 +47,7 @@ import { FlatUICard } from './card/card.component';
 import { DraggableDirective, DropListDirective } from './drag-and-drop';
 import { FlatUICardActions } from './card-actions/card-actions.component';
 import { FlatUICardAction } from './card-action/card-action.component';
+import { GUIPointerDirective } from './guipointer.directive';
 
 
 
@@ -95,6 +96,7 @@ import { FlatUICardAction } from './card-action/card-action.component';
 
     DropListDirective,
     DraggableDirective,
+    GUIPointerDirective,
   ],
   imports: [
     CommonModule,
@@ -161,6 +163,7 @@ import { FlatUICardAction } from './card-action/card-action.component';
 
     HorizontalLayoutDirective,
     VerticalLayoutDirective,
+    GUIPointerDirective,
 
     DropListDirective,
     DraggableDirective,
