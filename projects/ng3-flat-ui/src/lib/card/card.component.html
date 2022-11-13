@@ -1,9 +1,10 @@
-<ngt-group #parent [ngtObjectPassThrough]="this" (ready)="panelready($event)" draggable>
+<ngt-group #parent [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale"
+           (ready)="panelready($event)" draggable>
 
   <ngt-mesh #mesh
             [geometry]="geometry" [material]="cardmaterial"
             (pointerdown)="startdragging();$event.stopPropagation()" (pointerup)="enddragging()"
-            (pointerover)="over()" (pointerout)="out()"
+            (pointerover)="over();pointerover.next($event)" (pointerout)="out();pointerout.next($event)"
             (pointermove)="movemesh($event)"
             (ready)="meshready($event)">
 

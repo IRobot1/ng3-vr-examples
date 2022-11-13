@@ -101,7 +101,7 @@ export class FlatUICard extends NgtObjectProps<Mesh>{
 
   private isover = false;
   over() {
-    if (this.isover || !this.allowdragging) return;
+    if (this.isover) return;
 
     this.line.visible = true;
     this.isover = true;
