@@ -46,6 +46,7 @@ export class HomeComponent implements OnInit {
     { asset: 'lists', text: 'Lists' },
     { asset: 'flat-ui', text: 'Flat UI' },
     { asset: 'kanban', text: 'Kanban Board' },
+    { asset: 'actions', text: 'Actions' },
   ]
 
   panels1: Array<PanelSetting> = [];

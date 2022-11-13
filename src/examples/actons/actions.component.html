@@ -1,0 +1,28 @@
+<ngt-color attach="background" color="darkgray"></ngt-color>
+
+<line-room></line-room>
+
+<ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
+
+<ngt-group>
+
+  <flat-ui-card [allowdragging]="false" [width]="0.5" [height]="0.5" [position]="[0, 1.5, -1]"
+                (pointerover)="show()" (pointerout)="delayhide()">
+    <ng-template #card let-parent="parent">
+      <flat-ui-base-button [visible]="isover" [appendTo]="parent" [position]="[-0.20, 0.31, 0.001]" [width]="0.1" (pressed)="hide()">
+        <ng-template #button let-parent="parent">
+          <ngt-group [appendTo]="parent" [position]="[0, 0, 0.001]">
+            <flat-ui-material-icon [text]="'bug_report'"></flat-ui-material-icon>
+          </ngt-group>
+        </ng-template>
+      </flat-ui-base-button>
+    </ng-template>
+  </flat-ui-card>
+
+</ngt-group>
+
+<vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
+<vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
+
+
+<ngt-soba-orbit-controls></ngt-soba-orbit-controls>
