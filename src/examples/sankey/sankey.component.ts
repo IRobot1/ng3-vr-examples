@@ -1,7 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 
 @Component({
   templateUrl: './sankey.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SankeyExample implements OnInit {
   starty = 1;
@@ -13,15 +14,18 @@ export class SankeyExample implements OnInit {
 
     setInterval(() => {
       // move up and down
-      if (this.starty > 2 || this.starty < 0)
-        sfactor = -sfactor;
-
       this.starty += Math.random() * 0.1 * sfactor;
-
-      if (this.endy > 2 || this.endy < 0)
-        efactor = -efactor;
+      if (this.starty > 2)
+        sfactor = -1;
+      else if (this.starty < 0)
+        sfactor = 1;
 
       this.endy += Math.random() * 0.1 * efactor;
-    }, 500)
+      if (this.endy > 2)
+        efactor = -1;
+      else if (this.endy < 0)
+        efactor = 1;
+
+    }, 1000/30)
   }
 }

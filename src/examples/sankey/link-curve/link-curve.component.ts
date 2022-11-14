@@ -1,6 +1,6 @@
-import { Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
-import { BufferGeometry, CatmullRomCurve3, Mesh, Vector3 } from "three";
+import { Mesh, Shape, ShapeGeometry, SplineCurve, Vector2 } from "three";
 import { make, NgtObjectProps, NgtTriple } from "@angular-three/core";
 
 import { LinkPin } from "../link-pin/link-pin.component";
@@ -9,12 +9,14 @@ import { LinkPin } from "../link-pin/link-pin.component";
   selector: 'link-curve',
   exportAs: 'linkCurve',
   templateUrl: './link-curve.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LinkCurve extends NgtObjectProps<Mesh> {
   @Input() startpin!: LinkPin;
   @Input() endpin!: LinkPin;
+  @Input() linewidth = 0.005;
 
-  geometry!: BufferGeometry;
+  protected mesh!: Mesh;
 
   private startposition!: NgtTriple;
   private endposition!: NgtTriple;
@@ -39,27 +41,38 @@ export class LinkCurve extends NgtObjectProps<Mesh> {
     this.updatecurve();
   }
 
-  private updatecurve() {
-    if (this.geometry) this.geometry.dispose();
 
-    const start = make(Vector3, this.startposition);
-    const end = make(Vector3, this.endposition);
+  private updatecurve() {
+    if (this.mesh.geometry) this.mesh.geometry.dispose();
+
+    const start = make(Vector2, this.startposition);
+    const end = make(Vector2, this.endposition);
 
     const startplus = start.clone()
-      startplus.x += 0.5;
     const endplus = end.clone()
-      endplus.x -= 0.5;
+    const diff = Math.abs(start.x - end.x)/4;
 
-    const points: Array<Vector3> = [start, startplus, endplus, end];
+    startplus.x += diff;
+    endplus.x -= diff;
 
-    const closed = false;
-    const curvetype: 'centripetal' | 'catmullrom' | 'chordial' = 'centripetal';
-    const tension = 0.1;
+    const points: Array<Vector2> = [start, startplus, endplus, end];
 
+    const curve = new SplineCurve(points);
 
-    const curve = new CatmullRomCurve3(points);
-    const curvepoints = curve.getPoints(25);
+    const toppoints = curve.getPoints(25);
+    const first = toppoints[0]
 
-    this.geometry = new BufferGeometry().setFromPoints(curvepoints);
+    const thickline = new Shape()
+
+    thickline.moveTo(first.x, first.y + this.linewidth);
+    toppoints.forEach(point => {
+      thickline.lineTo(point.x, point.y + this.linewidth);
+    });
+    toppoints.reverse().forEach(point => {
+      thickline.lineTo(point.x, point.y - this.linewidth);
+    });
+    thickline.closePath();
+
+    this.mesh.geometry = new ShapeGeometry(thickline);
   }
 }
