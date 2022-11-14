@@ -4,6 +4,10 @@
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
+<link-pin #start [position]="[-1, starty, 0]"></link-pin>
+<link-pin #end [position]="[1, endy, 0]"></link-pin>
+
+<link-curve [startpin]="start" [endpin]="end"></link-curve>
 
 <vr-controller navhome></vr-controller>
 <vr-controller [index]="1" navhome></vr-controller>

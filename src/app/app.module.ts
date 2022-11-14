@@ -128,6 +128,8 @@ import { ListsExample } from '../examples/lists/lists.component';
 import { KanbanExample } from '../examples/kanban/kanban.component';
 import { ActionsExample } from '../examples/actons/actions.component';
 import { SankeyExample } from '../examples/sankey/sankey.component';
+import { LinkCurve } from '../examples/sankey/link-curve/link-curve.component';
+import { LinkPin } from '../examples/sankey/link-pin/link-pin.component';
 
 
 
@@ -261,6 +263,8 @@ import { SankeyExample } from '../examples/sankey/sankey.component';
     ActionsExample,
 
     SankeyExample,
+    LinkCurve,
+    LinkPin,
   ],
   imports: [
     BrowserModule,
