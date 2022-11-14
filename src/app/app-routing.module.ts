@@ -34,6 +34,7 @@ import { DataGridExample } from '../examples/data-grid/data-grid.component';
 import { ListsExample } from '../examples/lists/lists.component';
 import { KanbanExample } from '../examples/kanban/kanban.component';
 import { ActionsExample } from '../examples/actons/actions.component';
+import { SankeyExample } from '../examples/sankey/sankey.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -70,6 +71,7 @@ const routes: Routes = [
   { path: 'lists', component: ListsExample },
   { path: 'kanban', component: KanbanExample },
   { path: 'actions', component: ActionsExample },
+  { path: 'sankey', component: SankeyExample },
 ];
 
 @NgModule({
