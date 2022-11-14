@@ -1,0 +1,24 @@
+<flat-ui-drag-panel [title]="title" [scalable]="false" [resizable]="true"
+                    [width]="width" [height]="height" (heightchange)="height=$event" (widthchange)="width=$event"
+                    [position]="position" [rotation]="rotation" [scale]="scale" [selectable]="selectable">
+  <ng-template let-parent="parent">
+    <ngt-group vertical-layout [appendTo]="parent" [position]="[0, height/2, 0.001]">
+      <ngt-group>
+        <flat-ui-material-icon [text]="'label'" [rotation]="[0, 0, 180 | radian]" [position]="[-width/2, 0, 0.001]"></flat-ui-material-icon>
+        <flat-ui-label [text]="'input'" [width]="0" [position]="[-width/2+0.06, 0, 0.001]"></flat-ui-label>
+        <flat-ui-material-icon [text]="'label'" [position]="[width/2, 0, 0.001]"></flat-ui-material-icon>
+        <flat-ui-label [text]="'output'" [width]="0" [alignx]="'right'" [position]="[width/2-0.06, 0, 0.001]"></flat-ui-label>
+      </ngt-group>
+
+      <ngt-group *ngFor="let item of outputs; index as index">
+        <flat-ui-material-icon [text]="item.type.icon" [labelmaterial]="item.type.material" [position]="[width/2, 0, 0.001]"></flat-ui-material-icon>
+        <flat-ui-label [text]="item.name" [width]="0" [alignx]="'right'" [position]="[width/2-0.06, 0, 0.001]"></flat-ui-label>
+      </ngt-group>
+
+      <ngt-group *ngFor="let item of inputs; index as index">
+        <flat-ui-material-icon [text]="item.type.icon" [labelmaterial]="item.type.material" [position]="[-width/2, 0, 0.001]"></flat-ui-material-icon>
+        <flat-ui-label [text]="item.name" [width]="0" [position]="[-width/2+0.06, 0, 0.001]"></flat-ui-label>
+      </ngt-group>
+    </ngt-group>
+  </ng-template>
+</flat-ui-drag-panel>

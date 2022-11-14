@@ -128,6 +128,9 @@ import { ListsExample } from '../examples/lists/lists.component';
 import { KanbanExample } from '../examples/kanban/kanban.component';
 import { ActionsExample } from '../examples/actons/actions.component';
 import { NodesExample } from '../examples/nodes/nodes.component';
+import { FlatUINodeCard } from '../examples/nodes/node-card/node-card.component';
+import { FlatUINodePin } from '../examples/nodes/node-pin/node-pin.component';
+import { FlatUINodeType } from '../examples/nodes/node-type/node-type.component';
 
 
 
@@ -261,6 +264,9 @@ import { NodesExample } from '../examples/nodes/nodes.component';
     ActionsExample,
 
     NodesExample,
+    FlatUINodeCard,
+    FlatUINodePin,
+    FlatUINodeType,
   ],
   imports: [
     BrowserModule,
