@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { Mesh, MeshBasicMaterial, Vector3 } from "three";
-import { make, NgtEvent, NgtObjectProps, NgtVector3 } from "@angular-three/core";
+import { make, NgtObjectProps, NgtVector3 } from "@angular-three/core";
+
+import { InteractiveObjects } from "ng3-flat-ui";
 
 export interface SankeyValue {
   value: number;
@@ -34,6 +36,8 @@ export class SankeyNode extends NgtObjectProps<Mesh> implements SankeyNodeData {
   @Input() width = 0.1;
   @Input() height = 0.4;
   @Input() material!: MeshBasicMaterial;
+
+  @Input() selectable?: InteractiveObjects;
 
   private _inputs: Array<SankeyValue> = [];
   @Input()
