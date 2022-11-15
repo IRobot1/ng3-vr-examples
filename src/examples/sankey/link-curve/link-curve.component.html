@@ -1,1 +1,3 @@
-<ngt-mesh (ready)="mesh = $event"></ngt-mesh>
+<ngt-mesh [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale"
+          (ready)="meshready($event)">
+</ngt-mesh>

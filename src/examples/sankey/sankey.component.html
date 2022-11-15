@@ -1,12 +1,24 @@
 <ngt-color attach="background" color="darkgray"></ngt-color>
 
+<line-room></line-room>
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
-<link-pin #start [position]="[-2, starty, 0]"></link-pin>
-<link-pin #end [position]="[2, endy, 0]"></link-pin>
+<sankey-node *ngFor="let item of column1"
+             [position]="item.position" [material]="item.material"
+             [width]="item.width" [height]="item.height"
+             [inputs]="item.inputs" [outputs]="item.outputs"
+             (valuechange)="updatelink($event)">
+</sankey-node>
 
-<link-curve [startpin]="start" [endpin]="end"></link-curve>
+<sankey-node *ngFor="let item of column2"
+             [position]="item.position" [material]="item.material"
+             [width]="item.width" [height]="item.height"
+             [inputs]="item.inputs" [outputs]="item.outputs"
+             (valuechange)="updatelink($event)">
+</sankey-node>
+
+<link-curve *ngFor="let item of links" [startposition]="item.start" [endposition]="item.end" [linewidth]="item.size"></link-curve>-->
 
 <vr-controller navhome></vr-controller>
 <vr-controller [index]="1" navhome></vr-controller>

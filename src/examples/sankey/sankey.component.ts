@@ -1,31 +1,69 @@
+import { NgtTriple } from "@angular-three/core";
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { Color, MeshBasicMaterial, Vector3 } from "three";
+
+import { SankeyNodeData, SankeyPinEvent } from "./sankey-node/sankey-node.component";
+
+interface SankeyLink {
+  name: string;
+  start?: NgtTriple;
+  end?: NgtTriple;
+  size: number;
+}
 
 @Component({
   templateUrl: './sankey.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SankeyExample implements OnInit {
-  starty = 1;
-  endy = 1.5;
+  column1: Array<SankeyNodeData> = [];
+  column2: Array<SankeyNodeData> = [];
+
+  links: Array<SankeyLink> = [];
+
+  updatelink(change: SankeyPinEvent) {
+    let link = this.links.find(item => item.name == change.link);
+    if (!link) {
+      link = { name: change.link, size: change.size }
+      this.links.push(link);
+    }
+    else {
+      link.size = change.size;
+    }
+    if (change.isinput)
+      link.end = change.center.toArray();
+    else
+      link.start = change.center.toArray();
+  }
 
   ngOnInit(): void {
-    let sfactor = 1;
-    let efactor = 1;
+    let next = 0;
+    let padding = 0.02;
 
-    setInterval(() => {
-      // move up and down
-      this.starty += Math.random() * 0.1 * sfactor;
-      if (this.starty > 2)
-        sfactor = -1;
-      else if (this.starty < 0)
-        sfactor = 1;
+    for (let i = 0; i < 1; i++) {
+      const height = 1// 0.4 * Math.random();
 
-      this.endy += Math.random() * 0.1 * efactor;
-      if (this.endy > 2)
-        efactor = -1;
-      else if (this.endy < 0)
-        efactor = 1;
+      const node1: SankeyNodeData = {
+        position: [0, next + height / 2 + padding, 0],
+        width: 0.1,
+        height: height,
+        inputs: [],
+        outputs: [{ link: `${i}-${i}`, value: height/4}],
+        material: new MeshBasicMaterial({ color: '#' + new Color(Math.random() * 0xffffff).getHexString() }),
+      }
+      this.column1.push(node1)
 
-    }, 1000/30)
+      const node2: SankeyNodeData = {
+        position: [1, next + height / 2 + padding, 0],
+        width: 0.1,
+        height: node1.height,
+        inputs: [{ link: `${i}-${i}`, value: height/4 }],
+        outputs: [],
+        material: node1.material,
+      }
+      this.column2.push(node2);
+
+      next += height + padding;
+    }
   }
 }

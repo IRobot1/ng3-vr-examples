@@ -130,6 +130,7 @@ import { ActionsExample } from '../examples/actons/actions.component';
 import { SankeyExample } from '../examples/sankey/sankey.component';
 import { LinkCurve } from '../examples/sankey/link-curve/link-curve.component';
 import { LinkPin } from '../examples/sankey/link-pin/link-pin.component';
+import { SankeyNode } from '../examples/sankey/sankey-node/sankey-node.component';
 
 
 
@@ -263,6 +264,7 @@ import { LinkPin } from '../examples/sankey/link-pin/link-pin.component';
     ActionsExample,
 
     SankeyExample,
+    SankeyNode,
     LinkCurve,
     LinkPin,
   ],

@@ -3,8 +3,6 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { Mesh, Shape, ShapeGeometry, SplineCurve, Vector2 } from "three";
 import { make, NgtObjectProps, NgtTriple } from "@angular-three/core";
 
-import { LinkPin } from "../link-pin/link-pin.component";
-
 @Component({
   selector: 'link-curve',
   exportAs: 'linkCurve',
@@ -12,37 +10,36 @@ import { LinkPin } from "../link-pin/link-pin.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LinkCurve extends NgtObjectProps<Mesh> {
-  @Input() startpin!: LinkPin;
-  @Input() endpin!: LinkPin;
+  private _startposition?: NgtTriple;
+  @Input()
+  get startposition(): NgtTriple | undefined { return this._startposition }
+  set startposition(newvalue: NgtTriple | undefined) {
+    this._startposition = newvalue;
+    if (newvalue)
+      this.updatecurve();
+  }
+
+  private _endposition?: NgtTriple;
+  @Input()
+  get endposition(): NgtTriple | undefined { return this._endposition }
+  set endposition(newvalue: NgtTriple | undefined) {
+    this._endposition = newvalue;
+    if (newvalue)
+      this.updatecurve();
+  }
+
   @Input() linewidth = 0.005;
 
   protected mesh!: Mesh;
 
-  private startposition!: NgtTriple;
-  private endposition!: NgtTriple;
-
-  override ngOnInit() {
-    super.ngOnInit();
-
-    this.startposition = this.startpin.position;
-    this.endposition = this.endpin.position;
-
-    this.startpin.change.subscribe(position => {
-      this.startposition = position;
-      this.updatecurve();
-    });
-
-    this.endpin.change.subscribe(position => {
-      this.endposition = position;
-      this.updatecurve();
-    });
-
-
+  protected meshready(mesh: Mesh) {
+    this.mesh = mesh;
     this.updatecurve();
-  }
-
+}
 
   private updatecurve() {
+    if (!(this.mesh && this.startposition && this.endposition)) return;
+
     if (this.mesh.geometry) this.mesh.geometry.dispose();
 
     const start = make(Vector2, this.startposition);
@@ -50,7 +47,7 @@ export class LinkCurve extends NgtObjectProps<Mesh> {
 
     const startplus = start.clone()
     const endplus = end.clone()
-    const diff = Math.abs(start.x - end.x)/4;
+    const diff = Math.abs(start.x - end.x) / 4;
 
     startplus.x += diff;
     endplus.x -= diff;
