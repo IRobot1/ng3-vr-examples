@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { Mesh, MeshBasicMaterial, Vector3 } from "three";
-import { make, NgtObjectProps, NgtVector3 } from "@angular-three/core";
+import { make, NgtEvent, NgtObjectProps, NgtVector3 } from "@angular-three/core";
 
 export interface SankeyValue {
   value: number;
@@ -40,25 +40,7 @@ export class SankeyNode extends NgtObjectProps<Mesh> implements SankeyNodeData {
   get inputs(): Array<SankeyValue> { return this._inputs }
   set inputs(newvalue: Array<SankeyValue>) {
     this._inputs = newvalue;
-    if (!newvalue.length) return;
-
-    const total = newvalue.map(item => item.value).reduce((accum, curr) => accum + curr);
-
-    const position = make(Vector3, this.position).clone();
-    position.x -= this.width / 2;
-
-    let next = 0//-this.height/2;
-    newvalue.forEach(item => {
-      const fraction = item.value / total;
-
-      position.y = next + (fraction * this.height) / 2;
-
-      const event: SankeyPinEvent = { center: position, link: item.link, size: fraction /2, isinput: true }
-      console.warn(event)
-      this.valuechange.next(event)
-
-      next += fraction * this.height;
-    });
+    this.notify(newvalue, true, make(Vector3, this.position).clone())
   }
 
   private _outputs: Array<SankeyValue> = [];
@@ -66,21 +48,38 @@ export class SankeyNode extends NgtObjectProps<Mesh> implements SankeyNodeData {
   get outputs(): Array<SankeyValue> { return this._outputs }
   set outputs(newvalue: Array<SankeyValue>) {
     this._outputs = newvalue;
+    this.notify(newvalue, false, make(Vector3, this.position).clone())
+  }
+
+  @Output() valuechange = new EventEmitter<SankeyPinEvent>();
+
+  private notify(newvalue: Array<SankeyValue>, isinput: boolean, position: Vector3) {
     if (!newvalue.length) return;
 
     const total = newvalue.map(item => item.value).reduce((accum, curr) => accum + curr);
 
-    const position = make(Vector3, this.position).clone();
-    position.x += this.width / 2;
+    if (isinput)
+      position.x -= this.width / 2;
+    else
+      position.x += this.width / 2;
 
-    let next = -this.height / 2;
+    let nexty = position.y - this.height / 2; // start at bottom of card
+
     newvalue.forEach(item => {
-      const fraction = item.value / total;
-      position.y = next + (fraction * this.height) / 2;
-      this.valuechange.next({ center: position, link: item.link, size: fraction, isinput: false })
-      next += fraction * this.height;
+      const fractionoftotal = item.value / total;
+      const fractionofheight = this.height * fractionoftotal;
+
+      position.y = nexty + fractionofheight / 2;
+
+      const event: SankeyPinEvent = { center: position, link: item.link, size: fractionofheight / 2, isinput: isinput }
+      this.valuechange.next(event)
+
+      nexty += fractionofheight;
     });
   }
 
-  @Output() valuechange = new EventEmitter<SankeyPinEvent>();
+  protected cardmoved(position: Vector3) {
+    this.notify(this.inputs, true, position)
+    this.notify(this.outputs, false, position)
+  }
 }

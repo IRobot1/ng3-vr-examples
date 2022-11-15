@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 
 import { BufferGeometry, Intersection, Line, Material, Mesh, Object3D, Shape, ShapeGeometry, Vector3 } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
@@ -61,6 +61,8 @@ export class FlatUICard extends NgtObjectProps<Mesh>{
   }
 
   @Input() geometry!: BufferGeometry;
+
+  @Output() moved = new EventEmitter<Vector3>();
 
   @ContentChild('card') card?: TemplateRef<unknown>;
 
@@ -171,6 +173,8 @@ export class FlatUICard extends NgtObjectProps<Mesh>{
 
       this.panel.position.x += event.point.x - position.x;
       this.panel.position.y += event.point.y - position.y;
+
+      this.moved.next(this.panel.position.clone());
     }
     this.over();
   }

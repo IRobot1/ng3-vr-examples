@@ -32,16 +32,17 @@ export class SankeyExample implements OnInit {
     }
     if (change.isinput)
       link.end = change.center.toArray();
-    else
+    else {
       link.start = change.center.toArray();
+    }
   }
 
   ngOnInit(): void {
     let next = 0;
     let padding = 0.02;
 
-    for (let i = 0; i < 1; i++) {
-      const height = 1// 0.4 * Math.random();
+    for (let i = 0; i < 10; i++) {
+      const height = 0.4 * Math.random();
 
       const node1: SankeyNodeData = {
         position: [0, next + height / 2 + padding, 0],

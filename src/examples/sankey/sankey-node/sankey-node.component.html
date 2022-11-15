@@ -1,4 +1,5 @@
-<flat-ui-card [position]="position" [width]="width" [height]="height" [cardmaterial]="material" [allowdragging]="false">
+<flat-ui-card [position]="position" [width]="width" [height]="height" [cardmaterial]="material" [allowdragging]="true"
+              (moved)="cardmoved($event)">
   <ng-template #card let-parent="parent">
     <ngt-group [appendTo]="parent">
       

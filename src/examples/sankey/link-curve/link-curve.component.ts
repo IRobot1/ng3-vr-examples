@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
-import { Mesh, Shape, ShapeGeometry, SplineCurve, Vector2 } from "three";
+import { Material, Mesh, Shape, ShapeGeometry, SplineCurve, Vector2 } from "three";
 import { make, NgtObjectProps, NgtTriple } from "@angular-three/core";
+
+import { GlobalFlatUITheme } from "ng3-flat-ui";
 
 @Component({
   selector: 'link-curve',
@@ -29,6 +31,16 @@ export class LinkCurve extends NgtObjectProps<Mesh> {
   }
 
   @Input() linewidth = 0.005;
+
+  private _linkmaterial?: Material;
+  @Input()
+  get linkmaterial(): Material {
+    if (this._linkmaterial) return this._linkmaterial;
+    return GlobalFlatUITheme.TitleMaterial;
+  }
+  set linkmaterial(newvalue: Material) {
+    this._linkmaterial = newvalue;
+  }
 
   protected mesh!: Mesh;
 
