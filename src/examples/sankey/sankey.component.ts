@@ -49,6 +49,7 @@ export class SankeyExample implements OnInit {
   ngOnInit(): void {
     const padding = 0.02;
     const maxheight = 0.4;  // height of largest node
+    const spacing = 0.5
 
     let largestvalue = 0;
 
@@ -107,16 +108,19 @@ export class SankeyExample implements OnInit {
     let nodes = this.nodes.filter(node => node.inputs.length == 0);
 
     let accumheight = 0;
-    nodes.forEach((column,index) => {
+    nodes.forEach((column, index) => {
       included.set(column.name, column);
 
-      column.position = [0, accumheight + column.height / 2 + padding, 0.001 * (index+1)]
+      column.position = [0, accumheight + column.height / 2 + padding, 0.001 * (index + 1)]
       accumheight += column.height + padding;
     });
     this.columns.push(nodes);
 
     nodes = this.nodes.filter(node => node.inputs.length != 0);
     nodes.forEach(column => notincluded.set(column.name, column));
+
+    // anything without an output, must be right most
+    const lastnodes = this.nodes.filter(node => node.outputs.length == 0);
 
     let columnindex = 1;
     while (notincluded.size > 0) {
@@ -135,18 +139,38 @@ export class SankeyExample implements OnInit {
         if (count == node.inputs.length) {
           columns.push(node);
 
-          node.position = [columnindex, accumheight + node.height / 2 + padding, 0.001 * columns.length]
+          node.position = [columnindex * spacing, accumheight + node.height / 2 + padding, 0.001 * columns.length]
           accumheight += node.height + padding;
         }
       })
 
-      this.columns.push(columns);
-      columnindex++;
-
       columns.forEach(node => {
         included.set(node.name, node);
         notincluded.delete(node.name);
+      });
+
+      // remove node if it has no outputs.  It will be moved later to last columns
+      lastnodes.forEach(last => {
+        const index = columns.findIndex(node => node == last);
+        if (index != -1)
+          columns.splice(index, 1);
       })
+
+      if (columns.length)
+        this.columns.push(columns);
+
+      columnindex++;
     }
+
+    // backup to last column
+    columnindex--;
+
+    // redistribute nodes in right most column
+    accumheight = 0;
+    lastnodes.forEach((column, index) => {
+      column.position = [columnindex * spacing, accumheight + column.height / 2 + padding, 0.001 * (index + 1)]
+      accumheight += column.height + padding;
+    });
+    this.columns.push(lastnodes);
   }
 }
