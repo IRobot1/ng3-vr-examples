@@ -4,7 +4,7 @@
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
-<ngt-mesh-basic-material #redmaterial color="red"></ngt-mesh-basic-material>
+<!--<ngt-mesh-basic-material #redmaterial color="red"></ngt-mesh-basic-material>
 <ngt-mesh-basic-material #limematerial color="lime"></ngt-mesh-basic-material>
 <ngt-mesh-basic-material #magentamaterial color="magenta"></ngt-mesh-basic-material>
 <ngt-mesh-basic-material #yellowmaterial color="yellow"></ngt-mesh-basic-material>
@@ -13,16 +13,17 @@
 <flat-ui-node-type #stringtype [name]="'string'" [icon]="'circle'" [material]="redmaterial.instance.value"></flat-ui-node-type>
 <flat-ui-node-type #numbertype [name]="'number'" [icon]="'circle'" [material]="limematerial.instance.value"></flat-ui-node-type>
 <flat-ui-node-type #colortype [name]="'color'" [icon]="'circle'" [material]="magentamaterial.instance.value"></flat-ui-node-type>
-<flat-ui-node-type #checktype [name]="'checkbox'" [icon]="'circle'" [material]="cornflowermaterial.instance.value"></flat-ui-node-type>
+<flat-ui-node-type #checktype [name]="'checkbox'" [icon]="'circle'" [material]="cornflowermaterial.instance.value"></flat-ui-node-type>-->
 
-<flat-ui-node-card [title]="'Material'" [position]="[0, 1.3, 0]" [width]="1" [selectable]="selectable">
-  <flat-ui-node-pin [name]="'string'" [type]="stringtype"></flat-ui-node-pin>
-  <flat-ui-node-pin [name]="'number'" [type]="numbertype"></flat-ui-node-pin>
-  <flat-ui-node-pin [input]="false" [name]="'color'" [type]="colortype"></flat-ui-node-pin>
-  <flat-ui-node-pin [input]="false" [name]="'checkbox'" [type]="checktype"></flat-ui-node-pin>
+<flat-ui-node-card [title]="'Material'" [position]="[0, 1.3, 0]" [inputexec]="exec" [width]="1" [selectable]="selectable" [inputs]="inputs" [outputs]="outputs">
+  <!--<flat-ui-node-pin [name]="'string'" [type]="stringtype"></flat-ui-node-pin>
+  <flat-ui-node-pin [name]="'number'" [type]="numbertype"></flat-ui-node-pin>-->
+
+  <!--<flat-ui-node-pin [input]="false" [name]="'color'" [type]="colortype"></flat-ui-node-pin>
+  <flat-ui-node-pin [input]="false" [name]="'checkbox'" [type]="checktype"></flat-ui-node-pin>-->
 </flat-ui-node-card>
 
 <vr-controller navhome></vr-controller>
 <vr-controller [index]="1" navhome></vr-controller>
 
-<ngt-soba-orbit-controls></ngt-soba-orbit-controls>
+<ngt-soba-orbit-controls [enableRotate]="false"></ngt-soba-orbit-controls>

@@ -12,7 +12,6 @@ export interface NodePin {
   type: NodeType;
   name: string;
   value?: any;
-  change: EventEmitter<NodePin>;
 }
 
 
@@ -24,7 +23,7 @@ export interface NodePin {
 })
 export class FlatUINodePin implements OnInit, NodePin {
   @Input() input = true;
-  @Input() seqnum = 0;
+  @Input() seqnum = -1;
   @Input() type!: NodeType;
   @Input() name = 'pin';
   @Input() value?: any;
@@ -38,12 +37,9 @@ export class FlatUINodePin implements OnInit, NodePin {
   ngOnInit(): void {
     if (!this.node) return;
 
-    let seqnum = 0
     if (this.input)
-      seqnum = this.node.addinput(this);
+      this.node.addinput(this);
     else
-      seqnum = this.node.addoutput(this);
-
-    if (this.seqnum == 0) this.seqnum = seqnum;
+      this.node.addoutput(this);
   }
 }

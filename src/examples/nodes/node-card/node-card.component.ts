@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
 import { Group } from "three";
-import { NgtObjectProps, NgtTriple } from "@angular-three/core";
+import { NgtObjectProps } from "@angular-three/core";
 
 import { InteractiveObjects } from "ng3-flat-ui";
 
@@ -23,15 +23,37 @@ export interface NodeCard {
 })
 export class FlatUINodeCard extends NgtObjectProps<Group> implements NodeCard {
   @Input() title = 'node';
-  @Input() inputs: Array<NodePin> = [];
-  @Input() outputs: Array<NodePin> = [];
   @Input() width = 1;
   @Input() height = 1;
+
+  @Input() preview = true;
+  @Input() inputexec = true;
+  @Input() outputexec = true;
+
+  previewwidth = 0.4;
+  previewheight = 0.4;
+
+
+  private _inputs: Array<NodePin> = [];
+  @Input()
+  get inputs(): Array<NodePin> { return this._inputs }
+  set inputs(newvalue: Array<NodePin>) {
+    this._inputs = newvalue.sort((a, b) => a.seqnum - b.seqnum);
+  }
+
+  private _outputs: Array<NodePin> = [];
+  @Input()
+  get outputs(): Array<NodePin> { return this._outputs }
+  set outputs(newvalue: Array<NodePin>) {
+    this._outputs = newvalue.sort((a, b) => a.seqnum - b.seqnum);
+  }
 
   @Input() selectable?: InteractiveObjects;
 
   addinput(input: NodePin): number {
-    return this.inputs.push(input);
+    const seqnum = this.inputs.push(input);
+    if (input.seqnum <= 0) input.seqnum = seqnum;
+    return seqnum;
   }
 
   removeinput(input: NodePin) {
@@ -39,7 +61,9 @@ export class FlatUINodeCard extends NgtObjectProps<Group> implements NodeCard {
   }
 
   addoutput(output: NodePin): number {
-    return this.outputs.push(output);
+    const seqnum = this.outputs.push(output);
+    if (output.seqnum <= 0) output.seqnum = seqnum;
+    return seqnum;
   }
 
   removeoutput(output: NodePin) {
