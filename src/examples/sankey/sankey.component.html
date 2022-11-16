@@ -4,29 +4,25 @@
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
-<ngt-group [position]="[0, 0.5, -1]">
+<ngt-group [position]="[-3, 0.5, -1]">
 
-  <sankey-node *ngFor="let item of column1"
-               [selectable]="selectable"
-               [position]="item.position" [material]="item.material"
-               [width]="item.width" [height]="item.height"
-               [inputs]="item.inputs" [outputs]="item.outputs"
-               (valuechange)="updatelink($event)">
-  </sankey-node>
+  <ng-container *ngFor="let column of columns">
 
-  <sankey-node *ngFor="let item of column2"
-               [selectable]="selectable"
-               [position]="item.position" [material]="item.material"
-               [width]="item.width" [height]="item.height"
-               [inputs]="item.inputs" [outputs]="item.outputs"
-               (valuechange)="updatelink($event)">
-  </sankey-node>
+    <sankey-node *ngFor="let item of column"
+                 [selectable]="selectable"
+                 [position]="item.position" [material]="item.material"
+                 [width]="item.width" [height]="item.height"
+                 [inputs]="item.inputs" [outputs]="item.outputs"
+                 (valuechange)="updatelink($event)">
+    </sankey-node>
 
-  <link-curve *ngFor="let item of links" [startposition]="item.start" [endposition]="item.end" [linewidth]="item.size"></link-curve>-->
+  </ng-container>
+
+  <link-curve *ngFor="let item of links" [startposition]="item.start" [endposition]="item.end" [linewidth]="item.size"></link-curve>
 
 </ngt-group>
 
 <vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
 <vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
 
-<ngt-soba-orbit-controls [enableRotate]="false"></ngt-soba-orbit-controls>
+<ngt-soba-orbit-controls [enableRotate]="true"></ngt-soba-orbit-controls>

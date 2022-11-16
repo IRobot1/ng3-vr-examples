@@ -6,11 +6,15 @@ import { make, NgtObjectProps, NgtVector3 } from "@angular-three/core";
 import { InteractiveObjects } from "ng3-flat-ui";
 
 export interface SankeyValue {
+  source: number; // node index
+  target: number; // node index
+
   value: number;
-  link: string;
+  link: string; // unique string based on source and target
 }
 
 export interface SankeyNodeData {
+  name: string;
   position: NgtVector3; // center of rectangle
   width: number;
   height: number;

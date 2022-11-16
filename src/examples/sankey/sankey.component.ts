@@ -6,6 +6,7 @@ import { NgtTriple } from "@angular-three/core";
 import { InteractiveObjects } from "ng3-flat-ui";
 
 import { SankeyNodeData, SankeyPinEvent } from "./sankey-node/sankey-node.component";
+import { loadenergy } from "./sankey-energy";
 
 interface SankeyLink {
   name: string;
@@ -19,12 +20,12 @@ interface SankeyLink {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SankeyExample implements OnInit {
-  selectable = new InteractiveObjects();
+  private nodes: Array<SankeyNodeData> = [];
 
-  column1: Array<SankeyNodeData> = [];
-  column2: Array<SankeyNodeData> = [];
+  protected selectable = new InteractiveObjects();
 
-  links: Array<SankeyLink> = [];
+  protected columns: Array<Array<SankeyNodeData>> = [];
+  protected links: Array<SankeyLink> = [];
 
   constructor(private cd: ChangeDetectorRef) { }
 
@@ -46,33 +47,106 @@ export class SankeyExample implements OnInit {
   }
 
   ngOnInit(): void {
-    let next = 0;
-    let padding = 0.02;
+    const padding = 0.02;
+    const maxheight = 0.4;  // height of largest node
 
-    for (let i = 1; i < 11; i++) {
-      const height = Math.max(0.1, 0.4 * Math.random());
+    let largestvalue = 0;
 
-      const node1: SankeyNodeData = {
-        position: [0, next + height / 2 + padding, 0.001 * i],
+    // creation nodes without layout information
+    loadenergy.nodes.forEach((item, index) => {
+      const node: SankeyNodeData = {
+        name: item.name,
+        position: [0, 0, 0],
         width: 0.1,
-        height: height,
+        height: 0,
         inputs: [],
-        outputs: [{ link: `${i}-${i}`, value: height / 4 }],
+        outputs: [],
         material: new MeshBasicMaterial({ color: '#' + new Color(Math.random() * 0xffffff).getHexString() }),
       }
-      this.column1.push(node1)
+      const outputs = loadenergy.links.filter(item => item.source == index);
+      let total = 0;
+      outputs.forEach(output => {
+        node.outputs.push({ source: output.source, target: output.target, link: `${output.source}-${output.target}`, value: output.value })
+        total += output.value;
+      });
 
-      const node2: SankeyNodeData = {
-        position: [1, next + height / 2 + padding, 0.001 * i],
-        width: 0.1,
-        height: node1.height,
-        inputs: [{ link: `${i}-${i}`, value: height / 4 }],
-        outputs: [],
-        material: node1.material,
-      }
-      this.column2.push(node2);
+      // temporary store in height
+      node.height = total;
 
-      next += height + padding;
+      const inputs = loadenergy.links.filter(item => item.target == index);
+      total = 0;
+      inputs.forEach(input => {
+        node.inputs.push({ source: input.source, target: input.target, link: `${input.source}-${input.target}`, value: input.value })
+        total += input.value;
+      });
+
+      // use the greater of the two heights
+      if (total > node.height) node.height = total;
+
+      // track the largest node.  Other nodes will eventually be scaled relative to this
+      if (node.height > largestvalue) largestvalue = node.height;
+
+      this.nodes.push(node);
+    });
+
+
+    //
+    // now calculate layout information
+    //
+
+    // calculate node heights.  Ensure minimum is big enough to see
+    this.nodes.forEach(column => {
+      column.height = Math.max(0.04, column.height / largestvalue * maxheight);
+    })
+
+    // track nodes already included and not included in layout
+    const included = new Map<string, SankeyNodeData>([]);
+    const notincluded = new Map<string, SankeyNodeData>([]);
+
+    // anything without an input, must be left most
+    let nodes = this.nodes.filter(node => node.inputs.length == 0);
+
+    let accumheight = 0;
+    nodes.forEach((column,index) => {
+      included.set(column.name, column);
+
+      column.position = [0, accumheight + column.height / 2 + padding, 0.001 * (index+1)]
+      accumheight += column.height + padding;
+    });
+    this.columns.push(nodes);
+
+    nodes = this.nodes.filter(node => node.inputs.length != 0);
+    nodes.forEach(column => notincluded.set(column.name, column));
+
+    let columnindex = 1;
+    while (notincluded.size > 0) {
+      const columns: Array<SankeyNodeData> = [];
+      accumheight = 0;
+
+      // now find nodes where all inputs are included in nodes to left
+      Array.from(notincluded.values()).forEach(node => {
+        let count = 0;
+        node.inputs.forEach(input => {
+          const name = this.nodes[input.source].name
+          if (included.has(name)) count++;
+        })
+
+        // if all inputs are included
+        if (count == node.inputs.length) {
+          columns.push(node);
+
+          node.position = [columnindex, accumheight + node.height / 2 + padding, 0.001 * columns.length]
+          accumheight += node.height + padding;
+        }
+      })
+
+      this.columns.push(columns);
+      columnindex++;
+
+      columns.forEach(node => {
+        included.set(node.name, node);
+        notincluded.delete(node.name);
+      })
     }
   }
 }
