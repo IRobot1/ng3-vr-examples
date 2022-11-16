@@ -26,9 +26,9 @@ export class FlatUINodeCard extends NgtObjectProps<Group> implements NodeCard {
   @Input() width = 1;
   @Input() height = 1;
 
-  @Input() preview = true;
-  @Input() inputexec = true;
-  @Input() outputexec = true;
+  @Input() preview = false;
+  @Input() inputexec = false;
+  @Input() outputexec = false;
 
   previewwidth = 0.4;
   previewheight = 0.4;
