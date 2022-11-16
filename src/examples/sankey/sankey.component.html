@@ -4,6 +4,8 @@
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
+<ngt-mesh-basic-material #linkmaterial color="#444"></ngt-mesh-basic-material>
+
 <ngt-group [position]="[-3, 0.5, -1]">
 
   <ng-container *ngFor="let column of columns">
@@ -18,7 +20,10 @@
 
   </ng-container>
 
-  <link-curve *ngFor="let item of links" [startposition]="item.start" [endposition]="item.end" [linewidth]="item.size"></link-curve>
+  <link-curve *ngFor="let item of links"
+              [startposition]="item.start" [endposition]="item.end"
+              [linewidth]="item.size" [linkmaterial]="linkmaterial.instance.value">
+  </link-curve>
 
 </ngt-group>
 

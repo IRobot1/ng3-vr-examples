@@ -59,7 +59,7 @@ export class LinkCurve extends NgtObjectProps<Mesh> {
 
     const startplus = start.clone()
     const endplus = end.clone()
-    const diff = Math.abs(start.x - end.x) / 4;
+    const diff = Math.abs(start.x - end.x) / 3;
 
     startplus.x += diff;
     endplus.x -= diff;

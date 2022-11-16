@@ -87,7 +87,7 @@ export class SankeyNode extends NgtObjectProps<Mesh> implements SankeyNodeData {
   }
 
   protected cardmoved(position: Vector3) {
-    this.notify(this.inputs, true, position)
+    this.notify(this.inputs, true, position.clone())
     this.notify(this.outputs, false, position)
   }
 }

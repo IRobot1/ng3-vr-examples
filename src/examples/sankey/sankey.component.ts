@@ -35,7 +35,7 @@ export class SankeyExample implements OnInit {
       link = { name: change.link, size: change.size }
       this.links.push(link);
     }
-    else {
+    else if (!change.isinput) {
       link.size = change.size;
     }
     if (change.isinput)
