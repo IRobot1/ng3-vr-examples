@@ -1,11 +1,13 @@
 import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 
-import { BufferGeometry, Intersection, Line, Material, Mesh, Object3D, Shape, Vector3 } from "three";
+import { BufferGeometry, Group, Intersection, Line, Material, Mesh, Object3D, Shape, Vector3 } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
+import { HEIGHT_CHANGED_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
+import { DRAG_END_EVENT, DRAG_START_EVENT } from "../drag-and-drop";
 
 @Component({
   selector: 'flat-ui-drag-panel',
@@ -13,7 +15,7 @@ import { InteractiveObjects } from "../interactive-objects";
   templateUrl: './drag-panel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
+export class FlatUIDragPanel extends NgtObjectProps<Group>{
   private _title = '';
   @Input()
   get title(): string { return this._title }
@@ -31,11 +33,25 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   set width(newvalue: number) {
     this._width = newvalue;
     this.createOutline();
+
+    if (this.panel) {
+      this.panel.dispatchEvent({ type: WIDTH_CHANGED_EVENT });
+    }
+  }
+
+  private _height = 1;
+  @Input()
+  get height(): number { return this._height }
+  set height(newvalue: number) {
+    this._height = newvalue;
+    this.createOutline();
+
+    if (this.panel) {
+      this.panel.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
+    }
   }
 
   @Input() minwidth = 0.5;
-
-  @Input() height = 1;
   @Input() minheight = 0.5;
 
   @Input() resizable = false;
@@ -154,6 +170,7 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     this.selectable?.remove(this.mesh);
   }
 
+  panel!: Mesh;
   protected panelready(panel: Mesh) {
     panel.visible = false;
     // when expanding, hide long enough for layout to complete once
@@ -161,6 +178,7 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
       panel.visible = true;
       clearTimeout(timer)
     }, 150)
+    this.panel = panel;
   }
 
   private line!: Line;
@@ -182,6 +200,17 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     this.isover = false;
   }
 
+  protected startdragging() {
+    this.dragging = true;
+    this.over();
+    this.panel.dispatchEvent({ type: DRAG_START_EVENT })
+  }
+
+  protected enddragging() {
+    this.dragging = false;
+    this.out();
+    this.panel.dispatchEvent({ type: DRAG_END_EVENT, position: this.panel.position })
+  }
 
   private mesh!: Mesh;
 
@@ -193,17 +222,15 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
 
     mesh.addEventListener('pointerdown', (e: any) => {
       if (this.locked) return;
-      this.dragging = true;
+      this.startdragging();
       panel.lookAt(camera.position);
       e.controller.attach(panel);
-      this.over();
     });
 
     const dragend = (e: any) => {
       if (this.locked) return;
-      this.dragging = false;
+      this.enddragging();
       scene.attach(panel);
-      this.out();
       e.stop = true;
     };
 

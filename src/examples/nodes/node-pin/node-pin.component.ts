@@ -12,6 +12,7 @@ export interface NodePin {
   type: NodeType;
   name: string;
   value?: any;
+  link: string;
 }
 
 
@@ -27,6 +28,7 @@ export class FlatUINodePin implements OnInit, NodePin {
   @Input() type!: NodeType;
   @Input() name = 'pin';
   @Input() value?: any;
+  @Input() link = '';
 
   @Output() change = new EventEmitter<NodePin>();
 

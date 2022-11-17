@@ -15,7 +15,7 @@
 <flat-ui-node-type #colortype [name]="'color'" [icon]="'circle'" [material]="magentamaterial.instance.value"></flat-ui-node-type>
 <flat-ui-node-type #checktype [name]="'checkbox'" [icon]="'circle'" [material]="cornflowermaterial.instance.value"></flat-ui-node-type>-->
 
-<flat-ui-node-card *ngFor="let card of cards"
+<flat-ui-node-card *ngFor="let card of cards" (ready)="cardready($event)"
                    [title]="card.title" [position]="card.position" [width]="card.width"
                    [selectable]="selectable"
                    [inputs]="card.inputs" [outputs]="card.outputs">

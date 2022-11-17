@@ -6,7 +6,7 @@ import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
-import { roundedRect } from "../flat-ui-utils";
+import { HEIGHT_CHANGED_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { DRAG_END_EVENT, DRAG_START_EVENT } from "../drag-and-drop";
 
 @Component({
@@ -22,6 +22,10 @@ export class FlatUICard extends NgtObjectProps<Mesh>{
   set width(newvalue: number) {
     this._width = newvalue;
     this.updateCardGeometry();
+
+    if (this.panel) {
+      this.panel.dispatchEvent({ type: WIDTH_CHANGED_EVENT });
+    }
   }
 
 
@@ -31,6 +35,10 @@ export class FlatUICard extends NgtObjectProps<Mesh>{
   set height(newvalue: number) {
     this._height = newvalue;
     this.updateCardGeometry();
+
+    if (this.panel) {
+      this.panel.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
+    }
   }
 
   @Input() selectable?: InteractiveObjects;

@@ -1,6 +1,7 @@
-<flat-ui-drag-panel [title]="title" [scalable]="false" [resizable]="true"
+<flat-ui-drag-panel [title]="title" [scalable]="false" [resizable]="true" [selectable]="selectable"
                     [width]="width" [height]="height" (heightchange)="height=$event" (widthchange)="width=$event"
-                    [position]="position" [rotation]="rotation" [scale]="scale" [selectable]="selectable">
+                    [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale"
+                    (ready)="panelready($event)">
   <ng-template let-parent="parent">
     <ngt-group [appendTo]="parent" [position]="[0, height/2, 0.001]">
       <ngt-group *ngIf="inputexec" [position]="[-width/2, -0.05, 0.001]">
@@ -15,8 +16,8 @@
 
       <ngt-group vertical-layout [position]="[-width/2, inputexec ? -0.1 : 0, 0.001]">
 
-        <ngt-group *ngFor="let item of inputs; index as index">
-          <flat-ui-material-icon [text]="item.type.icon" [labelmaterial]="item.type.material" [position]="[0, 0, 0.001]"></flat-ui-material-icon>
+        <ngt-group *ngFor="let item of internalinputs; index as index">
+          <flat-ui-material-icon [text]="item.type.icon" [labelmaterial]="item.type.material" [position]="[0, 0, 0.001]" (ready)="item.object=$event"></flat-ui-material-icon>
           <flat-ui-label [text]="item.name" [width]="0" [position]="[0.06, 0, 0.001]"></flat-ui-label>
         </ngt-group>
 
@@ -24,8 +25,8 @@
       </ngt-group>
 
       <ngt-group vertical-layout [position]="[width/2, outputexec ? -0.1 : 0, 0.001]">
-        <ngt-group *ngFor="let item of outputs; index as index">
-          <flat-ui-material-icon [text]="item.type.icon" [labelmaterial]="item.type.material" [position]="[0, 0, 0.001]"></flat-ui-material-icon>
+        <ngt-group *ngFor="let item of internaloutputs; index as index">
+          <flat-ui-material-icon [text]="item.type.icon" [labelmaterial]="item.type.material" [position]="[0, 0, 0.001]"  (ready)="item.object=$event"></flat-ui-material-icon>
           <flat-ui-label [text]="item.name" [width]="0" [alignx]="'right'" [position]="[-0.06, 0, 0.001]"></flat-ui-label>
         </ngt-group>
       </ngt-group>
