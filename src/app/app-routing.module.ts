@@ -34,10 +34,12 @@ import { DataGridExample } from '../examples/data-grid/data-grid.component';
 import { ListsExample } from '../examples/lists/lists.component';
 import { KanbanExample } from '../examples/kanban/kanban.component';
 import { ActionsExample } from '../examples/actons/actions.component';
+import { EmptyExample } from '../examples/empty/empty.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'viewer', component: HomeComponent },
+  { path: 'empty', component: EmptyExample },
   { path: 'ballshooter', component: BallshooterExample },
   { path: 'dragging', component: DraggingExample },
   { path: 'handinput', component: HandInputExample },

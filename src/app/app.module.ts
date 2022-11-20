@@ -127,6 +127,7 @@ import { DataGridExample } from '../examples/data-grid/data-grid.component';
 import { ListsExample } from '../examples/lists/lists.component';
 import { KanbanExample } from '../examples/kanban/kanban.component';
 import { ActionsExample } from '../examples/actons/actions.component';
+import { EmptyExample } from '../examples/empty/empty.component';
 
 
 
@@ -159,6 +160,7 @@ import { ActionsExample } from '../examples/actons/actions.component';
     PlanetComponent,
     RotatingSquaresComponent,
 
+    EmptyExample,
     BallshooterExample,
     ShootDirective,
 
