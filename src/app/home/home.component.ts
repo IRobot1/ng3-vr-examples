@@ -5,7 +5,7 @@ import { CameraService } from '../camera.service';
 import { Intersection, Object3D } from 'three';
 import { ActivatedRoute, Router } from '@angular/router';
 
-class PanelSetting {
+export class PanelSetting {
   constructor(public position: NgtTriple, public rotation: number, public asset: string, public text: string) { }
 }
 
@@ -47,6 +47,7 @@ export class HomeComponent implements OnInit {
     { asset: 'flat-ui', text: 'Flat UI' },
     { asset: 'kanban', text: 'Kanban Board' },
     { asset: 'actions', text: 'Actions' },
+    { asset: 'forum', text: 'Forum Examples' },
   ]
 
   panels1: Array<PanelSetting> = [];

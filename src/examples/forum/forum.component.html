@@ -1,0 +1,31 @@
+<ngt-color attach="background" color="gray"></ngt-color>
+
+<ngt-mesh>
+  <ngt-cylinder-geometry [args]="[1, 1, 0.1, 32]"></ngt-cylinder-geometry>
+</ngt-mesh>
+
+<ngt-point-light intensity="0.75" [position]="[0, 1, 0]"></ngt-point-light>
+
+<ngt-group [position]="[0, 1, 0]">
+  <ngt-group *ngFor="let item of panels1" [rotation]="[0, item.rotation | radian, 0]">
+    <portal [asset]="item.asset" [text]="item.text" [position]="[0, 0, -3]" [selectable]="selectable" (portalSelected)="selected($event)"></portal>
+  </ngt-group>
+</ngt-group>
+
+<ngt-group [position]="[0, -0.5, 0]">
+  <ngt-group *ngFor="let item of panels2" [rotation]="[0, item.rotation | radian, 0]">
+    <portal [asset]="item.asset" [text]="item.text" [position]="[0, 0, -3]" [rotation]="[-30 | radian, 0, 0]" [selectable]="selectable" (portalSelected)="selected($event)"></portal>
+  </ngt-group>
+</ngt-group>
+
+<vr-controller showcontroller trackedpointer
+               select [selectable]="selectable" (selected)="intersected($event)"
+               (selectHighlight)="highlight($event)" (selectUnhighlight)="unhighlight($event)">
+</vr-controller>
+
+<vr-controller [index]="1" showcontroller trackedpointer
+               select [selectable]="selectable" (selected)="intersected($event)"
+               (selectHighlight)="highlight($event)" (selectUnhighlight)="unhighlight($event)">
+</vr-controller>
+
+<ngt-soba-orbit-controls></ngt-soba-orbit-controls>
