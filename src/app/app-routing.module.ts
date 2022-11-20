@@ -35,6 +35,7 @@ import { ListsExample } from '../examples/lists/lists.component';
 import { KanbanExample } from '../examples/kanban/kanban.component';
 import { ActionsExample } from '../examples/actons/actions.component';
 import { ForumExamples } from '../examples/forum/forum.component';
+import { InstCubesExample } from '../examples/forum/inst-cubes/inst-cubes.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -72,6 +73,7 @@ const routes: Routes = [
   { path: 'kanban', component: KanbanExample },
   { path: 'actions', component: ActionsExample },
   { path: 'forum', component: ForumExamples },
+  { path: 'instcubes', component: InstCubesExample },
 ];
 
 @NgModule({

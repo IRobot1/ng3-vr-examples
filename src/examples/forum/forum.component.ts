@@ -12,7 +12,7 @@ import { PanelSetting } from '../../app/home/home.component';
 })
 export class ForumExamples implements OnInit {
   examples1 = [
-    { asset: 'ballshooter', text: 'Ball Shooter' },
+    { asset: 'instcubes', text: 'Instance Cubes' },
   ]
 
   examples2 = [

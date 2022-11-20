@@ -128,6 +128,7 @@ import { ListsExample } from '../examples/lists/lists.component';
 import { KanbanExample } from '../examples/kanban/kanban.component';
 import { ActionsExample } from '../examples/actons/actions.component';
 import { ForumExamples } from '../examples/forum/forum.component';
+import { InstCubesExample } from '../examples/forum/inst-cubes/inst-cubes.component';
 
 
 
@@ -261,6 +262,7 @@ import { ForumExamples } from '../examples/forum/forum.component';
     ActionsExample,
 
     ForumExamples,
+    InstCubesExample,
   ],
   imports: [
     BrowserModule,
