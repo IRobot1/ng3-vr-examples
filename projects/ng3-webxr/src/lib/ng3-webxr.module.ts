@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 
-import { NgtGroupModule } from '@angular-three/core/group';
-
 import { HighlightDirective } from './vr/highlight.directive';
 import { ShowControllerDirective } from './vr/showcontroller.directive';
 import { TeleportDirective } from './vr/teleport.directive';
@@ -16,7 +14,7 @@ import { GUIPointerDirective } from './vr/guipointer.directive';
 
 
 @NgModule({
-  declarations: [
+  imports: [
     GUIPointerDirective,
     HighlightDirective,
     ShowControllerDirective,
@@ -28,9 +26,6 @@ import { GUIPointerDirective } from './vr/guipointer.directive';
     ARControllerComponent,
     ARGesturesComponent,
     WebARDirective,
-  ],
-  imports: [
-    NgtGroupModule,
   ],
   exports: [
     GUIPointerDirective,

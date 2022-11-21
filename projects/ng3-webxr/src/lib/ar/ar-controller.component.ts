@@ -6,10 +6,15 @@ import { Group, Object3D, WebXRManager } from "three";
 import { NgtRenderState, NgtStore } from "@angular-three/core";
 
 import { WebARService } from "./webar.service";
+import { NgtGroupModule } from "@angular-three/core/group";
 
 @Component({
   selector: 'ar-controller',
   template: '<ngt-group (beforeRender)="tick($event)"></ngt-group>',
+  standalone: true,
+  imports: [
+    NgtGroupModule,
+    ]
 })
 export class ARControllerComponent implements OnInit, OnDestroy {
   @Input() index = 0;

@@ -11,6 +11,8 @@ import { VRControllerComponent } from "./vr-controller.component";
 
 @Directive({
   selector: '[showcontroller]',
+  exportAs: 'showController',
+  standalone: true,
 })
 export class ShowControllerDirective implements OnInit, OnDestroy {
   private _enabled: BooleanInput = true;

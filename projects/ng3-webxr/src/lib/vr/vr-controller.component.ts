@@ -6,6 +6,7 @@ import { Group, Object3D, Vector2, WebXRManager } from "three";
 import { NgtRenderState, NgtStore } from "@angular-three/core";
 
 import { WebVRService } from "./webvr.service"; 
+import { NgtGroupModule } from "@angular-three/core/group";
 
 
 export class ConnectedEvent {
@@ -18,7 +19,12 @@ export class AxisEvent {
 
 @Component({
   selector: 'vr-controller',
+  exportAs: 'VRController',
   template: '<ngt-group (beforeRender)="tick($event)"></ngt-group>',
+  standalone: true,
+  imports: [
+    NgtGroupModule
+    ]
 })
 export class VRControllerComponent implements OnInit, OnDestroy {
   @Input() index = 0;

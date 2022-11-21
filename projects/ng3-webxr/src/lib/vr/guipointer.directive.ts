@@ -8,6 +8,8 @@ import { VRControllerComponent } from "./vr-controller.component";
 
 @Directive({
   selector: '[guipointer]',
+  exportAs: 'guiPointer',
+  standalone: true,
 })
 export class GUIPointerDirective implements OnInit, OnDestroy {
   private _enabled: BooleanInput = true;

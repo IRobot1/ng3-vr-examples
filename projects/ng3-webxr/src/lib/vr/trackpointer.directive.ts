@@ -9,6 +9,8 @@ import { VRControllerComponent } from "./vr-controller.component";
 
 @Directive({
   selector: '[trackedpointer]',
+  exportAs: 'trackedPointer',
+  standalone: true,
 })
 export class TrackedPointerDirective implements OnInit, OnDestroy {
   private _enabled: BooleanInput = true;

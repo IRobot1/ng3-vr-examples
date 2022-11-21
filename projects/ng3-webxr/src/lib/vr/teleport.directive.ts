@@ -9,6 +9,8 @@ import { VRControllerComponent } from "./vr-controller.component";
 
 @Directive({
   selector: '[teleport]',
+  exportAs: 'teleport',
+  standalone: true,
 })
 export class TeleportDirective implements OnInit, OnDestroy {
   private _teleportEnabled: BooleanInput = true;

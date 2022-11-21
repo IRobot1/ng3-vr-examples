@@ -8,6 +8,8 @@ import { WebVRService } from "./webvr.service";
 
 @Directive({
   selector: '[webvr]',
+  exportAs: 'webVR',
+  standalone: true,
 })
 export class WebVRDirective implements OnInit {
   @Input() referenceSpaceType: XRReferenceSpaceType = 'local-floor';

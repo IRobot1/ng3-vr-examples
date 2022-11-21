@@ -26,6 +26,7 @@ class FingerState {
 @Component({
   selector: 'ar-gestures',
   template: '',
+  standalone: true,
 })
 export class ARGesturesComponent implements OnInit, OnDestroy {
   @Input() doubleClickLimit = 0.2;

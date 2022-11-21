@@ -10,6 +10,8 @@ import { VRControllerComponent } from "./vr-controller.component";
 
 @Directive({
   selector: '[highlight]',
+  exportAs: 'highlight',
+  standalone: true,
 })
 export class HighlightDirective implements OnInit, OnDestroy {
   private _enabled: BooleanInput = true;

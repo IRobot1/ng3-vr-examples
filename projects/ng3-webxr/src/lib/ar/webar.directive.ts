@@ -8,6 +8,8 @@ import { WebARService } from "./webar.service";
 
 @Directive({
   selector: '[webar]',
+  exportAs: 'webAR',
+  standalone: true,
 })
 export class WebARDirective implements OnInit {
   @Input() referenceSpaceType: XRReferenceSpaceType = 'viewer';
