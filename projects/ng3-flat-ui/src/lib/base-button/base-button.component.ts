@@ -1,18 +1,30 @@
 import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 
 import { BufferGeometry, Line, Material, Mesh, Shape, ShapeGeometry } from "three";
-import { NgtEvent, NgtObjectProps } from "@angular-three/core";
+import { NgtEvent, NgtObjectPassThrough, NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgtMesh } from "@angular-three/core/meshes";
+import { NgtLine } from "@angular-three/core/lines";
+import { NgTemplateOutlet } from "@angular/common";
 
 @Component({
   selector: 'flat-ui-base-button',
   exportAs: 'flatUIBaseButton',
   templateUrl: './base-button.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgtGroup,
+    NgtMesh,
+    NgtLine,
+    NgtObjectPassThrough,
+    NgTemplateOutlet,
+    ]
 })
 export class FlatUIBaseButton extends NgtObjectProps<Mesh>  {
   @Input() text = '';

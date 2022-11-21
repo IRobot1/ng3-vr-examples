@@ -11,6 +11,7 @@ import { HEIGHT_CHANGED_EVENT } from "./flat-ui-utils";
 @Directive({
   selector: '[vertical-layout]',
   exportAs: 'verticalLayout',
+  standalone: true
 })
 export class VerticalLayoutDirective implements OnInit, OnDestroy {
   private _margin: NgtVector2 = 0;

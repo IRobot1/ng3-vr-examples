@@ -6,12 +6,23 @@ import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 import { NgtObjectProps } from "@angular-three/core";
+import { FlatUIBaseButton } from "../base-button/base-button.component";
+import { NgTemplateOutlet } from "@angular/common";
+import { NgtSobaText } from "@angular-three/soba/abstractions";
+import { NgIf } from "@angular/common";
 
 @Component({
   selector: 'flat-ui-button',
   exportAs: 'flatUIButton',
   templateUrl: './button.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    FlatUIBaseButton,
+    NgtSobaText,
+    NgIf,
+    NgTemplateOutlet,
+    ]
 })
 export class FlatUIButton extends NgtObjectProps<Mesh> {
   @Input() text = '';

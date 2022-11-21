@@ -7,12 +7,23 @@ import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgtMesh } from "@angular-three/core/meshes";
+import { NgtLine } from "@angular-three/core/lines";
+import { NgtSobaText } from "@angular-three/soba/abstractions";
 
 @Component({
   selector: 'flat-ui-input-text',
   exportAs: 'flatUIInputText',
   templateUrl: './input-text.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgtGroup,
+    NgtMesh,
+    NgtLine,
+    NgtSobaText,
+  ]
 })
 export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewInit, UIInput {
   private _text = '';

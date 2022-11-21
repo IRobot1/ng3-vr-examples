@@ -4,12 +4,21 @@ import { Group, Material } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { GlobalFlatUITheme } from "../flat-ui-theme";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgtObjectPassThrough } from "@angular-three/core";
+import { NgtSobaText } from "@angular-three/soba/abstractions";
 
 @Component({
   selector: 'flat-ui-material-icon',
   exportAs: 'flatUIMaterialIcon',
   templateUrl: './material-icon.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgtGroup,
+    NgtObjectPassThrough,
+    NgtSobaText,
+  ]
 })
 export class FlatUIMaterialIcon extends NgtObjectProps<Group> {
   private _text = '';

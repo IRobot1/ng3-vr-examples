@@ -7,6 +7,14 @@ import { LAYOUT_EVENT, Paging, roundedRect } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgtMesh } from "@angular-three/core/meshes";
+import { NgtLine } from "@angular-three/core/lines";
+import { NgtPlaneGeometry } from "@angular-three/core/geometries";
+import { NgIf, NgTemplateOutlet } from "@angular/common";
+import { FlatUIButton } from "../button/button.component";
+import { FlatUIPaginator } from "../paginator/paginator.component";
+import { NgFor } from "@angular/common";
 
 export interface ListItem {
   text: string,
@@ -21,6 +29,18 @@ class ListData {
   selector: 'flat-ui-list',
   exportAs: 'flatUIList',
   templateUrl: './list.component.html',
+  standalone: true,
+  imports: [
+    NgFor,
+    NgIf,
+    NgTemplateOutlet,
+    NgtGroup,
+    NgtMesh,
+    NgtLine,
+    NgtPlaneGeometry,
+    FlatUIButton,
+    FlatUIPaginator
+  ]
 })
 export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, Paging {
   @Input() list: Array<ListItem> = [];

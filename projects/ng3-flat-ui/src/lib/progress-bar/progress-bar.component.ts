@@ -5,12 +5,17 @@ import { NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
+import { NgtMesh } from "@angular-three/core/meshes";
 
 @Component({
   selector: 'flat-ui-progress-bar',
   exportAs: 'flatUIProgressBar',
   templateUrl: './progress-bar.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgtMesh,
+  ]
 })
 export class FlatUIProgressBar extends NgtObjectProps<Mesh> implements AfterViewInit {
   private _value = 0;

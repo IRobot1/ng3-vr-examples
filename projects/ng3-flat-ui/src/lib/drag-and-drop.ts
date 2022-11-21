@@ -37,6 +37,7 @@ export class DropListService {
 @Directive({
   selector: '[drop-list]',
   exportAs: 'dropList',
+  standalone: true,
 })
 export class DropListDirective implements OnInit {
 
@@ -68,7 +69,8 @@ export class DropListDirective implements OnInit {
 
 @Directive({
   selector: '[draggable]',
-  exportAs: 'draggable'
+  exportAs: 'draggable',
+  standalone: true,
 })
 export class DraggableDirective implements OnInit {
   constructor(

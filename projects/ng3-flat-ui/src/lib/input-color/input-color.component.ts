@@ -7,12 +7,21 @@ import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED
 
 import { InteractiveObjects } from "../interactive-objects";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgtMesh } from "@angular-three/core/meshes";
+import { NgtLine } from "@angular-three/core/lines";
 
 @Component({
   selector: 'flat-ui-input-color',
   exportAs: 'flatUIInputColor',
   templateUrl: './input-color.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgtGroup,
+    NgtMesh,
+    NgtLine,
+  ]
 })
 export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewInit, UIInput {
   private _text = GlobalFlatUITheme.ButtonColor;
@@ -92,7 +101,7 @@ export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewI
     this.outline.center();
 
     flat = new Shape();
-    roundedRect(flat, 0, 0, this.width-0.01, this.height-0.01, 0.02);
+    roundedRect(flat, 0, 0, this.width - 0.01, this.height - 0.01, 0.02);
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();

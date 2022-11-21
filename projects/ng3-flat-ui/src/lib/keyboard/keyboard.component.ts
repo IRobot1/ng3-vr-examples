@@ -7,6 +7,10 @@ import { roundedRect } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgtMesh } from "@angular-three/core/meshes";
+import { NgFor } from "@angular/common";
+import { FlatUIButton } from "../button/button.component";
 
 
 class KeySetting {
@@ -21,6 +25,13 @@ type KeyCase = 'lower' | 'upper' | 'numbers';
   selector: 'flat-ui-keyboard',
   exportAs: 'flatUIKeyboard',
   templateUrl: './keyboard.component.html',
+  standalone: true,
+  imports: [
+    NgFor,
+    NgtGroup,
+    NgtMesh,
+    FlatUIButton,
+  ]
 })
 export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
   @Input() text: string = ''

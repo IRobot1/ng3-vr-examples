@@ -5,11 +5,20 @@ import { NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
+import { NgtMesh } from "@angular-three/core/meshes";
+import { NgtPlaneGeometry } from "@angular-three/core/geometries";
+import { NgtObjectPassThrough } from "@angular-three/core";
 
 @Component({
   selector: 'flat-ui-divider',
   exportAs: 'flatUIDivider',
   templateUrl: './divider.component.html',
+  standalone: true,
+  imports: [
+    NgtMesh,
+    NgtPlaneGeometry,
+    NgtObjectPassThrough,
+  ]
 })
 export class FlatUIDivider extends NgtObjectProps<Mesh> implements AfterViewInit {
 

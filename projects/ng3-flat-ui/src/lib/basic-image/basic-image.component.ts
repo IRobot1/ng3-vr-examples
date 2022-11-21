@@ -1,26 +1,40 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, Line, Material, Mesh, MeshBasicMaterial, Shape, Texture, TextureLoader } from "three";
-import { NgtEvent, NgtLoader, NgtObjectProps } from "@angular-three/core";
+import { NgtEvent, NgtLoader, NgtObjectPassThrough, NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 import { InteractiveObjects } from "../interactive-objects";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgtMesh } from "@angular-three/core/meshes";
+import { NgtPlaneGeometry } from "@angular-three/core/geometries";
+import { NgtMeshBasicMaterial } from "@angular-three/core/materials";
+import { NgtLine } from "@angular-three/core/lines";
 
 @Component({
   selector: 'flat-ui-basic-image',
   exportAs: 'flatUIBasicImage',
   templateUrl: './basic-image.component.html',
+  standalone: true,
+  imports: [
+    NgtGroup,
+    NgtMesh,
+    NgtPlaneGeometry,
+    NgtMeshBasicMaterial,
+    NgtLine,
+    NgtObjectPassThrough,
+  ]
 })
 export class FlatUIBasicImage extends NgtObjectProps<Mesh> implements AfterViewInit {
   @Input()
   set map(newvalue: string) {
-      const s = this.loader.use(TextureLoader, newvalue).subscribe(next => {
-        this.maptexture = next;
-      },
-        () => { },
-        () => { s.unsubscribe(); }
-      );
+    const s = this.loader.use(TextureLoader, newvalue).subscribe(next => {
+      this.maptexture = next;
+    },
+      () => { },
+      () => { s.unsubscribe(); }
+    );
   }
   @Input() maptexture!: Texture;
 

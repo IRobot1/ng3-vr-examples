@@ -8,6 +8,12 @@ import { FlatUITab } from "../tab/tab.component";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { InteractiveObjects } from "../interactive-objects";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgtMesh } from "@angular-three/core/meshes";
+import { NgtPlaneGeometry } from "@angular-three/core/geometries";
+import { NgFor, NgIf } from "@angular/common";
+import { NgTemplateOutlet } from "@angular/common";
+import { FlatUIButton } from "../button/button.component";
 
 export type FlatUITabHeaderPosition = 'above' | 'below';
 
@@ -16,6 +22,16 @@ export type FlatUITabHeaderPosition = 'above' | 'below';
   exportAs: 'flatUITabGroup',
   templateUrl: './tab-group.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgFor,
+    NgIf,
+    NgTemplateOutlet,
+    NgtGroup,
+    NgtMesh,
+    NgtPlaneGeometry,
+    FlatUIButton,
+  ]
 })
 export class FlatUITabGroup extends NgtObjectProps<Group> {
   private _label: any;
@@ -137,7 +153,7 @@ export class FlatUITabGroup extends NgtObjectProps<Group> {
     }
     this.xoffset += tab.tabwidth / 2
     tab.position.x = this.xoffset;
-    tab.position.y = this.height / 2 - this.tabheight/2;
+    tab.position.y = this.height / 2 - this.tabheight / 2;
     // move to the bottom of the panel
     if (this.tabheader == 'below') tab.position.y = -tab.position.y;
     this.xoffset += (tab.tabwidth / 2 + 0.01); // add small space between tabs

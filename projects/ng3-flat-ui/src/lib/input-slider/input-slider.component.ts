@@ -7,12 +7,23 @@ import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } 
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgtMesh } from "@angular-three/core/meshes";
+import { NgtLine } from "@angular-three/core/lines";
+import { NgtCircleGeometry } from "@angular-three/core/geometries";
 
 @Component({
   selector: 'flat-ui-input-slider',
   exportAs: 'flatUIInputSlider',
   templateUrl: './input-slider.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgtGroup,
+    NgtMesh,
+    NgtLine,
+    NgtCircleGeometry,
+  ]
 })
 export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterViewInit {
   private _value = 0;
@@ -140,7 +151,7 @@ export class FlatUIInputSlider extends NgtObjectProps<Mesh> implements AfterView
     if (this.min != undefined && this.max != undefined) {
       return MathUtils.mapLinear(this.value, this.min, this.max, -this.width / 2, this.width / 2);
     }
-    return this.width / 2 ;
+    return this.width / 2;
   }
 
   protected innerscale = 0.7;

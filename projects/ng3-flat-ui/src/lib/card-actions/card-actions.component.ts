@@ -7,6 +7,13 @@ import { NgtObjectProps } from "@angular-three/core";
 import { FlatUICard } from "../card/card.component";
 import { CardAction } from "../card-action/card-action.component";
 import { InteractiveObjects } from "../interactive-objects";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgTemplateOutlet } from "@angular/common";
+import { FlatUILabel } from "../label/label.component";
+import { NgFor } from "@angular/common";
+import { NgIf } from "@angular/common";
+import { FlatUIMaterialIcon } from "../material-icon/material-icon.component";
+import { FlatUIBaseButton } from "../base-button/base-button.component";
 
 
 @Component({
@@ -14,6 +21,16 @@ import { InteractiveObjects } from "../interactive-objects";
   exportAs: 'flatUICardActions',
   templateUrl: './card-actions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgTemplateOutlet,
+    NgFor,
+    NgIf,
+    NgtGroup,
+    FlatUIBaseButton,
+    FlatUILabel,
+    FlatUIMaterialIcon,
+  ]
 })
 export class FlatUICardActions extends NgtObjectProps<Group> {
   @Input() actions: Array<CardAction> = [];

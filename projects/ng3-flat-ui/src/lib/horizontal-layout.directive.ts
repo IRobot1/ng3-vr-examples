@@ -10,6 +10,7 @@ import { WIDTH_CHANGED_EVENT } from "./flat-ui-utils";
 @Directive({
   selector: '[horizontal-layout]',
   exportAs: 'horizontalLayout',
+  standalone: true,
 })
 export class HorizontalLayoutDirective implements OnInit, OnDestroy {
   private _margin: NgtVector2 = 0;

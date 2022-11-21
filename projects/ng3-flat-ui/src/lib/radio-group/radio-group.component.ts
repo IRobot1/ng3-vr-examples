@@ -4,6 +4,9 @@ import { Group } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { FlatUIRadioButton } from "../radio-button/radio-button.component";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgIf } from "@angular/common";
+import { NgTemplateOutlet } from "@angular/common";
 
 
 @Component({
@@ -11,9 +14,15 @@ import { FlatUIRadioButton } from "../radio-button/radio-button.component";
   exportAs: 'flatUIRadioGroup',
   templateUrl: './radio-group.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    NgtGroup,
+  ]
 })
 export class FlatUIRadioGroup extends NgtObjectProps<Group> {
-private _value: any;
+  private _value: any;
   @Input()
   get value(): any { return this._value }
   set value(newvalue: any) {

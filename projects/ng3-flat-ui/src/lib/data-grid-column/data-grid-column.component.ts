@@ -7,7 +7,8 @@ import { FlatUIDataGrid } from "../data-grid/data-grid.component";
   selector: 'flat-ui-data-grid-column[name]',
   exportAs: 'flatUIDataGridColumn',
   template: '', // rendered in data grid
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class FlatUIDataGridColumn implements OnInit {
   @Input() name!: string;

@@ -6,29 +6,34 @@ import { NgtObjectProps } from "@angular-three/core";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { FlatUITabGroup } from "../tab-group/tab-group.component";
+import { NgtGroup } from "@angular-three/core/group";
 
 
 @Component({
   selector: 'flat-ui-tab',
   exportAs: 'flatUITab',
   templateUrl: './tab.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgtGroup,
+  ]
 })
 export class FlatUITab extends NgtObjectProps<Mesh> {
   @Input() label: string = 'tab'
 
-  private _text! : string;
+  private _text!: string;
   @Input()
-  get text(): string  {
+  get text(): string {
     if (this._text) return this._text;
     return this.label;
   }
-  set text(newvalue: string ) {
+  set text(newvalue: string) {
     this._text = newvalue;
 
     let text = this.label;
     if (newvalue) text = newvalue;
-    
+
     this.displaytitle = text.substring(0, this.overflow * this.tabwidth);
   }
 

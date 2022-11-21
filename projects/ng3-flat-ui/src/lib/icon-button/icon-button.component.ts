@@ -7,13 +7,24 @@ import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } 
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgtMesh } from "@angular-three/core/meshes";
+import { NgtLine } from "@angular-three/core/lines";
+import { FlatUIIcon } from "../icon/icon.component";
 
 
 @Component({
   selector: 'flat-ui-icon-button',
   exportAs: 'flatUIIconButton',
   templateUrl: './icon-button.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgtGroup,
+    NgtMesh,
+    NgtLine,
+    FlatUIIcon,
+  ]
 })
 export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewInit {
   @Input() url?: string;

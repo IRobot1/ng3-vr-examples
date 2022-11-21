@@ -17,6 +17,7 @@ export interface CardAction {
   exportAs: 'flatUICardAction',
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
 })
 export class FlatUICardAction implements OnInit, CardAction {
   @Input() position = [0, 0, 0] as NgtTriple

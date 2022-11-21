@@ -1,14 +1,5 @@
 import { NgModule } from '@angular/core';
 
-import { NgtCanvasModule, NgtObjectPassThrough, NgtRadianPipeModule } from '@angular-three/core';
-import { NgtBoxGeometryModule, NgtBufferGeometryModule, NgtCircleGeometryModule, NgtPlaneGeometryModule, NgtRingGeometryModule } from '@angular-three/core/geometries';
-import { NgtGroupModule } from '@angular-three/core/group';
-import { NgtMeshBasicMaterialModule, NgtLineBasicMaterialModule, } from '@angular-three/core/materials';
-import { NgtMeshModule } from '@angular-three/core/meshes';
-import { NgtLineModule } from '@angular-three/core/lines';
-
-import { NgtSobaTextModule } from '@angular-three/soba/abstractions';
-
 import { FlatUIBaseButton } from './base-button/base-button.component';
 import { FlatUIButton } from './button/button.component';
 import { FlatUIColorPicker } from './color-picker/color-picker.component';
@@ -30,7 +21,6 @@ import { FlatUIProgressBar } from './progress-bar/progress-bar.component';
 import { FlatUIRadioButton } from './radio-button/radio-button.component';
 import { FlatUISelect } from './select/select.component';
 import { VerticalLayoutDirective } from './vertical-layout.directive';
-import { CommonModule } from '@angular/common';
 import { FlatUIRadioGroup } from './radio-group/radio-group.component';
 import { FlatUIIcon } from './icon/icon.component';
 import { FlatUITab } from './tab/tab.component';
@@ -51,16 +41,16 @@ import { FlatUICardAction } from './card-action/card-action.component';
 
 
 @NgModule({
-  declarations: [
+  imports: [
     FlatUIAvatar,
     FlatUIBaseButton,
+    FlatUIBasicImage,
     FlatUIButton,
     FlatUICard,
-    FlatUICardActions,
     FlatUICardAction,
+    FlatUICardActions,
     FlatUIIcon,
     FlatUIIconButton,
-    FlatUIBasicImage,
     FlatUIDivider,
     FlatUIInputCheckbox,
     FlatUIInputColor,
@@ -69,56 +59,32 @@ import { FlatUICardAction } from './card-action/card-action.component';
     FlatUIInputText,
     FlatUIInputTextArea,
     FlatUIInputToggle,
-    FlatUILabel,
-    FlatUIMaterialIcon,
     FlatUIProgressBar,
     FlatUIRadioButton,
     FlatUIRadioGroup,
     FlatUISelect,
     FlatUITab,
     FlatUITabGroup,
+    FlatUILabel,
+    FlatUIMaterialIcon,
 
     FlatUIColorPicker,
     FlatUIKeyboard,
     FlatUIList,
     FlatUINumpad,
 
+    FlatUIPaginator,
     FlatUIDragPanel,
     FlatUIExpansionPanel,
 
     FlatUIDataGrid,
     FlatUIDataGridColumn,
-    FlatUIPaginator,
 
     HorizontalLayoutDirective,
     VerticalLayoutDirective,
 
     DropListDirective,
     DraggableDirective,
-  ],
-  imports: [
-    CommonModule,
-
-    NgtCanvasModule,
-    NgtRadianPipeModule,
-    NgtObjectPassThrough,
-
-    NgtMeshModule,
-    NgtLineModule,
-    NgtGroupModule,
-
-    NgtBufferGeometryModule,
-    NgtBoxGeometryModule,
-    NgtPlaneGeometryModule,
-    NgtCircleGeometryModule,
-    NgtRingGeometryModule,
-
-    NgtMeshBasicMaterialModule,
-    NgtLineBasicMaterialModule,
-
-    // soba
-    NgtSobaTextModule,
-
   ],
   exports: [
     FlatUIAvatar,

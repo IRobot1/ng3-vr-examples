@@ -8,12 +8,20 @@ import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 import { FlatUIRadioGroup } from "../radio-group/radio-group.component";
+import { NgtMesh } from "@angular-three/core/meshes";
+import { NgtCircleGeometry, NgtRingGeometry } from "@angular-three/core/geometries";
 
 @Component({
   selector: 'flat-ui-radio-button',
   exportAs: 'flatUIRadioButton',
   templateUrl: './radio-button.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgtMesh,
+    NgtRingGeometry,
+    NgtCircleGeometry,
+  ]
 })
 export class FlatUIRadioButton extends NgtObjectProps<Mesh> implements AfterViewInit {
   @Input() value: any;

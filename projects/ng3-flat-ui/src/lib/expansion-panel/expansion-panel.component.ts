@@ -1,19 +1,37 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef } from "@angular/core";
 
 import { Group, Material, Mesh, Object3D } from "three";
-import { NgtObjectProps } from "@angular-three/core";
+import { NgtObjectPassThrough, NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgtMesh } from "@angular-three/core/meshes";
+import { NgtSobaText } from "@angular-three/soba/abstractions";
+import { NgIf } from "@angular/common";
+import { NgTemplateOutlet } from "@angular/common";
+import { NgtPlaneGeometry } from "@angular-three/core/geometries";
+import { FlatUIButton } from "../button/button.component";
 
 
 @Component({
   selector: 'flat-ui-expansion-panel',
   exportAs: 'flatUIExpansionPanel',
   templateUrl: './expansion-panel.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgIf,
+    NgTemplateOutlet,
+    NgtGroup,
+    NgtMesh,
+    NgtPlaneGeometry,
+    NgtObjectPassThrough,
+    NgtSobaText,
+    FlatUIButton,
+  ]
 })
 export class FlatUIExpansionPanel extends NgtObjectProps<Mesh> implements AfterViewInit {
   private _title = '';

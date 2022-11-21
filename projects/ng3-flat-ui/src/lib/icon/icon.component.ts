@@ -9,16 +9,21 @@ import { BufferGeometryUtils } from "..//BufferGeometryUtils";
 
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 import { LAYOUT_EVENT } from "../flat-ui-utils";
+import { NgtMesh } from "@angular-three/core/meshes";
 
 
 @Component({
   selector: 'flat-ui-icon',
   exportAs: 'flatUIIcon',
   templateUrl: './icon.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgtMesh,
+  ]
 })
 export class FlatUIIcon extends NgtObjectProps<Mesh> implements AfterViewInit {
-  @Input()  set url(newvalue: string | undefined) {
+  @Input() set url(newvalue: string | undefined) {
     if (newvalue) {
       this.load(newvalue);
     }

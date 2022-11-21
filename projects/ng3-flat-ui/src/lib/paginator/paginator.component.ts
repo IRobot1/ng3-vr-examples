@@ -5,6 +5,12 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 
 import { InteractiveObjects } from "../interactive-objects";
 import { Paging } from "../flat-ui-utils";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgtObjectPassThrough } from "@angular-three/core";
+import { NgFor } from "@angular/common";
+import { FlatUIButton } from "../button/button.component";
+import { FlatUILabel } from "../label/label.component";
+import { NgIf } from "@angular/common";
 
 class PageButtonData {
   constructor(public position: NgtTriple, public text: string) { }
@@ -15,6 +21,15 @@ class PageButtonData {
   exportAs: 'flatUIPaginator',
   templateUrl: './paginator.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgFor,
+    NgIf,
+    NgtGroup,
+    NgtObjectPassThrough,
+    FlatUIButton,
+    FlatUILabel,
+  ]
 })
 export class FlatUIPaginator extends NgtObjectProps<Group> {
   @Input() paging!: Paging;

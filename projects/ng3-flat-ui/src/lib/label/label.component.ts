@@ -1,10 +1,12 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
 import { Group, Material, Object3D } from "three";
-import { NgtObjectProps } from "@angular-three/core";
+import { NgtObjectPassThrough, NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgtSobaText } from "@angular-three/soba/abstractions";
 
 export type LabelAlignX = 'left' | 'center' | 'right';
 export type LabelAlignY = 'top' | 'top-baseline' | 'middle' | 'bottom-baseline' | 'bottom';
@@ -13,10 +15,16 @@ export type LabelAlignY = 'top' | 'top-baseline' | 'middle' | 'bottom-baseline' 
   selector: 'flat-ui-label',
   exportAs: 'flatUILabel',
   templateUrl: './label.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgtObjectPassThrough,
+    NgtGroup,
+    NgtSobaText,
+  ]
 })
 export class FlatUILabel extends NgtObjectProps<Group> implements AfterViewInit {
-private _text = '';
+  private _text = '';
   @Input()
   get text(): string { return this._text }
   set text(newvalue: string) {
@@ -28,15 +36,15 @@ private _text = '';
   @Input() fontsize = 0.07;
 
   protected get x(): number {
-    if (this.alignx == 'left') 
+    if (this.alignx == 'left')
       return -this.width / 2 + 0.01;
-    if (this.alignx == 'right') 
+    if (this.alignx == 'right')
       return this.width / 2 - 0.01;
     return 0;
   }
 
-  @Input() alignx: LabelAlignX  = 'left';
-  @Input() aligny: LabelAlignY  = 'middle';
+  @Input() alignx: LabelAlignX = 'left';
+  @Input() aligny: LabelAlignY = 'middle';
 
   @Input() enabled = false; // doesn't do anything, just avoids error when switching from input-textarea or input-text
 

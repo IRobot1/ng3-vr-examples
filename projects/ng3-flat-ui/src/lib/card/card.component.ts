@@ -8,12 +8,23 @@ import { GlobalFlatUITheme } from "../flat-ui-theme";
 import { InteractiveObjects } from "../interactive-objects";
 import { roundedRect } from "../flat-ui-utils";
 import { DRAG_END_EVENT, DRAG_START_EVENT } from "../drag-and-drop";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgtMesh } from "@angular-three/core/meshes";
+import { NgTemplateOutlet } from "@angular/common";
+import { NgtLine } from "@angular-three/core/lines";
 
 @Component({
   selector: 'flat-ui-card',
   exportAs: 'flatUICard',
   templateUrl: './card.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgtGroup,
+    NgtMesh,
+    NgtLine,
+    NgTemplateOutlet,
+  ]
 })
 export class FlatUICard extends NgtObjectProps<Mesh>{
   private _width = 1

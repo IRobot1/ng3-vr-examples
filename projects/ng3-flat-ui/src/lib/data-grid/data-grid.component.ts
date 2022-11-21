@@ -1,10 +1,18 @@
 import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
+import { NgFor } from "@angular/common";
 
 import { Group } from "three";
 import { NgtObjectProps, NgtVector2 } from "@angular-three/core";
 
 import { FlatUIDataGridColumn } from "../data-grid-column/data-grid-column.component";
 import { Paging } from "../flat-ui-utils";
+import { NgtMesh } from "@angular-three/core/meshes";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgIf, NgTemplateOutlet } from "@angular/common";
+import { NgtObjectPassThrough } from "@angular-three/core";
+import { FlatUILabel } from "../label/label.component";
+import { HorizontalLayoutDirective } from "../horizontal-layout.directive";
+import { VerticalLayoutDirective } from "../vertical-layout.directive";
 
 class GridData {
   constructor(public data: any) { }
@@ -14,7 +22,19 @@ class GridData {
   selector: 'flat-ui-data-grid[datasource]',
   exportAs: 'flatUIDataGrid',
   templateUrl: './data-grid.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgFor,
+    NgIf,
+    NgTemplateOutlet,
+    NgtGroup,
+    NgtMesh,
+    NgtObjectPassThrough,
+    HorizontalLayoutDirective,
+    VerticalLayoutDirective,
+    FlatUILabel,
+  ]
 })
 export class FlatUIDataGrid extends NgtObjectProps<Group> implements Paging {
   @Input() vmargin: NgtVector2 = 0.01;

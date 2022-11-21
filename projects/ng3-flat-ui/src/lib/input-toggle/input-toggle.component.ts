@@ -7,12 +7,23 @@ import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, WIDTH_CHANGED_EVENT } 
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgtMesh } from "@angular-three/core/meshes";
+import { NgtLine } from "@angular-three/core/lines";
+import { NgtCircleGeometry } from "@angular-three/core/geometries";
 
 @Component({
   selector: 'flat-ui-input-toggle',
   exportAs: 'flatUIInputToggle',
   templateUrl: './input-toggle.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgtGroup,
+    NgtMesh,
+    NgtLine,
+    NgtCircleGeometry,
+  ]
 })
 export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterViewInit {
   private _checked = false;
@@ -161,7 +172,7 @@ export class FlatUIInputToggle extends NgtObjectProps<Mesh> implements AfterView
 
     this.mesh = mesh;
     this.setBackgroundColor();
-}
+  }
 
 
   private togglemesh!: Mesh;

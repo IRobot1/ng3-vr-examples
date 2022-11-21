@@ -7,6 +7,9 @@ import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 import { roundedRect } from "../flat-ui-utils";
+import { NgtMesh } from "@angular-three/core/meshes";
+import { NgtPlaneGeometry, NgtRingGeometry } from "@angular-three/core/geometries";
+import { NgtMeshBasicMaterial } from "@angular-three/core/materials";
 
 
 //
@@ -17,6 +20,13 @@ import { roundedRect } from "../flat-ui-utils";
   selector: 'flat-ui-color-picker',
   exportAs: 'flatUIColorPicker',
   templateUrl: './color-picker.component.html',
+  standalone: true,
+  imports: [
+    NgtMesh,
+    NgtPlaneGeometry,
+    NgtRingGeometry,
+    NgtMeshBasicMaterial,
+  ]
 })
 export class FlatUIColorPicker extends NgtObjectProps<Mesh> {
   @Input() colorvalue = '#ff0000';

@@ -1,18 +1,32 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, Line, Material, Mesh, Object3D, Shape, ShapeGeometry } from "three";
-import { NgtObjectProps } from "@angular-three/core";
+import { NgtObjectProps, NgtRadianPipe } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
+import { NgtGroup } from "@angular-three/core/group";
+import { NgtMesh } from "@angular-three/core/meshes";
+import { NgtLine } from "@angular-three/core/lines";
+import { NgtSobaText } from "@angular-three/soba/abstractions";
+import { NgtCircleGeometry } from "@angular-three/core/geometries";
 
 @Component({
   selector: 'flat-ui-select',
   exportAs: 'flatUISelect',
   templateUrl: './select.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgtRadianPipe,
+    NgtGroup,
+    NgtMesh,
+    NgtLine,
+    NgtCircleGeometry,
+    NgtSobaText,
+  ]
 })
 export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit, UIInput {
   private _text = '';
