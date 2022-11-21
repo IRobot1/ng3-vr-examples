@@ -87,8 +87,6 @@ import { SelectDirective } from '../examples/buttons/select.directive';
 import { MorphWallExample } from '../examples/morphwall/morphwall.component';
 import { ImageWallComponent } from '../examples/morphwall/image-wall/image-wall.component';
 import { DrawRangeComponent } from '../art/drawrange/drawrange.component';
-import { BoxLineGeometryComponent } from '../components/box-line-geometry.component';
-import { RoundedBoxGeometryComponent } from '../components/rounded-box-geometry.component';
 import { SpirographExample } from '../examples/spriograph/spirograph.component';
 import { TwoArmSpiroComponent } from '../examples/spriograph/two-arm-spiro/two-arm-spiro.component';
 import { SpiroMeshComponent } from '../examples/spriograph/spiro-mesh/spiro-mesh.component';
@@ -147,8 +145,6 @@ import { EmptyExample } from '../examples/empty/empty.component';
     FloorComponent,
 
     DrawRangeComponent,
-    BoxLineGeometryComponent,
-    RoundedBoxGeometryComponent,
     SpiralCircleComponent,
     WallClockComponent,
     SquareScaleComponent,
