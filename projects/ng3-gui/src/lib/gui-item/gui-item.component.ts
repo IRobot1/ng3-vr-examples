@@ -1,19 +1,38 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { NgTemplateOutlet, NgSwitchCase, NgSwitch } from "@angular/common";
 
-import { Color, Group } from "three";
-import { NgtObjectProps } from "@angular-three/core";
+import { Color } from "three";
+import { NgtGroup } from "@angular-three/core/group";
 
-import { FlatUIInputService, InteractiveObjects, ListItem } from "ng3-flat-ui";
+import { FlatUIInputCheckbox, FlatUIInputColor, HorizontalLayoutDirective, FlatUIButton, FlatUIInputNumber, FlatUIInputService, FlatUIInputSlider, FlatUIInputText, FlatUILabel, FlatUISelect, InteractiveObjects, ListItem } from "ng3-flat-ui";
 
-import { Controller, Ng3GUI } from "../ng3-gui";
+import { Controller } from "../ng3-gui";
+import { Ng3GUIFolderComponent } from "../gui-folder/gui-folder.component";
 
 @Component({
   selector: 'ng3-gui-item',
   exportAs: 'ng3GUIItem',
   templateUrl: './gui-item.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgSwitch,
+    NgSwitchCase,
+    NgTemplateOutlet,
+    NgtGroup,
+    HorizontalLayoutDirective,
+    FlatUIButton,
+    FlatUIInputCheckbox,
+    FlatUIInputColor,
+    FlatUIInputNumber,
+    FlatUIInputSlider,
+    FlatUIInputText,
+    FlatUILabel,
+    FlatUISelect,
+    Ng3GUIFolderComponent,
+  ]
 })
-export class Ng3GUIItemComponent  {
+export class Ng3GUIItemComponent {
   @Input() width = 1;
   @Input() item!: Controller;
 
@@ -66,7 +85,7 @@ export class Ng3GUIItemComponent  {
     if (item) {
       this.item.setValue(item.data);
     }
-}
+  }
 
   execute() {
     const func = this.item.object[this.item.property];
@@ -76,18 +95,3 @@ export class Ng3GUIItemComponent  {
 
 }
 
-//
-// move here to work around
-//  NG3003: One or more import cycles would need to be created to compile this component, which is not supported by the current compiler configuration.
-//
-
-@Component({
-  selector: 'ng3-gui-folder',
-  exportAs: 'ng3GUIFolder',
-  templateUrl: './gui-folder.component.html',
-})
-export class Ng3GUIFolderComponent extends NgtObjectProps<Group> {
-  @Input() gui!: Ng3GUI;
-
-  @Input() selectable?: InteractiveObjects;
-}
