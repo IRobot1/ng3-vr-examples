@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 
-import { MeshBasicMaterial } from "three";
+import { interval, Observable, Subscription } from "rxjs";
 
 import { createAvatar } from '@dicebear/avatars';
 import * as adventurer from '@dicebear/adventurer';
@@ -10,18 +10,18 @@ import * as bigears from '@dicebear/big-ears';
 import * as bigearsneutral from '@dicebear/big-ears-neutral';
 import * as bigsmile from '@dicebear/big-smile';
 import * as bottts from '@dicebear/avatars-bottts-sprites';
-import * as croodles from '@dicebear/croodles';
+//import * as croodles from '@dicebear/croodles';
 import * as croodlesneutral from '@dicebear/croodles-neutral';
 import * as identicon from '@dicebear/avatars-identicon-sprites';
-import * as initials from '@dicebear/avatars-initials-sprites';
+//import * as initials from '@dicebear/avatars-initials-sprites';
 import * as micah from '@dicebear/micah';
 import * as miniavs from '@dicebear/miniavs';
 import * as openpeeps from '@dicebear/open-peeps';
-import * as personas from '@dicebear/personas';
-import * as pixelart from '@dicebear/pixel-art';
-import * as pixelartneutral from '@dicebear/pixel-art-neutral';
-import { NgtTriple } from "@angular-three/core";
-import { Observable, Subscription, timer } from "rxjs";
+//import * as personas from '@dicebear/personas';
+//import * as pixelart from '@dicebear/pixel-art';
+//import * as pixelartneutral from '@dicebear/pixel-art-neutral';
+
+import { uniqueNamesGenerator, names } from 'unique-names-generator';
 
 interface DiceBearData {
   title: string;
@@ -46,6 +46,7 @@ export class DicebearExample implements OnInit {
     { title: 'bigears', style: bigears, size: 440, z: 0.1, rotation: 0, svg: '' },
     { title: 'bigearsneutral', style: bigearsneutral, size: 210, z: 0.1, rotation: 0, svg: '' },
     { title: 'bigsmile', style: bigsmile, size: 480, z: 0.1, rotation: 0, svg: '' },
+    // bottts sometimes renders incorrectly.  See console warning SVGLoader: Elliptic arc or ellipse rotation or skewing is not implemented.
     { title: 'bottts', style: bottts, size: 180, z: 0.1, rotation: 0, svg: '' },
     { title: 'croodlesneutral', style: croodlesneutral, size: 128, z: 0.1, rotation: 0, svg: '' },
     { title: 'identicon', style: identicon, size: 5, z: 0, rotation: 0, svg: '' },
@@ -61,7 +62,7 @@ export class DicebearExample implements OnInit {
     //{ style: pixelartneutral, size: 14, z: 0.1 },
   ]
 
-  private timer: Observable<number> = timer(0, 10 * 1000);
+  private timer: Observable<number> = interval(10 * 1000);
   private subs = new Subscription();
 
   ngOnInit(): void {
@@ -72,9 +73,12 @@ export class DicebearExample implements OnInit {
     });
 
     this.subs.add(this.timer.subscribe(() => {
+      this.title = uniqueNamesGenerator({ dictionaries: [names, names], separator: ' ', length: 2 });
       this.updateAvatars(this.title);
+      console.log(this.title)
     }));
 
+    this.updateAvatars(this.title);
   }
 
   updateAvatars(seed: any) {

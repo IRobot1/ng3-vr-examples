@@ -1,4 +1,4 @@
-import { EventEmitter, Component, Input, Output } from "@angular/core";
+import { EventEmitter, Component, Input, Output, ChangeDetectionStrategy } from "@angular/core";
 
 import { BufferGeometry, Color, ExtrudeGeometry, Group, Mesh, MeshStandardMaterial, ShapeGeometry } from "three";
 import { NgtObjectProps } from "@angular-three/core";
@@ -11,6 +11,7 @@ import { SVGLoader, SVGResult } from "three-stdlib";
   selector: 'dicebear-avatar',
   exportAs: 'diceBearAvatar',
   template: '<ngt-group #inst (ready)="group=inst.instance.value" [position]="position" [scale]="scale" [rotation]="rotation"></ngt-group>',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DiceBearAvatarComponent extends NgtObjectProps<Group> {
   @Input() size = 1;

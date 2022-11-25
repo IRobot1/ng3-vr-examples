@@ -7,14 +7,16 @@
 
 <ngt-soba-text [position]="[0, 3, -2.99]" [text]="'DiceBear Avatars - https://avatars.dicebear.com/'" [fontSize]="0.2"></ngt-soba-text>
 
-<ngt-group *ngFor="let currentstyle of styles" [rotation]="[0, currentstyle.rotation | radian, 0]">
-  <dicebear-avatar [size]="currentstyle.size" [zdisplacement]="currentstyle.z" [svg]="currentstyle.svg" [position]="[-0.5, 1.5, -3]"></dicebear-avatar>
+<ngt-group [position]="[0, 1, 0]">
+  <ngt-group *ngFor="let item of styles" [rotation]="[0, item.rotation | radian, 0]">
+    <dicebear-avatar [size]="item.size" [zdisplacement]="item.z" [svg]="item.svg" [position]="[-0.5, 0, -3]"></dicebear-avatar>
 
-  <ngt-soba-text [position]="[0, 1.8, -3]" [text]="currentstyle.title" [fontSize]="0.2"></ngt-soba-text>
+    <ngt-soba-text [position]="[0, 0.3, -3]" [text]="item.title" [fontSize]="0.2"></ngt-soba-text>
+  </ngt-group>
 </ngt-group>
 
 <!--label on floor-->
-<ngt-soba-text [position]="[0, 0, -1]" [rotation]="[-90 | radian, 0, 0]" [text]="title" [fontSize]="0.5"></ngt-soba-text>
+<ngt-soba-text [position]="[0, 2, -3]" [text]="title" [fontSize]="0.5"></ngt-soba-text>
 
 <vr-controller showcontroller navhome></vr-controller>
 <vr-controller [index]="1" showcontroller navhome></vr-controller>
