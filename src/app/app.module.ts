@@ -127,6 +127,8 @@ import { KanbanExample } from '../examples/kanban/kanban.component';
 import { ActionsExample } from '../examples/actons/actions.component';
 import { EmptyExample } from '../examples/empty/empty.component';
 import { JdenticonExample } from '../examples/jdenticon/jdenticon.component';
+import { DicebearExample } from '../examples/dicebear/dicebear.component';
+import { DiceBearAvatarComponent } from '../examples/dicebear/dicebear-avatar.component';
 
 
 
@@ -259,6 +261,8 @@ import { JdenticonExample } from '../examples/jdenticon/jdenticon.component';
     ActionsExample,
 
     JdenticonExample,
+    DicebearExample,
+    DiceBearAvatarComponent,
   ],
   imports: [
     BrowserModule,

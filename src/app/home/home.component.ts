@@ -48,6 +48,7 @@ export class HomeComponent implements OnInit {
     { asset: 'kanban', text: 'Kanban Board' },
     { asset: 'actions', text: 'Actions' },
     { asset: 'jdenticon', text: 'Jdenticon' },
+    { asset: 'dicebear', text: 'DiceBear Avatars' },
   ]
 
   panels1: Array<PanelSetting> = [];

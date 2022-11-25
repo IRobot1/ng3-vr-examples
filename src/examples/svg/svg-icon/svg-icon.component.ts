@@ -1,6 +1,6 @@
 import { EventEmitter, Component, Input, Output } from "@angular/core";
 
-import { BufferGeometry, Color, ExtrudeGeometry, Group, Mesh, MeshStandardMaterial } from "three";
+import { BufferGeometry, Color, ExtrudeGeometry, Group, Mesh, MeshStandardMaterial, ShapeGeometry } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { SVGLoader, SVGResult } from "three-stdlib";
@@ -90,7 +90,7 @@ export class SVGIconComponent extends NgtObjectProps<Group> {
     }
     else {
       const colors = new Map<Color, MeshStandardMaterial>([]);
-      geometries.forEach(item => {
+      geometries.forEach((item, index) => {
         let material = colors.get(item.color);
         if (!material) {
           material = new MeshStandardMaterial({ color: item.color });
@@ -98,8 +98,12 @@ export class SVGIconComponent extends NgtObjectProps<Group> {
         }
 
         const mesh = new Mesh(item.geometry, material);
-        mesh.rotation.x = 3.14;
+        //mesh.position.x += 0.02 * index;
+        //mesh.position.y += 0.02 * index;
+        mesh.position.z += 0.02 * index;
+        //mesh.rotation.x = 3.14;
         this.group.add(mesh);
+        console.warn(mesh)
       });
 
       this.changed.next(this.group);
