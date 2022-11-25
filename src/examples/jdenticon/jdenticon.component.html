@@ -1,0 +1,41 @@
+<ngt-color attach="background" color="#555"></ngt-color>
+
+<line-room></line-room>
+
+<ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
+
+<ngt-mesh-basic-material #blackmaterial color="black"></ngt-mesh-basic-material>
+
+<ngt-soba-text [position]="[0, 3, -2.99]" [text]="'JDENTICON - https://jdenticon.com/'" [fontSize]="0.2"></ngt-soba-text>
+
+<ngt-group [position]="[-1, 0, -2]">
+  <pedestal [color]="'white'" [lightcolor]="'gray'"></pedestal>
+
+  <ngt-mesh [position]="[0, 1.5, 0]" [material]="material" [rotation]="[0, 10 | radian, 0]">
+    <ngt-plane-geometry></ngt-plane-geometry>
+  </ngt-mesh>
+
+  <ngt-soba-text [position]="[0, 0.8, 0.251]" [text]="'Canvas'" [material]="blackmaterial.instance.value"></ngt-soba-text>
+  <ngt-soba-text [position]="[0, 0.6, 0.251]" [text]="'Texture'" [material]="blackmaterial.instance.value"></ngt-soba-text>
+</ngt-group>
+
+<ngt-group [position]="[1, 0, -2]">
+  <pedestal [color]="'white'" [lightcolor]="'gray'"></pedestal>
+
+  <svg-icon [svg]="svg"
+            [scale]="[0.02, 0.02, 0.02]"
+            [position]="[-0.5, 2, 0]" [rotation]="[0, -10 | radian, 0]">
+  </svg-icon>
+
+  <ngt-soba-text [position]="[0, 0.8, 0.251]" [text]="'SVG'" [material]="blackmaterial.instance.value"></ngt-soba-text>
+  <ngt-soba-text [position]="[0, 0.6, 0.251]" [text]="'Extruded'" [material]="blackmaterial.instance.value"></ngt-soba-text>
+  <ngt-soba-text [position]="[0, 0.5, 0.251]" [text]="'Geometry'" [material]="blackmaterial.instance.value"></ngt-soba-text>
+</ngt-group>
+
+<!--label on floor-->
+<ngt-soba-text [position]="[0, 0, -1]" [rotation]="[-90 | radian, 0, 0]" [text]="title" [fontSize]="0.5"></ngt-soba-text>
+
+<vr-controller showcontroller navhome></vr-controller>
+<vr-controller [index]="1" showcontroller navhome></vr-controller>
+
+<ngt-soba-orbit-controls></ngt-soba-orbit-controls>

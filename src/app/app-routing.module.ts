@@ -35,6 +35,7 @@ import { ListsExample } from '../examples/lists/lists.component';
 import { KanbanExample } from '../examples/kanban/kanban.component';
 import { ActionsExample } from '../examples/actons/actions.component';
 import { EmptyExample } from '../examples/empty/empty.component';
+import { JdenticonExample } from '../examples/jdenticon/jdenticon.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -72,6 +73,7 @@ const routes: Routes = [
   { path: 'lists', component: ListsExample },
   { path: 'kanban', component: KanbanExample },
   { path: 'actions', component: ActionsExample },
+  { path: 'jdenticon', component: JdenticonExample },
 ];
 
 @NgModule({

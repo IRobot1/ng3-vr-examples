@@ -126,6 +126,7 @@ import { ListsExample } from '../examples/lists/lists.component';
 import { KanbanExample } from '../examples/kanban/kanban.component';
 import { ActionsExample } from '../examples/actons/actions.component';
 import { EmptyExample } from '../examples/empty/empty.component';
+import { JdenticonExample } from '../examples/jdenticon/jdenticon.component';
 
 
 
@@ -256,6 +257,8 @@ import { EmptyExample } from '../examples/empty/empty.component';
     KanbanExample,
 
     ActionsExample,
+
+    JdenticonExample,
   ],
   imports: [
     BrowserModule,
@@ -325,7 +328,6 @@ import { EmptyExample } from '../examples/empty/empty.component';
     NgtPhysicsModule,
     NgtCannonDebugModule,
 
-    // ngraph
     
   ],
   providers: [],

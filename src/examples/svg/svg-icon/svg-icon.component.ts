@@ -1,6 +1,6 @@
 import { EventEmitter, Component, Input, Output } from "@angular/core";
 
-import { BufferGeometry, ExtrudeGeometry, Group, Mesh, MeshStandardMaterial } from "three";
+import { BufferGeometry, Color, ExtrudeGeometry, Group, Mesh, MeshStandardMaterial } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { SVGLoader, SVGResult } from "three-stdlib";
@@ -11,7 +11,7 @@ import { BufferGeometryUtils } from "../BufferGeometryUtils";
 @Component({
   selector: 'svg-icon',
   exportAs: 'svgIcon',
-  template: '<ngt-group #inst (ready)="group=inst.instance.value" [position]="position" [scale]="scale" [rotation]="[3.14, 0, 0]"></ngt-group>',
+  template: '<ngt-group #inst (ready)="group=inst.instance.value" [position]="position" [scale]="scale" [rotation]="rotation"></ngt-group>',
 })
 export class SVGIconComponent extends NgtObjectProps<Group> {
   private _url!: string;
@@ -34,7 +34,7 @@ export class SVGIconComponent extends NgtObjectProps<Group> {
     }
   }
 
-  @Input() iconcolor = 'white';
+  @Input() iconcolor!: string;
 
   @Output() changed = new EventEmitter<Group>();
 
@@ -61,30 +61,46 @@ export class SVGIconComponent extends NgtObjectProps<Group> {
     });
     this.group.children.length = 0;
 
-    const geometries: Array<BufferGeometry> = [];
+    const geometries: Array<{ geometry: BufferGeometry, color: Color }> = [];
 
     for (let i = 0; i < paths.length; i++) {
-
       const path = paths[i];
-
-
       const shapes = SVGLoader.createShapes(path);
 
       for (let j = 0; j < shapes.length; j++) {
         const shape = shapes[j];
-        geometries.push(new ExtrudeGeometry(shape));
+        geometries.push({ geometry: new ExtrudeGeometry(shape), color: path.color });
 
       }
     }
 
-    const geometry = BufferGeometryUtils.mergeBufferGeometries(geometries);
-    if (geometry) {
-      geometry.center();
+    if (this.iconcolor) {
+      const geometry = BufferGeometryUtils.mergeBufferGeometries(geometries.map(x => x.geometry));
+      if (geometry) {
+        geometry.center();
 
-      const material = new MeshStandardMaterial({ color: this.iconcolor });
+        const material = new MeshStandardMaterial({ color: this.iconcolor });
 
-      const mesh = new Mesh(geometry, material);
-      this.group.add(mesh);
+        const mesh = new Mesh(geometry, material);
+        mesh.rotation.x = 3.14;
+        this.group.add(mesh);
+
+        this.changed.next(this.group);
+      }
+    }
+    else {
+      const colors = new Map<Color, MeshStandardMaterial>([]);
+      geometries.forEach(item => {
+        let material = colors.get(item.color);
+        if (!material) {
+          material = new MeshStandardMaterial({ color: item.color });
+          colors.set(item.color, material);
+        }
+
+        const mesh = new Mesh(item.geometry, material);
+        mesh.rotation.x = 3.14;
+        this.group.add(mesh);
+      });
 
       this.changed.next(this.group);
     }
