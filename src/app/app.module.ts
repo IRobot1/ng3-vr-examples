@@ -8,7 +8,7 @@ import { NgtCanvasModule, NgtObjectPassThrough, NgtRadianPipeModule } from '@ang
 import { NgtStatsModule } from '@angular-three/core/stats';
 
 import { NgtBufferAttributeModule, NgtColorAttributeModule } from '@angular-three/core/attributes';
-import { NgtGridHelperModule, NgtPointLightHelperModule, NgtCameraHelperModule, NgtSpotLightHelperModule, NgtBoxHelperModule } from '@angular-three/core/helpers';
+import { NgtGridHelperModule, NgtPointLightHelperModule, NgtCameraHelperModule, NgtSpotLightHelperModule, NgtBoxHelperModule, NgtArrowHelperModule } from '@angular-three/core/helpers';
 
 import { NgtAmbientLightModule, NgtDirectionalLightModule, NgtPointLightModule, NgtSpotLightModule } from '@angular-three/core/lights';
 
@@ -129,6 +129,7 @@ import { EmptyExample } from '../examples/empty/empty.component';
 import { JdenticonExample } from '../examples/jdenticon/jdenticon.component';
 import { DicebearExample } from '../examples/dicebear/dicebear.component';
 import { DiceBearAvatarComponent } from '../examples/dicebear/dicebear-avatar.component';
+import { SplineExample } from '../examples/spline/spline.component';
 
 
 
@@ -263,6 +264,8 @@ import { DiceBearAvatarComponent } from '../examples/dicebear/dicebear-avatar.co
     JdenticonExample,
     DicebearExample,
     DiceBearAvatarComponent,
+
+    SplineExample,
   ],
   imports: [
     BrowserModule,
@@ -287,6 +290,7 @@ import { DiceBearAvatarComponent } from '../examples/dicebear/dicebear-avatar.co
 
     NgtGridHelperModule,
     NgtBoxHelperModule,
+    NgtArrowHelperModule,
 
     NgtAmbientLightModule,
     NgtDirectionalLightModule,

@@ -1,0 +1,28 @@
+<ngt-color attach="background" color="darkgray"></ngt-color>
+
+<line-room></line-room>
+
+<ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
+
+<ngt-group (ready)="group = $event"></ngt-group>
+
+<ngt-mesh (ready)="shapemesh = $event"></ngt-mesh>
+
+<ngt-mesh (ready)="meshready($event)">
+  <ngt-arrow-helper [rotation]="[90 | radian, 0, 0]"></ngt-arrow-helper>
+
+  <!--<ngt-mesh [position]="[0, 0.05, 0.001]">
+    <ngt-circle-geometry [args]="[0.01]"></ngt-circle-geometry>
+    <ngt-mesh-basic-material color="blue"></ngt-mesh-basic-material>
+  </ngt-mesh>
+
+  <ngt-mesh [position]="[0, -0.05, 0.001]">
+    <ngt-circle-geometry [args]="[0.01]"></ngt-circle-geometry>
+    <ngt-mesh-basic-material color="red"></ngt-mesh-basic-material>
+  </ngt-mesh>-->
+</ngt-mesh>
+
+<vr-controller navhome></vr-controller>
+<vr-controller [index]="1" navhome></vr-controller>
+
+<ngt-soba-orbit-controls></ngt-soba-orbit-controls>

@@ -37,6 +37,7 @@ import { ActionsExample } from '../examples/actons/actions.component';
 import { EmptyExample } from '../examples/empty/empty.component';
 import { JdenticonExample } from '../examples/jdenticon/jdenticon.component';
 import { DicebearExample } from '../examples/dicebear/dicebear.component';
+import { SplineExample } from '../examples/spline/spline.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -76,6 +77,7 @@ const routes: Routes = [
   { path: 'actions', component: ActionsExample },
   { path: 'jdenticon', component: JdenticonExample },
   { path: 'dicebear', component: DicebearExample },
+  { path: 'spline', component: SplineExample },
 ];
 
 @NgModule({

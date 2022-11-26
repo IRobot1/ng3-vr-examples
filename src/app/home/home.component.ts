@@ -49,6 +49,7 @@ export class HomeComponent implements OnInit {
     { asset: 'actions', text: 'Actions' },
     { asset: 'jdenticon', text: 'Jdenticon' },
     { asset: 'dicebear', text: 'DiceBear Avatars' },
+    { asset: 'spline', text: 'Visual Spline' },
   ]
 
   panels1: Array<PanelSetting> = [];
