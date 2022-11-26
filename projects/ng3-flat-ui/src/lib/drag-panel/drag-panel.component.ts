@@ -266,7 +266,7 @@ export class FlatUIDragPanel extends NgtObjectProps<Group>{
       const position = new Vector3();
       titlebar.getWorldPosition(position);
 
-      panel.position.x = event.point.x;
+      panel.position.x += event.point.x - position.x;
       panel.position.y += event.point.y - position.y;
 
       // allow selecting anywhere in the title bar
