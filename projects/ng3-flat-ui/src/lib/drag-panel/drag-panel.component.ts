@@ -7,7 +7,7 @@ import { GlobalFlatUITheme } from "../flat-ui-theme";
 
 import { InteractiveObjects } from "../interactive-objects";
 import { HEIGHT_CHANGED_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
-import { DRAG_END_EVENT, DRAG_START_EVENT } from "../drag-and-drop";
+import { DRAG_END_EVENT, DRAG_MOVE_EVENT, DRAG_START_EVENT } from "../drag-and-drop";
 
 @Component({
   selector: 'flat-ui-drag-panel',
@@ -34,8 +34,8 @@ export class FlatUIDragPanel extends NgtObjectProps<Group>{
     this._width = newvalue;
     this.createOutline();
 
-    if (this.panel) {
-      this.panel.dispatchEvent({ type: WIDTH_CHANGED_EVENT });
+    if (this.panelmesh) {
+      this.panelmesh.dispatchEvent({ type: WIDTH_CHANGED_EVENT });
     }
   }
 
@@ -46,8 +46,8 @@ export class FlatUIDragPanel extends NgtObjectProps<Group>{
     this._height = newvalue;
     this.createOutline();
 
-    if (this.panel) {
-      this.panel.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
+    if (this.panelmesh) {
+      this.panelmesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
     }
   }
 
@@ -167,18 +167,24 @@ export class FlatUIDragPanel extends NgtObjectProps<Group>{
   override ngOnDestroy() {
     super.ngOnDestroy();
 
-    this.selectable?.remove(this.mesh);
+    this.selectable?.remove(this.titlemesh);
   }
 
-  panel!: Mesh;
-  protected panelready(panel: Mesh) {
-    panel.visible = false;
+  group!: Group;
+  groupready(group: Group) {
+    this.ready.next(group);
+    this.group = group;
+  }
+
+  panelmesh!: Mesh;
+  protected panelready(panelmesh: Mesh) {
+    panelmesh.visible = false;
     // when expanding, hide long enough for layout to complete once
     const timer = setTimeout(() => {
-      panel.visible = true;
+      panelmesh.visible = true;
       clearTimeout(timer)
     }, 150)
-    this.panel = panel;
+    this.panelmesh = panelmesh;
   }
 
   private line!: Line;
@@ -203,24 +209,24 @@ export class FlatUIDragPanel extends NgtObjectProps<Group>{
   protected startdragging() {
     this.dragging = true;
     this.over();
-    this.panel.dispatchEvent({ type: DRAG_START_EVENT })
+    this.group.dispatchEvent({ type: DRAG_START_EVENT })
   }
 
   protected enddragging() {
     this.dragging = false;
     this.out();
-    this.panel.dispatchEvent({ type: DRAG_END_EVENT, position: this.panel.position })
+    this.group.dispatchEvent({ type: DRAG_END_EVENT })
   }
 
-  private mesh!: Mesh;
+  private titlemesh!: Mesh;
 
-  protected meshready(mesh: Mesh, panel: Object3D) {
-    this.selectable?.add(mesh);
+  protected titleready(titlemesh: Mesh, panel: Object3D) {
+    this.selectable?.add(titlemesh);
 
     const camera = this.store.get(s => s.camera);
     const scene = this.store.get(s => s.scene);
 
-    mesh.addEventListener('pointerdown', (e: any) => {
+    titlemesh.addEventListener('pointerdown', (e: any) => {
       if (this.locked) return;
       this.startdragging();
       panel.lookAt(camera.position);
@@ -234,11 +240,11 @@ export class FlatUIDragPanel extends NgtObjectProps<Group>{
       e.stop = true;
     };
 
-    mesh.addEventListener('pointerup', dragend);
-    mesh.addEventListener('pointerout', dragend);
-    mesh.addEventListener('raymissed', dragend);
+    titlemesh.addEventListener('pointerup', dragend);
+    titlemesh.addEventListener('pointerout', dragend);
+    titlemesh.addEventListener('raymissed', dragend);
 
-    mesh.addEventListener('pointermove', (e: any) => { this.over(); e.stop = true; });
+    titlemesh.addEventListener('pointermove', (e: any) => { this.over(); e.stop = true; });
   }
 
   //
@@ -271,6 +277,8 @@ export class FlatUIDragPanel extends NgtObjectProps<Group>{
         panel.position.x += this.offset;
       else
         panel.position.x -= this.offset;
+
+      this.group.dispatchEvent({ type: DRAG_MOVE_EVENT })
     }
     else {
       this.offset = 0;

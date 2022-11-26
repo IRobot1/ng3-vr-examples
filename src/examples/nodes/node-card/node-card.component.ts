@@ -3,7 +3,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, Input, ViewChild } f
 import { Group, Object3D, Vector3 } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
-import { DRAG_END_EVENT, FlatUICard, FlatUIDragPanel, HEIGHT_CHANGED_EVENT, InteractiveObjects, WIDTH_CHANGED_EVENT } from "ng3-flat-ui";
+import { WIDTH_CHANGED_EVENT, DRAG_END_EVENT, FlatUIDragPanel, InteractiveObjects, DRAG_MOVE_EVENT } from "ng3-flat-ui";
 
 import { NodePin } from "../node-pin/node-pin.component";
 
@@ -70,32 +70,36 @@ export class FlatUINodeCard extends NgtObjectProps<Group> implements NodeCard, A
   card!: Group;
 
   panelready(card: Group) {
-    card.addEventListener(DRAG_END_EVENT, () => {
-      this.notify(this.internalinputs, true, this.panel.panel.position);
-      this.notify(this.internaloutputs, false, this.panel.panel.position);
+    card.addEventListener(DRAG_MOVE_EVENT, (e: any) => {
+      this.notify(this.internalinputs, true);
+      this.notify(this.internaloutputs, false);
     });
 
     card.addEventListener(WIDTH_CHANGED_EVENT, () => {
-      this.notify(this.internalinputs, true, this.panel.panel.position);
-      this.notify(this.internaloutputs, false, this.panel.panel.position);
+      this.notify(this.internalinputs, true);
+      this.notify(this.internaloutputs, false);
     })
     this.card = card;
     this.ready.next(card);
   }
-  private notify(newvalue: Array<NodePinData>, isinput: boolean, cardposition: Vector3) {
+  private notify(newvalue: Array<NodePinData>, isinput: boolean) {
     newvalue.forEach(item => {
       if (!item.object?.position) return;
-      const position = item.object.position.clone().add(cardposition);
-
+      const position = new Vector3();
+      item.object.getWorldPosition(position);
+      
       const event: NodePinEvent = { type: PIN_MOVED_EVENT, position: position, link: item.link, isinput: isinput }
       this.card.dispatchEvent(event);
     });
   }
 
   ngAfterViewInit(): void {
-
-    this.notify(this.internalinputs, true, this.card.position);
-    this.notify(this.internaloutputs, false, this.card.position);
+    // wait for layout to finish
+    const timer = setTimeout(() => {
+      this.notify(this.internalinputs, true);
+      this.notify(this.internaloutputs, false);
+      clearTimeout(timer);
+    }, 200)
   }
 
   addinput(input: NodePin): number {

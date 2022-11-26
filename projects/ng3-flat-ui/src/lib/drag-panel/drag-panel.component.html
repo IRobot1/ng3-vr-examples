@@ -1,5 +1,5 @@
 <ngt-group #panel [position]="position" [rotation]="rotation" [scale]="scale" [visible]="visible" [name]="displaytitle"
-           [ngtObjectPassThrough]="this" (ready)="ready.next($event)">
+           [ngtObjectPassThrough]="this" (ready)="groupready($event)">
 
   <ngt-group [position]="[0, height/2+0.06, 0]">
 
@@ -7,7 +7,7 @@
               (pointerdown)="startdragging()" (pointerup)="enddragging()"
               (pointerover)="over()" (pointerout)="showscaling=false;out()"
               (pointermove)="movepanel(title.instance.value, $event, panel.instance.value)"
-              (ready)="meshready($event, panel.instance.value)">
+              (ready)="titleready($event, panel.instance.value)">
 
       <ngt-plane-geometry [args]="[width-0.2, titleheight]"></ngt-plane-geometry>
     </ngt-mesh>

@@ -131,6 +131,8 @@ import { NodesExample } from '../examples/nodes/nodes.component';
 import { FlatUINodeCard } from '../examples/nodes/node-card/node-card.component';
 import { FlatUINodePin } from '../examples/nodes/node-pin/node-pin.component';
 import { FlatUINodeType } from '../examples/nodes/node-type/node-type.component';
+import { FlatUINodeDiagram } from '../examples/nodes/node-diagram/node-diagram.component';
+import { FlatUINodeLink } from '../examples/nodes/node-link/node-link.component';
 
 
 
@@ -264,9 +266,11 @@ import { FlatUINodeType } from '../examples/nodes/node-type/node-type.component'
     ActionsExample,
 
     NodesExample,
+    FlatUINodeDiagram,
     FlatUINodeCard,
     FlatUINodePin,
     FlatUINodeType,
+    FlatUINodeLink,
   ],
   imports: [
     BrowserModule,

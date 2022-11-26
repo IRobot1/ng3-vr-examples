@@ -15,16 +15,12 @@
 <flat-ui-node-type #colortype [name]="'color'" [icon]="'circle'" [material]="magentamaterial.instance.value"></flat-ui-node-type>
 <flat-ui-node-type #checktype [name]="'checkbox'" [icon]="'circle'" [material]="cornflowermaterial.instance.value"></flat-ui-node-type>-->
 
-<flat-ui-node-card *ngFor="let card of cards" (ready)="cardready($event)"
-                   [title]="card.title" [position]="card.position" [width]="card.width"
-                   [selectable]="selectable"
-                   [inputs]="card.inputs" [outputs]="card.outputs">
+<flat-ui-node-diagram [position]="[0, 0, 0]" [selectable]="selectable">
   <!--<flat-ui-node-pin [name]="'string'" [type]="stringtype"></flat-ui-node-pin>
   <flat-ui-node-pin [name]="'number'" [type]="numbertype"></flat-ui-node-pin>-->
-
   <!--<flat-ui-node-pin [input]="false" [name]="'color'" [type]="colortype"></flat-ui-node-pin>
   <flat-ui-node-pin [input]="false" [name]="'checkbox'" [type]="checktype"></flat-ui-node-pin>-->
-</flat-ui-node-card>
+</flat-ui-node-diagram>
 
 <vr-controller navhome></vr-controller>
 <vr-controller [index]="1" navhome></vr-controller>

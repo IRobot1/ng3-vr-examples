@@ -6,6 +6,7 @@ import { NgtObject } from "@angular-three/core";
 import { FlatUIList, ListItem } from "./list/list.component";
 
 export const DRAG_START_EVENT = 'flat-ui-dragstart';
+export const DRAG_MOVE_EVENT = 'flat-ui-dragmove';
 export const DRAG_END_EVENT = 'flat-ui-dragend';
 export const DRAG_DROP_EVENT = 'flat-ui-drop';
 

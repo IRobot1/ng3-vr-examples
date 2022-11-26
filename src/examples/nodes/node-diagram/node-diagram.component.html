@@ -1,0 +1,16 @@
+<ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale"
+           (ready)="groupready($event)">
+
+  <flat-ui-node-card *ngFor="let card of cards" (ready)="cardready($event)"
+                     [title]="card.title" [position]="card.position" [width]="card.width"
+                     [selectable]="selectable"
+                     [inputs]="card.inputs" [outputs]="card.outputs">
+    <!--<flat-ui-node-pin [name]="'string'" [type]="stringtype"></flat-ui-node-pin>
+    <flat-ui-node-pin [name]="'number'" [type]="numbertype"></flat-ui-node-pin>-->
+    <!--<flat-ui-node-pin [input]="false" [name]="'color'" [type]="colortype"></flat-ui-node-pin>
+    <flat-ui-node-pin [input]="false" [name]="'checkbox'" [type]="checktype"></flat-ui-node-pin>-->
+  </flat-ui-node-card>
+
+  <flat-ui-node-link *ngFor="let link of links" [startposition]="link.start" [endposition]="link.end"></flat-ui-node-link>
+
+</ngt-group>
