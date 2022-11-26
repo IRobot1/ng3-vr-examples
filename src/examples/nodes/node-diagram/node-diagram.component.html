@@ -1,4 +1,4 @@
-<ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale"
+<ngt-group [name]="name" [visible]="visible" [position]="position"
            (ready)="groupready($event)">
 
   <flat-ui-node-card *ngFor="let card of cards" (ready)="cardready($event)"

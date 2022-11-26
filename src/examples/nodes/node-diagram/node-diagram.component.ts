@@ -1,6 +1,6 @@
-import { Input , ChangeDetectionStrategy, Component } from "@angular/core";
+import { Input, ChangeDetectionStrategy, Component } from "@angular/core";
 
-import { Group, MeshBasicMaterial, Object3D } from "three";
+import { Group, MeshBasicMaterial, Object3D, Vector3 } from "three";
 import { NgtObjectProps, NgtTriple } from "@angular-three/core";
 
 import { InteractiveObjects } from "ng3-flat-ui";
@@ -24,8 +24,10 @@ export class FlatUINodeDiagram extends NgtObjectProps<Group>  {
   @Input() selectable?: InteractiveObjects;
 
   group!: Group;
+  relativeposition!: Vector3;
   groupready(group: Group) {
     this.group = group;
+    this.relativeposition = this.group.position.clone().multiplyScalar(0.5)
     this.ready.next(group);
   }
 
@@ -73,13 +75,16 @@ export class FlatUINodeDiagram extends NgtObjectProps<Group>  {
       this.links.push(link);
     }
 
+    let adjust = change.position.sub(this.relativeposition);
+
     if (change.isinput)
-      link.end = change.position.toArray();
+      link.end = adjust.toArray();
     else {
-      link.start = change.position.toArray();
+      link.start = adjust.toArray();
     }
-    //if (link.start && link.end) this.cd.detectChanges();
-    //console.warn(this.links)
+    if (link.start && link.end) {
+      //console.warn(link.start, link.end)
+    }
   }
 
   cardready(card: Object3D) {
@@ -87,12 +92,4 @@ export class FlatUINodeDiagram extends NgtObjectProps<Group>  {
       this.updatelink(e)
     })
   }
-
-
-  //ngOnInit(): void {
-  //  setTimeout(() => {
-  //    this.outputs.push({ seqnum: 3, name: 'color', type: this.colortype, value: 'black', link: '' });
-  //  }, 2000)
-  //}
-
 }
