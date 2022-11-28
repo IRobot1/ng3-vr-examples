@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
-import { Material, Mesh, Object3D, Shape, ShapeGeometry, SplineCurve, Vector2, Vector3 } from "three";
+import { Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, SplineCurve, Vector2, Vector3 } from "three";
 import { make, NgtObjectProps, NgtTriple } from "@angular-three/core";
 
 import { GlobalFlatUITheme } from "ng3-flat-ui";
@@ -10,6 +10,7 @@ export interface NodeLink {
   start?: NgtTriple;
   end?: NgtTriple;
   size: number;
+  material: Material;
 }
 
 @Component({
@@ -43,7 +44,7 @@ export class FlatUINodeLink extends NgtObjectProps<Mesh> {
   @Input()
   get linkmaterial(): Material {
     if (this._linkmaterial) return this._linkmaterial;
-    return GlobalFlatUITheme.TitleMaterial;
+    return GlobalFlatUITheme.LabelMaterial;
   }
   set linkmaterial(newvalue: Material) {
     this._linkmaterial = newvalue;

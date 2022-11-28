@@ -6,6 +6,7 @@ import { NgtObjectProps } from "@angular-three/core";
 import { WIDTH_CHANGED_EVENT, DRAG_END_EVENT, FlatUIDragPanel, InteractiveObjects, DRAG_MOVE_EVENT } from "ng3-flat-ui";
 
 import { NodePin } from "../node-pin/node-pin.component";
+import { NodeType } from "../node-type/node-type.component";
 
 
 export interface NodeCard {
@@ -22,6 +23,7 @@ export interface NodePinEvent {
   position: Vector3;
   link: string;
   isinput: boolean;
+  nodetype: NodeType;
 }
 
 interface NodePinData extends NodePin {
@@ -88,7 +90,7 @@ export class FlatUINodeCard extends NgtObjectProps<Group> implements NodeCard, A
       const position = new Vector3();
       item.object.getWorldPosition(position);
       
-      const event: NodePinEvent = { type: PIN_MOVED_EVENT, position: position, link: item.link, isinput: isinput }
+      const event: NodePinEvent = { type: PIN_MOVED_EVENT, position: position, link: item.link, isinput: isinput, nodetype: item.type }
       this.card.dispatchEvent(event);
     });
   }

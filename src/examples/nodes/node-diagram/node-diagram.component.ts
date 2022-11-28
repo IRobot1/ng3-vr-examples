@@ -73,7 +73,7 @@ export class FlatUINodeDiagram extends NgtObjectProps<Group>  {
   updatelink(change: NodePinEvent) {
     let link = this.links.find(item => item.name == change.link);
     if (!link) {
-      link = { name: change.link, size: 0.02 }
+      link = { name: change.link, size: 0.02, material: change.nodetype.material }
       this.links.push(link);
     }
 
