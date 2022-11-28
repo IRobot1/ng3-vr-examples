@@ -76,7 +76,7 @@ export class FlatUINodeLink extends NgtObjectProps<Mesh> {
 
     const curve = new CubicBezierCurve(start, startplus, endplus, end);
 
-    const points = curve.getPoints(25);
+    const points = curve.getPoints(50);
 
     const mesh = new Object3D();
     const topobject = new Object3D();
@@ -92,18 +92,55 @@ export class FlatUINodeLink extends NgtObjectProps<Mesh> {
 
     mesh.position.set(point.x, point.y, 0);
 
-    const world = new Vector3();
-    topobject.getWorldPosition(world)
-    shape.moveTo(world.x, world.y)
+    const topworld = new Vector3();
+    const botworld = new Vector3();
+
+    topobject.getWorldPosition(topworld)
+    shape.moveTo(topworld.x, topworld.y)
+
+    bottomobject.getWorldPosition(botworld)
 
     point = points[1]
     mesh.lookAt(point.x, point.y, 0)
 
+    const bottompoints: Array<Vector2> = [new Vector2(botworld.x, botworld.y)];
+
+    const add = (topworld: Vector3, botworld: Vector3) => {
+      shape.lineTo(topworld.x, topworld.y)
+      bottompoints.push(new Vector2(botworld.x, botworld.y))
+
+    }
     points.forEach((point, index) => {
       if (index < 1) return;
       mesh.position.set(point.x, point.y, 0);
-      topobject.getWorldPosition(world)
-      shape.lineTo(world.x, world.y)
+
+      topobject.getWorldPosition(topworld)
+      bottomobject.getWorldPosition(botworld)
+
+      // start is left of end and above
+      if (start.x <= end.x) {
+        add(topworld, botworld);
+      }
+      else {
+        // start is right of end
+        if (start.y >= end.y) {
+          if (topworld.x >= botworld.x) {
+            add(topworld, botworld);
+          }
+          else { // flip top and bottom
+            add(botworld, topworld);
+          }
+        }
+        else {
+          if (topworld.x <= botworld.x) {
+            add(topworld, botworld);
+          }
+          else { // flip top and bottom
+            add(botworld, topworld);
+          }
+        }
+      }
+
 
       if (index + 2 == points.length)
         mesh.rotation.set(0, 0, 0)
@@ -113,18 +150,8 @@ export class FlatUINodeLink extends NgtObjectProps<Mesh> {
       }
     });
 
-    points.reverse().forEach((point, index) => {
-      mesh.position.set(point.x, point.y, 0);
-
-      bottomobject.getWorldPosition(world)
-      shape.lineTo(world.x, world.y)
-
-      if (index + 2 == points.length)
-        mesh.rotation.set(0, 0, 0);
-      else if (index + 1 < points.length) {
-        const next = points[index + 1]
-        mesh.lookAt(next.x, next.y, 0)
-      }
+    bottompoints.reverse().forEach((point, index) => {
+      shape.lineTo(point.x, point.y)
     });
 
     shape.closePath();
