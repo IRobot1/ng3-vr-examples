@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
-import { Material, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, SplineCurve, Vector2, Vector3 } from "three";
+import { CubicBezierCurve, Material, Mesh, Object3D, Shape, ShapeGeometry, SplineCurve, Vector2, Vector3 } from "three";
 import { make, NgtObjectProps, NgtTriple } from "@angular-three/core";
 
 import { GlobalFlatUITheme } from "ng3-flat-ui";
@@ -74,7 +74,7 @@ export class FlatUINodeLink extends NgtObjectProps<Mesh> {
     startplus.x += diff;
     endplus.x -= diff;
 
-    const curve = new SplineCurve([start, startplus, endplus, end]);
+    const curve = new CubicBezierCurve(start, startplus, endplus, end);
 
     const points = curve.getPoints(25);
 
