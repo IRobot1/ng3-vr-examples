@@ -1,35 +1,27 @@
-import { make, NgtTriple } from "@angular-three/core";
 import { AfterViewInit, Component, OnInit } from "@angular/core";
-import { BufferGeometry, CircleGeometry, Group, Mesh, MeshBasicMaterial, Object3D, Shape, ShapeGeometry, SplineCurve, Vector2, Vector3 } from "three";
+
+import { Mesh, Object3D, Shape, ShapeGeometry, SplineCurve, Vector2, Vector3 } from "three";
 
 @Component({
   templateUrl: './spline.component.html',
 })
 export class SplineExample implements AfterViewInit {
-  startposition = new Vector2(0, 2)
-  endposition = new Vector2(1, 1)
+  startposition = new Vector3(-1, 1, 0)
+  endposition = new Vector3(1, 1, 0)
 
-  shapepoints: Array<Vector2> = [];
-  points!: Array<Vector2>;
-
-  group!: Group;
-  circle!: CircleGeometry;
-  geometry!: BufferGeometry;
-
-  mesh!: Mesh;
-  top!: Mesh;
-  bottom!: Mesh;
+  width = 0.02
 
   shapemesh!: Mesh;
 
-  meshready(mesh: Mesh) {
-    this.mesh = mesh;
 
-    const start = this.startposition;
-    const end = this.endposition;
+  updatecurve(): void {
+
+    const start = new Vector2(this.startposition.x, this.startposition.y);
+    const end = new Vector2(this.endposition.x, this.endposition.y);
 
     const startplus = start.clone()
     const endplus = end.clone()
+
     const diff = Math.abs(start.x - end.x) / 3;
 
     startplus.x += diff;
@@ -37,76 +29,85 @@ export class SplineExample implements AfterViewInit {
 
     const curve = new SplineCurve([start, startplus, endplus, end]);
 
-    this.points = curve.getPoints(25);
+    const points = curve.getPoints(25);
 
-    this.circle = new CircleGeometry(0.01)
-    this.top = new Mesh(this.circle, new MeshBasicMaterial({ color: 'blue' }));
-    this.top.position.set(0, 0.05, 0.001);
+    const mesh = new Object3D();
+    const topobject = new Object3D();
+    topobject.position.set(0, this.width / 2, 0.001);
 
-    this.bottom = new Mesh(this.circle, new MeshBasicMaterial({ color: 'red' }));
-    this.bottom.position.set(0, -0.05, 0.001);
-    mesh.add(this.top).add(this.bottom);
+    const bottomobject = new Object3D();
+    bottomobject.position.set(0, -this.width / 2, 0.001);
+    mesh.add(topobject).add(bottomobject);
 
-  }
-
-  addpoint(x: number, y: number) {
-    const mesh = new Mesh(this.circle, new MeshBasicMaterial({ color: 'black' }));
-    mesh.position.set(x, y, 0.001);
-    this.group.add(mesh);
-  }
-
-  ngAfterViewInit(): void {
     const shape = new Shape();
-    const top = this.top.position;
 
-    let point = this.points[0]
+    let point = points[0]
 
-    this.mesh.position.set(point.x, point.y, 0);
+    mesh.position.set(point.x, point.y, 0);
 
     const world = new Vector3();
-    this.top.getWorldPosition(world)
+    topobject.getWorldPosition(world)
     shape.moveTo(world.x, world.y)
-    this.addpoint(world.x, world.y)
 
-    point = this.points[1]
-    this.mesh.lookAt(point.x, point.y, 0)
+    point = points[1]
+    mesh.lookAt(point.x, point.y, 0)
 
-    this.points.forEach((point, index) => {
+    points.forEach((point, index) => {
       if (index < 1) return;
-      this.mesh.position.set(point.x, point.y, 0);
-      this.top.getWorldPosition(world)
+      mesh.position.set(point.x, point.y, 0);
+      topobject.getWorldPosition(world)
       shape.lineTo(world.x, world.y)
-      this.addpoint(world.x, world.y)
 
-      if (index + 2 == this.points.length) 
-        this.mesh.rotation.set(0, 0, 0)
-      else if (index + 1 < this.points.length) {
-        const next = this.points[index + 1]
-        this.mesh.lookAt(next.x, next.y, 0)
+      if (index + 2 == points.length)
+        mesh.rotation.set(0, 0, 0)
+      else if (index + 1 < points.length) {
+        const next = points[index + 1]
+        mesh.lookAt(next.x, next.y, 0)
       }
-      
+    });
 
-    })
+    points.reverse().forEach((point, index) => {
+      mesh.position.set(point.x, point.y, 0);
 
-    this.points.reverse().forEach((point, index) => {
-      this.mesh.position.set(point.x, point.y, 0);
-
-      this.bottom.getWorldPosition(world)
+      bottomobject.getWorldPosition(world)
       shape.lineTo(world.x, world.y)
-      this.addpoint(world.x, world.y)
 
-      if (index + 2 == this.points.length)
-        this.mesh.rotation.set(0, 0, 0);
-      else if (index + 1 < this.points.length) {
-        const next = this.points[index + 1]
-        this.mesh.lookAt(next.x, next.y, 0)
+      if (index + 2 == points.length)
+        mesh.rotation.set(0, 0, 0);
+      else if (index + 1 < points.length) {
+        const next = points[index + 1]
+        mesh.lookAt(next.x, next.y, 0)
       }
-    })
+    });
 
     shape.closePath();
 
-    console.warn(shape)
+    if (this.shapemesh.geometry) this.shapemesh.geometry.dispose();
     this.shapemesh.geometry = new ShapeGeometry(shape);
 
   }
+
+  ngAfterViewInit(): void {
+
+    const leftcenter = new Object3D();
+    leftcenter.position.set(-0.6, 1, 0);
+    const left = new Object3D();
+    left.position.set(0.5, 0, 0);
+    leftcenter.add(left);
+
+    const rightcenter = new Object3D();
+    rightcenter.position.set(0.6, 1, 0);
+    const right = new Object3D();
+    right.position.set(-0.5, 0, 0);
+    rightcenter.add(right);
+
+    setInterval(() => {
+      leftcenter.rotation.z += 0.1;
+      left.getWorldPosition(this.startposition);
+      rightcenter.rotation.z += 0.1;
+      right.getWorldPosition(this.endposition);
+      this.updatecurve();
+    }, 100)
+  }
+
 }
