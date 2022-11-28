@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
-import { Material, Mesh, Shape, ShapeGeometry, SplineCurve, Vector2 } from "three";
+import { Material, Mesh, Object3D, Shape, ShapeGeometry, SplineCurve, Vector2, Vector3 } from "three";
 import { make, NgtObjectProps, NgtTriple } from "@angular-three/core";
 
 import { GlobalFlatUITheme } from "ng3-flat-ui";
@@ -37,7 +37,7 @@ export class FlatUINodeLink extends NgtObjectProps<Mesh> {
       this.updatecurve();
   }
 
-  @Input() linewidth = 0.005;
+  @Input() linewidth = 0.02;
 
   private _linkmaterial?: Material;
   @Input()
@@ -67,29 +67,67 @@ export class FlatUINodeLink extends NgtObjectProps<Mesh> {
 
     const startplus = start.clone()
     const endplus = end.clone()
+
     const diff = Math.abs(start.x - end.x) / 3;
 
     startplus.x += diff;
     endplus.x -= diff;
 
-    const points: Array<Vector2> = [start, startplus, endplus, end];
+    const curve = new SplineCurve([start, startplus, endplus, end]);
 
-    const curve = new SplineCurve(points);
+    const points = curve.getPoints(25);
 
-    const toppoints = curve.getPoints(25);
-    const first = toppoints[0]
+    const mesh = new Object3D();
+    const topobject = new Object3D();
+    topobject.position.set(0, this.linewidth / 2, 0.001);
 
-    const thickline = new Shape()
+    const bottomobject = new Object3D();
+    bottomobject.position.set(0, -this.linewidth / 2, 0.001);
+    mesh.add(topobject).add(bottomobject);
 
-    thickline.moveTo(first.x, first.y + this.linewidth);
-    toppoints.forEach(point => {
-      thickline.lineTo(point.x, point.y + this.linewidth);
+    const shape = new Shape();
+
+    let point = points[0]
+
+    mesh.position.set(point.x, point.y, 0);
+
+    const world = new Vector3();
+    topobject.getWorldPosition(world)
+    shape.moveTo(world.x, world.y)
+
+    point = points[1]
+    mesh.lookAt(point.x, point.y, 0)
+
+    points.forEach((point, index) => {
+      if (index < 1) return;
+      mesh.position.set(point.x, point.y, 0);
+      topobject.getWorldPosition(world)
+      shape.lineTo(world.x, world.y)
+
+      if (index + 2 == points.length)
+        mesh.rotation.set(0, 0, 0)
+      else if (index + 1 < points.length) {
+        const next = points[index + 1]
+        mesh.lookAt(next.x, next.y, 0)
+      }
     });
-    toppoints.reverse().forEach(point => {
-      thickline.lineTo(point.x, point.y - this.linewidth);
-    });
-    thickline.closePath();
 
-    this.mesh.geometry = new ShapeGeometry(thickline);
+    points.reverse().forEach((point, index) => {
+      mesh.position.set(point.x, point.y, 0);
+
+      bottomobject.getWorldPosition(world)
+      shape.lineTo(world.x, world.y)
+
+      if (index + 2 == points.length)
+        mesh.rotation.set(0, 0, 0);
+      else if (index + 1 < points.length) {
+        const next = points[index + 1]
+        mesh.lookAt(next.x, next.y, 0)
+      }
+    });
+
+    shape.closePath();
+
+    this.mesh.geometry = new ShapeGeometry(shape);
   }
 }

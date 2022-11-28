@@ -57,12 +57,14 @@ export class FlatUINodeDiagram extends NgtObjectProps<Group>  {
     {
       title: 'Card1', width: 1, height: 1, position: [-1.5, 1.3, 0.003], inputs: [], outputs: [
         { seqnum: 1, name: 'color', type: this.colortype, value: 'test', link: 'c1c2' },
+        { seqnum: 1, name: 'string', type: this.stringtype, value: 'test', link: 's1s2' },
       ]
     },
     {
       title: 'Card2', width: 1, height: 1, position: [0, 1.3, 0.006], outputs: [],
       inputs: [
         { seqnum: 1, name: 'color', type: this.colortype, value: 'test', link: 'c1c2' },
+        { seqnum: 1, name: 'string', type: this.stringtype, value: 'test', link: 's1s2' },
       ],
     },
     //{ title: 'Card3', width: 1, height: 1, inputs: this.inputs, outputs: this.outputs, position: [1.5, 1.3, 0.009] },
