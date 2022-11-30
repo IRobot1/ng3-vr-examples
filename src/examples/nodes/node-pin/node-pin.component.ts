@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Optional, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
-import { NgtTriple } from "@angular-three/core";
+import { Group } from "three";
+import { NgtObjectProps } from "@angular-three/core";
 
-import { FlatUINodeCard } from "../node-card/node-card.component";
 import { NodeType } from "../node-type/node-type.component";
 
 
@@ -13,35 +13,29 @@ export interface NodePin {
   name: string;
   value?: any;
   link: string;
+
+  // pin mesh added at runtime
+  object?: Group;
 }
 
 
 @Component({
   selector: 'flat-ui-node-pin',
   exportAs: 'flatUINodePin',
-  template: '',
+  templateUrl: 'node-pin.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FlatUINodePin implements OnInit, NodePin {
+export class FlatUINodePin extends NgtObjectProps<Group> implements NodePin {
   @Input() input = true;
   @Input() seqnum = -1;
   @Input() type!: NodeType;
-  @Input() name = 'pin';
   @Input() value?: any;
   @Input() link = '';
+    object?: Group;
 
-  @Output() change = new EventEmitter<NodePin>();
+  //@Output() change = new EventEmitter<NodePin>();
 
-  constructor(
-    @Optional() private node: FlatUINodeCard,
-  ) { }
-
-  ngOnInit(): void {
-    if (!this.node) return;
-
-    if (this.input)
-      this.node.addinput(this);
-    else
-      this.node.addoutput(this);
+  pinready(object: Group) {
+    this.ready.next(object);
   }
 }

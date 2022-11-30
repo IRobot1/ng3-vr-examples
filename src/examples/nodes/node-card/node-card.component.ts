@@ -26,9 +26,6 @@ export interface NodePinEvent {
   nodetype: NodeType;
 }
 
-interface NodePinData extends NodePin {
-  object?: Object3D;
-}
 
 @Component({
   selector: 'flat-ui-node-card',
@@ -49,21 +46,19 @@ export class FlatUINodeCard extends NgtObjectProps<Group> implements NodeCard, A
   previewheight = 0.4;
 
 
-  private _inputs: Array<NodePinData> = [];
+  private _inputs: Array<NodePin> = [];
   @Input()
   get inputs(): Array<NodePin> { return this._inputs }
   set inputs(newvalue: Array<NodePin>) {
     this._inputs = newvalue.sort((a, b) => a.seqnum - b.seqnum);
   }
-  get internalinputs(): Array<NodePinData> { return this._inputs };
 
-  private _outputs: Array<NodePinData> = [];
+  private _outputs: Array<NodePin> = [];
   @Input()
   get outputs(): Array<NodePin> { return this._outputs }
   set outputs(newvalue: Array<NodePin>) {
     this._outputs = newvalue.sort((a, b) => a.seqnum - b.seqnum);
   }
-  get internaloutputs(): Array<NodePinData> { return this._outputs }
 
   @Input() selectable?: InteractiveObjects;
 
@@ -73,18 +68,18 @@ export class FlatUINodeCard extends NgtObjectProps<Group> implements NodeCard, A
 
   panelready(card: Group) {
     card.addEventListener(DRAG_MOVE_EVENT, (e: any) => {
-      this.notify(this.internalinputs, true);
-      this.notify(this.internaloutputs, false);
+      this.notify(this.inputs, true);
+      this.notify(this.outputs, false);
     });
 
     card.addEventListener(WIDTH_CHANGED_EVENT, () => {
-      this.notify(this.internalinputs, true);
-      this.notify(this.internaloutputs, false);
+      this.notify(this.inputs, true);
+      this.notify(this.outputs, false);
     })
     this.card = card;
     this.ready.next(card);
   }
-  private notify(newvalue: Array<NodePinData>, isinput: boolean) {
+  private notify(newvalue: Array<NodePin>, isinput: boolean) {
     newvalue.forEach(item => {
       if (!item.object?.position) return;
       const position = new Vector3();
@@ -98,8 +93,8 @@ export class FlatUINodeCard extends NgtObjectProps<Group> implements NodeCard, A
   ngAfterViewInit(): void {
     // wait for layout to finish
     const timer = setTimeout(() => {
-      this.notify(this.internalinputs, true);
-      this.notify(this.internaloutputs, false);
+      this.notify(this.inputs, true);
+      this.notify(this.outputs, false);
       clearTimeout(timer);
     }, 200)
   }

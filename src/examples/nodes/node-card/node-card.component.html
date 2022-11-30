@@ -16,18 +16,21 @@
 
       <ngt-group vertical-layout [position]="[-width/2, inputexec ? -0.1 : 0, 0.001]">
 
-        <ngt-group *ngFor="let item of internalinputs; index as index">
-          <flat-ui-material-icon [text]="item.type.icon" [labelmaterial]="item.type.material" [position]="[0, 0, 0.001]" (ready)="item.object=$event"></flat-ui-material-icon>
-          <flat-ui-label [text]="item.name" [width]="0" [position]="[0.06, 0, 0.001]"></flat-ui-label>
+        <ngt-group *ngFor="let item of inputs; index as index" (ready)="item.object=$event">
+          <flat-ui-node-pin [seqnum]="item.seqnum" [type]="item.type" [value]="item.value" [link]="item.link"></flat-ui-node-pin>
+          <flat-ui-label [text]="name" [width]="0" [alignx]="'left'" [position]="[0.06, 0, 0.001]"></flat-ui-label>
         </ngt-group>
+
 
         <flat-ui-basic-image *ngIf="preview" [position]="[0.06+previewwidth/2, 0, 0.001]" [width]="previewwidth" [height]="previewheight"></flat-ui-basic-image>
       </ngt-group>
 
       <ngt-group vertical-layout [position]="[width/2, outputexec ? -0.1 : 0, 0.001]">
-        <ngt-group *ngFor="let item of internaloutputs; index as index">
-          <flat-ui-material-icon [text]="item.type.icon" [labelmaterial]="item.type.material" [position]="[0, 0, 0.001]"  (ready)="item.object=$event"></flat-ui-material-icon>
-          <flat-ui-label [text]="item.name" [width]="0" [alignx]="'right'" [position]="[-0.06, 0, 0.001]"></flat-ui-label>
+        <ngt-group *ngFor="let item of outputs; index as index" >
+        <flat-ui-node-pin [input]="false" (ready)="item.object=$event"
+                          [seqnum]="item.seqnum" [type]="item.type" [value]="item.value" [link]="item.link">
+        </flat-ui-node-pin>
+          <flat-ui-label [text]="name" [width]="0" [alignx]="'right'" [position]="[-0.06, 0, 0.001]"></flat-ui-label>
         </ngt-group>
       </ngt-group>
 
