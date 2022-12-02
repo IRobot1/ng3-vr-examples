@@ -1,4 +1,4 @@
-<ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale" (ready)="ready.next($event)">
+<ngt-group [ngtObjectPassThrough]="this" (ready)="ready.next($event)">
   <ngt-soba-text [text]="text"
                  [material]="labelmaterial"
                  [fontSize]="fontsize"
