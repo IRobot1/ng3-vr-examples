@@ -142,6 +142,12 @@ export class FlatUIDragPanel extends NgtObjectProps<Group>{
 
   protected titleheight = 0.1;
 
+  protected get titlex(): number {
+    let x = -this.width / 2 + 0.01;
+    if (this.showexpand) x += 0.08;
+    return x;
+  }
+
   override ngOnInit() {
     super.ngOnInit();
 
@@ -149,7 +155,8 @@ export class FlatUIDragPanel extends NgtObjectProps<Group>{
   }
 
   private createOutline() {
-    const halfwidth = this.width / 2 - 0.1;
+    let halfwidth = this.width / 2;
+    if (this.showexpand) halfwidth -= 0.08;
     const halfheight = this.titleheight / 2;
 
     const title = new Shape();
