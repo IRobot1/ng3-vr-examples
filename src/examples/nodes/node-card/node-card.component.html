@@ -1,7 +1,7 @@
 <flat-ui-drag-panel [title]="title" [scalable]="false" [resizable]="true" [selectable]="selectable"
                     [width]="width" [height]="height" (heightchange)="height=$event" (widthchange)="width=$event"
                     [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale"
-                    (ready)="panelready($event)">
+                    [showexpand]="false" (ready)="panelready($event)">
   <ng-template let-parent="parent">
     <ngt-group [appendTo]="parent" [position]="[0, height/2, 0.001]">
       <ngt-group *ngIf="inputexec" [position]="[-width/2, -0.05, 0.001]">

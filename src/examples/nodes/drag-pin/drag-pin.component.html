@@ -1,0 +1,5 @@
+  <ngt-mesh [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale"
+            (pointerover)="over()" (pointerout)="out()" (pointermove)="movepin($event)"
+            (ready)="mesh = $event">
+    <ngt-circle-geometry></ngt-circle-geometry>
+  </ngt-mesh>

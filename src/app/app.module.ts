@@ -133,6 +133,8 @@ import { FlatUINodePin } from '../examples/nodes/node-pin/node-pin.component';
 import { FlatUINodeType } from '../examples/nodes/node-type/node-type.component';
 import { FlatUINodeDiagram } from '../examples/nodes/node-diagram/node-diagram.component';
 import { FlatUINodeLink } from '../examples/nodes/node-link/node-link.component';
+import { FlatUINodeDragPin } from '../examples/nodes/drag-pin/drag-pin.component';
+import { FlatUIDragPlane } from '../examples/nodes/drag-plane/drag-plane.component';
 
 
 
@@ -271,6 +273,8 @@ import { FlatUINodeLink } from '../examples/nodes/node-link/node-link.component'
     FlatUINodePin,
     FlatUINodeType,
     FlatUINodeLink,
+    FlatUINodeDragPin,
+    FlatUIDragPlane,
   ],
   imports: [
     BrowserModule,

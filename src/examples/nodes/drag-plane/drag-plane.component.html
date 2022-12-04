@@ -1,0 +1,7 @@
+<ngt-mesh [name]="name"
+          [position]="position" [rotation]="rotation"
+          (pointerdown)="startdrag($event.intersections[0])" (pointerup)="enddrag($event.intersections[0])"
+          (pointermove)="planehit($event.intersections[0])"
+          (ready)="meshready($event)">
+  <ngt-plane-geometry [args]="[size, size]"></ngt-plane-geometry>
+</ngt-mesh>

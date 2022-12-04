@@ -1,6 +1,6 @@
 <ngt-color attach="background" color="darkgray"></ngt-color>
 
-<line-room></line-room>
+<!--<line-room></line-room>-->
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
@@ -15,14 +15,17 @@
 <flat-ui-node-type #colortype [name]="'color'" [icon]="'circle'" [material]="magentamaterial.instance.value"></flat-ui-node-type>
 <flat-ui-node-type #checktype [name]="'checkbox'" [icon]="'circle'" [material]="cornflowermaterial.instance.value"></flat-ui-node-type>-->
 
-<flat-ui-node-diagram [position]="[0, 0, 0]" [selectable]="selectable">
+<flat-ui-drag-plane [size]="10" [position]="[0, 0, -4]" [selectable]="selectable"
+                    (change)="hit($event)" (dragstart)="dragging=true" (dragend)="dragging=false"></flat-ui-drag-plane>
+
+<flat-ui-node-diagram [position]="[0, 0, -4]" [selectable]="selectable">
   <!--<flat-ui-node-pin [name]="'string'" [type]="stringtype"></flat-ui-node-pin>
   <flat-ui-node-pin [name]="'number'" [type]="numbertype"></flat-ui-node-pin>-->
   <!--<flat-ui-node-pin [input]="false" [name]="'color'" [type]="colortype"></flat-ui-node-pin>
   <flat-ui-node-pin [input]="false" [name]="'checkbox'" [type]="checktype"></flat-ui-node-pin>-->
 </flat-ui-node-diagram>
 
-<vr-controller navhome></vr-controller>
-<vr-controller [index]="1" navhome></vr-controller>
+<vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
+<vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
 
-<ngt-soba-orbit-controls [enableRotate]="false"></ngt-soba-orbit-controls>
+<ngt-soba-orbit-controls vrorbit [enableRotate]="false"></ngt-soba-orbit-controls>
