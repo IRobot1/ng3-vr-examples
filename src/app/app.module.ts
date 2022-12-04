@@ -17,13 +17,13 @@ import { NgtGroupModule } from '@angular-three/core/group';
 import { NgtLineModule, NgtLineSegmentsModule } from '@angular-three/core/lines';
 import { NgtPointsModule } from '@angular-three/core/points';
 
-import { NgtBoxGeometryModule, NgtTubeGeometryModule, NgtBufferGeometryModule, NgtCircleGeometryModule, NgtConeGeometryModule, NgtCylinderGeometryModule, NgtIcosahedronGeometryModule, NgtPlaneGeometryModule, NgtSphereGeometryModule, NgtTorusGeometryModule, NgtTorusKnotGeometryModule, NgtRingGeometryModule,  } from '@angular-three/core/geometries';
+import { NgtBoxGeometryModule, NgtTubeGeometryModule, NgtBufferGeometryModule, NgtCircleGeometryModule, NgtConeGeometryModule, NgtCylinderGeometryModule, NgtIcosahedronGeometryModule, NgtPlaneGeometryModule, NgtSphereGeometryModule, NgtTorusGeometryModule, NgtTorusKnotGeometryModule, NgtRingGeometryModule, } from '@angular-three/core/geometries';
 
 import { NgtLineBasicMaterialModule, NgtMeshBasicMaterialModule, NgtMeshStandardMaterialModule, NgtPointsMaterialModule } from '@angular-three/core/materials';
 
 import { NgtSobaOrbitControlsModule } from '@angular-three/soba/controls'
 import { NgtSobaTextModule } from '@angular-three/soba/abstractions'
-import { NgtSobaSkyModule  } from '@angular-three/soba/staging'
+import { NgtSobaSkyModule } from '@angular-three/soba/staging'
 
 import { NgtCannonDebugModule, NgtPhysicsModule } from '@angular-three/cannon';
 
@@ -129,6 +129,7 @@ import { EmptyExample } from '../examples/empty/empty.component';
 import { JdenticonExample } from '../examples/jdenticon/jdenticon.component';
 import { DicebearExample } from '../examples/dicebear/dicebear.component';
 import { DiceBearAvatarComponent } from '../examples/dicebear/dicebear-avatar.component';
+import { PexelsPhotoExample } from '../examples/pexels-photo/pexels-photo.component';
 
 
 
@@ -263,6 +264,10 @@ import { DiceBearAvatarComponent } from '../examples/dicebear/dicebear-avatar.co
     JdenticonExample,
     DicebearExample,
     DiceBearAvatarComponent,
+
+    PexelsPhotoExample,
+
+
   ],
   imports: [
     BrowserModule,
@@ -326,13 +331,13 @@ import { DiceBearAvatarComponent } from '../examples/dicebear/dicebear-avatar.co
     NgtSobaOrbitControlsModule,
     NgtSobaTextModule,
     NgtSobaSkyModule,
-    
+
 
     // cannon
     NgtPhysicsModule,
     NgtCannonDebugModule,
 
-    
+
   ],
   providers: [],
   bootstrap: [AppComponent]
