@@ -22,6 +22,7 @@ export interface UIInput {
   text: string;
   inputopen: boolean;
   openinput: EventEmitter<Object3D>;
+  enter: EventEmitter<void>;
 }
 
 export interface Paging {

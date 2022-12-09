@@ -76,6 +76,7 @@ export class FlatUIInputColor extends NgtObjectProps<Mesh> implements AfterViewI
   @Output() openinput = new EventEmitter<Object3D>();
 
   @Output() change = new EventEmitter<string>();
+  @Output() enter = new EventEmitter<void>();
 
   protected outline!: BufferGeometry; // outline material
   protected material!: Material;

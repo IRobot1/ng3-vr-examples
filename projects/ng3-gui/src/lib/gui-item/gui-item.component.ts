@@ -72,6 +72,8 @@ export class Ng3GUIItemComponent {
     func.call(this.item.object)
   }
 
-
+  enter() {
+    this.item._callOnFinishChange();
+  }
 }
 

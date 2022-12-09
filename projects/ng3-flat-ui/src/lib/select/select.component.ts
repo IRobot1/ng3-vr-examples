@@ -145,6 +145,7 @@ export class FlatUISelect extends NgtObjectProps<Mesh> implements AfterViewInit,
   @Output() openinput = new EventEmitter<Object3D>();
 
   @Output() change = new EventEmitter<string>();
+  @Output() enter = new EventEmitter<void>();
 
   @Input() geometry!: BufferGeometry;
 

@@ -19,12 +19,12 @@
                       (colorpicked)="input.method.text = $event" (close)="input.showpicker=false;input.closeinput()">
 </flat-ui-color-picker>
 
-<flat-ui-keyboard *ngIf="input.showkeyboard" [text]="input.method.text"
+<flat-ui-keyboard *ngIf="input.showkeyboard" [text]="input.method.text" [allowenter]="true"
                   [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
-                  (change)="input.method.text = $event" (close)="input.showkeyboard=false;input.closeinput()">
+                  (change)="input.method.text = $event" (pressed)="pressed($event)" (close)="input.showkeyboard=false;input.closeinput()">
 </flat-ui-keyboard>
 
 <flat-ui-numpad *ngIf="input.shownumpad" [text]="input.method.text"
                 [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
-                (change)="input.method.text = $event" (close)="input.shownumpad=false;input.closeinput()">
+                (change)="input.method.text = $event" (pressed)="pressed($event)" (close)="input.shownumpad=false;input.closeinput()">
 </flat-ui-numpad>

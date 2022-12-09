@@ -59,11 +59,8 @@ export class Controller {
   public _finishCallback!: (event: any) => void;
   onFinishChange(callback: (e: any) => void): Controller { this._finishCallback = callback; return this; }
 
-  //
-  // implemented, but not called.  Requires Flat UI to support focus lost event
-  //
   _changed = false;
-  protected _callOnFinishChange() {
+  _callOnFinishChange() {
 
     if (this._changed) {
 
@@ -178,9 +175,6 @@ export class Ng3GUI {
 
   _changed = false;
 
-  //
-  // implemented, but not called.  Requires Flat UI to support focus lost event
-  //
   _callOnFinishChange(controller: Controller) {
 
     if (this._changed) {

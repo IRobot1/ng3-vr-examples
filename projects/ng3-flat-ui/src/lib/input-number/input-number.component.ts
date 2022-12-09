@@ -132,7 +132,9 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
     this.updatedisplaytext();
   }
   @Output() openinput = new EventEmitter<Object3D>();
+
   @Output() change = new EventEmitter<number>();
+  @Output() enter = new EventEmitter<void>();
 
   protected displaytext!: string;
 

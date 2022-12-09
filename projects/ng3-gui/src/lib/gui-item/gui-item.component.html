@@ -16,7 +16,7 @@
       </flat-ui-input-slider>
       <flat-ui-input-number #numpad [min]="item._min" [max]="item._max" [text]="textvalue"
                             [enabled]="item.enabled" [selectable]="selectable"
-                            (change)="numbervalue=$event" (openinput)="input.opennumpad($event, numpad, textvalue)">
+                            (change)="numbervalue=$event" (enter)="enter()" (openinput)="input.opennumpad($event, numpad, textvalue)">
       </flat-ui-input-number>
     </ngt-group>
   </ng-template>
@@ -31,7 +31,7 @@
     <ngt-group horizontal-layout [margin]="0.02">
       <flat-ui-label [text]="item.title" [width]="0.8"></flat-ui-label>
       <flat-ui-input-text #keyboard [text]="textvalue" [overflow]="10" [selectable]="selectable" [enabled]="item.enabled"
-                          (change)="textvalue=$event" (openinput)="input.openkeyboard($event, keyboard, textvalue)">
+                          (change)="textvalue=$event" (enter)="enter()" (openinput)="input.openkeyboard($event, keyboard, textvalue)">
       </flat-ui-input-text>
     </ngt-group>
   </ng-template>

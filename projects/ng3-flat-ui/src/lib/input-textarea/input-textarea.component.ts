@@ -129,6 +129,7 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
   @Output() openinput = new EventEmitter<Object3D>();
 
   @Output() change = new EventEmitter<string>();
+  @Output() enter = new EventEmitter<void>();
 
   @Input() geometry!: BufferGeometry;
 

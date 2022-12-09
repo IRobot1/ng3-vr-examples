@@ -34,4 +34,11 @@ export class Ng3GUIComponent extends NgtObjectProps<Group> {
     super.preInit();
     this.input.scale = make(Vector3, this.scale);
   }
+
+  pressed(keycode: string) {
+    if (keycode == 'Enter') {
+      this.input.method.enter.next();
+    }
+  }
+
 }
