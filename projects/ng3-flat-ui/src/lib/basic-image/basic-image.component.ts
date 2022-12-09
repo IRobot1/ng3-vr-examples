@@ -29,6 +29,8 @@ import { NgtLine } from "@angular-three/core/lines";
 export class FlatUIBasicImage extends NgtObjectProps<Mesh> implements AfterViewInit {
   @Input()
   set map(newvalue: string) {
+    if (!newvalue) return;
+
     const s = this.loader.use(TextureLoader, newvalue).subscribe(next => {
       this.maptexture = next;
     },
