@@ -38,13 +38,14 @@ export class PexelsPhotoExample implements OnInit {
   orientations = ['landscape', 'portrait', 'square'];
   colors = ['red', 'orange', 'yellow', 'green', 'turquoise', 'blue', 'purple', 'pink', 'brown', 'black', 'gray', 'white'];
   topics = ['cats', 'dogs', 'beach', 'tree', 'birds', 'sunset', 'snow', 'car'];
+  sizes = ['medium', 'original', 'large2x', 'large', 'small', 'tiny'];
 
   params = {
     query: 'Cats',
     orientation: 'landscape',
     color: '',
+    size: 'medium',
 
-    size: 'small',
     per_page: 1
   }
 
@@ -71,7 +72,7 @@ export class PexelsPhotoExample implements OnInit {
   }
 
   updatePhoto(photo: Photo) {
-    this.url = photo.src.tiny;
+    this.url = (photo.src as any)[this.params.size];
     this.title = photo.photographer;
     this.subtitle = photo.alt ?? '';
     console.log(this.title, this.subtitle);
@@ -122,7 +123,8 @@ export class PexelsPhotoExample implements OnInit {
     gui.title = 'Photo Query Parameters'
     gui.add(this.params, 'query').name('Topic');
     gui.add(this.params, 'query', this.topics).name('Topics');
-    gui.add(this.params, 'orientation', this.orientations ).name('Orientation')
+    gui.add(this.params, 'size', this.sizes).name('Size');
+    gui.add(this.params, 'orientation', this.orientations).name('Orientation')
       .onChange((orientation: PexelOrientation) => {
         switch (orientation) {
           case 'portrait':
