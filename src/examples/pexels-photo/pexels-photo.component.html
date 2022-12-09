@@ -23,20 +23,20 @@
 </ng3-gui>
 
 <ng-container *ngIf="!enterapikey">
-  <ng3-gui [position]="[-2, 1, -2]" [scale]="0.8"
+  <ng3-gui [position]="[-1.5, 1, -1.5]" [scale]="0.8"
            [gui]="gui1" [selectable]="selectable"
            [showclose]="false" [showexpand]="false" [scalable]="false">
   </ng3-gui>
 
-  <ng3-gui [position]="[2, 1.2, -2]" [scale]="0.8"
+  <ng3-gui [position]="[1.5, 1.2, -1.5]" [scale]="0.8"
            [gui]="gui2" [selectable]="selectable"
            [showclose]="false" [showexpand]="false" [scalable]="false">
   </ng3-gui>
 
-  <ngt-group [position]="[0, 0, -2.999]" [scale]="2">
-    <flat-ui-label [position]="[0.02, height/2+0.2, 0]" [width]="width" [fontsize]="0.1" [text]="title"></flat-ui-label>
-    <flat-ui-label [position]="[0.02, height/2+0.1, 0]" [width]="width" [fontsize]="0.05." [text]="subtitle"></flat-ui-label>
+  <ngt-group [position]="[0, 0.8, -2.999]" [scale]="2">
     <flat-ui-basic-image [position]="[0, 0, 0]" [width]="width" [height]="height" [map]="url"></flat-ui-basic-image>
+    <flat-ui-label [position]="[0.02, -height/2-0.2, 0]" [width]="width" [fontsize]="0.1" [text]="title"></flat-ui-label>
+    <flat-ui-label [position]="[0.02, -height/2-0.1, 0]" [width]="width" [fontsize]="0.05." [text]="subtitle"></flat-ui-label>
   </ngt-group>
 </ng-container>
 

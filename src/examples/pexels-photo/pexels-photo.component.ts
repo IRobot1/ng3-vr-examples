@@ -148,7 +148,7 @@ export class PexelsPhotoExample implements OnInit {
     gui.add(this, 'search').name('Search');
     this.gui1 = gui;
 
-    gui = new Ng3GUI({ width: 300 });
+    gui = new Ng3GUI({ width: 200 });
     gui.title = 'Curated and Random Photo'
     gui.add(this, 'curated').name('Latest');
     gui.add(this, 'random').name('Random');
