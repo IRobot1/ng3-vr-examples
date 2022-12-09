@@ -74,6 +74,7 @@
     "ng3-webxr": "^0.0.11",
     "ngraph.forcelayout": "^3.3.0",
     "ngraph.graph": "^20.0.0",
+    "ngx-cookie-service": "^15.0.0",
     "pexels": "^1.4.0",
     "rxjs": "~7.5.0",
     "three": "^0.142.0",

@@ -9,14 +9,17 @@ import { SimpleIconService } from "../svg/simple-icons-data";
 
 import { PexelOrientation, PexelsService } from "./pexels.service";
 
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   templateUrl: './pexels-photo.component.html',
-  providers: [PexelsService]
+  providers: [PexelsService, CookieService]
 })
 export class PexelsPhotoExample implements OnInit {
-  apikey = '';
+  apikey = ''
+  enterapikey = false;
 
+  guikey!: Ng3GUI;
   gui1!: Ng3GUI;
   gui2!: Ng3GUI;
 
@@ -49,18 +52,22 @@ export class PexelsPhotoExample implements OnInit {
     private pexels: PexelsService,
     private cameraman: CameraService,
     private icons: SimpleIconService,
+    private cookie: CookieService,
   ) {
     this.cameraman.position = [0, 0, 1];
     this.cameraman.fov = 90;
 
+    this.apikey = this.cookie.get('apikey');
+
     if (!this.apikey) {
       this.warning = 'Pexels API key is required. Join https://www.pexels.com/ to get a key.';
       console.warn(this.warning);
+      this.enterapikey = true
       return;
     }
 
     pexels.connect(this.apikey);
-
+    this.random();
   }
 
   updatePhoto(photo: Photo) {
@@ -96,6 +103,22 @@ export class PexelsPhotoExample implements OnInit {
 
   ngOnInit(): void {
     let gui = new Ng3GUI({ width: 300 });
+    gui.title = 'Pexel API'
+    gui.add(this, 'apikey').name('Paste API Key').onFinishChange(next => {
+      console.log(next)
+      this.cookie.set('apikey', next);
+      this.apikey = next;
+
+      this.pexels.connect(this.apikey);
+      this.random();
+
+      this.enterapikey = false;
+    });
+
+    this.guikey = gui;
+
+
+    gui = new Ng3GUI({ width: 300 });
     gui.title = 'Photo Query Parameters'
     gui.add(this.params, 'query').name('Topic');
     gui.add(this.params, 'query', this.topics).name('Topics');
@@ -132,7 +155,6 @@ export class PexelsPhotoExample implements OnInit {
 
     const s = this.icons.loadIcons().subscribe(all => {
       const icon = all.find(x => x.title == 'Pexels')
-      console.warn(icon)
       if (icon) {
         this.svg = icon.svg;
         this.svgcolor = icon.color;
