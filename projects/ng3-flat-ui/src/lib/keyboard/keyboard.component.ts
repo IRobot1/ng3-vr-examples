@@ -150,10 +150,17 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
         keycode = 'abc';
       }
     }
-
-    const key = this.keys.find(x => x.lower == keycode || x.upper == keycode || x.alpha == keycode);
-    if (key)
-      this.clicked(keycode);
+    if (event.ctrlKey) {
+      const key = event.key.toLowerCase();
+      if (key == 'v' || key == 'c') {
+        this.clicked("ctrl+" + key);
+      }
+    }
+    else {
+      const key = this.keys.find(x => x.lower == keycode || x.upper == keycode || x.alpha == keycode);
+      if (key)
+        this.clicked(keycode);
+    }
   }
 
   @HostListener('document:keyup', ['$event'])
@@ -183,13 +190,23 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
   protected clicked(keycode: string) {
     if (!this.visible) return;
 
-
     if (keycode == 'ABC') {
       this.keycase = 'upper'
     } else if (keycode == 'abc') {
       this.keycase = 'lower';
     } else if (keycode == '123') {
       this.keycase = 'numbers'
+    }
+    else if (keycode == 'ctrl+v') {
+      navigator.clipboard.readText().then(text => {
+        this.text += text;
+        this.change.next(this.text);
+      });
+    }
+    else if (keycode == 'ctrl+c') {
+      navigator.clipboard.writeText(this.text).then(() => {
+        console.log(this.text, 'saved to clipboard');
+      });
     }
     else {
       this.pressed.next(keycode);
