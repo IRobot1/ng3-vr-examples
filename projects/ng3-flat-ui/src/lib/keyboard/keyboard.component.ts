@@ -10,7 +10,9 @@ import { InteractiveObjects } from "../interactive-objects";
 import { NgtGroup } from "@angular-three/core/group";
 import { NgtMesh } from "@angular-three/core/meshes";
 import { NgFor } from "@angular/common";
-import { FlatUIButton } from "../button/button.component";
+import { NgtSobaText } from "@angular-three/soba/abstractions";
+import { FlatUIBaseButton } from "../base-button/base-button.component";
+import { FlatUIMaterialIcon } from "../material-icon/material-icon.component";
 
 
 class KeySetting {
@@ -21,6 +23,10 @@ class KeySetting {
 
 type KeyCase = 'lower' | 'upper' | 'numbers';
 
+class IconSetting {
+  constructor(public position: NgtTriple, public icon: string, public keycode: string) { }
+}
+
 @Component({
   selector: 'flat-ui-keyboard',
   exportAs: 'flatUIKeyboard',
@@ -30,7 +36,9 @@ type KeyCase = 'lower' | 'upper' | 'numbers';
     NgFor,
     NgtGroup,
     NgtMesh,
-    FlatUIButton,
+    NgtSobaText,
+    FlatUIBaseButton,
+    FlatUIMaterialIcon,
   ]
 })
 export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
@@ -49,6 +57,15 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
     this._popupmaterial = newvalue;
   }
 
+  private _labelmaterial!: Material
+  @Input()
+  get labelmaterial(): Material {
+    if (this._labelmaterial) return this._labelmaterial;
+    return GlobalFlatUITheme.LabelMaterial;
+  }
+  set labelmaterial(newvalue: Material) {
+    this._labelmaterial = newvalue;
+  }
 
   @Output() pressed = new EventEmitter<string>();
   @Output() change = new EventEmitter<string>();
@@ -57,6 +74,7 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
   @Input() geometry!: BufferGeometry;
 
   protected keys: Array<KeySetting> = [];
+  protected icons: Array<IconSetting> = [];
 
   override preInit() {
     super.preInit();
@@ -64,12 +82,13 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
     if (!this.geometry) this.createKeyboardGeometry();
   }
 
+  private keyboardwidth = 1.9;
+  private keyboardheight = 0.48;
+
   createKeyboardGeometry() {
-    const keyboardwidth = 1.8;
-    const keyboardheight = 0.48;
 
     const flat = new Shape();
-    roundedRect(flat, 0, 0, keyboardwidth, keyboardheight, 0.02);
+    roundedRect(flat, 0, 0, this.keyboardwidth, this.keyboardheight, 0.02);
 
     this.geometry = new ShapeGeometry(flat);
     this.geometry.center();
@@ -102,28 +121,32 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
     const z = 0.001;
     const ytop = 0.17
     const ymiddle = 0.06
-    const ybottom = -0.06
-    const yspace = -0.17
+    const ybottom = -0.05
+    const yspace = -0.16
 
     let width = (top.length - 1) * buttonwidth;
     top.forEach((lower, index) => {
       this.keys.push(new KeySetting([(-width / 2 + index * buttonwidth), ytop, z], lower, lower.toUpperCase(), topalpha[index]));
     })
+    this.icons.push(new IconSetting([(width / 2 + 0.35), 0.16, z], 'content_copy', 'ctrl+c'));
+    this.icons.push(new IconSetting([(width / 2 + 0.35), 0, z], 'content_cut', 'ctrl+x'));
+    this.icons.push(new IconSetting([(width / 2 + 0.35), -0.16, z], 'content_paste', 'ctrl+v'));
 
     width = (middle.length - 1) * (buttonwidth + 0.01);
     middle.forEach((lower, index) => {
-      this.keys.push(new KeySetting([(-width / 2 + index * buttonwidth), ymiddle, z], lower, lower.toUpperCase(), middlealpha[index]));
+      this.keys.push(new KeySetting([(-width / 2 + index * buttonwidth + 0.12), ymiddle, z], lower, lower.toUpperCase(), middlealpha[index]));
     })
-    this.keys.push(new KeySetting([(-width / 2 + middle.length * buttonwidth + 0.15), ymiddle, z], 'Back', 'Back', 'Back', 0.4, 0.1));
-    this.keys.push(new KeySetting([(-width / 2 - 0.21), ymiddle, z], 'ABC', 'abc', 'ABC', 0.3, 0.1));
+    this.icons.push(new IconSetting([(-width / 2 + middle.length * buttonwidth + 0.15), ymiddle, z], 'backspace', 'Back'));
+    this.keys.push(new KeySetting([(-width / 2 - 0.09), ymiddle, z], 'ABC', 'abc', 'ABC', 0.3, 0.1));
 
     width = (bottom.length - 1) * buttonwidth;
     bottom.forEach((lower, index) => {
       this.keys.push(new KeySetting([(-width / 2 + index * buttonwidth), ybottom, z], lower, lower.toUpperCase(), bottomalpha[index]));
     })
     if (this.allowenter) {
-      this.keys.push(new KeySetting([(-width / 2 + bottom.length * buttonwidth + 0.16), ybottom, z], 'Enter', 'Enter', 'Enter', 0.4, 0.1));
+      this.icons.push(new IconSetting([(-width / 2 + bottom.length * buttonwidth + 0.05), ybottom, z], 'keyboard_return', 'Enter'));
     }
+
     this.keys.push(new KeySetting([-0.56, yspace, z], '123', '123', 'abc', 0.3, 0.1));
     this.keys.push(new KeySetting([0, yspace, z], ' ', ' ', ' ', 0.8));
     this.keys.push(new KeySetting([0.51, yspace, z], '.', ',', ':'));
@@ -152,7 +175,7 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
     }
     if (event.ctrlKey) {
       const key = event.key.toLowerCase();
-      if (key == 'v' || key == 'c') {
+      if (key == 'v' || key == 'c' || key == 'x') {
         this.clicked("ctrl+" + key);
       }
     }
@@ -187,7 +210,12 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
       return keys.alpha ? keys.alpha : keys.lower;
   }
 
+  protected iconcode(icons: IconSetting): string {
+    return icons.keycode;
+  }
+
   protected clicked(keycode: string) {
+    console.warn(keycode)
     if (!this.visible) return;
 
     if (keycode == 'ABC') {
@@ -203,9 +231,13 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
         this.change.next(this.text);
       });
     }
-    else if (keycode == 'ctrl+c') {
+    else if (keycode == 'ctrl+c' || keycode == 'ctrl+x') {
       navigator.clipboard.writeText(this.text).then(() => {
         console.log(this.text, 'saved to clipboard');
+        if (keycode == 'ctrl+x') {
+          this.text = '';
+          this.change.next(this.text);
+        }
       });
     }
     else {
