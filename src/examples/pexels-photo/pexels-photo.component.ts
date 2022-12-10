@@ -3,7 +3,7 @@ import { Component, OnInit } from "@angular/core";
 import { InteractiveObjects } from "ng3-flat-ui";
 
 import { Ng3GUI } from "ng3-gui";
-import { PaginationParams, Photo } from "pexels";
+import { Photo } from "pexels";
 import { CameraService } from "../../app/camera.service";
 import { SimpleIconService } from "../svg/simple-icons-data";
 
@@ -82,7 +82,7 @@ export class PexelsPhotoExample implements OnInit {
     this.url = (photo.src as any)[this.search_params.size];
     this.title = photo.photographer;
     this.subtitle = photo.alt ?? '';
-    console.log(this.title, this.subtitle);
+    console.log(this.title, ' - ', this.subtitle);
   }
 
   private dosearch() {
@@ -146,13 +146,14 @@ export class PexelsPhotoExample implements OnInit {
     let gui = new Ng3GUI({ width: 300 });
     gui.title = 'Pexel API'
     gui.add(this, 'apikey').name('Paste API Key').onFinishChange(next => {
-      console.log(next + 'saved as cookie');
-      this.cookie.set('apikey', next);
+      console.log('apikey saved as cookie');
+      this.cookie.set('apikey', next, 30);
       this.apikey = next;
 
       this.pexels.connect(this.apikey);
       this.random();
 
+      this.warning = 'Images from https://www.pexels.com/';
       this.enterapikey = false;
     });
 
