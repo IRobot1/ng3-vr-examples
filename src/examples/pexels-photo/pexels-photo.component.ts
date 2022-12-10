@@ -46,6 +46,7 @@ export class PexelsPhotoExample implements OnInit {
     color: '',
     size: 'medium',
 
+    page: 1,
     per_page: 1
   }
 
@@ -78,12 +79,17 @@ export class PexelsPhotoExample implements OnInit {
     console.log(this.title, this.subtitle);
   }
 
-  search() {
-    if (!this.apikey) return;
-
+  private dosearch() {
     this.pexels.searchPhotos(this.params).then(next => {
       this.updatePhoto(next.photos[0])
     });
+  }
+
+  search() {
+    if (!this.apikey) return;
+
+    this.params.page = 1;
+    this.dosearch();
   }
 
   curated() {
@@ -102,11 +108,27 @@ export class PexelsPhotoExample implements OnInit {
     });
   }
 
+  next() {
+    if (!this.apikey) return;
+
+    this.params.page++;
+    this.dosearch();
+  }
+
+  prev() {
+    if (!this.apikey) return;
+
+    if (this.params.page > 1) {
+      this.params.page--;
+      this.dosearch();
+    }
+  }
+
   ngOnInit(): void {
     let gui = new Ng3GUI({ width: 300 });
     gui.title = 'Pexel API'
     gui.add(this, 'apikey').name('Paste API Key').onFinishChange(next => {
-      console.log(next)
+      console.log(next + 'saved as cookie');
       this.cookie.set('apikey', next);
       this.apikey = next;
 
@@ -146,6 +168,8 @@ export class PexelsPhotoExample implements OnInit {
     gui.addColor(this.params, 'color').name('Hex Color');
 
     gui.add(this, 'search').name('Search');
+    gui.add(this, 'next').name('Next');
+    gui.add(this, 'prev').name('Previous');
     this.gui1 = gui;
 
     gui = new Ng3GUI({ width: 200 });
