@@ -2,6 +2,7 @@ import { Component, EventEmitter, HostListener, Input, Output } from "@angular/c
 
 import { BufferGeometry, Material, Mesh, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps, NgtTriple } from "@angular-three/core";
+import { NgtSobaText } from "@angular-three/soba/abstractions";
 
 import { roundedRect } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
@@ -10,11 +11,16 @@ import { InteractiveObjects } from "../interactive-objects";
 import { NgtGroup } from "@angular-three/core/group";
 import { NgtMesh } from "@angular-three/core/meshes";
 import { NgFor } from "@angular/common";
-import { FlatUIButton } from "../button/button.component";
+import { FlatUIBaseButton } from "../base-button/base-button.component";
+import { FlatUIMaterialIcon } from "../material-icon/material-icon.component";
 
 
 class NumKeySetting {
-  constructor(public position: NgtTriple, public numkey: string, public size = 0.1) { }
+  constructor(public position: NgtTriple, public numkey: string) { }
+}
+
+class NumIconSetting {
+  constructor(public position: NgtTriple, public icon: string, public keycode: string) { }
 }
 
 @Component({
@@ -26,7 +32,9 @@ class NumKeySetting {
     NgFor,
     NgtGroup,
     NgtMesh,
-    FlatUIButton,
+    NgtSobaText,
+    FlatUIBaseButton,
+    FlatUIMaterialIcon,
   ]
 })
 export class FlatUINumpad extends NgtObjectProps<Mesh> {
@@ -44,6 +52,16 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
     this._popupmaterial = newvalue;
   }
 
+  private _labelmaterial!: Material
+  @Input()
+  get labelmaterial(): Material {
+    if (this._labelmaterial) return this._labelmaterial;
+    return GlobalFlatUITheme.LabelMaterial;
+  }
+  set labelmaterial(newvalue: Material) {
+    this._labelmaterial = newvalue;
+  }
+
   @Output() pressed = new EventEmitter<string>();
   @Output() change = new EventEmitter<string>();
   @Output() close = new EventEmitter<void>();
@@ -51,6 +69,7 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
   @Input() geometry!: BufferGeometry;
 
   protected keys: Array<NumKeySetting> = [];
+  protected icons: Array<NumIconSetting> = [];
 
   override preInit() {
     super.preInit();
@@ -59,7 +78,7 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
   }
 
   createNumpadGeometry() {
-    const numpadwidth = 0.50;
+    const numpadwidth = 0.60;
     const numpadheight = 0.50;
 
     const flat = new Shape();
@@ -80,10 +99,10 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
   private mesh!: Mesh;
 
   protected meshready(mesh: Mesh) {
-    const top = ['7', '8', '9', '-']
-    const middle = ['4', '5', '6', '']
-    const bottom = ['1', '2', '3', '']
-    const last = [',', '0', '.', '<-']
+    const top = ['7', '8', '9', '-', 'content_copy']
+    const middle = ['4', '5', '6', '', 'content_cut']
+    const bottom = ['1', '2', '3', '', 'content_paste']
+    const last = [',', '0', '.', 'backspace', '']
 
     const buttonwidth = 0.12
     const z = 0.001;
@@ -94,22 +113,38 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
 
     let width = (top.length - 1) * buttonwidth;
     top.forEach((numkey, index) => {
-      this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), ytop, z], numkey));
+      if (numkey.length > 1) {
+        this.icons.push(new NumIconSetting([(-width / 2 + index * buttonwidth), ytop, z], numkey, 'ctrl+c'));
+      } else {
+        this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), ytop, z], numkey));
+      }
     })
 
     width = (middle.length - 1) * buttonwidth;
     middle.forEach((numkey, index) => {
-      this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), ymiddle, z], numkey));
+      if (numkey.length > 1) {
+        this.icons.push(new NumIconSetting([(-width / 2 + index * buttonwidth), ymiddle, z], numkey, 'ctrl+x'));
+      } else {
+        this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), ymiddle, z], numkey));
+      }
     })
 
     width = (bottom.length - 1) * buttonwidth;
     bottom.forEach((numkey, index) => {
-      this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), ybottom, z], numkey));
+      if (numkey.length > 1) {
+        this.icons.push(new NumIconSetting([(-width / 2 + index * buttonwidth), ybottom, z], numkey, 'ctrl+v'));
+      } else {
+        this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), ybottom, z], numkey));
+      }
     })
 
     width = (last.length - 1) * buttonwidth;
     last.forEach((numkey, index) => {
-      this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), ylast, z], numkey));
+      if (numkey.length > 1) {
+        this.icons.push(new NumIconSetting([(-width / 2 + index * buttonwidth), ylast, z], numkey, 'Back'));
+      } else {
+        this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), ylast, z], numkey));
+      }
     })
 
     this.selectable?.add(mesh);
@@ -127,22 +162,38 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
   private onKeyUp(event: KeyboardEvent) {
     let keycode = event.key;
     if (event.key == 'Backspace')
-      keycode = '<-';
-
-    const key = this.keys.find(x => x.numkey == keycode);
-    if (key)
-      this.clicked(keycode);
+      this.clicked('Back');
+    else {
+      const key = this.keys.find(x => x.numkey == keycode);
+      if (key)
+        this.clicked(keycode);
+    }
   }
 
   protected clicked(keycode: string) {
     if (!this.visible) return;
 
     this.pressed.next(keycode);
-    if (keycode == '<-') {
+    if (keycode == 'Back') {
       if (this.text.length > 0) {
         this.text = this.text.slice(0, this.text.length - 1);
         this.change.next(this.text);
       }
+    }
+    else if (keycode == 'ctrl+v') {
+      navigator.clipboard.readText().then(text => {
+        this.text += text;
+        this.change.next(this.text);
+      });
+    }
+    else if (keycode == 'ctrl+c' || keycode == 'ctrl+x') {
+      navigator.clipboard.writeText(this.text).then(() => {
+        console.log(this.text, 'saved to clipboard');
+        if (keycode == 'ctrl+x') {
+          this.text = '';
+          this.change.next(this.text);
+        }
+      });
     }
     else {
       this.text += keycode;
