@@ -130,6 +130,7 @@ import { JdenticonExample } from '../examples/jdenticon/jdenticon.component';
 import { DicebearExample } from '../examples/dicebear/dicebear.component';
 import { DiceBearAvatarComponent } from '../examples/dicebear/dicebear-avatar.component';
 import { PexelsPhotoExample } from '../examples/pexels-photo/pexels-photo.component';
+import { PathEditorExample } from '../examples/path-editor/path-editor.component';
 
 
 
@@ -267,6 +268,7 @@ import { PexelsPhotoExample } from '../examples/pexels-photo/pexels-photo.compon
 
     PexelsPhotoExample,
 
+    PathEditorExample,
 
   ],
   imports: [

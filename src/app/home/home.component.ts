@@ -41,19 +41,24 @@ export class HomeComponent implements OnInit {
     { asset: 'collisions', text: 'Collisions' },
     { asset: 'loading', text: 'Loading' },
     { asset: 'stats', text: 'Stats' },
+    { asset: 'jdenticon', text: 'Jdenticon' },
+    { asset: 'dicebear', text: 'DiceBear Avatars' },
+    { asset: 'pexelsphoto', text: 'Pexels Photo' },
+  ]
+
+  examples3 = [
     { asset: 'datagrid', text: 'Data Grids' },
     { asset: 'three-gui', text: 'Ng3 GUI' },
     { asset: 'lists', text: 'Lists' },
     { asset: 'flat-ui', text: 'Flat UI' },
     { asset: 'kanban', text: 'Kanban Board' },
     { asset: 'actions', text: 'Actions' },
-    { asset: 'jdenticon', text: 'Jdenticon' },
-    { asset: 'dicebear', text: 'DiceBear Avatars' },
-    { asset: 'pexelsphoto', text: 'Pexels Photo' },
+    { asset: 'patheditor', text: 'Path Editor' },
   ]
 
   panels1: Array<PanelSetting> = [];
   panels2: Array<PanelSetting> = [];
+  panels3: Array<PanelSetting> = [];
 
   selectable: Array<Object3D> = [];
 
@@ -86,6 +91,16 @@ export class HomeComponent implements OnInit {
 
       const panel = new PanelSetting(position, rotation, item.asset, item.text)
       this.panels2.push(panel);
+    });
+
+    angle = 360 / this.examples3.length;
+
+    this.examples3.forEach((item, index) => {
+      const position = [0, 0, 0] as NgtTriple;
+      const rotation = angle * index;
+
+      const panel = new PanelSetting(position, rotation, item.asset, item.text)
+      this.panels3.push(panel);
     });
   }
 
