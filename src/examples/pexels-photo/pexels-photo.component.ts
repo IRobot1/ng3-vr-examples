@@ -22,6 +22,7 @@ export class PexelsPhotoExample implements OnInit {
   guikey!: Ng3GUI;
   gui1!: Ng3GUI;
   gui2!: Ng3GUI;
+  gui3!: Ng3GUI;
 
   selectable = new InteractiveObjects();
   url!: string;
@@ -40,12 +41,17 @@ export class PexelsPhotoExample implements OnInit {
   topics = ['cats', 'dogs', 'beach', 'tree', 'birds', 'sunset', 'snow', 'car'];
   sizes = ['medium', 'original', 'large2x', 'large', 'small', 'tiny'];
 
-  params = {
+  search_params = {
     query: 'Cats',
     orientation: 'landscape',
     color: '',
     size: 'medium',
 
+    page: 1,
+    per_page: 1
+  }
+
+  curate_params = {
     page: 1,
     per_page: 1
   }
@@ -73,31 +79,58 @@ export class PexelsPhotoExample implements OnInit {
   }
 
   updatePhoto(photo: Photo) {
-    this.url = (photo.src as any)[this.params.size];
+    this.url = (photo.src as any)[this.search_params.size];
     this.title = photo.photographer;
     this.subtitle = photo.alt ?? '';
     console.log(this.title, this.subtitle);
   }
 
   private dosearch() {
-    this.pexels.searchPhotos(this.params).then(next => {
+    if (!this.apikey) return;
+    this.pexels.searchPhotos(this.search_params).then(next => {
       this.updatePhoto(next.photos[0])
     });
   }
 
   search() {
-    if (!this.apikey) return;
-
-    this.params.page = 1;
+    this.search_params.page = 1;
     this.dosearch();
   }
 
-  curated() {
-    if (!this.apikey) return;
+  search_next() {
+    this.search_params.page++;
+    this.dosearch();
+  }
 
-    this.pexels.curatedPhotos(this.params).then(next => {
+  search_prev() {
+    if (this.search_params.page > 1) {
+      this.search_params.page--;
+      this.dosearch();
+    }
+  }
+
+  private docurate() {
+    if (!this.apikey) return;
+    this.pexels.curatedPhotos(this.curate_params).then(next => {
       this.updatePhoto(next.photos[0])
     });
+  }
+
+  curated() {
+    this.curate_params.page = 1;
+    this.docurate();
+  }
+
+  curate_next() {
+    this.curate_params.page++;
+    this.docurate();
+  }
+
+  curate_prev() {
+    if (this.curate_params.page > 1) {
+      this.curate_params.page--;
+      this.docurate();
+    }
   }
 
   random() {
@@ -108,21 +141,6 @@ export class PexelsPhotoExample implements OnInit {
     });
   }
 
-  next() {
-    if (!this.apikey) return;
-
-    this.params.page++;
-    this.dosearch();
-  }
-
-  prev() {
-    if (!this.apikey) return;
-
-    if (this.params.page > 1) {
-      this.params.page--;
-      this.dosearch();
-    }
-  }
 
   ngOnInit(): void {
     let gui = new Ng3GUI({ width: 300 });
@@ -143,10 +161,10 @@ export class PexelsPhotoExample implements OnInit {
 
     gui = new Ng3GUI({ width: 300 });
     gui.title = 'Photo Query Parameters'
-    gui.add(this.params, 'query').name('Topic');
-    gui.add(this.params, 'query', this.topics).name('Topics');
-    gui.add(this.params, 'size', this.sizes).name('Size');
-    gui.add(this.params, 'orientation', this.orientations).name('Orientation')
+    gui.add(this.search_params, 'query').name('Topic');
+    gui.add(this.search_params, 'query', this.topics).name('Topics');
+    gui.add(this.search_params, 'size', this.sizes).name('Size');
+    gui.add(this.search_params, 'orientation', this.orientations).name('Orientation')
       .onChange((orientation: PexelOrientation) => {
         switch (orientation) {
           case 'portrait':
@@ -164,20 +182,27 @@ export class PexelsPhotoExample implements OnInit {
         }
       });
 
-    gui.add(this.params, 'color', this.colors).name('Color');
-    gui.addColor(this.params, 'color').name('Hex Color');
+    gui.add(this.search_params, 'color', this.colors).name('Color');
+    gui.addColor(this.search_params, 'color').name('Hex Color');
 
     gui.add(this, 'search').name('Search');
-    gui.add(this, 'next').name('Next');
-    gui.add(this, 'prev').name('Previous');
+    gui.add(this, 'search_next').name('Next');
+    gui.add(this, 'search_prev').name('Previous');
     this.gui1 = gui;
 
     gui = new Ng3GUI({ width: 200 });
     gui.title = 'Curated and Random Photo'
     gui.add(this, 'curated').name('Latest');
-    gui.add(this, 'random').name('Random');
+    gui.add(this, 'curate_next').name('Next');
+    gui.add(this, 'curate_prev').name('Previous');
 
     this.gui2 = gui;
+
+    gui = new Ng3GUI({ width: 200 });
+    gui.title = 'Random Photo'
+    gui.add(this, 'random').name('Random');
+
+    this.gui3 = gui;
 
     const s = this.icons.loadIcons().subscribe(all => {
       const icon = all.find(x => x.title == 'Pexels')
