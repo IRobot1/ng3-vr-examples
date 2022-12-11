@@ -30,7 +30,7 @@ export class FlatUIDragPlane extends NgtObjectProps<Mesh> {
 
     mesh.addEventListener('pointerdown', (e: any) => { this.startdrag(e.data); })
     mesh.addEventListener('pointerup', (e: any) => { this.enddrag(e.data); })
-    mesh.addEventListener('pointermove', (e: any) => { this.planehit(e.data); })
+    mesh.addEventListener('pointermove', (e: any) => { this.move(e.data, mesh); })
 
     this.createMaterial(mesh);
   }
@@ -43,8 +43,8 @@ export class FlatUIDragPlane extends NgtObjectProps<Mesh> {
     this.dragend.next(event);
   }
 
-  planehit(event: NgtEvent<PointerEvent>) {
-    if (event.object.type != 'Line')
+  protected move(event: NgtEvent<PointerEvent>, mesh: Mesh) {
+    if (event.object == mesh)
       this.change.next(event);
   }
 
@@ -83,5 +83,10 @@ export class FlatUIDragPlane extends NgtObjectProps<Mesh> {
 
     mesh.material = new MeshBasicMaterial({ map: texture, transparent: true });
 
+  }
+
+  doclick(event: NgtEvent<MouseEvent>, mesh: Mesh) {
+    if (event.object == mesh)
+      this.click.next(event);
   }
 }

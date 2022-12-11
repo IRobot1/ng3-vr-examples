@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from "@angular/core";
 
-import { BufferGeometry, Intersection, Mesh, Vector2 } from "three";
+import { BufferGeometry, Intersection, Mesh, Vector2, Vector3 } from "three";
 
 import { InteractiveObjects } from "ng3-flat-ui";
 import { BaseCommand, HorizontalCommand, LineToCommand, MoveToCommand, PathPoint, VerticalCommand } from "./path-util";
+import { NgtTriple } from "@angular-three/core";
 
 @Component({
   templateUrl: './path-editor.component.html',
@@ -14,13 +15,29 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
   dragging?: PathPoint;
 
+  showmore = false;
+  moreposition = new Vector3(0, 0, 0.1)
+
   startdrag(point: PathPoint) {
     //console.warn('start dragging')
     this.dragging = point;
+    this.showmore = false;
   }
   enddrag() {
-    //console.warn('end dragging')
-    this.dragging = undefined;
+    if (this.showmore) return;
+    console.warn('end drag')
+    if (this.dragging) {
+      this.moreposition.x = this.dragging.position.x;
+      this.moreposition.y = this.dragging.position.y;
+
+      this.dragging = undefined;
+      const timer = setTimeout(() => {
+        this.showmore = true;
+        clearTimeout(timer)
+      }, 100)
+
+      //console.warn('end dragging')
+    }
   }
 
   commands: Array<BaseCommand> = [];
@@ -125,5 +142,9 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
       if (command.geometry) this.curves.push(command.geometry);
     });
+  }
+
+  showmenu() {
+    console.warn('show menu')
   }
 }

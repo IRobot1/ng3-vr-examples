@@ -1,0 +1,14 @@
+<flat-ui-base-button #parent [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale"
+                     [text]="text" [enabled]="enabled"
+                     [width]="width" [height]="height"
+                     [buttonmaterial]="buttonmaterial"
+                     [disabledmaterial]="disabledmaterial"
+                     [outlinematerial]="outlinematerial"
+                     [selectable]="selectable"
+                     (pressed)="pressed.next($event)">
+
+  <ng-template #button let-parent="parent">
+    <flat-ui-material-icon [appendTo]="parent" [text]="text" [labelmaterial]="labelmaterial" [position]="[0, 0, 0.001]"></flat-ui-material-icon>
+  </ng-template>
+
+</flat-ui-base-button>

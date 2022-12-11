@@ -1,7 +1,8 @@
 <ngt-mesh #parent [name]="name"
           [position]="position" [rotation]="rotation"
+          (click)="doclick($event, parent.instance.value)"
           (pointerdown)="startdrag($event.intersections[0])" (pointerup)="enddrag($event.intersections[0])"
-          (pointermove)="planehit($event)"
+          (pointermove)="move($event, parent.instance.value)"
           (ready)="meshready($event)">
   <ngt-plane-geometry [args]="[size, size]"></ngt-plane-geometry>
 

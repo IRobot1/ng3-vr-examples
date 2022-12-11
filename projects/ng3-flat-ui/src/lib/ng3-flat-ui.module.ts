@@ -37,6 +37,7 @@ import { FlatUICard } from './card/card.component';
 import { DraggableDirective, DropListDirective } from './drag-and-drop';
 import { FlatUICardActions } from './card-actions/card-actions.component';
 import { FlatUICardAction } from './card-action/card-action.component';
+import { FlatUIMaterialButton } from './material-button/material-button.component';
 
 
 
@@ -67,6 +68,7 @@ import { FlatUICardAction } from './card-action/card-action.component';
     FlatUITabGroup,
     FlatUILabel,
     FlatUIMaterialIcon,
+    FlatUIMaterialButton,
 
     FlatUIColorPicker,
     FlatUIKeyboard,
@@ -106,6 +108,7 @@ import { FlatUICardAction } from './card-action/card-action.component';
     FlatUIInputToggle,
     FlatUILabel,
     FlatUIMaterialIcon,
+    FlatUIMaterialButton,
     FlatUIProgressBar,
     FlatUIRadioButton,
     FlatUIRadioGroup,
