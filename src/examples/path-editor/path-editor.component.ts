@@ -60,20 +60,31 @@ export class PathEditorExample implements OnInit, OnDestroy {
         x = Math.round(x / 0.1) * 0.1;
         y = Math.round(y / 0.1) * 0.1;
       }
+      x = +x.toFixed(2);
+      y = +y.toFixed(2);
 
-      if (x != this.dragging.position.x || y != this.dragging.position.y) {
-        if (this.dragging.changex)
+      if (this.dragging.changex && this.dragging.changey) {
+        if (x != this.dragging.position.x || y != this.dragging.position.y) {
           this.dragging.position.x = this.dragging.mesh.position.x = x;
-        if (this.dragging.changey)
-        this.dragging.position.y = this.dragging.mesh.position.y = y;
-
-        //const commands = this.commands.filter(x => x.from == this.dragging || x.to == this.dragging);
-        //console.warn(commands)
-
-        this.commands.forEach(command => command.update());
-
-        this.updateFlag = true;
+          this.dragging.position.y = this.dragging.mesh.position.y = y;
+          this.updateFlag = true;
+        }
+      } else if (this.dragging.changex) {
+        if (x != this.dragging.position.x) {
+          this.dragging.position.x = this.dragging.mesh.position.x = x;
+          this.updateFlag = true;
+        }
+      } else if (this.dragging.changey) {
+        if (y != this.dragging.position.y) {
+          this.dragging.position.y = this.dragging.mesh.position.y = y;
+          this.updateFlag = true;
+        }
       }
+
+      if (this.updateFlag) {
+        this.commands.forEach(command => command.update());
+      }
+
     }
   }
 
@@ -104,12 +115,12 @@ export class PathEditorExample implements OnInit, OnDestroy {
     this.commands.forEach(command => {
       let target = command.from.mesh.position;
       let source = command.from.position;
-      target.set(source.x, source.y, 0.001);
+      target.set(source.x, source.y, 0.002);
 
       if (command.from != command.to) {
         target = command.to.mesh.position;
         source = command.to.position;
-        target.set(source.x, source.y, 0.001);
+        target.set(source.x, source.y, 0.002);
       }
 
       if (command.geometry) this.curves.push(command.geometry);

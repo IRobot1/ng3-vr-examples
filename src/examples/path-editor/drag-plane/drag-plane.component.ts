@@ -44,7 +44,8 @@ export class FlatUIDragPlane extends NgtObjectProps<Mesh> {
   }
 
   planehit(event: NgtEvent<PointerEvent>) {
-    this.change.next(event);
+    if (event.object.type != 'Line')
+      this.change.next(event);
   }
 
   private createMaterial(mesh: Mesh) {
