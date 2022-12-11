@@ -1,11 +1,35 @@
 <ngt-color attach="background" color="darkgray"></ngt-color>
 
-<line-room></line-room>
+<ngt-mesh>
+  <ngt-cylinder-geometry [args]="[1, 1, 0.1, 32]"></ngt-cylinder-geometry>
+</ngt-mesh>
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
+<ngt-mesh-basic-material #linematerial color="blue"></ngt-mesh-basic-material>
 
-<vr-controller navhome></vr-controller>
-<vr-controller [index]="1" navhome></vr-controller>
+<flat-ui-drag-plane [size]="10" [position]="[0, 1.5, -1]" [selectable]="selectable"
+                    (change)="hit($event)" (dragend)="enddrag()">
 
-<ngt-soba-orbit-controls></ngt-soba-orbit-controls>
+  <ng-template let-parent="parent">
+    <ngt-group [appendTo]="parent">
+
+      <path-point *ngFor="let item of points" [point]="item"
+                   (dragging)="startdrag(item)">
+      </path-point>
+
+      <ngt-line *ngFor="let item of curves" [geometry]="item"
+                [material]="linematerial.instance.value">
+      </ngt-line>
+
+    </ngt-group>
+  </ng-template>
+
+</flat-ui-drag-plane>
+
+<path-command-list [position]="[0, 1, -0.9]" [selectable]="selectable" [commands]="commands"></path-command-list>
+
+<vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
+<vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
+
+<ngt-soba-orbit-controls vrorbit [enableRotate]="false"></ngt-soba-orbit-controls>

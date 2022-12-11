@@ -131,6 +131,10 @@ import { DicebearExample } from '../examples/dicebear/dicebear.component';
 import { DiceBearAvatarComponent } from '../examples/dicebear/dicebear-avatar.component';
 import { PexelsPhotoExample } from '../examples/pexels-photo/pexels-photo.component';
 import { PathEditorExample } from '../examples/path-editor/path-editor.component';
+import { FlatUIDragPlane } from '../examples/path-editor/drag-plane/drag-plane.component';
+import { PathCommandList } from '../examples/path-editor/command-list/command-list.component';
+import { PathCommandItem } from '../examples/path-editor/command-item/command-item.component';
+import { PathPointComponent } from '../examples/path-editor/path-point/path-point.component';
 
 
 
@@ -269,6 +273,10 @@ import { PathEditorExample } from '../examples/path-editor/path-editor.component
     PexelsPhotoExample,
 
     PathEditorExample,
+    PathCommandItem,
+    PathCommandList,
+    PathPointComponent,
+    FlatUIDragPlane,
 
   ],
   imports: [

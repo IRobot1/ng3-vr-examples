@@ -1,0 +1,10 @@
+<ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale"
+           (ready)="group = $event">
+
+  <ngt-group vertical-layout [margin]="0.01" [position]="[0, 0, 0]">
+
+    <path-command-item *ngFor="let item of commands" [command]="item" [selectable]="selectable"></path-command-item>
+
+  </ngt-group>
+
+</ngt-group>

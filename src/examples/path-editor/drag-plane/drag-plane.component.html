@@ -1,0 +1,13 @@
+<ngt-mesh #parent [name]="name"
+          [position]="position" [rotation]="rotation"
+          (pointerdown)="startdrag($event.intersections[0])" (pointerup)="enddrag($event.intersections[0])"
+          (pointermove)="planehit($event)"
+          (ready)="meshready($event)">
+  <ngt-plane-geometry [args]="[size, size]"></ngt-plane-geometry>
+
+  <ng-container *ngIf="templateRef"
+                [ngTemplateOutlet]="templateRef"
+                [ngTemplateOutletContext]="{ parent: parent.instance.value }">
+  </ng-container>
+
+</ngt-mesh>

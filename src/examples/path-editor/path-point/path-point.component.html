@@ -1,0 +1,6 @@
+<ngt-mesh [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale" 
+          (pointerdown)="startdrag()" (pointerup)="enddrag()"
+          (ready)="meshready($event)">
+  <ngt-circle-geometry [args]="[0.01, 20]"></ngt-circle-geometry>
+  <ngt-mesh-basic-material [color]="point.color"></ngt-mesh-basic-material>
+</ngt-mesh>

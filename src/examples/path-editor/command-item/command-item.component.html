@@ -1,0 +1,25 @@
+<ngt-group horizontal-layout [margin]="0.01" [ngSwitch]="command.type">
+
+  <ng-template [ngSwitchCase]="'moveto'">
+    <flat-ui-button [text]="command.text" [selectable]="selectable" [width]="0.1" (click)="selected.next()"></flat-ui-button>
+    <flat-ui-input-number [enabled]="false" [text]="moveto.to.position.x.toString()" [width]="0.2"></flat-ui-input-number>
+    <flat-ui-input-number [enabled]="false" [text]="moveto.to.position.y.toString()" [width]="0.2"></flat-ui-input-number>
+  </ng-template>
+
+  <ng-template [ngSwitchCase]="'lineto'">
+    <flat-ui-button [text]="command.text" [selectable]="selectable" [width]="0.1" (click)="selected.next()"></flat-ui-button>
+    <flat-ui-input-number [enabled]="false" [text]="moveto.to.position.x.toString()" [width]="0.2"></flat-ui-input-number>
+    <flat-ui-input-number [enabled]="false" [text]="moveto.to.position.y.toString()" [width]="0.2"></flat-ui-input-number>
+  </ng-template>
+
+  <ng-template [ngSwitchCase]="'vertical'">
+    <flat-ui-button [text]="command.text" [selectable]="selectable" [width]="0.1" (click)="selected.next()"></flat-ui-button>
+    <flat-ui-input-number [enabled]="false" [text]="vertical.to.position.y.toString()" [width]="0.2"></flat-ui-input-number>
+  </ng-template>
+
+  <ng-template [ngSwitchCase]="'horizontal'">
+    <flat-ui-button [text]="command.text" [selectable]="selectable" [width]="0.1" (click)="selected.next()"></flat-ui-button>
+    <flat-ui-input-number [enabled]="false" [text]="horizontal.to.position.x.toString()" [width]="0.2"></flat-ui-input-number>
+  </ng-template>
+
+</ngt-group>
