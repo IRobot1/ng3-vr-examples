@@ -1,15 +1,15 @@
 <ngt-color attach="background" color="darkgray"></ngt-color>
 
-<ngt-mesh>
+<!--<ngt-mesh>
   <ngt-cylinder-geometry [args]="[1, 1, 0.1, 32]"></ngt-cylinder-geometry>
-</ngt-mesh>
+</ngt-mesh>-->
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
 <ngt-mesh-basic-material #linematerial color="blue"></ngt-mesh-basic-material>
 
-<flat-ui-drag-plane [size]="10" [position]="[0, 1.5, -1]" [selectable]="selectable"
-                    (change)="hit($event)" (click)="showmore=showmenu=false" (dragend)="enddrag()">
+<flat-ui-drag-plane [size]="10" [position]="[0, 0, -1]" [selectable]="selectable"
+                    (change)="hit($event)" (click)="closemenus()" (dragend)="enddrag()">
 
   <ng-template let-parent="parent">
     <ngt-group [appendTo]="parent">
@@ -22,15 +22,24 @@
                 [material]="linematerial.instance.value">
       </ngt-line>
 
-      <flat-ui-material-button *ngIf="showmore" [text]="'more_horiz'" [position]="moreposition" [selectable]="selectable" (pressed)="morepressed()"></flat-ui-material-button>
-      <flat-ui-menu *ngIf="showmenu" [position]="menuposition" [menuitems]="menuitems" [selectable]="selectable"></flat-ui-menu>
+      <flat-ui-material-button *ngIf="showmore"
+                               [text]="'more_horiz'" [position]="moreposition" [selectable]="selectable" (pressed)="morepressed()">
+      </flat-ui-material-button>
+
+      <flat-ui-menu *ngIf="showmenu"
+                    [position]="menuposition" [menuitems]="menuitems" [selectable]="selectable">
+      </flat-ui-menu>
+
+      <flat-ui-menu *ngIf="showactions"
+                    [position]="actionposition" [menuitems]="actionmenu" [selectable]="selectable">
+      </flat-ui-menu>
 
     </ngt-group>
   </ng-template>
 
 </flat-ui-drag-plane>
 
-<path-command-list [position]="[0, 1, -0.9]" [selectable]="selectable" [commands]="commands"></path-command-list>
+<!--<path-command-list [position]="[0, 1, -0.9]" [selectable]="selectable" [commands]="commands"></path-command-list>-->
 
 <vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
 <vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>

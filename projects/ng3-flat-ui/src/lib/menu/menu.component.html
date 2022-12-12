@@ -5,11 +5,11 @@
 
   <ng-template #listItem let-list="list" let-text="text" let-width="width" let-data="data" let-index="index" let-parent="parent">
     <ngt-group [appendTo]="parent">
-      <flat-ui-base-button [selectable]="selectable" [text]="text" [width]="width" (pressed)="pressed()">
+      <flat-ui-base-button [selectable]="selectable" [text]="text" [width]="width" (pressed)="data.selected()">
         <ng-template #button let-parent="parent">
           <ngt-group [appendTo]="parent" [position]="[0, 0, 0.001]">
             <flat-ui-material-icon [text]="data.icon" [position]="[-width/2+0.05, 0, 0]"></flat-ui-material-icon>
-            <flat-ui-label [text]="text" [position]="[0.12, 0, 0]"></flat-ui-label>
+            <flat-ui-label [text]="text" [position]="[data.icon ? 0.12 : 0.05, 0, 0]"></flat-ui-label>
             <flat-ui-material-icon *ngIf="data.submenu" [text]="'play_arrow'" [position]="[width/2-0.05, 0, 0]"></flat-ui-material-icon>
           </ngt-group>
         </ng-template>

@@ -1,21 +1,24 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+
+import { NgFor, NgIf } from "@angular/common";
 
 import { Group } from "three";
 import { NgtObjectProps } from "@angular-three/core";
-import { NgFor, NgIf } from "@angular/common";
-import { FlatUIList, ListItem } from "../list/list.component";
 import { NgtGroup } from "@angular-three/core/group";
-import { InteractiveObjects } from "../interactive-objects";
-import { FlatUIMaterialButton } from "../material-button/material-button.component";
+
+import { FlatUIList, ListItem } from "../list/list.component";
 import { FlatUIMaterialIcon } from "../material-icon/material-icon.component";
 import { FlatUILabel } from "../label/label.component";
 import { FlatUIBaseButton } from "../base-button/base-button.component";
+
+import { InteractiveObjects } from "../interactive-objects";
 
 export interface MenuItem {
   text: string;
   icon?: string;
   enabled: boolean;
   submenu?: Array<MenuItem>;
+  selected: () => void;
 }
 
 @Component({
@@ -42,15 +45,17 @@ private _menuitems: Array<MenuItem> = [];
     this.list = newvalue.map(x => <ListItem>{ text: x.text, data: x });
   }
 
-  @Input() height = 1;
+
   @Input() width = 1;
 
   @Input() rowheight = 0.1;
+  @Input() rowspacing = 0.01;
   @Input() margin = 0.03;
 
   @Input() selectable?: InteractiveObjects;
 
   list: Array<ListItem> = [];
 
-  pressed() { }
+  get height(): number { return (this.rowheight + this.rowspacing) * this.menuitems.length + this.margin*2 };
+
 }

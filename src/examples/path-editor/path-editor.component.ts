@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from "@angular/core";
 
-import { BufferGeometry, Intersection, Mesh, Vector2, Vector3 } from "three";
+import { BufferGeometry, Intersection, Vector2, Vector3 } from "three";
 
-import { InteractiveObjects } from "ng3-flat-ui";
+import { InteractiveObjects, MenuItem } from "ng3-flat-ui";
 import { BaseCommand, HorizontalCommand, LineToCommand, MoveToCommand, PathPoint, VerticalCommand } from "./path-util";
-import { NgtTriple } from "@angular-three/core";
-import { MenuItem } from "../../../projects/ng3-flat-ui/src/lib/menu/menu.component";
+import { CameraService } from "../../app/camera.service";
 
 @Component({
   templateUrl: './path-editor.component.html',
@@ -22,29 +21,57 @@ export class PathEditorExample implements OnInit, OnDestroy {
   showmenu = true;
   menuposition = new Vector3(0, 0, 0.12)
   menuwidth = 1;
-  menuheight = 1;
+
+  showactions = false;
+  actionposition = new Vector3(0, 0, 0.12)
+
+  actionmenu: Array<MenuItem> = [
+    { text: 'M Move to', icon: '', enabled: true, selected: () => { } },
+    { text: 'L Line to', icon: '', enabled: true, selected: () => { } },
+    { text: 'V Vertical Line to', icon: '', enabled: true, selected: () => { } },
+    { text: 'H Horizontal Line to', icon: '', enabled: true, selected: () => { } },
+    { text: 'C Cubic Curve to', icon: '', enabled: true, selected: () => { } },
+    { text: 'Q Bezier Curve to', icon: '', enabled: true, selected: () => { } },
+    { text: 'A Elliptical Arc', icon: '', enabled: true, selected: () => { } },
+    { text: 'Z Close Path', icon: '', enabled: true, selected: () => { } },
+  ];
 
   menuitems: Array<MenuItem> = [
-    {
-      text: 'Move To', icon: 'clear', enabled: true
-      
-    },
-    ]
+    { text: 'Insert After', icon: 'add', enabled: true, submenu: this.actionmenu, selected: () => { this.showactions = true } },
+    //{ text: 'Convert To', icon: 'sync', enabled: true, submenu: this.actionmenu, selected: () => { this.showactions = true } },
+    { text: 'Delete', icon: 'delete', enabled: true, selected: () => { } },
+  ]
+
+  rowheight = 0.1;
+  rowspacing = 0.01;
+  margin = 0.03;
 
   morepressed() {
-    this.menuposition.x = this.moreposition.x + this.menuwidth / 2 + 0.05;
-    this.menuposition.y = this.moreposition.y - this.menuheight / 2 + 0.05;
+    let height = (this.rowheight + this.rowspacing) * this.menuitems.length + this.margin * 2;
+
+    this.menuposition.x = this.moreposition.x + this.menuwidth / 2 + 0.1;
+    this.menuposition.y = this.moreposition.y - height / 2 + 0.05;
+
+    height = (this.rowheight + this.rowspacing) * this.actionmenu.length + this.margin * 2;
+    this.actionposition.x = this.menuposition.x + this.menuwidth + 0.05;
+    this.actionposition.y = this.moreposition.y - height / 2 + 0.05;
+
     this.showmenu = true;
+  }
+
+  closemenus() {
+    this.showmore = this.showmenu = this.showactions = false;
   }
 
   startdrag(point: PathPoint) {
     //console.warn('start dragging')
     this.dragging = point;
-    this.showmore = this.showmenu = false;
+    this.closemenus();
   }
+
   enddrag() {
     if (this.showmore) return;
-    console.warn('end drag')
+
     if (this.dragging) {
       this.moreposition.x = this.dragging.position.x;
       this.moreposition.y = this.dragging.position.y;
@@ -63,7 +90,11 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
   points: Array<PathPoint> = [];
 
-  constructor() {
+  constructor(
+    private cameraman: CameraService
+  ) {
+    this.cameraman.position = [0, 0, 2];
+
     let moveto = new PathPoint(new Vector2(0, 0), 'red');
     this.commands.push(new MoveToCommand(moveto, moveto));
     this.points.push(moveto);
@@ -84,13 +115,14 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
     this.updateFlag = true;
 
+
   }
 
   snap = true;
   hit(event: Intersection) {
     if (this.dragging) {
       let x = event.point.x;
-      let y = event.point.y - 1.5;
+      let y = event.point.y;
 
       if (this.snap) {
         x = Math.round(x / 0.1) * 0.1;
