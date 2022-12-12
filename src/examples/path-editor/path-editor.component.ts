@@ -5,6 +5,7 @@ import { BufferGeometry, Intersection, Mesh, Vector2, Vector3 } from "three";
 import { InteractiveObjects } from "ng3-flat-ui";
 import { BaseCommand, HorizontalCommand, LineToCommand, MoveToCommand, PathPoint, VerticalCommand } from "./path-util";
 import { NgtTriple } from "@angular-three/core";
+import { MenuItem } from "../../../projects/ng3-flat-ui/src/lib/menu/menu.component";
 
 @Component({
   templateUrl: './path-editor.component.html',
@@ -18,10 +19,28 @@ export class PathEditorExample implements OnInit, OnDestroy {
   showmore = false;
   moreposition = new Vector3(0, 0, 0.1)
 
+  showmenu = true;
+  menuposition = new Vector3(0, 0, 0.12)
+  menuwidth = 1;
+  menuheight = 1;
+
+  menuitems: Array<MenuItem> = [
+    {
+      text: 'Move To', icon: 'clear', enabled: true
+      
+    },
+    ]
+
+  morepressed() {
+    this.menuposition.x = this.moreposition.x + this.menuwidth / 2 + 0.05;
+    this.menuposition.y = this.moreposition.y - this.menuheight / 2 + 0.05;
+    this.showmenu = true;
+  }
+
   startdrag(point: PathPoint) {
     //console.warn('start dragging')
     this.dragging = point;
-    this.showmore = false;
+    this.showmore = this.showmenu = false;
   }
   enddrag() {
     if (this.showmore) return;
@@ -144,7 +163,4 @@ export class PathEditorExample implements OnInit, OnDestroy {
     });
   }
 
-  showmenu() {
-    console.warn('show menu')
-  }
 }

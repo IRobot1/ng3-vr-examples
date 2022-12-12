@@ -9,7 +9,7 @@
 <ngt-mesh-basic-material #linematerial color="blue"></ngt-mesh-basic-material>
 
 <flat-ui-drag-plane [size]="10" [position]="[0, 1.5, -1]" [selectable]="selectable"
-                    (change)="hit($event)" (click)="showmore=false" (dragend)="enddrag()">
+                    (change)="hit($event)" (click)="showmore=showmenu=false" (dragend)="enddrag()">
 
   <ng-template let-parent="parent">
     <ngt-group [appendTo]="parent">
@@ -22,7 +22,8 @@
                 [material]="linematerial.instance.value">
       </ngt-line>
 
-      <flat-ui-material-button *ngIf="showmore" [text]="'more_horiz'" [position]="moreposition" [selectable]="selectable" (pressed)="showmenu()"></flat-ui-material-button>
+      <flat-ui-material-button *ngIf="showmore" [text]="'more_horiz'" [position]="moreposition" [selectable]="selectable" (pressed)="morepressed()"></flat-ui-material-button>
+      <flat-ui-menu *ngIf="showmenu" [position]="menuposition" [menuitems]="menuitems" [selectable]="selectable"></flat-ui-menu>
 
     </ngt-group>
   </ng-template>
