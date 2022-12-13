@@ -40,42 +40,42 @@ export abstract class BaseCommand {
 
 
 
-  constructor(public type: CommandType, public text: string, public from: PathPoint, public to: PathPoint, public name='') { this.update() }
+  constructor(public type: CommandType, public text: string, public endpoint: PathPoint, public name='') {  }
 
-  public update() { };
+  public update(from: PathPoint) { };
 }
 
 export class MoveToCommand extends BaseCommand {
-  constructor(from: PathPoint, to: PathPoint) { super('moveto', 'M', from, to); }
+  constructor(to: PathPoint) { super('moveto', 'M', to); }
 }
 
 export class LineToCommand extends BaseCommand {
-  constructor(from: PathPoint, to: PathPoint, name = '') {
-    super('lineto', 'L', from, to, name);
+  constructor(to: PathPoint) {
+    super('lineto', 'L', to);
   }
 
-  override update() {
+  override update(from: PathPoint) {
     if (this.geometry) this.geometry.dispose();
-    this.geometry = this.line(this.from.position, this.to.position)
+    this.geometry = this.line(from.position, this.endpoint.position)
   }
 }
 
 export class VerticalCommand extends BaseCommand {
-  constructor(from: PathPoint, to: PathPoint) { super('vertical', 'V', from, to); }
+  constructor(to: PathPoint) { super('vertical', 'V', to); }
 
-  override update() {
+  override update(from: PathPoint) {
     if (this.geometry) this.geometry.dispose();
-    this.to.position.x = this.from.position.x;
-    this.geometry = this.line(this.from.position, this.to.position)
+    this.endpoint.position.x = from.position.x;
+    this.geometry = this.line(from.position, this.endpoint.position)
   }
 }
 
 export class HorizontalCommand extends BaseCommand {
-  constructor(from: PathPoint, to: PathPoint) { super('horizontal', 'H', from, to); }
+  constructor(to: PathPoint) { super('horizontal', 'H', to); }
 
-  override update() {
+  override update(from: PathPoint) {
     if (this.geometry) this.geometry.dispose();
-    this.to.position.y = this.from.position.y;
-    this.geometry = this.line(this.from.position, this.to.position)
+    this.endpoint.position.y = from.position.y;
+    this.geometry = this.line(from.position, this.endpoint.position)
   }
 }

@@ -31,18 +31,16 @@ export class PathEditorExample implements OnInit, OnDestroy {
   actionposition = new Vector3(0, 0, 0.12)
 
   addcommand(command: BaseCommand) {
-    let index = this.commands.findIndex(x => x.to == this.last);
+    let index = this.commands.findIndex(x => x.endpoint == this.last);
     if (index == this.commands.length - 1)
       this.commands.push(command);
     else {
       const prev = this.commands[index];
-      const next = this.commands[index + 1];
 
       this.commands.splice(index+1, 0, command);
+      const next = this.commands[index];
 
-      command.from = prev.to;
-      next.from = command.to;
-      next.update();
+      next.update(prev.endpoint);
 
       this.dump();
     }
@@ -64,7 +62,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     {
       text: 'L Line to', icon: '', enabled: true, selected: () => {
         const lineto = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y + 0.1));
-        this.addcommand(new LineToCommand(this.last, lineto));
+        this.addcommand(new LineToCommand(lineto));
         this.addpoint(lineto);
       }
     },
@@ -72,7 +70,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
       text: 'V Vertical Line to', icon: '', enabled: true, selected: () => {
         const vertical = new PathPoint(new Vector2(this.moreposition.x, this.moreposition.y + 0.1));
         vertical.changex = false;
-        this.addcommand(new VerticalCommand(this.last, vertical));
+        this.addcommand(new VerticalCommand(vertical));
         this.addpoint(vertical);
       }
     },
@@ -80,7 +78,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
       text: 'H Horizontal Line to', icon: '', enabled: true, selected: () => {
         const horizontal = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y));
         horizontal.changey = false;
-        this.addcommand(new HorizontalCommand(this.last, horizontal));
+        this.addcommand(new HorizontalCommand(horizontal));
         this.addpoint(horizontal);
       }
     },
@@ -95,20 +93,21 @@ export class PathEditorExample implements OnInit, OnDestroy {
     //{ text: 'Convert To', icon: 'sync', enabled: true, submenu: this.actionmenu, selected: () => { this.showactions = true } },
     {
       text: 'Delete', icon: 'delete', enabled: this.commands.length > 1, selected: () => {
-        let index = this.commands.findIndex(x => x.to == this.last);
+        let index = this.commands.findIndex(x => x.endpoint == this.last);
         if (index > 0) {
           this.points = this.points.filter(x => x != this.last);
 
           const command = this.commands[index];
           this.commands.splice(index, 1);
 
-          if (index < this.commands.length) {
-            const next = this.commands[index];
-            next.from = command.from;
-            next.update();
-          }
+          //if (index < this.commands.length) {
+          //  const next = this.commands[index];
+          //  next.from = command.from;
+          //  next.update(next.from);
+          //}
 
-          this.last = this.commands[index-1].to;
+          this.last = command.endpoint;
+          command.update(command.endpoint)
 
           this.updateFlag = true;
         }
@@ -173,16 +172,16 @@ export class PathEditorExample implements OnInit, OnDestroy {
     this.cameraman.position = [0, 0, 2];
 
     let moveto = new PathPoint(new Vector2(0, 0), 'red');
-    this.commands.push(new MoveToCommand(moveto, moveto));
+    this.commands.push(new MoveToCommand(moveto));
     this.points.push(moveto);
     this.last = moveto;
 
     let lineto = new PathPoint(new Vector2(0.1, 0.1), 'green');
-    this.commands.push(new LineToCommand(moveto, lineto, 'one'));
+    this.commands.push(new LineToCommand(lineto));
     this.points.push(lineto);
 
     let lineto2 = new PathPoint(new Vector2(0.2, 0.2), 'blue');
-    this.commands.push(new LineToCommand(lineto, lineto2, 'two'));
+    this.commands.push(new LineToCommand(lineto2));
     this.points.push(lineto2);
 
     this.updateFlag = true;
@@ -220,7 +219,11 @@ export class PathEditorExample implements OnInit, OnDestroy {
       }
 
       if (this.updateFlag) {
-        this.commands.forEach(command => command.update());
+        let from = this.commands[0].endpoint
+        this.commands.forEach(command => {
+          command.update(from);
+          from = command.endpoint;
+        });
       }
 
     }
@@ -250,18 +253,23 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
   drawshape() {
     this.curves.length = 0;
+
+    let from = this.commands[0].endpoint;
     this.commands.forEach(command => {
-      let target = command.from.mesh.position;
-      let source = command.from.position;
+      let target = command.endpoint.mesh.position;
+      let source = from.position;
       target.set(source.x, source.y, 0.002);
 
-      if (command.from != command.to) {
-        target = command.to.mesh.position;
-        source = command.to.position;
+      if (from != command.endpoint) {
+        target = command.endpoint.mesh.position;
+        source = command.endpoint.position;
         target.set(source.x, source.y, 0.002);
       }
 
+      command.update(from);
       if (command.geometry) this.curves.push(command.geometry);
+
+      from = command.endpoint;
     });
   }
 
