@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { Mesh } from "three";
-import { NgtObjectProps } from "@angular-three/core";
+import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { InteractiveObjects } from "ng3-flat-ui";
 import { PathPoint } from "../path-util";
@@ -31,6 +31,7 @@ export class PathPointComponent extends NgtObjectProps<Mesh> {
   meshready(mesh: Mesh) {
     this.selectable?.add(mesh);
 
+    mesh.addEventListener('click', (e: any) => { this.click.next(e.data); e.stop = true; })
     mesh.addEventListener('pointerdown', (e: any) => { this.startdrag(); })
     mesh.addEventListener('pointerup', (e: any) => { this.enddrag(); })
 
@@ -46,4 +47,10 @@ export class PathPointComponent extends NgtObjectProps<Mesh> {
     this.selectable?.remove(this.mesh)
 }
 
+  doclick(event: NgtEvent<MouseEvent>, mesh: Mesh) {
+    if (event.object != mesh) return;
+    event.stopPropagation();
+
+    this.click.next(event);
+  }
 }

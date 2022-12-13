@@ -13,23 +13,70 @@ import { CameraService } from "../../app/camera.service";
 export class PathEditorExample implements OnInit, OnDestroy {
   selectable = new InteractiveObjects();
 
-  dragging?: PathPoint;
+  commands: Array<BaseCommand> = [];
 
-  showmore = false;
+  points: Array<PathPoint> = [];
+
+  dragging?: PathPoint;
+  last!: PathPoint;
+
+  showmore = true;
   moreposition = new Vector3(0, 0, 0.1)
 
-  showmenu = true;
+  showmenu = false;
   menuposition = new Vector3(0, 0, 0.12)
   menuwidth = 1;
 
   showactions = false;
   actionposition = new Vector3(0, 0, 0.12)
 
+  addcommand(command: BaseCommand) {
+    const index = this.commands.findIndex(x => x.to == this.last);
+    if (index > 0) {
+      const from = this.commands[index].from;
+
+      this.commands.splice(index, 0, command);
+      this.points = this.points.filter(x => x != this.last);
+
+      this.commands[index].from = from;
+      this.commands[index].update();
+
+      this.last = this.commands[index].to;
+    }
+  }
+
+  addpoint(item: PathPoint) {
+    this.points.push(item);
+    this.last = item;
+    this.closemenus();
+    this.updateFlag = true;
+  }
+
   actionmenu: Array<MenuItem> = [
-    { text: 'M Move to', icon: '', enabled: true, selected: () => { } },
-    { text: 'L Line to', icon: '', enabled: true, selected: () => { } },
-    { text: 'V Vertical Line to', icon: '', enabled: true, selected: () => { } },
-    { text: 'H Horizontal Line to', icon: '', enabled: true, selected: () => { } },
+    //{ text: 'M Move to', icon: '', enabled: true, selected: () => { } },
+    {
+      text: 'L Line to', icon: '', enabled: true, selected: () => {
+        const lineto = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y + 0.1));
+        this.commands.push(new LineToCommand(this.last, lineto));
+        this.addpoint(lineto);
+      }
+    },
+    {
+      text: 'V Vertical Line to', icon: '', enabled: true, selected: () => {
+        const vertical = new PathPoint(new Vector2(this.moreposition.x, this.moreposition.y + 0.1));
+        vertical.changex = false;
+        this.commands.push(new VerticalCommand(this.last, vertical));
+        this.addpoint(vertical);
+      }
+    },
+    {
+      text: 'H Horizontal Line to', icon: '', enabled: true, selected: () => {
+        const horizontal = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y));
+        horizontal.changey = false;
+        this.commands.push(new HorizontalCommand(this.last, horizontal));
+        this.addpoint(horizontal);
+      }
+    },
     { text: 'C Cubic Curve to', icon: '', enabled: true, selected: () => { } },
     { text: 'Q Bezier Curve to', icon: '', enabled: true, selected: () => { } },
     { text: 'A Elliptical Arc', icon: '', enabled: true, selected: () => { } },
@@ -39,7 +86,27 @@ export class PathEditorExample implements OnInit, OnDestroy {
   menuitems: Array<MenuItem> = [
     { text: 'Insert After', icon: 'add', enabled: true, submenu: this.actionmenu, selected: () => { this.showactions = true } },
     //{ text: 'Convert To', icon: 'sync', enabled: true, submenu: this.actionmenu, selected: () => { this.showactions = true } },
-    { text: 'Delete', icon: 'delete', enabled: true, selected: () => { } },
+    {
+      text: 'Delete', icon: 'delete', enabled: this.commands.length > 1, selected: () => {
+        let index = this.commands.findIndex(x => x.to == this.last);
+        if (index > 0) {
+          const from = this.commands[index].from;
+
+          this.commands.splice(index, 1);
+          this.points = this.points.filter(x => x != this.last);
+
+          if (index < this.commands.length) {
+            this.commands[index].from = from;
+            this.commands[index].update();
+          }
+          else index--;
+
+          this.last = this.commands[index].to;
+          this.updateFlag = true;
+        }
+        this.closemenus();
+      }
+    },
   ]
 
   rowheight = 0.1;
@@ -61,6 +128,11 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
   closemenus() {
     this.showmore = this.showmenu = this.showactions = false;
+  }
+
+  changelast(item: PathPoint) {
+    this.last = item;
+    //console.warn('last updated')
   }
 
   startdrag(point: PathPoint) {
@@ -86,9 +158,6 @@ export class PathEditorExample implements OnInit, OnDestroy {
     }
   }
 
-  commands: Array<BaseCommand> = [];
-
-  points: Array<PathPoint> = [];
 
   constructor(
     private cameraman: CameraService
@@ -98,24 +167,9 @@ export class PathEditorExample implements OnInit, OnDestroy {
     let moveto = new PathPoint(new Vector2(0, 0), 'red');
     this.commands.push(new MoveToCommand(moveto, moveto));
     this.points.push(moveto);
-
-    const lineto = new PathPoint(new Vector2(1, 0));
-    this.commands.push(new LineToCommand(moveto, lineto));
-    this.points.push(lineto);
-
-    const vertical = new PathPoint(new Vector2(1, 1));
-    vertical.changex = false;
-    this.commands.push(new VerticalCommand(lineto, vertical));
-    this.points.push(vertical);
-
-    const horizontal = new PathPoint(new Vector2(0, 1));
-    horizontal.changey = false;
-    this.commands.push(new HorizontalCommand(vertical, horizontal));
-    this.points.push(horizontal);
+    this.last = moveto;
 
     this.updateFlag = true;
-
-
   }
 
   snap = true;

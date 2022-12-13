@@ -15,7 +15,7 @@
     <ngt-group [appendTo]="parent">
 
       <path-point *ngFor="let item of points" [point]="item"
-                   (dragging)="startdrag(item)">
+                   (dragging)="startdrag(item)" (click)="changelast(item)">
       </path-point>
 
       <ngt-line *ngFor="let item of curves" [geometry]="item"

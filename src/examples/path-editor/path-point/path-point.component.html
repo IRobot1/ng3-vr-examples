@@ -1,4 +1,5 @@
-<ngt-mesh [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale" 
+<ngt-mesh #mesh [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale"
+          (click)="doclick($event, mesh.instance.value)"
           (pointerdown)="startdrag()" (pointerup)="enddrag()"
           (ready)="meshready($event)">
   <ngt-circle-geometry [args]="[0.01, 20]"></ngt-circle-geometry>
