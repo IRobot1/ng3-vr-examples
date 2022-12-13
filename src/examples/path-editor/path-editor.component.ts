@@ -31,17 +31,20 @@ export class PathEditorExample implements OnInit, OnDestroy {
   actionposition = new Vector3(0, 0, 0.12)
 
   addcommand(command: BaseCommand) {
-    const index = this.commands.findIndex(x => x.to == this.last);
-    if (index > 0) {
-      const from = this.commands[index].from;
+    let index = this.commands.findIndex(x => x.to == this.last);
+    if (index == this.commands.length - 1)
+      this.commands.push(command);
+    else {
+      const prev = this.commands[index];
+      const next = this.commands[index + 1];
 
-      this.commands.splice(index, 0, command);
-      this.points = this.points.filter(x => x != this.last);
+      this.commands.splice(index+1, 0, command);
 
-      this.commands[index].from = from;
-      this.commands[index].update();
+      command.from = prev.to;
+      next.from = command.to;
+      next.update();
 
-      this.last = this.commands[index].to;
+      this.dump();
     }
   }
 
@@ -52,12 +55,16 @@ export class PathEditorExample implements OnInit, OnDestroy {
     this.updateFlag = true;
   }
 
+  dump() {
+    //this.commands.forEach(command => console.warn(command.from.color, command.name, command.to.color))
+  }
+
   actionmenu: Array<MenuItem> = [
     //{ text: 'M Move to', icon: '', enabled: true, selected: () => { } },
     {
       text: 'L Line to', icon: '', enabled: true, selected: () => {
         const lineto = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y + 0.1));
-        this.commands.push(new LineToCommand(this.last, lineto));
+        this.addcommand(new LineToCommand(this.last, lineto));
         this.addpoint(lineto);
       }
     },
@@ -65,7 +72,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
       text: 'V Vertical Line to', icon: '', enabled: true, selected: () => {
         const vertical = new PathPoint(new Vector2(this.moreposition.x, this.moreposition.y + 0.1));
         vertical.changex = false;
-        this.commands.push(new VerticalCommand(this.last, vertical));
+        this.addcommand(new VerticalCommand(this.last, vertical));
         this.addpoint(vertical);
       }
     },
@@ -73,7 +80,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
       text: 'H Horizontal Line to', icon: '', enabled: true, selected: () => {
         const horizontal = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y));
         horizontal.changey = false;
-        this.commands.push(new HorizontalCommand(this.last, horizontal));
+        this.addcommand(new HorizontalCommand(this.last, horizontal));
         this.addpoint(horizontal);
       }
     },
@@ -90,18 +97,19 @@ export class PathEditorExample implements OnInit, OnDestroy {
       text: 'Delete', icon: 'delete', enabled: this.commands.length > 1, selected: () => {
         let index = this.commands.findIndex(x => x.to == this.last);
         if (index > 0) {
-          const from = this.commands[index].from;
-
-          this.commands.splice(index, 1);
           this.points = this.points.filter(x => x != this.last);
 
-          if (index < this.commands.length) {
-            this.commands[index].from = from;
-            this.commands[index].update();
-          }
-          else index--;
+          const command = this.commands[index];
+          this.commands.splice(index, 1);
 
-          this.last = this.commands[index].to;
+          if (index < this.commands.length) {
+            const next = this.commands[index];
+            next.from = command.from;
+            next.update();
+          }
+
+          this.last = this.commands[index-1].to;
+
           this.updateFlag = true;
         }
         this.closemenus();
@@ -168,6 +176,14 @@ export class PathEditorExample implements OnInit, OnDestroy {
     this.commands.push(new MoveToCommand(moveto, moveto));
     this.points.push(moveto);
     this.last = moveto;
+
+    let lineto = new PathPoint(new Vector2(0.1, 0.1), 'green');
+    this.commands.push(new LineToCommand(moveto, lineto, 'one'));
+    this.points.push(lineto);
+
+    let lineto2 = new PathPoint(new Vector2(0.2, 0.2), 'blue');
+    this.commands.push(new LineToCommand(lineto, lineto2, 'two'));
+    this.points.push(lineto2);
 
     this.updateFlag = true;
   }

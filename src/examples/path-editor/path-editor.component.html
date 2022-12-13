@@ -14,7 +14,7 @@
   <ng-template let-parent="parent">
     <ngt-group [appendTo]="parent">
 
-      <path-point *ngFor="let item of points" [point]="item"
+      <path-point *ngFor="let item of points" [point]="item" [selectable]="selectable"
                    (dragging)="startdrag(item)" (click)="changelast(item)">
       </path-point>
 

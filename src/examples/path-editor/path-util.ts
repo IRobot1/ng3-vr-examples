@@ -40,7 +40,7 @@ export abstract class BaseCommand {
 
 
 
-  constructor(public type: CommandType, public text: string, public from: PathPoint, public to: PathPoint) { this.update() }
+  constructor(public type: CommandType, public text: string, public from: PathPoint, public to: PathPoint, public name='') { this.update() }
 
   public update() { };
 }
@@ -50,8 +50,8 @@ export class MoveToCommand extends BaseCommand {
 }
 
 export class LineToCommand extends BaseCommand {
-  constructor(from: PathPoint, to: PathPoint) {
-    super('lineto', 'L', from, to);
+  constructor(from: PathPoint, to: PathPoint, name = '') {
+    super('lineto', 'L', from, to, name);
   }
 
   override update() {
