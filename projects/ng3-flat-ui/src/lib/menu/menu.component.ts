@@ -16,6 +16,7 @@ import { InteractiveObjects } from "../interactive-objects";
 export interface MenuItem {
   text: string;
   icon?: string;
+  keycode: string;
   enabled: boolean;
   submenu?: Array<MenuItem>;
   selected: () => void;

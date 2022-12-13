@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } from "@angular/core";
 
 import { BufferGeometry, Intersection, Vector2, Vector3 } from "three";
 
@@ -32,42 +32,45 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
   addcommand(command: BaseCommand) {
     let index = this.commands.findIndex(x => x.endpoint == this.last);
+    const prev = this.commands[index];
+
     if (index == this.commands.length - 1)
       this.commands.push(command);
     else {
-      const prev = this.commands[index];
 
       this.commands.splice(index+1, 0, command);
+    }
       const next = this.commands[index];
 
       next.update(prev.endpoint);
 
       this.dump();
-    }
   }
 
   addpoint(item: PathPoint) {
     this.points.push(item);
+    this.moreposition.x = item.position.x;
+    this.moreposition.y = item.position.y;
     this.last = item;
     this.closemenus();
     this.updateFlag = true;
   }
 
   dump() {
-    //this.commands.forEach(command => console.warn(command.from.color, command.name, command.to.color))
+    //this.commands.forEach(command => console.warn(command.endpoint, command.text))
   }
 
   actionmenu: Array<MenuItem> = [
     //{ text: 'M Move to', icon: '', enabled: true, selected: () => { } },
     {
-      text: 'L Line to', icon: '', enabled: true, selected: () => {
+      text: 'Line to', keycode: 'L', icon: '', enabled: true, selected: () => {
         const lineto = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y + 0.1));
         this.addcommand(new LineToCommand(lineto));
         this.addpoint(lineto);
       }
     },
     {
-      text: 'V Vertical Line to', icon: '', enabled: true, selected: () => {
+      text: 'Vertical Line to', keycode : 'V', icon: '', enabled: true, selected: () => {
         const vertical = new PathPoint(new Vector2(this.moreposition.x, this.moreposition.y + 0.1));
         vertical.changex = false;
         this.addcommand(new VerticalCommand(vertical));
@@ -75,24 +78,24 @@ export class PathEditorExample implements OnInit, OnDestroy {
       }
     },
     {
-      text: 'H Horizontal Line to', icon: '', enabled: true, selected: () => {
+      text: 'Horizontal Line to', keycode: 'H', icon: '', enabled: true, selected: () => {
         const horizontal = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y));
         horizontal.changey = false;
         this.addcommand(new HorizontalCommand(horizontal));
         this.addpoint(horizontal);
       }
     },
-    { text: 'C Cubic Curve to', icon: '', enabled: true, selected: () => { } },
-    { text: 'Q Bezier Curve to', icon: '', enabled: true, selected: () => { } },
-    { text: 'A Elliptical Arc', icon: '', enabled: true, selected: () => { } },
-    { text: 'Z Close Path', icon: '', enabled: true, selected: () => { } },
+    { text: 'Cubic Curve to', keycode: 'C', icon: '', enabled: true, selected: () => { } },
+    { text: 'Bezier Curve to', keycode: 'Q', icon: '', enabled: true, selected: () => { } },
+    { text: 'Elliptical Arc', keycode: 'A', icon: '', enabled: true, selected: () => { } },
+    { text: 'Close Path', keycode: 'Z', icon: '', enabled: true, selected: () => { } },
   ];
 
   menuitems: Array<MenuItem> = [
-    { text: 'Insert After', icon: 'add', enabled: true, submenu: this.actionmenu, selected: () => { this.showactions = true } },
+    { text: 'Insert After', keycode: '', icon: 'add', enabled: true, submenu: this.actionmenu, selected: () => { this.showactions = true } },
     //{ text: 'Convert To', icon: 'sync', enabled: true, submenu: this.actionmenu, selected: () => { this.showactions = true } },
     {
-      text: 'Delete', icon: 'delete', enabled: this.commands.length > 1, selected: () => {
+      text: 'Delete', keycode: 'DELETE', icon: 'delete', enabled: this.commands.length > 1, selected: () => {
         let index = this.commands.findIndex(x => x.endpoint == this.last);
         if (index > 0) {
           this.points = this.points.filter(x => x != this.last);
@@ -100,21 +103,35 @@ export class PathEditorExample implements OnInit, OnDestroy {
           const command = this.commands[index];
           this.commands.splice(index, 1);
 
-          //if (index < this.commands.length) {
-          //  const next = this.commands[index];
-          //  next.from = command.from;
-          //  next.update(next.from);
-          //}
-
-          this.last = command.endpoint;
           command.update(command.endpoint)
 
+          this.last = this.commands[index - 1].endpoint;
+          this.moreposition.x = this.last.position.x;
+          this.moreposition.y = this.last.position.y;
+
+
+          this.dump();
           this.updateFlag = true;
         }
         this.closemenus();
       }
     },
   ]
+
+  @HostListener('document:keyup', ['$event'])
+  private onKeyUp(event: KeyboardEvent) {
+    let keycode = event.key.toUpperCase();
+
+    let item = this.menuitems.find(x => x.keycode == keycode)
+    if (item) {
+      item.selected();
+      return;
+    }
+
+    item = this.actionmenu.find(x => x.keycode == keycode)
+    if (item)
+      item.selected();
+  }
 
   rowheight = 0.1;
   rowspacing = 0.01;
@@ -176,13 +193,13 @@ export class PathEditorExample implements OnInit, OnDestroy {
     this.points.push(moveto);
     this.last = moveto;
 
-    let lineto = new PathPoint(new Vector2(0.1, 0.1), 'green');
-    this.commands.push(new LineToCommand(lineto));
-    this.points.push(lineto);
+    //let lineto = new PathPoint(new Vector2(0.1, 0.1), 'green');
+    //this.commands.push(new LineToCommand(lineto));
+    //this.points.push(lineto);
 
-    let lineto2 = new PathPoint(new Vector2(0.2, 0.2), 'blue');
-    this.commands.push(new LineToCommand(lineto2));
-    this.points.push(lineto2);
+    //let lineto2 = new PathPoint(new Vector2(0.2, 0.2), 'blue');
+    //this.commands.push(new LineToCommand(lineto2));
+    //this.points.push(lineto2);
 
     this.updateFlag = true;
   }
@@ -200,6 +217,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
       x = +x.toFixed(2);
       y = +y.toFixed(2);
 
+      // limit flickering 
       if (this.dragging.changex && this.dragging.changey) {
         if (x != this.dragging.position.x || y != this.dragging.position.y) {
           this.dragging.position.x = this.dragging.mesh.position.x = x;
@@ -225,7 +243,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
           from = command.endpoint;
         });
       }
-
+      this.last = this.dragging;
     }
   }
 
