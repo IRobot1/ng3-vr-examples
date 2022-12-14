@@ -6,7 +6,8 @@
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
-<ngt-mesh-basic-material #linematerial color="blue"></ngt-mesh-basic-material>
+<ngt-mesh-basic-material #curvematerial color="black"></ngt-mesh-basic-material>
+<ngt-mesh-basic-material #linematerial color="green"></ngt-mesh-basic-material>
 
 <flat-ui-drag-plane [size]="10" [position]="[0, 0, -1]" [selectable]="selectable"
                     (change)="hit($event)" (click)="closemenus()" (dragend)="enddrag()">
@@ -19,6 +20,10 @@
       </path-point>
 
       <ngt-line *ngFor="let item of curves" [geometry]="item"
+                [material]="curvematerial.instance.value">
+      </ngt-line>
+
+      <ngt-line *ngFor="let item of controllines" [geometry]="item"
                 [material]="linematerial.instance.value">
       </ngt-line>
 

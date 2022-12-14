@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } f
 import { BufferGeometry, Intersection, Vector2, Vector3 } from "three";
 
 import { InteractiveObjects, MenuItem } from "ng3-flat-ui";
-import { BaseCommand, HorizontalCommand, LineToCommand, MoveToCommand, PathPoint, VerticalCommand } from "./path-util";
+import { BaseCommand, ControlPoint, CubicCurveCommand, HorizontalCommand, LineToCommand, MoveToCommand, PathPoint, VerticalCommand } from "./path-util";
 import { CameraService } from "../../app/camera.service";
 
 @Component({
@@ -14,6 +14,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
   selectable = new InteractiveObjects();
 
   commands: Array<BaseCommand> = [];
+  controls: Array<ControlPoint> = [];
 
   points: Array<PathPoint> = [];
 
@@ -38,13 +39,13 @@ export class PathEditorExample implements OnInit, OnDestroy {
       this.commands.push(command);
     else {
 
-      this.commands.splice(index+1, 0, command);
+      this.commands.splice(index + 1, 0, command);
     }
-      const next = this.commands[index];
+    const next = this.commands[index];
 
-      next.update(prev.endpoint);
+    next.update(prev.endpoint);
 
-      this.dump();
+    this.dump();
   }
 
   addpoint(item: PathPoint) {
@@ -70,7 +71,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
       }
     },
     {
-      text: 'Vertical Line to', keycode : 'V', icon: '', enabled: true, selected: () => {
+      text: 'Vertical Line to', keycode: 'V', icon: '', enabled: true, selected: () => {
         const vertical = new PathPoint(new Vector2(this.moreposition.x, this.moreposition.y + 0.1));
         vertical.changex = false;
         this.addcommand(new VerticalCommand(vertical));
@@ -85,7 +86,17 @@ export class PathEditorExample implements OnInit, OnDestroy {
         this.addpoint(horizontal);
       }
     },
-    { text: 'Cubic Curve to', keycode: 'C', icon: '', enabled: true, selected: () => { } },
+    {
+      text: 'Cubic Curve to', keycode: 'C', icon: '', enabled: true, selected: () => {
+        const cp1 = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y), 'green', true);
+        const cp2 = new PathPoint(new Vector2(this.moreposition.x + 0.2, this.moreposition.y), 'green', true);
+        const to = new PathPoint(new Vector2(this.moreposition.x + 0.3, this.moreposition.y));
+        this.addcommand(new CubicCurveCommand(cp1, cp2, to));
+        this.points.push(cp1);
+        this.points.push(cp2);
+        this.addpoint(to);
+      }
+    },
     { text: 'Bezier Curve to', keycode: 'Q', icon: '', enabled: true, selected: () => { } },
     { text: 'Elliptical Arc', keycode: 'A', icon: '', enabled: true, selected: () => { } },
     { text: 'Close Path', keycode: 'Z', icon: '', enabled: true, selected: () => { } },
@@ -243,7 +254,8 @@ export class PathEditorExample implements OnInit, OnDestroy {
           from = command.endpoint;
         });
       }
-      this.last = this.dragging;
+      if (!this.dragging.control)
+        this.last = this.dragging;
     }
   }
 
@@ -268,24 +280,21 @@ export class PathEditorExample implements OnInit, OnDestroy {
   }
 
   curves: Array<BufferGeometry> = [];
+  controllines: Array<BufferGeometry> = [];
 
   drawshape() {
-    this.curves.length = 0;
+    this.curves.length = this.controllines.length = 0;
 
     let from = this.commands[0].endpoint;
     this.commands.forEach(command => {
-      let target = command.endpoint.mesh.position;
-      let source = from.position;
-      target.set(source.x, source.y, 0.002);
-
-      if (from != command.endpoint) {
-        target = command.endpoint.mesh.position;
-        source = command.endpoint.position;
-        target.set(source.x, source.y, 0.002);
-      }
 
       command.update(from);
       if (command.geometry) this.curves.push(command.geometry);
+
+      if (command instanceof CubicCurveCommand) {
+        this.controllines.push(command.line1.geometry);
+        this.controllines.push(command.line2.geometry);
+      }
 
       from = command.endpoint;
     });

@@ -1,16 +1,21 @@
 import { BufferGeometry, CubicBezierCurve, Mesh, QuadraticBezierCurve, SplineCurve, Vector2, Vector3 } from "three";
 
 export class PathPoint {
-  mesh!: Mesh;
+  private _mesh!: Mesh;
+  get mesh(): Mesh { return this._mesh }
+  set mesh(newvalue: Mesh) {
+    newvalue.position.set(this.position.x, this.position.y, this.control ? 0.003 : 0.002);
+    this._mesh = newvalue;
+  }
 
   changex = true; // allow x to change
   changey = true; // allow y to change
 
-  constructor(public position: Vector2, public color = 'white') { }
+  constructor(public position: Vector2, public color = 'white', public control = false) { }
 }
 
 
-export type CommandType = 'moveto' | 'lineto' | 'vertical' | 'horizontal'
+export type CommandType = 'control' | 'moveto' | 'lineto' | 'vertical' | 'horizontal' | 'cubic'
 
 export abstract class BaseCommand {
   geometry?: BufferGeometry;
@@ -20,19 +25,13 @@ export abstract class BaseCommand {
     return new BufferGeometry().setFromPoints(points);
   }
 
-  spline(points: Array<Vector2>): BufferGeometry {
-    const curve = new SplineCurve(points);
-    const curvepoints = curve.getPoints(25);
-    return new BufferGeometry().setFromPoints(curvepoints);
-  }
-
   quadratic(v0: Vector2, v1: Vector2, v2: Vector2): BufferGeometry {
     const curve = new QuadraticBezierCurve(v0, v1, v2);
     const curvepoints = curve.getPoints(25);
     return new BufferGeometry().setFromPoints(curvepoints);
   }
 
-  bezier(v0: Vector2, v1: Vector2, v2: Vector2, v3: Vector2): BufferGeometry {
+  cubic(v0: Vector2, v1: Vector2, v2: Vector2, v3: Vector2): BufferGeometry {
     const curve = new CubicBezierCurve(v0, v1, v2, v3);
     const curvepoints = curve.getPoints(25);
     return new BufferGeometry().setFromPoints(curvepoints);
@@ -44,6 +43,17 @@ export abstract class BaseCommand {
 
   public update(from: PathPoint) { };
 }
+
+export class ControlPoint {
+  geometry!: BufferGeometry;
+
+  update(from: Vector2, to: Vector2) {
+    if (this.geometry) this.geometry.dispose();
+    const points: Array<Vector2> = [from, to]
+    this.geometry = new BufferGeometry().setFromPoints(points);
+  }
+}
+
 
 export class MoveToCommand extends BaseCommand {
   constructor(to: PathPoint) { super('moveto', 'M', to); }
@@ -77,5 +87,19 @@ export class HorizontalCommand extends BaseCommand {
     if (this.geometry) this.geometry.dispose();
     this.endpoint.position.y = from.position.y;
     this.geometry = this.line(from.position, this.endpoint.position)
+  }
+}
+
+export class CubicCurveCommand extends BaseCommand {
+  line1 = new ControlPoint();
+  line2 = new ControlPoint();
+
+  constructor(public cp1: PathPoint, public cp2: PathPoint, to: PathPoint) { super('cubic', 'C', to); }
+
+  override update(from: PathPoint) {
+    if (this.geometry) this.geometry.dispose();
+    this.geometry = this.cubic(from.position, this.cp1.position, this.cp2.position, this.endpoint.position);
+    this.line1.update(from.position, this.cp1.position)
+    this.line2.update(this.endpoint.position, this.cp2.position);
   }
 }
