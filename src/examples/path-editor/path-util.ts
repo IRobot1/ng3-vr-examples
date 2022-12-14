@@ -4,18 +4,18 @@ export class PathPoint {
   private _mesh!: Mesh;
   get mesh(): Mesh { return this._mesh }
   set mesh(newvalue: Mesh) {
-    newvalue.position.set(this.position.x, this.position.y, this.control ? 0.003 : 0.002);
+    newvalue.position.set(this.position.x, this.position.y, this.z);
     this._mesh = newvalue;
   }
 
   changex = true; // allow x to change
   changey = true; // allow y to change
 
-  constructor(public position: Vector2, public color = 'white', public control = false) { }
+  constructor(public position: Vector2, public z = 0.002, public color = 'white', public control = false) { }
 }
 
 
-export type CommandType = 'control' | 'moveto' | 'lineto' | 'vertical' | 'horizontal' | 'cubic'
+export type CommandType = 'control' | 'moveto' | 'lineto' | 'vertical' | 'horizontal' | 'cubic' | 'quadratic' | 'closepath'
 
 export abstract class BaseCommand {
   geometry?: BufferGeometry;
@@ -108,7 +108,7 @@ export class QuadraticCurveCommand extends BaseCommand {
   line1 = new ControlPoint();
   line2 = new ControlPoint();
 
-  constructor(public cp: PathPoint, to: PathPoint) { super('cubic', 'C', to); }
+  constructor(public cp: PathPoint, to: PathPoint) { super('quadratic', 'Q', to); }
 
   override update(from: PathPoint) {
     if (this.geometry) this.geometry.dispose();
@@ -117,3 +117,18 @@ export class QuadraticCurveCommand extends BaseCommand {
     this.line2.update(this.endpoint.position, this.cp.position);
   }
 }
+
+
+export class ClosePathCommand extends BaseCommand {
+  constructor(public first: PathPoint, to: PathPoint) {
+    super('closepath', 'Z', to);
+  }
+
+  override update(from: PathPoint) {
+    if (this.geometry) this.geometry.dispose();
+    this.endpoint.position.x = this.endpoint.mesh.position.x = this.first.position.x;
+    this.endpoint.position.y = this.endpoint.mesh.position.y = this.first.position.y;
+    this.geometry = this.line(from.position, this.endpoint.position)
+  }
+}
+

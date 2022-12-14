@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } f
 import { BufferGeometry, Intersection, Vector2, Vector3 } from "three";
 
 import { InteractiveObjects, MenuItem } from "ng3-flat-ui";
-import { BaseCommand, ControlPoint, CubicCurveCommand, HorizontalCommand, LineToCommand, MoveToCommand, PathPoint, QuadraticCurveCommand, VerticalCommand } from "./path-util";
+import { BaseCommand, ClosePathCommand, ControlPoint, CubicCurveCommand, HorizontalCommand, LineToCommand, MoveToCommand, PathPoint, QuadraticCurveCommand, VerticalCommand } from "./path-util";
 import { CameraService } from "../../app/camera.service";
 
 @Component({
@@ -88,8 +88,8 @@ export class PathEditorExample implements OnInit, OnDestroy {
     },
     {
       text: 'Cubic Curve to', keycode: 'C', icon: '', enabled: true, selected: () => {
-        const cp1 = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y), 'green', true);
-        const cp2 = new PathPoint(new Vector2(this.moreposition.x + 0.2, this.moreposition.y), 'green', true);
+        const cp1 = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y), 0.003, 'green', true);
+        const cp2 = new PathPoint(new Vector2(this.moreposition.x + 0.2, this.moreposition.y), 0.003, 'green', true);
         const to = new PathPoint(new Vector2(this.moreposition.x + 0.3, this.moreposition.y));
         this.addcommand(new CubicCurveCommand(cp1, cp2, to));
         this.points.push(cp1);
@@ -99,7 +99,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     },
     {
       text: 'Bezier Curve to', keycode: 'Q', icon: '', enabled: true, selected: () => {
-        const cp = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y), 'green', true);
+        const cp = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y), 0.003, 'green', true);
         const to = new PathPoint(new Vector2(this.moreposition.x + 0.2, this.moreposition.y));
         this.addcommand(new QuadraticCurveCommand(cp, to));
         this.points.push(cp);
@@ -109,6 +109,11 @@ export class PathEditorExample implements OnInit, OnDestroy {
     { text: 'Elliptical Arc', keycode: 'A', icon: '', enabled: true, selected: () => { } },
     {
       text: 'Close Path', keycode: 'Z', icon: '', enabled: true, selected: () => {
+        if (this.commands.length > 1) {
+          const point = new PathPoint(new Vector2(this.moveto.position.x, this.moveto.position.y), 0.004, 'black');
+          this.addcommand(new ClosePathCommand(this.moveto, point));
+          this.addpoint(point);
+        }
       }
     },
   ];
@@ -123,6 +128,14 @@ export class PathEditorExample implements OnInit, OnDestroy {
           this.points = this.points.filter(x => x != this.last);
 
           const command = this.commands[index];
+          if (command instanceof CubicCurveCommand) {
+            this.points = this.points.filter(x => x != command.cp1);
+            this.points = this.points.filter(x => x != command.cp2);
+          }
+          else if (command instanceof QuadraticCurveCommand) {
+            this.points = this.points.filter(x => x != command.cp);
+          }
+
           this.commands.splice(index, 1);
 
           command.update(command.endpoint)
@@ -204,16 +217,16 @@ export class PathEditorExample implements OnInit, OnDestroy {
     }
   }
 
+  moveto = new PathPoint(new Vector2(0, 0), 0.001, 'red');
 
   constructor(
     private cameraman: CameraService
   ) {
     this.cameraman.position = [0, 0, 2];
 
-    let moveto = new PathPoint(new Vector2(0, 0), 'red');
-    this.commands.push(new MoveToCommand(moveto));
-    this.points.push(moveto);
-    this.last = moveto;
+    this.commands.push(new MoveToCommand(this.moveto));
+    this.points.push(this.moveto);
+    this.last = this.moveto;
 
     this.updateFlag = true;
   }
