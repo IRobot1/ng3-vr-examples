@@ -13,6 +13,7 @@ import { PathPoint } from "../path-util";
 })
 export class PathPointComponent extends NgtObjectProps<Mesh> {
   @Input() point!: PathPoint;
+  @Input() size = 0.01;
 
   @Input() selectable?: InteractiveObjects;
 

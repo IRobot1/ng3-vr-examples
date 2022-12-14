@@ -2,6 +2,6 @@
           (click)="doclick($event, mesh.instance.value)"
           (pointerdown)="startdrag()" (pointerup)="enddrag()"
           (ready)="meshready($event)">
-  <ngt-circle-geometry [args]="[0.01, 20]"></ngt-circle-geometry>
+  <ngt-circle-geometry [args]="[size, 20]"></ngt-circle-geometry>
   <ngt-mesh-basic-material [color]="point.color"></ngt-mesh-basic-material>
 </ngt-mesh>
