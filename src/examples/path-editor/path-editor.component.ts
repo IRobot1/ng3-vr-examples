@@ -1,10 +1,12 @@
 import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } from "@angular/core";
 
-import { BufferGeometry, Intersection, Vector2, Vector3 } from "three";
+import { BufferGeometry, ExtrudeGeometry, ExtrudeGeometryOptions, Intersection, Shape, Vector2, Vector3 } from "three";
 
 import { InteractiveObjects, MenuItem } from "ng3-flat-ui";
 import { BaseCommand, ClosePathCommand, ControlPoint, CubicCurveCommand, HorizontalCommand, LineToCommand, MoveToCommand, PathPoint, QuadraticCurveCommand, VerticalCommand } from "./path-util";
 import { CameraService } from "../../app/camera.service";
+
+import { Ng3GUI } from "ng3-gui";
 
 @Component({
   templateUrl: './path-editor.component.html',
@@ -218,6 +220,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
   }
 
   moveto = new PathPoint(new Vector2(0, 0), 0.001, 'red');
+  expanded = true;
 
   constructor(
     private cameraman: CameraService
@@ -231,13 +234,12 @@ export class PathEditorExample implements OnInit, OnDestroy {
     this.updateFlag = true;
   }
 
-  snap = true;
   hit(event: Intersection) {
     if (this.dragging) {
       let x = event.point.x;
       let y = event.point.y;
 
-      if (this.snap) {
+      if (this.params.snap) {
         x = Math.round(x / 0.1) * 0.1;
         y = Math.round(y / 0.1) * 0.1;
       }
@@ -289,10 +291,69 @@ export class PathEditorExample implements OnInit, OnDestroy {
     clearInterval(this.timer);
   }
 
+  extrudegeometry!: BufferGeometry;
+  options: ExtrudeGeometryOptions = {
+    curveSegments: 12,
+    steps: 1,
+    depth: 0.1,
+    bevelEnabled: false,
+    bevelThickness: 0.01,
+    bevelSize: 0.1, 
+    bevelOffset: 0,
+    bevelSegments: 3, 
+  }
+
+  extrude() {
+    const points: Array<Vector2> = []
+    this.commands.forEach(command => {
+      if (command.points)
+        points.push(...command.points);
+    });
+    const shape = new Shape(points);
+    this.extrudegeometry = new ExtrudeGeometry(shape, this.options);
+  }
+
+  public gui!: Ng3GUI;
+
+  params = {
+    snap : true,
+  }
+
+
   ngOnInit() {
+    const gui = new Ng3GUI({ width: 300 }).settitle('Draw Settings');
+    gui.add(this.params, 'snap').name('Snap to Grid');
+
+    const folder = gui.addFolder('Extrude')
+    folder.add(this.options, 'curveSegments', 1, 100, 1).name('Curve Segments');
+    folder.add(this.options, 'steps', 1, 10, 1).name('Steps');
+    folder.add(this.options, 'depth', 0.01, 1, 0.01).name('Depth');
+    folder.add(this.options, 'bevelEnabled').name('Enable Bevel');
+    ///**
+    // * @default 6
+    // */
+    //bevelThickness ?: number | undefined;
+    //bevelSize ?: number | undefined;
+    ///**
+    // * @default 0
+    // */
+    //bevelOffset ?: number | undefined;
+    ///**
+    // * @default 3
+    // */
+    //bevelSegments ?: number | undefined;
+
+    folder.add(this, 'extrude').name('Extrude Preview');
+    this.gui = gui;
+
     this.timer = setInterval(() => {
       this.redraw();
     }, 1000 / 30);
+
+    const timer = setTimeout(() => {
+    this.expanded = false;
+      clearTimeout(timer)
+    }, 100)
   }
 
   curves: Array<BufferGeometry> = [];

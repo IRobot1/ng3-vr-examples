@@ -19,22 +19,23 @@ export type CommandType = 'control' | 'moveto' | 'lineto' | 'vertical' | 'horizo
 
 export abstract class BaseCommand {
   geometry?: BufferGeometry;
+  points!: Array<Vector2>;
 
   line(start: Vector2, end: Vector2): BufferGeometry {
-    const points: Array<Vector2> = [start, end]
-    return new BufferGeometry().setFromPoints(points);
+    this.points = [start, end]
+    return new BufferGeometry().setFromPoints(this.points);
   }
 
   quadratic(v0: Vector2, v1: Vector2, v2: Vector2): BufferGeometry {
     const curve = new QuadraticBezierCurve(v0, v1, v2);
-    const curvepoints = curve.getPoints(25);
-    return new BufferGeometry().setFromPoints(curvepoints);
+    this.points = curve.getPoints(25);
+    return new BufferGeometry().setFromPoints(this.points);
   }
 
   cubic(v0: Vector2, v1: Vector2, v2: Vector2, v3: Vector2): BufferGeometry {
     const curve = new CubicBezierCurve(v0, v1, v2, v3);
-    const curvepoints = curve.getPoints(25);
-    return new BufferGeometry().setFromPoints(curvepoints);
+    this.points = curve.getPoints(25);
+    return new BufferGeometry().setFromPoints(this.points);
   }
 
 

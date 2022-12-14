@@ -16,7 +16,7 @@
     <ngt-group [appendTo]="parent">
 
       <path-point *ngFor="let item of points" [point]="item" [selectable]="selectable"
-                   (dragging)="startdrag(item)" (click)="changelast(item)" [size]="0.02">
+                  (dragging)="startdrag(item)" (click)="changelast(item)" [size]="0.02">
       </path-point>
 
       <ngt-line *ngFor="let item of curves" [geometry]="item"
@@ -39,6 +39,9 @@
                     [position]="actionposition" [menuitems]="actionmenu" [selectable]="selectable">
       </flat-ui-menu>
 
+      <ng3-gui [position]="[0, -1, 0.009]" [gui]="gui" [scalable]="false" [expanded]="expanded" [selectable]="selectable"></ng3-gui>
+
+      <ngt-mesh [geometry]="extrudegeometry" [position]="[0, 0, -0.001]"></ngt-mesh>
     </ngt-group>
   </ng-template>
 
