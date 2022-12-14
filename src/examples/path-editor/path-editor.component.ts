@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } f
 import { BufferGeometry, Intersection, Vector2, Vector3 } from "three";
 
 import { InteractiveObjects, MenuItem } from "ng3-flat-ui";
-import { BaseCommand, ControlPoint, CubicCurveCommand, HorizontalCommand, LineToCommand, MoveToCommand, PathPoint, VerticalCommand } from "./path-util";
+import { BaseCommand, ControlPoint, CubicCurveCommand, HorizontalCommand, LineToCommand, MoveToCommand, PathPoint, QuadraticCurveCommand, VerticalCommand } from "./path-util";
 import { CameraService } from "../../app/camera.service";
 
 @Component({
@@ -97,9 +97,20 @@ export class PathEditorExample implements OnInit, OnDestroy {
         this.addpoint(to);
       }
     },
-    { text: 'Bezier Curve to', keycode: 'Q', icon: '', enabled: true, selected: () => { } },
+    {
+      text: 'Bezier Curve to', keycode: 'Q', icon: '', enabled: true, selected: () => {
+        const cp = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y), 'green', true);
+        const to = new PathPoint(new Vector2(this.moreposition.x + 0.2, this.moreposition.y));
+        this.addcommand(new QuadraticCurveCommand(cp, to));
+        this.points.push(cp);
+        this.addpoint(to);
+      }
+    },
     { text: 'Elliptical Arc', keycode: 'A', icon: '', enabled: true, selected: () => { } },
-    { text: 'Close Path', keycode: 'Z', icon: '', enabled: true, selected: () => { } },
+    {
+      text: 'Close Path', keycode: 'Z', icon: '', enabled: true, selected: () => {
+      }
+    },
   ];
 
   menuitems: Array<MenuItem> = [
@@ -204,14 +215,6 @@ export class PathEditorExample implements OnInit, OnDestroy {
     this.points.push(moveto);
     this.last = moveto;
 
-    //let lineto = new PathPoint(new Vector2(0.1, 0.1), 'green');
-    //this.commands.push(new LineToCommand(lineto));
-    //this.points.push(lineto);
-
-    //let lineto2 = new PathPoint(new Vector2(0.2, 0.2), 'blue');
-    //this.commands.push(new LineToCommand(lineto2));
-    //this.points.push(lineto2);
-
     this.updateFlag = true;
   }
 
@@ -292,6 +295,10 @@ export class PathEditorExample implements OnInit, OnDestroy {
       if (command.geometry) this.curves.push(command.geometry);
 
       if (command instanceof CubicCurveCommand) {
+        this.controllines.push(command.line1.geometry);
+        this.controllines.push(command.line2.geometry);
+      }
+      else if (command instanceof QuadraticCurveCommand) {
         this.controllines.push(command.line1.geometry);
         this.controllines.push(command.line2.geometry);
       }

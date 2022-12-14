@@ -103,3 +103,17 @@ export class CubicCurveCommand extends BaseCommand {
     this.line2.update(this.endpoint.position, this.cp2.position);
   }
 }
+
+export class QuadraticCurveCommand extends BaseCommand {
+  line1 = new ControlPoint();
+  line2 = new ControlPoint();
+
+  constructor(public cp: PathPoint, to: PathPoint) { super('cubic', 'C', to); }
+
+  override update(from: PathPoint) {
+    if (this.geometry) this.geometry.dispose();
+    this.geometry = this.quadratic(from.position, this.cp.position, this.endpoint.position);
+    this.line1.update(from.position, this.cp.position)
+    this.line2.update(this.endpoint.position, this.cp.position);
+  }
+}
