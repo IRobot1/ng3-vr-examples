@@ -8,6 +8,7 @@
 
 <ngt-mesh-basic-material #curvematerial color="black"></ngt-mesh-basic-material>
 <ngt-mesh-basic-material #linematerial color="green"></ngt-mesh-basic-material>
+<ngt-mesh-basic-material #graymaterial color="#555"></ngt-mesh-basic-material>
 
 <flat-ui-drag-plane [size]="10" [position]="[0, 0, -1]" [selectable]="selectable"
                     (change)="hit($event)" (click)="closemenus()" (dragend)="enddrag()">
@@ -41,7 +42,8 @@
 
       <ng3-gui [position]="[0, -1, 0.009]" [gui]="gui" [scalable]="false" [expanded]="expanded" [selectable]="selectable"></ng3-gui>
 
-      <ngt-mesh [geometry]="extrudegeometry" [position]="[0, 0, -0.001]"></ngt-mesh>
+      <ngt-mesh [geometry]="shapegeometry" [material]="graymaterial.instance.value" [position]="[0, 0, -0.002]"></ngt-mesh>
+      <ngt-mesh [geometry]="extrudegeometry" [position]="[-0.5, 0, 0.5]"></ngt-mesh>
     </ngt-group>
   </ng-template>
 

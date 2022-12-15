@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } from "@angular/core";
 
-import { BufferGeometry, ExtrudeGeometry, ExtrudeGeometryOptions, Intersection, Shape, Vector2, Vector3 } from "three";
+import { BufferGeometry, ExtrudeGeometry, ExtrudeGeometryOptions, Intersection, Shape, ShapeGeometry, Vector2, Vector3 } from "three";
 
 import { InteractiveObjects, MenuItem } from "ng3-flat-ui";
 import { BaseCommand, ClosePathCommand, ControlPoint, CubicCurveCommand, HorizontalCommand, LineToCommand, MoveToCommand, PathPoint, QuadraticCurveCommand, VerticalCommand } from "./path-util";
@@ -291,6 +291,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     clearInterval(this.timer);
   }
 
+
   extrudegeometry!: BufferGeometry;
   options: ExtrudeGeometryOptions = {
     curveSegments: 12,
@@ -303,26 +304,40 @@ export class PathEditorExample implements OnInit, OnDestroy {
     bevelSegments: 3, 
   }
 
-  extrude() {
+  getshape(): Shape {
     const points: Array<Vector2> = []
     this.commands.forEach(command => {
       if (command.points)
         points.push(...command.points);
     });
-    const shape = new Shape(points);
-    this.extrudegeometry = new ExtrudeGeometry(shape, this.options);
+    return new Shape(points);
+  }
+
+  extrude() {
+    this.extrudegeometry = new ExtrudeGeometry(this.getshape(), this.options);
+  }
+
+  shapegeometry!: BufferGeometry;
+
+  updateshape() {
+    if (this.params.showshape)
+      this.shapegeometry = new ShapeGeometry(this.getshape());
+    else
+      this.shapegeometry = new BufferGeometry();
   }
 
   public gui!: Ng3GUI;
 
   params = {
-    snap : true,
+    snap: true,
+    showshape : false,
   }
 
 
   ngOnInit() {
     const gui = new Ng3GUI({ width: 300 }).settitle('Draw Settings');
     gui.add(this.params, 'snap').name('Snap to Grid');
+    gui.add(this.params, 'showshape').name('Show Filled Shape').onChange(() => this.updateshape());
 
     const folder = gui.addFolder('Extrude')
     folder.add(this.options, 'curveSegments', 1, 100, 1).name('Curve Segments');
@@ -379,6 +394,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
       from = command.endpoint;
     });
+    this.updateshape();
   }
 
 }
