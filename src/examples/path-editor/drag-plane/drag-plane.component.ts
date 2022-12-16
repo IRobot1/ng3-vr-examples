@@ -15,12 +15,22 @@ export class FlatUIDragPlane extends NgtObjectProps<Mesh> {
   @Input() selectable!: InteractiveObjects;
   @Input() size = 10;
 
+  private _showgrid = true;
+  @Input()
+  get showgrid(): boolean { return this._showgrid }
+  set showgrid(newvalue: boolean) {
+    this._showgrid = newvalue;
+    if (!this.mesh) return;
+    this.updatematerial();
+  }
+
   @Output() dragstart = new EventEmitter<Intersection>();
   @Output() dragend = new EventEmitter<Intersection>();
   @Output() change = new EventEmitter<Intersection>();
 
   @ContentChild(TemplateRef) templateRef?: TemplateRef<unknown>;
 
+  private mesh!: Mesh;
   meshready(mesh: Mesh) {
     if (!this.selectable) {
       console.warn('selectable @Input() not set for drag plane');
@@ -32,6 +42,7 @@ export class FlatUIDragPlane extends NgtObjectProps<Mesh> {
     mesh.addEventListener('pointerup', (e: any) => { this.enddrag(e.data); })
     mesh.addEventListener('pointermove', (e: any) => { this.move(e.data, mesh); })
 
+    this.mesh = mesh;
     this.createMaterial(mesh);
   }
 
@@ -46,6 +57,18 @@ export class FlatUIDragPlane extends NgtObjectProps<Mesh> {
   protected move(event: NgtEvent<PointerEvent>, mesh: Mesh) {
     if (event.object == mesh)
       this.change.next(event);
+  }
+
+  private gridmaterial!: MeshBasicMaterial;
+  private planematerial!: MeshBasicMaterial;
+
+  private updatematerial() {
+    if (this.showgrid) {
+      this.mesh.material = this.gridmaterial;
+    }
+    else {
+      this.mesh.material = this.planematerial;
+    }
   }
 
   private createMaterial(mesh: Mesh) {
@@ -81,8 +104,10 @@ export class FlatUIDragPlane extends NgtObjectProps<Mesh> {
     texture.wrapT = RepeatWrapping;
     texture.repeat = new Vector2(this.size, this.size)
 
-    mesh.material = new MeshBasicMaterial({ map: texture, transparent: true });
+    this.gridmaterial = new MeshBasicMaterial({ map: texture, transparent: true });
+    this.planematerial = new MeshBasicMaterial({ transparent: true, opacity: 0 });
 
+    this.updatematerial();
   }
 
   doclick(event: NgtEvent<MouseEvent>, mesh: Mesh) {

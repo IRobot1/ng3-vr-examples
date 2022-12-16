@@ -64,7 +64,7 @@ export class MoveToCommand extends BaseCommand {
   constructor(to: PathPoint) { super('moveto', 'M', to); }
 
   override update(from: PathPoint) { }
-  override get path(): string { return `M ${this.endpoint.position.x} ${this.endpoint.position.x}` }
+  override get path(): string { return `M ${this.endpoint.position.x} ${this.endpoint.position.y}` }
 }
 
 export class LineToCommand extends BaseCommand {

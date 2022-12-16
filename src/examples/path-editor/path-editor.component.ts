@@ -333,6 +333,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     snap: true,
     showshape: false,
     path: '',
+    showgrid: true,
   }
 
 
@@ -341,6 +342,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     gui.add(this.params, 'snap').name('Snap to Grid');
     gui.add(this.params, 'showshape').name('Show Filled Shape').onChange(() => this.updateshape());
     gui.addTextArea(this.params, 'path', 1.1, 0.17).name('Path').disable()
+    gui.add(this.params, 'showgrid').name('Show Grid');
 
     //const folder = gui.addFolder('Extrude')
     //folder.add(this.options, 'curveSegments', 1, 100, 1).name('Curve Segments');

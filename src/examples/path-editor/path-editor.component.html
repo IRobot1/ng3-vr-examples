@@ -10,13 +10,13 @@
 <ngt-mesh-basic-material #linematerial color="green"></ngt-mesh-basic-material>
 <ngt-mesh-basic-material #graymaterial color="#555"></ngt-mesh-basic-material>
 
-<flat-ui-drag-plane [size]="10" [position]="[0, 0, -1]" [selectable]="selectable"
+<flat-ui-drag-plane [size]="10" [position]="[0, 0, -1]" [selectable]="selectable" [showgrid]="params.showgrid" 
                     (change)="hit($event)" (click)="closemenus()" (dragend)="enddrag()">
 
   <ng-template let-parent="parent">
     <ngt-group [appendTo]="parent">
 
-      <path-point *ngFor="let item of points" [point]="item" [selectable]="selectable"
+      <path-point *ngFor="let item of points" [point]="item" [selectable]="selectable" [visible]="params.showgrid"
                   (dragging)="startdrag(item)" (click)="changelast(item)" [size]="0.02">
       </path-point>
 
@@ -24,7 +24,7 @@
                 [material]="curvematerial.instance.value">
       </ngt-line>
 
-      <ngt-line *ngFor="let item of controllines" [geometry]="item"
+      <ngt-line *ngFor="let item of controllines" [geometry]="item" [visible]="params.showgrid"
                 [material]="linematerial.instance.value">
       </ngt-line>
 
