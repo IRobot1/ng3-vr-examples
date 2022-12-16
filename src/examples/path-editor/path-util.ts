@@ -11,7 +11,10 @@ export class PathPoint {
   changex = true; // allow x to change
   changey = true; // allow y to change
 
-  constructor(public position: Vector2, public z = 0.002, public color = 'white', public control = false) { }
+  constructor(public position: Vector2, public z = 0.002, public color = 'white', public control = false) {
+    position.x = +position.x.toFixed(2);
+    position.y = +position.y.toFixed(2);
+  }
 }
 
 
@@ -40,9 +43,10 @@ export abstract class BaseCommand {
 
 
 
-  constructor(public type: CommandType, public text: string, public endpoint: PathPoint, public name='') {  }
+  constructor(public type: CommandType, public text: string, public endpoint: PathPoint, public name = '') { }
 
-  public update(from: PathPoint) { };
+  public abstract update(from: PathPoint): void;
+  public abstract get path(): string;
 }
 
 export class ControlPoint {
@@ -58,6 +62,9 @@ export class ControlPoint {
 
 export class MoveToCommand extends BaseCommand {
   constructor(to: PathPoint) { super('moveto', 'M', to); }
+
+  override update(from: PathPoint) { }
+  override get path(): string { return `M ${this.endpoint.position.x} ${this.endpoint.position.x}` }
 }
 
 export class LineToCommand extends BaseCommand {
@@ -69,6 +76,8 @@ export class LineToCommand extends BaseCommand {
     if (this.geometry) this.geometry.dispose();
     this.geometry = this.line(from.position, this.endpoint.position)
   }
+
+  override get path(): string { return `L ${this.endpoint.position.x} ${this.endpoint.position.x}` }
 }
 
 export class VerticalCommand extends BaseCommand {
@@ -79,6 +88,9 @@ export class VerticalCommand extends BaseCommand {
     this.endpoint.position.x = from.position.x;
     this.geometry = this.line(from.position, this.endpoint.position)
   }
+
+  override get path(): string { return `V ${this.endpoint.position.y} ` }
+
 }
 
 export class HorizontalCommand extends BaseCommand {
@@ -89,6 +101,8 @@ export class HorizontalCommand extends BaseCommand {
     this.endpoint.position.y = from.position.y;
     this.geometry = this.line(from.position, this.endpoint.position)
   }
+
+  override get path(): string { return `H ${this.endpoint.position.x}` }
 }
 
 export class CubicCurveCommand extends BaseCommand {
@@ -102,6 +116,10 @@ export class CubicCurveCommand extends BaseCommand {
     this.geometry = this.cubic(from.position, this.cp1.position, this.cp2.position, this.endpoint.position);
     this.line1.update(from.position, this.cp1.position)
     this.line2.update(this.endpoint.position, this.cp2.position);
+  }
+
+  override get path(): string {
+    return `C ${this.cp1.position.x} ${this.cp1.position.x} ${this.cp2.position.x} ${this.cp2.position.x} ${this.endpoint.position.x} ${this.endpoint.position.x}`
   }
 }
 
@@ -117,6 +135,10 @@ export class QuadraticCurveCommand extends BaseCommand {
     this.line1.update(from.position, this.cp.position)
     this.line2.update(this.endpoint.position, this.cp.position);
   }
+
+  override get path(): string {
+    return `C ${this.cp.position.x} ${this.cp.position.x} ${this.endpoint.position.x} ${this.endpoint.position.x}`
+  }
 }
 
 
@@ -131,5 +153,7 @@ export class ClosePathCommand extends BaseCommand {
     this.endpoint.position.y = this.endpoint.mesh.position.y = this.first.position.y;
     this.geometry = this.line(from.position, this.endpoint.position)
   }
+
+  override get path(): string { return 'Z' }
 }
 

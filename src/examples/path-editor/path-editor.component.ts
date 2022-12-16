@@ -40,12 +40,12 @@ export class PathEditorExample implements OnInit, OnDestroy {
     if (index == this.commands.length - 1)
       this.commands.push(command);
     else {
-
       this.commands.splice(index + 1, 0, command);
     }
     const next = this.commands[index];
-
-    next.update(prev.endpoint);
+    //if (next) {
+      next.update(prev.endpoint);
+    //}
 
     this.dump();
   }
@@ -192,7 +192,8 @@ export class PathEditorExample implements OnInit, OnDestroy {
   }
 
   changelast(item: PathPoint) {
-    this.last = item;
+    if (!item.control)
+      this.last = item;
     //console.warn('last updated')
   }
 
@@ -299,9 +300,9 @@ export class PathEditorExample implements OnInit, OnDestroy {
     depth: 0.1,
     bevelEnabled: false,
     bevelThickness: 0.01,
-    bevelSize: 0.1, 
+    bevelSize: 0.1,
     bevelOffset: 0,
-    bevelSegments: 3, 
+    bevelSegments: 3,
   }
 
   getshape(): Shape {
@@ -320,7 +321,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
   shapegeometry!: BufferGeometry;
 
   updateshape() {
-    if (this.params.showshape)
+    if (this.params.showshape && this.commands.length > 2)
       this.shapegeometry = new ShapeGeometry(this.getshape());
     else
       this.shapegeometry = new BufferGeometry();
@@ -330,7 +331,8 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
   params = {
     snap: true,
-    showshape : false,
+    showshape: false,
+    path: '',
   }
 
 
@@ -338,27 +340,15 @@ export class PathEditorExample implements OnInit, OnDestroy {
     const gui = new Ng3GUI({ width: 300 }).settitle('Draw Settings');
     gui.add(this.params, 'snap').name('Snap to Grid');
     gui.add(this.params, 'showshape').name('Show Filled Shape').onChange(() => this.updateshape());
+    gui.addTextArea(this.params, 'path', 1.1, 0.17).name('Path').disable()
 
-    const folder = gui.addFolder('Extrude')
-    folder.add(this.options, 'curveSegments', 1, 100, 1).name('Curve Segments');
-    folder.add(this.options, 'steps', 1, 10, 1).name('Steps');
-    folder.add(this.options, 'depth', 0.01, 1, 0.01).name('Depth');
-    folder.add(this.options, 'bevelEnabled').name('Enable Bevel');
-    ///**
-    // * @default 6
-    // */
-    //bevelThickness ?: number | undefined;
-    //bevelSize ?: number | undefined;
-    ///**
-    // * @default 0
-    // */
-    //bevelOffset ?: number | undefined;
-    ///**
-    // * @default 3
-    // */
-    //bevelSegments ?: number | undefined;
+    //const folder = gui.addFolder('Extrude')
+    //folder.add(this.options, 'curveSegments', 1, 100, 1).name('Curve Segments');
+    //folder.add(this.options, 'steps', 1, 10, 1).name('Steps');
+    //folder.add(this.options, 'depth', 0.01, 1, 0.01).name('Depth');
+    //folder.add(this.options, 'bevelEnabled').name('Enable Bevel');
 
-    folder.add(this, 'extrude').name('Extrude Preview');
+    //folder.add(this, 'extrude').name('Extrude Preview');
     this.gui = gui;
 
     this.timer = setInterval(() => {
@@ -366,7 +356,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     }, 1000 / 30);
 
     const timer = setTimeout(() => {
-    this.expanded = false;
+      this.expanded = false;
       clearTimeout(timer)
     }, 100)
   }
@@ -377,8 +367,11 @@ export class PathEditorExample implements OnInit, OnDestroy {
   drawshape() {
     this.curves.length = this.controllines.length = 0;
 
+    const paths: Array<string> = [];
+
     let from = this.commands[0].endpoint;
     this.commands.forEach(command => {
+      paths.push(command.path);
 
       command.update(from);
       if (command.geometry) this.curves.push(command.geometry);
@@ -395,6 +388,8 @@ export class PathEditorExample implements OnInit, OnDestroy {
       from = command.endpoint;
     });
     this.updateshape();
+
+    this.params.path = paths.join(' ');
   }
 
 }

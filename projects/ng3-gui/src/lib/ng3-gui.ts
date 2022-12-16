@@ -141,6 +141,12 @@ export class Ng3GUI {
     return controller;
   }
 
+  addTextArea(object: any, property: string, width: number, height: number): Controller {
+    const controller = new Controller(this, object, property, 'textarea', width, height);
+    this.list.push(controller);
+    return controller;
+  }
+
   reset(recursive = true) {
     this.list.forEach(c => c.reset());
     return this;

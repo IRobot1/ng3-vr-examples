@@ -35,6 +35,14 @@
       </flat-ui-input-text>
     </ngt-group>
   </ng-template>
+  <ng-template [ngSwitchCase]="'textarea'">
+    <ngt-group horizontal-layout [margin]="0.02">
+      <flat-ui-label [text]="item.title" [width]="0.8"></flat-ui-label>
+      <flat-ui-input-textarea #keyboard [text]="textvalue" [width]="item._min != undefined ? item._min : 0.5" [height]="item._max != undefined ? item._max : 0.17" [selectable]="selectable" [enabled]="item.enabled"
+                          (change)="textvalue=$event" (enter)="enter()" (openinput)="input.openkeyboard($event, keyboard, textvalue)">
+      </flat-ui-input-textarea>
+    </ngt-group>
+  </ng-template>
   <ng-template [ngSwitchCase]="'function'">
     <ngt-group horizontal-layout [margin]="0.02">
       <flat-ui-button [text]="item.title" [width]="width-0.04" [selectable]="selectable" [enabled]="item.enabled"
