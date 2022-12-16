@@ -20,6 +20,8 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
   points: Array<PathPoint> = [];
 
+  yoffset = 1;
+
   dragging?: PathPoint;
   last!: PathPoint;
 
@@ -210,12 +212,14 @@ export class PathEditorExample implements OnInit, OnDestroy {
       this.moreposition.x = this.dragging.position.x;
       this.moreposition.y = this.dragging.position.y;
 
-      this.dragging = undefined;
-      const timer = setTimeout(() => {
-        this.showmore = true;
-        clearTimeout(timer)
-      }, 100)
+      if (!this.dragging.control) {
+        const timer = setTimeout(() => {
+          this.showmore = true;
+          clearTimeout(timer)
+        }, 100)
+      }
 
+      this.dragging = undefined;
       //console.warn('end dragging')
     }
   }
@@ -238,7 +242,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
   hit(event: Intersection) {
     if (this.dragging) {
       let x = event.point.x;
-      let y = event.point.y;
+      let y = event.point.y - this.yoffset;
 
       if (this.params.snap) {
         x = Math.round(x / 0.1) * 0.1;
@@ -333,7 +337,8 @@ export class PathEditorExample implements OnInit, OnDestroy {
     snap: true,
     showshape: false,
     path: '',
-    showgrid: true,
+    showpoints: true,
+    tilt : false
   }
 
 
@@ -342,7 +347,8 @@ export class PathEditorExample implements OnInit, OnDestroy {
     gui.add(this.params, 'snap').name('Snap to Grid');
     gui.add(this.params, 'showshape').name('Show Filled Shape').onChange(() => this.updateshape());
     gui.addTextArea(this.params, 'path', 1.1, 0.17).name('Path').disable()
-    gui.add(this.params, 'showgrid').name('Show Grid');
+    gui.add(this.params, 'showpoints').name('Show Points');
+    //gui.add(this.params, 'tilt').name('Tilt Grid Forward');
 
     //const folder = gui.addFolder('Extrude')
     //folder.add(this.options, 'curveSegments', 1, 100, 1).name('Curve Segments');

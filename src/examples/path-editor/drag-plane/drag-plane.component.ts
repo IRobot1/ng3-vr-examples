@@ -92,6 +92,7 @@ export class FlatUIDragPlane extends NgtObjectProps<Mesh> {
     }
     this.selectable.add(mesh);
 
+    mesh.addEventListener('click', (e: any) => { this.click.next(e.data); })
     mesh.addEventListener('pointerdown', (e: any) => { this.startdrag(e.data); })
     mesh.addEventListener('pointerup', (e: any) => { this.enddrag(e.data); })
     mesh.addEventListener('pointermove', (e: any) => { this.move(e.data, mesh); })
