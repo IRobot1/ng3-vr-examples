@@ -10,7 +10,7 @@
 <ngt-mesh-basic-material #linematerial color="green"></ngt-mesh-basic-material>
 <ngt-mesh-basic-material #graymaterial color="#555"></ngt-mesh-basic-material>
 
-<flat-ui-drag-plane [size]="2" [position]="[0, yoffset, -1]" [selectable]="selectable" [showgrid]="params.snap" 
+<flat-ui-drag-plane [size]="2" [position]="[0, yoffset, -1]" [selectable]="selectable" [showgrid]="params.snap"
                     (change)="hit($event)" (click)="closemenus()" (dragend)="enddrag()" [rotation]="params.tilt ? [-90 | radian, 0, 0] : [0, 0, 0]">
 
   <ng-template let-parent="parent">
@@ -28,21 +28,22 @@
                 [material]="linematerial.instance.value">
       </ngt-line>
 
-      <flat-ui-material-button *ngIf="showmore"
-                               [text]="'more_horiz'" [position]="moreposition" [selectable]="selectable" (pressed)="morepressed()">
+      <flat-ui-material-button *ngIf="showmore" [scale]="scale"
+                               [text]="'more_horiz'" [position]="moreposition" [selectable]="selectable"
+                               (pressed)="morepressed()">
       </flat-ui-material-button>
 
-      <flat-ui-menu *ngIf="showmenu"
+      <flat-ui-menu *ngIf="showmenu"  [scale]="scale"
                     [position]="menuposition" [menuitems]="menuitems" [selectable]="selectable">
       </flat-ui-menu>
 
-      <flat-ui-menu *ngIf="showactions"
+      <flat-ui-menu *ngIf="showactions" [scale]="scale"
                     [position]="actionposition" [menuitems]="actionmenu" [selectable]="selectable">
       </flat-ui-menu>
 
-      <ng3-gui [position]="[0, -1, 0.009]" [gui]="gui" [scalable]="false" [expanded]="expanded" [selectable]="selectable"></ng3-gui>
+      <ng3-gui [position]="[0, -1, guiz]" [gui]="gui" [sixdof]="false" [scalable]="false" [expanded]="expanded" [selectable]="selectable" [scale]="scale"></ng3-gui>
 
-      <ngt-mesh [geometry]="shapegeometry" [material]="graymaterial.instance.value" [position]="[0, 0, -0.002]"></ngt-mesh>
+      <ngt-mesh [geometry]="shapegeometry" [material]="graymaterial.instance.value" [position]="[0, 0, shapez]"></ngt-mesh>
       <ngt-mesh [geometry]="extrudegeometry" [position]="[-0.5, 0, 0.5]"></ngt-mesh>
     </ngt-group>
   </ng-template>

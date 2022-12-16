@@ -4,7 +4,7 @@
   <ngt-group [position]="[0, height/2+0.06, 0]">
 
     <ngt-mesh #title [material]="titlematerial"
-              (pointerdown)="dragging=true" (pointerup)="dragging=false;out()"
+              (pointerdown)="startdrag()" (pointerup)="enddrag()"
               (pointerover)="over()" (pointerout)="showscaling=false;out()"
               (pointermove)="movepanel(title.instance.value, $event, panel.instance.value)"
               (ready)="meshready($event, panel.instance.value)">

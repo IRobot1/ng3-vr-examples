@@ -18,6 +18,8 @@ export class Ng3GUIComponent extends NgtObjectProps<Group> {
   @Input() gui!: Ng3GUI;
 
   @Input() locked = false;
+  @Input() sixdof = true;
+
   @Input() showexpand = true;
   @Input() showclose = true;
   @Input() scalable = true;

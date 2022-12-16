@@ -1,5 +1,13 @@
 import { BufferGeometry, CubicBezierCurve, Mesh, QuadraticBezierCurve, SplineCurve, Vector2, Vector3 } from "three";
 
+export const SHAPEZ = -0.002;
+export const MOVETOZ = 0.001;
+export const POINTZ = 0.002;
+export const CONTROLPOINTZ = 0.003;
+export const CLOSEPATHZ = 0.004;
+export const MENUZ = 0.005;
+export const GUIZ = 0.009;
+
 export class PathPoint {
   private _mesh!: Mesh;
   get mesh(): Mesh { return this._mesh }
@@ -11,7 +19,7 @@ export class PathPoint {
   changex = true; // allow x to change
   changey = true; // allow y to change
 
-  constructor(public position: Vector2, public z = 0.002, public color = 'white', public control = false) {
+  constructor(public position: Vector2, public z = POINTZ, public color = 'white', public control = false) {
     position.x = +position.x.toFixed(2);
     position.y = +position.y.toFixed(2);
   }
@@ -156,4 +164,5 @@ export class ClosePathCommand extends BaseCommand {
 
   override get path(): string { return 'Z' }
 }
+
 

@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } f
 import { BufferGeometry, ExtrudeGeometry, ExtrudeGeometryOptions, Intersection, Shape, ShapeGeometry, Vector2, Vector3 } from "three";
 
 import { InteractiveObjects, MenuItem } from "ng3-flat-ui";
-import { BaseCommand, ClosePathCommand, ControlPoint, CubicCurveCommand, HorizontalCommand, LineToCommand, MoveToCommand, PathPoint, QuadraticCurveCommand, VerticalCommand } from "./path-util";
+import { BaseCommand, ClosePathCommand, CLOSEPATHZ, ControlPoint, CONTROLPOINTZ, CubicCurveCommand, GUIZ, HorizontalCommand, LineToCommand, MENUZ, MoveToCommand, MOVETOZ, PathPoint, POINTZ, QuadraticCurveCommand, SHAPEZ, VerticalCommand } from "./path-util";
 import { CameraService } from "../../app/camera.service";
 
 import { Ng3GUI } from "ng3-gui";
@@ -21,19 +21,21 @@ export class PathEditorExample implements OnInit, OnDestroy {
   points: Array<PathPoint> = [];
 
   yoffset = 1;
+  shapez = SHAPEZ
+  guiz = GUIZ
 
   dragging?: PathPoint;
   last!: PathPoint;
 
   showmore = true;
-  moreposition = new Vector3(0, 0, 0.1)
+  moreposition = new Vector3(0, 0, MENUZ)
 
   showmenu = false;
-  menuposition = new Vector3(0, 0, 0.12)
+  menuposition = new Vector3(0, 0, MENUZ)
   menuwidth = 1;
 
   showactions = false;
-  actionposition = new Vector3(0, 0, 0.12)
+  actionposition = new Vector3(0, 0, MENUZ)
 
   addcommand(command: BaseCommand) {
     let index = this.commands.findIndex(x => x.endpoint == this.last);
@@ -92,8 +94,8 @@ export class PathEditorExample implements OnInit, OnDestroy {
     },
     {
       text: 'Cubic Curve to', keycode: 'C', icon: '', enabled: true, selected: () => {
-        const cp1 = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y), 0.003, 'green', true);
-        const cp2 = new PathPoint(new Vector2(this.moreposition.x + 0.2, this.moreposition.y), 0.003, 'green', true);
+        const cp1 = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y), CONTROLPOINTZ, 'green', true);
+        const cp2 = new PathPoint(new Vector2(this.moreposition.x + 0.2, this.moreposition.y), CONTROLPOINTZ, 'green', true);
         const to = new PathPoint(new Vector2(this.moreposition.x + 0.3, this.moreposition.y));
         this.addcommand(new CubicCurveCommand(cp1, cp2, to));
         this.points.push(cp1);
@@ -103,7 +105,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     },
     {
       text: 'Bezier Curve to', keycode: 'Q', icon: '', enabled: true, selected: () => {
-        const cp = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y), 0.003, 'green', true);
+        const cp = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y), CONTROLPOINTZ, 'green', true);
         const to = new PathPoint(new Vector2(this.moreposition.x + 0.2, this.moreposition.y));
         this.addcommand(new QuadraticCurveCommand(cp, to));
         this.points.push(cp);
@@ -114,7 +116,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     {
       text: 'Close Path', keycode: 'Z', icon: '', enabled: true, selected: () => {
         if (this.commands.length > 1) {
-          const point = new PathPoint(new Vector2(this.moveto.position.x, this.moveto.position.y), 0.004, 'black');
+          const point = new PathPoint(new Vector2(this.moveto.position.x, this.moveto.position.y), CLOSEPATHZ, 'black');
           this.addcommand(new ClosePathCommand(this.moveto, point));
           this.addpoint(point);
         }
@@ -175,15 +177,16 @@ export class PathEditorExample implements OnInit, OnDestroy {
   rowheight = 0.1;
   rowspacing = 0.01;
   margin = 0.03;
+  scale = 0.5;
 
   morepressed() {
-    let height = (this.rowheight + this.rowspacing) * this.menuitems.length + this.margin * 2;
+    let height = (this.rowheight + this.rowspacing) * this.menuitems.length * this.scale + this.margin * 2;
 
-    this.menuposition.x = this.moreposition.x + this.menuwidth / 2 + 0.1;
+    this.menuposition.x = this.moreposition.x + this.menuwidth / 2 * this.scale + 0.1;
     this.menuposition.y = this.moreposition.y - height / 2 + 0.05;
 
-    height = (this.rowheight + this.rowspacing) * this.actionmenu.length + this.margin * 2;
-    this.actionposition.x = this.menuposition.x + this.menuwidth + 0.05;
+    height = (this.rowheight + this.rowspacing) * this.actionmenu.length * this.scale + this.margin * 2;
+    this.actionposition.x = this.menuposition.x + this.menuwidth * this.scale + 0.05;
     this.actionposition.y = this.moreposition.y - height / 2 + 0.05;
 
     this.showmenu = true;
@@ -202,12 +205,10 @@ export class PathEditorExample implements OnInit, OnDestroy {
   startdrag(point: PathPoint) {
     //console.warn('start dragging')
     this.dragging = point;
-    this.closemenus();
+    this.showmenu = this.showactions = false;
   }
 
   enddrag() {
-    if (this.showmore) return;
-
     if (this.dragging) {
       this.moreposition.x = this.dragging.position.x;
       this.moreposition.y = this.dragging.position.y;
@@ -224,7 +225,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     }
   }
 
-  moveto = new PathPoint(new Vector2(0, 0), 0.001, 'red');
+  moveto = new PathPoint(new Vector2(0, 0), MOVETOZ , 'red');
   expanded = true;
 
   constructor(

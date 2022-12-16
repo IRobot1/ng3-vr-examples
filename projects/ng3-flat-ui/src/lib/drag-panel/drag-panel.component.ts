@@ -126,6 +126,8 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
 
 
   @Input() locked = false;
+  @Input() sixdof = true;
+
   @Input() showexpand = true;
   @Input() showclose = true;
 
@@ -201,8 +203,19 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     this.isover = false;
   }
 
-
   private mesh!: Mesh;
+
+  startdrag() {
+    if (this.locked) return;
+    this.dragging = true;
+    this.over();
+  }
+
+  enddrag() {
+    if (this.locked) return;
+    this.dragging = false;
+    this.out();
+  }
 
   protected meshready(mesh: Mesh, panel: Object3D) {
     this.selectable?.add(mesh);
@@ -212,17 +225,17 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
 
     mesh.addEventListener('pointerdown', (e: any) => {
       if (this.locked) return;
-      this.dragging = true;
-      panel.lookAt(camera.position);
-      e.controller.attach(panel);
-      this.over();
+      this.startdrag();
+      if (this.sixdof) {
+        panel.lookAt(camera.position);
+        e.controller.attach(panel);
+      }
     });
 
     const dragend = (e: any) => {
       if (this.locked) return;
-      this.dragging = false;
-      scene.attach(panel);
-      this.out();
+      this.enddrag();
+      if (this.sixdof) scene.attach(panel);
       e.stop = true;
     };
 
@@ -230,7 +243,7 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     mesh.addEventListener('pointerout', dragend);
     mesh.addEventListener('raymissed', dragend);
 
-    mesh.addEventListener('pointermove', (e: any) => { this.over(); e.stop = true; });
+    mesh.addEventListener('pointermove', (e: any) => { this.domovepanel(e.data.object, e.data, panel); e.stop = true; });
   }
 
   //
@@ -252,7 +265,7 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
       const position = new Vector3();
       titlebar.getWorldPosition(position);
 
-      panel.position.x = event.point.x;
+      panel.position.x += event.point.x - position.x;
       panel.position.y += event.point.y - position.y;
 
       // allow selecting anywhere in the title bar
