@@ -6,6 +6,15 @@
           (ready)="meshready($event)">
   <ngt-plane-geometry [args]="[size, size]"></ngt-plane-geometry>
 
+  <ngt-group *ngIf="showgrid">
+    <ngt-soba-text *ngFor="let item of axis" [text]="item.text"
+                   [anchorX]="'right'"
+                   [fontSize]="fontsize"
+                   [material]="labelmaterial"
+                   [position]="item.position">
+    </ngt-soba-text>
+  </ngt-group>
+
   <ng-container *ngIf="templateRef"
                 [ngTemplateOutlet]="templateRef"
                 [ngTemplateOutletContext]="{ parent: parent.instance.value }">

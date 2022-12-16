@@ -1,9 +1,14 @@
 import { ChangeDetectionStrategy, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 
-import { CanvasTexture, Intersection, Mesh, MeshBasicMaterial, RepeatWrapping, sRGBEncoding, Vector2 } from "three";
+import { CanvasTexture, Intersection, Material, Mesh, MeshBasicMaterial, RepeatWrapping, sRGBEncoding, Vector2, Vector3 } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
-import { InteractiveObjects } from "ng3-flat-ui";
+import { GlobalFlatUITheme, InteractiveObjects } from "ng3-flat-ui";
+
+interface AxisText {
+  text: string,
+  position: Vector3,
+}
 
 @Component({
   selector: 'flat-ui-drag-plane',
@@ -13,7 +18,22 @@ import { InteractiveObjects } from "ng3-flat-ui";
 })
 export class FlatUIDragPlane extends NgtObjectProps<Mesh> {
   @Input() selectable!: InteractiveObjects;
-  @Input() size = 10;
+
+  private _fontsize = 0.07;
+  @Input()
+  get fontsize(): number { return this._fontsize }
+  set fontsize(newvalue: number) {
+    this._fontsize = newvalue;
+    this.updateaxistext();
+  }
+
+  private _size = 10;
+  @Input()
+  get size(): number { return this._size }
+  set size(newvalue: number) {
+    this._size = newvalue;
+    this.updateaxistext();
+  }
 
   private _showgrid = true;
   @Input()
@@ -24,11 +44,45 @@ export class FlatUIDragPlane extends NgtObjectProps<Mesh> {
     this.updatematerial();
   }
 
+  axisdata: Array<AxisText> = [];
+  updateaxistext() {
+    this.axisdata.length = 0;
+
+    const half = this.size / 2
+    for (let x = -half + 1; x < half; x++) {
+      this.axisdata.push({ text: x.toString(), position: new Vector3(x, this.fontsize / 2, 0.001) });
+    }
+    for (let y = -half + 1; y < half; y++) {
+      if (y)
+        this.axisdata.push({ text: y.toString(), position: new Vector3(0, y + this.fontsize / 2, 0.001) });
+    }
+    this.axis = this.axisdata;
+  }
+
+  axis: Array<AxisText> = [];
+
+  private _labelmaterial!: Material
+  @Input()
+  get labelmaterial(): Material {
+    if (this._labelmaterial) return this._labelmaterial;
+    return GlobalFlatUITheme.LabelMaterial;
+  }
+  set labelmaterial(newvalue: Material) {
+    this._labelmaterial = newvalue;
+  }
+
+
+
   @Output() dragstart = new EventEmitter<Intersection>();
   @Output() dragend = new EventEmitter<Intersection>();
   @Output() change = new EventEmitter<Intersection>();
 
   @ContentChild(TemplateRef) templateRef?: TemplateRef<unknown>;
+
+  override ngOnInit() {
+    super.ngOnInit();
+    this.updateaxistext();
+  }
 
   private mesh!: Mesh;
   meshready(mesh: Mesh) {
@@ -63,12 +117,9 @@ export class FlatUIDragPlane extends NgtObjectProps<Mesh> {
   private planematerial!: MeshBasicMaterial;
 
   private updatematerial() {
-    if (this.showgrid) {
-      this.mesh.material = this.gridmaterial;
-    }
-    else {
-      this.mesh.material = this.planematerial;
-    }
+
+    this.mesh.material = this.showgrid ? this.gridmaterial : this.planematerial;
+
   }
 
   private createMaterial(mesh: Mesh) {
