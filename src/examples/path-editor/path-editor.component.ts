@@ -174,20 +174,14 @@ export class PathEditorExample implements OnInit, OnDestroy {
       item.selected();
   }
 
-  rowheight = 0.1;
-  rowspacing = 0.01;
-  margin = 0.03;
   scale = 0.5;
 
   morepressed() {
-    let height = (this.rowheight + this.rowspacing) * this.menuitems.length * this.scale + this.margin * 2;
+    this.menuposition.x = this.moreposition.x + 0.05;
+    this.menuposition.y = this.moreposition.y;
 
-    this.menuposition.x = this.moreposition.x + this.menuwidth / 2 * this.scale + 0.1;
-    this.menuposition.y = this.moreposition.y - height / 2 + 0.05;
-
-    height = (this.rowheight + this.rowspacing) * this.actionmenu.length * this.scale + this.margin * 2;
-    this.actionposition.x = this.menuposition.x + this.menuwidth * this.scale + 0.05;
-    this.actionposition.y = this.moreposition.y - height / 2 + 0.05;
+    this.actionposition.x = this.moreposition.x + 0.05;
+    this.actionposition.y = this.moreposition.y - 0.15;
 
     this.showmenu = true;
   }

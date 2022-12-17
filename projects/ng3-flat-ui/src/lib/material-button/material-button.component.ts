@@ -45,4 +45,5 @@ export class FlatUIMaterialButton extends NgtObjectProps<Mesh> {
   }
 
   @Output() pressed = new EventEmitter<string>();
+  @Output() hover = new EventEmitter<boolean>();
 }

@@ -96,6 +96,7 @@ export class FlatUIBaseButton extends NgtObjectProps<Mesh>  {
   @Input() geometry!: BufferGeometry;
 
   @Output() pressed = new EventEmitter<string>();
+  @Output() hover = new EventEmitter<boolean>();
 
   @ContentChild('button') button?: TemplateRef<unknown>;
 
@@ -194,10 +195,12 @@ export class FlatUIBaseButton extends NgtObjectProps<Mesh>  {
     if (this.clicking || this.isover || !this.enabled) return;
     this.line.visible = true;
     this.isover = true;
+    this.hover.next(true);
   }
   out() {
     if (!this.enabled) return;
     this.line.visible = false;
     this.isover = false;
+    this.hover.next(false);
   }
 }

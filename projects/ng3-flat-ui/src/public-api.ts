@@ -31,6 +31,7 @@ export * from './lib/list/list.component';
 export * from './lib/material-icon/material-icon.component';
 export * from './lib/material-button/material-button.component';
 export * from './lib/menu/menu.component';
+export * from './lib/menu-mini/menu-mini.component';
 export * from './lib/numpad/numpad.component';
 export * from './lib/paginator/paginator.component';
 export * from './lib/progress-bar/progress-bar.component';

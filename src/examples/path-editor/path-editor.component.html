@@ -33,13 +33,13 @@
                                (pressed)="morepressed()">
       </flat-ui-material-button>
 
-      <flat-ui-menu *ngIf="showmenu"  [scale]="scale"
+      <flat-ui-menu-mini *ngIf="showmenu"  [scale]="scale" 
                     [position]="menuposition" [menuitems]="menuitems" [selectable]="selectable">
-      </flat-ui-menu>
+      </flat-ui-menu-mini>
 
-      <flat-ui-menu *ngIf="showactions" [scale]="scale"
+      <flat-ui-menu-mini *ngIf="showactions" [scale]="scale"
                     [position]="actionposition" [menuitems]="actionmenu" [selectable]="selectable">
-      </flat-ui-menu>
+      </flat-ui-menu-mini>
 
       <ng3-gui [position]="[0, -1, guiz]" [gui]="gui" [sixdof]="false" [scalable]="false" [expanded]="expanded" [selectable]="selectable" [scale]="scale"></ng3-gui>
 

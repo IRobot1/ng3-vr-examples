@@ -39,6 +39,7 @@ import { FlatUICardActions } from './card-actions/card-actions.component';
 import { FlatUICardAction } from './card-action/card-action.component';
 import { FlatUIMaterialButton } from './material-button/material-button.component';
 import { FlatUIMenu } from './menu/menu.component';
+import { FlatUIMenuMini } from './menu-mini/menu-mini.component';
 
 
 
@@ -71,6 +72,7 @@ import { FlatUIMenu } from './menu/menu.component';
     FlatUIMaterialIcon,
     FlatUIMaterialButton,
     FlatUIMenu,
+    FlatUIMenuMini,
 
     FlatUIColorPicker,
     FlatUIKeyboard,
@@ -112,6 +114,7 @@ import { FlatUIMenu } from './menu/menu.component';
     FlatUIMaterialIcon,
     FlatUIMaterialButton,
     FlatUIMenu,
+    FlatUIMenuMini,
     FlatUIProgressBar,
     FlatUIRadioButton,
     FlatUIRadioGroup,
