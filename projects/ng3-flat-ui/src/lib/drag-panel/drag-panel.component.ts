@@ -243,7 +243,7 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     mesh.addEventListener('pointerout', dragend);
     mesh.addEventListener('raymissed', dragend);
 
-    mesh.addEventListener('pointermove', (e: any) => { this.domovepanel(e.data.object, e.data, panel); e.stop = true; });
+    mesh.addEventListener('pointermove', (e: any) => { this.domovepanel(e.data.object, e.data, panel); this.over(); e.stop = true; });
   }
 
   //
