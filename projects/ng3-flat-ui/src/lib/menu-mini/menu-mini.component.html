@@ -2,11 +2,12 @@
   <ng-container *ngFor="let item of icons">
 
     <flat-ui-material-button *ngIf="item.icon" (hover)="hover($event, item)" (pressed)="item.menu.selected()"
-                             [text]="item.icon" [position]="item.position">
+                             [text]="item.icon" [position]="item.position" [selectable]="selectable">
     </flat-ui-material-button>
 
     <flat-ui-button *ngIf="!item.icon" (hover)="hover($event, item)" (pressed)="item.menu.selected()"
-                             [text]="item.menu.keycode" [width]="0.1" [position]="item.position">
+                    [text]="item.menu.keycode" [width]="0.1"
+                    [position]="item.position" [selectable]="selectable">
     </flat-ui-button>
 
   </ng-container>

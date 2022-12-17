@@ -112,7 +112,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
         this.addpoint(to);
       }
     },
-    { text: 'Elliptical Arc', keycode: 'A', icon: '', enabled: true, selected: () => { } },
+/*    { text: 'Elliptical Arc', keycode: 'A', icon: '', enabled: true, selected: () => { } },*/
     {
       text: 'Close Path', keycode: 'Z', icon: '', enabled: true, selected: () => {
         if (this.commands.length > 1) {

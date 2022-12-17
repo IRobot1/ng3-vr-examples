@@ -47,12 +47,12 @@
       </flat-ui-menu-mini>
 
       <ng3-gui [position]="[0, -0.5, guiz]" [gui]="pathgui" [sixdof]="false" [scalable]="false" [expanded]="true" [selectable]="selectable" [scale]="scale"></ng3-gui>
-      <ng3-gui [position]="[1.6, -0.7, guiz]" [gui]="extrudegui" [sixdof]="false" [scalable]="false" [expanded]="true" [selectable]="selectable" [scale]="scale"></ng3-gui>
-      <ng3-gui [position]="[-1.6, -0.7, guiz]" [gui]="lathegui" [sixdof]="false" [scalable]="false" [expanded]="true" [selectable]="selectable" [scale]="scale"></ng3-gui>
+      <ng3-gui [position]="[1, 0.7, guiz]" [gui]="extrudegui" [sixdof]="false" [scalable]="false" [expanded]="true" [selectable]="selectable" [scale]="scale"></ng3-gui>
+      <ng3-gui [position]="[-1, 0.7, guiz]" [gui]="lathegui" [sixdof]="false" [scalable]="false" [expanded]="true" [selectable]="selectable" [scale]="scale"></ng3-gui>
 
       <ngt-mesh [geometry]="shapegeometry" [material]="graymaterial.instance.value" [position]="[0, 0, shapez]"></ngt-mesh>
-      <ngt-mesh [geometry]="extrudegeometry" [material]="extrudematerial.instance.value" [position]="[1.6, 0, 0]" (beforeRender)="tick($event.object)"></ngt-mesh>
-      <ngt-mesh [geometry]="lathegeometry" [material]="lathematerial.instance.value" [position]="[-1.6, 0, 0]" (beforeRender)="tick($event.object)"></ngt-mesh>
+      <ngt-mesh [geometry]="extrudegeometry" [material]="extrudematerial.instance.value" [position]="[1, 0, -0.5]" (beforeRender)="tick($event.object)"></ngt-mesh>
+      <ngt-mesh [geometry]="lathegeometry" [material]="lathematerial.instance.value" [position]="[-1, 0, -0.5]" (beforeRender)="tick($event.object)"></ngt-mesh>
 
     </ngt-group>
   </ng-template>
