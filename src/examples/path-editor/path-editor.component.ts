@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } from "@angular/core";
 
-import { BufferGeometry, ExtrudeGeometry, ExtrudeGeometryOptions, Intersection, Shape, ShapeGeometry, Vector2, Vector3 } from "three";
+import { BufferGeometry, ExtrudeGeometry, ExtrudeGeometryOptions, Intersection, Mesh, Shape, ShapeGeometry, Vector2, Vector3 } from "three";
 
 import { InteractiveObjects, MenuItem } from "ng3-flat-ui";
 import { BaseCommand, ClosePathCommand, CLOSEPATHZ, ControlPoint, CONTROLPOINTZ, CubicCurveCommand, GUIZ, HorizontalCommand, LineToCommand, MENUZ, MoveToCommand, MOVETOZ, PathPoint, POINTZ, QuadraticCurveCommand, SHAPEZ, VerticalCommand } from "./path-util";
@@ -48,7 +48,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     }
     const next = this.commands[index];
     //if (next) {
-      next.update(prev.endpoint);
+    next.update(prev.endpoint);
     //}
 
     this.dump();
@@ -219,8 +219,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     }
   }
 
-  moveto = new PathPoint(new Vector2(0, 0), MOVETOZ , 'red');
-  expanded = true;
+  moveto = new PathPoint(new Vector2(0, 0), MOVETOZ, 'red');
 
   constructor(
     private cameraman: CameraService
@@ -293,15 +292,13 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
 
   extrudegeometry!: BufferGeometry;
-  options: ExtrudeGeometryOptions = {
-    curveSegments: 12,
-    steps: 1,
-    depth: 0.1,
-    bevelEnabled: false,
+  extrudecolor = 'red';
+
+  extrudeoptions: ExtrudeGeometryOptions = {
+    depth: 0.01,
+    bevelEnabled: true,
     bevelThickness: 0.01,
-    bevelSize: 0.1,
-    bevelOffset: 0,
-    bevelSegments: 3,
+    bevelSize: 0.01,
   }
 
   getshape(): Shape {
@@ -313,8 +310,13 @@ export class PathEditorExample implements OnInit, OnDestroy {
     return new Shape(points);
   }
 
-  extrude() {
-    this.extrudegeometry = new ExtrudeGeometry(this.getshape(), this.options);
+  updateextrude() {
+    if (this.params.showshape && this.commands.length > 2) {
+      this.extrudegeometry = new ExtrudeGeometry(this.getshape(), this.extrudeoptions);
+      this.extrudegeometry.center();
+    }
+    else 
+      this.extrudegeometry = new BufferGeometry();
   }
 
   shapegeometry!: BufferGeometry;
@@ -327,41 +329,37 @@ export class PathEditorExample implements OnInit, OnDestroy {
   }
 
   public gui!: Ng3GUI;
+  public extrudegui!: Ng3GUI;
 
   params = {
     snap: true,
-    showshape: false,
+    showshape: true,
     path: '',
     showpoints: true,
-    tilt : false
+    tilt: false
   }
 
 
   ngOnInit() {
-    const gui = new Ng3GUI({ width: 300 }).settitle('Draw Settings');
+    let gui = new Ng3GUI({ width: 300 }).settitle('Draw Settings');
     gui.add(this.params, 'snap').name('Snap to Grid');
     gui.add(this.params, 'showshape').name('Show Filled Shape').onChange(() => this.updateshape());
-    gui.addTextArea(this.params, 'path', 1.1, 0.17).name('Path').disable()
     gui.add(this.params, 'showpoints').name('Show Points');
+    gui.addTextArea(this.params, 'path', 1.1, 0.35).name('Path').disable()
     //gui.add(this.params, 'tilt').name('Tilt Grid Forward');
 
-    //const folder = gui.addFolder('Extrude')
-    //folder.add(this.options, 'curveSegments', 1, 100, 1).name('Curve Segments');
-    //folder.add(this.options, 'steps', 1, 10, 1).name('Steps');
-    //folder.add(this.options, 'depth', 0.01, 1, 0.01).name('Depth');
-    //folder.add(this.options, 'bevelEnabled').name('Enable Bevel');
-
-    //folder.add(this, 'extrude').name('Extrude Preview');
     this.gui = gui;
+
+    gui = new Ng3GUI({ width: 300 }).settitle('Extrude Settings');
+    gui.add(this.extrudeoptions, 'depth', 0.01, 0.1, 0.01).name('Depth').onChange(() => { this.updateextrude() });
+    gui.add(this.extrudeoptions, 'bevelEnabled').name('Enable Bevel').onChange(() => { this.updateextrude() });
+    gui.addColor(this, 'extrudecolor').name('Color');
+
+    this.extrudegui = gui;
 
     this.timer = setInterval(() => {
       this.redraw();
     }, 1000 / 30);
-
-    const timer = setTimeout(() => {
-      this.expanded = false;
-      clearTimeout(timer)
-    }, 100)
   }
 
   curves: Array<BufferGeometry> = [];
@@ -391,8 +389,12 @@ export class PathEditorExample implements OnInit, OnDestroy {
       from = command.endpoint;
     });
     this.updateshape();
+    this.updateextrude();
 
     this.params.path = paths.join(' ');
   }
 
+  tick(mesh: Mesh) {
+    mesh.rotation.y += 0.01;
+  }
 }

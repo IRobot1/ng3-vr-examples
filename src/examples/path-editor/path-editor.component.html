@@ -4,11 +4,14 @@
   <ngt-cylinder-geometry [args]="[1, 1, 0.1, 32]"></ngt-cylinder-geometry>
 </ngt-mesh>-->
 
-<ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
+<ngt-ambient-light intensity="0.1"></ngt-ambient-light>
+
+<ngt-point-light [position]="[1.5, 0, 0]" castShadow></ngt-point-light>
 
 <ngt-mesh-basic-material #curvematerial color="black"></ngt-mesh-basic-material>
 <ngt-mesh-basic-material #linematerial color="green"></ngt-mesh-basic-material>
 <ngt-mesh-basic-material #graymaterial color="#555"></ngt-mesh-basic-material>
+<ngt-mesh-standard-material #extrudematerial [color]="extrudecolor"></ngt-mesh-standard-material>
 
 <flat-ui-drag-plane [size]="2" [position]="[0, yoffset, -1]" [selectable]="selectable" [showgrid]="params.snap"
                     (change)="hit($event)" (click)="closemenus()" (dragend)="enddrag()" [rotation]="params.tilt ? [-90 | radian, 0, 0] : [0, 0, 0]">
@@ -33,18 +36,20 @@
                                (pressed)="morepressed()">
       </flat-ui-material-button>
 
-      <flat-ui-menu-mini *ngIf="showmenu"  [scale]="scale" 
-                    [position]="menuposition" [menuitems]="menuitems" [selectable]="selectable">
+      <flat-ui-menu-mini *ngIf="showmenu" [scale]="scale"
+                         [position]="menuposition" [menuitems]="menuitems" [selectable]="selectable">
       </flat-ui-menu-mini>
 
       <flat-ui-menu-mini *ngIf="showactions" [scale]="scale"
-                    [position]="actionposition" [menuitems]="actionmenu" [selectable]="selectable">
+                         [position]="actionposition" [menuitems]="actionmenu" [selectable]="selectable">
       </flat-ui-menu-mini>
 
-      <ng3-gui [position]="[0, -1, guiz]" [gui]="gui" [sixdof]="false" [scalable]="false" [expanded]="expanded" [selectable]="selectable" [scale]="scale"></ng3-gui>
+      <ng3-gui [position]="[0, -0.5, guiz]" [gui]="gui" [sixdof]="false" [scalable]="false" [expanded]="true" [selectable]="selectable" [scale]="scale"></ng3-gui>
+      <ng3-gui [position]="[1.6, -0.7, guiz]" [gui]="extrudegui" [sixdof]="false" [scalable]="false" [expanded]="true" [selectable]="selectable" [scale]="scale"></ng3-gui>
 
       <ngt-mesh [geometry]="shapegeometry" [material]="graymaterial.instance.value" [position]="[0, 0, shapez]"></ngt-mesh>
-      <ngt-mesh [geometry]="extrudegeometry" [position]="[-0.5, 0, 0.5]"></ngt-mesh>
+
+      <ngt-mesh [geometry]="extrudegeometry" [material]="extrudematerial.instance.value" [position]="[1.6, 0, 0]" (beforeRender)="tick($event.object)"></ngt-mesh>
     </ngt-group>
   </ng-template>
 
