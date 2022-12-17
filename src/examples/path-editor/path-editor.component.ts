@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } from "@angular/core";
 
-import { BufferGeometry, ExtrudeGeometry, ExtrudeGeometryOptions, Intersection, Mesh, Shape, ShapeGeometry, Vector2, Vector3 } from "three";
+import { BufferGeometry, ExtrudeGeometry, ExtrudeGeometryOptions, Intersection, LatheGeometry, Mesh, Shape, ShapeGeometry, Vector2, Vector3 } from "three";
 
 import { InteractiveObjects, MenuItem } from "ng3-flat-ui";
 import { BaseCommand, ClosePathCommand, CLOSEPATHZ, ControlPoint, CONTROLPOINTZ, CubicCurveCommand, GUIZ, HorizontalCommand, LineToCommand, MENUZ, MoveToCommand, MOVETOZ, PathPoint, POINTZ, QuadraticCurveCommand, SHAPEZ, VerticalCommand } from "./path-util";
@@ -291,6 +291,18 @@ export class PathEditorExample implements OnInit, OnDestroy {
   }
 
 
+  lathegeometry!: BufferGeometry;
+  lathecolor = 'red';
+
+  updatelathe() {
+    if (this.params.showshape && this.commands.length > 2) {
+      this.lathegeometry = new LatheGeometry(this.getpoints());
+      this.lathegeometry.center();
+    }
+    else
+      this.extrudegeometry = new BufferGeometry();
+  }
+
   extrudegeometry!: BufferGeometry;
   extrudecolor = 'red';
 
@@ -301,13 +313,17 @@ export class PathEditorExample implements OnInit, OnDestroy {
     bevelSize: 0.01,
   }
 
-  getshape(): Shape {
+  getpoints(): Array<Vector2>{
     const points: Array<Vector2> = []
     this.commands.forEach(command => {
       if (command.points)
         points.push(...command.points);
     });
-    return new Shape(points);
+    return points;
+  }
+
+  getshape(): Shape {
+    return new Shape(this.getpoints());
   }
 
   updateextrude() {
@@ -328,8 +344,9 @@ export class PathEditorExample implements OnInit, OnDestroy {
       this.shapegeometry = new BufferGeometry();
   }
 
-  public gui!: Ng3GUI;
+  public pathgui!: Ng3GUI;
   public extrudegui!: Ng3GUI;
+  public lathegui!: Ng3GUI;
 
   params = {
     snap: true,
@@ -341,14 +358,14 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    let gui = new Ng3GUI({ width: 300 }).settitle('Draw Settings');
+    let gui = new Ng3GUI({ width: 300 }).settitle('Path Settings');
     gui.add(this.params, 'snap').name('Snap to Grid');
     gui.add(this.params, 'showshape').name('Show Filled Shape').onChange(() => this.updateshape());
     gui.add(this.params, 'showpoints').name('Show Points');
     gui.addTextArea(this.params, 'path', 1.1, 0.35).name('Path').disable()
     //gui.add(this.params, 'tilt').name('Tilt Grid Forward');
 
-    this.gui = gui;
+    this.pathgui = gui;
 
     gui = new Ng3GUI({ width: 300 }).settitle('Extrude Settings');
     gui.add(this.extrudeoptions, 'depth', 0.01, 0.1, 0.01).name('Depth').onChange(() => { this.updateextrude() });
@@ -356,6 +373,11 @@ export class PathEditorExample implements OnInit, OnDestroy {
     gui.addColor(this, 'extrudecolor').name('Color');
 
     this.extrudegui = gui;
+
+    gui = new Ng3GUI({ width: 300 }).settitle('Lathe Settings');
+    gui.addColor(this, 'lathecolor').name('Color');
+
+    this.lathegui = gui;
 
     this.timer = setInterval(() => {
       this.redraw();
@@ -390,6 +412,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     });
     this.updateshape();
     this.updateextrude();
+    this.updatelathe();
 
     this.params.path = paths.join(' ');
   }
