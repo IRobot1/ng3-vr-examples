@@ -327,11 +327,16 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
 
   lathegeometry!: BufferGeometry;
-  lathecolor = 'red';
+
+  latheparams = {
+    color: 'red',
+    segments: 12,
+    animate: false,
+  }
 
   updatelathe() {
     if (this.params.showshape && this.commands.length > 2) {
-      this.lathegeometry = new LatheGeometry(this.getpoints());
+      this.lathegeometry = new LatheGeometry(this.getpoints(), this.latheparams.segments);
       this.lathegeometry.center();
     }
     else
@@ -339,7 +344,10 @@ export class PathEditorExample implements OnInit, OnDestroy {
   }
 
   extrudegeometry!: BufferGeometry;
-  extrudecolor = 'red';
+  extrudeparams = {
+    color: 'red',
+    animate: false,
+  }
 
   extrudeoptions: ExtrudeGeometryOptions = {
     depth: 0.01,
@@ -388,6 +396,9 @@ export class PathEditorExample implements OnInit, OnDestroy {
     showshape: true,
     path: '',
     showpoints: true,
+    showlathe: false,
+    showextrude: true,
+
     tilt: false
   }
 
@@ -398,19 +409,24 @@ export class PathEditorExample implements OnInit, OnDestroy {
     gui.add(this.params, 'showshape').name('Show Filled Shape').onChange(() => this.updateshape());
     gui.add(this.params, 'showpoints').name('Show Points');
     gui.addTextArea(this.params, 'path', 1.1, 0.35).name('Path').disable()
+    gui.add(this.params, 'showextrude').name('Show Extrude Geometry');
+    gui.add(this.params, 'showlathe').name('Show Lathe Geometry');
     //gui.add(this.params, 'tilt').name('Tilt Grid Forward');
 
     this.pathgui = gui;
 
     gui = new Ng3GUI({ width: 300 }).settitle('Extrude Settings');
+    gui.addColor(this.extrudeparams, 'color').name('Color');
     gui.add(this.extrudeoptions, 'depth', 0.01, 0.1, 0.01).name('Depth').onChange(() => { this.updateextrude() });
     gui.add(this.extrudeoptions, 'bevelEnabled').name('Enable Bevel').onChange(() => { this.updateextrude() });
-    gui.addColor(this, 'extrudecolor').name('Color');
+    gui.add(this.extrudeparams, 'animate').name('Animate');
 
     this.extrudegui = gui;
 
     gui = new Ng3GUI({ width: 300 }).settitle('Lathe Settings');
-    gui.addColor(this, 'lathecolor').name('Color');
+    gui.addColor(this.latheparams, 'color').name('Color');
+    gui.add(this.latheparams, 'segments', 8, 24, 1).name('Segments').onChange(() => { this.updatelathe() });;
+    gui.add(this.latheparams, 'animate').name('Animate');
 
     this.lathegui = gui;
 
@@ -452,8 +468,9 @@ export class PathEditorExample implements OnInit, OnDestroy {
     this.params.path = paths.join(' ');
   }
 
-  tick(mesh: Mesh) {
-    mesh.rotation.y += 0.01;
+  tick(mesh: Mesh, animate: boolean) {
+    if (animate)
+      mesh.rotation.y += 0.01;
   }
 
   load(commands: Array<CommandData>) {
