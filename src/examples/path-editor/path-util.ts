@@ -166,3 +166,12 @@ export class ClosePathCommand extends BaseCommand {
 }
 
 
+export interface CommandData {
+  type: CommandType;
+  x: number;
+  y: number;
+  cpx?: number;
+  cpy?: number;
+  cp2x?: number;
+  cp2y?: number;
+}

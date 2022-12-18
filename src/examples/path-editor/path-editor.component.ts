@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } f
 import { BufferGeometry, ExtrudeGeometry, ExtrudeGeometryOptions, Intersection, LatheGeometry, Mesh, Shape, ShapeGeometry, Vector2, Vector3 } from "three";
 
 import { InteractiveObjects, MenuItem } from "ng3-flat-ui";
-import { BaseCommand, ClosePathCommand, CLOSEPATHZ, ControlPoint, CONTROLPOINTZ, CubicCurveCommand, GUIZ, HorizontalCommand, LineToCommand, MENUZ, MoveToCommand, MOVETOZ, PathPoint, POINTZ, QuadraticCurveCommand, SHAPEZ, VerticalCommand } from "./path-util";
+import { BaseCommand, ClosePathCommand, CLOSEPATHZ, CommandData, CommandType, ControlPoint, CONTROLPOINTZ, CubicCurveCommand, GUIZ, HorizontalCommand, LineToCommand, MENUZ, MoveToCommand, MOVETOZ, PathPoint, POINTZ, QuadraticCurveCommand, SHAPEZ, VerticalCommand } from "./path-util";
 import { CameraService } from "../../app/camera.service";
 
 import { Ng3GUI } from "ng3-gui";
@@ -67,58 +67,90 @@ export class PathEditorExample implements OnInit, OnDestroy {
     //this.commands.forEach(command => console.warn(command.endpoint, command.text))
   }
 
+  moveto = new PathPoint(new Vector2(0, 0), MOVETOZ, 'red');
+
+  addmoveto() {
+    this.commands.push(new MoveToCommand(this.moveto));
+    this.points.push(this.moveto);
+    this.last = this.moveto;
+  }
+
+  addlineto(x: number, y: number) {
+    const lineto = new PathPoint(new Vector2(x, y));
+    this.addcommand(new LineToCommand(lineto));
+    this.addpoint(lineto);
+  }
+
+  addvertical(x: number, y: number) {
+    const vertical = new PathPoint(new Vector2(x, y));
+    vertical.changex = false;
+    this.addcommand(new VerticalCommand(vertical));
+    this.addpoint(vertical);
+  }
+
+  addhorizontal(x: number, y: number) {
+    const horizontal = new PathPoint(new Vector2(x, y));
+    horizontal.changey = false;
+    this.addcommand(new HorizontalCommand(horizontal));
+    this.addpoint(horizontal);
+  }
+
+  addcubic(x: number, y: number, cp1x: number, cp1y: number, cp2x: number, cp2y: number) {
+    const cp1 = new PathPoint(new Vector2(cp1x, cp1y), CONTROLPOINTZ, 'green', true);
+    const cp2 = new PathPoint(new Vector2(cp2x, cp2y), CONTROLPOINTZ, 'green', true);
+    const to = new PathPoint(new Vector2(x, y));
+    this.addcommand(new CubicCurveCommand(cp1, cp2, to));
+    this.points.push(cp1);
+    this.points.push(cp2);
+    this.addpoint(to);
+  }
+
+  addbezier(x: number, y: number, cpx: number, cpy: number) {
+    const cp = new PathPoint(new Vector2(cpx, cpy), CONTROLPOINTZ, 'green', true);
+    const to = new PathPoint(new Vector2(x, y));
+    this.addcommand(new QuadraticCurveCommand(cp, to));
+    this.points.push(cp);
+    this.addpoint(to);
+  }
+
+  addclose(x: number, y: number) {
+    const point = new PathPoint(new Vector2(x, y), CLOSEPATHZ, 'black');
+    this.addcommand(new ClosePathCommand(this.moveto, point));
+    this.addpoint(point);
+  }
+
   actionmenu: Array<MenuItem> = [
     //{ text: 'M Move to', icon: '', enabled: true, selected: () => { } },
     {
       text: 'Line to', keycode: 'L', icon: '', enabled: true, selected: () => {
-        const lineto = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y + 0.1));
-        this.addcommand(new LineToCommand(lineto));
-        this.addpoint(lineto);
+        this.addlineto(this.moreposition.x + 0.1, this.moreposition.y + 0.1);
       }
     },
     {
       text: 'Vertical Line to', keycode: 'V', icon: '', enabled: true, selected: () => {
-        const vertical = new PathPoint(new Vector2(this.moreposition.x, this.moreposition.y + 0.1));
-        vertical.changex = false;
-        this.addcommand(new VerticalCommand(vertical));
-        this.addpoint(vertical);
+        this.addvertical(this.moreposition.x, this.moreposition.y + 0.1)
       }
     },
     {
       text: 'Horizontal Line to', keycode: 'H', icon: '', enabled: true, selected: () => {
-        const horizontal = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y));
-        horizontal.changey = false;
-        this.addcommand(new HorizontalCommand(horizontal));
-        this.addpoint(horizontal);
+        this.addhorizontal(this.moreposition.x + 0.1, this.moreposition.y)
       }
     },
     {
       text: 'Cubic Curve to', keycode: 'C', icon: '', enabled: true, selected: () => {
-        const cp1 = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y), CONTROLPOINTZ, 'green', true);
-        const cp2 = new PathPoint(new Vector2(this.moreposition.x + 0.2, this.moreposition.y), CONTROLPOINTZ, 'green', true);
-        const to = new PathPoint(new Vector2(this.moreposition.x + 0.3, this.moreposition.y));
-        this.addcommand(new CubicCurveCommand(cp1, cp2, to));
-        this.points.push(cp1);
-        this.points.push(cp2);
-        this.addpoint(to);
+        this.addcubic(this.moreposition.x + 0.3, this.moreposition.y, this.moreposition.x + 0.1, this.moreposition.y, this.moreposition.x + 0.2, this.moreposition.y)
       }
     },
     {
       text: 'Bezier Curve to', keycode: 'Q', icon: '', enabled: true, selected: () => {
-        const cp = new PathPoint(new Vector2(this.moreposition.x + 0.1, this.moreposition.y), CONTROLPOINTZ, 'green', true);
-        const to = new PathPoint(new Vector2(this.moreposition.x + 0.2, this.moreposition.y));
-        this.addcommand(new QuadraticCurveCommand(cp, to));
-        this.points.push(cp);
-        this.addpoint(to);
+        this.addbezier(this.moreposition.x + 0.2, this.moreposition.y, this.moreposition.x + 0.1, this.moreposition.y)
       }
     },
-/*    { text: 'Elliptical Arc', keycode: 'A', icon: '', enabled: true, selected: () => { } },*/
+    /*    { text: 'Elliptical Arc', keycode: 'A', icon: '', enabled: true, selected: () => { } },*/
     {
       text: 'Close Path', keycode: 'Z', icon: '', enabled: true, selected: () => {
         if (this.commands.length > 1) {
-          const point = new PathPoint(new Vector2(this.moveto.position.x, this.moveto.position.y), CLOSEPATHZ, 'black');
-          this.addcommand(new ClosePathCommand(this.moveto, point));
-          this.addpoint(point);
+          this.addclose(this.moveto.position.x, this.moveto.position.y)
         }
       }
     },
@@ -219,17 +251,19 @@ export class PathEditorExample implements OnInit, OnDestroy {
     }
   }
 
-  moveto = new PathPoint(new Vector2(0, 0), MOVETOZ, 'red');
 
   constructor(
     private cameraman: CameraService
   ) {
     this.cameraman.position = [0, 0, 2];
 
-    this.commands.push(new MoveToCommand(this.moveto));
-    this.points.push(this.moveto);
-    this.last = this.moveto;
-
+    const json = localStorage.getItem('patheditor');
+    if (json) {
+      this.load(JSON.parse(json));
+    }
+    else {
+      this.addmoveto()
+    }
     this.updateFlag = true;
   }
 
@@ -288,6 +322,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     clearInterval(this.timer);
+    this.save();
   }
 
 
@@ -313,7 +348,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     bevelSize: 0.01,
   }
 
-  getpoints(): Array<Vector2>{
+  getpoints(): Array<Vector2> {
     const points: Array<Vector2> = []
     this.commands.forEach(command => {
       if (command.points)
@@ -331,7 +366,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
       this.extrudegeometry = new ExtrudeGeometry(this.getshape(), this.extrudeoptions);
       this.extrudegeometry.center();
     }
-    else 
+    else
       this.extrudegeometry = new BufferGeometry();
   }
 
@@ -419,5 +454,55 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
   tick(mesh: Mesh) {
     mesh.rotation.y += 0.01;
+  }
+
+  load(commands: Array<CommandData>) {
+    commands.forEach(command => {
+      switch (command.type) {
+        case 'moveto':
+          this.moveto.position.x = command.x;
+          this.moveto.position.y = command.y;
+          this.addmoveto()
+          break;
+        case 'lineto':
+          this.addlineto(command.x, command.y);
+          break;
+        case 'vertical':
+          this.addvertical(command.x, command.y);
+          break;
+        case 'horizontal':
+          this.addhorizontal(command.x, command.y);
+          break;
+        case 'cubic':
+          this.addcubic(command.x, command.y, command.cpx ?? command.x, command.cpy ?? command.y, command.cp2x ?? command.x, command.cp2y ?? command.y);
+          break;
+        case 'quadratic':
+          this.addbezier(command.x, command.y, command.cpx ?? command.x, command.cpy ?? command.y);
+          break;
+        case 'closepath':
+          this.addclose(command.x, command.y);
+          break;
+      }
+    });
+  }
+
+  save() {
+    const commands = this.commands.map(command => {
+      const result: CommandData = { type: command.type, x: command.endpoint.position.x, y: command.endpoint.position.y }
+
+      if (command instanceof CubicCurveCommand) {
+        result.cpx = command.cp1.position.x;
+        result.cpy = command.cp1.position.y;
+        result.cp2x = command.cp2.position.x;
+        result.cp2y = command.cp2.position.y;
+      }
+      else if (command instanceof QuadraticCurveCommand) {
+        result.cpx = command.cp.position.x;
+        result.cpy = command.cp.position.y;
+      }
+      return result;
+    });
+
+    localStorage.setItem('patheditor', JSON.stringify(commands))
   }
 }
