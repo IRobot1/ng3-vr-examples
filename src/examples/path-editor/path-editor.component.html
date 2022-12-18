@@ -46,7 +46,7 @@
                          [position]="actionposition" [menuitems]="actionmenu" [selectable]="selectable">
       </flat-ui-menu-mini>
 
-      <ng3-gui [position]="[0, 0.75, guiz+0.02]" [gui]="pathgui" [sixdof]="false" [scalable]="false" [expanded]="true" [selectable]="selectable" [scale]="scale"></ng3-gui>
+      <ng3-gui [position]="[0, -1.25, guiz+0.02]" [gui]="pathgui" [sixdof]="false" [scalable]="false" [expanded]="true" [selectable]="selectable" [scale]="scale"></ng3-gui>
       <ng3-gui *ngIf="params.showextrude" [position]="[1.5, 0.7, guiz+0.01]" [gui]="extrudegui" [sixdof]="false" [scalable]="false" [expanded]="true" [selectable]="selectable" [scale]="scale"></ng3-gui>
       <ng3-gui *ngIf="params.showlathe" [position]="[-1.5, 0.7, guiz]" [gui]="lathegui" [sixdof]="false" [scalable]="false" [expanded]="true" [selectable]="selectable" [scale]="scale"></ng3-gui>
 

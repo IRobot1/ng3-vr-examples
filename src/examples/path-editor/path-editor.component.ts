@@ -7,7 +7,7 @@ import { BaseCommand, ClosePathCommand, CLOSEPATHZ, CommandData, CommandType, Co
 import { CameraService } from "../../app/camera.service";
 
 import { Ng3GUI } from "ng3-gui";
-import { label1, label2, lathe1 } from "./path-examples";
+import { label1, label10, label11, label12, label2, label3, label4, label5, label6, label7, label8, label9, lathe1, lathe2 } from "./path-examples";
 
 @Component({
   templateUrl: './path-editor.component.html',
@@ -411,14 +411,36 @@ export class PathEditorExample implements OnInit, OnDestroy {
   }
 
   exampledata = [
+    lathe1,
     label1,
     label2,
-    lathe1,
+    label3,
+    label4,
+    label5,
+    label6,
+    label7,
+    label8,
+    label9,
+    label10,
+    label11,
+    label12,
+    lathe2,
   ]
   examples = {
-    Label1: 0,
-    Label2: 1,
-    Lathe1: 2
+    Lathe1: 0,
+    Label1: 1,
+    Label2: 2,
+    Label3: 3,
+    Label4: 4,
+    Label5: 5,
+    Label6: 6,
+    Label7: 7,
+    Label8: 8,
+    Label9: 9,
+    Label10: 10,
+    Label11: 11,
+    Label12: 12,
+    Lathe2: 13,
   }
 
 
@@ -427,11 +449,11 @@ export class PathEditorExample implements OnInit, OnDestroy {
     gui.add(this.params, 'snap').name('Snap to Grid');
     gui.add(this.params, 'showshape').name('Show Filled Shape').onChange(() => this.updateshape());
     gui.add(this.params, 'showpoints').name('Show Points');
-    gui.addTextArea(this.params, 'path', 1.1, 0.35).name('Path').disable()
     gui.add(this.params, 'showextrude').name('Show Extrude Geometry');
     gui.add(this.params, 'showlathe').name('Show Lathe Geometry');
     gui.add(this.params, 'examples', this.examples).name('Examples').onChange(index => { this.load(this.exampledata[index]) });
     gui.add(this, 'newshape').name('New Shape')
+    gui.addTextArea(this.params, 'path', 1.1, 1).name('Path').disable()
     //gui.add(this.params, 'tilt').name('Tilt Grid Forward');
 
     this.pathgui = gui;
