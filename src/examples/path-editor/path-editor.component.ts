@@ -7,6 +7,7 @@ import { BaseCommand, ClosePathCommand, CLOSEPATHZ, CommandData, CommandType, Co
 import { CameraService } from "../../app/camera.service";
 
 import { Ng3GUI } from "ng3-gui";
+import { label1, label2, lathe1 } from "./path-examples";
 
 @Component({
   templateUrl: './path-editor.component.html',
@@ -69,7 +70,13 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
   moveto = new PathPoint(new Vector2(0, 0), MOVETOZ, 'red');
 
-  addmoveto() {
+  addmoveto(x: number, y: number) {
+    this.moveto.position.x = x;
+    this.moveto.position.y = y;
+    if (this.moveto.mesh) {
+      this.moveto.mesh.position.x = x;
+      this.moveto.mesh.position.y = y;
+    }
     this.commands.push(new MoveToCommand(this.moveto));
     this.points.push(this.moveto);
     this.last = this.moveto;
@@ -262,7 +269,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
       this.load(JSON.parse(json));
     }
     else {
-      this.addmoveto()
+      this.addmoveto(0, 0)
     }
     this.updateFlag = true;
   }
@@ -340,7 +347,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
       this.lathegeometry.center();
     }
     else
-      this.extrudegeometry = new BufferGeometry();
+      this.lathegeometry = new BufferGeometry();
   }
 
   extrudegeometry!: BufferGeometry;
@@ -398,8 +405,20 @@ export class PathEditorExample implements OnInit, OnDestroy {
     showpoints: true,
     showlathe: false,
     showextrude: true,
+    examples: 0,
 
     tilt: false
+  }
+
+  exampledata = [
+    label1,
+    label2,
+    lathe1,
+  ]
+  examples = {
+    Label1: 0,
+    Label2: 1,
+    Lathe1: 2
   }
 
 
@@ -411,6 +430,8 @@ export class PathEditorExample implements OnInit, OnDestroy {
     gui.addTextArea(this.params, 'path', 1.1, 0.35).name('Path').disable()
     gui.add(this.params, 'showextrude').name('Show Extrude Geometry');
     gui.add(this.params, 'showlathe').name('Show Lathe Geometry');
+    gui.add(this.params, 'examples', this.examples).name('Examples').onChange(index => { this.load(this.exampledata[index]) });
+    gui.add(this, 'newshape').name('New Shape')
     //gui.add(this.params, 'tilt').name('Tilt Grid Forward');
 
     this.pathgui = gui;
@@ -425,7 +446,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
     gui = new Ng3GUI({ width: 300 }).settitle('Lathe Settings');
     gui.addColor(this.latheparams, 'color').name('Color');
-    gui.add(this.latheparams, 'segments', 8, 24, 1).name('Segments').onChange(() => { this.updatelathe() });;
+    gui.add(this.latheparams, 'segments', 3, 24, 1).name('Segments').onChange(() => { this.updatelathe() });;
     gui.add(this.latheparams, 'animate').name('Animate');
 
     this.lathegui = gui;
@@ -473,13 +494,22 @@ export class PathEditorExample implements OnInit, OnDestroy {
       mesh.rotation.y += 0.01;
   }
 
+  newshape() {
+    this.commands.length = this.controls.length = this.points.length = 0;
+    this.updateextrude();
+    this.updatelathe();
+    this.updateshape();
+    this.addmoveto(0, 0);
+    this.updateFlag = true;
+  }
+
   load(commands: Array<CommandData>) {
+    this.commands.length = this.controls.length = this.points.length = 0;
+
     commands.forEach(command => {
       switch (command.type) {
         case 'moveto':
-          this.moveto.position.x = command.x;
-          this.moveto.position.y = command.y;
-          this.addmoveto()
+          this.addmoveto(command.x, command.y)
           break;
         case 'lineto':
           this.addlineto(command.x, command.y);
