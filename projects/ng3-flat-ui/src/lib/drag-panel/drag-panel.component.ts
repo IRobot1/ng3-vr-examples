@@ -222,10 +222,10 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
 
   enddrag() {
     if (this.locked) return;
-    this.dragging = this.desktopdragging = false;
-    this.out();
     if (this.desktopdragging)
       this.invisiblemesh.scale.set(0, 0, 0);
+    this.dragging = this.desktopdragging = false;
+    this.out();
   }
 
   protected invisiblemesh!: Mesh;
