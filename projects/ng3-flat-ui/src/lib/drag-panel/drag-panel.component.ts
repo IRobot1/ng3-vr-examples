@@ -146,6 +146,8 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   @ContentChild(TemplateRef) templateRef?: TemplateRef<unknown>;
 
   protected outline!: BufferGeometry; // outline material
+
+  // set opacity to 1 to make drag plane visible
   protected invisiblematerial = new MeshBasicMaterial({ transparent: true, opacity: 0 })
 
   protected titleheight = 0.1;
@@ -214,14 +216,16 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
     this.dragging = true;
     this.desktopdragging = ismouse;
     this.over();
-    this.invisiblemesh.scale.set(1, 1, 1);
+    if (this.desktopdragging)
+      this.invisiblemesh.scale.set(1, 1, 1);
   }
 
   enddrag() {
     if (this.locked) return;
     this.dragging = this.desktopdragging = false;
     this.out();
-    this.invisiblemesh.scale.set(0, 0, 0);
+    if (this.desktopdragging)
+      this.invisiblemesh.scale.set(0, 0, 0);
   }
 
   protected invisiblemesh!: Mesh;
@@ -300,64 +304,64 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   private scalemeshes: Array<Mesh> = [];
 
   protected scaleready(mesh: Mesh, panel: Object3D) {
-  this.selectable?.add(mesh);
+    this.selectable?.add(mesh);
 
-  mesh.addEventListener('pointermove', (e: any) => {
-    this.showscaling = true;
-    this.doscale(mesh, e.data, panel);
-    e.stop = true;
-  });
+    mesh.addEventListener('pointermove', (e: any) => {
+      this.showscaling = true;
+      this.doscale(mesh, e.data, panel);
+      e.stop = true;
+    });
 
-  mesh.addEventListener('pointerdown', (e: any) => { this.scaling = true; e.stop = true; });
-  mesh.addEventListener('pointerup', (e: any) => { this.scaling = false; });
-  mesh.addEventListener('pointerout', () => { this.showscaling = false; });
-  mesh.addEventListener('raymissed', () => { this.scaling = false; });
+    mesh.addEventListener('pointerdown', (e: any) => { this.scaling = true; e.stop = true; });
+    mesh.addEventListener('pointerup', (e: any) => { this.scaling = false; });
+    mesh.addEventListener('pointerout', () => { this.showscaling = false; });
+    mesh.addEventListener('raymissed', () => { this.scaling = false; });
 
-  this.scalemeshes.push(mesh);
-}
+    this.scalemeshes.push(mesh);
+  }
 
 
   protected scaling = false;
   protected scalepanel(mesh: Mesh, event: NgtEvent<PointerEvent>, panel: Object3D) {
-  if (event.object != mesh) return;
-  event.stopPropagation();
+    if (event.object != mesh) return;
+    event.stopPropagation();
 
-  this.doscale(mesh, event, panel);
-  this.postscale(panel);
-}
+    this.doscale(mesh, event, panel);
+    this.postscale(panel);
+  }
 
   private doscale(mesh: Mesh, event: Intersection, panel: Object3D) {
 
-  if (this.scaling) {
-    panel.worldToLocal(event.point);
+    if (this.scaling) {
+      panel.worldToLocal(event.point);
 
-    let diffx;
-    if (mesh.position.x < 0)  // left side
-      diffx = mesh.position.x - event.point.x;
-    else
-      diffx = event.point.x - mesh.position.x;
-    const diffy = mesh.position.y - event.point.y;
+      let diffx;
+      if (mesh.position.x < 0)  // left side
+        diffx = mesh.position.x - event.point.x;
+      else
+        diffx = event.point.x - mesh.position.x;
+      const diffy = mesh.position.y - event.point.y;
 
-    // scale width and height by same amount
-    panel.scale.x += diffx;
-    panel.scale.y += diffy;
+      // scale width and height by same amount
+      panel.scale.x += diffx;
+      panel.scale.y += diffy;
 
 
-    this.postscale(panel);
+      this.postscale(panel);
+    }
   }
-}
 
   private postscale(panel: Object3D) {
-  panel.scale.x = Math.max(this.minscale, panel.scale.x);
-  panel.scale.y = Math.max(this.minscale, panel.scale.y);
+    panel.scale.x = Math.max(this.minscale, panel.scale.x);
+    panel.scale.y = Math.max(this.minscale, panel.scale.y);
 
-  this.scalemeshes.forEach(mesh => {
-    if (panel.scale.x < 1) {
-      mesh.scale.x = 1 / panel.scale.x;
-      mesh.scale.y = 1 / panel.scale.y;
-    }
-  });
-}
+    this.scalemeshes.forEach(mesh => {
+      if (panel.scale.x < 1) {
+        mesh.scale.x = 1 / panel.scale.x;
+        mesh.scale.y = 1 / panel.scale.y;
+      }
+    });
+  }
 
   //
   // resizing
@@ -365,67 +369,67 @@ export class FlatUIDragPanel extends NgtObjectProps<Mesh>{
   protected showresizing = false;
 
   protected resizeready(mesh: Mesh, panel: Object3D, iswidth: boolean) {
-  this.selectable?.add(mesh);
+    this.selectable?.add(mesh);
 
-  mesh.addEventListener('pointermove', (e: any) => {
-    this.showresizing = true;
-    this.doresize(mesh, e.data, panel, iswidth);
-    e.stop = true;
-  });
+    mesh.addEventListener('pointermove', (e: any) => {
+      this.showresizing = true;
+      this.doresize(mesh, e.data, panel, iswidth);
+      e.stop = true;
+    });
 
-  mesh.addEventListener('pointerdown', (e: any) => { this.resizing = true; e.stop = true; });
-  mesh.addEventListener('pointerup', (e: any) => { this.resizing = false; });
-  mesh.addEventListener('pointerout', () => { this.showresizing = false; });
-  mesh.addEventListener('raymissed', () => { this.resizing = false; });
+    mesh.addEventListener('pointerdown', (e: any) => { this.resizing = true; e.stop = true; });
+    mesh.addEventListener('pointerup', (e: any) => { this.resizing = false; });
+    mesh.addEventListener('pointerout', () => { this.showresizing = false; });
+    mesh.addEventListener('raymissed', () => { this.resizing = false; });
 
-  this.scalemeshes.push(mesh);
-}
+    this.scalemeshes.push(mesh);
+  }
 
 
   private _resizing = false;
   protected get resizing(): boolean { return this._resizing }
   protected set resizing(newvalue: boolean) {
-  this._resizing = newvalue;
-  // done resizing, update outline
-  if (!newvalue) {
-    this.createOutline();
+    this._resizing = newvalue;
+    // done resizing, update outline
+    if (!newvalue) {
+      this.createOutline();
+    }
   }
-}
   protected resizepanel(mesh: Mesh, event: NgtEvent<PointerEvent>, panel: Object3D, iswidth: boolean) {
-  if (event.object != mesh) return;
-  event.stopPropagation();
+    if (event.object != mesh) return;
+    event.stopPropagation();
 
-  this.doresize(mesh, event, panel, iswidth);
-}
+    this.doresize(mesh, event, panel, iswidth);
+  }
 
   private doresize(mesh: Mesh, event: Intersection, panel: Object3D, iswidth: boolean) {
 
-  if (this.resizing) {
-    panel.worldToLocal(event.point);
+    if (this.resizing) {
+      panel.worldToLocal(event.point);
 
 
-    // resize width and height by same amount
-    if (iswidth) {
-      let diff;
-      if (mesh.position.x < 0)  // left side
-        diff = mesh.position.x - event.point.x;
-      else
-        diff = event.point.x - mesh.position.x;
+      // resize width and height by same amount
+      if (iswidth) {
+        let diff;
+        if (mesh.position.x < 0)  // left side
+          diff = mesh.position.x - event.point.x;
+        else
+          diff = event.point.x - mesh.position.x;
 
-      this.width += diff;
-      this.width = Math.max(this.minwidth, this.width);
+        this.width += diff;
+        this.width = Math.max(this.minwidth, this.width);
 
-      this.widthchange.next(this.width)
-    }
-    else {
-      const diff = mesh.position.y - event.point.y;
-      this.height += diff;
+        this.widthchange.next(this.width)
+      }
+      else {
+        const diff = mesh.position.y - event.point.y;
+        this.height += diff;
 
-      this.height = Math.max(this.minheight, this.height);
+        this.height = Math.max(this.minheight, this.height);
 
-      this.heightchange.next(this.height)
+        this.heightchange.next(this.height)
+      }
     }
   }
-}
 
 }

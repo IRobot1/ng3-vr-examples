@@ -4,7 +4,6 @@
   <ngt-group [position]="[0, height/2+0.06, 0]">
 
     <!-- invisible drag area so when mouse not over title, dragging continues -->
-    <!-- set opacity to 1 to make it visible -->
     <ngt-mesh #invisible [position]="[0, 0, -0.001]" [scale]="0" [material]="invisiblematerial"
               (pointerup)="enddrag()"
               (pointermove)="movepanel(invisible.instance.value, $event, panel.instance.value)">
