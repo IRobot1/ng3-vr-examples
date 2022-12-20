@@ -46,9 +46,6 @@
                          [position]="actionposition" [menuitems]="actionmenu" [selectable]="selectable">
       </flat-ui-menu-mini>
 
-      <ng3-gui [position]="[0, -1.25, guiz+0.02]" [gui]="pathgui" [sixdof]="false" [scalable]="false" [expanded]="true" [selectable]="selectable" [scale]="scale"></ng3-gui>
-      <ng3-gui *ngIf="params.showextrude" [position]="[1.5, 0.7, guiz+0.01]" [gui]="extrudegui" [sixdof]="false" [scalable]="false" [expanded]="true" [selectable]="selectable" [scale]="scale"></ng3-gui>
-      <ng3-gui *ngIf="params.showlathe" [position]="[-1.5, 0.7, guiz]" [gui]="lathegui" [sixdof]="false" [scalable]="false" [expanded]="true" [selectable]="selectable" [scale]="scale"></ng3-gui>
 
       <ngt-mesh [geometry]="shapegeometry" [material]="graymaterial.instance.value" [position]="[0, 0, shapez]"></ngt-mesh>
       <ngt-mesh *ngIf="params.showextrude" [geometry]="extrudegeometry" [material]="extrudematerial.instance.value" [position]="[1.6, 0, 0.5]" (beforeRender)="tick($event.object, extrudeparams.animate )"></ngt-mesh>
@@ -58,6 +55,10 @@
   </ng-template>
 
 </flat-ui-drag-plane>
+
+<ng3-gui [position]="[0, yoffset-1.25, guiz+0.02-1]" [gui]="pathgui" [sixdof]="false" [scalable]="false" [expanded]="true" [selectable]="selectable" [scale]="scale"></ng3-gui>
+<ng3-gui *ngIf="params.showextrude" [position]="[1.5, yoffset+0.7, guiz+0.01-1]" [gui]="extrudegui" [sixdof]="false" [scalable]="false" [expanded]="true" [selectable]="selectable" [scale]="scale"></ng3-gui>
+<ng3-gui *ngIf="params.showlathe" [position]="[-1.5, yoffset+0.7, guiz-1]" [gui]="lathegui" [sixdof]="false" [scalable]="false" [expanded]="true" [selectable]="selectable" [scale]="scale"></ng3-gui>
 
 <!--<path-command-list [position]="[0, 1, -0.9]" [selectable]="selectable" [commands]="commands"></path-command-list>-->
 
