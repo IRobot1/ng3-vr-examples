@@ -1,7 +1,10 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, Line, Material, Mesh, Object3D, Shape, ShapeGeometry } from "three";
-import { NgtObjectProps } from "@angular-three/core";
+import { NgtEvent, NgtObjectProps } from "@angular-three/core";
+
+// @ts-ignore
+import { Text } from 'troika-three-text'
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
@@ -233,4 +236,47 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
     this.line.visible = false;
     this.isover = false;
   }
+
+  private triokaText!: Text;
+  private lineheight = this.fontsize;
+  private topY = 0;
+  private maxY = 0;
+
+  textready(text: Text) {
+    text.clipRect = [0, -this.height, this.width, 0];
+    text.position.x = -this.width / 2;
+    text.position.y = this.height / 2;
+    text.position.z = 0.001;
+    text.addEventListener('synccomplete', () => {
+      // get the computed height of each line
+      this.lineheight = text.textRenderInfo.lineHeight;
+
+      const bounds = text.textRenderInfo.blockBounds;
+      this.maxY = bounds[3] - bounds[1] + this.height / 2;
+    });
+    this.triokaText = text;
+  }
+
+  scroll(e: NgtEvent<WheelEvent>) {
+    this.doscroll((e as any).deltaY);
+  }
+
+  private doscroll(change: number) {
+    let deltaY = this.lineheight;
+    if (change < 0)
+      deltaY = -deltaY;
+
+    if (this.topY + deltaY >= 0 && this.topY + this.height + deltaY < this.maxY) {
+      this.triokaText.position.y += deltaY;
+      this.topY += deltaY;
+
+      this.triokaText.clipRect = [
+        0,
+        -this.topY - this.height,
+        this.width,
+        -this.topY,
+      ];
+    }
+  }
+
 }

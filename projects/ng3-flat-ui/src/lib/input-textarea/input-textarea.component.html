@@ -2,7 +2,7 @@
 
   <ngt-mesh #mesh
             (click)="enableinput(mesh.instance.value)" (pointermove)="over()" (pointerout)="out()"
-            [geometry]="geometry"
+            [geometry]="geometry" (wheel)="scroll($event)"
             (ready)="meshready($event)">
 
     <ngt-soba-text [text]="displaytext"
@@ -12,7 +12,8 @@
                    [font]="font"
                    [maxWidth]="width"
                    [fontSize]="fontsize"
-                   [position]="[-width/2+0.01, height/2, 0.001]">
+                   [position]="[-width/2+0.01, height/2, 0.001]"
+                   (ready)="textready($event)">
     </ngt-soba-text>
 
   </ngt-mesh>
