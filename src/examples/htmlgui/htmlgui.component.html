@@ -4,7 +4,7 @@
 
 <ngt-directional-light [position]="[10, 10, 10]" castShadow></ngt-directional-light>
 
-<ngt-mesh [position]="[0, 1, -2]" [scale]="0.5" (beforeRender)="tick($event.object)">
+<ngt-mesh [position]="[0, 1, -2]" [rotation]="[ parameters.rotate | radian, 0, 0]" [scale]="[0.5, 0.5, 0.5]" (beforeRender)="tick($event.object)">
   <ngt-torus-knot-geometry [args]="[
     parameters.radius,
     parameters.tube,
