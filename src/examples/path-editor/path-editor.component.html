@@ -48,8 +48,8 @@
 
 
       <ngt-mesh [geometry]="shapegeometry" [material]="graymaterial.instance.value" [position]="[0, 0, shapez]"></ngt-mesh>
-      <ngt-mesh *ngIf="params.showextrude" [geometry]="extrudegeometry" [material]="extrudematerial.instance.value" [position]="[1.6, 0, 0.5]" (beforeRender)="tick($event.object, extrudeparams.animate )"></ngt-mesh>
-      <ngt-mesh *ngIf="params.showlathe" [geometry]="lathegeometry" [material]="lathematerial.instance.value" [position]="[-1.6, 0, 0.5]" (beforeRender)="tick($event.object, latheparams.animate)"></ngt-mesh>
+      <ngt-mesh *ngIf="params.showextrude" [geometry]="extrudegeometry" [material]="extrudematerial.instance.value" [position]="[1.6, 0, 0.5]" (beforeRender)="tick($event.object, extrudeparams.animate )" (ready)="extrudemesh = $event"></ngt-mesh>
+      <ngt-mesh *ngIf="params.showlathe" [geometry]="lathegeometry" [material]="lathematerial.instance.value" [position]="[-1.6, 0, 0.5]" (beforeRender)="tick($event.object, latheparams.animate)" (ready)="lathemesh = $event"></ngt-mesh>
 
     </ngt-group>
   </ng-template>

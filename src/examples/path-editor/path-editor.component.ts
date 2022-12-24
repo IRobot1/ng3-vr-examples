@@ -8,6 +8,7 @@ import { CameraService } from "../../app/camera.service";
 
 import { Ng3GUI } from "ng3-gui";
 import { label1, label10, label11, label12, label2, label3, label4, label5, label6, label7, label8, label9, lathe1, lathe2 } from "./path-examples";
+import { Exporter } from "../spriograph/export";
 
 @Component({
   templateUrl: './path-editor.component.html',
@@ -407,7 +408,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     showpoints: true,
     showlathe: false,
     showextrude: true,
-    examples: 0,
+    examples: -1,
 
     tilt: false
   }
@@ -445,6 +446,24 @@ export class PathEditorExample implements OnInit, OnDestroy {
     Lathe2: 13,
   }
 
+  protected extrudemesh!: Mesh;
+  protected lathemesh!: Mesh;
+  private filename = 'model';
+  private count = 1;
+
+  private saveply(mesh: Mesh) {
+    const save = new Exporter()
+    save.exportPLY(mesh, this.filename + this.count);
+    this.count++;
+  }
+
+  saveextrudeply() {
+    this.saveply(this.extrudemesh)
+  }
+
+  savelatheply() {
+    this.saveply(this.lathemesh)
+  }
 
   ngOnInit() {
     let gui = new Ng3GUI({ width: 300 }).settitle('Path Settings');
@@ -469,6 +488,8 @@ export class PathEditorExample implements OnInit, OnDestroy {
     gui.add(this.extrudeoptions, 'bevelSegments', 1, 5, 1).name('Bevel Segments').onChange(() => { this.updateextrude() });
     gui.add(this.extrudeoptions, 'bevelOffset', -0.05, 0.05, 0.01).name('Bevel Offset').onChange(() => { this.updateextrude() });
     gui.add(this.extrudeparams, 'animate').name('Animate');
+    gui.add(this, 'saveextrudeply').name('Save to PLY');
+
 
     this.extrudegui = gui;
 
@@ -476,6 +497,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     gui.addColor(this.latheparams, 'color').name('Color');
     gui.add(this.latheparams, 'segments', 3, 24, 1).name('Segments').onChange(() => { this.updatelathe() });;
     gui.add(this.latheparams, 'animate').name('Animate');
+    gui.add(this, 'savelatheply').name('Save to PLY');
 
     this.lathegui = gui;
 
