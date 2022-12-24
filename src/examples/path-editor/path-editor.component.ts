@@ -361,6 +361,8 @@ export class PathEditorExample implements OnInit, OnDestroy {
     bevelEnabled: true,
     bevelThickness: 0.01,
     bevelSize: 0.01,
+    bevelSegments: 1,
+    bevelOffset: 0,
   }
 
   getpoints(): Array<Vector2> {
@@ -462,6 +464,10 @@ export class PathEditorExample implements OnInit, OnDestroy {
     gui.addColor(this.extrudeparams, 'color').name('Color');
     gui.add(this.extrudeoptions, 'depth', 0.01, 0.1, 0.01).name('Depth').onChange(() => { this.updateextrude() });
     gui.add(this.extrudeoptions, 'bevelEnabled').name('Enable Bevel').onChange(() => { this.updateextrude() });
+    gui.add(this.extrudeoptions, 'bevelThickness', 0.01, 0.1, 0.01).name('Bevel Thickness').onChange(() => { this.updateextrude() });
+    gui.add(this.extrudeoptions, 'bevelSize', 0.01, 0.1, 0.01).name('Bevel Size').onChange(() => { this.updateextrude() });
+    gui.add(this.extrudeoptions, 'bevelSegments', 1, 5, 1).name('Bevel Segments').onChange(() => { this.updateextrude() });
+    gui.add(this.extrudeoptions, 'bevelOffset', -0.05, 0.05, 0.01).name('Bevel Offset').onChange(() => { this.updateextrude() });
     gui.add(this.extrudeparams, 'animate').name('Animate');
 
     this.extrudegui = gui;
