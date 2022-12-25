@@ -135,6 +135,7 @@ import { FlatUIDragPlane } from '../examples/path-editor/drag-plane/drag-plane.c
 import { PathCommandList } from '../examples/path-editor/command-list/command-list.component';
 import { PathCommandItem } from '../examples/path-editor/command-item/command-item.component';
 import { PathPointComponent } from '../examples/path-editor/path-point/path-point.component';
+import { PexelsVideoExample } from '../examples/pexels-video/pexels-video.component';
 
 
 
@@ -271,6 +272,7 @@ import { PathPointComponent } from '../examples/path-editor/path-point/path-poin
     DiceBearAvatarComponent,
 
     PexelsPhotoExample,
+    PexelsVideoExample,
 
     PathEditorExample,
     PathCommandItem,

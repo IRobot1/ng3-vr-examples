@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import { createClient, ErrorResponse, PaginationParams, Photo, Photos, PhotosWithTotalResults } from 'pexels';
+import { createClient, ErrorResponse, PaginationParams, Photo, Photos, PhotosWithTotalResults, Video, VideoFilterParams, Videos } from 'pexels';
 
 export type PexelOrientation = 'landscape' | 'portrait' | 'square';
 
@@ -26,6 +26,18 @@ export class PexelsService {
 
   randomPhoto(): Promise<Photo> {
     return this.client.photos.random();
-}
-  
+  }
+
+  searchVideos(params: PaginationParams & VideoFilterParams & { query: string; }): Promise<Videos> {
+    return this.client.videos.search(params);
+  }
+
+  popularVideos(params?: PaginationParams & VideoFilterParams): Promise<Videos> {
+    return this.client.videos.popular(params);
+  }
+
+  showVideo(id: string | number ): Promise<Video> {
+    return this.client.videos.show({ id });
+  }
+
 }

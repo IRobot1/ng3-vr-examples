@@ -1,0 +1,38 @@
+<ngt-color attach="background" color="#444"></ngt-color>
+
+<line-room></line-room>
+<ngt-point-light></ngt-point-light>
+
+<ngt-soba-text [position]="[0, 3, -2.99]" [text]="warning" [fontSize]="0.18"></ngt-soba-text>
+
+<ng3-gui *ngIf="enterapikey" [position]="[0, 0, 0.3]" [scale]="0.8"
+         [gui]="guikey" [selectable]="selectable"
+         [showclose]="false" [showexpand]="false" [scalable]="false">
+</ng3-gui>
+
+<ng-container *ngIf="!enterapikey">
+  <ng3-gui [position]="[-1.5, 1, -1.5]" [scale]="0.8"
+           [gui]="gui2" [selectable]="selectable"
+           [showclose]="false" [showexpand]="false" [scalable]="false">
+  </ng3-gui>
+
+  <ng3-gui [position]="[1.7, 1, -1.5]" [scale]="0.8"
+           [gui]="gui1" [selectable]="selectable"
+           [showclose]="false" [showexpand]="false" [scalable]="false">
+  </ng3-gui>
+
+
+  <ngt-group [position]="[0, 0.8, -2.999]" [scale]="2">
+    <ngt-mesh [position]="[0, 0, 0]">
+      <ngt-plane-geometry [args]="[width,height]"></ngt-plane-geometry>
+      <ngt-mesh-basic-material [map]="videoTexture"></ngt-mesh-basic-material>
+    </ngt-mesh>
+    <flat-ui-label [position]="[0.02, -height/2-0.2, 0]" [width]="width" [fontsize]="0.1" [text]="title"></flat-ui-label>
+    <flat-ui-label [position]="[0.02, -height/2-0.1, 0]" [width]="width" [fontsize]="0.05." [text]="subtitle"></flat-ui-label>
+  </ngt-group>
+</ng-container>
+
+<vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
+<vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
+
+<ngt-soba-orbit-controls vrorbit [enableRotate]="false"></ngt-soba-orbit-controls>

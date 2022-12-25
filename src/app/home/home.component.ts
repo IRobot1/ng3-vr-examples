@@ -54,6 +54,7 @@ export class HomeComponent implements OnInit {
     { asset: 'kanban', text: 'Kanban Board' },
     { asset: 'actions', text: 'Actions' },
     { asset: 'patheditor', text: 'Path Editor' },
+    { asset: 'pexelsvideo', text: 'Pexels Video' },
   ]
 
   panels1: Array<PanelSetting> = [];

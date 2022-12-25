@@ -39,6 +39,7 @@ import { JdenticonExample } from '../examples/jdenticon/jdenticon.component';
 import { DicebearExample } from '../examples/dicebear/dicebear.component';
 import { PexelsPhotoExample } from '../examples/pexels-photo/pexels-photo.component';
 import { PathEditorExample } from '../examples/path-editor/path-editor.component';
+import { PexelsVideoExample } from '../examples/pexels-video/pexels-video.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -79,6 +80,7 @@ const routes: Routes = [
   { path: 'jdenticon', component: JdenticonExample },
   { path: 'dicebear', component: DicebearExample },
   { path: 'pexelsphoto', component: PexelsPhotoExample },
+  { path: 'pexelsvideo', component: PexelsVideoExample },
   { path: 'patheditor', component: PathEditorExample },
 ];
 
