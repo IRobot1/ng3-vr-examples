@@ -55,6 +55,7 @@ export class HomeComponent implements OnInit {
     { asset: 'actions', text: 'Actions' },
     { asset: 'patheditor', text: 'Path Editor' },
     { asset: 'pexelsvideo', text: 'Pexels Video' },
+    { asset: 'textscroll', text: 'VR Text Scroll' },
   ]
 
   panels1: Array<PanelSetting> = [];

@@ -15,6 +15,11 @@ import { NgtMesh } from "@angular-three/core/meshes";
 import { NgtLine } from "@angular-three/core/lines";
 import { NgtSobaText } from "@angular-three/soba/abstractions";
 
+export interface ScrollEvent {
+  topY: number,
+  maxY: number,
+}
+
 @Component({
   selector: 'flat-ui-input-textarea',
   exportAs: 'flatUIInputTextArea',
@@ -133,6 +138,7 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
 
   @Output() change = new EventEmitter<string>();
   @Output() enter = new EventEmitter<void>();
+  @Output() scroll = new EventEmitter<ScrollEvent>();
 
   @Input() geometry!: BufferGeometry;
 
@@ -241,27 +247,29 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
   private lineheight = this.fontsize;
   private topY = 0;
   private maxY = 0;
+  private textheight = 0;
 
-  textready(text: Text) {
-    text.clipRect = [0, -this.height, this.width, 0];
-    text.position.x = -this.width / 2;
-    text.position.y = this.height / 2;
+  protected textready(text: Text) {
+    this.triokaText = text;
+
     text.position.z = 0.001;
     text.addEventListener('synccomplete', () => {
       // get the computed height of each line
       this.lineheight = text.textRenderInfo.lineHeight;
 
       const bounds = text.textRenderInfo.blockBounds;
-      this.maxY = bounds[3] - bounds[1] + this.height / 2;
+      this.maxY = -bounds[1] + this.height / 2;
+      this.textheight = -bounds[1];
+
+      this.movetostart();
     });
-    this.triokaText = text;
   }
 
-  scroll(e: NgtEvent<WheelEvent>) {
-    this.doscroll((e as any).deltaY);
+  protected doscroll(e: NgtEvent<WheelEvent>) {
+    this.scrolltext((e as any).deltaY);
   }
 
-  private doscroll(change: number) {
+  public scrolltext(change: number) {
     let deltaY = this.lineheight;
     if (change < 0)
       deltaY = -deltaY;
@@ -276,7 +284,38 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
         this.width,
         -this.topY,
       ];
+
+      this.scroll.next({ topY: +this.topY.toFixed(4), maxY: +(this.textheight - this.height).toFixed(4) });
     }
+  }
+
+  public movetostart() {
+    const text = this.triokaText;
+
+    text.clipRect = [0, -this.height, this.width, 0];
+    text.position.x = -this.width / 2;
+    text.position.y = this.height / 2;
+    this.topY = 0;
+
+    this.scroll.next({ topY: +this.topY.toFixed(4), maxY: +(this.textheight - this.height).toFixed(4) });
+  }
+
+  public movetoend() {
+    const text = this.triokaText;
+
+    const maxlines = Math.round((this.textheight - this.height) / this.lineheight);
+
+    this.topY = maxlines * this.lineheight;
+    text.position.y = this.topY + this.height / 2;
+
+    this.triokaText.clipRect = [
+      0,
+      -this.topY - this.height,
+      this.width,
+      -this.topY,
+    ];
+
+    this.scroll.next({ topY: +this.topY.toFixed(4), maxY: +(this.textheight - this.height).toFixed(4) });
   }
 
 }

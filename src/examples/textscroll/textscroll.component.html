@@ -1,0 +1,33 @@
+<ngt-color attach="background" color="darkgray"></ngt-color>
+
+<line-room></line-room>
+
+<ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
+
+<flat-ui-input-textarea #textarea [position]="[0, 0.5, 2]" [text]="text"
+                  [width]="2" [height]="0.5" (scroll)="scroll($event)">
+</flat-ui-input-textarea>
+
+<flat-ui-progress-bar [position]="[0, 1, 2]" [value]="value" [max]="max"></flat-ui-progress-bar>
+
+<flat-ui-material-button [position]="[-0.1, 1.2, 2]" [text]="'skip_previous'" (pressed)="textarea.movetostart()"></flat-ui-material-button>
+<flat-ui-material-button [position]="[0.1, 1.2, 2]" [text]="'skip_next'" (pressed)="textarea.movetoend()"></flat-ui-material-button>
+
+<ngt-group [position]="[0, 1, -2]">
+  <ngt-mesh (ready)="indicator = $event">
+    <ngt-ring-geometry [args]="[0.3, 0.4, 32]"></ngt-ring-geometry>
+
+    <ngt-mesh [position]="[0, 0.35, 0.001]">
+      <ngt-circle-geometry [args]="[0.1, 6]"></ngt-circle-geometry>
+    </ngt-mesh>
+  </ngt-mesh>
+
+  <ngt-mesh (ready)="mesh=$event">
+    <ngt-box-geometry [args]="[0.3, 0.1, 0.1]"></ngt-box-geometry>
+  </ngt-mesh>
+</ngt-group>
+
+<vr-controller navhome (connected)="connected($event)" (beforeRender)="tick($event)"></vr-controller>
+<vr-controller [index]="1" navhome></vr-controller>
+
+<!--<ngt-soba-orbit-controls vrorbit [enableRotate]="false"></ngt-soba-orbit-controls>-->

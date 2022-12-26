@@ -136,6 +136,7 @@ import { PathCommandList } from '../examples/path-editor/command-list/command-li
 import { PathCommandItem } from '../examples/path-editor/command-item/command-item.component';
 import { PathPointComponent } from '../examples/path-editor/path-point/path-point.component';
 import { PexelsVideoExample } from '../examples/pexels-video/pexels-video.component';
+import { TextScrollExample } from '../examples/textscroll/textscroll.component';
 
 
 
@@ -279,6 +280,8 @@ import { PexelsVideoExample } from '../examples/pexels-video/pexels-video.compon
     PathCommandList,
     PathPointComponent,
     FlatUIDragPlane,
+
+    TextScrollExample,
 
   ],
   imports: [
