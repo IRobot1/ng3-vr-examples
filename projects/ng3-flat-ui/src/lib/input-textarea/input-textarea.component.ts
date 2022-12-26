@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, HostListener, Input, Output } from "@angular/core";
 
 import { BufferGeometry, Line, Material, Mesh, Object3D, Shape, ShapeGeometry } from "three";
 import { NgtEvent, NgtObjectProps } from "@angular-three/core";
@@ -316,6 +316,24 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
     ];
 
     this.scroll.next({ topY: +this.topY.toFixed(4), maxY: +(this.textheight - this.height).toFixed(4) });
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  private onKeyUp(event: KeyboardEvent) {
+    if (event.ctrlKey) {
+      if (event.key == 'Home') {
+        this.movetostart();
+      }
+      else if (event.key == 'End') {
+        this.movetoend();
+      }
+    }
+    else if (event.key == 'ArrowDown') {
+      this.scrolltext(1)
+    }
+    else if (event.key == 'ArrowUp') {
+      this.scrolltext(-1)
+    }
   }
 
 }
