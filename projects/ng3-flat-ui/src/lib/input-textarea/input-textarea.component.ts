@@ -14,6 +14,8 @@ import { NgtGroup } from "@angular-three/core/group";
 import { NgtMesh } from "@angular-three/core/meshes";
 import { NgtLine } from "@angular-three/core/lines";
 import { NgtSobaText } from "@angular-three/soba/abstractions";
+import { FlatUIScroll } from "../scroll/scroll.component";
+import { NgIf } from "@angular/common";
 
 export interface ScrollEvent {
   topY: number,
@@ -27,10 +29,12 @@ export interface ScrollEvent {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
+    NgIf,
     NgtGroup,
     NgtMesh,
     NgtLine,
     NgtSobaText,
+    FlatUIScroll,
   ]
 })
 export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterViewInit, UIInput {
@@ -216,7 +220,7 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
     this.selectable?.add(mesh);
 
     mesh.addEventListener('click', () => { this.enableinput(mesh) })
-    mesh.addEventListener('pointermove', () => { this.over() });
+    mesh.addEventListener('pointermove', (e: any) => { this.over() });
     mesh.addEventListener('pointerout', () => { this.out() });
 
     this.mesh = mesh;
@@ -234,13 +238,11 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
   isover = false;
   over() {
     if (this.isover || !this.enabled) return;
-    this.line.visible = true;
-    this.isover = true;
+    this.isover = this.line.visible = this.scrollmesh.visible = true;
   }
   out() {
     if (!this.enabled) return;
-    this.line.visible = false;
-    this.isover = false;
+    this.isover = this.line.visible = this.scrollmesh.visible = false;
   }
 
   private triokaText!: Text;
@@ -336,4 +338,8 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
     }
   }
 
+  scrollmesh!: Mesh;
+  scrollready(event: Mesh) {
+    this.scrollmesh = event;
+  }
 }

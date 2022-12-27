@@ -81,7 +81,7 @@ export class GUIPointerDirective implements OnInit, OnDestroy {
 
           _event.type = events[event.type];
           _event.data = intersection;
-
+          _event.rotation = controller.rotation;
 
           object.dispatchEvent(_event);
           lasttype = _event.type;

@@ -21,4 +21,5 @@
   <ngt-line (ready)="lineready($event)"
             [geometry]="outline" [material]="outlinematerial"> </ngt-line>
 
+  <flat-ui-scroll [visible]="false" [position]="[0, height/2, 0]" (ready)="scrollready($event)"></flat-ui-scroll>
 </ngt-group>

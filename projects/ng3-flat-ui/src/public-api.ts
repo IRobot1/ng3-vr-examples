@@ -38,6 +38,7 @@ export * from './lib/progress-bar/progress-bar.component';
 export * from './lib/radio-button/radio-button.component';
 export * from './lib/radio-group/radio-group.component';
 export * from './lib/select/select.component';
+export * from './lib/scroll/scroll.component';
 export * from './lib/tab/tab.component';
 export * from './lib/tab-group/tab-group.component';
 export * from './lib/flat-ui-theme';
