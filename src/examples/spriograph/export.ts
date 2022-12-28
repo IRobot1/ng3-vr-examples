@@ -85,9 +85,9 @@ export class Exporter {
 
   }
 
-  saveString(text: string, filename: string) {
+  saveString(text: string, filename: string, mimetype = 'text/plain') {
 
-    this.save(new Blob([text], { type: 'text/plain' }), filename);
+    this.save(new Blob([text], { type: mimetype }), filename);
 
   }
 

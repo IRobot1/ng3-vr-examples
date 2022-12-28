@@ -474,6 +474,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     gui.add(this.params, 'showlathe').name('Show Lathe Geometry');
     gui.add(this.params, 'examples', this.examples).name('Examples').onChange(index => { this.load(this.exampledata[index]) });
     gui.add(this, 'newshape').name('New Shape')
+    gui.add(this, 'threecode').name('Generate ThreeJS Code');
     gui.addTextArea(this.params, 'path', 1.1, 1).name('Path').disable()
     //gui.add(this.params, 'tilt').name('Tilt Grid Forward');
 
@@ -602,4 +603,20 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
     localStorage.setItem('patheditor', JSON.stringify(commands))
   }
+
+  threecode() {
+    const lines: Array<string> = [];
+    lines.push(`const points: Array<Vector2> = [`)
+    const points = this.getpoints();
+    points.forEach(point => { lines.push(`new Vector2(${point.x}, ${point.y}),`) })
+    lines.push(`]`)
+    lines.push(`const shape = new Shape(points);`)
+    lines.push(`const geometry = new ShapeGeometry(shape);`)
+
+    const code = lines.join('\n');
+    const save = new Exporter()
+    save.saveString(code, 'shape' + this.count, 'text/javascript');
+    this.count++;
+  }
+
 }
