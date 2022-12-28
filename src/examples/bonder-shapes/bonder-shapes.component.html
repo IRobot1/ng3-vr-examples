@@ -4,7 +4,12 @@
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
-<ngt-mesh [geometry]="geometry"></ngt-mesh>
+<ngt-mesh-basic-material #shape color="orange"></ngt-mesh-basic-material>
+
+<statement-shape [position]="[-1, 0, 0]" [width]="width" [material]="shape.instance.value"></statement-shape>
+<elseif-shape [width]="width" [showelse]="true" [ifheight]="height" [elseheight]="height" [material]="shape.instance.value" (heightchange)="log('heightchange',$event)"></elseif-shape>
+
+
 
 <vr-controller navhome></vr-controller>
 <vr-controller [index]="1" navhome></vr-controller>

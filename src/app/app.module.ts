@@ -137,6 +137,8 @@ import { PathCommandItem } from '../examples/path-editor/command-item/command-it
 import { PathPointComponent } from '../examples/path-editor/path-point/path-point.component';
 import { PexelsVideoExample } from '../examples/pexels-video/pexels-video.component';
 import { BonderShapesExample } from '../examples/bonder-shapes/bonder-shapes.component';
+import { ElseIfShapeComponent } from '../examples/bonder-shapes/elseif/elseif.component';
+import { StatementShapeComponent } from '../examples/bonder-shapes/statement/statement.component';
 
 
 
@@ -282,6 +284,8 @@ import { BonderShapesExample } from '../examples/bonder-shapes/bonder-shapes.com
     FlatUIDragPlane,
 
     BonderShapesExample,
+    ElseIfShapeComponent,
+    StatementShapeComponent,
 
   ],
   imports: [
