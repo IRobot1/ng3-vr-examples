@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 
 @Component({
-  templateUrl: './bonder-shapes.component.html',
+  templateUrl: './shapeware.component.html',
 })
-export class BonderShapesExample implements OnInit {
+export class ShapewareExample implements OnInit {
   width = 0.8
   height = 0
 

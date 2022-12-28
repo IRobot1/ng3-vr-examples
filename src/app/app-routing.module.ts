@@ -40,7 +40,7 @@ import { DicebearExample } from '../examples/dicebear/dicebear.component';
 import { PexelsPhotoExample } from '../examples/pexels-photo/pexels-photo.component';
 import { PathEditorExample } from '../examples/path-editor/path-editor.component';
 import { PexelsVideoExample } from '../examples/pexels-video/pexels-video.component';
-import { BonderShapesExample } from '../examples/bonder-shapes/bonder-shapes.component';
+import { ShapewareExample } from '../examples/shapeware/shapeware.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -83,7 +83,7 @@ const routes: Routes = [
   { path: 'pexelsphoto', component: PexelsPhotoExample },
   { path: 'pexelsvideo', component: PexelsVideoExample },
   { path: 'patheditor', component: PathEditorExample },
-  { path: 'bonder-shapes', component: BonderShapesExample },
+  { path: 'shapeware-shapes', component: ShapewareExample },
 ];
 
 @NgModule({

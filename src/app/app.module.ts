@@ -136,12 +136,12 @@ import { PathCommandList } from '../examples/path-editor/command-list/command-li
 import { PathCommandItem } from '../examples/path-editor/command-item/command-item.component';
 import { PathPointComponent } from '../examples/path-editor/path-point/path-point.component';
 import { PexelsVideoExample } from '../examples/pexels-video/pexels-video.component';
-import { BonderShapesExample } from '../examples/bonder-shapes/bonder-shapes.component';
-import { ControlShapeComponent } from '../examples/bonder-shapes/control/control.component';
-import { StatementShapeComponent } from '../examples/bonder-shapes/statement/statement.component';
-import { EventShapeComponent } from '../examples/bonder-shapes/event/event.component';
-import { ExpressionShapeComponent } from '../examples/bonder-shapes/expression/expression.component';
-import { ConditionShapeComponent } from '../examples/bonder-shapes/condition/condition.component';
+import { ShapewareExample } from '../examples/shapeware/shapeware.component';
+import { ControlShapeComponent } from '../examples/shapeware/control/control.component';
+import { StatementShapeComponent } from '../examples/shapeware/statement/statement.component';
+import { EventShapeComponent } from '../examples/shapeware/event/event.component';
+import { ExpressionShapeComponent } from '../examples/shapeware/expression/expression.component';
+import { ConditionShapeComponent } from '../examples/shapeware/condition/condition.component';
 
 
 
@@ -286,7 +286,7 @@ import { ConditionShapeComponent } from '../examples/bonder-shapes/condition/con
     PathPointComponent,
     FlatUIDragPlane,
 
-    BonderShapesExample,
+    ShapewareExample,
     ControlShapeComponent,
     StatementShapeComponent,
     EventShapeComponent,

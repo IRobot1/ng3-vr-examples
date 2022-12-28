@@ -1,5 +1,5 @@
 // data for path editor
-const ifelsepath = [
+const controlpath = [
   {
     "type": "moveto",
     "x": 0,
@@ -201,5 +201,38 @@ const expressionpath = [
     "y": 0,
     "cpx": -0.1,
     "cpy": -0.1
+  }
+]
+
+const condition = [
+  {
+    "type": "moveto",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "type": "lineto",
+    "x": 0.2,
+    "y": 0
+  },
+  {
+    "type": "lineto",
+    "x": 0.3,
+    "y": -0.1
+  },
+  {
+    "type": "lineto",
+    "x": 0.2,
+    "y": -0.2
+  },
+  {
+    "type": "lineto",
+    "x": 0,
+    "y": -0.2
+  },
+  {
+    "type": "lineto",
+    "x": -0.1,
+    "y": -0.1
   }
 ]
