@@ -55,6 +55,7 @@ export class HomeComponent implements OnInit {
     { asset: 'actions', text: 'Actions' },
     { asset: 'patheditor', text: 'Path Editor' },
     { asset: 'pexelsvideo', text: 'Pexels Video' },
+    { asset: 'bonder-shapes', text: 'Bonder Shapes' },
   ]
 
   panels1: Array<PanelSetting> = [];
