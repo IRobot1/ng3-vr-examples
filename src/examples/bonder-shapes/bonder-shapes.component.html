@@ -4,19 +4,22 @@
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
-<ngt-mesh-basic-material #shape color="orange"></ngt-mesh-basic-material>
+<ngt-mesh-basic-material #orange color="orange"></ngt-mesh-basic-material>
 <ngt-mesh-basic-material #red color="red"></ngt-mesh-basic-material>
+<ngt-mesh-basic-material #green color="green"></ngt-mesh-basic-material>
+<ngt-mesh-basic-material #blue color="blue"></ngt-mesh-basic-material>
 
-<ngt-group [position]="[-1, 1.5, -2]">
-  <elseif-shape [position]="[0, 0, 0]" [width]="0.9" [showelse]="false" [ifheight]="0.2" [material]="shape.instance.value"></elseif-shape>
+<ngt-group [position]="[-0.6, 1.5, -2]" [scale]="0.5">
+  <control-shape [position]="[0, 0, 0]" [width]="0.9" [showelse]="false" [height]="0.2" [material]="orange.instance.value"></control-shape>
   <statement-shape [position]="[0.1, -0.4, 0]" [width]="width" [material]="red.instance.value"></statement-shape>
+  <expression-shape [position]="[0.5, -0.15, 0.001]" [width]="0.3" [material]="green.instance.value"></expression-shape>
 </ngt-group>
 
-<ngt-group [position]="[0, 1.9, -2]">
+<ngt-group [position]="[0.1, 1.7, -2]" [scale]="0.5">
   <event-shape [position]="[0, 0.4, 0]" [width]="width" [material]="red.instance.value"></event-shape>
-  <elseif-shape [position]="[0, 0, 0]" [width]="1" [showelse]="true" [material]="shape.instance.value" (heightchange)="log('heightchange',$event)"></elseif-shape>
+  <control-shape [position]="[0, 0, 0]" [width]="1" [showelse]="true" [elseheight]="0" [material]="orange.instance.value" (heightchange)="log('heightchange',$event)"></control-shape>
+  <condition-shape [position]="[0.55, -0.15, 0.001]" [width]="0.3" [material]="blue.instance.value"></condition-shape>
 </ngt-group>
-
 
 
 <vr-controller navhome></vr-controller>

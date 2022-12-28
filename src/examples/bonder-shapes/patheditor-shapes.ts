@@ -171,3 +171,35 @@ const eventpath = [
     "y": -0.4
   }
 ]
+
+const expressionpath = [
+  {
+    "type": "moveto",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "type": "lineto",
+    "x": 0.2,
+    "y": 0
+  },
+  {
+    "type": "quadratic",
+    "x": 0.2,
+    "y": -0.2,
+    "cpx": 0.3,
+    "cpy": -0.1
+  },
+  {
+    "type": "lineto",
+    "x": 0,
+    "y": -0.2
+  },
+  {
+    "type": "quadratic",
+    "x": 0,
+    "y": 0,
+    "cpx": -0.1,
+    "cpy": -0.1
+  }
+]
