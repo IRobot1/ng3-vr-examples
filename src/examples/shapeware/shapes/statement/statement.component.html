@@ -1,0 +1,5 @@
+<ngt-mesh [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale"
+          [geometry]="geometry" [material]="material" (beforeRender)="draw($event.object, line.instance.value)">
+
+  <ngt-line #line [geometry]="outline" [material]="outlinematerial"> </ngt-line>
+</ngt-mesh>

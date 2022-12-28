@@ -137,11 +137,12 @@ import { PathCommandItem } from '../examples/path-editor/command-item/command-it
 import { PathPointComponent } from '../examples/path-editor/path-point/path-point.component';
 import { PexelsVideoExample } from '../examples/pexels-video/pexels-video.component';
 import { ShapewareExample } from '../examples/shapeware/shapeware.component';
-import { ControlShapeComponent } from '../examples/shapeware/control/control.component';
-import { StatementShapeComponent } from '../examples/shapeware/statement/statement.component';
-import { EventShapeComponent } from '../examples/shapeware/event/event.component';
-import { ExpressionShapeComponent } from '../examples/shapeware/expression/expression.component';
-import { ConditionShapeComponent } from '../examples/shapeware/condition/condition.component';
+import { ControlShapeComponent } from '../examples/shapeware/shapes/control/control.component';
+import { StatementShapeComponent } from '../examples/shapeware/shapes/statement/statement.component';
+import { EventShapeComponent } from '../examples/shapeware/shapes/event/event.component';
+import { ExpressionShapeComponent } from '../examples/shapeware/shapes/expression/expression.component';
+import { ConditionShapeComponent } from '../examples/shapeware/shapes/condition/condition.component';
+import { VariableBlockComponent } from '../examples/shapeware/blocks/variable/variable.component';
 
 
 
@@ -292,6 +293,7 @@ import { ConditionShapeComponent } from '../examples/shapeware/condition/conditi
     EventShapeComponent,
     ExpressionShapeComponent,
     ConditionShapeComponent,
+    VariableBlockComponent,
   ],
   imports: [
     BrowserModule,

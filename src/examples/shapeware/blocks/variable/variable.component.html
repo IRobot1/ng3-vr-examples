@@ -1,0 +1,5 @@
+<expression-shape #shape [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale">
+
+  <flat-ui-label #label [position]="[0, -0.1, 0.001]" [text]="text" [alignx]="'center'" (textwidth)="textwidth($event, shape, label.instance.value)"></flat-ui-label>
+
+</expression-shape>

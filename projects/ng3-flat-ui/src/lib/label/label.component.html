@@ -2,7 +2,7 @@
 <!-- https://protectwise.github.io/troika/troika-three-text/ -->
 
 <ngt-group [ngtObjectPassThrough]="this">
-  <ngt-soba-text [text]="text"
+  <ngt-soba-text  [text]="text"
                  [material]="labelmaterial"
                  [fontSize]="fontsize"
                  [font]="font"
@@ -10,6 +10,6 @@
                  [anchorY]="aligny"
                  [maxWidth]="width"
                  [position]="[x, 0, 0.001]"
-                 (ready)="meshready($event)">
+                 (ready)="textready($event)">
   </ngt-soba-text>
 </ngt-group>

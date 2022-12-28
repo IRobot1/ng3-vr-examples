@@ -1,7 +1,10 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { Group, Material, Object3D } from "three";
 import { NgtObjectPassThrough, NgtObjectProps } from "@angular-three/core";
+
+// @ts-ignore
+import { Text } from 'troika-three-text'
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
@@ -63,8 +66,8 @@ export class FlatUILabel extends NgtObjectProps<Group> implements AfterViewInit 
   get width() { return this._width }
   set width(newvalue: number) {
     this._width = newvalue;
-    if (this.mesh) {
-      this.mesh.dispatchEvent({ type: WIDTH_CHANGED_EVENT });
+    if (this.troikaText) {
+      this.troikaText.dispatchEvent({ type: WIDTH_CHANGED_EVENT });
     }
   }
 
@@ -73,13 +76,15 @@ export class FlatUILabel extends NgtObjectProps<Group> implements AfterViewInit 
   get height() { return this._height }
   set height(newvalue: number) {
     this._height = newvalue;
-    if (this.mesh) {
-      this.mesh.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
+    if (this.troikaText) {
+      this.troikaText.dispatchEvent({ type: HEIGHT_CHANGED_EVENT });
     }
   }
 
+  @Output() textwidth = new EventEmitter<number>();
+
   ngAfterViewInit(): void {
-    this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
+    this.troikaText.addEventListener(LAYOUT_EVENT, (e: any) => {
       const height = this.height
       if (height) Math.max(this.height, this.fontsize);
       e.width = this.width;
@@ -88,9 +93,21 @@ export class FlatUILabel extends NgtObjectProps<Group> implements AfterViewInit 
     });
   }
 
-  private mesh!: Object3D;
+  private troikaText!: Text;
 
-  meshready(mesh: Object3D) {
-    this.mesh = mesh;
+  textready(text: Text) {
+    text.addEventListener('synccomplete', () => {
+      const bounds = text.textRenderInfo.blockBounds;
+      let newvalue = bounds[2] - bounds[0];
+
+      if (this.alignx == 'left')
+        newvalue = bounds[2]
+      if (this.alignx == 'right')
+        newvalue = bounds[2]
+
+      this.textwidth.next(newvalue)
+    });
+
+    this.troikaText = text;
   }
 }

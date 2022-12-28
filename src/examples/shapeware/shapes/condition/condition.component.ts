@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
-import { BufferGeometry, Material, Mesh, Shape, ShapeGeometry, Vector2 } from "three";
+import { BufferGeometry, Line, Material, Mesh, Shape, ShapeGeometry, Vector2 } from "three";
 
 import { NgtObjectProps } from "@angular-three/core";
+import { GlobalShapeTheme } from "../../shape-theme";
 
 @Component({
   selector: 'condition-shape',
@@ -27,9 +28,12 @@ export class ConditionShapeComponent extends NgtObjectProps<Mesh>{
     this.updateFlag = true;
   }
 
-  @Input() material!: Material;
-
+  protected material = GlobalShapeTheme.ConditionMaterial;
   protected geometry!: BufferGeometry;
+
+  protected outlinematerial = GlobalShapeTheme.OutlineMaterial;
+  protected outline!: BufferGeometry;
+
   private updateFlag = true;
 
   private makeGeometry() {
@@ -43,12 +47,19 @@ export class ConditionShapeComponent extends NgtObjectProps<Mesh>{
     points.push(new Vector2(0, 0))
     const shape = new Shape(points);
     this.geometry = new ShapeGeometry(shape);
+
+    if (this.outline) this.outline.dispose();
+    this.outline = new BufferGeometry().setFromPoints(points);
   }
 
 
-  protected draw() {
+  protected draw(mesh: Mesh, line: Line) {
     if (this.updateFlag) {
       this.makeGeometry();
+      if (mesh.geometry) mesh.geometry.dispose();
+      mesh.geometry = this.geometry;
+      if (line.geometry) line.geometry.dispose();
+      line.geometry = this.outline;
       this.updateFlag = false;
     }
   }
