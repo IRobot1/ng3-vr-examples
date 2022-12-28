@@ -46,6 +46,10 @@
                          [position]="actionposition" [menuitems]="actionmenu" [selectable]="selectable">
       </flat-ui-menu-mini>
 
+      <flat-ui-menu-mini *ngIf="showtranslate" [scale]="scale"
+                         [position]="actionposition" [menuitems]="translatemenu" [selectable]="selectable">
+      </flat-ui-menu-mini>
+
 
       <ngt-mesh [geometry]="shapegeometry" [material]="graymaterial.instance.value" [position]="[0, 0, shapez]"></ngt-mesh>
       <ngt-mesh *ngIf="params.showextrude" [geometry]="extrudegeometry" [material]="extrudematerial.instance.value" [position]="[1.6, 0, 0.5]" (beforeRender)="tick($event.object, extrudeparams.animate )" (ready)="extrudemesh = $event"></ngt-mesh>

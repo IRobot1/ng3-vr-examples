@@ -39,6 +39,8 @@ export class PathEditorExample implements OnInit, OnDestroy {
   showactions = false;
   actionposition = new Vector3(0, 0, MENUZ)
 
+  showtranslate = false;
+
   addcommand(command: BaseCommand) {
     let index = this.commands.findIndex(x => x.endpoint == this.last);
     const prev = this.commands[index];
@@ -164,6 +166,38 @@ export class PathEditorExample implements OnInit, OnDestroy {
     },
   ];
 
+  translatemenu: Array<MenuItem> = [
+    {
+      text: 'Left', keycode: 'ArrowLeft', icon: 'west', enabled: true, selected: () => {
+        const delta = new Vector2(-0.1, 0)
+        this.points.forEach(point => { point.position.add(delta); point.mesh.position.x += delta.x; })
+        this.updateFlag = true;
+      }
+    },
+    {
+      text: 'Right', keycode: 'ArrowRight', icon: 'east', enabled: true, selected: () => {
+        const delta = new Vector2(0.1, 0)
+        this.points.forEach(point => { point.position.add(delta); point.mesh.position.x += delta.x; })
+        this.updateFlag = true;
+      }
+    },
+    {
+      text: 'Up', keycode: 'ArrowUp', icon: 'north', enabled: true, selected: () => {
+        const delta = new Vector2(0, 0.1)
+        this.points.forEach(point => { point.position.add(delta); point.mesh.position.y += delta.y; })
+        this.updateFlag = true;
+      }
+    },
+    {
+      text: 'Down', keycode: 'ArrowDown', icon: 'south', enabled: true, selected: () => {
+        const delta = new Vector2(0, -0.1)
+        this.points.forEach(point => { point.position.add(delta); point.mesh.position.y += delta.y; })
+        this.updateFlag = true;
+      }
+    },
+
+    ]
+
   menuitems: Array<MenuItem> = [
     { text: 'Insert After', keycode: '', icon: 'add', enabled: true, submenu: this.actionmenu, selected: () => { this.showactions = true } },
     //{ text: 'Convert To', icon: 'sync', enabled: true, submenu: this.actionmenu, selected: () => { this.showactions = true } },
@@ -197,6 +231,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
         this.closemenus();
       }
     },
+    { text: 'Translate', keycode: 'T', icon: 'open_with', enabled: true, submenu: this.translatemenu, selected: () => { this.showtranslate = true } },
   ]
 
   @HostListener('document:keyup', ['$event'])
@@ -343,6 +378,8 @@ export class PathEditorExample implements OnInit, OnDestroy {
   }
 
   updatelathe() {
+    if (this.lathegeometry) this.lathegeometry.dispose();
+
     if (this.params.showshape && this.commands.length > 2) {
       this.lathegeometry = new LatheGeometry(this.getpoints(), this.latheparams.segments);
       this.lathegeometry.center();
@@ -380,6 +417,8 @@ export class PathEditorExample implements OnInit, OnDestroy {
   }
 
   updateextrude() {
+    if (this.extrudegeometry) this.extrudegeometry.dispose();
+
     if (this.params.showshape && this.commands.length > 2) {
       this.extrudegeometry = new ExtrudeGeometry(this.getshape(), this.extrudeoptions);
       this.extrudegeometry.center();
@@ -391,6 +430,8 @@ export class PathEditorExample implements OnInit, OnDestroy {
   shapegeometry!: BufferGeometry;
 
   updateshape() {
+    if (this.shapegeometry) this.shapegeometry.dispose();
+
     if (this.params.showshape && this.commands.length > 2)
       this.shapegeometry = new ShapeGeometry(this.getshape());
     else
