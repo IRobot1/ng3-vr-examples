@@ -5,9 +5,17 @@
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
 <ngt-mesh-basic-material #shape color="orange"></ngt-mesh-basic-material>
+<ngt-mesh-basic-material #red color="red"></ngt-mesh-basic-material>
 
-<statement-shape [position]="[-1, 0, 0]" [width]="width" [material]="shape.instance.value"></statement-shape>
-<elseif-shape [width]="width" [showelse]="true" [ifheight]="height" [elseheight]="height" [material]="shape.instance.value" (heightchange)="log('heightchange',$event)"></elseif-shape>
+<ngt-group [position]="[-1, 1.5, -2]">
+  <elseif-shape [position]="[0, 0, 0]" [width]="0.9" [showelse]="false" [ifheight]="0.2" [material]="shape.instance.value"></elseif-shape>
+  <statement-shape [position]="[0.1, -0.4, 0]" [width]="width" [material]="red.instance.value"></statement-shape>
+</ngt-group>
+
+<ngt-group [position]="[0, 1.9, -2]">
+  <event-shape [position]="[0, 0.4, 0]" [width]="width" [material]="red.instance.value"></event-shape>
+  <elseif-shape [position]="[0, 0, 0]" [width]="1" [showelse]="true" [material]="shape.instance.value" (heightchange)="log('heightchange',$event)"></elseif-shape>
+</ngt-group>
 
 
 

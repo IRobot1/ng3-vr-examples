@@ -80,10 +80,13 @@ export class ElseIfShapeComponent extends NgtObjectProps<Mesh>{
     points.push(new Vector2(0.6, -0.6 - this.ifheight))
     points.push(new Vector2(this.width, -0.6 - this.ifheight))
     points.push(new Vector2(this.width, -1 - this.ifheight))
-    points.push(new Vector2(0.6, -1 - this.ifheight))
-    points.push(new Vector2(0.5, -1.1 - this.ifheight))
-    points.push(new Vector2(0.3, -1.1 - this.ifheight))
-    points.push(new Vector2(0.2, -1 - this.ifheight))
+
+    const offset = this.showelse ? 0.1 : 0
+
+    points.push(new Vector2(0.5 + offset, -1 - this.ifheight))
+    points.push(new Vector2(0.4 + offset, -1.1 - this.ifheight))
+    points.push(new Vector2(0.2 + offset, -1.1 - this.ifheight))
+    points.push(new Vector2(0.1 + offset, -1 - this.ifheight))
     points.push(new Vector2(0.1, -1 - this.ifheight))
 
     if (!this.showelse) {

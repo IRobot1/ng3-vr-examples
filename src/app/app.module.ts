@@ -139,6 +139,7 @@ import { PexelsVideoExample } from '../examples/pexels-video/pexels-video.compon
 import { BonderShapesExample } from '../examples/bonder-shapes/bonder-shapes.component';
 import { ElseIfShapeComponent } from '../examples/bonder-shapes/elseif/elseif.component';
 import { StatementShapeComponent } from '../examples/bonder-shapes/statement/statement.component';
+import { EventShapeComponent } from '../examples/bonder-shapes/event/event.component';
 
 
 
@@ -286,7 +287,7 @@ import { StatementShapeComponent } from '../examples/bonder-shapes/statement/sta
     BonderShapesExample,
     ElseIfShapeComponent,
     StatementShapeComponent,
-
+    EventShapeComponent,
   ],
   imports: [
     BrowserModule,

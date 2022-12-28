@@ -121,3 +121,53 @@ const ifelsepath = [
     "y": -1
   }
 ]
+
+const eventpath = [
+  {
+    "type": "moveto",
+    "x": 0,
+    "y": 0
+  },
+  {
+    "type": "quadratic",
+    "x": 0.8,
+    "y": 0,
+    "cpx": 0.4,
+    "cpy": 0.3
+  },
+  {
+    "type": "lineto",
+    "x": 1,
+    "y": 0
+  },
+  {
+    "type": "lineto",
+    "x": 1,
+    "y": -0.4
+  },
+  {
+    "type": "lineto",
+    "x": 0.5,
+    "y": -0.4
+  },
+  {
+    "type": "lineto",
+    "x": 0.4,
+    "y": -0.5
+  },
+  {
+    "type": "lineto",
+    "x": 0.2,
+    "y": -0.5
+  },
+  {
+    "type": "lineto",
+    "x": 0.1,
+    "y": -0.4
+  },
+  {
+    "type": "lineto",
+    "x": 0,
+    "y": -0.4
+  }
+]

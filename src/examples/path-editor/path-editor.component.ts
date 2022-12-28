@@ -647,10 +647,9 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
   threecode() {
     const lines: Array<string> = [];
-    lines.push(`const points: Array<Vector2> = [`)
+    lines.push(`const points: Array<Vector2> = []`)
     const points = this.getpoints();
-    points.forEach(point => { lines.push(`new Vector2(${point.x}, ${point.y}),`) })
-    lines.push(`]`)
+    points.forEach(point => { lines.push(`points.push(new Vector2(${+point.x.toFixed(3)}, ${+point.y.toFixed(3)}))`) })
     lines.push(`const shape = new Shape(points);`)
     lines.push(`const geometry = new ShapeGeometry(shape);`)
 
