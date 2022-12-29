@@ -67,9 +67,23 @@ export interface ExpressionBlock {
   expression: NotBlock | NumberBlock | StringBlock | BooleanBlock | VariableBlock | ArithmeticBlock | ComparisonBlock | ExpressionBlock | LogicalBlock | BitwiseBlock
 }
 
+export interface ReturnBlock {
+  type: 'return';
+  return: ExpressionBlock
+}
+
+
+export interface FunctionBlock {
+  type: 'function';
+  name: string;
+  args?: Array<ExpressionBlock>;
+  body?: Block;
+  callback?: (e: any) => void;
+}
+
 
 export interface Block {
   type: 'block';
-  statements: Array<VariableBlock | ExpressionBlock | AssignmentBlock>;
+  statements: Array<VariableBlock | ExpressionBlock | AssignmentBlock | FunctionBlock | ReturnBlock>;
 }
 

@@ -1,4 +1,5 @@
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock } from "./types";
+import { state } from "@angular/animations";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, FunctionBlock } from "./types";
 
 export class ShapewareInterpreter {
   interpret(block: Block, context: any): any {
@@ -14,7 +15,33 @@ export class ShapewareInterpreter {
         case 'expression':
           return this.evalExpression(statement, context);
           break;
+        case 'function':
+          return this.evalFunction(statement, context);
+          break;
+        case 'return':
+          return this.evalExpression(statement.return, context);
+          break;
       }
+    }
+  }
+
+  private evalFunction(statement: FunctionBlock, context: any): any {
+    const args: Array<any> = [];
+    statement.args?.forEach(arg => {
+      args.push(this.evalExpression(arg, context));
+    });
+
+    if (statement.callback) {
+      return statement.callback.call(this, args);
+    }
+    else {
+      const self = this;
+      context[statement.name] = function (...args: any[]): any {
+        if (statement.body)
+          return self.interpret(statement.body, context);
+      }
+
+      return context[statement.name](args);
     }
   }
 

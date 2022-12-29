@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { assignmentExample } from "./code-examples/assignment-examples";
 import { bitwiseExample, comparisonExample, logicalExample, operationExample, variableGetSetExample, variableNotExample } from "./code-examples/expression-examples";
+import { callbackExample, functionExample } from "./code-examples/function-examples";
 import { ShapewareInterpreter } from "./code/interpret";
 import { ShapewareJavascript } from "./code/translate";
 import { Block } from "./code/types";
@@ -62,10 +63,10 @@ export class ShapewareExample implements OnInit {
 
     //bitwiseExample, comparisonExample, logicalExample, operationExample, variableGetSetExample, variableNotExample
     const context = {}
-    const result = this.code.interpret(variableNotExample, context);
+    const result = this.code.interpret(callbackExample, context);
     console.warn(result, context)
 
-    const code = this.js.translate(variableNotExample);
+    const code = this.js.translate(callbackExample);
     console.warn(code);
 
     console.warn(eval(code))

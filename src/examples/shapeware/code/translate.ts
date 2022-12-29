@@ -1,8 +1,8 @@
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock } from "./types";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, FunctionBlock } from "./types";
 
 export class ShapewareJavascript {
   translate(block: Block): string {
-    const lines : Array<string> = []
+    const lines: Array<string> = []
     for (const statement of block.statements) {
       const type = statement.type;
       switch (statement.type) {
@@ -10,14 +10,37 @@ export class ShapewareJavascript {
           lines.push(`let ${statement.name} = ${statement.value};`);
           break;
         case 'assignment':
-          lines.push(this.translateAssignment(statement as AssignmentBlock));
+          lines.push(`let ${this.translateAssignment(statement as AssignmentBlock)}`);
           break;
         case 'expression':
           lines.push(this.translateExpression(statement));
           break;
+        case 'function':
+          lines.push(this.translateFunction(statement));
+          break;
+        case 'return':
+          lines.push(`return ${this.translateExpression(statement.return)}`);
+          break;
+
       }
     }
     return lines.join('\n');
+  }
+
+  private translateFunction(block: FunctionBlock): string {
+    const args: Array<string> = []
+    block.args?.forEach(arg => {
+      args.push(this.translateExpression(arg));
+    });
+
+    let body = '// runtime injected function'
+    if (block.body) body = this.translate(block.body);
+
+    return `function ${block.name}(${args.join(',')})
+{
+ ${body}
+}
+${block.name}(${args.join(',')})`;
   }
 
   private translateArithmetic(block: ArithmeticBlock): string {
@@ -32,7 +55,7 @@ export class ShapewareJavascript {
         break;
       default:
         const right = this.translateExpression(block.right);
-        return `let ${left} ${block.operation} ${right}`;
+        return `${left} ${block.operation} ${right}`;
         break;
     }
 
@@ -72,7 +95,7 @@ export class ShapewareJavascript {
         return (block.expression as NumberBlock).value.toString();
         break;
       case 'string':
-        return (block.expression as StringBlock).value;
+        return `'${(block.expression as StringBlock).value}'`;
         break;
       case 'boolean':
         return (block.expression as BooleanBlock).value.toString();
