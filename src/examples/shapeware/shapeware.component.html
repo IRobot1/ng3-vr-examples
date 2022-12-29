@@ -21,6 +21,9 @@
   <condition-shape [position]="[0.55, -0.15, 0.001]" [width]="0.3" [material]="blue.instance.value"></condition-shape>
 </ngt-group>
 
+<ngt-mesh [position]="[0, 1, 0]" (ready)="meshready($event)" (beforeRender)="tick($event.object)">
+  <ngt-box-geometry [args]="[0.1, 0.1, 0.1]"></ngt-box-geometry>
+</ngt-mesh>
 
 <vr-controller navhome></vr-controller>
 <vr-controller [index]="1" navhome></vr-controller>

@@ -1,8 +1,7 @@
-import { state } from "@angular/animations";
 import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, FunctionBlock } from "./types";
 
 export class ShapewareInterpreter {
-  interpret(block: Block, context: any): any {
+  interpret(block: Block, context = {}): any {
     for (const statement of block.statements) {
       const type = statement.type;
       switch (statement.type) {

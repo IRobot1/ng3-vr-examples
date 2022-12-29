@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Mesh } from "three";
 import { assignmentExample } from "./code-examples/assignment-examples";
 import { bitwiseExample, comparisonExample, logicalExample, operationExample, variableGetSetExample, variableNotExample } from "./code-examples/expression-examples";
 import { callbackExample, functionExample } from "./code-examples/function-examples";
@@ -82,4 +83,39 @@ export class ShapewareExample implements OnInit {
     //}, 1000)
   }
 
+
+  meshBlock!: Block;
+
+  meshready(mesh: Mesh) {
+    this.meshBlock =  {
+      type: 'block',
+      statements: [
+        {
+          type: 'assignment',
+          assignment: '+=',
+          left: {
+            type: 'expression',
+            expression: {
+              type: 'variable',
+              object: mesh.rotation,
+              name: 'y'
+            }
+          },
+          right: {
+            type: 'expression',
+            expression: {
+              type: 'number',
+              value: 0.01
+            }
+          }
+
+        }
+      ]
+    }
+  }
+
+  tick(mesh: Mesh) {
+    //mesh.rotation.y += 0.01;
+    this.code.interpret(this.meshBlock);
+  }
 }
