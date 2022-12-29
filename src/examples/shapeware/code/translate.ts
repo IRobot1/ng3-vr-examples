@@ -1,4 +1,4 @@
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, FunctionBlock } from "./types";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, FunctionBlock, IfBlock } from "./types";
 
 export class ShapewareJavascript {
   translate(block: Block): string {
@@ -21,10 +21,25 @@ export class ShapewareJavascript {
         case 'return':
           lines.push(`return ${this.translateExpression(statement.return)}`);
           break;
+        case 'if':
+          lines.push(this.translateIf(statement));
+          break;
 
       }
     }
     return lines.join('\n');
+  }
+
+
+  private translateIf(block: IfBlock): string {
+    let elsecode = '';
+    if (block.else) elsecode = `else {
+${this.translate(block.else)}
+}`;
+    
+    return `if (${this.translateExpression(block.condition)}) {
+${this.translate(block.then) }
+} ${elsecode}`
   }
 
   private translateFunction(block: FunctionBlock): string {

@@ -81,9 +81,16 @@ export interface FunctionBlock {
   callback?: (e: any) => void;
 }
 
+export interface IfBlock {
+  type: 'if';
+  condition: ExpressionBlock;
+  then: Block;
+  else?: Block;
+}
+
 
 export interface Block {
   type: 'block';
-  statements: Array<VariableBlock | ExpressionBlock | AssignmentBlock | FunctionBlock | ReturnBlock>;
+  statements: Array<VariableBlock | ExpressionBlock | AssignmentBlock | FunctionBlock | ReturnBlock | IfBlock>;
 }
 

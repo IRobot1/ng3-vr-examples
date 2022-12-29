@@ -1,4 +1,4 @@
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, FunctionBlock } from "./types";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, FunctionBlock, IfBlock } from "./types";
 
 export class ShapewareInterpreter {
   interpret(block: Block, context = {}): any {
@@ -20,7 +20,18 @@ export class ShapewareInterpreter {
         case 'return':
           return this.evalExpression(statement.return, context);
           break;
+        case 'if':
+          this.evalIf(statement, context);
+          break;
       }
+    }
+  }
+
+  private evalIf(statement: IfBlock, context: any) {
+    if (this.evalExpression(statement.condition, context)) {
+      this.interpret(statement.then, context);
+    } else if (statement.else) {
+      this.interpret(statement.else, context);
     }
   }
 
