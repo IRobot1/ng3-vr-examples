@@ -117,3 +117,41 @@ export const comparisonExample: Block = {
     }
   ]
 }
+
+export const logicalExample: Block = {
+  type: 'block',
+  statements: [
+    {
+      type: 'variable',
+      name: 'x',
+      value: false
+    },
+    {
+      type: 'variable',
+      name: 'y',
+      value: false
+    },
+    {
+      type: 'expression',
+      expression: {
+        type: 'logical',
+        logical: '||',
+        left: {
+          type: 'expression',
+          expression: {
+            type: 'variable',
+            name: 'x'
+          }
+        },
+        right: {
+          type: 'expression',
+          expression: {
+            type: 'variable',
+            name: 'y'
+          }
+        }
+      }
+
+    }
+  ]
+}

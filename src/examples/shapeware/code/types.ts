@@ -47,14 +47,21 @@ export interface ComparisonBlock {
   right: ExpressionBlock;
 }
 
+export interface LogicalBlock {
+  type: 'logical',
+  logical: '&&' | '||',
+  left: ExpressionBlock;
+  right: ExpressionBlock;
+}
+
 export interface ExpressionBlock {
   type: 'expression',
-  expression: NotBlock | NumberBlock | StringBlock | BooleanBlock | VariableBlock | ArithmeticBlock | ComparisonBlock | ExpressionBlock
+  expression: NotBlock | NumberBlock | StringBlock | BooleanBlock | VariableBlock | ArithmeticBlock | ComparisonBlock | ExpressionBlock | LogicalBlock
 }
 
 
 export interface Block {
   type: 'block';
-  statements: Array<VariableBlock | ExpressionBlock | AssignmentBlock >;
+  statements: Array<VariableBlock | ExpressionBlock | AssignmentBlock>;
 }
 

@@ -1,4 +1,4 @@
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock } from "./types";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock } from "./types";
 
 export class ShapewareCode {
   interpret(block: Block, context: any): any {
@@ -93,6 +93,21 @@ export class ShapewareCode {
     }
     this.checkUpdateVariable(block.left, left, context);
   }
+
+  private evalLogical(block: LogicalBlock, context: any): any {
+    let left = this.evalExpression(block.left, context);
+    const right = this.evalExpression(block.right, context);
+
+    switch (block.logical) {
+      case '&&':
+        return left && right
+        break;
+      case '||':
+        return left || right
+        break;
+    }
+  }
+
   private evalExpression(block: ExpressionBlock, context: any): any {
     switch (block.expression.type) {
       case 'number':
@@ -119,6 +134,9 @@ export class ShapewareCode {
         return !this.evalExpression(notexpression, context)
       case 'comparison':
         return this.evalComparison(block.expression as ComparisonBlock, context)
+        break;
+      case 'logical':
+        return this.evalLogical(block.expression as LogicalBlock, context)
         break;
     }
 
