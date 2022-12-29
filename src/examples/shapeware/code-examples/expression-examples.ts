@@ -79,3 +79,41 @@ export const operationExample: Block = {
     }
   ]
 }
+
+export const comparisonExample: Block = {
+  type: 'block',
+  statements: [
+    {
+      type: 'variable',
+      name: 'x',
+      value: 2
+    },
+    {
+      type: 'variable',
+      name: 'y',
+      value: 2
+    },
+    {
+      type: 'expression',
+      expression: {
+        type: 'comparison',
+        comparison: '>=',
+        left: {
+          type: 'expression',
+          expression: {
+            type: 'variable',
+            name: 'x'
+          }
+        },
+        right: {
+          type: 'expression',
+          expression: {
+            type: 'variable',
+            name: 'y'
+          }
+        }
+      }
+
+    }
+  ]
+}

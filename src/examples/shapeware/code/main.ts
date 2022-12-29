@@ -1,4 +1,4 @@
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock } from "./types";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock } from "./types";
 
 export class ShapewareCode {
   interpret(block: Block, context: any): any {
@@ -117,7 +117,37 @@ export class ShapewareCode {
       case 'not':
         const notexpression = (block.expression as NotBlock).value as ExpressionBlock;
         return !this.evalExpression(notexpression, context)
+      case 'comparison':
+        return this.evalComparison(block.expression as ComparisonBlock, context)
+        break;
     }
 
   }
+
+  private evalComparison(block: ComparisonBlock, context: any): any {
+    let left = this.evalExpression(block.left, context);
+    const right = this.evalExpression(block.right, context);
+
+    switch (block.comparison) {
+      case '==':
+        return left == right;
+        break;
+      case '!=':
+        return left != right;
+        break;
+      case '>':
+        return left > right;
+        break;
+      case '>=':
+        return left >= right;
+        break;
+      case '<':
+        return left < right;
+        break;
+      case '<=':
+        return left <= right;
+        break;
+    }
+  }
+
 }

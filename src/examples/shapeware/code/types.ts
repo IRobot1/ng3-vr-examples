@@ -40,14 +40,21 @@ export interface AssignmentBlock {
   right: ExpressionBlock;
 }
 
+export interface ComparisonBlock {
+  type: 'comparison',
+  comparison: '==' | '!=' | '>' | '>=' | '<' | '<=',
+  left: ExpressionBlock;
+  right: ExpressionBlock;
+}
+
 export interface ExpressionBlock {
   type: 'expression',
-  expression: NotBlock | NumberBlock | StringBlock | BooleanBlock | VariableBlock | ArithmeticBlock | ExpressionBlock
+  expression: NotBlock | NumberBlock | StringBlock | BooleanBlock | VariableBlock | ArithmeticBlock | ComparisonBlock | ExpressionBlock
 }
 
 
 export interface Block {
   type: 'block';
-  statements: Array<VariableBlock | ExpressionBlock | AssignmentBlock>;
+  statements: Array<VariableBlock | ExpressionBlock | AssignmentBlock >;
 }
 
