@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { assignmentExample } from "./code-examples/assignment-examples";
 import { bitwiseExample, comparisonExample, logicalExample, operationExample, variableGetSetExample, variableNotExample } from "./code-examples/expression-examples";
-import { ShapewareCode } from "./code/main";
+import { ShapewareInterpreter } from "./code/interpret";
+import { ShapewareJavascript } from "./code/translate";
 import { Block } from "./code/types";
 
 @Component({
@@ -15,7 +16,8 @@ export class ShapewareExample implements OnInit {
     console.warn(text, data)
   }
 
-  code = new ShapewareCode();
+  code = new ShapewareInterpreter();
+  js = new ShapewareJavascript();
 
   params = {
     x: 5,
@@ -54,9 +56,19 @@ export class ShapewareExample implements OnInit {
     let widthchange = 0.1;
     let heightchange = 0.1;
 
+    //const context = {}
+    //const result = this.code.interpret(this.paramAssignment, context);
+    //console.warn(result, context, this.params)
+
+    //bitwiseExample, comparisonExample, logicalExample, operationExample, variableGetSetExample, variableNotExample
     const context = {}
-    const result = this.code.interpret(this.paramAssignment, context);
-    console.warn(result, context, this.params)
+    const result = this.code.interpret(variableNotExample, context);
+    console.warn(result, context)
+
+    const code = this.js.translate(variableNotExample);
+    console.warn(code);
+
+    console.warn(eval(code))
 
     //setInterval(() => {
     //  if (this.width > 2 || this.width < 0.8)

@@ -1,6 +1,6 @@
 import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock } from "./types";
 
-export class ShapewareCode {
+export class ShapewareInterpreter {
   interpret(block: Block, context: any): any {
     for (const statement of block.statements) {
       const type = statement.type;
