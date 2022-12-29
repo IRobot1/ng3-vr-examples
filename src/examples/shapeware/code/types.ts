@@ -54,9 +54,16 @@ export interface LogicalBlock {
   right: ExpressionBlock;
 }
 
+export interface BitwiseBlock {
+  type: 'bitwise',
+  bitwise: '&' | '|' | '~' | '^' | '<<' | '>>' | '>>>',
+  left: ExpressionBlock;
+  right: ExpressionBlock;
+}
+
 export interface ExpressionBlock {
   type: 'expression',
-  expression: NotBlock | NumberBlock | StringBlock | BooleanBlock | VariableBlock | ArithmeticBlock | ComparisonBlock | ExpressionBlock | LogicalBlock
+  expression: NotBlock | NumberBlock | StringBlock | BooleanBlock | VariableBlock | ArithmeticBlock | ComparisonBlock | ExpressionBlock | LogicalBlock | BitwiseBlock
 }
 
 

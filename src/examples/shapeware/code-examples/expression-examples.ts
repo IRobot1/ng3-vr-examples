@@ -155,3 +155,41 @@ export const logicalExample: Block = {
     }
   ]
 }
+
+export const bitwiseExample: Block = {
+  type: 'block',
+  statements: [
+    {
+      type: 'variable',
+      name: 'x',
+      value: 5
+    },
+    {
+      type: 'variable',
+      name: 'y',
+      value: 1
+    },
+    {
+      type: 'expression',
+      expression: {
+        type: 'bitwise',
+        bitwise: '<<',
+        left: {
+          type: 'expression',
+          expression: {
+            type: 'variable',
+            name: 'x'
+          }
+        },
+        right: {
+          type: 'expression',
+          expression: {
+            type: 'variable',
+            name: 'y'
+          }
+        }
+      }
+
+    }
+  ]
+}

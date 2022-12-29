@@ -1,4 +1,4 @@
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock } from "./types";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock } from "./types";
 
 export class ShapewareCode {
   interpret(block: Block, context: any): any {
@@ -108,6 +108,35 @@ export class ShapewareCode {
     }
   }
 
+  private evalBitwise(block: BitwiseBlock, context: any): any {
+    let left = this.evalExpression(block.left, context);
+    const right = this.evalExpression(block.right, context);
+
+    switch (block.bitwise) {
+      case '&':
+        return left & right
+        break;
+      case '|':
+        return left | right
+        break;
+      case '~':
+        return ~left; // note https://www.w3schools.com/js/js_bitwise.asp
+        break;
+      case '^':
+        return left ^ right
+        break;
+      case '<<':
+        return left << right
+        break;
+      case '>>':
+        return left >> right
+        break;
+      case '>>>':
+        return left >>> right
+        break;
+    }
+  }
+
   private evalExpression(block: ExpressionBlock, context: any): any {
     switch (block.expression.type) {
       case 'number':
@@ -137,6 +166,9 @@ export class ShapewareCode {
         break;
       case 'logical':
         return this.evalLogical(block.expression as LogicalBlock, context)
+        break;
+      case 'bitwise':
+        return this.evalBitwise(block.expression as BitwiseBlock, context)
         break;
     }
 
