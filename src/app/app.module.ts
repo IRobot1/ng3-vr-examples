@@ -143,6 +143,7 @@ import { EventShapeComponent } from '../examples/shapeware/shapes/event/event.co
 import { ExpressionShapeComponent } from '../examples/shapeware/shapes/expression/expression.component';
 import { ConditionShapeComponent } from '../examples/shapeware/shapes/condition/condition.component';
 import { VariableBlockComponent } from '../examples/shapeware/blocks/variable/variable.component';
+import { OperatorBlockComponent } from '../examples/shapeware/blocks/operator/operator.component';
 
 
 
@@ -294,6 +295,7 @@ import { VariableBlockComponent } from '../examples/shapeware/blocks/variable/va
     ExpressionShapeComponent,
     ConditionShapeComponent,
     VariableBlockComponent,
+    OperatorBlockComponent,
   ],
   imports: [
     BrowserModule,

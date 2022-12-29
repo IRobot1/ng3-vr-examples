@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
-import { BufferGeometry, Line, Material, Mesh, Shape, ShapeGeometry, Vector2 } from "three";
+import { BufferGeometry, Line, Mesh, Shape, ShapeGeometry, Vector2 } from "three";
 
 import { NgtObjectProps } from "@angular-three/core";
-import { NgtMesh } from "@angular-three/core/meshes";
 import { GlobalShapeTheme } from "../../shape-theme";
 
 @Component({

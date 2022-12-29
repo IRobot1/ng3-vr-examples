@@ -1,0 +1,22 @@
+<expression-shape #parent [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale" (ready)="inst = parent">
+  <ng-template #expression let-parent="parent">
+    <ngt-group [appendTo]="parent" (beforeRender)="draw()">
+
+      <expression-shape #shape1 [scale]="0.9" [position]="[0.01, -0.01, 0.001]" [material]="labelmaterial">
+        <ng-template #expression let-parent="parent">
+          <flat-ui-label #label1 [appendTo]="parent" [position]="[0, -0.1, 0.001]" [text]="op1text" [alignx]="'center'" [labelmaterial]="textmaterial" (textwidth)="op1width($event, shape1, label1.instance.value)"></flat-ui-label>
+        </ng-template>
+      </expression-shape>
+
+      <flat-ui-label #opname [position]="[0, -0.1, 0.001]" [text]="operator" [alignx]="'center'" [labelmaterial]="textmaterial"
+                     (ready)="opmesh = opname.instance.value" (textwidth)="operatorwidth($event, opname.instance.value)"></flat-ui-label>
+
+      <expression-shape #shape2 [scale]="0.9" [position]="[0.01, -0.01, 0.001]" [material]="labelmaterial"
+                        (ready)="shape2mesh = $event">
+        <ng-template #expression let-parent="parent">
+          <flat-ui-label #label2 [appendTo]="parent" [position]="[0, -0.1, 0.001]" [text]="op2text" [alignx]="'center'" [labelmaterial]="textmaterial" (textwidth)="op2width($event, shape2, label2.instance.value)"></flat-ui-label>
+        </ng-template>
+      </expression-shape>
+    </ngt-group>
+  </ng-template>
+</expression-shape>

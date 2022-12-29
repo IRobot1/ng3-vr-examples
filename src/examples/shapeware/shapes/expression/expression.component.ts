@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef } from "@angular/core";
 
-import { BufferGeometry, Line, Material, Mesh, Shape, ShapeGeometry, Vector2 } from "three";
+import { BufferGeometry, Line, Mesh, Shape, ShapeGeometry, Vector2 } from "three";
 
 import { NgtObjectProps } from "@angular-three/core";
 import { GlobalShapeTheme } from "../../shape-theme";
@@ -28,7 +28,10 @@ export class ExpressionShapeComponent extends NgtObjectProps<Mesh>{
     this.updateFlag = true;
   }
 
-  protected material = GlobalShapeTheme.ExpressionMaterial;
+  @Input() material = GlobalShapeTheme.ExpressionMaterial;
+
+  @ContentChild('expression') expression?: TemplateRef<unknown>;
+
   protected geometry!: BufferGeometry;
 
   protected outlinematerial = GlobalShapeTheme.OutlineMaterial;

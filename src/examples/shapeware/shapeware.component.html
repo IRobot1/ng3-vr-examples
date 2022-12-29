@@ -16,8 +16,9 @@
   <condition-shape [position]="[0.55, -0.15, 0.001]" [width]="0.3"></condition-shape>
 </ngt-group>
 
-<ngt-group>
-  <variable-block [text]="variablename"></variable-block>
+<ngt-group [position]="[0, 1.5, -2]">
+  <variable-block [position]="[-0.2, 0, 0]" [text]="variablename"></variable-block>
+  <operator-block [position]="[-0.5, -0.3, 0]" [op1text]="variablename" [op2text]="variablename" [operator]="'/'"></operator-block>
 </ngt-group>
 
 <vr-controller navhome></vr-controller>

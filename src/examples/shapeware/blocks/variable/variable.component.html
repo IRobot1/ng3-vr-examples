@@ -1,5 +1,8 @@
-<expression-shape #shape [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale">
+<expression-shape #shape  [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale">
+  <ng-template #expression let-parent="parent">
 
-  <flat-ui-label #label [position]="[0, -0.1, 0.001]" [text]="text" [alignx]="'center'" (textwidth)="textwidth($event, shape, label.instance.value)"></flat-ui-label>
+    <flat-ui-label #label [appendTo]="parent" [position]="[0, -0.1, 0.001]" [text]="text" [alignx]="'center'" (textwidth)="textwidth($event, shape, label.instance.value)"></flat-ui-label>
+
+  </ng-template>
 
 </expression-shape>

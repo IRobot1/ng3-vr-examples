@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, Line, Material, Mesh, Shape, ShapeGeometry, Vector2 } from "three";
+import { BufferGeometry, Line, Mesh, Shape, ShapeGeometry, Vector2 } from "three";
 
 import { NgtObjectProps } from "@angular-three/core";
 import { GlobalShapeTheme } from "../../shape-theme";
@@ -114,6 +114,8 @@ export class ControlShapeComponent extends NgtObjectProps<Mesh>{
 
       this.heightchange.next(1.6 + this.height + this.elseheight)
     }
+    points.push(new Vector2(0, 0))
+
 
     const shape = new Shape(points);
     this.geometry = new ShapeGeometry(shape);

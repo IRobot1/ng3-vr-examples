@@ -1,5 +1,14 @@
-<ngt-mesh [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale"
+<ngt-mesh #parent [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale" (ready)="ready.next($event)"
           [geometry]="geometry" [material]="material" (beforeRender)="draw($event.object, line.instance.value)">
 
   <ngt-line #line [geometry]="outline" [material]="outlinematerial"> </ngt-line>
+
+  <ng-container [ngTemplateOutlet]="expression ? expression: defaultExpression"
+                [ngTemplateOutletContext]="{ parent: parent.instance.value }">
+  </ng-container>
+
+  <ng-template #defaultExpression>
+    <!--empty-->
+  </ng-template>
+
 </ngt-mesh>
