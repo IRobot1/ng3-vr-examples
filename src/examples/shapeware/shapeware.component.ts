@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { operationExample, variableGetSetExample, variableNotExample } from "./code-examples/expression-examples";
+import { ShapewareCode } from "./code/main";
 
 @Component({
   templateUrl: './shapeware.component.html',
@@ -11,9 +13,15 @@ export class ShapewareExample implements OnInit {
     console.warn(text, data)
   }
 
+  code = new ShapewareCode();
+
   ngOnInit(): void {
     let widthchange = 0.1;
     let heightchange = 0.1;
+
+    const context = {}
+    const result = this.code.interpret(operationExample, context);
+    console.warn(result, context)
 
     //setInterval(() => {
     //  if (this.width > 2 || this.width < 0.8)
