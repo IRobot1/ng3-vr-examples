@@ -4,10 +4,9 @@ export class ShapewareCode {
   interpret(block: Block, context: any): any {
     for (const statement of block.statements) {
       const type = statement.type;
-      console.warn('exec', type);
       switch (statement.type) {
         case 'variable':
-          context[statement.name] = statement.value;
+          this.updateVariable(statement, statement.value, context);
           break;
         case 'assignment':
           this.evalAssignment(statement as AssignmentBlock, context)
@@ -19,10 +18,16 @@ export class ShapewareCode {
     }
   }
 
+  private updateVariable(variable: VariableBlock, value: any, context: any) {
+    if (variable.object)
+      variable.object[variable.name] = value;
+    else
+      context[variable.name] = value;
+  }
+
   private checkUpdateVariable(block: ExpressionBlock, value: any, context: any) {
     if (block.expression.type == 'variable') {
-      const variable = block.expression as VariableBlock;
-      context[variable.name] = value;
+      this.updateVariable(block.expression, value, context);
     }
   }
 
@@ -149,7 +154,11 @@ export class ShapewareCode {
         return (block.expression as BooleanBlock).value;
         break;
       case 'variable':
-        return context[(block.expression as VariableBlock).name];
+        const variable = block.expression as VariableBlock;
+        if (variable.object)
+          return variable.object[variable.name]
+        else
+          return context[variable.name];
         break;
       case 'expression':
         const expression = (block.expression as ExpressionBlock).expression as ExpressionBlock;

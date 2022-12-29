@@ -17,6 +17,7 @@ export interface BooleanBlock {
 
 export interface VariableBlock {
   type: 'variable';
+  object?: any;
   name: string;
   value?: any;
 }
