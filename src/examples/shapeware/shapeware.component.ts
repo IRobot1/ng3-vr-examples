@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { assignmentExample } from "./code-examples/assignment-examples";
 import { operationExample, variableGetSetExample, variableNotExample } from "./code-examples/expression-examples";
 import { ShapewareCode } from "./code/main";
 
@@ -20,7 +21,7 @@ export class ShapewareExample implements OnInit {
     let heightchange = 0.1;
 
     const context = {}
-    const result = this.code.interpret(operationExample, context);
+    const result = this.code.interpret(assignmentExample, context);
     console.warn(result, context)
 
     //setInterval(() => {

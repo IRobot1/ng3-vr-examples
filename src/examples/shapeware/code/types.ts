@@ -33,6 +33,13 @@ export interface ArithmeticBlock {
   right: ExpressionBlock;
 }
 
+export interface AssignmentBlock {
+  type: 'assignment',
+  assignment: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '**=',
+  left: ExpressionBlock;
+  right: ExpressionBlock;
+}
+
 export interface ExpressionBlock {
   type: 'expression',
   expression: NotBlock | NumberBlock | StringBlock | BooleanBlock | VariableBlock | ArithmeticBlock | ExpressionBlock
@@ -41,6 +48,6 @@ export interface ExpressionBlock {
 
 export interface Block {
   type: 'block';
-  statements: Array<VariableBlock | ExpressionBlock>;
+  statements: Array<VariableBlock | ExpressionBlock | AssignmentBlock>;
 }
 

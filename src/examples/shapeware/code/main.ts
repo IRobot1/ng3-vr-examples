@@ -1,4 +1,4 @@
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock } from "./types";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock } from "./types";
 
 export class ShapewareCode {
   interpret(block: Block, context: any): any {
@@ -9,10 +9,20 @@ export class ShapewareCode {
         case 'variable':
           context[statement.name] = statement.value;
           break;
+        case 'assignment':
+          this.evalAssignment(statement as AssignmentBlock, context)
+          break;
         case 'expression':
           return this.evalExpression(statement, context);
           break;
       }
+    }
+  }
+
+  private checkUpdateVariable(block: ExpressionBlock, value: any, context: any) {
+    if (block.expression.type == 'variable') {
+      const variable = block.expression as VariableBlock;
+      context[variable.name] = value;
     }
   }
 
@@ -42,22 +52,46 @@ export class ShapewareCode {
       case '++':
         let leftnumber1 = left as number;
         leftnumber1++;
-        if (block.left.expression.type == 'variable') {
-          const variable = block.left.expression as VariableBlock;
-          context[variable.name] = leftnumber1;
-        }
+        this.checkUpdateVariable(block.left, leftnumber1, context);
         return leftnumber1;
         break;
       case '--':
         let leftnumber2 = left as number;
         leftnumber2--;
-        if (block.left.expression.type == 'variable') {
-          const variable = block.left.expression as VariableBlock;
-          context[variable.name] = leftnumber2;
-        }
+        this.checkUpdateVariable(block.left, leftnumber2, context);
         return leftnumber2;
         break;
     }
+  }
+
+  private evalAssignment(block: AssignmentBlock, context: any): any {
+    let left = this.evalExpression(block.left, context);
+    const right = this.evalExpression(block.right, context);
+
+    switch (block.assignment) {
+      case '=':
+        left = right;
+        break;
+      case '+=':
+        left += right;
+        break;
+      case '-=':
+        left -= right;
+        break;
+      case '*=':
+        left *= right;
+        break;
+      case '/=':
+        left /= right;
+        break;
+      case '%=':
+        left %= right;
+        break;
+      case '**=':
+        left **= right;
+        break;
+    }
+    this.checkUpdateVariable(block.left, left, context);
   }
   private evalExpression(block: ExpressionBlock, context: any): any {
     switch (block.expression.type) {
@@ -84,6 +118,6 @@ export class ShapewareCode {
         const notexpression = (block.expression as NotBlock).value as ExpressionBlock;
         return !this.evalExpression(notexpression, context)
     }
-    
+
   }
 }
