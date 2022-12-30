@@ -31,7 +31,7 @@ export interface ArithmeticBlock {
   type: 'arithmetic',
   operation: '+' | '-' | '*' | '/' | '%' | '**' | '++' | '--'
   left: ExpressionBlock;
-  right: ExpressionBlock;
+  right?: ExpressionBlock;
 }
 
 export interface AssignmentBlock {
@@ -83,14 +83,20 @@ export interface FunctionBlock {
 
 export interface IfBlock {
   type: 'if';
-  condition: ExpressionBlock;
+  if: ExpressionBlock;
   then: Block;
   else?: Block;
+}
+
+export interface WhileBlock {
+  type: 'while';
+  while: ExpressionBlock;
+  body: Block;
 }
 
 
 export interface Block {
   type: 'block';
-  statements: Array<VariableBlock | ExpressionBlock | AssignmentBlock | FunctionBlock | ReturnBlock | IfBlock>;
+  statements: Array<VariableBlock | ExpressionBlock | AssignmentBlock | FunctionBlock | ReturnBlock | IfBlock | WhileBlock>;
 }
 

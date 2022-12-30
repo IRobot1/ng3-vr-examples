@@ -4,6 +4,7 @@ import { assignmentExample } from "./code-examples/assignment-examples";
 import { bitwiseExample, comparisonExample, logicalExample, operationExample, variableGetSetExample, variableNotExample } from "./code-examples/expression-examples";
 import { callbackExample, functionExample } from "./code-examples/function-examples";
 import { ifExample } from "./code-examples/if-examples";
+import { whileExample } from "./code-examples/while-examples";
 import { ShapewareInterpreter } from "./code/interpret";
 import { ShapewareJavascript } from "./code/translate";
 import { Block } from "./code/types";
@@ -65,13 +66,16 @@ export class ShapewareExample implements OnInit {
 
     //bitwiseExample, comparisonExample, logicalExample, operationExample, variableGetSetExample, variableNotExample
     const context = {}
-    const result = this.code.interpret(ifExample, context);
-    console.warn(result, context)
+    try {
+      const result = this.code.interpret(whileExample, context);
+      console.warn(result, context)
 
-    const code = this.js.translate(ifExample);
-    console.warn(code);
+      const code = this.js.translate(whileExample);
+      console.warn(code);
 
-    console.warn(eval(code))
+      console.warn(eval(code))
+    }
+    catch (e) { console.error(e) }
 
     //setInterval(() => {
     //  if (this.width > 2 || this.width < 0.8)

@@ -1,4 +1,4 @@
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, FunctionBlock, IfBlock } from "./types";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, FunctionBlock, IfBlock, WhileBlock } from "./types";
 
 export class ShapewareJavascript {
   translate(block: Block): string {
@@ -10,7 +10,7 @@ export class ShapewareJavascript {
           lines.push(`let ${statement.name} = ${statement.value};`);
           break;
         case 'assignment':
-          lines.push(`let ${this.translateAssignment(statement as AssignmentBlock)}`);
+          lines.push(`${this.translateAssignment(statement as AssignmentBlock)}`);
           break;
         case 'expression':
           lines.push(this.translateExpression(statement));
@@ -24,6 +24,9 @@ export class ShapewareJavascript {
         case 'if':
           lines.push(this.translateIf(statement));
           break;
+        case 'while':
+          lines.push(this.translateWhile(statement));
+          break;
 
       }
     }
@@ -31,14 +34,20 @@ export class ShapewareJavascript {
   }
 
 
+  private translateWhile(block: WhileBlock): string {
+    return `while (${this.translateExpression(block.while)}) {
+${this.translate(block.body)}
+}`
+  }
+
   private translateIf(block: IfBlock): string {
     let elsecode = '';
     if (block.else) elsecode = `else {
 ${this.translate(block.else)}
 }`;
-    
-    return `if (${this.translateExpression(block.condition)}) {
-${this.translate(block.then) }
+
+    return `if (${this.translateExpression(block.if)}) {
+${this.translate(block.then)}
 } ${elsecode}`
   }
 
@@ -61,19 +70,21 @@ ${block.name}(${args.join(',')})`;
   private translateArithmetic(block: ArithmeticBlock): string {
     const left = this.translateExpression(block.left);
 
-    switch (block.operation) {
-      case '++':
-        return `++${left}`;
-        break;
-      case '--':
-        return `--${left}`;
-        break;
-      default:
-        const right = this.translateExpression(block.right);
-        return `${left} ${block.operation} ${right}`;
-        break;
+    if (block.right) {
+      const right = this.translateExpression(block.right);
+      return `${left} ${block.operation} ${right}`;
     }
-
+    else {
+      switch (block.operation) {
+        case '++':
+          return `++${left}`;
+          break;
+        case '--':
+          return `--${left}`;
+          break;
+      }
+    }
+    return '';
   }
 
   private translateAssignment(block: AssignmentBlock): string {

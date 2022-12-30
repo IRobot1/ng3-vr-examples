@@ -10,7 +10,7 @@ export const ifExample: Block = {
     },
     {
       type: 'if',
-      condition: {
+      if: {
         type: 'expression',
         expression: {
           type: 'boolean',

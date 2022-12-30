@@ -1,4 +1,4 @@
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, FunctionBlock, IfBlock } from "./types";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, FunctionBlock, IfBlock, WhileBlock } from "./types";
 
 export class ShapewareInterpreter {
   interpret(block: Block, context = {}): any {
@@ -23,12 +23,31 @@ export class ShapewareInterpreter {
         case 'if':
           this.evalIf(statement, context);
           break;
+        case 'while':
+          this.evalWhile(statement, context);
+          break;
       }
     }
   }
 
+  private evalWhile(statement: WhileBlock, context: any) {
+    const start = Date.now();
+    let infinite = false;
+
+    while (this.evalExpression(statement.while, context)) {
+      if (Date.now() - start > 1000) {
+        infinite = true;
+        break;
+      }
+      this.interpret(statement.body, context);
+    }
+    if (infinite) {
+      throw `Potental infinite loop: while loop took ${Date.now() - start}ms to execute`;
+    }
+  }
+
   private evalIf(statement: IfBlock, context: any) {
-    if (this.evalExpression(statement.condition, context)) {
+    if (this.evalExpression(statement.if, context)) {
       this.interpret(statement.then, context);
     } else if (statement.else) {
       this.interpret(statement.else, context);
@@ -70,39 +89,49 @@ export class ShapewareInterpreter {
 
   private evalArithmetic(block: ArithmeticBlock, context: any): any {
     const left = this.evalExpression(block.left, context);
-    const right = this.evalExpression(block.right, context);
 
-    switch (block.operation) {
-      case '*':
-        return left * right;
-        break;
-      case '/':
-        return left / right;
-        break;
-      case '%':
-        return left % right;
-        break;
-      case '+':
-        return left + right;
-        break;
-      case '-':
-        return left - right;
-        break;
-      case '**':
-        return left ** right;
-        break;
-      case '++':
-        let leftnumber1 = left as number;
-        leftnumber1++;
-        this.checkUpdateVariable(block.left, leftnumber1, context);
-        return leftnumber1;
-        break;
-      case '--':
-        let leftnumber2 = left as number;
-        leftnumber2--;
-        this.checkUpdateVariable(block.left, leftnumber2, context);
-        return leftnumber2;
-        break;
+    if (block.right) {
+      const right = this.evalExpression(block.right, context);
+
+      switch (block.operation) {
+        case '*':
+          return left * right;
+          break;
+        case '/':
+          return left / right;
+          break;
+        case '%':
+          return left % right;
+          break;
+        case '+':
+          return left + right;
+          break;
+        case '-':
+          return left - right;
+          break;
+        case '**':
+          return left ** right;
+          break;
+      }
+    }
+    else {
+      switch (block.operation) {
+        case '++':
+          let leftnumber1 = left as number;
+          leftnumber1++;
+          this.checkUpdateVariable(block.left, leftnumber1, context);
+          return leftnumber1;
+          break;
+        case '--':
+          let leftnumber2 = left as number;
+          leftnumber2--;
+          this.checkUpdateVariable(block.left, leftnumber2, context);
+          return leftnumber2;
+          break;
+        default:
+          console.warn(`arithmetic operation ${block.operation} missing right side expression`);
+          break;
+      }
     }
   }
 
