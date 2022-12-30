@@ -1,4 +1,4 @@
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, FunctionBlock, IfBlock, WhileBlock } from "./types";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, FunctionBlock, IfBlock, WhileBlock, ForBlock } from "./types";
 
 export class ShapewareInterpreter {
   interpret(block: Block, context = {}): any {
@@ -26,6 +26,9 @@ export class ShapewareInterpreter {
         case 'while':
           this.evalWhile(statement, context);
           break;
+        case 'for':
+          this.evalFor(statement, context);
+          break;
       }
     }
   }
@@ -43,6 +46,37 @@ export class ShapewareInterpreter {
     }
     if (infinite) {
       throw `Potental infinite loop: while loop took ${Date.now() - start}ms to execute`;
+    }
+  }
+
+  private forUpdate(updates: Array<AssignmentBlock | ArithmeticBlock>, context: any) {
+    updates.forEach(item => {
+      if (item.type == 'arithmetic') {
+        this.evalArithmetic(item, context) 
+      }
+      else if (item.type == 'assignment') {
+        this.evalAssignment(item, context) 
+      }
+    });
+  }
+
+  private evalFor(statement: ForBlock, context: any) {
+    const start = Date.now();
+    let infinite = false;
+
+    for (
+      statement.init.forEach(item => this.evalAssignment(item, context));
+      this.evalExpression(statement.condition, context);
+      this.forUpdate(statement.update, context)
+    ) {
+      if (Date.now() - start > 1000) {
+        infinite = true;
+        break;
+      }
+      this.interpret(statement.body, context);
+    }
+    if (infinite) {
+      throw `Potental infinite loop: for loop took ${Date.now() - start}ms to execute`;
     }
   }
 

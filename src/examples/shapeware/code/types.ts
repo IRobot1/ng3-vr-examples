@@ -94,9 +94,16 @@ export interface WhileBlock {
   body: Block;
 }
 
+export interface ForBlock {
+  type: 'for';
+  init: Array<AssignmentBlock>,
+  condition: ExpressionBlock,
+  update: Array<AssignmentBlock | ArithmeticBlock>
+  body: Block;
+}
 
 export interface Block {
   type: 'block';
-  statements: Array<VariableBlock | ExpressionBlock | AssignmentBlock | FunctionBlock | ReturnBlock | IfBlock | WhileBlock>;
+  statements: Array<VariableBlock | ExpressionBlock | AssignmentBlock | FunctionBlock | ReturnBlock | IfBlock | WhileBlock | ForBlock>;
 }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Mesh } from "three";
 import { assignmentExample } from "./code-examples/assignment-examples";
 import { bitwiseExample, comparisonExample, logicalExample, operationExample, variableGetSetExample, variableNotExample } from "./code-examples/expression-examples";
+import { forExample } from "./code-examples/for-examples";
 import { callbackExample, functionExample } from "./code-examples/function-examples";
 import { ifExample } from "./code-examples/if-examples";
 import { whileExample } from "./code-examples/while-examples";
@@ -65,13 +66,18 @@ export class ShapewareExample implements OnInit {
     //console.warn(result, context, this.params)
 
     //bitwiseExample, comparisonExample, logicalExample, operationExample, variableGetSetExample, variableNotExample
+    const code = this.js.translate(forExample);
+    console.warn(code);
+
+    //for (let x = 1, y = 1; x < 10 || y < 10 ; x+=1, y++) {
+    //  ++x
+    //  y += 10
+    //}
     const context = {}
     try {
-      const result = this.code.interpret(whileExample, context);
+      const result = this.code.interpret(forExample, context);
       console.warn(result, context)
 
-      const code = this.js.translate(whileExample);
-      console.warn(code);
 
       console.warn(eval(code))
     }
@@ -92,7 +98,7 @@ export class ShapewareExample implements OnInit {
   meshBlock!: Block;
 
   meshready(mesh: Mesh) {
-    this.meshBlock =  {
+    this.meshBlock = {
       type: 'block',
       statements: [
         {

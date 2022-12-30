@@ -1,4 +1,4 @@
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, FunctionBlock, IfBlock, WhileBlock } from "./types";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, FunctionBlock, IfBlock, WhileBlock, ForBlock } from "./types";
 
 export class ShapewareJavascript {
   translate(block: Block): string {
@@ -27,12 +27,34 @@ export class ShapewareJavascript {
         case 'while':
           lines.push(this.translateWhile(statement));
           break;
+        case 'for':
+          lines.push(this.translateFor(statement));
+          break;
 
       }
     }
     return lines.join('\n');
   }
 
+
+  private translateFor(block: ForBlock): string {
+    const init: Array<string> = []
+    block.init.forEach(item => init.push(this.translateAssignment(item)));
+
+    const updates: Array<string> = []
+    block.update.forEach(item => {
+      if (item.type == 'arithmetic') {
+        updates.push(this.translateArithmetic(item))
+
+      } else if (item.type == 'assignment') {
+        updates.push(this.translateAssignment(item))
+      }
+    });
+
+    return `for (let ${init.join(',')};${this.translateExpression(block.condition)}; ${updates.join(',')}) {
+${this.translate(block.body)}
+}`
+  }
 
   private translateWhile(block: WhileBlock): string {
     return `while (${this.translateExpression(block.while)}) {
