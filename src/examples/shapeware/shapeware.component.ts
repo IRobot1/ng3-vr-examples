@@ -7,6 +7,7 @@ import { builtinFunctionExample, callFunctionExample, defineFunctionExample } fr
 import { ifExample } from "./code-examples/if-examples";
 import { whileExample } from "./code-examples/while-examples";
 import { ShapewareInterpreter } from "./code/interpret";
+import { mathFunctions } from "./code/math-blocks";
 import { ShapewareJavascript } from "./code/translate";
 import { Block } from "./code/types";
 
@@ -74,6 +75,8 @@ export class ShapewareExample implements OnInit {
     //  y += 10
     //}
     const context = {}
+    this.code.interpret(mathFunctions, context);
+    
     try {
       let result = this.code.interpret(defineFunctionExample, context);
       console.warn(result, context)
