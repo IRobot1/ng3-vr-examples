@@ -1,18 +1,8 @@
 import { Block } from "../code/types";
 
-export const functionExample: Block = {
+export const defineFunctionExample: Block = {
   type: 'block',
   statements: [
-    {
-      type: 'variable',
-      name: 'x',
-      value: 5
-    },
-    {
-      type: 'variable',
-      name: 'y',
-      value: 3
-    },
     {
       type: 'function',
       name: 'square',
@@ -66,14 +56,9 @@ export const functionExample: Block = {
   ]
 }
 
-export const callbackExample: Block = {
+export const builtinFunctionExample: Block = {
   type: 'block',
   statements: [
-    {
-      type: 'variable',
-      name: 'x',
-      value: 5
-    },
     {
       type: 'function',
       name: 'square',
@@ -86,7 +71,31 @@ export const callbackExample: Block = {
           }
         }
       ],
-      callback: (e: any) => { return e * e }
+      callback: (e: any) => { console.warn('callback'); return e * e }
+    }
+  ]
+}
+
+export const callFunctionExample: Block = {
+  type: 'block',
+  statements: [
+    {
+      type: 'variable',
+      name: 'x',
+      value: 5
+    },
+    {
+      type: 'call',
+      name: 'square',
+      args: [
+        {
+          type: 'expression',
+          expression: {
+            type: 'variable',
+            name: 'x',
+          }
+        }
+      ]
     }
   ]
 }

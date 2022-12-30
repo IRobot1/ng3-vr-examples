@@ -1,4 +1,4 @@
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, FunctionBlock, IfBlock, WhileBlock, ForBlock } from "./types";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, DefineFunctionBlock, IfBlock, WhileBlock, ForBlock, CallFunctionBlock } from "./types";
 
 export class ShapewareInterpreter {
   interpret(block: Block, context = {}): any {
@@ -16,6 +16,9 @@ export class ShapewareInterpreter {
           break;
         case 'function':
           return this.evalFunction(statement, context);
+          break;
+        case 'call':
+          return this.evalCall(statement, context);
           break;
         case 'return':
           return this.evalExpression(statement.return, context);
@@ -52,10 +55,10 @@ export class ShapewareInterpreter {
   private forUpdate(updates: Array<AssignmentBlock | ArithmeticBlock>, context: any) {
     updates.forEach(item => {
       if (item.type == 'arithmetic') {
-        this.evalArithmetic(item, context) 
+        this.evalArithmetic(item, context)
       }
       else if (item.type == 'assignment') {
-        this.evalAssignment(item, context) 
+        this.evalAssignment(item, context)
       }
     });
   }
@@ -88,14 +91,9 @@ export class ShapewareInterpreter {
     }
   }
 
-  private evalFunction(statement: FunctionBlock, context: any): any {
-    const args: Array<any> = [];
-    statement.args?.forEach(arg => {
-      args.push(this.evalExpression(arg, context));
-    });
-
+  private evalFunction(statement: DefineFunctionBlock, context: any): any {
     if (statement.callback) {
-      return statement.callback.call(this, args);
+      context[statement.name] = statement.callback;
     }
     else {
       const self = this;
@@ -103,9 +101,16 @@ export class ShapewareInterpreter {
         if (statement.body)
           return self.interpret(statement.body, context);
       }
-
-      return context[statement.name](args);
     }
+  }
+
+  private evalCall(statement: CallFunctionBlock, context: any): any {
+    const args: Array<any> = [];
+    statement.args?.forEach(arg => {
+      args.push(this.evalExpression(arg, context));
+    });
+
+    return context[statement.name](args);
   }
 
   private updateVariable(variable: VariableBlock, value: any, context: any) {

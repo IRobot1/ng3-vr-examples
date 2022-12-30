@@ -1,4 +1,4 @@
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, FunctionBlock, IfBlock, WhileBlock, ForBlock } from "./types";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, DefineFunctionBlock, IfBlock, WhileBlock, ForBlock, CallFunctionBlock } from "./types";
 
 export class ShapewareJavascript {
   translate(block: Block): string {
@@ -17,6 +17,9 @@ export class ShapewareJavascript {
           break;
         case 'function':
           lines.push(this.translateFunction(statement));
+          break;
+        case 'call':
+          lines.push(this.translateCall(statement));
           break;
         case 'return':
           lines.push(`return ${this.translateExpression(statement.return)}`);
@@ -73,20 +76,28 @@ ${this.translate(block.then)}
 } ${elsecode}`
   }
 
-  private translateFunction(block: FunctionBlock): string {
+  private translateFunction(block: DefineFunctionBlock): string {
     const args: Array<string> = []
     block.args?.forEach(arg => {
       args.push(this.translateExpression(arg));
     });
 
-    let body = '// runtime injected function'
+    let body = '// builtin function'
     if (block.body) body = this.translate(block.body);
 
     return `function ${block.name}(${args.join(',')})
 {
  ${body}
-}
-${block.name}(${args.join(',')})`;
+}`;
+  }
+
+  private translateCall(block: CallFunctionBlock): string {
+    const args: Array<string> = []
+    block.args?.forEach(arg => {
+      args.push(this.translateExpression(arg));
+    });
+
+    return `${block.name}(${args.join(',')})`;
   }
 
   private translateArithmetic(block: ArithmeticBlock): string {

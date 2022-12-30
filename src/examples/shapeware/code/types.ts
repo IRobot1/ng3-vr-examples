@@ -73,14 +73,6 @@ export interface ReturnBlock {
 }
 
 
-export interface FunctionBlock {
-  type: 'function';
-  name: string;
-  args?: Array<ExpressionBlock>;
-  body?: Block;
-  callback?: (e: any) => void;
-}
-
 export interface IfBlock {
   type: 'if';
   if: ExpressionBlock;
@@ -102,8 +94,24 @@ export interface ForBlock {
   body: Block;
 }
 
+export interface DefineFunctionBlock {
+  type: 'function';
+  name: string;
+  args?: Array<ExpressionBlock>;
+  body?: Block;
+  callback?: (e: any) => void;
+}
+
+export interface CallFunctionBlock {
+  type: 'call';
+  name: string;
+  args?: Array<ExpressionBlock>;
+}
+
 export interface Block {
   type: 'block';
-  statements: Array<VariableBlock | ExpressionBlock | AssignmentBlock | FunctionBlock | ReturnBlock | IfBlock | WhileBlock | ForBlock>;
+  statements: Array<VariableBlock | ExpressionBlock | AssignmentBlock | DefineFunctionBlock | CallFunctionBlock | ReturnBlock | IfBlock | WhileBlock | ForBlock>;
 }
+
+
 

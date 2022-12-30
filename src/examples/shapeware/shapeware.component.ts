@@ -3,7 +3,7 @@ import { Mesh } from "three";
 import { assignmentExample } from "./code-examples/assignment-examples";
 import { bitwiseExample, comparisonExample, logicalExample, operationExample, variableGetSetExample, variableNotExample } from "./code-examples/expression-examples";
 import { forExample } from "./code-examples/for-examples";
-import { callbackExample, functionExample } from "./code-examples/function-examples";
+import { builtinFunctionExample, callFunctionExample, defineFunctionExample } from "./code-examples/function-examples";
 import { ifExample } from "./code-examples/if-examples";
 import { whileExample } from "./code-examples/while-examples";
 import { ShapewareInterpreter } from "./code/interpret";
@@ -66,7 +66,7 @@ export class ShapewareExample implements OnInit {
     //console.warn(result, context, this.params)
 
     //bitwiseExample, comparisonExample, logicalExample, operationExample, variableGetSetExample, variableNotExample
-    const code = this.js.translate(forExample);
+    const code = this.js.translate(defineFunctionExample);
     console.warn(code);
 
     //for (let x = 1, y = 1; x < 10 || y < 10 ; x+=1, y++) {
@@ -75,9 +75,11 @@ export class ShapewareExample implements OnInit {
     //}
     const context = {}
     try {
-      const result = this.code.interpret(forExample, context);
+      let result = this.code.interpret(defineFunctionExample, context);
       console.warn(result, context)
 
+      result = this.code.interpret(callFunctionExample, context);
+      console.warn(result, context)
 
       console.warn(eval(code))
     }
