@@ -30,6 +30,19 @@ export interface ColorBlock {
   blue: NumberBlock | VariableBlock,
 }
 
+export interface Vector2Block {
+  type: 'vector2';
+  x: NumberBlock | VariableBlock,
+  y: NumberBlock | VariableBlock,
+}
+
+export interface Vector3Block {
+  type: 'vector3';
+  x: NumberBlock | VariableBlock,
+  y: NumberBlock | VariableBlock,
+  z: NumberBlock | VariableBlock,
+}
+
 
 export interface NotBlock {
   type: 'not';
@@ -73,7 +86,7 @@ export interface BitwiseBlock {
 
 export interface ExpressionBlock {
   type: 'expression',
-  expression: NotBlock | NumberBlock | StringBlock | BooleanBlock | VariableBlock | ColorBlock | ArithmeticBlock | ComparisonBlock | ExpressionBlock | LogicalBlock | BitwiseBlock
+  expression: NotBlock | NumberBlock | StringBlock | BooleanBlock | VariableBlock | ColorBlock | Vector2Block | Vector3Block | ArithmeticBlock | ComparisonBlock | ExpressionBlock | LogicalBlock | BitwiseBlock
 }
 
 export interface ReturnBlock {

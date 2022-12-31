@@ -1,16 +1,31 @@
-import { Color } from "three";
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, DefineFunctionBlock, IfBlock, WhileBlock, ForBlock, CallFunctionBlock, ColorBlock } from "./types";
+import { Color, Vector2, Vector3 } from "three";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, DefineFunctionBlock, IfBlock, WhileBlock, ForBlock, CallFunctionBlock, ColorBlock, Vector2Block, Vector3Block } from "./types";
 
 export class ShapewareJavascript {
+
+  private translateVariable(block: VariableBlock): string {
+    if (typeof block.value == 'string')
+      return `'${block.value}'`
+    else if (block.value instanceof Color) {
+      return `new Color(${block.value.r},${block.value.g},${block.value.b})`
+    }
+    else if (block.value instanceof Vector2) {
+      return `new Vector2(${block.value.x},${block.value.y})`
+    }
+    else if (block.value instanceof Vector3) {
+      return `new Vector3(${block.value.x},${block.value.y},${block.value.z})`
+    }
+    else
+      return block.name
+  }
+
   translate(block: Block): string {
     const lines: Array<string> = []
-    for (const statement of block.statements) {
+    block.statements.forEach(statement => {
       const type = statement.type;
       switch (statement.type) {
         case 'variable':
-          let value = statement.value;
-          if (typeof value == 'string') value = `'${value}'`
-          lines.push(`let ${statement.name} = ${value};`);
+          lines.push(`let ${statement.name} = ${this.translateVariable(statement)};`);
           break;
         case 'assignment':
           lines.push(`${this.translateAssignment(statement as AssignmentBlock)}`);
@@ -38,7 +53,7 @@ export class ShapewareJavascript {
           break;
 
       }
-    }
+    })
     return lines.join('\n');
   }
 
@@ -127,7 +142,12 @@ ${this.translate(block.then)}
     let left = this.translateExpression(block.left);
     const right = this.translateExpression(block.right);
 
-    return `${left} ${block.assignment} ${right}`;
+    if (block.left.expression.type == 'variable') {
+      return `${left}.set(${right})`;
+    }
+    else {
+      return `${left} ${block.assignment} ${right}`;
+    }
   }
 
   private translateLogical(block: LogicalBlock): string {
@@ -156,10 +176,11 @@ ${this.translate(block.then)}
       return block.value.toString();
     }
     else if (block.type == 'variable') {
-      return block.name
+      return this.translateVariable(block)
     }
     return '';
   }
+
 
   private translateExpression(block: ExpressionBlock): string {
     switch (block.expression.type) {
@@ -173,11 +194,19 @@ ${this.translate(block.then)}
         return (block.expression as BooleanBlock).value.toString();
         break;
       case 'variable':
-        return (block.expression as VariableBlock).name
+        return this.translateVariable(block.expression);
         break;
       case 'color':
         const color = block.expression as ColorBlock;
-        return `'rgb(${this.translateNumberOrVariable(color.red)},${this.translateNumberOrVariable(color.green)},${this.translateNumberOrVariable(color.blue)})}'`
+        return `${this.translateNumberOrVariable(color.red)},${this.translateNumberOrVariable(color.green)},${this.translateNumberOrVariable(color.blue)}`
+        break;
+      case 'vector2':
+        const v2 = block.expression as Vector2Block;
+        return `${this.translateNumberOrVariable(v2.x)},${this.translateNumberOrVariable(v2.y)}`
+        break;
+      case 'vector3':
+        const v3 = block.expression as Vector3Block;
+        return `${this.translateNumberOrVariable(v3.x)},${this.translateNumberOrVariable(v3.y)},${this.translateNumberOrVariable(v3.z)}`
         break;
       case 'expression':
         const expression = (block.expression as ExpressionBlock).expression as ExpressionBlock;

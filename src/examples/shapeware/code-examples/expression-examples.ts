@@ -1,4 +1,4 @@
-import { Color } from "three";
+import { Color, Vector2, Vector3 } from "three";
 import { Block } from "../code/types";
 
 export const variableGetSetExample: Block = {
@@ -201,7 +201,7 @@ export const colorExample: Block = {
     {
       type: 'variable',
       name: 'x',
-      value: 'rgb(1, 0, 0)'
+      value: new Color(1, 0, 0)
     },
     {
       type: 'assignment',
@@ -229,6 +229,83 @@ export const colorExample: Block = {
             type: 'number',
             value: 0
           }
+        }
+      }
+    }
+  ]
+}
+
+export const vector2Example: Block = {
+  type: 'block',
+  statements: [
+    {
+      type: 'variable',
+      name: 'x',
+      value: new Vector2()
+    },
+    {
+      type: 'assignment',
+      assignment: '=',
+      left: {
+        type: 'expression',
+        expression: {
+          type: 'variable',
+          name: 'x'
+        }
+      },
+      right: {
+        type: 'expression',
+        expression: {
+          type: 'vector2',
+          x: {
+            type: 'number',
+            value: 1
+          },
+          y: {
+            type: 'number',
+            value: 0
+          }
+        }
+      }
+    }
+  ]
+}
+
+export const vector3Example: Block = {
+  type: 'block',
+  statements: [
+    {
+      type: 'variable',
+      name: 'x',
+      value: new Vector3()
+    },
+    {
+      type: 'assignment',
+      assignment: '=',
+      left: {
+        type: 'expression',
+        expression: {
+          type: 'variable',
+          name: 'x'
+        }
+      },
+      right: {
+        type: 'expression',
+        expression: {
+          type: 'vector3',
+          x: {
+            type: 'number',
+            value: 1
+          },
+          y: {
+            type: 'number',
+            value: 0
+          },
+          z: {
+            type: 'number',
+            value: 0
+          }
+
         }
       }
     }

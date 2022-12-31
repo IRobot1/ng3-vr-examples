@@ -1,5 +1,5 @@
-import { Color } from "three";
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, DefineFunctionBlock, IfBlock, WhileBlock, ForBlock, CallFunctionBlock, ColorBlock } from "./types";
+import { Color, Vector2, Vector3 } from "three";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, DefineFunctionBlock, IfBlock, WhileBlock, ForBlock, CallFunctionBlock, ColorBlock, Vector2Block, Vector3Block } from "./types";
 
 export class ShapewareInterpreter {
   interpret(block: Block, context = {}): any {
@@ -184,6 +184,12 @@ export class ShapewareInterpreter {
         if (left instanceof Color) {
           left.copy(right)
         }
+        else if (left instanceof Vector2) {
+          left.copy(right)
+        }
+        else if (left instanceof Vector3) {
+          left.copy(right)
+        }
         else
           left = right;
         break;
@@ -259,12 +265,12 @@ export class ShapewareInterpreter {
       return context[variable.name];
   }
 
-  private evalNumberOrVariable(block: NumberBlock | VariableBlock, context: any): number {
-    if (block.type == 'number') {
-      return block.value;
+  private evalNumberOrVariable(red: NumberBlock | VariableBlock, context: any): number {
+    if (red.type == 'number') {
+      return red.value;
     }
-    else if (block.type == 'variable') {
-      return this.evalVariable(block, context);
+    else if (red.type == 'variable') {
+      return this.evalVariable(red, context);
     }
     return 0;
   }
@@ -289,6 +295,21 @@ export class ShapewareInterpreter {
           this.evalNumberOrVariable(color.red, context),
           this.evalNumberOrVariable(color.green, context),
           this.evalNumberOrVariable(color.blue, context)
+        );
+        break;
+      case 'vector2':
+        const v2 = block.expression as Vector2Block;
+        return new Vector2(
+          this.evalNumberOrVariable(v2.x, context),
+          this.evalNumberOrVariable(v2.y, context),
+        );
+        break;
+      case 'vector3':
+        const v3 = block.expression as Vector3Block;
+        return new Vector3(
+          this.evalNumberOrVariable(v3.x, context),
+          this.evalNumberOrVariable(v3.y, context),
+          this.evalNumberOrVariable(v3.z, context),
         );
         break;
       case 'expression':
