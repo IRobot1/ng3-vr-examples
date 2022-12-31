@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { Mesh } from "three";
+import { Color, Mesh, MeshBasicMaterial } from "three";
 import { assignmentExample } from "./code-examples/assignment-examples";
-import { bitwiseExample, comparisonExample, logicalExample, operationExample, variableGetSetExample, variableNotExample } from "./code-examples/expression-examples";
+import { bitwiseExample, colorExample, comparisonExample, logicalExample, operationExample, variableGetSetExample, variableNotExample } from "./code-examples/expression-examples";
 import { forExample } from "./code-examples/for-examples";
 import { builtinFunctionExample, callFunctionExample, defineFunctionExample } from "./code-examples/function-examples";
 import { ifExample } from "./code-examples/if-examples";
@@ -9,7 +9,7 @@ import { whileExample } from "./code-examples/while-examples";
 import { ShapewareInterpreter } from "./code/interpret";
 import { mathFunctions } from "./code/math-blocks";
 import { ShapewareJavascript } from "./code/translate";
-import { Block } from "./code/types";
+import { AssignmentBlock, Block, ColorBlock, ExpressionBlock } from "./code/types";
 
 @Component({
   templateUrl: './shapeware.component.html',
@@ -67,7 +67,7 @@ export class ShapewareExample implements OnInit {
     //console.warn(result, context, this.params)
 
     //bitwiseExample, comparisonExample, logicalExample, operationExample, variableGetSetExample, variableNotExample
-    const code = this.js.translate(defineFunctionExample);
+    const code = this.js.translate(colorExample);
     console.warn(code);
 
     //for (let x = 1, y = 1; x < 10 || y < 10 ; x+=1, y++) {
@@ -76,13 +76,13 @@ export class ShapewareExample implements OnInit {
     //}
     const context = {}
     this.code.interpret(mathFunctions, context);
-    
+
     try {
-      let result = this.code.interpret(defineFunctionExample, context);
+      let result = this.code.interpret(colorExample, context);
       console.warn(result, context)
 
-      result = this.code.interpret(callFunctionExample, context);
-      console.warn(result, context)
+      //result = this.code.interpret(callFunctionExample, context);
+      //console.warn(result, context)
 
       console.warn(eval(code))
     }
@@ -101,6 +101,8 @@ export class ShapewareExample implements OnInit {
 
 
   meshBlock!: Block;
+  colorBlock!: Block;
+  colorContext: any = {}
 
   meshready(mesh: Mesh) {
     this.meshBlock = {
@@ -124,13 +126,61 @@ export class ShapewareExample implements OnInit {
               value: 0.01
             }
           }
-
         }
       ]
     }
+
+    this.colorBlock = {
+      type: 'block',
+      statements: [
+        {
+          type: 'variable',
+          name: 'red',
+          value: 0
+        },
+        {
+          type: 'assignment',
+          assignment: '=',
+          left: {
+            type: 'expression',
+            expression: {
+              type: 'variable',
+              object: (mesh.material as MeshBasicMaterial),
+              name: 'color'
+            }
+          },
+          right: {
+            type: 'expression',
+            expression: {
+              type: 'color',
+              red: {
+                type: 'variable',
+                name: 'red'
+              },
+              green: {
+                type: 'number',
+                value: 0
+              },
+              blue: {
+                type: 'number',
+                value: 0
+              },
+            }
+          }
+
+        }
+
+      ]
+    }
+    //this.code.interpret(this.colorBlock, this.colorContext);
   }
 
   tick(mesh: Mesh) {
+    this.colorContext.red += 1 / 255;
+    if (this.colorContext.red > 1) this.colorContext.red = 0;
+    
+    this.code.interpret(this.colorBlock, this.colorContext);
+
     //mesh.rotation.y += 0.01;
     this.code.interpret(this.meshBlock);
   }

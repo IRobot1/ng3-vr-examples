@@ -1,3 +1,4 @@
+import { Color } from "three";
 
 
 export interface NumberBlock {
@@ -21,6 +22,14 @@ export interface VariableBlock {
   name: string;
   value?: any;
 }
+
+export interface ColorBlock {
+  type: 'color';
+  red: NumberBlock | VariableBlock,
+  green: NumberBlock | VariableBlock,
+  blue: NumberBlock | VariableBlock,
+}
+
 
 export interface NotBlock {
   type: 'not';
@@ -64,7 +73,7 @@ export interface BitwiseBlock {
 
 export interface ExpressionBlock {
   type: 'expression',
-  expression: NotBlock | NumberBlock | StringBlock | BooleanBlock | VariableBlock | ArithmeticBlock | ComparisonBlock | ExpressionBlock | LogicalBlock | BitwiseBlock
+  expression: NotBlock | NumberBlock | StringBlock | BooleanBlock | VariableBlock | ColorBlock | ArithmeticBlock | ComparisonBlock | ExpressionBlock | LogicalBlock | BitwiseBlock
 }
 
 export interface ReturnBlock {

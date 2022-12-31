@@ -1,4 +1,5 @@
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, DefineFunctionBlock, IfBlock, WhileBlock, ForBlock, CallFunctionBlock } from "./types";
+import { Color } from "three";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, DefineFunctionBlock, IfBlock, WhileBlock, ForBlock, CallFunctionBlock, ColorBlock } from "./types";
 
 export class ShapewareJavascript {
   translate(block: Block): string {
@@ -7,7 +8,9 @@ export class ShapewareJavascript {
       const type = statement.type;
       switch (statement.type) {
         case 'variable':
-          lines.push(`let ${statement.name} = ${statement.value};`);
+          let value = statement.value;
+          if (typeof value == 'string') value = `'${value}'`
+          lines.push(`let ${statement.name} = ${value};`);
           break;
         case 'assignment':
           lines.push(`${this.translateAssignment(statement as AssignmentBlock)}`);
@@ -148,6 +151,16 @@ ${this.translate(block.then)}
     }
   }
 
+  private translateNumberOrVariable(block: NumberBlock | VariableBlock): string {
+    if (block.type == 'number') {
+      return block.value.toString();
+    }
+    else if (block.type == 'variable') {
+      return block.name
+    }
+    return '';
+  }
+
   private translateExpression(block: ExpressionBlock): string {
     switch (block.expression.type) {
       case 'number':
@@ -161,6 +174,10 @@ ${this.translate(block.then)}
         break;
       case 'variable':
         return (block.expression as VariableBlock).name
+        break;
+      case 'color':
+        const color = block.expression as ColorBlock;
+        return `'rgb(${this.translateNumberOrVariable(color.red)},${this.translateNumberOrVariable(color.green)},${this.translateNumberOrVariable(color.blue)})}'`
         break;
       case 'expression':
         const expression = (block.expression as ExpressionBlock).expression as ExpressionBlock;

@@ -1,4 +1,5 @@
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, DefineFunctionBlock, IfBlock, WhileBlock, ForBlock, CallFunctionBlock } from "./types";
+import { Color } from "three";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, DefineFunctionBlock, IfBlock, WhileBlock, ForBlock, CallFunctionBlock, ColorBlock } from "./types";
 
 export class ShapewareInterpreter {
   interpret(block: Block, context = {}): any {
@@ -116,7 +117,7 @@ export class ShapewareInterpreter {
   private updateVariable(variable: VariableBlock, value: any, context: any) {
     if (variable.object)
       variable.object[variable.name] = value;
-    else
+    else if (!context[variable.name])
       context[variable.name] = value;
   }
 
@@ -180,7 +181,11 @@ export class ShapewareInterpreter {
 
     switch (block.assignment) {
       case '=':
-        left = right;
+        if (left instanceof Color) {
+          left.copy(right)
+        }
+        else
+          left = right;
         break;
       case '+=':
         left += right;
@@ -247,6 +252,23 @@ export class ShapewareInterpreter {
     }
   }
 
+  private evalVariable(variable: VariableBlock, context: any): any {
+    if (variable.object)
+      return variable.object[variable.name]
+    else
+      return context[variable.name];
+  }
+
+  private evalNumberOrVariable(block: NumberBlock | VariableBlock, context: any): number {
+    if (block.type == 'number') {
+      return block.value;
+    }
+    else if (block.type == 'variable') {
+      return this.evalVariable(block, context);
+    }
+    return 0;
+  }
+
   private evalExpression(block: ExpressionBlock, context: any): any {
     switch (block.expression.type) {
       case 'number':
@@ -259,11 +281,15 @@ export class ShapewareInterpreter {
         return (block.expression as BooleanBlock).value;
         break;
       case 'variable':
-        const variable = block.expression as VariableBlock;
-        if (variable.object)
-          return variable.object[variable.name]
-        else
-          return context[variable.name];
+        return this.evalVariable(block.expression, context);
+        break;
+      case 'color':
+        const color = block.expression as ColorBlock;
+        return new Color(
+          this.evalNumberOrVariable(color.red, context),
+          this.evalNumberOrVariable(color.green, context),
+          this.evalNumberOrVariable(color.blue, context)
+        );
         break;
       case 'expression':
         const expression = (block.expression as ExpressionBlock).expression as ExpressionBlock;
@@ -287,6 +313,7 @@ export class ShapewareInterpreter {
     }
 
   }
+
 
   private evalComparison(block: ComparisonBlock, context: any): any {
     let left = this.evalExpression(block.left, context);

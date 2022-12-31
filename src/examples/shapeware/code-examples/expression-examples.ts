@@ -1,3 +1,4 @@
+import { Color } from "three";
 import { Block } from "../code/types";
 
 export const variableGetSetExample: Block = {
@@ -190,6 +191,46 @@ export const bitwiseExample: Block = {
         }
       }
 
+    }
+  ]
+}
+
+export const colorExample: Block = {
+  type: 'block',
+  statements: [
+    {
+      type: 'variable',
+      name: 'x',
+      value: 'rgb(1, 0, 0)'
+    },
+    {
+      type: 'assignment',
+      assignment: '=',
+      left: {
+        type: 'expression',
+        expression: {
+          type: 'variable',
+          name: 'x'
+        }
+      },
+      right: {
+        type: 'expression',
+        expression: {
+          type: 'color',
+          red: {
+            type: 'number',
+            value: 1
+          },
+          green: {
+            type: 'number',
+            value: 0
+          },
+          blue: {
+            type: 'number',
+            value: 0
+          }
+        }
+      }
     }
   ]
 }
