@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { Color, Mesh, MeshBasicMaterial, Vector2, Vector3 } from "three";
+import { Color, Euler, Mesh, MeshBasicMaterial, Vector2, Vector3 } from "three";
 import { assignmentExample } from "./code-examples/assignment-examples";
-import { bitwiseExample, colorExample, comparisonExample, logicalExample, operationExample, variableGetSetExample, variableNotExample, vector2Example, vector3Example } from "./code-examples/expression-examples";
+import { bitwiseExample, colorExample, comparisonExample, logicalExample, operationExample, rotationExample, variableGetSetExample, variableNotExample, vector2Example, vector3Example } from "./code-examples/expression-examples";
 import { forExample } from "./code-examples/for-examples";
 import { builtinFunctionExample, callFunctionExample, defineFunctionExample } from "./code-examples/function-examples";
 import { ifExample } from "./code-examples/if-examples";
@@ -62,6 +62,7 @@ export class ShapewareExample implements OnInit {
     (window as any).Color = Color;
     (window as any).Vector2 = Vector2;
     (window as any).Vector3 = Vector3;
+    (window as any).Euler = Euler;
 
     let widthchange = 0.1;
     let heightchange = 0.1;
@@ -71,14 +72,14 @@ export class ShapewareExample implements OnInit {
     //console.warn(result, context, this.params)
 
     //bitwiseExample, comparisonExample, logicalExample, operationExample, variableGetSetExample, variableNotExample
-    const code = this.js.translate(vector3Example);
+    const code = this.js.translate(rotationExample);
     console.warn(code);
 
     const context = {}
     this.code.interpret(mathFunctions, context);
 
     try {
-      let result = this.code.interpret(vector3Example, context);
+      let result = this.code.interpret(rotationExample, context);
       console.warn(result, context)
 
       //result = this.code.interpret(callFunctionExample, context);

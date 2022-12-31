@@ -1,5 +1,5 @@
-import { Color, Vector2, Vector3 } from "three";
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, DefineFunctionBlock, IfBlock, WhileBlock, ForBlock, CallFunctionBlock, ColorBlock, Vector2Block, Vector3Block } from "./types";
+import { Color, Euler, Vector2, Vector3 } from "three";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, DefineFunctionBlock, IfBlock, WhileBlock, ForBlock, CallFunctionBlock, ColorBlock, Vector2Block, Vector3Block, RotationBlock } from "./types";
 
 export class ShapewareJavascript {
 
@@ -14,6 +14,9 @@ export class ShapewareJavascript {
     }
     else if (block.value instanceof Vector3) {
       return `new Vector3(${block.value.x},${block.value.y},${block.value.z})`
+    }
+    else if (block.value instanceof Euler) {
+      return `new Euler(${block.value.x},${block.value.y},${block.value.z})`
     }
     else
       return block.name
@@ -207,6 +210,10 @@ ${this.translate(block.then)}
       case 'vector3':
         const v3 = block.expression as Vector3Block;
         return `${this.translateNumberOrVariable(v3.x)},${this.translateNumberOrVariable(v3.y)},${this.translateNumberOrVariable(v3.z)}`
+        break;
+      case 'rotation':
+        const rotation = block.expression as RotationBlock;
+        return `${this.translateNumberOrVariable(rotation.x)},${this.translateNumberOrVariable(rotation.y)},${this.translateNumberOrVariable(rotation.z)}`
         break;
       case 'expression':
         const expression = (block.expression as ExpressionBlock).expression as ExpressionBlock;

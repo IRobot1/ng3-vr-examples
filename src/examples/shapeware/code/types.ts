@@ -43,6 +43,13 @@ export interface Vector3Block {
   z: NumberBlock | VariableBlock,
 }
 
+export interface RotationBlock {
+  type: 'rotation';
+  x: NumberBlock | VariableBlock,
+  y: NumberBlock | VariableBlock,
+  z: NumberBlock | VariableBlock,
+}
+
 
 export interface NotBlock {
   type: 'not';
@@ -86,7 +93,7 @@ export interface BitwiseBlock {
 
 export interface ExpressionBlock {
   type: 'expression',
-  expression: NotBlock | NumberBlock | StringBlock | BooleanBlock | VariableBlock | ColorBlock | Vector2Block | Vector3Block | ArithmeticBlock | ComparisonBlock | ExpressionBlock | LogicalBlock | BitwiseBlock
+  expression: NotBlock | NumberBlock | StringBlock | BooleanBlock | VariableBlock | ColorBlock | Vector2Block | Vector3Block | RotationBlock | ArithmeticBlock | ComparisonBlock | ExpressionBlock | LogicalBlock | BitwiseBlock
 }
 
 export interface ReturnBlock {

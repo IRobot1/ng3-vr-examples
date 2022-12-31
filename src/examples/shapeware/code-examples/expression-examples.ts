@@ -1,4 +1,4 @@
-import { Color, Vector2, Vector3 } from "three";
+import { Color, Euler, Vector2, Vector3 } from "three";
 import { Block } from "../code/types";
 
 export const variableGetSetExample: Block = {
@@ -293,6 +293,47 @@ export const vector3Example: Block = {
         type: 'expression',
         expression: {
           type: 'vector3',
+          x: {
+            type: 'number',
+            value: 1
+          },
+          y: {
+            type: 'number',
+            value: 0
+          },
+          z: {
+            type: 'number',
+            value: 0
+          }
+
+        }
+      }
+    }
+  ]
+}
+
+export const rotationExample: Block = {
+  type: 'block',
+  statements: [
+    {
+      type: 'variable',
+      name: 'x',
+      value: new Euler()
+    },
+    {
+      type: 'assignment',
+      assignment: '=',
+      left: {
+        type: 'expression',
+        expression: {
+          type: 'variable',
+          name: 'x'
+        }
+      },
+      right: {
+        type: 'expression',
+        expression: {
+          type: 'rotation',
           x: {
             type: 'number',
             value: 1

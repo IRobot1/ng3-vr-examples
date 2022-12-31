@@ -1,5 +1,5 @@
-import { Color, Vector2, Vector3 } from "three";
-import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, DefineFunctionBlock, IfBlock, WhileBlock, ForBlock, CallFunctionBlock, ColorBlock, Vector2Block, Vector3Block } from "./types";
+import { Color, Euler, Vector2, Vector3 } from "three";
+import { Block, BooleanBlock, ExpressionBlock, NotBlock, NumberBlock, ArithmeticBlock, StringBlock, VariableBlock, AssignmentBlock, ComparisonBlock, LogicalBlock, BitwiseBlock, DefineFunctionBlock, IfBlock, WhileBlock, ForBlock, CallFunctionBlock, ColorBlock, Vector2Block, Vector3Block, RotationBlock } from "./types";
 
 export class ShapewareInterpreter {
   interpret(block: Block, context = {}): any {
@@ -190,6 +190,9 @@ export class ShapewareInterpreter {
         else if (left instanceof Vector3) {
           left.copy(right)
         }
+        else if (left instanceof Euler) {
+          left.copy(right)
+        }
         else
           left = right;
         break;
@@ -310,6 +313,14 @@ export class ShapewareInterpreter {
           this.evalNumberOrVariable(v3.x, context),
           this.evalNumberOrVariable(v3.y, context),
           this.evalNumberOrVariable(v3.z, context),
+        );
+        break;
+      case 'rotation':
+        const rotation = block.expression as RotationBlock;
+        return new Vector3(
+          this.evalNumberOrVariable(rotation.x, context),
+          this.evalNumberOrVariable(rotation.y, context),
+          this.evalNumberOrVariable(rotation.z, context),
         );
         break;
       case 'expression':
