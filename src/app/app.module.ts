@@ -142,6 +142,7 @@ import { StatementShapeComponent } from '../examples/shapeware/statement/stateme
 import { EventShapeComponent } from '../examples/shapeware/event/event.component';
 import { ExpressionShapeComponent } from '../examples/shapeware/expression/expression.component';
 import { ConditionShapeComponent } from '../examples/shapeware/condition/condition.component';
+import { PictureFrameShapeComponent } from '../art/picture-frame/picture-frame.component';
 
 
 
@@ -171,6 +172,7 @@ import { ConditionShapeComponent } from '../examples/shapeware/condition/conditi
     MonopolyBoardComponent,
     PlanetComponent,
     RotatingSquaresComponent,
+    PictureFrameShapeComponent,
 
     EmptyExample,
     BallshooterExample,

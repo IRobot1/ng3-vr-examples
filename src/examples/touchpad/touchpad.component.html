@@ -4,6 +4,16 @@
 
 <ngt-directional-light [position]="[10, 10, 10]" castShadow></ngt-directional-light>
 
+<ngt-mesh-basic-material #frame color="#33F9FA"></ngt-mesh-basic-material>
+
+<picture-frame [position]="[0, 1, -3]"
+               [framematerial]="frame.instance.value" [chromematerial]="frame.instance.value"
+               [buildgeometry]="buildgeometry">
+</picture-frame>
+
+<flat-ui-basic-image [position]="[0, 1, -3]" [width]="4/3" [map]="'assets/mandelbrot1.jpg'"></flat-ui-basic-image>
+
+
 <ngt-mesh [rotation]="[-1.57, 0, 0]">
   <ngt-plane-geometry [args]="[4.8, 4.8, 2, 2]"></ngt-plane-geometry>
   <ngt-mesh-standard-material color="cornflowerblue" transparent opacity="0.25"></ngt-mesh-standard-material>
