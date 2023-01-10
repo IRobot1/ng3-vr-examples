@@ -2,7 +2,7 @@
 
 Angular UI component library for [three.js](https://threejs.org/) 
 
-![image](https://user-images.githubusercontent.com/25032599/196293607-20a6bd40-83d6-4e19-a3c6-8949389f682c.png)
+![image](https://user-images.githubusercontent.com/25032599/211678766-a8903316-5271-4b1e-9eb3-acf7acb044ce.png)
 
 Components work in browser window using touch or mouse.
 
