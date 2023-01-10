@@ -73,7 +73,7 @@ export class FlatUICard extends NgtObjectProps<Mesh>{
 
   @Input() geometry!: BufferGeometry;
 
-  @ContentChild('card') card?: TemplateRef<unknown>;
+  @ContentChild('card') protected card?: TemplateRef<unknown>;
 
   protected outline!: BufferGeometry; // outline material
 
@@ -141,8 +141,7 @@ export class FlatUICard extends NgtObjectProps<Mesh>{
     this.panel.dispatchEvent({ type: DRAG_END_EVENT, dragtype: this.cardtype, data: this.data })
   }
 
-  private _mesh!: Mesh;
-  get mesh(): Mesh { return this._mesh }
+  private mesh!: Mesh;
 
   protected meshready(mesh: Mesh) {
     this.selectable?.add(mesh);
@@ -156,10 +155,11 @@ export class FlatUICard extends NgtObjectProps<Mesh>{
 
     mesh.addEventListener('pointermove', (e: any) => { this.domovemesh(e.data) });
 
-    this._mesh = mesh;
+    this.mesh = mesh;
   }
 
-  panel!: Object3D;
+  private panel!: Object3D;
+
   protected panelready(panel: Object3D) {
     this.panel = panel;
   }

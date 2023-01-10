@@ -161,7 +161,7 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
     if (!this.geometry) this.createTextGeometry();
   }
 
-  createTextGeometry() {
+  protected createTextGeometry() {
     const flat = new Shape();
     roundedRect(flat, 0, 0, this.width, this.height, 0.02);
 
@@ -172,7 +172,7 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
     this.outline.center();
   }
 
-  setBackgroundColor() {
+  protected setBackgroundColor() {
     if (this.enabled) {
       this.mesh.material = this.backgroundmaterial;
     }
@@ -198,7 +198,7 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
   }
 
   private line!: Line;
-  lineready(line: Line) {
+  protected lineready(line: Line) {
     line.visible = false;
     this.line = line;
   }
@@ -206,7 +206,7 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
 
   private mesh!: Mesh;
 
-  meshready(mesh: Mesh) {
+  protected meshready(mesh: Mesh) {
     this.selectable?.add(mesh);
 
     mesh.addEventListener('click', () => { this.enableinput(mesh) })
@@ -217,7 +217,7 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
     this.setBackgroundColor();
   }
 
-  enableinput(mesh: Mesh) {
+  protected enableinput(mesh: Mesh) {
     if (!this.enabled || !this.visible) return;
 
     this.inputopen = true;
@@ -225,13 +225,13 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
   }
 
 
-  isover = false;
-  over() {
+  private isover = false;
+  protected over() {
     if (this.isover || !this.enabled) return;
     this.line.visible = true;
     this.isover = true;
   }
-  out() {
+  protected out() {
     if (!this.enabled) return;
     this.line.visible = false;
     this.isover = false;
@@ -242,7 +242,7 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
   private topY = 0;
   private maxY = 0;
 
-  textready(text: Text) {
+  protected textready(text: Text) {
     text.clipRect = [0, -this.height, this.width, 0];
     text.position.x = -this.width / 2;
     text.position.y = this.height / 2;
@@ -257,7 +257,7 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
     this.triokaText = text;
   }
 
-  scroll(e: NgtEvent<WheelEvent>) {
+  protected scroll(e: NgtEvent<WheelEvent>) {
     this.doscroll((e as any).deltaY);
   }
 

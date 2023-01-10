@@ -3,11 +3,11 @@
   <ngt-mesh #mesh
             (click)="clicked(mesh.instance.value, $event)"
             (pointerover)="over();$event.stopPropagation()" (pointerout)="out();$event.stopPropagation()"
-            (ready)="meshready($event, mat.instance.value)">
+            (ready)="meshready($event)">
 
     <ngt-plane-geometry [args]="[width, height]"></ngt-plane-geometry>
 
-    <ngt-mesh-basic-material #mat [map]="maptexture"></ngt-mesh-basic-material>
+    <ngt-mesh-basic-material [map]="maptexture"></ngt-mesh-basic-material>
 
   </ngt-mesh>
 

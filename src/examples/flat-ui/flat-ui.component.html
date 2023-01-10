@@ -65,6 +65,16 @@
       </ngt-group>
 
       <ngt-group horizontal-layout>
+        <flat-ui-label [text]="'text area'" [width]="0.6"></flat-ui-label>
+        <flat-ui-input-textarea #keyboard [width]="1" [text]="textareavalue" [selectable]="selectable" 
+                                (change)="textareavalue=$event" (openinput)="input.openkeyboard($event, keyboard, textareavalue)">
+        </flat-ui-input-textarea>
+      </ngt-group>
+      <ngt-group horizontal-layout>
+        <flat-ui-divider [width]="controlwidth-0.1"></flat-ui-divider>
+      </ngt-group>
+
+      <ngt-group horizontal-layout>
         <flat-ui-label [text]="'tab'" [width]="0.6"></flat-ui-label>
         <flat-ui-tab-group [enabled]="true" [tabheader]="'above'" [width]="tabcontentwidth" [height]="tabcontentheight" [selectable]="selectable" [panelmaterial]="blackmaterial.instance.value">
           <flat-ui-tab [label]="'One'" [active]="true" [tabwidth]="0.2">

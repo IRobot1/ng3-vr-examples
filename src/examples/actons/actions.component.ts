@@ -15,15 +15,12 @@ export class ActionsExample implements OnInit  {
   buttonheight = 0.15;
   padding = 0.02;
 
-  action = new EventEmitter<CardAction>();
-
   ngOnInit(): void {
-    this.action.subscribe(next => this.doaction('local', next));
   }
 
   actions: Array<CardAction> = [
-    { position: [-this.cardsize / 2 + this.buttonwidth * 0.5, this.cardsize / 2 + this.buttonheight / 2 + this.padding, 0] as NgtTriple, materialicon: 'add', label: 'Add', action: this.action },
-    { position: [-this.cardsize / 2 + this.buttonwidth * 1.5 + this.padding, this.cardsize / 2 + this.buttonheight / 2 + this.padding, 0] as NgtTriple, materialicon: 'more_vert', label: 'More', action: this.action },
+    { position: [-this.cardsize / 2 + this.buttonwidth * 0.5, this.cardsize / 2 + this.buttonheight / 2 + this.padding, 0] as NgtTriple, materialicon: 'add', label: 'Add'},
+    { position: [-this.cardsize / 2 + this.buttonwidth * 1.5 + this.padding, this.cardsize / 2 + this.buttonheight / 2 + this.padding, 0] as NgtTriple, materialicon: 'more_vert', label: 'More' },
   ];
 
   doaction(source: string, action: CardAction) {

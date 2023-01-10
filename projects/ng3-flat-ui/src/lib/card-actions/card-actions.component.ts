@@ -54,7 +54,6 @@ export class FlatUICardActions extends NgtObjectProps<Group> {
 
   protected clicked(item: CardAction) {
     this.action.next(item);
-    item.action.next(item);
     this.hide();
   }
 

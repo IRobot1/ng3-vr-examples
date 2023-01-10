@@ -9,7 +9,7 @@ export interface CardAction {
   materialicon: string;
   label?: string;
   data?: any;
-  action: EventEmitter<CardAction>;
+  //action: EventEmitter<CardAction>;
 }
 
 @Component({

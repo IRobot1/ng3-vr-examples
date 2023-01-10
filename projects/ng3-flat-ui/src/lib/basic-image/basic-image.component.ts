@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
 
-import { BufferGeometry, Line, Material, Mesh, MeshBasicMaterial, Shape, Texture, TextureLoader } from "three";
+import { BufferGeometry, Line, Material, Mesh, Shape, Texture, TextureLoader } from "three";
 import { NgtEvent, NgtLoader, NgtObjectPassThrough, NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
@@ -188,7 +188,6 @@ export class FlatUIBasicImage extends NgtObjectProps<Mesh> implements AfterViewI
 
   @Output() pressed = new EventEmitter<void>();
 
-  material!: MeshBasicMaterial;
   protected mesh!: Mesh;
   protected outline!: BufferGeometry; // outline material
 
@@ -223,7 +222,7 @@ export class FlatUIBasicImage extends NgtObjectProps<Mesh> implements AfterViewI
     this.line = line;
   }
 
-  protected meshready(mesh: Mesh, material: MeshBasicMaterial) {
+  protected meshready(mesh: Mesh) {
     this.selectable?.add(mesh);
 
     mesh.addEventListener('click', (e: any) => { this.doclick(); e.stop = true; })
@@ -231,7 +230,6 @@ export class FlatUIBasicImage extends NgtObjectProps<Mesh> implements AfterViewI
     mesh.addEventListener('pointerout', (e: any) => { this.out(); e.stop = true; })
 
     this.mesh = mesh;
-    this.material = material;
   }
 
   ngAfterViewInit(): void {
