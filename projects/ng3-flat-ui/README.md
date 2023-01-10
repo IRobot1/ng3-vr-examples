@@ -2,7 +2,7 @@
 
 Angular UI component library for [three.js](https://threejs.org/) 
 
-![image](https://user-images.githubusercontent.com/25032599/196293607-20a6bd40-83d6-4e19-a3c6-8949389f682c.png)
+![image](https://user-images.githubusercontent.com/25032599/211678766-a8903316-5271-4b1e-9eb3-acf7acb044ce.png)
 
 Components work in browser window using touch or mouse.
 
@@ -10,6 +10,7 @@ Components also work in VR using ray caster to provide an in-scene user interfac
 
 Components include
 * button
+* card actions
 * icon button
 * checkbox
 * color
@@ -27,8 +28,11 @@ Components include
 * avatar icon
 * image
 * card with optional drag support
+* card actions
 * divider
-* material icon
+* material icon and button
+* menu and mini-menu
+* multi-line text input with scrolling
 
 Panels include
 * expansion panel
@@ -137,7 +141,7 @@ No.  This would be a great student project.
 
 # Roadmap
 List of features that would be nice to add (in no particular order)
-* multi-line, sizable text box
+* sizable multi-line text area
 * UI sounds
 * keyboard multi-language support (requires better default font)
 * text regular expression support

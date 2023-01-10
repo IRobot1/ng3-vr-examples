@@ -6,6 +6,8 @@ For use in threejs scenes built using [angular-three](https://github.com/nartc/a
 
 Interface matches lil-gui, so easy drop-in replacement for use within a three scene.  Supports onChange event.
 
+Updated to support multi-line text input.
+
 ```ts
 import { Ng3GUI } from 'ng3-gui'; 
 
@@ -38,9 +40,6 @@ ngOnInit(): void {
 Component works in browser window using touch or mouse.  GUI windows can be moved along x-y plane.
 
 Component also work in VR using ray caster to provide an in-scene user interface.  Windows can be dragged around scene.
-
-# Known Limitations
-onFinish event not working.  Would require ng3-flat-ui to support input controls losing focus.
 
 # Roadmap
 In no particular order, add support for 
