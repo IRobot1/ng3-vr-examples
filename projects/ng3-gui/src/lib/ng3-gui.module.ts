@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 import { NgtGroupModule } from '@angular-three/core/group';
 
 import { Ng3GUIComponent } from './gui/gui.component';
-import { Ng3GUIItemComponent } from './gui-item/gui-item.component';
-import { Ng3GUIFolderComponent } from './gui-folder/gui-folder.component';
+import { Ng3GUIFolderComponent, Ng3GUIItemComponent } from './gui-item/gui-item.component';
 
 import { Ng3FlatUiModule } from 'ng3-flat-ui';
 

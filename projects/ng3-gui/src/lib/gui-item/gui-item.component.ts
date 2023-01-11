@@ -1,10 +1,24 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
-import { Color } from "three";
+import { Color, Group } from "three";
+import { NgtObjectProps } from "@angular-three/core";
 
 import { FlatUIInputService, InteractiveObjects, ListItem } from "ng3-flat-ui";
 
-import { Controller } from "../ng3-gui";
+import { Controller, Ng3GUI } from "../ng3-gui";
+
+@Component({
+  selector: 'ng3-gui-folder',
+  exportAs: 'ng3GUIFolder',
+  templateUrl: './gui-folder.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class Ng3GUIFolderComponent extends NgtObjectProps<Group> {
+  @Input() gui!: Ng3GUI;
+
+  @Input() selectable?: InteractiveObjects;
+}
+
 
 @Component({
   selector: 'ng3-gui-item',

@@ -31,7 +31,7 @@
     "@angular/core": "^14.1.0",
     "@angular-three/core": "^6.0.1",
     "@angular-three/soba": "^6.0.1",
-    "ng3-flat-ui": "^0.0.6"
+    "ng3-flat-ui": "^0.0.9"
   },
   "dependencies": {
     "tslib": "^2.3.0"
