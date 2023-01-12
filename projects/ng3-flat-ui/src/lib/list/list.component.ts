@@ -207,7 +207,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
     let drawindex = this.firstdrawindex;
 
     // if the whole list is shorter than what can be displayed, start from the first item in the list
-    if (this.list.length < this.rowcount) {
+    if (this.list.length <= this.rowcount) {
       this.firstdrawindex = drawindex = 0;
     }
 
@@ -266,14 +266,18 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
 
   moveprevious() {
     if (this.firstdrawindex) {
-      this.firstdrawindex--;
+      if (this.firstdrawindex - this.rowcount < 0)
+        this.firstdrawindex = 0;
+      else
+        this.firstdrawindex -= this.rowcount;
       this.refresh();
     }
+
   }
 
   movenext() {
-    if (this.list.length > this.rowcount && this.firstdrawindex < this.list.length - this.rowcount) {
-      this.firstdrawindex++;
+    if (this.firstdrawindex + this.rowcount < this.list.length) {
+      this.firstdrawindex += this.rowcount;
       this.refresh();
     }
   }
