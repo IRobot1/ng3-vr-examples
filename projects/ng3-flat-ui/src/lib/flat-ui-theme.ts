@@ -26,7 +26,7 @@ export interface FlatUITheme {
 
 export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   LabelColor = 'white';
-  ButtonColor = '#505050';
+  ButtonColor = '#282828';
   ButtonLabelColor = 'white';
   NumberColor = 'cornflowerblue';
   StringColor = 'lime';
@@ -36,7 +36,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   ToggleTrueColor = 'cornflowerblue';
   IconColor = 'white';
   PanelColor = 'black';
-  PopupColor = 'gray';
+  PopupColor = '#333';
   SelectColor = 'white';
   ProgressColor = 'green';
   DisabledColor = '#333333';
