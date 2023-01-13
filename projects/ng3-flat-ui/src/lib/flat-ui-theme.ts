@@ -39,7 +39,7 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   PopupColor = '#333';
   SelectColor = 'white';
   ProgressColor = 'green';
-  DisabledColor = '#333333';
+  DisabledColor = '#111';
   OutlineColor = 'white';
   ScaleColor = 'white';
   ListSelectColor = 'white';

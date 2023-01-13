@@ -34,7 +34,7 @@ interface MiniData {
   ]
 })
 export class FlatUIMenuMini extends NgtObjectProps<Group> {
-private _menuitems: Array<MenuItem> = [];
+  private _menuitems: Array<MenuItem> = [];
   @Input()
   get menuitems(): Array<MenuItem> { return this._menuitems }
   set menuitems(newvalue: Array<MenuItem>) {
@@ -43,7 +43,7 @@ private _menuitems: Array<MenuItem> = [];
     const list: Array<MiniData> = [];
     newvalue.forEach((item, index) => {
       const position = new Vector3((0.1 + this.margin) * index + 0.06, 0, 0.001);
-      
+
       list.push({ position, menu: item });
     });
 
@@ -64,11 +64,10 @@ private _menuitems: Array<MenuItem> = [];
   protected icons: Array<MiniData> = [];
   protected text!: string;
 
-  get width(): number { return (0.1 + this.margin) * this.menuitems.length + this.margin*2 };
+  get width(): number { return (0.1 + this.margin) * this.menuitems.length + this.margin * 2 };
 
   protected hover(isover: boolean, data: MiniData) {
-    if (isover)
-      this.text = data.menu.text;
+    this.text = isover ? data.menu.text : '';
   }
 
   protected pressed(item: MenuItem) {
