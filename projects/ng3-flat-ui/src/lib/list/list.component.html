@@ -1,4 +1,4 @@
-<ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale" (ready)="group = $event">
+<ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale" (ready)="group = $event" (beforeRender)="tick()">
   <ngt-mesh [geometry]="geometry" [material]="popupmaterial"
             (pointerover)="over();$event.stopPropagation()"
             (pointerout)="out();$event.stopPropagation()"

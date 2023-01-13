@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, EventEmitter, Input, Output, TemplateRef } from "@angular/core";
 
 import { BufferGeometry, Group, Line, Material, Mesh, Shape, ShapeGeometry, Vector3 } from "three";
 import { NgtObjectProps } from "@angular-three/core";
@@ -30,6 +30,7 @@ class ListData {
   exportAs: 'flatUIList',
   templateUrl: './list.component.html',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgFor,
     NgIf,
@@ -43,7 +44,13 @@ class ListData {
   ]
 })
 export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, Paging {
-  @Input() list: Array<ListItem> = [];
+private _list: Array<ListItem> = [];
+  @Input()
+  get list(): Array<ListItem> { return this._list }
+  set list(newvalue: Array<ListItem>) {
+    this._list = newvalue;
+    this.updateFlag = true;
+  }
 
   private _selectedtext = '';
   @Input()
@@ -136,6 +143,8 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
   protected outline!: BufferGeometry; // outline material
   protected group!: Group;
 
+  constructor(private cd: ChangeDetectorRef) { super(); }
+
   override preInit() {
     super.preInit();
 
@@ -198,9 +207,16 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
       e.updated = true;
     });
 
-    this.refresh();
-
     this.ready.next(this.group)
+  }
+
+  private updateFlag = true;
+  tick() {
+    if (this.updateFlag) {
+      this.updateFlag = false;
+      this.refresh();
+      this.cd.detectChanges();
+    }
   }
 
   refresh() {
@@ -260,7 +276,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
   movefirst() {
     if (this.firstdrawindex) {
       this.firstdrawindex = 0;
-      this.refresh();
+      this.updateFlag = true;
     }
   }
 
@@ -270,7 +286,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
         this.firstdrawindex = 0;
       else
         this.firstdrawindex -= this.rowcount;
-      this.refresh();
+      this.updateFlag = true;
     }
 
   }
@@ -278,7 +294,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
   movenext() {
     if (this.firstdrawindex + this.rowcount < this.list.length) {
       this.firstdrawindex += this.rowcount;
-      this.refresh();
+      this.updateFlag = true;
     }
   }
 
@@ -286,7 +302,7 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
     const index = Math.max(this.list.length - this.rowcount, 0);
     if (index != this.firstdrawindex) {
       this.firstdrawindex = index;
-      this.refresh();
+      this.updateFlag = true;
     }
   }
 

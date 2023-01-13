@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, Output } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, Line, Material, Mesh, Shape, Texture, TextureLoader } from "three";
 import { NgtEvent, NgtLoader, NgtObjectPassThrough, NgtObjectProps } from "@angular-three/core";
@@ -16,6 +16,7 @@ import { NgtLine } from "@angular-three/core/lines";
   selector: 'flat-ui-basic-image',
   exportAs: 'flatUIBasicImage',
   templateUrl: './basic-image.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   imports: [
     NgtGroup,
@@ -33,6 +34,7 @@ export class FlatUIBasicImage extends NgtObjectProps<Mesh> implements AfterViewI
 
     const s = this.loader.use(TextureLoader, newvalue).subscribe(next => {
       this.maptexture = next;
+      this.cd.detectChanges();
     },
       () => { },
       () => { s.unsubscribe(); }
@@ -192,7 +194,10 @@ export class FlatUIBasicImage extends NgtObjectProps<Mesh> implements AfterViewI
   protected mesh!: Mesh;
   protected outline!: BufferGeometry; // outline material
 
-  constructor(private loader: NgtLoader) { super(); }
+  constructor(
+    private loader: NgtLoader,
+    private cd: ChangeDetectorRef,
+  ) { super(); }
 
   override ngOnDestroy() {
     super.ngOnDestroy();
