@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { NgFor, NgIf } from "@angular/common";
 
 import { Group, Material, Vector3 } from "three";
@@ -58,13 +58,21 @@ private _menuitems: Array<MenuItem> = [];
 
   @Input() selectable?: InteractiveObjects;
 
+  @Output() selected = new EventEmitter<MenuItem>();
+
+
   protected icons: Array<MiniData> = [];
   protected text!: string;
 
   get width(): number { return (0.1 + this.margin) * this.menuitems.length + this.margin*2 };
 
-  hover(isover: boolean, data: MiniData) {
+  protected hover(isover: boolean, data: MiniData) {
     if (isover)
       this.text = data.menu.text;
+  }
+
+  protected pressed(item: MenuItem) {
+    if (item.selected) item.selected(item);
+    this.selected.next(item);
   }
 }

@@ -19,7 +19,7 @@ export interface MenuItem {
   keycode: string;
   enabled: boolean;
   submenu?: Array<MenuItem>;
-  selected: (item: MenuItem) => void;
+  selected?: (item: MenuItem) => void;
   color?: Material;  // icon color material
 }
 
@@ -39,7 +39,7 @@ export interface MenuItem {
   ]
 })
 export class FlatUIMenu extends NgtObjectProps<Group> {
-private _menuitems: Array<MenuItem> = [];
+  private _menuitems: Array<MenuItem> = [];
   @Input()
   get menuitems(): Array<MenuItem> { return this._menuitems }
   set menuitems(newvalue: Array<MenuItem>) {
@@ -56,8 +56,14 @@ private _menuitems: Array<MenuItem> = [];
 
   @Input() selectable?: InteractiveObjects;
 
-  list: Array<ListItem> = [];
+  @Output() selected = new EventEmitter<MenuItem>();
 
-  get height(): number { return (this.rowheight + this.rowspacing) * this.menuitems.length + this.margin*2 };
+  protected list: Array<ListItem> = [];
 
+  get height(): number { return (this.rowheight + this.rowspacing) * this.menuitems.length + this.margin * 2 };
+
+  protected pressed(item: MenuItem) {
+    if (item.selected) item.selected(item);
+    this.selected.next(item);
+  }
 }

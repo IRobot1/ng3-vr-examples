@@ -196,7 +196,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
       }
     },
 
-    ]
+  ]
 
   menuitems: Array<MenuItem> = [
     { text: 'Insert After', keycode: '', icon: 'add', enabled: true, submenu: this.actionmenu, selected: () => { this.showactions = true } },
@@ -240,13 +240,14 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
     let item = this.menuitems.find(x => x.keycode == keycode)
     if (item) {
-      item.selected(item);
+      if (item.selected) item.selected(item);
       return;
     }
 
     item = this.actionmenu.find(x => x.keycode == keycode)
-    if (item)
-      item.selected(item);
+    if (item) {
+      if (item.selected) item.selected(item);
+    }
   }
 
   scale = 0.5;

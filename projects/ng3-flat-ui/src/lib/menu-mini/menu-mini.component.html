@@ -5,14 +5,14 @@
                              [enabled]="item.menu.enabled" [text]="item.menu.icon" [selectable]="selectable"
                              [labelmaterial]="item.menu.color" [buttonmaterial]="buttonmaterial"
                              [outlinematerial]="outlinematerial" [disabledmaterial]="disabledmaterial"
-                             (hover)="hover($event, item)" (pressed)="item.menu.selected(item.menu)">
+                             (hover)="hover($event, item)" (pressed)="pressed(item.menu)">
     </flat-ui-material-button>
 
     <flat-ui-button *ngIf="!item.menu.icon" [position]="item.position"
                     [labelmaterial]="item.menu.color" [buttonmaterial]="buttonmaterial"
                     [outlinematerial]="outlinematerial" [disabledmaterial]="disabledmaterial"
                     [text]="item.menu.keycode" [width]="0.1" [enabled]="item.menu.enabled" [selectable]="selectable"
-                    (hover)="hover($event, item)" (pressed)="item.menu.selected(item.menu)">
+                    (hover)="hover($event, item)" (pressed)="pressed(item.menu)">
     </flat-ui-button>
 
   </ng-container>
