@@ -39,9 +39,12 @@ export class FlatUIMenuMini extends NgtObjectProps<Group> {
   get menuitems(): Array<MenuItem> { return this._menuitems }
   set menuitems(newvalue: Array<MenuItem>) {
     this._menuitems = newvalue;
+    this.updatemenu();
+  }
 
+  private updatemenu() {
     const list: Array<MiniData> = [];
-    newvalue.forEach((item, index) => {
+    this._menuitems.forEach((item, index) => {
       const position = new Vector3((0.1 + this.margin) * index + 0.06, 0, 0.001);
 
       list.push({ position, menu: item });
@@ -73,5 +76,14 @@ export class FlatUIMenuMini extends NgtObjectProps<Group> {
   protected pressed(item: MenuItem) {
     if (item.selected) item.selected(item);
     this.selected.next(item);
+  }
+
+  addmenuitem(menu: MenuItem) {
+    this.menuitems.push(menu);
+    this.updatemenu();
+  }
+
+  removemenuitem(menu: MenuItem) {
+    this.menuitems = this.menuitems.filter(item => item != menu);
   }
 }
