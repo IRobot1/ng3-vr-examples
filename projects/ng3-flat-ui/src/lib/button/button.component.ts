@@ -22,16 +22,16 @@ import { NgIf } from "@angular/common";
     NgtSobaText,
     NgIf,
     NgTemplateOutlet,
-    ]
+  ]
 })
 export class FlatUIButton extends NgtObjectProps<Mesh> {
   @Input() text = '';
   @Input() width = 0.5;
   @Input() height = 0.1;
   @Input() enabled = true;
-  @Input() buttonmaterial!: Material;
-  @Input() disabledmaterial!: Material;
-  @Input() outlinematerial!: Material;
+  @Input() buttonmaterial: Material | undefined;
+  @Input() disabledmaterial: Material | undefined;
+  @Input() outlinematerial: Material | undefined;
   @Input() selectable?: InteractiveObjects;
 
   @Input() textjustify: number | 'left' | 'center' | 'right' = 'center';
@@ -45,8 +45,9 @@ export class FlatUIButton extends NgtObjectProps<Mesh> {
     if (this._labelmaterial) return this._labelmaterial;
     return GlobalFlatUITheme.LabelMaterial;
   }
-  set labelmaterial(newvalue: Material) {
-    this._labelmaterial = newvalue;
+  set labelmaterial(newvalue: Material | undefined) {
+    if (newvalue)
+      this._labelmaterial = newvalue;
   }
 
   @Output() pressed = new EventEmitter<string>();

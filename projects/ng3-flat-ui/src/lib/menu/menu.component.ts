@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { NgFor, NgIf } from "@angular/common";
 
-import { Group } from "three";
+import { Group, Material } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 import { NgtGroup } from "@angular-three/core/group";
 
@@ -20,6 +20,7 @@ export interface MenuItem {
   enabled: boolean;
   submenu?: Array<MenuItem>;
   selected: () => void;
+  color?: Material;  // icon color material
 }
 
 @Component({

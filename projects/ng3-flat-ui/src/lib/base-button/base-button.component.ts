@@ -24,7 +24,7 @@ import { NgTemplateOutlet } from "@angular/common";
     NgtLine,
     NgtObjectPassThrough,
     NgTemplateOutlet,
-    ]
+  ]
 })
 export class FlatUIBaseButton extends NgtObjectProps<Mesh>  {
   @Input() text = '';
@@ -65,8 +65,9 @@ export class FlatUIBaseButton extends NgtObjectProps<Mesh>  {
     if (this._buttonmaterial) return this._buttonmaterial;
     return GlobalFlatUITheme.ButtonMaterial;
   }
-  set buttonmaterial(newvalue: Material) {
-    this._buttonmaterial = newvalue;
+  set buttonmaterial(newvalue: Material | undefined) {
+    if (newvalue)
+      this._buttonmaterial = newvalue;
   }
 
 
@@ -76,8 +77,9 @@ export class FlatUIBaseButton extends NgtObjectProps<Mesh>  {
     if (this._disabledmaterial) return this._disabledmaterial;
     return GlobalFlatUITheme.DisabledMaterial;
   }
-  set disabledmaterial(newvalue: Material) {
-    this._disabledmaterial = newvalue;
+  set disabledmaterial(newvalue: Material | undefined) {
+    if (newvalue)
+      this._disabledmaterial = newvalue;
   }
 
 
@@ -87,8 +89,9 @@ export class FlatUIBaseButton extends NgtObjectProps<Mesh>  {
     if (this._outlinematerial) return this._outlinematerial;
     return GlobalFlatUITheme.OutlineMaterial;
   }
-  set outlinematerial(newvalue: Material) {
-    this._outlinematerial = newvalue;
+  set outlinematerial(newvalue: Material | undefined) {
+    if (newvalue)
+      this._outlinematerial = newvalue;
   }
 
   @Input() selectable?: InteractiveObjects;

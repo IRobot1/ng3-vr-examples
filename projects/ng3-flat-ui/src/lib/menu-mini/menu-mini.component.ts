@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { NgFor, NgIf } from "@angular/common";
 
-import { Group, Vector3 } from "three";
+import { Group, Material, Vector3 } from "three";
 
 import { NgtObjectPassThrough, NgtObjectProps } from "@angular-three/core";
 import { NgtGroup } from "@angular-three/core/group";
@@ -15,7 +15,6 @@ import { MenuItem } from "../menu/menu.component";
 
 interface MiniData {
   position: Vector3,
-  icon: string,
   menu: MenuItem,
 }
 
@@ -45,13 +44,17 @@ private _menuitems: Array<MenuItem> = [];
     newvalue.forEach((item, index) => {
       const position = new Vector3((0.1 + this.margin) * index + 0.06, 0, 0.001);
       
-      list.push({ position, icon: item.icon ? item.icon : '', menu: item });
+      list.push({ position, menu: item });
     });
 
     this.icons = list;
   }
 
   @Input() margin = 0.02;
+
+  @Input() buttonmaterial: Material | undefined;
+  @Input() disabledmaterial: Material | undefined;
+  @Input() outlinematerial: Material | undefined;
 
   @Input() selectable?: InteractiveObjects;
 

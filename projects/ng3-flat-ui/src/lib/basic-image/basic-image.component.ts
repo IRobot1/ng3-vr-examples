@@ -178,8 +178,9 @@ export class FlatUIBasicImage extends NgtObjectProps<Mesh> implements AfterViewI
     if (this._outlinematerial) return this._outlinematerial;
     return GlobalFlatUITheme.OutlineMaterial;
   }
-  set outlinematerial(newvalue: Material) {
-    this._outlinematerial = newvalue;
+  set outlinematerial(newvalue: Material | undefined) {
+    if (newvalue)
+      this._outlinematerial = newvalue;
   }
 
   @Input() enabled = false;
