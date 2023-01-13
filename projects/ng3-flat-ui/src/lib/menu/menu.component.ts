@@ -19,7 +19,7 @@ export interface MenuItem {
   keycode: string;
   enabled: boolean;
   submenu?: Array<MenuItem>;
-  selected: () => void;
+  selected: (item: MenuItem) => void;
   color?: Material;  // icon color material
 }
 
