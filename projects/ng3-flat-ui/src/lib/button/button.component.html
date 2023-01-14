@@ -6,7 +6,7 @@
                      [outlinematerial]="outlinematerial"
                      [selectable]="selectable"
                      (hover)="hover.next($event)"
-                     (pressed)="pressed.next($event)">
+                     (pressed)="pressed.next($event)" (ready)="ready.next($event)">
 
   <ng-template #button let-parent="parent">
     <ngt-soba-text [appendTo]="parent" [text]="displaytext" [material]="labelmaterial" [fontSize]="fontsize" [anchorX]="textjustify" [position]="[0, 0, 0.001]"></ngt-soba-text>

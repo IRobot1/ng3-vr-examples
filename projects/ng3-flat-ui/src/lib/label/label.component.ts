@@ -1,7 +1,11 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { Group, Material, Object3D } from "three";
 import { NgtObjectPassThrough, NgtObjectProps } from "@angular-three/core";
+
+// @ts-ignore
+import { Text } from 'troika-three-text'
+
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
@@ -78,6 +82,8 @@ export class FlatUILabel extends NgtObjectProps<Group> implements AfterViewInit 
     }
   }
 
+  @Output() textheight = new EventEmitter<number>();
+
   ngAfterViewInit(): void {
     this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
       const height = this.height
@@ -90,7 +96,12 @@ export class FlatUILabel extends NgtObjectProps<Group> implements AfterViewInit 
 
   private mesh!: Object3D;
 
-  meshready(mesh: Object3D) {
-    this.mesh = mesh;
+  meshready(text: Text) {
+    text.addEventListener('synccomplete', () => {
+      const bounds = text.textRenderInfo.blockBounds;
+      this.textheight.next(bounds[3] - bounds[1]);
+    });
+
+    this.mesh = text;
   }
 }

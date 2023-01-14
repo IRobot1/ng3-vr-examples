@@ -164,6 +164,8 @@ export class FlatUIBaseButton extends NgtObjectProps<Mesh>  {
     });
 
     this.setButtonColor();
+
+    this.ready.next(mesh)
   }
 
   clicked(mesh: Mesh, event: NgtEvent<MouseEvent>) {

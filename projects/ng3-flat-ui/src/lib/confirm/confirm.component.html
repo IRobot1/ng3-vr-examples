@@ -1,0 +1,17 @@
+<ngt-mesh [ngtObjectPassThrough]="this" [material]="popupmaterial">
+
+  <ngt-plane-geometry [args]="[width, height]"></ngt-plane-geometry>
+
+  <flat-ui-label [text]="title" [width]="width" [position]="[0, 0.09, 0.001]"
+                 (textheight)="height=$event+0.2">
+  </flat-ui-label>
+
+  <flat-ui-button [text]="'OK'" [width]="0.3" [position]="[-0.2, -height/2+0.1, 0.001]"
+                  [selectable]="selectable" (pressed)="result.next(true)">
+  </flat-ui-button>
+
+  <flat-ui-button [text]="'Cancel'" [width]="0.3" [position]="[0.2, -height/2+0.1, 0.001]"
+                  [selectable]="selectable" (pressed)="result.next(false)">
+  </flat-ui-button>
+</ngt-mesh>
+

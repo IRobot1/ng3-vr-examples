@@ -113,9 +113,9 @@
 
 <ngt-mesh-basic-material #iconmaterial noAppend color="#990000"></ngt-mesh-basic-material>
 
-<flat-ui-drag-panel [title]="'Draggable Panel'" [height]="1.1" [showclose]="false" [position]="[0, 1.25, -2.5]" [selectable]="selectable">
+<flat-ui-drag-panel [title]="'Draggable Panel'" [height]="dragheight" [showclose]="false" [position]="[0, 1.25, -2.5]" [selectable]="selectable">
   <ng-template let-parent="parent">
-    <ngt-group vertical-layout [margin]="0.02" [appendTo]="parent" [position]="[-0.5, 0.55, 0.002]">
+    <ngt-group vertical-layout [margin]="0.02" [appendTo]="parent" [position]="[-0.5, dragheight/2, 0.002]">
 
       <ngt-group horizontal-layout>
         <flat-ui-expansion-panel [title]="'Folder1'" [height]="panelheight" [selectable]="selectable">
@@ -164,6 +164,15 @@
         <flat-ui-progress-bar [value]="slidervalue" [width]="0.98"></flat-ui-progress-bar>
       </ngt-group>
 
+      <ngt-group horizontal-layout>
+        <flat-ui-divider></flat-ui-divider>
+      </ngt-group>
+
+      <ngt-group horizontal-layout>
+        <flat-ui-button (ready)="confirmobject=$event"[text]="'Confirm'" (pressed)="confirm()"></flat-ui-button>
+        <flat-ui-button [text]="'Prompt'" (pressed)="prompt()"></flat-ui-button>
+      </ngt-group>
+
     </ngt-group>
   </ng-template>
 </flat-ui-drag-panel>
@@ -177,6 +186,9 @@
   </ng-template>
 </flat-ui-drag-panel>
 
+<flat-ui-confirm *ngIf="showconfirm" [title]="textareavalue" [width]="1.5" [selectable]="selectable"
+                 [position]="confirmposition" [rotation]="confirmrotation" [scale]="confirmscale"
+                 (result)="log('Confirm result is '+$event);showconfirm=false"></flat-ui-confirm>
 
 <flat-ui-list *ngIf="input.showlist" [list]="input.list" [selectedtext]="input.method.text"
               [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
