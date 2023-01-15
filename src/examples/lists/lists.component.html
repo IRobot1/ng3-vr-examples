@@ -4,15 +4,12 @@
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
-<ngt-mesh-basic-material noAppend #blackmaterial color="black"></ngt-mesh-basic-material>
-<ngt-mesh-basic-material noAppend #redmaterial color="red"></ngt-mesh-basic-material>
-
 <flat-ui-list [position]="[-0.6, 1, -1]" [list]="list" [rowcount]="7" [height]="1" [selectedtext]="selectedtext" [selectable]="selectable"
-              [listselectmaterial]="redmaterial.instance.value" (change)="selected($event)">
+              (change)="selected($event)">
 
   <ng-template #listItem let-list="list" let-text="text" let-width="width" let-index="index" let-parent="parent">
     <ngt-group [appendTo]="parent">
-      <flat-ui-button [selectable]="selectable" [text]="text" [width]="width" (pressed)="list.selected(index)" [labelmaterial]="blackmaterial.instance.value"></flat-ui-button>
+      <flat-ui-button [selectable]="selectable" [text]="text" [width]="width" (pressed)="list.selected(index)"></flat-ui-button>
     </ngt-group>
   </ng-template>
 
@@ -21,13 +18,13 @@
 <flat-ui-list [position]="[0.3, 1, -1]" [list]="icons" [rowcount]="3" [rowsize]="fontsize" [rowspacing]="0.05" [margin]="0.05"
               [width]="0.5" [height]="1.4" [selectedindex]="0"
               [selectable]="selectable" [showpaging]="false" [vertical]="true"
-              [listselectmaterial]="redmaterial.instance.value" (change)="selected($event)">
+              (change)="selected($event)">
 
   <ng-template #listItem let-list="list" let-text="text" let-width="width" let-index="index" let-parent="parent">
     <ngt-group [appendTo]="parent">
       <flat-ui-base-button [width]="fontsize" [height]="fontsize" (pressed)="list.selected(index)" [selectable]="selectable">
         <ng-template #button>
-          <flat-ui-material-icon [text]="text" [fontsize]="fontsize-0.1" [position]="[0, 0.03, 0]" [labelmaterial]="blackmaterial.instance.value"></flat-ui-material-icon>
+          <flat-ui-material-icon [text]="text" [fontsize]="fontsize-0.1" [position]="[0, 0.03, 0]"></flat-ui-material-icon>
           <flat-ui-label [text]="text" [alignx]="'center'" [position]="[0, -fontsize/3, 0.001]"></flat-ui-label>
         </ng-template>
       </flat-ui-base-button>
@@ -39,7 +36,7 @@
 <flat-ui-list [position]="[1.3, 1, -1]" [list]="images" [rowcount]="3" [rowsize]="imagesize" [rowspacing]="0.05" [margin]="0.05"
               [width]="1.4" [height]="0.5" [selectedindex]="0"
               [selectable]="selectable" [showpaging]="false" [vertical]="false"
-              [listselectmaterial]="redmaterial.instance.value" (change)="selected($event)">
+              (change)="selected($event)">
 
   <ng-template #listItem let-list="list" let-text="text" let-width="width" let-index="index" let-parent="parent">
     <ngt-group [appendTo]="parent">

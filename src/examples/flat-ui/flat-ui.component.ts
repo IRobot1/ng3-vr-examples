@@ -3,30 +3,36 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit } from "@angu
 import { NgtTriple } from "@angular-three/core";
 
 import { FlatUIInputService, FlatUITheme, GlobalFlatUITheme, InteractiveObjects, ListItem } from "ng3-flat-ui";
+import { Ng3GUI } from "ng3-gui";
 
 import { CameraService } from "../../app/camera.service";
-import { Euler, Object3D, Quaternion, Vector3 } from "three";
+import { Euler, Material, MeshBasicMaterial, Object3D, Quaternion, Vector3 } from "three";
 
-const MatrixTheme: FlatUITheme = {
-  LabelColor: 'silver',
-  ButtonColor: 'darkgreen',
-  ButtonLabelColor: 'gray',
-  NumberColor: 'lime',
-  StringColor: 'lime',
-  CheckColor: 'lime',
-  SlideColor: 'lime',
-  ToggleFalseColor: 'green',
-  ToggleTrueColor: 'lime',
-  IconColor: 'lime',
-  PanelColor: '#0e410e',
-  PopupColor: '#2c4e2c',
-  SelectColor: 'gray',
-  ProgressColor: 'lime',
-  DisabledColor: '#555555',
-  OutlineColor: 'lime',
-  ScaleColor: 'lime',
-  ListSelectColor: 'lime',
+interface ThemeColors {
+  name: string,
+  lightest: string,
+  light: string,
+  middle: string,
+  dark: string,
+  darkest: string,
 }
+
+// https://www.w3schools.com/colors/colors_schemes.asp
+
+const Themes: Array<ThemeColors> = [
+  { name: 'Dark', lightest: 'cornflowerblue', light: 'white', middle: 'gray', dark: '#333', darkest: 'black' },
+  { name: 'Moonlight', lightest: '#7898A5', light: '#5A7A87', middle: 'cornflowerblue', dark: '#080B0C', darkest: '#0D1518' },
+  { name: 'Green', lightest: '#EBF7E3', light: '#9BD770', middle: '#66B032', dark: '#375F1B', darkest: '#1B3409' },
+  { name: 'Reverse Green', lightest: '#1B3409', light: '#375F1B', middle: '#66B032', dark: '#9BD770', darkest: '#162a14' },
+  { name: 'Compound', lightest: '#F0F7D4', light: '#B2D732', middle: '#FE2712', dark: '#347B98', darkest: '#092834' },
+  { name: 'Blue', lightest: '#DBE5FF', light: '#678FFE', middle: '#0247FE', dark: '#012998', darkest: '#091534' },
+  { name: 'Purple', lightest: '#EFDDFD', light: '#A33AF2', middle: '#700CBC', dark: '#36065B', darkest: '#210934' },
+  { name: 'Amber', lightest: '#FEF3DC', light: '#FDCD6D', middle: '#FBA90A', dark: '#9C6902', darkest: '#342609' },
+  { name: 'Red', lightest: '#FFDEDB', light: '#FE8176', middle: '#FE2712', dark: '#A70F01', darkest: '#340D09' },
+  { name: 'Cranberry', lightest: '#FBDFE6', light: '#EC6988', middle: '#D61A46', dark: '#7B0F28', darkest: '#340913' },
+  { name: 'Pink', lightest: '#FDDEF3', light: '#F033B4', middle: '#AE0D7A', dark: '#510639', darkest: '#340926' },
+  { name: 'Orange', lightest: '#FFE5DC', light: '#FE9772', middle: '#FD4D0C', dark: '#A22C02', darkest: '#341509' },
+]
 
 @Component({
   templateUrl: './flat-ui.component.html',
@@ -35,7 +41,8 @@ const MatrixTheme: FlatUITheme = {
 })
 export class FlatUIExample implements OnInit, AfterViewInit {
 
-  selectable = new InteractiveObjects();;
+  selectable = new InteractiveObjects();
+  themegui!: Ng3GUI;
 
   controlwidth = 2;
   controlheight = 2;
@@ -81,7 +88,7 @@ export class FlatUIExample implements OnInit, AfterViewInit {
   imageindex = 0;
   image = this.images[this.imageindex];
 
-  
+
   constructor(
     private cameraService: CameraService,
     public input: FlatUIInputService,
@@ -174,9 +181,91 @@ export class FlatUIExample implements OnInit, AfterViewInit {
     console.log(message)
   }
 
+  themename = '';
+
   ngOnInit(): void {
-    GlobalFlatUITheme.changeTheme(MatrixTheme);
     this.colorvalue = this.panelcolor = GlobalFlatUITheme.PanelColor;
+
+    const gui = new Ng3GUI({ width: 300 }).settitle('Theme Colors');
+    gui.add(this, 'themename', Themes.map(item => item.name)).name('Themes').onChange(() => {
+      const theme = Themes.find(item => item.name == this.themename);
+      if (!theme) return;
+
+      const newtheme: FlatUITheme = {
+        LabelColor: theme.light,
+        ButtonColor: theme.dark,
+        NumberColor: theme.lightest,
+        StringColor: theme.lightest,
+        CheckColor: theme.lightest,
+        SlideColor: theme.lightest,
+        ToggleFalseColor: theme.middle,
+        ToggleTrueColor: theme.lightest,
+        IconColor: theme.lightest,
+        PanelColor: theme.darkest,
+        PopupColor: theme.darkest,
+        SelectColor: theme.dark,
+        ProgressColor: theme.lightest,
+        DisabledColor: '#555555',
+        OutlineColor: theme.lightest,
+        ScaleColor: theme.lightest,
+        ListSelectColor: theme.middle,
+      }
+      GlobalFlatUITheme.changeTheme(newtheme);
+    });
+    gui.addColor(GlobalFlatUITheme, 'LabelColor').onChange(() => {
+      (GlobalFlatUITheme.LabelMaterial as MeshBasicMaterial).color.setStyle(GlobalFlatUITheme.LabelColor);
+    });
+    gui.addColor(GlobalFlatUITheme, 'ButtonColor').onChange(() => {
+      (GlobalFlatUITheme.ButtonMaterial as MeshBasicMaterial).color.setStyle(GlobalFlatUITheme.ButtonColor);
+    });
+    gui.addColor(GlobalFlatUITheme, 'NumberColor').onChange(() => {
+      (GlobalFlatUITheme.NumberMaterial as MeshBasicMaterial).color.setStyle(GlobalFlatUITheme.NumberColor);
+    });
+    gui.addColor(GlobalFlatUITheme, 'StringColor').onChange(() => {
+      (GlobalFlatUITheme.StringMaterial as MeshBasicMaterial).color.setStyle(GlobalFlatUITheme.StringColor);
+    });
+    gui.addColor(GlobalFlatUITheme, 'CheckColor').onChange(() => {
+      (GlobalFlatUITheme.CheckMaterial as MeshBasicMaterial).color.setStyle(GlobalFlatUITheme.CheckColor);
+    });
+    gui.addColor(GlobalFlatUITheme, 'SlideColor').onChange(() => {
+      (GlobalFlatUITheme.SliderMaterial as MeshBasicMaterial).color.setStyle(GlobalFlatUITheme.SlideColor);
+    });
+    gui.addColor(GlobalFlatUITheme, 'ToggleFalseColor').onChange(() => {
+      (GlobalFlatUITheme.ToggleFalseMaterial as MeshBasicMaterial).color.setStyle(GlobalFlatUITheme.ToggleFalseColor);
+    });
+    gui.addColor(GlobalFlatUITheme, 'ToggleTrueColor').onChange(() => {
+      (GlobalFlatUITheme.ToggleTrueMaterial as MeshBasicMaterial).color.setStyle(GlobalFlatUITheme.ToggleTrueColor);
+    });
+    gui.addColor(GlobalFlatUITheme, 'IconColor').onChange(() => {
+      (GlobalFlatUITheme.IconMaterial as MeshBasicMaterial).color.setStyle(GlobalFlatUITheme.IconColor);
+    });
+    gui.addColor(GlobalFlatUITheme, 'PanelColor').onChange(() => {
+      (GlobalFlatUITheme.PanelMaterial as MeshBasicMaterial).color.setStyle(GlobalFlatUITheme.PanelColor);
+      this.colorvalue = this.panelcolor = GlobalFlatUITheme.PanelColor;
+    });
+    gui.addColor(GlobalFlatUITheme, 'PopupColor').onChange(() => {
+      (GlobalFlatUITheme.PopupMaterial as MeshBasicMaterial).color.setStyle(GlobalFlatUITheme.PopupColor);
+    });
+    gui.addColor(GlobalFlatUITheme, 'SelectColor').onChange(() => {
+      (GlobalFlatUITheme.SelectMaterial as MeshBasicMaterial).color.setStyle(GlobalFlatUITheme.SelectColor);
+    });
+    gui.addColor(GlobalFlatUITheme, 'ProgressColor').onChange(() => {
+      (GlobalFlatUITheme.ProgressMaterial as MeshBasicMaterial).color.setStyle(GlobalFlatUITheme.ProgressColor);
+    });
+    gui.addColor(GlobalFlatUITheme, 'DisabledColor').onChange(() => {
+      (GlobalFlatUITheme.DisabledMaterial as MeshBasicMaterial).color.setStyle(GlobalFlatUITheme.DisabledColor);
+    });
+    gui.addColor(GlobalFlatUITheme, 'OutlineColor').onChange(() => {
+      (GlobalFlatUITheme.OutlineMaterial as MeshBasicMaterial).color.setStyle(GlobalFlatUITheme.OutlineColor);
+    });
+    gui.addColor(GlobalFlatUITheme, 'ScaleColor').onChange(() => {
+      (GlobalFlatUITheme.ScaleMaterial as MeshBasicMaterial).color.setStyle(GlobalFlatUITheme.ScaleColor);
+    });
+    gui.addColor(GlobalFlatUITheme, 'ListSelectColor').onChange(() => {
+      (GlobalFlatUITheme.ListSelectMaterial as MeshBasicMaterial).color.setStyle(GlobalFlatUITheme.ListSelectColor);
+    });
+    this.themegui = gui;
+
   }
 
   ngAfterViewInit(): void {

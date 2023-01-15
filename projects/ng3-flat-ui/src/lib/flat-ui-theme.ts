@@ -5,7 +5,6 @@ export const THEME_CHANGE_EVENT = 'themechanged';
 export interface FlatUITheme {
   LabelColor: string,
   ButtonColor: string,
-  ButtonLabelColor: string,
   NumberColor: string,
   StringColor: string,
   CheckColor: string,
@@ -27,7 +26,6 @@ export interface FlatUITheme {
 export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   LabelColor = 'white';
   ButtonColor = '#282828';
-  ButtonLabelColor = 'white';
   NumberColor = 'cornflowerblue';
   StringColor = 'lime';
   CheckColor = 'cornflowerblue';
@@ -53,7 +51,6 @@ export class FlatUIThemeObject extends Object3D implements FlatUITheme {
   changeTheme(newtheme: FlatUITheme) {
     this.LabelColor = newtheme.LabelColor
     this.ButtonColor = newtheme.ButtonColor
-    this.ButtonLabelColor = newtheme.ButtonLabelColor
     this.NumberColor = newtheme.NumberColor
     this.StringColor = newtheme.StringColor
     this.CheckColor = newtheme.CheckColor
