@@ -39,6 +39,8 @@ export class FlatUILabel extends NgtObjectProps<Group> implements AfterViewInit 
   @Input() font = ''; // for example, https://fonts.gstatic.com/s/raleway/v14/1Ptrg8zYS_SKggPNwK4vaqI.woff
   @Input() fontsize = 0.07;
 
+  @Input() cliptowidth = false;
+
   protected get x(): number {
     if (this.alignx == 'left')
       return -this.width / 2 + 0.01;
@@ -97,6 +99,11 @@ export class FlatUILabel extends NgtObjectProps<Group> implements AfterViewInit 
   private mesh!: Object3D;
 
   meshready(text: Text) {
+    if (this.cliptowidth)
+      text.clipRect = [0, -this.height / 2, this.width - 0.05, this.height / 2]
+    else
+      text.maxWidth = this.width;
+
     text.addEventListener('synccomplete', () => {
       const bounds = text.textRenderInfo.blockBounds;
       this.textheight.next(bounds[3] - bounds[1]);
