@@ -42,6 +42,7 @@ import { FlatUIMenu } from './menu/menu.component';
 import { FlatUIMenuMini } from './menu-mini/menu-mini.component';
 import { FlatUIMenuItem } from './menu-item/menu-item.component';
 import { FlatUIConfirm } from './confirm/confirm.component';
+import { FlatUIPrompt } from './prompt/prompt.component';
 
 
 
@@ -81,7 +82,9 @@ import { FlatUIConfirm } from './confirm/confirm.component';
     FlatUIKeyboard,
     FlatUIList,
     FlatUINumpad,
+
     FlatUIConfirm,
+    FlatUIPrompt,
 
     FlatUIPaginator,
     FlatUIDragPanel,
@@ -131,7 +134,9 @@ import { FlatUIConfirm } from './confirm/confirm.component';
     FlatUIKeyboard,
     FlatUIList,
     FlatUINumpad,
+
     FlatUIConfirm,
+    FlatUIPrompt,
 
     FlatUIDragPanel,
     FlatUIExpansionPanel,

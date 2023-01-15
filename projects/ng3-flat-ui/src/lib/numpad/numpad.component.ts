@@ -141,7 +141,7 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
     width = (last.length - 1) * buttonwidth;
     last.forEach((numkey, index) => {
       if (numkey.length > 1) {
-        this.icons.push(new NumIconSetting([(-width / 2 + index * buttonwidth), ylast, z], numkey, 'Back'));
+        this.icons.push(new NumIconSetting([(-width / 2 + index * buttonwidth), ylast, z], numkey, 'Backspace'));
       } else {
         this.keys.push(new NumKeySetting([(-width / 2 + index * buttonwidth), ylast, z], numkey));
       }
@@ -162,7 +162,7 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
   private onKeyUp(event: KeyboardEvent) {
     let keycode = event.key;
     if (event.key == 'Backspace')
-      this.clicked('Back');
+      this.clicked(event.key);
     else {
       const key = this.keys.find(x => x.numkey == keycode);
       if (key)
@@ -174,7 +174,7 @@ export class FlatUINumpad extends NgtObjectProps<Mesh> {
     if (!this.visible) return;
 
     this.pressed.next(keycode);
-    if (keycode == 'Back') {
+    if (keycode == 'Backspace') {
       if (this.text.length > 0) {
         this.text = this.text.slice(0, this.text.length - 1);
         this.change.next(this.text);

@@ -136,7 +136,7 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
     middle.forEach((lower, index) => {
       this.keys.push(new KeySetting([(-width / 2 + index * buttonwidth + 0.12), ymiddle, z], lower, lower.toUpperCase(), middlealpha[index]));
     })
-    this.icons.push(new IconSetting([(-width / 2 + middle.length * buttonwidth + 0.15), ymiddle, z], 'backspace', 'Back'));
+    this.icons.push(new IconSetting([(-width / 2 + middle.length * buttonwidth + 0.15), ymiddle, z], 'backspace', 'Backspace'));
     this.keys.push(new KeySetting([(-width / 2 - 0.09), ymiddle, z], 'ABC', 'abc', 'ABC', 0.3, 0.1));
 
     width = (bottom.length - 1) * buttonwidth;
@@ -163,7 +163,7 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
   private onKeyDown(event: KeyboardEvent) {
     let keycode = event.key;
     if (event.key == 'Backspace')
-      keycode = 'Back';
+      this.clicked(event.key);
     else if (event.key == 'Shift') {
       if (this.keycase == 'lower') {
         keycode = 'ABC';
@@ -215,7 +215,6 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
   }
 
   protected clicked(keycode: string) {
-    console.warn(keycode)
     if (!this.visible) return;
 
     if (keycode == 'ABC') {
@@ -246,7 +245,7 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
         this.change.next(this.text);
         this.text = '';
       }
-      else if (keycode == 'Back') {
+      else if (keycode == 'Backspace') {
         if (this.text.length > 0) {
           this.text = this.text.slice(0, this.text.length - 1);
           this.change.next(this.text);

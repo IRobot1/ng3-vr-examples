@@ -140,26 +140,34 @@ export class FlatUIExample implements OnInit, AfterViewInit {
     this.checked = event;
   }
 
-  confirmobject!: Object3D;
-  showconfirm = false;
-  confirmposition = new Vector3();
-  confirmrotation = new Euler();
-  confirmscale = new Vector3(1, 1, 1);
+  popupposition = new Vector3();
+  popuprotation = new Euler();
+  popupscale = new Vector3(1, 1, 1);
 
-  confirm() {
-    this.confirmobject.getWorldPosition(this.confirmposition);
-    this.confirmposition.y -= 0.35;
-    this.confirmposition.z += 0.2;
+  private popuptransform(object: Object3D) {
+    object.getWorldPosition(this.popupposition);
+    this.popupposition.y -= 0.35;
+    this.popupposition.z += 0.2;
 
     const quat = new Quaternion()
-    this.confirmobject.getWorldQuaternion(quat);
-    this.confirmrotation.setFromQuaternion(quat);
+    object.getWorldQuaternion(quat);
+    this.popuprotation.setFromQuaternion(quat);
 
+  }
+  confirmobject!: Object3D;
+  showconfirm = false;
+
+  confirm() {
+    this.popuptransform(this.confirmobject)
     this.showconfirm = true;
   }
 
-  prompt() {
+  promptobject!: Object3D;
+  showprompt = false;
 
+  prompt() {
+    this.popuptransform(this.promptobject)
+    this.showprompt = true;
   }
 
   log(message: string) {

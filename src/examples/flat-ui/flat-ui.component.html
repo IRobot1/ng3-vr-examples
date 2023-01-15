@@ -66,7 +66,7 @@
 
       <ngt-group horizontal-layout>
         <flat-ui-label [text]="'text area'" [width]="0.6"></flat-ui-label>
-        <flat-ui-input-textarea #keyboard [width]="1" [text]="textareavalue" [selectable]="selectable" 
+        <flat-ui-input-textarea #keyboard [width]="1" [text]="textareavalue" [selectable]="selectable"
                                 (change)="textareavalue=$event" (openinput)="input.openkeyboard($event, keyboard, textareavalue)">
         </flat-ui-input-textarea>
       </ngt-group>
@@ -169,8 +169,8 @@
       </ngt-group>
 
       <ngt-group horizontal-layout>
-        <flat-ui-button (ready)="confirmobject=$event"[text]="'Confirm'" (pressed)="confirm()"></flat-ui-button>
-        <flat-ui-button [text]="'Prompt'" (pressed)="prompt()"></flat-ui-button>
+        <flat-ui-button (ready)="confirmobject=$event" [text]="'Confirm'" (pressed)="confirm()"></flat-ui-button>
+        <flat-ui-button (ready)="promptobject=$event" [text]="'Prompt'" (pressed)="prompt()"></flat-ui-button>
       </ngt-group>
 
     </ngt-group>
@@ -187,8 +187,13 @@
 </flat-ui-drag-panel>
 
 <flat-ui-confirm *ngIf="showconfirm" [title]="textareavalue" [width]="1.5" [selectable]="selectable"
-                 [position]="confirmposition" [rotation]="confirmrotation" [scale]="confirmscale"
+                 [position]="popupposition" [rotation]="popuprotation" [scale]="popupscale"
                  (result)="log('Confirm result is '+$event);showconfirm=false"></flat-ui-confirm>
+
+<flat-ui-prompt *ngIf="showprompt" [title]="'Enter file name'" [defaultvalue]="'test.txt'"
+                [width]="1.5" [selectable]="selectable"
+                [position]="popupposition" [rotation]="popuprotation" [scale]="popupscale"
+                (result)="log('Prompt result is '+$event);showprompt=false"></flat-ui-prompt>
 
 <flat-ui-list *ngIf="input.showlist" [list]="input.list" [selectedtext]="input.method.text"
               [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"

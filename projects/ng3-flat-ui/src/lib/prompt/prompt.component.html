@@ -1,0 +1,24 @@
+<ngt-mesh [ngtObjectPassThrough]="this" [material]="popupmaterial">
+
+  <ngt-plane-geometry [args]="[width, height]"></ngt-plane-geometry>
+
+  <flat-ui-label [text]="title" [width]="width" [position]="[0.02, 0.15, 0.001]"></flat-ui-label>
+
+  <flat-ui-input-text #keyboard [text]="defaultvalue" [selectable]="selectable"
+                      [width]="width-0.04" [position]="[0, 0.04, 0.001]" 
+                      (change)="defaultvalue=$event" (enter)="result.next(defaultvalue)" (openinput)="input.openkeyboard($event, keyboard, defaultvalue)">
+  </flat-ui-input-text>
+
+  <flat-ui-button [text]="'OK'" [width]="0.3" [position]="[-0.2, -height/2+0.1, 0.001]"
+                  [selectable]="selectable" (pressed)="result.next(defaultvalue)">
+  </flat-ui-button>
+
+  <flat-ui-button [text]="'Cancel'" [width]="0.3" [position]="[0.2, -height/2+0.1, 0.001]"
+                  [selectable]="selectable" (pressed)="result.next(undefined)">
+  </flat-ui-button>
+</ngt-mesh>
+
+<flat-ui-keyboard *ngIf="input.showkeyboard" [text]="input.method.text" [allowenter]="true"
+                  [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
+                  (change)="input.method.text = $event" (pressed)="pressed($event)" (close)="input.showkeyboard=false;input.closeinput()">
+</flat-ui-keyboard>

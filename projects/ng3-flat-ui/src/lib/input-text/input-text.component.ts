@@ -35,7 +35,7 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
     this.updatedisplaytext();
   }
 
-  @Input() overflow = 6;
+  @Input() overflow = 6; // deprecated
 
   @Input()
   private _password = false;
@@ -156,7 +156,7 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
       if (this.password)
         text = '*'.repeat(this.text.length);
       else
-        text = this.text.substring(this.text.length - this.overflow);
+        text = this.text;
 
       if (this.inputopen && this.enabled) text += '_'
     }

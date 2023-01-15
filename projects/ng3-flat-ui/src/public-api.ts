@@ -37,6 +37,7 @@ export * from './lib/menu-item/menu-item.component';
 export * from './lib/numpad/numpad.component';
 export * from './lib/paginator/paginator.component';
 export * from './lib/progress-bar/progress-bar.component';
+export * from './lib/prompt/prompt.component';
 export * from './lib/radio-button/radio-button.component';
 export * from './lib/radio-group/radio-group.component';
 export * from './lib/select/select.component';
