@@ -209,7 +209,7 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
   protected meshready(mesh: Mesh) {
     this.selectable?.add(mesh);
 
-    mesh.addEventListener('click', () => { this.enableinput(mesh) })
+    mesh.addEventListener('click', () => { this.doenableinput(mesh) })
     mesh.addEventListener('pointermove', () => { this.over() });
     mesh.addEventListener('pointerout', () => { this.out() });
 
@@ -217,7 +217,14 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
     this.setBackgroundColor();
   }
 
-  protected enableinput(mesh: Mesh) {
+  protected enableinput(event: NgtEvent<MouseEvent>, mesh: Mesh) {
+    if (event.object != mesh) return;
+    event.stopPropagation();
+
+    this.doenableinput(mesh);
+  }
+
+  protected doenableinput(mesh: Mesh) {
     if (!this.enabled || !this.visible) return;
 
     this.inputopen = true;
