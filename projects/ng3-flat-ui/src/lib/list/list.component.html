@@ -26,6 +26,9 @@
   </ngt-group>
 
 
-  <flat-ui-paginator *ngIf="showpaging" [paging]="this" [selectable]="selectable" [buttonsize]="pagebuttonsize" [position]="[-pagewidth/2, -height/2 + pagebuttonsize/2+margin, 0.001]" [showlabel]="false" (widthchange)="pagewidth=$event"></flat-ui-paginator>
+  <flat-ui-paginator *ngIf="showpaging" [paging]="this" [selectable]="selectable" [buttonsize]="pagebuttonsize"
+                     [position]="[-pagewidth/2, -height/2 + pagebuttonsize/2+margin, 0.001]" [showlabel]="showpagecounts"
+                     (widthchange)="pagewidth=$event">
+  </flat-ui-paginator>
 
 </ngt-group>

@@ -70,6 +70,7 @@ private _list: Array<ListItem> = [];
   @Input() pagebuttonsize = 0.1;
 
   @Input() showpaging = true;
+  @Input() showpagecounts = true;
 
   @Input() enablehover = false;
 
