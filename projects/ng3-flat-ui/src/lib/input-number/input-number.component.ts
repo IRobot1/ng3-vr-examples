@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, Line, Material, MathUtils, Mesh, Object3D, Shape, ShapeGeometry } from "three";
-import { NgtObjectProps } from "@angular-three/core";
+import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
@@ -200,7 +200,7 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
   protected meshready(mesh: Mesh) {
     this.selectable?.add(mesh);
 
-    mesh.addEventListener('click', (e: any) => { this.enableinput(mesh); e.stop = true; })
+    mesh.addEventListener('click', (e: any) => { this.doenableinput(mesh); e.stop = true; })
     mesh.addEventListener('pointermove', (e: any) => { this.over(); e.stop = true; });
     mesh.addEventListener('pointerout', (e: any) => { this.out(); e.stop = true; });
 
@@ -209,7 +209,14 @@ export class FlatUIInputNumber extends NgtObjectProps<Mesh> implements AfterView
   }
 
 
-  protected enableinput(mesh: Mesh) {
+  protected enableinput(event: NgtEvent<MouseEvent>, mesh: Mesh) {
+    if (event.object != mesh) return;
+    event.stopPropagation();
+
+    this.doenableinput(mesh);
+  }
+
+  protected doenableinput(mesh: Mesh) {
     if (!this.enabled || !this.visible) return;
 
     this.inputopen = true;

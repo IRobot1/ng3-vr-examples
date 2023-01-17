@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { BufferGeometry, Line, Material, Mesh, Object3D, Shape, ShapeGeometry } from "three";
-import { NgtObjectProps } from "@angular-three/core";
+import { NgtEvent, NgtObjectProps } from "@angular-three/core";
 
 import { HEIGHT_CHANGED_EVENT, LAYOUT_EVENT, roundedRect, UIInput, WIDTH_CHANGED_EVENT } from "../flat-ui-utils";
 import { GlobalFlatUITheme } from "../flat-ui-theme";
@@ -206,7 +206,7 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
   }
 
   private line!: Line;
-  lineready(line: Line) {
+  protected lineready(line: Line) {
     line.visible = false;
     this.line = line;
   }
@@ -214,18 +214,25 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
 
   private mesh!: Mesh;
 
-  meshready(mesh: Mesh) {
+  protected meshready(mesh: Mesh) {
     this.selectable?.add(mesh);
 
-    mesh.addEventListener('click', () => { this.enableinput(mesh) })
-    mesh.addEventListener('pointermove', () => { this.over() });
-    mesh.addEventListener('pointerout', () => { this.out() });
+    mesh.addEventListener('click', (e: any) => { this.doenableinput(mesh); e.stop = true })
+    mesh.addEventListener('pointermove', (e: any) => { this.over(); e.stop = true });
+    mesh.addEventListener('pointerout', (e: any) => { this.out(); e.stop = true });
 
     this.mesh = mesh;
     this.setBackgroundColor();
   }
 
-  enableinput(mesh: Mesh) {
+  protected enableinput(event: NgtEvent<MouseEvent>, mesh: Mesh) {
+    if (event.object != mesh) return;
+    event.stopPropagation();
+
+    this.doenableinput(mesh);
+  }
+
+  protected doenableinput(mesh: Mesh) {
     if (!this.enabled || !this.visible) return;
 
     this.inputopen = true;
@@ -233,13 +240,13 @@ export class FlatUIInputText extends NgtObjectProps<Mesh> implements AfterViewIn
   }
 
 
-  isover = false;
-  over() {
+  private isover = false;
+  protected over() {
     if (this.isover || !this.enabled) return;
     this.line.visible = true;
     this.isover = true;
   }
-  out() {
+  protected out() {
     if (!this.enabled) return;
     this.line.visible = false;
     this.isover = false;

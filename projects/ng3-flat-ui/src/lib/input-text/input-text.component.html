@@ -1,13 +1,15 @@
 <ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale">
 
   <ngt-mesh #mesh
-            (click)="enableinput(mesh.instance.value)" (pointermove)="over()" (pointerout)="out()"
+            (click)="enableinput($event, mesh.instance.value)"
+            (pointermove)="over();$event.stopPropagation()"
+            (pointerout)="out();$event.stopPropagation()"
             [geometry]="geometry"
             (ready)="meshready($event)">
 
     <ngt-soba-text [text]="displaytext"
                    [material]="textmaterial"
-                   [clipRect] = "[0, -height/2, this.width-0.05, height/2]"
+                   [clipRect]="[0, -height/2, this.width-0.05, height/2]"
                    [anchorX]="'left'"
                    [fontSize]="0.07"
                    [position]="[-width/2+0.01, 0, 0.001]">

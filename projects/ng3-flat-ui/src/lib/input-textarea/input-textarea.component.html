@@ -1,7 +1,9 @@
 <ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale">
 
   <ngt-mesh #mesh
-            (click)="enableinput($event, mesh.instance.value)" (pointermove)="over()" (pointerout)="out()"
+            (click)="enableinput($event, mesh.instance.value)"
+            (pointermove)="over();$event.stopPropagation()"
+            (pointerout)="out();$event.stopPropagation()"
             [geometry]="geometry" (wheel)="scroll($event)"
             (ready)="meshready($event)">
 
