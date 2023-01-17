@@ -70,10 +70,15 @@ export class FlatUIPrompt extends NgtObjectProps<Mesh> {
     this.input.scale = make(Vector3, this.scale);
   }
 
-  pressed(keycode: string) {
+  protected pressed(keycode: string) {
     if (keycode == 'Enter') {
-      this.input.method.enter.next();
+      this.result.next(this.defaultvalue);
+      this.close();
     }
   }
 
+  protected close() {
+    this.input.showkeyboard = false;
+    this.input.closeinput();
+  }
 }

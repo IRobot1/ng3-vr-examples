@@ -162,7 +162,7 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
   @HostListener('document:keydown', ['$event'])
   private onKeyDown(event: KeyboardEvent) {
     let keycode = event.key;
-    if (event.key == 'Backspace')
+    if (event.key == 'Backspace' || event.key == 'Enter')
       this.clicked(event.key);
     else if (event.key == 'Shift') {
       if (this.keycase == 'lower') {
@@ -241,9 +241,11 @@ export class FlatUIKeyboard extends NgtObjectProps<Mesh>  {
     }
     else {
       this.pressed.next(keycode);
-      if (keycode == 'Enter' && this.allowenter) {
-        this.change.next(this.text);
-        this.text = '';
+      if (keycode == 'Enter') {
+        if (this.allowenter) {
+          this.change.next(this.text);
+          this.text = '';
+        }
       }
       else if (keycode == 'Backspace') {
         if (this.text.length > 0) {

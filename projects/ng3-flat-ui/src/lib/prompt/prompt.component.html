@@ -6,7 +6,8 @@
 
   <flat-ui-input-text #keyboard [text]="defaultvalue" [selectable]="selectable"
                       [width]="width-0.04" [position]="[0, 0.04, 0.001]" 
-                      (change)="defaultvalue=$event" (enter)="result.next(defaultvalue)" (openinput)="input.openkeyboard($event, keyboard, defaultvalue)">
+                      (change)="defaultvalue=$event"
+                      (openinput)="input.openkeyboard($event, keyboard, defaultvalue)">
   </flat-ui-input-text>
 
   <flat-ui-button [text]="'OK'" [width]="0.3" [position]="[-0.2, -height/2+0.1, 0.001]"
@@ -20,5 +21,5 @@
 
 <flat-ui-keyboard *ngIf="input.showkeyboard" [text]="input.method.text" [allowenter]="true"
                   [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
-                  (change)="input.method.text = $event" (pressed)="pressed($event)" (close)="input.showkeyboard=false;input.closeinput()">
+                  (change)="input.method.text = $event" (pressed)="pressed($event)" (close)="close()">
 </flat-ui-keyboard>
