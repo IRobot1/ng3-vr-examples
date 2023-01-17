@@ -231,6 +231,12 @@ export class FlatUIInputTextArea extends NgtObjectProps<Mesh> implements AfterVi
     this.openinput.next(mesh);
   }
 
+  protected doover(event: NgtEvent<MouseEvent>, mesh: Mesh) {
+    if (event.object != mesh) return;
+    this.over();
+    event.stopPropagation();
+  }
+
 
   private isover = false;
   protected over() {

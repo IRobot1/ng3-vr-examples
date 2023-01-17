@@ -2,7 +2,7 @@
 
   <ngt-mesh #mesh
             (click)="enableinput($event, mesh.instance.value)"
-            (pointermove)="over();$event.stopPropagation()"
+            (pointermove)="doover($event, mesh.instance.value)"
             (pointerout)="out();$event.stopPropagation()"
             [geometry]="geometry" (wheel)="scroll($event)"
             (ready)="meshready($event)">
