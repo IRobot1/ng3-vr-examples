@@ -140,7 +140,6 @@ private _list: Array<ListItem> = [];
 
   protected data: Array<ListData> = [];
 
-  protected pagewidth = 1;
   protected outline!: BufferGeometry; // outline material
   protected group!: Group;
 
