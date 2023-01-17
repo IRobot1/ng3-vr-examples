@@ -33,6 +33,7 @@ export class FlatUIButton extends NgtObjectProps<Mesh> {
   @Input() disabledmaterial: Material | undefined;
   @Input() outlinematerial: Material | undefined;
   @Input() selectable?: InteractiveObjects;
+  @Input() stoppropagation = true;
 
   @Input() textjustify: number | 'left' | 'center' | 'right' = 'center';
   @Input() fontsize = 0.07;
@@ -53,6 +54,6 @@ export class FlatUIButton extends NgtObjectProps<Mesh> {
   @Output() pressed = new EventEmitter<string>();
   @Output() hover = new EventEmitter<boolean>();
 
-  @ContentChild(TemplateRef) templateRef?: TemplateRef<unknown>;
+  @ContentChild(TemplateRef) protected templateRef?: TemplateRef<unknown>;
 
 }

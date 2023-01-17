@@ -33,6 +33,7 @@ export class FlatUIMaterialButton extends NgtObjectProps<Mesh> {
   @Input() disabledmaterial: Material | undefined;
   @Input() outlinematerial: Material | undefined;
   @Input() selectable?: InteractiveObjects;
+  @Input() stoppropagation = true;
 
   private _labelmaterial!: Material
   @Input()

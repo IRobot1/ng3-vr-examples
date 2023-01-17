@@ -95,13 +95,14 @@ export class FlatUIBaseButton extends NgtObjectProps<Mesh>  {
   }
 
   @Input() selectable?: InteractiveObjects;
+  @Input() stoppropagation = true;
 
   @Input() geometry!: BufferGeometry;
 
   @Output() pressed = new EventEmitter<string>();
   @Output() hover = new EventEmitter<boolean>();
 
-  @ContentChild('button') button?: TemplateRef<unknown>;
+  @ContentChild('button') protected button?: TemplateRef<unknown>;
 
   protected outline!: BufferGeometry; // outline material
 
@@ -143,12 +144,12 @@ export class FlatUIBaseButton extends NgtObjectProps<Mesh>  {
   }
 
   private line!: Line;
-  lineready(line: Line) {
+  protected lineready(line: Line) {
     line.visible = false;
     this.line = line;
   }
 
-  meshready(mesh: Mesh) {
+  protected meshready(mesh: Mesh) {
     this.selectable?.add(mesh);
 
     mesh.addEventListener('click', (e: any) => { this.doclick(); e.stop = true; })
@@ -168,14 +169,14 @@ export class FlatUIBaseButton extends NgtObjectProps<Mesh>  {
     this.ready.next(mesh)
   }
 
-  clicked(mesh: Mesh, event: NgtEvent<MouseEvent>) {
+  protected clicked(mesh: Mesh, event: NgtEvent<MouseEvent>) {
     if (event.object != mesh) return;
     event.stopPropagation();
 
     this.doclick();
   }
 
-  clicking = false;
+  private clicking = false;
   private doclick() {
     if (!this.enabled || !this.visible) return;
 
@@ -195,14 +196,24 @@ export class FlatUIBaseButton extends NgtObjectProps<Mesh>  {
     }, 100);
   }
 
-  isover = false;
-  over() {
+  protected doover(event: NgtEvent<MouseEvent>) {
+    this.over();
+    if (this.stoppropagation) event.stopPropagation();
+  }
+
+  protected doout(event: NgtEvent<MouseEvent>) {
+    this.out();
+    if (this.stoppropagation) event.stopPropagation();
+  }
+
+  private isover = false;
+  protected over() {
     if (this.clicking || this.isover || !this.enabled) return;
     this.line.visible = true;
     this.isover = true;
     this.hover.next(true);
   }
-  out() {
+  protected out() {
     if (!this.enabled) return;
     this.line.visible = false;
     this.isover = false;

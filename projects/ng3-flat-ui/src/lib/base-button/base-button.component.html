@@ -3,7 +3,7 @@
   <ngt-mesh #mesh
             (click)="clicked(mesh.instance.value, $event)"
             [geometry]="geometry"
-            (pointerover)="over();$event.stopPropagation()" (pointerout)="out();$event.stopPropagation()"
+            (pointerover)="doover($event)" (pointerout)="doout($event)"
             (ready)="meshready($event)">
 
     <ng-container [ngTemplateOutlet]="button ? button : defaultButton"

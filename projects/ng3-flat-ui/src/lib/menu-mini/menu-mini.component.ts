@@ -60,6 +60,7 @@ export class FlatUIMenuMini extends NgtObjectProps<Group> {
   @Input() outlinematerial: Material | undefined;
 
   @Input() selectable?: InteractiveObjects;
+  @Input() stoppropagation = true;
 
   @Output() selected = new EventEmitter<MenuItem>();
 
@@ -67,7 +68,7 @@ export class FlatUIMenuMini extends NgtObjectProps<Group> {
   protected icons: Array<MiniData> = [];
   protected text!: string;
 
-  get width(): number { return (0.1 + this.margin) * this.menuitems.length + this.margin * 2 };
+  public get width(): number { return (0.1 + this.margin) * this.menuitems.length + this.margin * 2 };
 
   protected hover(isover: boolean, data: MiniData) {
     this.text = isover ? data.menu.text : '';
@@ -78,12 +79,12 @@ export class FlatUIMenuMini extends NgtObjectProps<Group> {
     this.selected.next(item);
   }
 
-  addmenuitem(menu: MenuItem) {
+  public addmenuitem(menu: MenuItem) {
     this.menuitems.push(menu);
     this.updatemenu();
   }
 
-  removemenuitem(menu: MenuItem) {
+  public removemenuitem(menu: MenuItem) {
     this.menuitems = this.menuitems.filter(item => item != menu);
   }
 }

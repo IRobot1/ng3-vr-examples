@@ -2,7 +2,8 @@
   <ng-container *ngFor="let item of icons">
 
     <flat-ui-material-button *ngIf="item.menu.icon" [position]="item.position"
-                             [enabled]="item.menu.enabled" [text]="item.menu.icon" [selectable]="selectable"
+                             [enabled]="item.menu.enabled" [text]="item.menu.icon"
+                             [selectable]="selectable" [stoppropagation]="stoppropagation"
                              [labelmaterial]="item.menu.color" [buttonmaterial]="buttonmaterial"
                              [outlinematerial]="outlinematerial" [disabledmaterial]="disabledmaterial"
                              (hover)="hover($event, item)" (pressed)="pressed(item.menu)">
@@ -11,7 +12,8 @@
     <flat-ui-button *ngIf="!item.menu.icon" [position]="item.position"
                     [labelmaterial]="item.menu.color" [buttonmaterial]="buttonmaterial"
                     [outlinematerial]="outlinematerial" [disabledmaterial]="disabledmaterial"
-                    [text]="item.menu.keycode" [width]="0.1" [enabled]="item.menu.enabled" [selectable]="selectable"
+                    [text]="item.menu.keycode" [width]="0.1" [enabled]="item.menu.enabled"
+                    [selectable]="selectable" [stoppropagation]="stoppropagation"
                     (hover)="hover($event, item)" (pressed)="pressed(item.menu)">
     </flat-ui-button>
 
