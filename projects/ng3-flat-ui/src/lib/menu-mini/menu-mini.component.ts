@@ -58,6 +58,7 @@ export class FlatUIMenuMini extends NgtObjectProps<Group> {
   @Input() buttonmaterial: Material | undefined;
   @Input() disabledmaterial: Material | undefined;
   @Input() outlinematerial: Material | undefined;
+  @Input() labelmaterial: Material | undefined;
 
   @Input() selectable?: InteractiveObjects;
   @Input() stoppropagation = true;

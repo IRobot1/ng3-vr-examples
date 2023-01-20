@@ -60,8 +60,9 @@ export class FlatUILabel extends NgtObjectProps<Group> implements AfterViewInit 
     if (this._labelmaterial) return this._labelmaterial;
     return GlobalFlatUITheme.LabelMaterial;
   }
-  set labelmaterial(newvalue: Material) {
-    this._labelmaterial = newvalue;
+  set labelmaterial(newvalue: Material | undefined) {
+    if (newvalue)
+      this._labelmaterial = newvalue;
   }
 
   private _width = 1;
