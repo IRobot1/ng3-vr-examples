@@ -44,7 +44,7 @@ class ListData {
   ]
 })
 export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, Paging {
-private _list: Array<ListItem> = [];
+  private _list: Array<ListItem> = [];
   @Input()
   get list(): Array<ListItem> { return this._list }
   set list(newvalue: Array<ListItem>) {
@@ -59,8 +59,15 @@ private _list: Array<ListItem> = [];
     this._selectedtext = newvalue;
 
     const index = this.list.findIndex(x => x.text == newvalue);
-    if (index != -1)
-      this.selectedindex = index;
+
+    this.selectedindex = index;  // if selected text is not found, this will clear highlighted item too
+
+    if (index != -1) {
+      // position on page boundary
+      this.firstdrawindex = Math.trunc(index / this.rowcount) * this.rowcount;
+      this.updateFlag = true;
+    }
+
   }
   @Input() selectedindex = -1;
 
@@ -198,8 +205,6 @@ private _list: Array<ListItem> = [];
   private firstdrawindex = 0;
 
   ngAfterViewInit(): void {
-    if (this.selectedindex != -1)
-      this.firstdrawindex = this.selectedindex;
 
     this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
       e.width = this.width;
@@ -264,9 +269,7 @@ private _list: Array<ListItem> = [];
     this.data.forEach(item => item.selected = false)
     this.data[index].selected = true;
 
-    this.selectedindex = this.firstdrawindex + index;
-
-    this.change.next(this.list[this.selectedindex]);
+    this.change.next(this.list[this.firstdrawindex + index]);
   }
 
   get firstindex(): number { return this.firstdrawindex }
