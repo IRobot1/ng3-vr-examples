@@ -61,10 +61,11 @@ export class FlatUIPaginator extends NgtObjectProps<Group> {
   protected buttons: Array<PageButtonData> = [];
   protected get text(): string {
     if (this.paging) {
-      const first = this.paging.firstindex;
+      let first = this.paging.firstindex;
       const length = this.paging.length;
-      const count = Math.min(this.paging.pagesize, length);
-      return `${first + 1} - ${first + count} of ${length}`;
+      const count = Math.min(first + this.paging.pagesize, length);
+      if (length > 0) { first++ } // show 1 instead of 0
+      return `${first} - ${count} of ${length}`;
     }
     return ''
   }
