@@ -15,6 +15,7 @@ import { NgIf, NgTemplateOutlet } from "@angular/common";
 import { FlatUIButton } from "../button/button.component";
 import { FlatUIPaginator } from "../paginator/paginator.component";
 import { NgFor } from "@angular/common";
+import { FlatUILabel } from "../label/label.component";
 
 export interface ListItem {
   text: string,
@@ -39,6 +40,7 @@ class ListData {
     NgtMesh,
     NgtLine,
     NgtPlaneGeometry,
+    FlatUILabel,
     FlatUIButton,
     FlatUIPaginator
   ]
@@ -70,6 +72,8 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
 
   }
   @Input() selectedindex = -1;
+
+  @Input() emptytext = 'List is empty';
 
   @Input() margin = 0.03;
   @Input() rowsize = 0.1;
@@ -224,6 +228,8 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
     }
   }
 
+  protected emptyposition!: Vector3;
+
   refresh() {
     let drawindex = this.firstdrawindex;
 
@@ -260,6 +266,8 @@ export class FlatUIList extends NgtObjectProps<Group> implements AfterViewInit, 
       }
 
       this.data.push(new ListData(text, data, enabled, selected, position, selectposition));
+
+      if (i == 0) this.emptyposition = position;
     }
   }
 
