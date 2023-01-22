@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, HostListener, Input, Output } from "@angular/core";
 import { NgIf } from "@angular/common";
 
 import { Material, Mesh, Vector3 } from "three";
@@ -73,12 +73,14 @@ export class FlatUIPrompt extends NgtObjectProps<Mesh> {
   protected pressed(keycode: string) {
     if (keycode == 'Enter') {
       this.result.next(this.defaultvalue);
-      this.close();
     }
   }
 
-  protected close() {
-    this.input.showkeyboard = false;
-    this.input.closeinput();
+  @HostListener('document:keydown', ['$event'])
+  private onKeyUp(event: KeyboardEvent) {
+    if (event.key == 'Escape') {
+      this.result.next(undefined);
+    }
   }
+
 }

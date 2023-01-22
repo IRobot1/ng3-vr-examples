@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from "@angular/core";
+import { ChangeDetectorRef, Component, EventEmitter, HostListener, Input, Output } from "@angular/core";
 import { NgIf } from "@angular/common";
 
 import { Material, Mesh } from "three";
@@ -61,4 +61,11 @@ export class FlatUIConfirm extends NgtObjectProps<Mesh> {
   }
 
   constructor(private cd: ChangeDetectorRef) { super(); }
+
+  @HostListener('document:keydown', ['$event'])
+  private onKeyUp(event: KeyboardEvent) {
+    if (event.key == 'Escape')
+      this.result.next(false)
+  }
+
 }
