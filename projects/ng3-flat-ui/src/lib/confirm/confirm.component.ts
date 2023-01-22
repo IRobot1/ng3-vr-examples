@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from "@angular/core";
 import { NgIf } from "@angular/common";
 
 import { Material, Mesh } from "three";
@@ -52,5 +52,13 @@ export class FlatUIConfirm extends NgtObjectProps<Mesh> {
 
   @Output() result = new EventEmitter<boolean>();
 
-  protected height = 0; // calculated from height of title
+  private _height = 0; // calculated from height of title
+
+  protected get height(): number { return this._height }
+  protected set height(newvalue: number) {
+    this._height = newvalue;
+    this.cd.detectChanges();
+  }
+
+  constructor(private cd: ChangeDetectorRef) { super(); }
 }
