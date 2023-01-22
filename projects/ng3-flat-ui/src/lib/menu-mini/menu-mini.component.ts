@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from "@angular/core";
 import { NgFor, NgIf } from "@angular/common";
 
 import { Group, Material, Vector3 } from "three";
@@ -71,8 +71,11 @@ export class FlatUIMenuMini extends NgtObjectProps<Group> {
 
   public get width(): number { return (0.1 + this.margin) * this.menuitems.length + this.margin * 2 };
 
+  constructor(private cd: ChangeDetectorRef) { super(); }
+
   protected hover(isover: boolean, data: MiniData) {
     this.text = isover ? data.menu.text : '';
+    this.cd.detectChanges();
   }
 
   protected pressed(item: MenuItem) {
