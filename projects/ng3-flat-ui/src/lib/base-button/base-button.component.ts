@@ -153,8 +153,8 @@ export class FlatUIBaseButton extends NgtObjectProps<Mesh>  {
     this.selectable?.add(mesh);
 
     mesh.addEventListener('click', (e: any) => { this.doclick(); e.stop = true; })
-    mesh.addEventListener('pointermove', (e: any) => { this.over(); e.stop = true; });
-    mesh.addEventListener('pointerout', (e: any) => { this.out(); e.stop = true; });
+    mesh.addEventListener('pointermove', (e: any) => { this.over(); if (this.stoppropagation) e.stop = true; });
+    mesh.addEventListener('pointerout', (e: any) => { this.out(); if (this.stoppropagation) e.stop = true; });
 
     this.mesh = mesh;
 

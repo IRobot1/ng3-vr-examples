@@ -168,8 +168,8 @@
       </ngt-group>
 
       <ngt-group horizontal-layout>
-        <flat-ui-button (ready)="confirmobject=$event" [text]="'Confirm'" (pressed)="confirm()"></flat-ui-button>
-        <flat-ui-button (ready)="promptobject=$event" [text]="'Prompt'" (pressed)="prompt()"></flat-ui-button>
+        <flat-ui-button (ready)="confirmobject=$event" [text]="'Confirm'" [selectable]="selectable" (pressed)="confirm()"></flat-ui-button>
+        <flat-ui-button (ready)="promptobject=$event" [text]="'Prompt'" [selectable]="selectable" (pressed)="prompt()"></flat-ui-button>
       </ngt-group>
 
     </ngt-group>
