@@ -208,13 +208,13 @@ export class FlatUIBaseButton extends NgtObjectProps<Mesh>  {
 
   private isover = false;
   protected over() {
-    if (this.clicking || this.isover || !this.enabled) return;
+    if (this.clicking || this.isover || !this.enabled || !this.visible) return;
     this.line.visible = true;
     this.isover = true;
     this.hover.next(true);
   }
   protected out() {
-    if (!this.enabled) return;
+    if (!this.enabled || !this.visible) return;
     this.line.visible = false;
     this.isover = false;
     this.hover.next(false);

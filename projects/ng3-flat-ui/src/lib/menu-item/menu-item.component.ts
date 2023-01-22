@@ -19,6 +19,7 @@ export class FlatUIMenuItem implements OnInit, OnDestroy, MenuItem {
   @Input() enabled = true;
   @Input() submenu: MenuItem[] | undefined;
   @Input() color: Material | undefined;
+  @Input() visible = true;
 
   @Output() pressed = new EventEmitter<MenuItem>();
 

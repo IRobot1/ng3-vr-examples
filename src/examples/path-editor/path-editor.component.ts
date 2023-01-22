@@ -132,33 +132,33 @@ export class PathEditorExample implements OnInit, OnDestroy {
   actionmenu: Array<MenuItem> = [
     //{ text: 'M Move to', icon: '', enabled: true, selected: () => { } },
     {
-      text: 'Line to', keycode: 'L', icon: '', enabled: true, selected: () => {
+      text: 'Line to', keycode: 'L', icon: '', enabled: true, visible: true, selected: () => {
         this.addlineto(this.moreposition.x + 0.1, this.moreposition.y + 0.1);
       }
     },
     {
-      text: 'Vertical Line to', keycode: 'V', icon: '', enabled: true, selected: () => {
+      text: 'Vertical Line to', keycode: 'V', icon: '', enabled: true, visible: true, selected: () => {
         this.addvertical(this.moreposition.x, this.moreposition.y + 0.1)
       }
     },
     {
-      text: 'Horizontal Line to', keycode: 'H', icon: '', enabled: true, selected: () => {
+      text: 'Horizontal Line to', keycode: 'H', icon: '', enabled: true, visible: true, selected: () => {
         this.addhorizontal(this.moreposition.x + 0.1, this.moreposition.y)
       }
     },
     {
-      text: 'Cubic Curve to', keycode: 'C', icon: '', enabled: true, selected: () => {
+      text: 'Cubic Curve to', keycode: 'C', icon: '', enabled: true, visible: true, selected: () => {
         this.addcubic(this.moreposition.x + 0.3, this.moreposition.y, this.moreposition.x + 0.1, this.moreposition.y, this.moreposition.x + 0.2, this.moreposition.y)
       }
     },
     {
-      text: 'Bezier Curve to', keycode: 'Q', icon: '', enabled: true, selected: () => {
+      text: 'Bezier Curve to', keycode: 'Q', icon: '', enabled: true, visible: true, selected: () => {
         this.addbezier(this.moreposition.x + 0.2, this.moreposition.y, this.moreposition.x + 0.1, this.moreposition.y)
       }
     },
     /*    { text: 'Elliptical Arc', keycode: 'A', icon: '', enabled: true, selected: () => { } },*/
     {
-      text: 'Close Path', keycode: 'Z', icon: '', enabled: true, selected: () => {
+      text: 'Close Path', keycode: 'Z', icon: '', enabled: true, visible: true, selected: () => {
         if (this.commands.length > 1) {
           this.addclose(this.moveto.position.x, this.moveto.position.y)
         }
@@ -168,28 +168,28 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
   translatemenu: Array<MenuItem> = [
     {
-      text: 'Left', keycode: 'ArrowLeft', icon: 'west', enabled: true, selected: () => {
+      text: 'Left', keycode: 'ArrowLeft', icon: 'west', enabled: true, visible: true, selected: () => {
         const delta = new Vector2(-0.1, 0)
         this.points.forEach(point => { point.position.add(delta); point.mesh.position.x += delta.x; })
         this.updateFlag = true;
       }
     },
     {
-      text: 'Right', keycode: 'ArrowRight', icon: 'east', enabled: true, selected: () => {
+      text: 'Right', keycode: 'ArrowRight', icon: 'east', enabled: true, visible: true, selected: () => {
         const delta = new Vector2(0.1, 0)
         this.points.forEach(point => { point.position.add(delta); point.mesh.position.x += delta.x; })
         this.updateFlag = true;
       }
     },
     {
-      text: 'Up', keycode: 'ArrowUp', icon: 'north', enabled: true, selected: () => {
+      text: 'Up', keycode: 'ArrowUp', icon: 'north', enabled: true, visible: true, selected: () => {
         const delta = new Vector2(0, 0.1)
         this.points.forEach(point => { point.position.add(delta); point.mesh.position.y += delta.y; })
         this.updateFlag = true;
       }
     },
     {
-      text: 'Down', keycode: 'ArrowDown', icon: 'south', enabled: true, selected: () => {
+      text: 'Down', keycode: 'ArrowDown', icon: 'south', enabled: true, visible: true, selected: () => {
         const delta = new Vector2(0, -0.1)
         this.points.forEach(point => { point.position.add(delta); point.mesh.position.y += delta.y; })
         this.updateFlag = true;
@@ -199,10 +199,10 @@ export class PathEditorExample implements OnInit, OnDestroy {
   ]
 
   menuitems: Array<MenuItem> = [
-    { text: 'Insert After', keycode: '', icon: 'add', enabled: true, submenu: this.actionmenu, selected: () => { this.showactions = true } },
+    { text: 'Insert After', keycode: '', icon: 'add', enabled: true, visible: true, submenu: this.actionmenu, selected: () => { this.showactions = true } },
     //{ text: 'Convert To', icon: 'sync', enabled: true, submenu: this.actionmenu, selected: () => { this.showactions = true } },
     {
-      text: 'Delete', keycode: 'DELETE', icon: 'delete', enabled: true, selected: () => {
+      text: 'Delete', keycode: 'DELETE', icon: 'delete', enabled: true, visible: true, selected: () => {
         let index = this.commands.findIndex(x => x.endpoint == this.last);
         if (index > 0) {
           this.points = this.points.filter(x => x != this.last);
@@ -231,7 +231,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
         this.closemenus();
       }
     },
-    { text: 'Translate', keycode: 'T', icon: 'open_with', enabled: true, submenu: this.translatemenu, selected: () => { this.showtranslate = true } },
+    { text: 'Translate', keycode: 'T', icon: 'open_with', enabled: true, visible: true, submenu: this.translatemenu, selected: () => { this.showtranslate = true } },
   ]
 
   @HostListener('document:keyup', ['$event'])

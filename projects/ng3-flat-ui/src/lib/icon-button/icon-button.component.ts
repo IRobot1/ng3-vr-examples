@@ -198,7 +198,7 @@ export class FlatUIIconButton extends NgtObjectProps<Mesh> implements AfterViewI
 
   isover = false;
   over() {
-    if (this.clicking || this.isover || !this.enabled) return;
+    if (this.clicking || this.isover || !this.enabled || !this.visible) return;
     this.line.visible = true;
     this.isover = true;
   }

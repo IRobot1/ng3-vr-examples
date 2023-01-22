@@ -21,6 +21,7 @@ export interface MenuItem {
   submenu?: Array<MenuItem>;
   selected?: (item: MenuItem) => void;
   color?: Material;  // icon color material
+  visible: boolean;
 }
 
 @Component({
