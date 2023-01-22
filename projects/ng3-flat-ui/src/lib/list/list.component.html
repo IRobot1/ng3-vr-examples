@@ -26,7 +26,7 @@
   </ngt-group>
 
 
-  <flat-ui-label [visible]="list.length==0" [position]="emptyposition" [text]="emptytext"></flat-ui-label>
+  <flat-ui-label [visible]="list.length==0" [position]="emptyposition" [width]="width" [text]="emptytext"></flat-ui-label>
 
   <flat-ui-paginator *ngIf="showpaging" [paging]="this" [selectable]="selectable" [buttonsize]="pagebuttonsize"
                      [position]="[-width/2+margin, -height/2 + pagebuttonsize/2+margin, 0.001]" [showlabel]="showpagecounts">
