@@ -12,7 +12,6 @@ import { Ng3FileListComponent } from './ng3-file-list.component';
 
 @NgModule({
   declarations: [
-    Ng3FileListComponent
   ],
   imports: [
     CommonModule,
@@ -20,6 +19,8 @@ import { Ng3FileListComponent } from './ng3-file-list.component';
     NgtGroupModule,
     NgtMeshBasicMaterialModule,
     Ng3FlatUiModule,
+
+    Ng3FileListComponent,
   ],
   exports: [
     Ng3FileListComponent

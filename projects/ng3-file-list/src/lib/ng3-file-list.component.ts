@@ -1,10 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { NgIf } from '@angular/common';
+import { MomentModule } from 'ngx-moment'
 
 import { Group, MeshBasicMaterial, Object3D } from 'three';
 
-import { ConflictBehavior, FileData, FilterData, Ng3FileList } from 'ngx-cloud-storage-types';
-import { FlatUIInputService, InteractiveObjects, ListItem, MenuItem } from 'ng3-flat-ui';
 import { NgtObjectProps } from '@angular-three/core';
+import { NgtGroup } from '@angular-three/core/group';
+import { NgtMeshBasicMaterial } from '@angular-three/core/materials';
+
+import { FlatUIBaseButton, FlatUIList, FlatUIMaterialIcon, FlatUIMenuItem, FlatUIPrompt, FlatUIConfirm, FlatUIInputService, FlatUILabel, FlatUIMenuMini, FlatUISelect, InteractiveObjects, ListItem, MenuItem } from 'ng3-flat-ui';
+import { ConflictBehavior, FileData, FilterData, Ng3FileList } from 'ngx-cloud-storage-types';
 
 export interface SaveFile {
   prompttitle: string,
@@ -24,6 +29,22 @@ export interface FileSelected {
   templateUrl: './ng3-file-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [FlatUIInputService],
+  standalone: true,
+  imports: [
+    NgIf,
+    MomentModule,
+    NgtGroup,
+    NgtMeshBasicMaterial,
+    FlatUISelect,
+    FlatUIList,
+    FlatUIBaseButton,
+    FlatUIMaterialIcon,
+    FlatUILabel,
+    FlatUIMenuMini,
+    FlatUIMenuItem,
+    FlatUIPrompt,
+    FlatUIConfirm,
+]
 })
 export class Ng3FileListComponent extends NgtObjectProps<Group> {
   @Input() service!: Ng3FileList;
