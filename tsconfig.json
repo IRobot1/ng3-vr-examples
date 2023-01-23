@@ -15,7 +15,7 @@
         "projects/ng3-file-list/src/public-api"
       ],
       "ng3-flat-ui": [
-        "dist/ng3-flat-ui"
+        "projects/ng3-flat-ui/src/public-api"
       ],
       "ng3-gui": [
         "projects/ng3-gui/src/public-api"
@@ -24,7 +24,7 @@
         "projects/ng3-webxr/src/public-api"
       ],
       "ngx-cloud-storage-types": [
-        "dist/ngx-cloud-storage-types"
+        "projects/ngx-cloud-storage-types/src/public-api"
       ]
     },
     "declaration": false,
