@@ -26,15 +26,18 @@
     "start": "ng serve",
     "startssl": "ng serve --host 0.0.0.0 --ssl",
     "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "buildall": "ng build ng3-webxr && ng build ng3-flat-ui && ng build",
+
     "buildwebxr": "ng build ng3-webxr",
     "buildflatui": "ng build ng3-flat-ui",
     "buildgui": "ng build ng3-gui",
-    "buildall": "ng build ng3-webxr && ng build ng3-flat-ui && ng build",
-    "watch": "ng build --watch --configuration development",
+    "buildcloudstorage": "ng build ngx-cloud-storage-types",
+
     "publishwebxr": "ng build ng3-webxr --configuration production && cd dist/ng3-webxr && npm publish",
     "publishflatui": "ng build ng3-flat-ui --configuration production && cd dist/ng3-flat-ui && npm publish",
     "publishgui": "ng build ng3-gui --configuration production && cd dist/ng3-gui && npm publish",
-    "test": "ng test"
+    "publishcloudstorage": "ng build ngx-cloud-storage-types --configuration production && cd dist/ngx-cloud-storage-types && npm publish"
   },
   "private": true,
   "dependencies": {

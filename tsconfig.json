@@ -19,6 +19,9 @@
       ],
       "ng3-webxr": [
         "projects/ng3-webxr/src/public-api"
+      ],
+      "ngx-cloud-storage-types": [
+        "dist/ngx-cloud-storage-types"
       ]
     },
     "declaration": false,
