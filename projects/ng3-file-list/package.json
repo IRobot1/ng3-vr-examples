@@ -1,0 +1,37 @@
+{
+  "name": "ng3-file-list",
+  "version": "0.0.1",
+  "author": "anidivr",
+  "homepage": "https://ng3vr.z9.web.core.windows.net/",
+  "repository": "https://github.com/IRobot1/ng3-vr-examples/tree/master/projects/ng3-file-list",
+  "license": "MIT",
+  "keywords": [
+    "three",
+    "three.js",
+    "threejs",
+    "3d",
+    "virtual-reality",
+    "augmented-reality",
+    "webgl",
+    "webgl2",
+    "webxr",
+    "canvas",
+    "angular",
+    "angular-three",
+    "ar",
+    "vr",
+    "ng3",
+    "ngt"
+  ],
+  "peerDependencies": {
+    "@angular/common": "^15.0.0",
+    "@angular/core": "^15.0.0",
+    "moment": "^2.29.4",
+    "ngx-moment": "^6.0.2",
+    "ng3-flat-ui": "^0.0.22",
+    "ngx-cloud-storage-types": "^0.0.1"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

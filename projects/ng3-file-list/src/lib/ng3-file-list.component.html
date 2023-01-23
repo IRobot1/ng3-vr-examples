@@ -1,0 +1,57 @@
+<ngt-mesh-basic-material #yellow noAppend color="yellow"></ngt-mesh-basic-material>
+<ngt-mesh-basic-material #black noAppend color="black"></ngt-mesh-basic-material>
+
+<ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale">
+  <flat-ui-menu-mini #menu [menuitems]="menuitems" [selectable]="selectable"></flat-ui-menu-mini>
+
+  <flat-ui-select #select [text]="filtervalue" [position]="[menu.width+filterlistwidth/2, 0, 0]" [selectable]="selectable"
+                  [width]="filterlistwidth"
+                  (change)="changeFilter($event)" (openinput)="filters.length>1 ? input.openlist($event, select, filterlist, filtervalue) : ''">
+  </flat-ui-select>
+
+  <flat-ui-list [position]="[width/2, -height/2-0.15, 0]" [width]="width" [height]="height" [rowcount]="rowcount" [rowsize]="rowheight"
+                [enablehover]="true" [list]="filtereditems" [selectable]="selectable" [emptytext]="'Folder is empty'">
+
+    <ng-template #listItem let-list="list" let-text="text" let-width="width" let-data="data" let-index="index" let-parent="parent">
+      <ngt-group *ngIf="data" [appendTo]="parent">
+        <flat-ui-base-button [selectable]="selectable" [text]="text" [width]="width" [height]="rowheight" (hover)="data.visible=$event" (pressed)="openFile(data)">
+          <ng-template #button let-parent="parent">
+            <ngt-group [appendTo]="parent">
+
+              <flat-ui-material-icon [position]="[-width/2+0.1, 0, 0]" [fontsize]="0.1" [labelmaterial]="data.isfolder ? yellow.instance.value : black.instance.value" [text]="data.isfolder ? 'folder' : 'insert_drive_file'"></flat-ui-material-icon>
+              <flat-ui-label [position]="[0.1, 0.05, 0]" [cliptowidth]="true" [text]="data.name" [width]="width-0.2"></flat-ui-label>
+              <flat-ui-label [position]="[0, -0.05, 0]" text="{{data.size}}{{data.lastmodified | amTimeAgo}}" [width]="width-0.4"></flat-ui-label>
+
+            </ngt-group>
+
+            <flat-ui-menu-mini [visible]="data.visible" [position]="[width/2-0.4, -0.04, 0]" [selectable]="selectable" [stoppropagation]="false">
+              <flat-ui-menu-item [text]="'Rename'" [icon]="'drive_file_rename_outline'" (pressed)="renameItem(data)"></flat-ui-menu-item>
+              <flat-ui-menu-item *ngIf="!data.isfolder" [text]="'Duplicate File'" [icon]="'file_copy'" (pressed)="duplicateFile(data)"></flat-ui-menu-item>
+              <flat-ui-menu-item [text]="'Delete'" [icon]="'delete'" (pressed)="deleteItem(data)"></flat-ui-menu-item>
+              <flat-ui-menu-item *ngIf="selectfolder && data.isfolder" [text]="'Select Folder'" [icon]="'check'" (pressed)="folderselected.next(data)"></flat-ui-menu-item>
+            </flat-ui-menu-mini>
+
+          </ng-template>
+        </flat-ui-base-button>
+      </ngt-group>
+    </ng-template>
+
+  </flat-ui-list>
+
+  <flat-ui-prompt *ngIf="showprompt" [title]="prompttitle" [defaultvalue]="promptvalue"
+                  [width]="1.5" [selectable]="selectable"
+                  [position]="[width/2, -height-0.4, 0]"
+                  (result)="promptresult($event)"></flat-ui-prompt>
+
+  <flat-ui-confirm *ngIf="showconfirm" [title]="confirmtitle" [width]="1.5" [selectable]="selectable"
+                   [position]="[width/2, -height-0.4, 0.001]"
+                   (result)="confirmresult($event)"></flat-ui-confirm>
+</ngt-group>
+
+
+<flat-ui-list *ngIf="input.showlist" [list]="input.list" [selectedtext]="input.method.text" [rowcount]="filterlist.length"
+              [showpaging]="false" [height]="filterlistheight" [width]="filterlistwidth"
+              [position]="input.position" [rotation]="input.rotation" [scale]="scale" [selectable]="selectable"
+              (change)="input.method.text = $event.text;input.showlist=false" (close)="input.showlist=false;input.closeinput()">
+</flat-ui-list>
+

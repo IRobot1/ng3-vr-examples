@@ -11,8 +11,11 @@
     "noFallthroughCasesInSwitch": true,
     "sourceMap": true,
     "paths": {
+      "ng3-file-list": [
+        "projects/ng3-file-list/src/public-api"
+      ],
       "ng3-flat-ui": [
-        "projects/ng3-flat-ui/src/public-api"
+        "dist/ng3-flat-ui"
       ],
       "ng3-gui": [
         "projects/ng3-gui/src/public-api"

@@ -28,16 +28,16 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "buildall": "ng build ng3-webxr && ng build ng3-flat-ui && ng build",
-
     "buildwebxr": "ng build ng3-webxr",
     "buildflatui": "ng build ng3-flat-ui",
     "buildgui": "ng build ng3-gui",
     "buildcloudstorage": "ng build ngx-cloud-storage-types",
-
+    "buildfilelist": "ng build ng3-file-list",
     "publishwebxr": "ng build ng3-webxr --configuration production && cd dist/ng3-webxr && npm publish",
     "publishflatui": "ng build ng3-flat-ui --configuration production && cd dist/ng3-flat-ui && npm publish",
     "publishgui": "ng build ng3-gui --configuration production && cd dist/ng3-gui && npm publish",
-    "publishcloudstorage": "ng build ngx-cloud-storage-types --configuration production && cd dist/ngx-cloud-storage-types && npm publish"
+    "publishcloudstorage": "ng build ngx-cloud-storage-types --configuration production && cd dist/ngx-cloud-storage-types && npm publish",
+    "publishfilelist": "ng build ng3-file-list --configuration production && cd dist/ng3-file-list && npm publish"
   },
   "private": true,
   "dependencies": {
@@ -74,10 +74,12 @@
     "@types/webxr": "^0.4.0",
     "dagre": "^0.8.5",
     "jdenticon": "^3.2.0",
+    "moment": "^2.29.4",
     "ng3-webxr": "^0.0.11",
     "ngraph.forcelayout": "^3.3.0",
     "ngraph.graph": "^20.0.0",
     "ngx-cookie-service": "^15.0.0",
+    "ngx-moment": "^6.0.2",
     "pexels": "^1.4.0",
     "rxjs": "~7.5.0",
     "three": "^0.142.0",
