@@ -23,7 +23,7 @@ export const rootfolder: Array<FileData> = [
     "id": "spiro1.ply",
     "extension": "ply",
     "lastmodified": '2023-01-25T00:00:00',
-    "size": "1 MB - ",
+    "size": "1 MB",
     "downloadurl": "assets/spiro1.ply"
   },
   {
@@ -32,7 +32,7 @@ export const rootfolder: Array<FileData> = [
     "id": "apple.gltf",
     "extension": "gltf",
     "lastmodified": '2023-01-25T00:00:00',
-    "size": "3 KB - ",
+    "size": "3 KB",
     "downloadurl": "assets/food/apple.gltf"
   },
   {
@@ -41,7 +41,7 @@ export const rootfolder: Array<FileData> = [
     "id": "head.gltf",
     "extension": "gltf",
     "lastmodified": '2023-01-25T00:00:00',
-    "size": "3 KB - ",
+    "size": "3 KB",
     "downloadurl": "assets/head/statue.gltf"
   },
   {
@@ -50,7 +50,7 @@ export const rootfolder: Array<FileData> = [
     "id": "horse.gltf",
     "extension": "gltf",
     "lastmodified": '2023-01-25T00:00:00',
-    "size": "6 KB - ",
+    "size": "6 KB",
     "downloadurl": "assets/horse/statue.gltf"
   },
   {
@@ -59,7 +59,7 @@ export const rootfolder: Array<FileData> = [
     "id": "LittlestTokyo.glb",
     "extension": "glb",
     "lastmodified": '2023-01-25T00:00:00',
-    "size": "3.9 MB - ",
+    "size": "3.9 MB",
     "downloadurl": "assets/LittlestTokyo.glb"
   }
 ]
@@ -71,7 +71,7 @@ export const foodFolder: Array<FileData> = [
     "id": "apple.gltf",
     "extension": "gltf",
     "lastmodified": '2023-01-25T00:00:00',
-    "size": "3 KB - ",
+    "size": "3 KB",
     "downloadurl": "assets/food/apple.gltf"
   },
 
@@ -84,7 +84,7 @@ export const seaFolder: Array<FileData> = [
     "id": "dolphins.ply",
     "extension": "ply",
     "lastmodified": '2023-01-25T00:00:00',
-    "size": "47 KB - ",
+    "size": "47 KB",
     // from https://github.com/mrdoob/three.js/blob/dev/examples/models/ply/ascii/dolphins.ply
     "downloadurl": "assets/dolphins.ply"
   },

@@ -148,6 +148,11 @@ export class Ng3FileListComponent extends NgtObjectProps<Group> {
     return item.name
   }
 
+  getSize(item: FileData) : string {
+    if (item.size) return `${item.size} - `
+    return '';
+  }
+
   constructor(
     public input: FlatUIInputService,
     private cd: ChangeDetectorRef,

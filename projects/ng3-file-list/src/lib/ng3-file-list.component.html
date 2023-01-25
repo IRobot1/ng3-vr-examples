@@ -20,7 +20,7 @@
 
               <flat-ui-material-icon [position]="[-width/2+0.1, 0, 0]" [fontsize]="0.1" [labelmaterial]="data.isfolder ? yellow.instance.value : black.instance.value" [text]="data.isfolder ? 'folder' : 'insert_drive_file'"></flat-ui-material-icon>
               <flat-ui-label [position]="[0.1, 0.05, 0]" [cliptowidth]="true" [text]="data.name" [width]="width-0.2"></flat-ui-label>
-              <flat-ui-label [position]="[0, -0.05, 0]" text="{{data.size}}{{data.lastmodified | amTimeAgo}}" [width]="width-0.4"></flat-ui-label>
+              <flat-ui-label [position]="[0, -0.05, 0]" text="{{getSize(data)}}{{data.lastmodified | amTimeAgo}}" [width]="width-0.4"></flat-ui-label>
 
             </ngt-group>
 
