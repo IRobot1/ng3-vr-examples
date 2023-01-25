@@ -6,6 +6,7 @@ export interface FileData {
   extension: string;
   lastmodified: string;
   size: string;
+  downloadurl?: string;
 }
 
 export interface FilterData {
