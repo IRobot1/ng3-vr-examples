@@ -75,17 +75,17 @@
     {
       "mimeType": "image/jpeg",
       "name": "marble_bust_01_nor_gl",
-      "uri": "textures/marble_bust_01_nor_gl_1k.jpg"
+      "uri": "marble_bust_01_nor_gl_1k.jpg"
     },
     {
       "mimeType": "image/jpeg",
       "name": "marble_bust_01_diff",
-      "uri": "textures/marble_bust_01_diff_1k.jpg"
+      "uri": "marble_bust_01_diff_1k.jpg"
     },
     {
       "mimeType": "image/jpeg",
       "name": "marble_bust_01_arm",
-      "uri": "textures/marble_bust_01_rough_1k.jpg"
+      "uri": "marble_bust_01_rough_1k.jpg"
     }
   ],
   "accessors": [

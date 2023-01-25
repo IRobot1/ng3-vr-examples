@@ -1,0 +1,22 @@
+<ngt-color attach="background" color="darkgray"></ngt-color>
+
+<line-room></line-room>
+
+<ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
+
+<ngt-mesh [visible]="showmodel" [position]="[-1, 1, -2]" [geometry]="geometry">
+  <ngt-mesh-basic-material color="cornflowerblue"></ngt-mesh-basic-material>
+</ngt-mesh>
+
+<ngt-group #gltf [visible]="!showmodel" [position]="[-1, 1, -2]" (ready)="scene=gltf.instance.value">
+  <gltf-model [animate]="false" [url]="url" (loaded)="loaded($event)"></gltf-model>
+</ngt-group>
+
+<ng3-file-list [service]="virtual" [startfolderid]="undefined" [position]="[0, 1.5, -2]" [filters]="filters" [selectable]="selectable"
+               (foldercreated)="log('created', $event)" (deleted)="log('deleted', $event)" (renamed)="log('renamed', $event)"
+               (fileselected)="open($event)"></ng3-file-list>
+
+<vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
+<vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
+
+<ngt-soba-orbit-controls></ngt-soba-orbit-controls>

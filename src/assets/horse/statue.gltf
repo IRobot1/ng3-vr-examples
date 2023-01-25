@@ -127,17 +127,17 @@
     {
       "mimeType": "image/jpeg",
       "name": "horse_statue_01_nor_gl",
-      "uri": "textures/horse_statue_01_nor_gl_1k.jpg"
+      "uri": "horse_statue_01_nor_gl_1k.jpg"
     },
     {
       "mimeType": "image/jpeg",
       "name": "horse_statue_01_diff",
-      "uri": "textures/horse_statue_01_diff_1k.jpg"
+      "uri": "horse_statue_01_diff_1k.jpg"
     },
     {
       "mimeType": "image/jpeg",
       "name": "horse_statue_01_arm",
-      "uri": "textures/horse_statue_01_arm_1k.jpg"
+      "uri": "horse_statue_01_arm_1k.jpg"
     }
   ],
   "accessors": [

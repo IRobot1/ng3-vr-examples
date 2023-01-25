@@ -70,17 +70,17 @@
     {
       "mimeType": "image/jpeg",
       "name": "food_apple_01_nor_gl",
-      "uri": "textures/food_apple_01_nor_gl_1k.jpg"
+      "uri": "food_apple_01_nor_gl_1k.jpg"
     },
     {
       "mimeType": "image/jpeg",
       "name": "food_apple_01_diff",
-      "uri": "textures/food_apple_01_diff_1k.jpg"
+      "uri": "food_apple_01_diff_1k.jpg"
     },
     {
       "mimeType": "image/jpeg",
       "name": "food_apple_01_rough",
-      "uri": "textures/food_apple_01_rough_1k.jpg"
+      "uri": "food_apple_01_rough_1k.jpg"
     }
   ],
   "accessors": [

@@ -41,6 +41,7 @@ import { PexelsPhotoExample } from '../examples/pexels-photo/pexels-photo.compon
 import { PathEditorExample } from '../examples/path-editor/path-editor.component';
 import { PexelsVideoExample } from '../examples/pexels-video/pexels-video.component';
 import { ShapewareExample } from '../examples/shapeware/shapeware.component';
+import { FileBrowserExample } from '../examples/file-browser/file-browser.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -84,6 +85,7 @@ const routes: Routes = [
   { path: 'pexelsvideo', component: PexelsVideoExample },
   { path: 'patheditor', component: PathEditorExample },
   { path: 'shapeware-shapes', component: ShapewareExample },
+  { path: 'file-browser', component: FileBrowserExample },
 ];
 
 @NgModule({

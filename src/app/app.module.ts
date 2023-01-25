@@ -143,6 +143,10 @@ import { EventShapeComponent } from '../examples/shapeware/event/event.component
 import { ExpressionShapeComponent } from '../examples/shapeware/expression/expression.component';
 import { ConditionShapeComponent } from '../examples/shapeware/condition/condition.component';
 import { PictureFrameShapeComponent } from '../art/picture-frame/picture-frame.component';
+import { FileBrowserExample } from '../examples/file-browser/file-browser.component';
+
+import { NgxCloudStorageTypesModule } from 'ngx-cloud-storage-types';
+import { Ng3FileListModule } from 'ng3-file-list';
 
 
 
@@ -294,6 +298,9 @@ import { PictureFrameShapeComponent } from '../art/picture-frame/picture-frame.c
     EventShapeComponent,
     ExpressionShapeComponent,
     ConditionShapeComponent,
+
+    FileBrowserExample,
+
   ],
   imports: [
     BrowserModule,
@@ -303,6 +310,8 @@ import { PictureFrameShapeComponent } from '../art/picture-frame/picture-frame.c
     Ng3WebxrModule,
     Ng3FlatUiModule,
     Ng3GuiModule,
+    Ng3FileListModule,
+    NgxCloudStorageTypesModule,
 
     // core
     NgtCanvasModule,
