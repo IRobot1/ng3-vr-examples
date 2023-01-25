@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 
-import { Box3, Group, Scene, Vector3 } from "three";
+import { Box3, Group, Mesh, Scene, Vector3 } from "three";
 import { PLYLoader, PLYExporter } from 'three-stdlib';
 import { NgtLoader } from "@angular-three/core";
 
@@ -11,78 +11,34 @@ import { FileData } from "ngx-cloud-storage-types";
 import { VirtualDrive } from "./virtual-drive";
 import { BufferGeometry } from "three";
 
+import { rootfolder } from "./folder-data";
+
 @Component({
   templateUrl: './file-browser.component.html',
 })
 export class FileBrowserExample {
-  private data: Array<FileData> = [
-    {
-      "isfolder": false,
-      "name": "spiro1.ply",
-      "id": "spiro1.ply",
-      "extension": "ply",
-      "lastmodified": Date.now().toString(),
-      "size": "1 MB - ",
-      "downloadurl": "assets/spiro1.ply"
-    },
-    {
-      "isfolder": false,
-      "name": "apple.gltf",
-      "id": "apple.gltf",
-      "extension": "gltf",
-      "lastmodified": Date.now().toString(),
-      "size": "3 KB - ",
-      "downloadurl": "assets/food/apple.gltf"
-    },
-    {
-      "isfolder": false,
-      "name": "head.gltf",
-      "id": "head.gltf",
-      "extension": "gltf",
-      "lastmodified": Date.now().toString(),
-      "size": "3 KB - ",
-      "downloadurl": "assets/head/statue.gltf"
-    },
-    {
-      "isfolder": false,
-      "name": "horse.gltf",
-      "id": "horse.gltf",
-      "extension": "gltf",
-      "lastmodified": Date.now().toString(),
-      "size": "6 KB - ",
-      "downloadurl": "assets/horse/statue.gltf"
-    },
-    {
-      "isfolder": false,
-      "name": "LittlestTokyo.glb",
-      "id": "LittlestTokyo.glb",
-      "extension": "glb",
-      "lastmodified": Date.now().toString(),
-      "size": "3.9 MB - ",
-      "downloadurl": "assets/LittlestTokyo.glb"
-    }
-  ]
-  virtual = new VirtualDrive(this.data);
+  virtual = new VirtualDrive(rootfolder);
   filters = [
-    { name: 'Models', filter: 'ply' }, 
-    { name: 'Models', filter: 'glb,gltf' },
+    { name: 'GLTF Models', filter: 'glb,gltf' },
+    { name: 'PLY Models', filter: 'ply' },
   ]
   selectable = new InteractiveObjects();
 
   showmodel = false;
-  url!:string;
+  url!: string;
   scene!: Group;
 
   constructor(
     private loader: NgtLoader,
-  ) { }
+  ) {
+    console.warn(new Date().toISOString())
+  }
 
   loaded(scene: Scene) {
     const box = new Box3().setFromObject(scene)
     const size = new Vector3()
     box.getSize(size);
     this.scene.scale.setScalar(1 / size.length());
-    //this.cd.detectChanges();
   }
 
   private loadGLTF(downloadUrl: string) {
@@ -91,15 +47,22 @@ export class FileBrowserExample {
   }
 
   geometry!: BufferGeometry;
+  model!: Mesh;
 
   private loadPLY(downloadUrl: string) {
     const s = this.loader.use(PLYLoader, downloadUrl).subscribe(next => {
-      next.center();
-      //if (next.boundingBox)
-      //  this.meshheight = (next.boundingBox.max.y - next.boundingBox.min.y) / 2;
+      next.computeBoundingBox();
+      const box = next.boundingBox;
 
-      if (this.geometry) this.geometry.dispose();
-      this.geometry = next;
+      const size = new Vector3(1, 1, 1)
+      if (box) box.getSize(size);
+
+      next.center();
+
+      this.model.scale.setScalar(1 / size.length());
+
+      if (this.model.geometry) this.model.geometry.dispose();
+      this.model.geometry = next;
     },
       () => { },
       () => { s.unsubscribe(); }
@@ -109,7 +72,7 @@ export class FileBrowserExample {
 
   open(file: FileSelected) {
     console.warn('open', file.downloadUrl)
-    
+
     switch (file.item.extension) {
       case 'ply':
         this.loadPLY(file.downloadUrl);

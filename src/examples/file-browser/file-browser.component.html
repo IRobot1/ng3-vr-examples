@@ -4,7 +4,7 @@
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
-<ngt-mesh [visible]="showmodel" [position]="[-1, 1, -2]" [geometry]="geometry">
+<ngt-mesh [visible]="showmodel" [position]="[-1, 1, -2]" (ready)="model=$event">
   <ngt-mesh-basic-material color="cornflowerblue"></ngt-mesh-basic-material>
 </ngt-mesh>
 

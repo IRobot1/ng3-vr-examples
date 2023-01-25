@@ -1,17 +1,38 @@
 import { ConflictBehavior, FileData, Ng3FileList } from "ngx-cloud-storage-types";
+import { foodFolder, seaFolder } from "./folder-data";
+
+
+export const folderMap = new Map<string, Array<FileData>>([
+  ['food', foodFolder],
+  ['sea', seaFolder],
+]);
+
+
 
 export class VirtualDrive implements Ng3FileList {
-  constructor(private data: Array<FileData>) { }
+  private last: Array<FileData>;
+
+  constructor(private root: Array<FileData>) {
+    this.last = root;
+  }
 
   getFolderItems(itemid: string | undefined): Promise<FileData[]> {
     return new Promise((resolve, reject) => {
-      resolve(this.data);
+      let result = this.last = this.root;
+      if (itemid) {
+        const item = this.root.find(item => item.id == itemid);
+        if (item && item.isfolder) {
+          const folder = folderMap.get(item.name);
+          if (folder) this.last = result = folder;
+        }
+      }
+      resolve(result);
     });
   }
 
   getDownloadUrl(itemid: string): Promise<string | undefined> {
     return new Promise((resolve, reject) => {
-      resolve(this.data.find(item => item.id == itemid)?.downloadurl);
+      resolve(this.last.find(item => item.id == itemid)?.downloadurl);
     });
   }
 
