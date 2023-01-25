@@ -80,13 +80,21 @@ export const foodFolder: Array<FileData> = [
 export const seaFolder: Array<FileData> = [
   {
     "isfolder": false,
-    "name": "dolphins.ply",
-    "id": "dolphins.ply",
+    "name": "local dolphins.ply",
+    "id": "ldolphins.ply",
     "extension": "ply",
     "lastmodified": '2023-01-25T00:00:00',
     "size": "47 KB",
-    // from https://github.com/mrdoob/three.js/blob/dev/examples/models/ply/ascii/dolphins.ply
     "downloadurl": "assets/dolphins.ply"
+  },
+  {
+    "isfolder": false,
+    "name": "airplane.ply",
+    "id": "airplane.ply",
+    "extension": "ply",
+    "lastmodified": '2023-01-25T00:00:00',
+    "size": "47 KB",
+    "downloadurl": "https://people.sc.fsu.edu/~jburkardt/data/ply/airplane.ply"
   },
 
 ]

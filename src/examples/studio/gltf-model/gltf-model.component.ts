@@ -5,7 +5,7 @@ import { Object3D } from 'three';
 import { NgtTriple } from '@angular-three/core';
 
 import { NgtGLTFLoader } from '@angular-three/soba/loaders';
- 
+
 @Component({
   selector: 'gltf-model',
   templateUrl: './gltf-model.component.html'
@@ -24,7 +24,8 @@ export class GLTFodelComponent {
   model$!: Observable<any>;
 
   @Input() set url(newvalue: string) {
-     this.model$ = this.loader.load(newvalue);
+    if (!newvalue) return;
+    this.model$ = this.loader.load(newvalue);
   }
 
   constructor(private loader: NgtGLTFLoader) { }

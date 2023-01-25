@@ -53,6 +53,8 @@ export class FileBrowserExample {
 
   private loadPLY(downloadUrl: string) {
     const s = this.loader.use(PLYLoader, downloadUrl).subscribe(next => {
+      if (!next) return;
+
       next.computeBoundingBox();
       const box = next.boundingBox;
 
@@ -73,8 +75,6 @@ export class FileBrowserExample {
 
 
   open(file: FileSelected) {
-    console.warn('open', file.downloadUrl)
-
     switch (file.item.extension) {
       case 'ply':
         this.loadPLY(file.downloadUrl);
