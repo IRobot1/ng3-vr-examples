@@ -97,6 +97,15 @@ export class Ng3FileListComponent extends NgtObjectProps<Group> {
 
   @Input() selectfolder = false;
 
+  private _readonly = false;
+  @Input()
+  get readonly(): boolean { return this._readonly }
+  set readonly(newvalue: boolean) {
+    this._readonly = newvalue;
+    this.menuitems[2].visible = !this._readonly;
+    this.filteredmenuitems = this.menuitems.filter(x => x.visible);
+  }
+
   private _savefile!: SaveFile;
   @Input()
   get savefile(): SaveFile { return this._savefile }
@@ -127,6 +136,7 @@ export class Ng3FileListComponent extends NgtObjectProps<Group> {
     { text: 'Create Folder', keycode: '', icon: 'create_new_folder', enabled: true, visible: true, color: new MeshBasicMaterial({ color: 'yellow' }), selected: () => { this.createFolder(); } },
   ]
   protected menuwidth = 0;
+  protected filteredmenuitems = this.menuitems;
 
   private driveitems: Array<FileData> = [];
 
@@ -204,7 +214,7 @@ export class Ng3FileListComponent extends NgtObjectProps<Group> {
   }
 
   protected async createFolder() {
-    if (!this.visible) return;
+    if (!this.visible || this.readonly) return;
 
     await this.prompt('Enter folder name', 'newfolder').then(async foldername => {
       if (!foldername) return;
@@ -221,7 +231,7 @@ export class Ng3FileListComponent extends NgtObjectProps<Group> {
   }
 
   protected async deleteItem(item: FileData) {
-    if (!this.visible) return;
+    if (!this.visible || this.readonly) return;
 
     await this.confirm('Delete file?').then(async dodelete => {
       if (!dodelete) return;
@@ -263,7 +273,7 @@ export class Ng3FileListComponent extends NgtObjectProps<Group> {
   }
 
   public async createFilePrompt(title: string, defaultfile: string, content: string, conflictBehaivor: ConflictBehavior) {
-    if (!this.visible) return;
+    if (!this.visible || this.readonly) return;
     
     await this.prompt(title, defaultfile).then(async filename => {
       
@@ -279,7 +289,7 @@ export class Ng3FileListComponent extends NgtObjectProps<Group> {
   }
 
   protected async duplicateFile(item: FileData) {
-    if (!this.visible) return;
+    if (!this.visible || this.readonly) return;
 
     await this.service.duplicateFile(item.id, 'copy of ' + item.name).then(data => {
       const timer = setTimeout(() => {
@@ -290,7 +300,7 @@ export class Ng3FileListComponent extends NgtObjectProps<Group> {
   }
 
   protected async renameItem(item: FileData) {
-    if (!this.visible) return;
+    if (!this.visible || this.readonly) return;
 
     await this.prompt('Enter new name', item.name).then(async newname => {
       if (newname) {

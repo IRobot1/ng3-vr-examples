@@ -30,9 +30,7 @@ export class FileBrowserExample {
 
   constructor(
     private loader: NgtLoader,
-  ) {
-    console.warn(new Date().toISOString())
-  }
+  ) { }
 
   loaded(scene: Scene) {
     const box = new Box3().setFromObject(scene)

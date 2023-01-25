@@ -4,15 +4,15 @@
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
-<ngt-mesh [visible]="showmodel" [position]="[-1, 1, -2]" (ready)="model=$event">
+<ngt-mesh [visible]="showmodel" [position]="[-0.5, 1, -2]" (ready)="model=$event">
   <ngt-mesh-basic-material color="cornflowerblue"></ngt-mesh-basic-material>
 </ngt-mesh>
 
-<ngt-group #gltf [visible]="!showmodel" [position]="[-1, 1, -2]" (ready)="scene=gltf.instance.value">
+<ngt-group #gltf [visible]="!showmodel" [position]="[-0.5, 1, -2]" (ready)="scene=gltf.instance.value">
   <gltf-model [animate]="false" [url]="url" (loaded)="loaded($event)"></gltf-model>
 </ngt-group>
 
-<ng3-file-list [service]="virtual" [startfolderid]="undefined" [position]="[0, 1.5, -2]" [filters]="filters" [selectable]="selectable"
+<ng3-file-list [service]="virtual" [readonly]="true" [startfolderid]="undefined" [position]="[0, 1.5, -2]" [filters]="filters" [selectable]="selectable"
                (foldercreated)="log('created', $event)" (deleted)="log('deleted', $event)" (renamed)="log('renamed', $event)"
                (fileselected)="open($event)"></ng3-file-list>
 

@@ -2,7 +2,7 @@
 <ngt-mesh-basic-material #black noAppend color="black"></ngt-mesh-basic-material>
 
 <ngt-group [name]="name" [visible]="visible" [position]="position" [rotation]="rotation" [scale]="scale">
-  <flat-ui-menu-mini #menu [menuitems]="menuitems" [selectable]="selectable"></flat-ui-menu-mini>
+  <flat-ui-menu-mini #menu [menuitems]="filteredmenuitems" [selectable]="selectable"></flat-ui-menu-mini>
 
   <flat-ui-select #select [text]="filtervalue" [position]="[menu.width+filterlistwidth/2, 0, 0]" [selectable]="selectable"
                   [width]="filterlistwidth"
@@ -25,10 +25,10 @@
             </ngt-group>
 
             <flat-ui-menu-mini [visible]="data.visible" [position]="[width/2-0.4, -0.04, 0]" [selectable]="selectable" [stoppropagation]="false">
-              <flat-ui-menu-item [text]="'Rename'" [icon]="'drive_file_rename_outline'" (pressed)="renameItem(data)"></flat-ui-menu-item>
-              <flat-ui-menu-item *ngIf="!data.isfolder" [text]="'Duplicate File'" [icon]="'file_copy'" (pressed)="duplicateFile(data)"></flat-ui-menu-item>
-              <flat-ui-menu-item [text]="'Delete'" [icon]="'delete'" (pressed)="deleteItem(data)"></flat-ui-menu-item>
-              <flat-ui-menu-item *ngIf="selectfolder && data.isfolder" [text]="'Select Folder'" [icon]="'check'" (pressed)="folderselected.next(data)"></flat-ui-menu-item>
+              <flat-ui-menu-item *ngIf="!readonly" [text]="'Rename'" [icon]="'drive_file_rename_outline'" (pressed)="renameItem(data)"></flat-ui-menu-item>
+              <flat-ui-menu-item *ngIf="!readonly && !data.isfolder" [text]="'Duplicate File'" [icon]="'file_copy'" (pressed)="duplicateFile(data)"></flat-ui-menu-item>
+              <flat-ui-menu-item *ngIf="!readonly" [text]="'Delete'" [icon]="'delete'" (pressed)="deleteItem(data)"></flat-ui-menu-item>
+              <flat-ui-menu-item *ngIf="!readonly && selectfolder && data.isfolder" [text]="'Select Folder'" [icon]="'check'" (pressed)="folderselected.next(data)"></flat-ui-menu-item>
             </flat-ui-menu-mini>
 
           </ng-template>
