@@ -8,16 +8,15 @@ import { InteractiveObjects } from "ng3-flat-ui";
 import { FileSelected } from "ng3-file-list";
 import { FileData } from "ngx-cloud-storage-types";
 
-import { VirtualDrive } from "./virtual-drive";
+import { ReadOnlyVirtualDrive } from "./virtual-drive";
 import { BufferGeometry } from "three";
 
-import { rootfolder } from "./folder-data";
+import { rootfolder, foodFolder, seaFolder } from "./folder-data";
 
 @Component({
   templateUrl: './file-browser.component.html',
 })
 export class FileBrowserExample {
-  virtual = new VirtualDrive(rootfolder);
   filters = [
     { name: 'GLTF Models', filter: 'glb,gltf' },
     { name: 'PLY Models', filter: 'ply' },
@@ -28,9 +27,14 @@ export class FileBrowserExample {
   url!: string;
   scene!: Group;
 
+  virtual = new ReadOnlyVirtualDrive(rootfolder);
+
   constructor(
     private loader: NgtLoader,
-  ) { }
+  ) {
+    this.virtual.addFolder('food', foodFolder);
+    this.virtual.addFolder('sea', seaFolder);
+  }
 
   loaded(scene: Scene) {
     const box = new Box3().setFromObject(scene)
