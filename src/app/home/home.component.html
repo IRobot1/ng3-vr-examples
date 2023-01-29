@@ -8,19 +8,19 @@
 
 <ngt-group [position]="[0, 1.5, 0]">
   <ngt-group *ngFor="let item of panels3" [rotation]="[0, item.rotation | radian, 0]">
-    <portal [asset]="item.asset" [text]="item.text" [position]="[0, 0, -3]" [selectable]="selectable" (portalSelected)="selected($event)"></portal>
+    <portal [asset]="item.asset" [text]="item.text" [position]="[0, 0, -4.1]" [selectable]="selectable" (portalSelected)="selected($event)"></portal>
   </ngt-group>
 </ngt-group>
 
 <ngt-group [position]="[0, 0, 0]">
   <ngt-group *ngFor="let item of panels2" [rotation]="[0, item.rotation | radian, 0]">
-    <portal [asset]="item.asset" [text]="item.text" [position]="[0, 0, -3]" [selectable]="selectable" (portalSelected)="selected($event)"></portal>
+    <portal [asset]="item.asset" [text]="item.text" [position]="[0, 0, -4.1]" [selectable]="selectable" (portalSelected)="selected($event)"></portal>
   </ngt-group>
 </ngt-group>
 
 <ngt-group [position]="[0, -1.5, 0]">
   <ngt-group *ngFor="let item of panels1" [rotation]="[0, item.rotation | radian, 0]">
-    <portal [asset]="item.asset" [text]="item.text" [position]="[0, 0, -3]" [rotation]="[-30 | radian, 0, 0]" [selectable]="selectable" (portalSelected)="selected($event)"></portal>
+    <portal [asset]="item.asset" [text]="item.text" [position]="[0, 0, -4.1]" [rotation]="[-30 | radian, 0, 0]" [selectable]="selectable" (portalSelected)="selected($event)"></portal>
   </ngt-group>
 </ngt-group>
 

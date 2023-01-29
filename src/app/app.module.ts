@@ -147,6 +147,7 @@ import { FileBrowserExample } from '../examples/file-browser/file-browser.compon
 
 import { NgxCloudStorageTypesModule } from 'ngx-cloud-storage-types';
 import { Ng3FileListModule } from 'ng3-file-list';
+import { DataVisualsExample } from '../examples/data-visuals/data-visuals.component';
 
 
 
@@ -301,6 +302,7 @@ import { Ng3FileListModule } from 'ng3-file-list';
 
     FileBrowserExample,
 
+    DataVisualsExample,
   ],
   imports: [
     BrowserModule,

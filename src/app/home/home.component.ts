@@ -57,6 +57,7 @@ export class HomeComponent implements OnInit {
     { asset: 'pexelsvideo', text: 'Pexels Video' },
     { asset: 'shapeware-shapes', text: 'Shapeware Shapes' },
     { asset: 'file-browser', text: 'File/Folder Browser' },
+    { asset: 'data-visuals', text: 'Data Visuals' },
   ]
 
   panels1: Array<PanelSetting> = [];
