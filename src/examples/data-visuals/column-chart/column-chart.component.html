@@ -1,0 +1,20 @@
+<ngt-group [ngtObjectPassThrough]="this">
+  <ng-container *ngFor="let item of display">
+    <flat-ui-label [text]="item.data.label" [rotation]="[-90 | radian, 0, -90 | radian]" [width]="0" [aligny]="item.labelalign"
+                   [position]="[item.x, 0, 0.05]" [labelmaterial]="labelmaterial">
+    </flat-ui-label>
+
+    <flat-ui-label [text]="item.minorlabel" [fontsize]="0.03" [rotation]="[-90 | radian, 0, -90 | radian]"
+                   [position]="[item.x, 0, 0.55]" [labelmaterial]="labelmaterial"  [aligny]="'top'">
+    </flat-ui-label>
+
+    <ngt-mesh [geometry]="item.data.geometry" [material]="item.data.material"
+              [position]="[item.x, 0.01, 0]">
+    </ngt-mesh>
+
+    <flat-ui-label [text]="item.displayvalue" [alignx]="'center'" 
+                   [position]="[item.x, item.y+0.05, 0]" [labelmaterial]="labelmaterial">
+    </flat-ui-label>
+
+  </ng-container>
+</ngt-group>

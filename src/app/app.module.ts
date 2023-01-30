@@ -148,6 +148,8 @@ import { FileBrowserExample } from '../examples/file-browser/file-browser.compon
 import { NgxCloudStorageTypesModule } from 'ngx-cloud-storage-types';
 import { Ng3FileListModule } from 'ng3-file-list';
 import { DataVisualsExample } from '../examples/data-visuals/data-visuals.component';
+import { ColumnChart } from '../examples/data-visuals/column-chart/column-chart.component';
+import { ColumnDataComponent } from '../examples/data-visuals/column-data/column-data.component';
 
 
 
@@ -303,6 +305,8 @@ import { DataVisualsExample } from '../examples/data-visuals/data-visuals.compon
     FileBrowserExample,
 
     DataVisualsExample,
+    ColumnChart,
+    ColumnDataComponent,
   ],
   imports: [
     BrowserModule,
