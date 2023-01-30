@@ -86,6 +86,7 @@ export class FlatUILabel extends NgtObjectProps<Group> implements AfterViewInit 
   }
 
   @Output() textheight = new EventEmitter<number>();
+  @Output() textwidth = new EventEmitter<number>();
 
   ngAfterViewInit(): void {
     this.mesh.addEventListener(LAYOUT_EVENT, (e: any) => {
@@ -108,6 +109,7 @@ export class FlatUILabel extends NgtObjectProps<Group> implements AfterViewInit 
     text.addEventListener('synccomplete', () => {
       const bounds = text.textRenderInfo.blockBounds;
       this.textheight.next(bounds[3] - bounds[1]);
+      this.textwidth.next(bounds[2] - bounds[0]);
     });
 
     this.mesh = text;
