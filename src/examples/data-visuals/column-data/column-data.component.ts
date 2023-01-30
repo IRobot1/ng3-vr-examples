@@ -9,7 +9,7 @@ import { ColumnChart, ColumnData } from "../column-chart/column-chart.component"
   template: '',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ColumnDataComponent implements OnInit, OnDestroy, ColumnData {
+export class ChartColumnData implements OnInit, OnDestroy, ColumnData {
   @Input() label = ''
   @Input() minorlabel: string | undefined;
   @Input() value = 0;

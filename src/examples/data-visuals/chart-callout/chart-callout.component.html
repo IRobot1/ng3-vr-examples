@@ -1,0 +1,15 @@
+<ngt-group [ngtObjectPassThrough]="this">
+  <ngt-mesh #callout [material]="calloutmaterial"></ngt-mesh>
+  <ngt-line #outline [material]="outlinematerial"></ngt-line>
+
+  <flat-ui-label [text]="text" [alignx]="'center'" (ready)="label = $event"
+                 (textwidth)="buildCalloutShape($event, callout.instance.value, outline.instance.value, horizlink.instance.value, vertlink.instance.value)">
+  </flat-ui-label>
+
+  <ngt-mesh #horizlink [material]="linkmaterial">
+    <ngt-plane-geometry [args]="[linkwidth, 0.01]"></ngt-plane-geometry>
+  </ngt-mesh>
+  <ngt-mesh #vertlink [material]="linkmaterial">
+    <ngt-plane-geometry [args]="[0.01, linkheight]"></ngt-plane-geometry>
+  </ngt-mesh>
+</ngt-group>

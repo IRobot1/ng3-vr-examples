@@ -12,9 +12,11 @@
               [position]="[item.x, 0.01, 0]">
     </ngt-mesh>
 
-    <flat-ui-label [text]="item.displayvalue" [alignx]="'center'" 
+    <!--<flat-ui-label [text]="item.displayvalue" [alignx]="'center'" 
                    [position]="[item.x, item.y+0.05, 0]" [labelmaterial]="labelmaterial">
-    </flat-ui-label>
+    </flat-ui-label>-->
+
+    <chart-callout [text]="item.displayvalue" [position]="[item.x, item.y+0.05, 0]" [calloutmaterial]="calloutmaterial" ></chart-callout>
 
   </ng-container>
 </ngt-group>

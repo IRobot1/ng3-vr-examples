@@ -149,7 +149,8 @@ import { NgxCloudStorageTypesModule } from 'ngx-cloud-storage-types';
 import { Ng3FileListModule } from 'ng3-file-list';
 import { DataVisualsExample } from '../examples/data-visuals/data-visuals.component';
 import { ColumnChart } from '../examples/data-visuals/column-chart/column-chart.component';
-import { ColumnDataComponent } from '../examples/data-visuals/column-data/column-data.component';
+import { ChartColumnData } from '../examples/data-visuals/column-data/column-data.component';
+import { ChartCallout } from '../examples/data-visuals/chart-callout/chart-callout.component';
 
 
 
@@ -306,7 +307,8 @@ import { ColumnDataComponent } from '../examples/data-visuals/column-data/column
 
     DataVisualsExample,
     ColumnChart,
-    ColumnDataComponent,
+    ChartColumnData,
+    ChartCallout,
   ],
   imports: [
     BrowserModule,

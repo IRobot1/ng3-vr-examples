@@ -40,6 +40,8 @@ export class ColumnChart extends NgtObjectProps<Group>{
     if (newvalue) this.refresh();
   }
 
+  @Input() calloutmaterial: Material | undefined;
+
   private refresh() {
     this.display.length = 0;
     const columnwidth = (this.width - this.spacing * (this.data.length + 1)) / this.data.length;
