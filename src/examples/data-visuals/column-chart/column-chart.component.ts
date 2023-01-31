@@ -28,6 +28,7 @@ interface ColumnDisplay {
 })
 export class ColumnChart extends NgtObjectProps<Group>{
   @ContentChild('xaxis') protected xaxis?: TemplateRef<unknown>;
+  @ContentChild('value') protected value?: TemplateRef<unknown>;
 
   protected display: Array<ColumnDisplay> = []
 

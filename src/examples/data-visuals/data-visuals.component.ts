@@ -20,6 +20,10 @@ export class DataVisualsExample implements OnInit {
     { label: '2021', value: 0.9, geometry: this.arrow, material: new MeshBasicMaterial({ color: '#716EC9' }) },
   ]
 
+  protected displaytext(data: ColumnData) {
+    return `${data.value*100} %`
+  }
+
   ngOnInit(): void {
     const shape = this.createArrowShape(0.1, 1);
     this.arrow = new ShapeGeometry(shape);

@@ -1,23 +1,31 @@
 <ngt-group [ngtObjectPassThrough]="this">
-    <ng-container *ngFor="let item of display">
-      <ng-container [ngTemplateOutlet]="xaxis ? xaxis: defaultAxisX"
-                    [ngTemplateOutletContext]="{ x: item.x, data: item.data }">
-      </ng-container>
-
-      <ng-template #defaultAxisX let-x="x" let-data="data">
-        <flat-ui-label [text]="data.label" [width]="0" [rotation]="[-90 | radian, 0, -90 | radian]"
-                       [position]="[x, 0, 0.05]" [labelmaterial]="labelmaterial">
-        </flat-ui-label>
-      </ng-template>
+  <ng-container *ngFor="let item of display">
+    <ng-container [ngTemplateOutlet]="xaxis ? xaxis: defaultAxisX"
+                  [ngTemplateOutletContext]="{ x: item.x, data: item.data }">
     </ng-container>
 
-  <ng-container #parent *ngFor="let item of display">
+    <ng-template #defaultAxisX let-x="x" let-data="data">
+      <flat-ui-label [text]="data.label" [width]="0" [rotation]="[-90 | radian, 0, -90 | radian]"
+                     [position]="[x, 0, 0.05]" [labelmaterial]="labelmaterial">
+      </flat-ui-label>
+    </ng-template>
+  </ng-container>
 
+  <ng-container *ngFor="let item of display">
     <ngt-mesh [geometry]="item.data.geometry" [material]="item.data.material"
               [position]="[item.x, 0.01, 0]">
     </ngt-mesh>
+  </ng-container>
 
-    <chart-callout [text]="item.displayvalue" [position]="[item.x, item.y+0.05, 0]" [calloutmaterial]="calloutmaterial"></chart-callout>
+  <ng-container *ngFor="let item of display">
+    <ng-container [ngTemplateOutlet]="value ? value: defaultValue"
+                  [ngTemplateOutletContext]="{ x: item.x, y: item.y, data: item.data }">
+    </ng-container>
 
+    <ng-template #defaultValue let-x="x" let-y="y" let-data="data">
+      <flat-ui-label [text]="data.value" [alignx]="'center'"
+                     [position]="[x, y+0.05, 0]" [labelmaterial]="labelmaterial">
+      </flat-ui-label>
+    </ng-template>
   </ng-container>
 </ngt-group>
