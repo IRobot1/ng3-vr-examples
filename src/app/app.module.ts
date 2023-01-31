@@ -152,6 +152,7 @@ import { ColumnChart } from '../examples/data-visuals/column-chart/column-chart.
 import { ChartColumnData } from '../examples/data-visuals/column-data/column-data.component';
 import { ChartCallout } from '../examples/data-visuals/chart-callout/chart-callout.component';
 import { ChartUnderline } from '../examples/data-visuals/chart-underline/chart-underline.component';
+import { ChartGrid } from '../examples/data-visuals/chart-grid/chart-grid.component';
 
 
 
@@ -311,6 +312,7 @@ import { ChartUnderline } from '../examples/data-visuals/chart-underline/chart-u
     ChartColumnData,
     ChartCallout,
     ChartUnderline,
+    ChartGrid,
   ],
   imports: [
     BrowserModule,

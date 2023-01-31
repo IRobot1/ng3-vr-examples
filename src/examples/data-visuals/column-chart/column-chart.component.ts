@@ -67,7 +67,7 @@ export class ColumnChart extends NgtObjectProps<Group>{
     let x = 0;
 
     this.data.forEach((data, index) => {
-      const halfwidth = this.spacing + columnwidths[index] / 2;
+      const halfwidth = (this.spacing + columnwidths[index]) / 2;
       x += halfwidth
 
       data.geometry.computeBoundingBox();

@@ -10,7 +10,8 @@ import { ColumnData } from "./column-chart/column-chart.component";
 })
 export class DataVisualsExample implements OnInit {
   temp!: BufferGeometry;
-  width = 4 / 3
+  width = 1.3;
+  height = 1;
 
   pink = new MeshBasicMaterial({ color: '#F9458E' });
   seagreen = new MeshBasicMaterial({ color: 'seagreen' });
