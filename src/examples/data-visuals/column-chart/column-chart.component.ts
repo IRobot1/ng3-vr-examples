@@ -8,7 +8,6 @@ import { LabelAlignY } from "ng3-flat-ui";
 export interface ColumnData {
   label: string;
   value: number;
-  displayvalue?: string;
   geometry: BufferGeometry;
   material: Material;
 }
@@ -16,7 +15,6 @@ export interface ColumnData {
 interface ColumnDisplay {
   x: number,
   y: number, // value offset
-  displayvalue: string,
   data: ColumnData;
 }
 
@@ -47,8 +45,6 @@ export class ColumnChart extends NgtObjectProps<Group>{
     const columnwidth = (this.width - this.spacing * (this.data.length + 1)) / this.data.length;
     let x = this.spacing + columnwidth / 2;
     this.data.forEach(data => {
-      let displayvalue = data.displayvalue;
-      if (!displayvalue) displayvalue = data.value.toString();
 
       data.geometry.computeBoundingBox();
       let y = 0;
@@ -59,7 +55,7 @@ export class ColumnChart extends NgtObjectProps<Group>{
         y = size.y;
       }
 
-      this.display.push({ x, y, data, displayvalue })
+      this.display.push({ x, y, data })
       x += columnwidth + this.spacing;
     });
   }
