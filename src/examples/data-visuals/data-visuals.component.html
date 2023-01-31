@@ -9,7 +9,7 @@
   <ngt-mesh-basic-material color="#283756"></ngt-mesh-basic-material>
 </ngt-mesh>
 
-    <ngt-mesh-basic-material #floor color="#1E2A42"></ngt-mesh-basic-material>
+<ngt-mesh-basic-material #floor color="#1E2A42"></ngt-mesh-basic-material>
 
 <ngt-group [scale]="1" [position]="[-2, 0, -1]" [rotation]="[0, 45 | radian, 0]">
 
@@ -19,15 +19,21 @@
 
   <column-chart [data]="arrowdata" [position]="[0, 0, 0]" [scale]="1" [rotation]="[0 | radian, 0, 0]" [calloutmaterial]="floor.instance.value">
     <!--<column-data *ngFor="let item of arrowdata"
-                 [label]="item.label" [value]="0.5" [minorlabel]="item.minorlabel" [displayvalue]="item.displayvalue"
+                 [label]="item.label" [value]="0.5" [displayvalue]="item.displayvalue"
                  [geometry]="item.geometry" [material]="item.material">
     </column-data>-->
+
+    <ng-template #xaxis let-x="x" let-data="data">
+      <flat-ui-label [text]="data.label" [width]="0" [rotation]="[-90 | radian, 0, -90 | radian]"
+                     [position]="[x, 0, 0.05]">
+      </flat-ui-label>
+      <!--<chart-underline [position]="[x-0.05, 0.001, 0.08]" [rotation]="[-90 | radian, 0, -90 | radian]"></chart-underline>-->
+    </ng-template>
   </column-chart>
 </ngt-group>
 
 <ngt-group ngtBoxHelper>
 </ngt-group>
-
 
 <vr-controller navhome></vr-controller>
 <vr-controller [index]="1" navhome></vr-controller>

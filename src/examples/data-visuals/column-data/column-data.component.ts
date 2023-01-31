@@ -11,7 +11,6 @@ import { ColumnChart, ColumnData } from "../column-chart/column-chart.component"
 })
 export class ChartColumnData implements OnInit, OnDestroy, ColumnData {
   @Input() label = ''
-  @Input() minorlabel: string | undefined;
   @Input() value = 0;
   @Input() displayvalue: string | undefined;
   @Input() geometry!: BufferGeometry;

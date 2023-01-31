@@ -151,6 +151,7 @@ import { DataVisualsExample } from '../examples/data-visuals/data-visuals.compon
 import { ColumnChart } from '../examples/data-visuals/column-chart/column-chart.component';
 import { ChartColumnData } from '../examples/data-visuals/column-data/column-data.component';
 import { ChartCallout } from '../examples/data-visuals/chart-callout/chart-callout.component';
+import { ChartUnderline } from '../examples/data-visuals/chart-underline/chart-underline.component';
 
 
 
@@ -309,6 +310,7 @@ import { ChartCallout } from '../examples/data-visuals/chart-callout/chart-callo
     ColumnChart,
     ChartColumnData,
     ChartCallout,
+    ChartUnderline,
   ],
   imports: [
     BrowserModule,

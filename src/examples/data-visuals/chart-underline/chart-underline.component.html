@@ -1,0 +1,8 @@
+<ngt-group [ngtObjectPassThrough]="this">
+  <ngt-mesh #disk [material]="underlinematerial">
+    <ngt-circle-geometry [args]="[0.02, 20]"></ngt-circle-geometry>
+  </ngt-mesh>
+  <ngt-mesh #line [material]="underlinematerial" [position]="[length/2, 0, 0]">
+    <ngt-plane-geometry [args]="[length, 0.01]"></ngt-plane-geometry>
+  </ngt-mesh>
+</ngt-group>

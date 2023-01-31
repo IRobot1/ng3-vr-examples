@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef } from "@angular/core";
 
 import { BufferGeometry, Group, Material, Vector3 } from "three";
 import { NgtObjectProps } from "@angular-three/core";
@@ -7,7 +7,6 @@ import { LabelAlignY } from "ng3-flat-ui";
 
 export interface ColumnData {
   label: string;
-  minorlabel?: string;
   value: number;
   displayvalue?: string;
   geometry: BufferGeometry;
@@ -18,8 +17,6 @@ interface ColumnDisplay {
   x: number,
   y: number, // value offset
   displayvalue: string,
-  labelalign: LabelAlignY,
-  minorlabel: string,
   data: ColumnData;
 }
 
@@ -30,6 +27,8 @@ interface ColumnDisplay {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ColumnChart extends NgtObjectProps<Group>{
+  @ContentChild('xaxis') protected xaxis?: TemplateRef<unknown>;
+
   protected display: Array<ColumnDisplay> = []
 
   private _data: Array<ColumnData> = []
@@ -59,14 +58,7 @@ export class ColumnChart extends NgtObjectProps<Group>{
         y = size.y;
       }
 
-      let labelalign: LabelAlignY = 'middle';
-      let minorlabel = '';
-      if (data.minorlabel) {
-        minorlabel = data.minorlabel;
-        labelalign = 'bottom';
-      }
-
-      this.display.push({ x, y, data, displayvalue, minorlabel, labelalign })
+      this.display.push({ x, y, data, displayvalue })
       x += columnwidth + this.spacing;
     });
   }
