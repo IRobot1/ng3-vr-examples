@@ -18,6 +18,8 @@ interface ColumnDisplay {
   data: ColumnData;
 }
 
+export type AxisDistribution = 'even' | 'sum';
+
 @Component({
   selector: 'column-chart',
   exportAs: 'columnChart',
@@ -40,11 +42,33 @@ export class ColumnChart extends NgtObjectProps<Group>{
 
   @Input() calloutmaterial: Material | undefined;
 
+  @Input() distribution: AxisDistribution = 'even';
+
+  private calcDistribution(): Array<number> {
+    let result: Array<number> = []
+    switch (this.distribution) {
+      case 'even':
+        const columnwidth = (this.width - this.spacing * (this.data.length + 1)) / this.data.length;
+        result = new Array(this.data.length).fill(columnwidth)
+        break;
+      case 'sum':
+        const total = this.data.map(x => x.value).reduce((accum, value) => accum + value);
+        this.data.forEach(item => {
+          result.push(item.value / total * this.width);
+        });
+    }
+    return result;
+  }
+
   private refresh() {
     this.display.length = 0;
-    const columnwidth = (this.width - this.spacing * (this.data.length + 1)) / this.data.length;
-    let x = this.spacing + columnwidth / 2;
-    this.data.forEach(data => {
+
+    const columnwidths = this.calcDistribution();
+    let x = 0;
+
+    this.data.forEach((data, index) => {
+      const halfwidth = this.spacing + columnwidths[index] / 2;
+      x += halfwidth
 
       data.geometry.computeBoundingBox();
       let y = 0;
@@ -55,8 +79,8 @@ export class ColumnChart extends NgtObjectProps<Group>{
         y = size.y;
       }
 
-      this.display.push({ x, y, data })
-      x += columnwidth + this.spacing;
+      this.display.push({ x, y, data });
+      x += halfwidth;
     });
   }
 
