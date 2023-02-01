@@ -18,7 +18,7 @@
     <ngt-plane-geometry [args]="[width, 0.1]"></ngt-plane-geometry>
   </ngt-mesh>
 
-  <column-chart [data]="arrowdata" [position]="[0, 0, 0]" [scale]="1" [rotation]="[0 | radian, 0, 0]" [calloutmaterial]="floor.instance.value">
+  <column-chart [data]="arrowdata" [position]="[0, 0, 0]" [scale]="1" [rotation]="[0 | radian, 0, 0]">
     <!--<column-data *ngFor="let item of arrowdata"
                  [label]="item.label" [value]="0.5" [displayvalue]="item.displayvalue"
                  [geometry]="item.geometry" [material]="item.material">
@@ -41,7 +41,7 @@
 
 <ngt-group [scale]="1" [position]="[-2, 0, 0.5]" [rotation]="[0, 45 | radian, 0]">
 
-  <column-chart [distribution]="'sum'" [spacing]="0" [data]="boxdata" [position]="[0, 0, 0]" [scale]="1" [rotation]="[0 | radian, 0, 0]" [calloutmaterial]="floor.instance.value">
+  <column-chart [distribution]="'sum'" [spacing]="0" [data]="boxdata" [position]="[0, 0, 0]" [scale]="1" [rotation]="[0 | radian, 0, 0]">
     <!--<column-data *ngFor="let item of boxdata"
                  [label]="item.label" [value]="0.5"
                  [geometry]="item.geometry" [material]="item.material">
@@ -62,7 +62,7 @@
 
 <ngt-group [scale]="1" [position]="[-0.3, 0, 0.3]" [rotation]="[0, 45 | radian, 0]">
 
-  <column-chart [spacing]="0" [width]="2" [data]="ringdata" [position]="[0, 0, 0]" [scale]="1" [rotation]="[0 | radian, 0, 0]" [calloutmaterial]="floor.instance.value">
+  <column-chart [spacing]="0" [width]="2" [data]="ringdata" [position]="[0, 0, 0]" [scale]="1" [rotation]="[0 | radian, 0, 0]">
     <!--<column-data *ngFor="let item of ringdata"
                  [label]="item.label" [value]="0.5"
                  [geometry]="item.geometry" [material]="item.material">
@@ -91,7 +91,7 @@
     <ngt-plane-geometry [args]="[width-0.4, 0.15]"></ngt-plane-geometry>
   </ngt-mesh>
 
-  <column-chart [data]="rectangledata" [spacing]="0.1" [position]="[0, 0, 0]" [scale]="1" [rotation]="[0 | radian, 0, 0]" [calloutmaterial]="floor.instance.value">
+  <column-chart [data]="rectangledata" [spacing]="0.1" [position]="[0, 0, 0]" [scale]="1" [rotation]="[0 | radian, 0, 0]">
     <!--<column-data *ngFor="let item of arrowdata"
                [label]="item.label" [value]="0.5" [displayvalue]="item.displayvalue"
                [geometry]="item.geometry" [material]="item.material">

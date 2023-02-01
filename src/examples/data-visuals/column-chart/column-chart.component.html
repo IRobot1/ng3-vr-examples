@@ -7,7 +7,7 @@
 
   <ng-template #defaultAxisX let-x="x" let-data="data">
     <flat-ui-label [text]="data.label" [width]="0" [rotation]="[-90 | radian, 0, -90 | radian]"
-                   [position]="[x, 0, 0.05]" [labelmaterial]="labelmaterial">
+                   [position]="[x, 0, 0.05]">
     </flat-ui-label>
   </ng-template>
 
@@ -31,7 +31,7 @@
 
   <ng-template #defaultValue let-x="x" let-y="y" let-data="data">
     <flat-ui-label [text]="data.value" [alignx]="'center'"
-                   [position]="[x, y+0.05, 0]" [labelmaterial]="labelmaterial">
+                   [position]="[x, y+0.05, 0]">
     </flat-ui-label>
   </ng-template>
 </ngt-group>

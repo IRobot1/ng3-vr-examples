@@ -3,8 +3,6 @@ import { ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef } 
 import { BufferGeometry, Group, Material, Vector3 } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
-import { LabelAlignY } from "ng3-flat-ui";
-
 export interface ColumnData {
   label: string;
   value: number;
@@ -40,9 +38,6 @@ export class ColumnChart extends NgtObjectProps<Group>{
     this._data = newvalue;
     if (newvalue) this.updateFlag = true;
   }
-
-  @Input() calloutmaterial: Material | undefined;
-  @Input() labelmaterial!: Material
 
   private _distribution: AxisDistribution = 'even';
   @Input()
