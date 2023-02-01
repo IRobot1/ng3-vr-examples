@@ -38,12 +38,48 @@ export class ColumnChart extends NgtObjectProps<Group>{
   get data(): Array<ColumnData> { return this._data }
   set data(newvalue: Array<ColumnData>) {
     this._data = newvalue;
-    if (newvalue) this.refresh();
+    if (newvalue) this.updateFlag = true;
   }
 
   @Input() calloutmaterial: Material | undefined;
+  @Input() labelmaterial!: Material
 
-  @Input() distribution: AxisDistribution = 'even';
+  private _distribution: AxisDistribution = 'even';
+  @Input()
+  get distribution(): AxisDistribution { return this._distribution }
+  set distribution(newvalue: AxisDistribution) {
+    this._distribution = newvalue;
+    this.updateFlag = true;
+  }
+
+  private _width = 4 / 3;
+  @Input()
+  get width(): number { return this._width }
+  set width(newvalue: number) {
+    this._width = newvalue;
+    this.updateFlag = true;
+  }
+
+  private _spacing = 0.01;
+  @Input()
+  get spacing(): number { return this._spacing }
+  set spacing(newvalue: number) {
+    this._spacing = newvalue;
+    this.updateFlag = true;
+  }
+
+
+  addColumn(data: ColumnData) {
+    this.data.push(data);
+    this.updateFlag = true;
+  }
+
+  removeColumn(data: ColumnData) {
+    this.data = this.data.filter(item => item != data)
+    this.updateFlag = true;
+  }
+
+  private updateFlag = false;
 
   private calcDistribution(): Array<number> {
     let result: Array<number> = []
@@ -60,6 +96,7 @@ export class ColumnChart extends NgtObjectProps<Group>{
     }
     return result;
   }
+
 
   private refresh() {
     this.display.length = 0;
@@ -85,19 +122,10 @@ export class ColumnChart extends NgtObjectProps<Group>{
     });
   }
 
-  @Input() width = 4 / 3;
-  @Input() spacing = 0.01;
-
-  @Input() labelmaterial!: Material
-
-  addColumn(data: ColumnData) {
-    this.data.push(data);
-    this.refresh();
+  protected tick() {
+    if (this.updateFlag) {
+      this.updateFlag = false;
+      this.refresh();
+    }
   }
-
-  removeColumn(data: ColumnData) {
-    this.data = this.data.filter(item => item != data)
-    this.refresh();
-  }
-
 }
