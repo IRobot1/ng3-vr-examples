@@ -43,7 +43,15 @@ export class DataVisualsExample implements OnInit {
     { label: '', value: 79, geometry: this.temp, material: this.purple },
   ]
 
-  protected displaytext(data: ColumnData) {
+  rectangledata: Array<ColumnData> = [
+    { label: '2017', value: 10, geometry: this.temp, material: this.cornflowerblue },
+    { label: '2018', value: 40, geometry: this.temp, material: this.pink },
+    { label: '2019', value: 50, geometry: this.temp, material: this.gold },
+    { label: '2020', value: 30, geometry: this.temp, material: this.seagreen },
+    { label: '2021', value: 70, geometry: this.temp, material: this.purple },
+  ]
+
+  protected arrowtext(data: ColumnData) {
     return `${data.value.toFixed(2)} %`
   }
 
@@ -76,15 +84,36 @@ export class DataVisualsExample implements OnInit {
 
 
     this.ringdata.forEach(item => {
-      //item.geometry = new ShapeGeometry(this.createRingShape(0.1, 0.2, item.value / 100 * Math.PI * 2 ))
       item.geometry = new ExtrudeGeometry(this.createRingShape(0.125, 0.2, item.value / 100 * Math.PI * 2),
         { bevelEnabled: false, depth: 0.06, bevelSize: 0.01 })
       item.geometry.rotateX(MathUtils.degToRad(-90))
-      //item.geometry = new ExtrudeGeometry(arcShape, { bevelEnabled: false, depth:0.1})
-      //item.geometry.translate(0, 0.1, 0) // change center
 
       item.label = `${item.value} %`;
     });
+
+    this.rectangledata.forEach(item => {
+      const height = item.value / 100 * this.height;
+      item.geometry = new BoxGeometry(0.15, height, 0.15);
+      item.geometry.translate(0, height / 2, 0); // change center
+
+      (item as any)['minorlabel'] = 'Lorem ipsum dolor sit amet, consectetur';
+    });
+  }
+
+  createPieShape(radius: number, endradians: number): Shape {
+    const shape = new Shape()
+      .lineTo(radius, 0)
+
+    const segment = endradians / 36;
+    for (let angle = 0; angle <= endradians; angle += segment) {
+      const outerx = radius * Math.cos(angle)
+      const outery = radius * Math.sin(angle)
+
+      shape.lineTo(outerx, outery);
+    }
+    shape.closePath();
+
+    return shape;
   }
 
   createRingShape(innerradius: number, outerradius: number, endradians: number): Shape {
@@ -97,6 +126,7 @@ export class DataVisualsExample implements OnInit {
     for (let angle = 0; angle <= endradians; angle += segment) {
       const outerx = outerradius * Math.cos(angle)
       const outery = outerradius * Math.sin(angle)
+
       shape.lineTo(outerx, outery);
 
       inner.push(new Vector2(innerradius * Math.cos(angle), innerradius * Math.sin(angle)));
@@ -105,8 +135,9 @@ export class DataVisualsExample implements OnInit {
     shape.closePath();
 
     return shape;
-
   }
+
+
   createArrowShape(width: number, height: number): Shape {
     const points: Array<Vector2> = []
     points.push(new Vector2(0, 0))

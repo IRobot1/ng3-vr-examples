@@ -32,7 +32,7 @@
     </ng-template>
 
     <ng-template #value let-x="x" let-y="y" let-data="data">
-      <chart-callout [text]="displaytext(data)" [rotation]="[0, -90 | radian, 0]"
+      <chart-callout [text]="arrowtext(data)" [rotation]="[0, -90 | radian, 0]"
                      [position]="[x, y+0.05, 0]" [calloutmaterial]="floor.instance.value"></chart-callout>
     </ng-template>
 
@@ -43,7 +43,7 @@
 
   <column-chart [distribution]="'sum'" [spacing]="0" [data]="boxdata" [position]="[0, 0, 0]" [scale]="1" [rotation]="[0 | radian, 0, 0]" [calloutmaterial]="floor.instance.value">
     <!--<column-data *ngFor="let item of boxdata"
-                 [label]="item.label" [value]="0.5" 
+                 [label]="item.label" [value]="0.5"
                  [geometry]="item.geometry" [material]="item.material">
     </column-data>-->
 
@@ -64,9 +64,9 @@
 
   <column-chart [spacing]="0" [width]="2" [data]="ringdata" [position]="[0, 0, 0]" [scale]="1" [rotation]="[0 | radian, 0, 0]" [calloutmaterial]="floor.instance.value">
     <!--<column-data *ngFor="let item of ringdata"
-               [label]="item.label" [value]="0.5" 
-               [geometry]="item.geometry" [material]="item.material">
-  </column-data>-->
+                 [label]="item.label" [value]="0.5"
+                 [geometry]="item.geometry" [material]="item.material">
+    </column-data>-->
 
     <ng-template #xaxis let-x="x" let-data="data">
     </ng-template>
@@ -82,6 +82,35 @@
                      [position]="[x, y+0.05, 0]" [calloutmaterial]="floor.instance.value"></chart-callout>
     </ng-template>
 
+  </column-chart>
+</ngt-group>
+
+<ngt-group [scale]="1" [position]="[0.4, 0, 0.9]" [rotation]="[0, 45 | radian, 0]">
+
+  <ngt-mesh [position]="[width/2, 0.001, 0]" [rotation]="[-90 | radian, 0, 0]" [material]="floor.instance.value">
+    <ngt-plane-geometry [args]="[width-0.4, 0.15]"></ngt-plane-geometry>
+  </ngt-mesh>
+
+  <column-chart [data]="rectangledata" [spacing]="0.1" [position]="[0, 0, 0]" [scale]="1" [rotation]="[0 | radian, 0, 0]" [calloutmaterial]="floor.instance.value">
+    <!--<column-data *ngFor="let item of arrowdata"
+               [label]="item.label" [value]="0.5" [displayvalue]="item.displayvalue"
+               [geometry]="item.geometry" [material]="item.material">
+  </column-data>-->
+
+    <ng-template #xaxis let-x="x" let-data="data">
+      <flat-ui-label [text]="data.label" [width]="0" [rotation]="[-90 | radian, 0, -90 | radian]"
+                     [position]="[x+0.04, 0, 0.1]">
+      </flat-ui-label>
+      <flat-ui-label [text]="data.minorlabel" [width]="0.3" [fontsize]="0.03" [rotation]="[-90 | radian, 0, -90 | radian]"
+                     [position]="[x-0.04, 0, 0.15+0.1]">
+      </flat-ui-label>
+    </ng-template>
+
+    <ng-template #value let-x="x" let-y="y" let-data="data">
+      <flat-ui-label [text]="ringtext(data)" [alignx]="'center'"
+                     [position]="[x, y+0.05, 0]" >
+      </flat-ui-label>
+    </ng-template>
   </column-chart>
 </ngt-group>
 
