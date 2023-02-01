@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 
-import { BoxGeometry, BufferGeometry, ExtrudeGeometry, MeshBasicMaterial, Shape, ShapeGeometry, Vector2 } from "three";
+import { BoxGeometry, BufferGeometry, ExtrudeGeometry, MathUtils, MeshBasicMaterial, Path, RingGeometry, Shape, ShapeGeometry, Vector2 } from "three";
 
 import { ColumnData } from "./column-chart/column-chart.component";
 
@@ -36,8 +36,19 @@ export class DataVisualsExample implements OnInit {
     { label: '', value: 14, geometry: this.temp, material: this.seagreen },
   ]
 
+  ringdata: Array<ColumnData> = [
+    { label: '', value: 67, geometry: this.temp, material: this.pink },
+    { label: '', value: 53, geometry: this.temp, material: this.gold },
+    { label: '', value: 28, geometry: this.temp, material: this.seagreen },
+    { label: '', value: 79, geometry: this.temp, material: this.purple },
+  ]
+
   protected displaytext(data: ColumnData) {
     return `${data.value.toFixed(2)} %`
+  }
+
+  protected ringtext(data: ColumnData) {
+    return `${data.value} %`
   }
 
   ngOnInit(): void {
@@ -56,15 +67,46 @@ export class DataVisualsExample implements OnInit {
     const total = this.boxdata.map(x => x.value).reduce((accum, value) => accum + value);
     this.boxdata.forEach(item => {
       const width = item.value / total * 4 / 3;
-      
+
       item.geometry = new BoxGeometry(width, 0.2, 0.4);
       item.geometry.translate(0, 0.1, 0) // change center
 
       item.label = `${item.value} %`;
     });
+
+
+    this.ringdata.forEach(item => {
+      //item.geometry = new ShapeGeometry(this.createRingShape(0.1, 0.2, item.value / 100 * Math.PI * 2 ))
+      item.geometry = new ExtrudeGeometry(this.createRingShape(0.125, 0.2, item.value / 100 * Math.PI * 2),
+        { bevelEnabled: false, depth: 0.06, bevelSize: 0.01 })
+      item.geometry.rotateX(MathUtils.degToRad(-90))
+      //item.geometry = new ExtrudeGeometry(arcShape, { bevelEnabled: false, depth:0.1})
+      //item.geometry.translate(0, 0.1, 0) // change center
+
+      item.label = `${item.value} %`;
+    });
   }
 
+  createRingShape(innerradius: number, outerradius: number, endradians: number): Shape {
+    const shape = new Shape()
+      .moveTo(outerradius, 0)
 
+    const inner: Array<Vector2> = []
+
+    const segment = endradians / 36;
+    for (let angle = 0; angle <= endradians; angle += segment) {
+      const outerx = outerradius * Math.cos(angle)
+      const outery = outerradius * Math.sin(angle)
+      shape.lineTo(outerx, outery);
+
+      inner.push(new Vector2(innerradius * Math.cos(angle), innerradius * Math.sin(angle)));
+    }
+    inner.reverse().forEach(item => shape.lineTo(item.x, item.y));
+    shape.closePath();
+
+    return shape;
+
+  }
   createArrowShape(width: number, height: number): Shape {
     const points: Array<Vector2> = []
     points.push(new Vector2(0, 0))
@@ -78,4 +120,6 @@ export class DataVisualsExample implements OnInit {
     points.push(new Vector2(0, 0))
     return new Shape(points);
   }
+
+
 }

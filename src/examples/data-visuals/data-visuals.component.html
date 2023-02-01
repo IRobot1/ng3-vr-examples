@@ -10,6 +10,7 @@
 </ngt-mesh>
 
 <ngt-mesh-basic-material #floor color="#1E2A42"></ngt-mesh-basic-material>
+<ngt-mesh-basic-material #ring color="#1C2B42"></ngt-mesh-basic-material>
 
 <ngt-group [scale]="1" [position]="[-2, 0, -1]" [rotation]="[0, 45 | radian, 0]">
 
@@ -42,7 +43,7 @@
 
   <column-chart [distribution]="'sum'" [spacing]="0" [data]="boxdata" [position]="[0, 0, 0]" [scale]="1" [rotation]="[0 | radian, 0, 0]" [calloutmaterial]="floor.instance.value">
     <!--<column-data *ngFor="let item of boxdata"
-                 [label]="item.label" [value]="0.5" [displayvalue]="item.displayvalue"
+                 [label]="item.label" [value]="0.5" 
                  [geometry]="item.geometry" [material]="item.material">
     </column-data>-->
 
@@ -59,7 +60,32 @@
   </column-chart>
 </ngt-group>
 
-<chart-grid [width]="width" [height]="height"></chart-grid>
+<ngt-group [scale]="1" [position]="[-0.3, 0, 0.3]" [rotation]="[0, 45 | radian, 0]">
+
+  <column-chart [spacing]="0" [width]="2" [data]="ringdata" [position]="[0, 0, 0]" [scale]="1" [rotation]="[0 | radian, 0, 0]" [calloutmaterial]="floor.instance.value">
+    <!--<column-data *ngFor="let item of ringdata"
+               [label]="item.label" [value]="0.5" 
+               [geometry]="item.geometry" [material]="item.material">
+  </column-data>-->
+
+    <ng-template #xaxis let-x="x" let-data="data">
+    </ng-template>
+
+    <ng-template #object let-x="x" let-data="data">
+      <ngt-mesh [position]="[x, 0.001, 0]" [rotation]="[-90 | radian, 0, 0]" [material]="ring.instance.value">
+        <ngt-ring-geometry [args]="[0.125, 0.2, 32]"></ngt-ring-geometry>
+      </ngt-mesh>
+    </ng-template>
+
+    <ng-template #value let-x="x" let-y="y" let-data="data">
+      <chart-callout [text]="ringtext(data)" [rotation]="[0, -90 | radian, 0]"
+                     [position]="[x, y+0.05, 0]" [calloutmaterial]="floor.instance.value"></chart-callout>
+    </ng-template>
+
+  </column-chart>
+</ngt-group>
+
+<!--<chart-grid [width]="width" [height]="height"></chart-grid>-->
 
 <vr-controller navhome></vr-controller>
 <vr-controller [index]="1" navhome></vr-controller>

@@ -29,6 +29,7 @@ export type AxisDistribution = 'even' | 'sum';
 export class ColumnChart extends NgtObjectProps<Group>{
   @ContentChild('xaxis') protected xaxis?: TemplateRef<unknown>;
   @ContentChild('value') protected value?: TemplateRef<unknown>;
+  @ContentChild('object') protected object?: TemplateRef<unknown>;
 
   protected display: Array<ColumnDisplay> = []
 

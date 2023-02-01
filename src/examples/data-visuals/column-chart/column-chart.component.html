@@ -11,11 +11,16 @@
     </ng-template>
   </ng-container>
 
-  <ng-container *ngFor="let item of display">
-    <ngt-mesh [geometry]="item.data.geometry" [material]="item.data.material"
-              [position]="[item.x, 0.01, 0]">
-    </ngt-mesh>
-  </ng-container>
+  <ngt-group *ngFor="let item of display" [position]="[item.x, 0.001, 0]">
+    <ngt-mesh [geometry]="item.data.geometry" [material]="item.data.material"></ngt-mesh>
+
+    <ng-container [ngTemplateOutlet]="object ? object: defaultObject"
+                  [ngTemplateOutletContext]="{ x: item.x, y: item.y, data: item.data }">
+    </ng-container>
+
+    <ng-template #defaultObject>
+    </ng-template>
+  </ngt-group>
 
   <ng-container *ngFor="let item of display">
     <ng-container [ngTemplateOutlet]="value ? value: defaultValue"
