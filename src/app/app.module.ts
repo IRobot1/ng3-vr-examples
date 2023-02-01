@@ -153,6 +153,7 @@ import { ChartColumnData } from '../examples/data-visuals/column-data/column-dat
 import { ChartCallout } from '../examples/data-visuals/chart-callout/chart-callout.component';
 import { ChartUnderline } from '../examples/data-visuals/chart-underline/chart-underline.component';
 import { ChartGrid } from '../examples/data-visuals/chart-grid/chart-grid.component';
+import { PieChart } from '../examples/data-visuals/pie-chart/pie-chart.component';
 
 
 
@@ -313,6 +314,7 @@ import { ChartGrid } from '../examples/data-visuals/chart-grid/chart-grid.compon
     ChartCallout,
     ChartUnderline,
     ChartGrid,
+    PieChart,
   ],
   imports: [
     BrowserModule,

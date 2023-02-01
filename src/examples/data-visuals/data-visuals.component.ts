@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { BoxGeometry, BufferGeometry, ExtrudeGeometry, MathUtils, MeshBasicMaterial, Path, RingGeometry, Shape, ShapeGeometry, Vector2 } from "three";
 
 import { ColumnData } from "./column-chart/column-chart.component";
+import { PieData } from "./pie-chart/pie-chart.component";
 
 @Component({
   templateUrl: './data-visuals.component.html',
@@ -12,6 +13,7 @@ export class DataVisualsExample implements OnInit {
   temp!: BufferGeometry;
   width = 1.3;
   height = 1;
+  piespacing = 0.02;
 
   pink = new MeshBasicMaterial({ color: '#F9458E' });
   seagreen = new MeshBasicMaterial({ color: 'seagreen' });
@@ -51,6 +53,13 @@ export class DataVisualsExample implements OnInit {
     { label: '2021', value: 70, geometry: this.temp, material: this.purple },
   ]
 
+  piedata: Array<PieData> = [
+    { label: '', value: 31,  geometry: this.temp, material: this.gold },
+    { label: '', value: 12, geometry: this.temp, material: this.pink },
+    { label: '', value: 10, geometry: this.temp, material: this.seagreen },
+    { label: '', value: 47, geometry: this.temp, material: this.purple },
+  ]
+
   protected arrowtext(data: ColumnData) {
     return `${data.value.toFixed(2)} %`
   }
@@ -72,9 +81,9 @@ export class DataVisualsExample implements OnInit {
       //item.minorlabel = 'some small subtext that should wrap after a while some small subtext that should wrap after a while'
     });
 
-    const total = this.boxdata.map(x => x.value).reduce((accum, value) => accum + value);
+    const boxtotal = this.boxdata.map(x => x.value).reduce((accum, value) => accum + value);
     this.boxdata.forEach(item => {
-      const width = item.value / total * 4 / 3;
+      const width = item.value / boxtotal * 4 / 3;
 
       item.geometry = new BoxGeometry(width, 0.2, 0.4);
       item.geometry.translate(0, 0.1, 0) // change center
@@ -98,13 +107,23 @@ export class DataVisualsExample implements OnInit {
 
       (item as any)['minorlabel'] = 'Lorem ipsum dolor sit amet, consectetur';
     });
+
+
+    const pietotal = this.piedata.map(x => x.value).reduce((accum, value) => accum + value);
+    this.piedata.forEach(item => {
+      const slice = item.value / pietotal * Math.PI * 2;
+      //item.geometry = new ShapeGeometry(this.createPieShape(0.3, slice));
+      item.geometry = new ExtrudeGeometry(this.createPieShape(0.3, slice), { bevelEnabled: false, depth: 0.06, bevelSize: 0.01 });
+
+      item.label = `${item.value} %`;
+    });
   }
 
   createPieShape(radius: number, endradians: number): Shape {
     const shape = new Shape()
       .lineTo(radius, 0)
 
-    const segment = endradians / 36;
+    const segment = endradians / 180;
     for (let angle = 0; angle <= endradians; angle += segment) {
       const outerx = radius * Math.cos(angle)
       const outery = radius * Math.sin(angle)
