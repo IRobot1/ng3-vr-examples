@@ -54,10 +54,10 @@ export class DataVisualsExample implements OnInit {
   ]
 
   piedata: Array<PieData> = [
-    { label: '', value: 31,  geometry: this.temp, material: this.gold },
-    { label: '', value: 12, geometry: this.temp, material: this.pink },
-    { label: '', value: 10, geometry: this.temp, material: this.seagreen },
-    { label: '', value: 47, geometry: this.temp, material: this.purple },
+    { label: '', value: 31,  material: this.gold },
+    { label: '', value: 12, material: this.pink },
+    { label: '', value: 10, material: this.seagreen },
+    { label: '', value: 47, material: this.purple },
   ]
 
   protected arrowtext(data: ColumnData) {
@@ -109,31 +109,11 @@ export class DataVisualsExample implements OnInit {
     });
 
 
-    const pietotal = this.piedata.map(x => x.value).reduce((accum, value) => accum + value);
     this.piedata.forEach(item => {
-      const slice = item.value / pietotal * Math.PI * 2;
-      //item.geometry = new ShapeGeometry(this.createPieShape(0.3, slice));
-      item.geometry = new ExtrudeGeometry(this.createPieShape(0.3, slice), { bevelEnabled: false, depth: 0.06, bevelSize: 0.01 });
-
       item.label = `${item.value} %`;
     });
   }
 
-  createPieShape(radius: number, endradians: number): Shape {
-    const shape = new Shape()
-      .lineTo(radius, 0)
-
-    const segment = endradians / 180;
-    for (let angle = 0; angle <= endradians; angle += segment) {
-      const outerx = radius * Math.cos(angle)
-      const outery = radius * Math.sin(angle)
-
-      shape.lineTo(outerx, outery);
-    }
-    shape.closePath();
-
-    return shape;
-  }
 
   createRingShape(innerradius: number, outerradius: number, endradians: number): Shape {
     const shape = new Shape()

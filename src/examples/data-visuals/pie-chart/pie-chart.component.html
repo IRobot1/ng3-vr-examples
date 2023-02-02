@@ -1,7 +1,7 @@
 <ngt-group [ngtObjectPassThrough]="this" (beforeRender)="tick()">
 
   <ngt-group ngtBoxHelper *ngFor="let item of display" [position]="[0, 0.001, 0]" [rotation]="[0, 0, item.radians]">
-    <ngt-mesh  [geometry]="item.data.geometry" [material]="item.data.material"></ngt-mesh>
+    <ngt-mesh  [geometry]="item.geometry" [material]="item.data.material"></ngt-mesh>
 
     <ng-container [ngTemplateOutlet]="object ? object: defaultObject"
                   [ngTemplateOutletContext]="{ center: item.center, data: item.data }">
