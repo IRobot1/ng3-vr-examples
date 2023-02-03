@@ -123,7 +123,16 @@
   </pie-chart>
 </ngt-group>
 
+<ngt-group [scale]="1" [position]="[1.6, 0, 1.3]">
+  <stacked-bar [data]="stackdata" [segments]="4" [bottomradius]="0.4"></stacked-bar>
+</ngt-group>
+
 <!--<chart-grid [width]="width" [height]="height"></chart-grid>-->
+
+<!--<ngt-mesh  [position]="[1.1, 0.5, 1.3]">
+  <ngt-box-geometry [args]="[0.2, 1, 0.2]"></ngt-box-geometry>
+  <ngt-mesh-basic-material color="black"></ngt-mesh-basic-material>
+</ngt-mesh>-->
 
 <vr-controller navhome></vr-controller>
 <vr-controller [index]="1" navhome></vr-controller>

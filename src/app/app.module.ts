@@ -155,6 +155,7 @@ import { ChartUnderline } from '../examples/data-visuals/chart-underline/chart-u
 import { ChartGrid } from '../examples/data-visuals/chart-grid/chart-grid.component';
 import { PieChart } from '../examples/data-visuals/pie-chart/pie-chart.component';
 import { ChartPieData } from '../examples/data-visuals/pie-data/pie-data.component';
+import { StackedBar } from '../examples/data-visuals/stacked-bar/stacked-bar.component';
 
 
 
@@ -317,6 +318,7 @@ import { ChartPieData } from '../examples/data-visuals/pie-data/pie-data.compone
     ChartGrid,
     PieChart,
     ChartPieData,
+    StackedBar,
   ],
   imports: [
     BrowserModule,

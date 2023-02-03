@@ -1,0 +1,15 @@
+<ngt-group [ngtObjectPassThrough]="this" (beforeRender)="tick()">
+
+  <ngt-mesh *ngFor="let item of display"
+            [position]="[0, item.y, 0]" [geometry]="item.geometry" [material]="item.data.material">
+  </ngt-mesh>
+
+  <ngt-group *ngFor="let item of display" [rotation]="[0, item.labelrotate, 0]">
+
+    <flat-ui-label [position]="[0, item.y+item.height/2, item.labeloffset]" [rotation]="[item.labeltilt,0, 0]"
+                   [text]="item.data.label" [alignx]="'center'">
+    </flat-ui-label>
+  </ngt-group>
+
+
+</ngt-group>

@@ -4,6 +4,7 @@ import { BoxGeometry, BufferGeometry, ExtrudeGeometry, MathUtils, MeshBasicMater
 
 import { ColumnData } from "./column-chart/column-chart.component";
 import { PieData } from "./pie-chart/pie-chart.component";
+import { StackData } from "./stacked-bar/stacked-bar.component";
 
 @Component({
   templateUrl: './data-visuals.component.html',
@@ -60,6 +61,14 @@ export class DataVisualsExample implements OnInit {
     { label: '', value: 47, labelsize: 0.07, material: this.purple },
   ]
 
+  stackdata: Array<StackData> = [
+    { label: '', value: 42, material: this.cornflowerblue },
+    { label: '', value: 36, material: this.purple },
+    { label: '', value: 12, material: this.pink },
+    { label: '', value: 21, material: this.gold },
+    { label: '', value: 27, material: this.seagreen },
+  ]
+
   protected arrowtext(data: ColumnData) {
     return `${data.value.toFixed(2)} %`
   }
@@ -112,8 +121,21 @@ export class DataVisualsExample implements OnInit {
     this.piedata.forEach(item => {
       item.label = `${item.value} %`;
     });
-  }
 
+    this.piedata.forEach(item => {
+      item.label = `${item.value} %`;
+    });
+
+    this.stackdata.forEach(item => {
+      item.label = `${item.value} %`;
+    });
+
+    //setInterval(() => {
+    //  this.segments++;
+    //  if (this.segments == 20) this.segments = 3;
+    //}, 1000)
+  }
+  segments = 3
 
   createRingShape(innerradius: number, outerradius: number, endradians: number): Shape {
     const shape = new Shape()
