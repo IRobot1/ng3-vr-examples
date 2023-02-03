@@ -54,10 +54,10 @@ export class DataVisualsExample implements OnInit {
   ]
 
   piedata: Array<PieData> = [
-    { label: '', value: 31,  material: this.gold },
-    { label: '', value: 12, material: this.pink },
-    { label: '', value: 10, material: this.seagreen },
-    { label: '', value: 47, material: this.purple },
+    { label: '', value: 31, labelsize: 0.07, material: this.gold },
+    { label: '', value: 12, labelsize: 0.05, material: this.pink },
+    { label: '', value: 10, labelsize: 0.04, material: this.seagreen },
+    { label: '', value: 47, labelsize: 0.07, material: this.purple },
   ]
 
   protected arrowtext(data: ColumnData) {

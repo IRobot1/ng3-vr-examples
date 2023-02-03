@@ -114,15 +114,12 @@
   </column-chart>
 </ngt-group>
 
-<ngt-group [scale]="1" [position]="[0, 1, 1.2]" [rotation]="[ -0 | radian, 0, 45 | radian]">
-  <pie-chart [data]="piedata" [spacing]="0" [position]="[0, 0, 0]" [scale]="1" [rotation]="[0 | radian, 0, 0]">
-    <!--<column-data *ngFor="let item of piedata"
-                 [label]="item.label" [value]="0.5"
-                 [geometry]="item.geometry" [material]="item.material">
-    </column-data>-->
-
-
-
+<ngt-group [scale]="1" [position]="[-0.2, 0, 1.2]" [rotation]="[ -90 | radian, 0, 45 | radian]">
+  <pie-chart [data]="piedata" [spacing]="0.02" [rotatetext]="90 | radian" [position]="[0, 0, 0]" [scale]="1" [rotation]="[0 | radian, 0, 0]">
+    <!--<pie-data *ngFor="let item of piedata"
+                 [label]="item.label" [value]="item.value" [labelsize]="item.labelsize"
+                 [material]="item.material">
+    </pie-data>-->
   </pie-chart>
 </ngt-group>
 

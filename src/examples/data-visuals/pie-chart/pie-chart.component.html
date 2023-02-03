@@ -1,18 +1,12 @@
 <ngt-group [ngtObjectPassThrough]="this" (beforeRender)="tick()">
 
-  <ngt-group ngtBoxHelper *ngFor="let item of display" [position]="[0, 0.001, 0]" [rotation]="[0, 0, item.radians]">
-    <ngt-mesh  [geometry]="item.geometry" [material]="item.data.material"></ngt-mesh>
+  <ngt-group *ngFor="let item of display" [rotation]="[0, 0, item.radians]">
+    <ngt-mesh (ready)="meshready($event, item)" [geometry]="item.geometry" [material]="item.data.material">
 
-    <ng-container [ngTemplateOutlet]="object ? object: defaultObject"
-                  [ngTemplateOutletContext]="{ center: item.center, data: item.data }">
-    </ng-container>
-
-    <ng-template #defaultObject let-center="center" let-data="data">
-      <!--<flat-ui-label [text]="'test'" [position]="center"></flat-ui-label>-->
-      <ngt-mesh [position]="center">
-        <ngt-sphere-geometry [args]="[0.04]"></ngt-sphere-geometry>
-      </ngt-mesh>
-    </ng-template>
+      <flat-ui-label [text]="item.data.label" [fontsize]="item.data.labelsize" [alignx]="'center'"
+                     [position]="item.center" [rotation]="[0, 0, -item.radians - rotatetext]">
+      </flat-ui-label>
+    </ngt-mesh>
   </ngt-group>
 
 </ngt-group>

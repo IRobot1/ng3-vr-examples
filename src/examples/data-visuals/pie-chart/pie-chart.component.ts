@@ -1,19 +1,19 @@
-import { ChangeDetectionStrategy, Component, ContentChild, Input, TemplateRef } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
-import { BufferGeometry, ExtrudeGeometry, ExtrudeGeometryOptions, Group, Material, Mesh, Object3D, Shape, ShapeGeometry, Vector3 } from "three";
+import { BufferGeometry, ExtrudeGeometry, Group, Material, Mesh, Object3D, Shape, ShapeGeometry, Vector3 } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
 export interface PieData {
   label: string;
+  labelsize: number;
   value: number;
   material: Material;
 }
 
 interface PieDisplay {
   geometry: BufferGeometry;
-  x: number,
-  z: number,
-  center: Vector3,
+  center?: Vector3;  // calculated after mesh is rendered
+  slice: number; // in radians
   radians: number,
   data: PieData;
 }
@@ -26,21 +26,16 @@ interface PieDisplay {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PieChart extends NgtObjectProps<Group>{
-  @ContentChild('object') protected object?: TemplateRef<unknown>;
 
   protected display: Array<PieDisplay> = []
-  private total = 0;
+  protected total = 0;
 
   private _data: Array<PieData> = []
   @Input()
   get data(): Array<PieData> { return this._data }
   set data(newvalue: Array<PieData>) {
     this._data = newvalue;
-    if (newvalue) {
-      this.total = newvalue.map(x => x.value).reduce((accum, value) => accum + value);
-
       this.updateFlag = true;
-    }
   }
 
   private _spacing = 0;
@@ -59,6 +54,14 @@ export class PieChart extends NgtObjectProps<Group>{
     this.updateFlag = true;
   }
 
+  private _rotatetext = 0;
+  @Input()
+  get rotatetext(): number { return this._rotatetext }
+  set rotatetext(newvalue: number) {
+    this._rotatetext = newvalue;
+    this.updateFlag = true;
+  }
+
   private _extrude = true;
   @Input()
   get extrude(): boolean { return this._extrude }
@@ -67,11 +70,11 @@ export class PieChart extends NgtObjectProps<Group>{
     this.updateFlag = true;
   }
 
-  private _extrudeoptions: ExtrudeGeometryOptions = { bevelEnabled: false, depth: 0.06, bevelSize: 0.01 }
+  private _depth = 0.1
   @Input()
-  get extrudeoptions(): ExtrudeGeometryOptions { return this._extrudeoptions }
-  set extrudeoptions(newvalue: ExtrudeGeometryOptions) {
-    this._extrudeoptions = newvalue;
+  get depth(): number { return this._depth }
+  set depth(newvalue: number) {
+    this._depth = newvalue;
     this.updateFlag = true;
   }
 
@@ -91,11 +94,36 @@ export class PieChart extends NgtObjectProps<Group>{
     return shape;
   }
 
+  protected meshready(mesh: Mesh, item: PieDisplay) {
+    const object = new Object3D()
+    mesh.add(object);
+
+    const halfslice = item.slice / 2;
+    if (this.spacing) {
+      // translate away from center
+      mesh.translateX(Math.cos(halfslice) * this.spacing)
+      mesh.translateY(Math.sin(halfslice) * this.spacing)
+    }
+
+    let offset = 0.6;
+    if (item.slice < Math.PI / 2) {
+      offset = 0.7;
+    }
+    // roughly calculate center of slice
+    object.translateX(Math.cos(halfslice) * this.radius * offset);
+    object.translateY(Math.sin(halfslice) * this.radius * offset);
+    object.translateZ(this.depth)
+
+    // center for placing text
+    item.center = object.position;
+    mesh.remove(object)
+  }
 
   private updateFlag = false;
 
   private refresh() {
     this.display.length = 0;
+    this.total = this.data.map(x => x.value).reduce((accum, value) => accum + value);
 
     let radians = 0;
     this.data.forEach((data, index) => {
@@ -105,31 +133,11 @@ export class PieChart extends NgtObjectProps<Group>{
 
       let geometry: BufferGeometry;
       if (this.extrude)
-        geometry = new ExtrudeGeometry(shape, this.extrudeoptions);
+        geometry = new ExtrudeGeometry(shape, { bevelEnabled: false, depth: this.depth });
       else
         geometry = new ShapeGeometry(shape);
 
-      // add offset from center
-      const halfslide = slice / 2;
-      const x = Math.cos(halfslide) * this.spacing;
-      const z = Math.sin(halfslide) * this.spacing;
-
-      geometry.rotateX(halfslide) // temporarily rotate to center of slice
-      geometry.translate(x, 0, z) // translate by offset
-      geometry.rotateX(-halfslide) // remove rotation back to sta
-
-      geometry.computeBoundingBox();
-      const box = geometry.boundingBox;
-      let center = new Vector3();
-      if (box) {
-        const size = new Vector3();
-        box.getSize(size);
-
-        box.getCenter(center);
-        center.z += size.z / 2;
-      }
-
-      this.display.push({ geometry, x, z, center, radians, data });
+      this.display.push({ geometry, slice, radians, data });
 
       radians += slice;
     });
@@ -141,4 +149,16 @@ export class PieChart extends NgtObjectProps<Group>{
       this.refresh();
     }
   }
+
+  addSlice(data: PieData) {
+    this.data.push(data);
+    this.updateFlag = true;
+  }
+
+  removeSlice(data: PieData) {
+    this.data = this.data.filter(item => item != data)
+    this.updateFlag = true;
+  }
+
+
 }
