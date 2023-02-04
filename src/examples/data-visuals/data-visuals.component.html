@@ -131,13 +131,13 @@
 </ngt-group>
 
 <ngt-group [scale]="0.8" [position]="[-1.9, 0, 2.5]" [rotation]="[0, 45 | radian, 0]">
-  <ngt-mesh [position]="[width/2, 0.001, 0]" [rotation]="[-90 | radian, 0, 0]" [material]="floor.instance.value">
-    <ngt-plane-geometry [args]="[width, 0.4]"></ngt-plane-geometry>
+  <ngt-mesh [position]="[width/2, 0.001, 0.1]" [rotation]="[-90 | radian, 0, 0]" [material]="floor.instance.value">
+    <ngt-plane-geometry [args]="[width, 0.7]"></ngt-plane-geometry>
   </ngt-mesh>
 
   <chart-grid [position]="[0, 0.002, 0]" [width]="width" [height]="height"></chart-grid>
-  <line-chart [data]="linedata" [width]="width" [height]="height" [redraw]="redraw" [showmarkers]="true">
-  </line-chart>
+  <line-chart [data]="linedata" [width]="width" [height]="height" [redraw]="redraw" [showmarkers]="true"></line-chart>
+  <area-plot [position]="[0.1, 0.002, 0.2]" [data]="areadata" [width]="width-0.2" [height]="height/2" [redraw]="redraw"></area-plot>
 </ngt-group>
 
 <!--<ngt-mesh  [position]="[1.1, 0.5, 1.3]">

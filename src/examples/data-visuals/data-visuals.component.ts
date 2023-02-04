@@ -101,6 +101,31 @@ export class DataVisualsExample implements OnInit {
     //  ], material: this.cornflowerblue
     //},
   ]
+  areadata: Array<LineData> = [
+    {
+      label: '', values: [
+        <Vector2>{ x: 1, y: 0 },
+        <Vector2>{ x: 2, y: 2 },
+        <Vector2>{ x: 3, y: 1 },
+        <Vector2>{ x: 5, y: 4 },
+        <Vector2>{ x: 6, y: 5 },
+        <Vector2>{ x: 7, y: 8 },
+        <Vector2>{ x: 8, y: 7 },
+        <Vector2>{ x: 9, y: 4 },
+        <Vector2>{ x: 10, y: 3 },
+        <Vector2>{ x: 11, y: 7 },
+        <Vector2>{ x: 12, y: 8 },
+        <Vector2>{ x: 13, y: 7 },
+        <Vector2>{ x: 14, y: 6 },
+        <Vector2>{ x: 15, y: 4 },
+        <Vector2>{ x: 16, y: 3 },
+        <Vector2>{ x: 17, y: 2 },
+        <Vector2>{ x: 18, y: 5 },
+        <Vector2>{ x: 19, y: 3 },
+        <Vector2>{ x: 20, y: 0 },
+      ], material: this.pink
+    }
+  ]
 
 
   protected arrowtext(data: ColumnData) {
@@ -171,27 +196,40 @@ export class DataVisualsExample implements OnInit {
 
     this.stackdata = this.xstackdata;
 
-    //let index = 0;
-    //let values = this.linedata[0].values;
-    //setInterval(() => {
-    //  const value = Math.sin(index) * 10;
-    //  if (values.length > 100) {
-    //    values.shift();
-    //  }
-    //  values.push(<Vector2>{ x: index, y: value });
-    //  this.redraw = !this.redraw;
-    //  index += 0.1;
-    //  //  this.segments++;
-    //  //  if (this.segments == 20) this.segments = 3;
-    //  //    if (this.stackdata == this.xstackdata) {
-    //  //      this.stackdata = this.ystackdata
-    //  //      this.segments = 4;
-    //  //    }
-    //  //    else {
-    //  //      this.stackdata = this.xstackdata
-    //  //      this.segments = 3;
-    //  //    }
-    //}, 1000)
+  //  let index = 0;
+  //  let linevalues = this.linedata[0].values;
+  //  linevalues.length = 0;
+
+  //  let areavalues = this.areadata[0].values;
+  //  areavalues.length = 0;
+
+  //  setInterval(() => {
+  //    for (let i = 0; i < 1; i++) {
+  //      const value = Math.sin(index) * 10;
+
+  //      if (linevalues.length > 100) {
+  //        linevalues.shift();
+  //      }
+  //      linevalues.push(<Vector2>{ x: index, y: value });
+
+  //      if (areavalues.length > 100) {
+  //        areavalues.shift();
+  //      }
+  //      areavalues.push(<Vector2>{ x: index, y: value });
+  //      index += 0.1;
+  //    }
+  //    this.redraw = !this.redraw;
+  //    //  this.segments++;
+  //    //  if (this.segments == 20) this.segments = 3;
+  //    //    if (this.stackdata == this.xstackdata) {
+  //    //      this.stackdata = this.ystackdata
+  //    //      this.segments = 4;
+  //    //    }
+  //    //    else {
+  //    //      this.stackdata = this.xstackdata
+  //    //      this.segments = 3;
+  //    //    }
+  //  }, 1000 / 60)
   }
   segments = 4
   redraw = false;
