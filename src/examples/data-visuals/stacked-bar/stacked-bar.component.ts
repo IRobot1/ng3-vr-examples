@@ -20,6 +20,7 @@ interface StackDisplay {
   data: StackData;
 }
 
+export type StackTop = 'flat' | 'point'
 
 @Component({
   selector: 'stacked-bar',
@@ -55,15 +56,15 @@ export class StackedBar extends NgtObjectProps<Group>{
     this.updateFlag = true;
   }
 
-  private _topradius = 0.3
+  private _top: StackTop = 'flat'
   @Input()
-  get topradius(): number { return this._topradius }
-  set topradius(newvalue: number) {
-    this._topradius = newvalue;
+  get top(): StackTop { return this._top }
+  set top(newvalue: StackTop) {
+    this._top = newvalue;
     this.updateFlag = true;
   }
 
-private _bottomradius = 0.3;
+  private _bottomradius = 0.3;
   @Input()
   get bottomradius(): number { return this._bottomradius }
   set bottomradius(newvalue: number) {
@@ -79,15 +80,6 @@ private _bottomradius = 0.3;
     this.updateFlag = true;
   }
 
-  private _rotatetext = 0;
-  @Input()
-  get rotatetext(): number { return this._rotatetext }
-  set rotatetext(newvalue: number) {
-    this._rotatetext = newvalue;
-    this.updateFlag = true;
-  }
-
-
   private updateFlag = true;
 
   private refresh() {
@@ -97,35 +89,51 @@ private _bottomradius = 0.3;
 
     this.display.length = 0;
     const total = this.data.map(x => x.value).reduce((accum, value) => accum + value);
+
     let bottomradius = this.bottomradius;
-    let topradius = this.bottomradius;
     let y = 0;
+
+    let topradius = this.bottomradius;
     let labelrotate = -MathUtils.degToRad(180 / this.segments);
 
-    // calculate distance from center to face
-    const facedistance = this.bottomradius * Math.cos(Math.PI / this.segments);
+    let labeltilt = 0
+    if (this.top == 'point') {
+      // calculate distance from center to face
+      const facedistance = this.bottomradius * Math.cos(Math.PI / this.segments);
 
-    // calculate the angle of the face
-    const labeltilt = Math.atan(this.height / facedistance) - Math.PI / 2;
+      // calculate the angle of the face
+      labeltilt = Math.atan(this.height / facedistance) - Math.PI / 2;
+    }
 
     this.data.forEach((data, index) => {
       // calculate height of segment relative to total and overall height
       const height = data.value / total * this.height;
 
-      // calculate radius at top relative to total height and overall radius
-      const radius = height / this.height * this.bottomradius;
+      if (this.top == 'point') {
+        // calculate radius at top relative to total height and overall radius
+        const radius = height / this.height * this.bottomradius;
 
-      const geometry = new CylinderGeometry(topradius - radius, bottomradius, height, this.segments);
-      geometry.translate(0, height / 2, 0); // change center to bottom of segment
+        const geometry = new CylinderGeometry(topradius - radius, bottomradius, height, this.segments);
+        geometry.translate(0, height / 2, 0); // change center to bottom of segment
 
-      // calculate distance from center to face for middle of this segment
-      const labeloffset = (topradius - radius / 2) * Math.cos(Math.PI/this.segments);
+        // calculate distance from center to face for middle of this segment
+        const labeloffset = (topradius - radius / 2) * Math.cos(Math.PI / this.segments);
 
-      this.display.push({ geometry, y, height, labeloffset, labeltilt, labelrotate, data });
+        this.display.push({ geometry, y, height, labeloffset, labeltilt, labelrotate, data });
 
-      topradius -= radius;
-      y += height;
-      bottomradius = topradius;
+        topradius -= radius;  // decrease until point
+        bottomradius = topradius;
+      }
+      else {
+        const geometry = new CylinderGeometry(bottomradius, bottomradius, height, this.segments);
+        geometry.translate(0, height / 2, 0); // change center to bottom of segment
+
+        const labeloffset = bottomradius * Math.cos(Math.PI / this.segments);
+        this.display.push({ geometry, y, height, labeloffset, labeltilt, labelrotate, data });
+      }
+
+      // move up the stack
+      y += height + this.spacing;
     });
 
   }
