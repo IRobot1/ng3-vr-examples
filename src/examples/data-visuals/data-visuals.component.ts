@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
 
 import { BoxGeometry, BufferGeometry, ExtrudeGeometry, MathUtils, MeshBasicMaterial, Path, RingGeometry, Shape, ShapeGeometry, Vector2 } from "three";
 
 import { ColumnData } from "./column-chart/column-chart.component";
+import { LineData } from "./line-chart/line-chart.component";
 import { PieData } from "./pie-chart/pie-chart.component";
 import { StackData } from "./stacked-bar/stacked-bar.component";
 
@@ -12,7 +13,7 @@ import { StackData } from "./stacked-bar/stacked-bar.component";
 })
 export class DataVisualsExample implements OnInit {
   temp!: BufferGeometry;
-  width = 1.3;
+  width = 1.6;
   height = 1;
   piespacing = 0.02;
 
@@ -76,6 +77,32 @@ export class DataVisualsExample implements OnInit {
     { label: '', value: 42, material: this.cornflowerblue },
   ]
 
+  linedata: Array<LineData> = [
+    {
+      label: '', values: [
+        <Vector2>{ x: 1, y: 2 },
+        <Vector2>{ x: 3.5, y: 5.5 },
+        <Vector2>{ x: 6, y: 3 },
+        <Vector2>{ x: 8.5, y: 8 },
+        <Vector2>{ x: 10.5, y: 5.5 },
+        <Vector2>{ x: 13, y: 3 },
+        <Vector2>{ x: 14.5, y: 8 },
+      ], material: this.gold
+    },
+    //{
+    //  label: '', values: [
+    //    <Vector2>{ x: 1, y: 3 },
+    //    <Vector2>{ x: 3.5, y: 6.5 },
+    //    <Vector2>{ x: 6, y: 4 },
+    //    <Vector2>{ x: 8.5, y: 9 },
+    //    <Vector2>{ x: 10.5, y: 6.5 },
+    //    <Vector2>{ x: 13, y: 4 },
+    //    <Vector2>{ x: 14.5, y: 9 },
+    //  ], material: this.cornflowerblue
+    //},
+  ]
+
+
   protected arrowtext(data: ColumnData) {
     return `${data.value.toFixed(2)} %`
   }
@@ -83,6 +110,8 @@ export class DataVisualsExample implements OnInit {
   protected ringtext(data: ColumnData) {
     return `${data.value} %`
   }
+
+  constructor(private cd: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     const shape = this.createArrowShape(0.1, 1);
@@ -142,20 +171,30 @@ export class DataVisualsExample implements OnInit {
 
     this.stackdata = this.xstackdata;
 
+    //let index = 0;
+    //let values = this.linedata[0].values;
     //setInterval(() => {
-      //  this.segments++;
-      //  if (this.segments == 20) this.segments = 3;
-  //    if (this.stackdata == this.xstackdata) {
-  //      this.stackdata = this.ystackdata
-  //      this.segments = 4;
-  //    }
-  //    else {
-  //      this.stackdata = this.xstackdata
-  //      this.segments = 3;
-  //    }
-  //  }, 2000)
+    //  const value = Math.sin(index) * 10;
+    //  if (values.length > 100) {
+    //    values.shift();
+    //  }
+    //  values.push(<Vector2>{ x: index, y: value });
+    //  this.redraw = !this.redraw;
+    //  index += 0.1;
+    //  //  this.segments++;
+    //  //  if (this.segments == 20) this.segments = 3;
+    //  //    if (this.stackdata == this.xstackdata) {
+    //  //      this.stackdata = this.ystackdata
+    //  //      this.segments = 4;
+    //  //    }
+    //  //    else {
+    //  //      this.stackdata = this.xstackdata
+    //  //      this.segments = 3;
+    //  //    }
+    //}, 1000)
   }
   segments = 4
+  redraw = false;
 
   createRingShape(innerradius: number, outerradius: number, endradians: number): Shape {
     const shape = new Shape()

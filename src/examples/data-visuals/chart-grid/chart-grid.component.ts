@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { NgtObjectProps } from "@angular-three/core";
 
 import { BoxLineGeometry } from 'three-stdlib';
-import { BufferGeometry, Float32BufferAttribute, LineSegments } from "three";
+import { BufferGeometry, Float32BufferAttribute, LineBasicMaterial, LineSegments } from "three";
 
 
 @Component({
@@ -29,6 +29,8 @@ export class ChartGrid extends NgtObjectProps<LineSegments> {
     this._height = newvalue;
     this.refresh();
   }
+
+  @Input() material = new LineBasicMaterial({ color: 'white', transparent: true, opacity: 0.03 });
 
   protected geometry = new BufferGeometry();
 

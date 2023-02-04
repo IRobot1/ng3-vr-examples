@@ -1,0 +1,16 @@
+<ngt-group [ngtObjectPassThrough]="this" (beforeRender)="tick()">
+
+  <ngt-line *ngFor="let item of display" [geometry]="item.geometry" [material]="item.data.material">
+  </ngt-line>
+
+  <ngt-group *ngFor="let item of display">
+    <ng-container *ngIf="showmarkers">
+
+      <ngt-mesh *ngFor="let position of item.points" [position]="position">
+        <ngt-circle-geometry [args]="[markersize, 20]"></ngt-circle-geometry>
+      </ngt-mesh>
+
+    </ng-container>
+  </ngt-group>
+
+</ngt-group>
