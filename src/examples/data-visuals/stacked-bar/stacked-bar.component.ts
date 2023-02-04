@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
-import { BufferGeometry, CircleGeometry, CylinderGeometry, ExtrudeGeometry, Group, Material, MathUtils, Mesh, Object3D, Shape, ShapeGeometry, Vector3 } from "three";
+import { BufferGeometry, CylinderGeometry, Group, Material, MathUtils } from "three";
 import { NgtObjectProps } from "@angular-three/core";
-import { degToRad } from "three/src/math/MathUtils";
 
 export interface StackData {
   label: string;
@@ -37,6 +36,7 @@ export class StackedBar extends NgtObjectProps<Group>{
   get data(): Array<StackData> { return this._data }
   set data(newvalue: Array<StackData>) {
     this._data = newvalue;
+    this.display.length = 0;
     this.updateFlag = true;
   }
 
@@ -83,11 +83,8 @@ export class StackedBar extends NgtObjectProps<Group>{
   private updateFlag = true;
 
   private refresh() {
-    this.display.forEach(item => {
-      if (item.geometry) item.geometry.dispose();
-    })
+    if (!this.data.length) return;
 
-    this.display.length = 0;
     const total = this.data.map(x => x.value).reduce((accum, value) => accum + value);
 
     let bottomradius = this.bottomradius;
@@ -119,7 +116,15 @@ export class StackedBar extends NgtObjectProps<Group>{
         // calculate distance from center to face for middle of this segment
         const labeloffset = (topradius - radius / 2) * Math.cos(Math.PI / this.segments);
 
-        this.display.push({ geometry, y, height, labeloffset, labeltilt, labelrotate, data });
+        if (this.display.length < this.data.length)
+          this.display.push({ geometry, y, height, labeloffset, labeltilt, labelrotate, data });
+        else {
+          const display = this.display[index];
+          display.geometry = geometry;
+          display.labeloffset = labeloffset;
+          display.labeltilt = labeltilt;
+          display.labelrotate = labelrotate;
+        }
 
         topradius -= radius;  // decrease until point
         bottomradius = topradius;
@@ -129,13 +134,20 @@ export class StackedBar extends NgtObjectProps<Group>{
         geometry.translate(0, height / 2, 0); // change center to bottom of segment
 
         const labeloffset = bottomradius * Math.cos(Math.PI / this.segments);
-        this.display.push({ geometry, y, height, labeloffset, labeltilt, labelrotate, data });
+
+        if (this.display.length < this.data.length)
+          this.display.push({ geometry, y, height, labeloffset, labeltilt, labelrotate, data });
+        else {
+          const display = this.display[index];
+          display.geometry = geometry;
+          display.labeloffset = labeloffset;
+          display.labelrotate = labelrotate;
+        }
       }
 
       // move up the stack
       y += height + this.spacing;
     });
-
   }
 
   protected tick() {
