@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@
 import { BoxGeometry, BufferGeometry, ExtrudeGeometry, MathUtils, MeshBasicMaterial, Path, RingGeometry, Shape, ShapeGeometry, Vector2 } from "three";
 
 import { ColumnData } from "./column-chart/column-chart.component";
-import { LineData } from "./line-chart/line-chart.component";
+import { LineData } from "./line-plot/line-plot.component";
 import { PieData } from "./pie-chart/pie-chart.component";
 import { StackData } from "./stacked-bar/stacked-bar.component";
 
@@ -77,7 +77,7 @@ export class DataVisualsExample implements OnInit {
     { label: '', value: 42, material: this.cornflowerblue },
   ]
 
-  linedata: Array<LineData> = [
+  linedata: LineData =
     {
       label: '', values: [
         <Vector2>{ x: 1, y: 2 },
@@ -88,20 +88,9 @@ export class DataVisualsExample implements OnInit {
         <Vector2>{ x: 13, y: 3 },
         <Vector2>{ x: 14.5, y: 8 },
       ], material: this.gold
-    },
-    //{
-    //  label: '', values: [
-    //    <Vector2>{ x: 1, y: 3 },
-    //    <Vector2>{ x: 3.5, y: 6.5 },
-    //    <Vector2>{ x: 6, y: 4 },
-    //    <Vector2>{ x: 8.5, y: 9 },
-    //    <Vector2>{ x: 10.5, y: 6.5 },
-    //    <Vector2>{ x: 13, y: 4 },
-    //    <Vector2>{ x: 14.5, y: 9 },
-    //  ], material: this.cornflowerblue
-    //},
-  ]
-  areadata: Array<LineData> = [
+    }
+
+  areadata: LineData =
     {
       label: '', values: [
         <Vector2>{ x: 1, y: 0 },
@@ -125,7 +114,7 @@ export class DataVisualsExample implements OnInit {
         <Vector2>{ x: 20, y: 0 },
       ], material: this.pink
     }
-  ]
+
 
 
   protected arrowtext(data: ColumnData) {
@@ -197,10 +186,10 @@ export class DataVisualsExample implements OnInit {
     this.stackdata = this.xstackdata;
 
   //  let index = 0;
-  //  let linevalues = this.linedata[0].values;
+  //  let linevalues = this.linedata.values;
   //  linevalues.length = 0;
 
-  //  let areavalues = this.areadata[0].values;
+  //  let areavalues = this.areadata.values;
   //  areavalues.length = 0;
 
   //  setInterval(() => {

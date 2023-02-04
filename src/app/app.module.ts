@@ -157,7 +157,7 @@ import { PieChart } from '../examples/data-visuals/pie-chart/pie-chart.component
 import { ChartPieData } from '../examples/data-visuals/pie-data/pie-data.component';
 import { StackedBar } from '../examples/data-visuals/stacked-bar/stacked-bar.component';
 import { ChartStackData } from '../examples/data-visuals/stack-data/stack-data.component';
-import { LineChart } from '../examples/data-visuals/line-chart/line-chart.component';
+import { LinePlot } from '../examples/data-visuals/line-plot/line-plot.component';
 import { AreaPlot } from '../examples/data-visuals/area-plot/area-plot.component';
 
 
@@ -323,7 +323,7 @@ import { AreaPlot } from '../examples/data-visuals/area-plot/area-plot.component
     ChartPieData,
     StackedBar,
     ChartStackData,
-    LineChart,
+    LinePlot,
     AreaPlot,
   ],
   imports: [

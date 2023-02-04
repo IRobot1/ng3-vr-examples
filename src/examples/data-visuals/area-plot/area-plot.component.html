@@ -1,6 +1,6 @@
 <ngt-group [ngtObjectPassThrough]="this" (beforeRender)="tick()">
 
-  <ngt-mesh *ngFor="let item of display" [geometry]="item.geometry" [material]="item.data.material">
+  <ngt-mesh [geometry]="geometry" [material]="data.material">
   </ngt-mesh>
 
 </ngt-group>

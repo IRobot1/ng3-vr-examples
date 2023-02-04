@@ -1,20 +1,22 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 
-import { Box2, BufferGeometry, ExtrudeGeometry, Group, MathUtils, Shape } from "three";
+import { Box2, BufferGeometry, Group, Material, MathUtils, Vector2, Vector3 } from "three";
 import { NgtObjectProps } from "@angular-three/core";
 
-import { LineData } from "../line-plot/line-plot.component";
+export interface LineData {
+  label: string;
+  values: Array<Vector2>;
+  material: Material;
+}
 
 
 @Component({
-  selector: 'area-plot',
-  exportAs: 'areaPlot',
-  templateUrl: './area-plot.component.html',
+  selector: 'line-plot',
+  exportAs: 'linePlot',
+  templateUrl: './line-plot.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AreaPlot extends NgtObjectProps<Group>{
-
-  protected geometry!: BufferGeometry;
+export class LinePlot extends NgtObjectProps<Group>{
 
   private _data!: LineData
   @Input()
@@ -26,6 +28,10 @@ export class AreaPlot extends NgtObjectProps<Group>{
 
   @Input() width = 1;
   @Input() height = 1;
+  @Input() margin = 0.1;
+
+  @Input() showmarkers = false;
+  @Input() markersize = 0.02;
 
   private _redraw = false;
   @Input()
@@ -35,29 +41,29 @@ export class AreaPlot extends NgtObjectProps<Group>{
     this.updateFlag = true;
   }
 
+  protected geometry = new BufferGeometry();
+  protected points: Array<Vector3> = [];
+
   private updateFlag = false;
   private box = new Box2();
-  private options = { bevelEnabled: false, depth: 0.05 };
 
   private refresh() {
 
+    const points = this.points;
+    points.length = 0;
     const box = this.box;
     box.makeEmpty();
 
     this.data.values.forEach(value => box.expandByPoint(value));
 
-    const shape = new Shape();
     this.data.values.forEach(value => {
-      const x = MathUtils.mapLinear(value.x, box.min.x, box.max.x, 0, this.width);
-      const y = MathUtils.mapLinear(value.y, box.min.y, box.max.y, 0, this.height);
-      shape.lineTo(x, y);
+      const x = MathUtils.mapLinear(value.x, box.min.x, box.max.x, this.margin, this.width - this.margin);
+      const y = MathUtils.mapLinear(value.y, box.min.y, box.max.y, this.margin, this.height - this.margin);
+
+      points.push(new Vector3(x, y, 0));
     })
-    shape.lineTo(this.width, 0)
-    shape.closePath();
 
-    if (this.geometry) this.geometry.dispose();
-    this.geometry = new ExtrudeGeometry(shape, this.options);
-
+    this.geometry.setFromPoints(points);
   }
 
   protected tick() {
@@ -66,4 +72,5 @@ export class AreaPlot extends NgtObjectProps<Group>{
       this.refresh();
     }
   }
+
 }
