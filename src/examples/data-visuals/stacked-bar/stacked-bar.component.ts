@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from "@angular/core";
 
 import { BufferGeometry, CylinderGeometry, Group, Material, MathUtils } from "three";
-import { mapLinear } from "three/src/math/MathUtils";
 
 import { NgtObjectProps } from "@angular-three/core";
 
@@ -23,6 +22,7 @@ interface StackDisplay {
 }
 
 export type StackTop = 'flat' | 'point'
+export type StackDistribution = 'equal' | 'value' ;
 
 @Component({
   selector: 'stacked-bar',
@@ -83,14 +83,39 @@ export class StackedBar extends NgtObjectProps<Group>{
     this.updateFlag = true;
   }
 
+  private _distribution: StackDistribution = 'value';
+  @Input()
+  get distribution(): StackDistribution { return this._distribution }
+  set distribution(newvalue: StackDistribution) {
+    this._distribution = newvalue;
+    this.updateFlag = true;
+  }
+
   constructor(private cd: ChangeDetectorRef) { super(); }
 
   private updateFlag = true;
 
+  private calcDistribution(): Array<number> {
+    let result: Array<number> = []
+    switch (this.distribution) {
+      case 'equal':
+        const barheight = this.height / this.data.length;
+        result = new Array(this.data.length).fill(barheight)
+        break;
+      case 'value':
+        const sumtotal = this.data.map(x => x.value).reduce((accum, value) => accum + value);
+        this.data.forEach(item => {
+          result.push(item.value / sumtotal * this.height);
+        });
+        break;
+    }
+    return result;
+  }
+
   private refresh() {
     if (!this.data.length) return;
 
-    const total = this.data.map(x => x.value).reduce((accum, value) => accum + value);
+    const barheights = this.calcDistribution();
 
     let bottomradius = this.bottomradius;
     let y = 0;
@@ -109,7 +134,7 @@ export class StackedBar extends NgtObjectProps<Group>{
 
     this.data.forEach((data, index) => {
       // calculate height of segment relative to total and overall height
-      const height = data.value / total * this.height;
+      const height = barheights[index];
 
       if (this.top == 'point') {
         // calculate radius at top relative to total height and overall radius
