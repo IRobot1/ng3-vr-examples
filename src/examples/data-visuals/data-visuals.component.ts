@@ -155,7 +155,7 @@ export class DataVisualsExample implements OnInit {
   //    }
   //  }, 2000)
   }
-  segments = 3
+  segments = 4
 
   createRingShape(innerradius: number, outerradius: number, endradians: number): Shape {
     const shape = new Shape()

@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from "@angular/core";
 
 import { BufferGeometry, CylinderGeometry, Group, Material, MathUtils } from "three";
+import { mapLinear } from "three/src/math/MathUtils";
+
 import { NgtObjectProps } from "@angular-three/core";
 
 export interface StackData {
@@ -16,6 +18,7 @@ interface StackDisplay {
   labeloffset: number;
   labelrotate: number;
   labeltilt: number;
+  labelsize: number;
   data: StackData;
 }
 
@@ -116,10 +119,11 @@ export class StackedBar extends NgtObjectProps<Group>{
         geometry.translate(0, height / 2, 0); // change center to bottom of segment
 
         // calculate distance from center to face for middle of this segment
-        const labeloffset = (topradius - radius / 2) * Math.cos(Math.PI / this.segments);
+        const labeloffset = (topradius - radius / 3) * Math.cos(Math.PI / this.segments);
+        const labelsize = MathUtils.mapLinear(index, 0, this.data.length, 0.07, 0.01);
 
         if (this.display.length < this.data.length)
-          this.display.push({ geometry, y, height, labeloffset, labeltilt, labelrotate, data });
+          this.display.push({ geometry, y, height, labeloffset, labeltilt, labelrotate, labelsize, data });
         else {
           const display = this.display[index];
           display.geometry = geometry;
@@ -138,7 +142,7 @@ export class StackedBar extends NgtObjectProps<Group>{
         const labeloffset = bottomradius * Math.cos(Math.PI / this.segments);
 
         if (this.display.length < this.data.length)
-          this.display.push({ geometry, y, height, labeloffset, labeltilt, labelrotate, data });
+          this.display.push({ geometry, y, height, labeloffset, labeltilt, labelrotate, labelsize: 0.07, data });
         else {
           const display = this.display[index];
           display.geometry = geometry;
