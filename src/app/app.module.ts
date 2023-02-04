@@ -156,6 +156,7 @@ import { ChartGrid } from '../examples/data-visuals/chart-grid/chart-grid.compon
 import { PieChart } from '../examples/data-visuals/pie-chart/pie-chart.component';
 import { ChartPieData } from '../examples/data-visuals/pie-data/pie-data.component';
 import { StackedBar } from '../examples/data-visuals/stacked-bar/stacked-bar.component';
+import { ChartStackData } from '../examples/data-visuals/stack-data/stack-data.component';
 
 
 
@@ -319,6 +320,7 @@ import { StackedBar } from '../examples/data-visuals/stacked-bar/stacked-bar.com
     PieChart,
     ChartPieData,
     StackedBar,
+    ChartStackData,
   ],
   imports: [
     BrowserModule,

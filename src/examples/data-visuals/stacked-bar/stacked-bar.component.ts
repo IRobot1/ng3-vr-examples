@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input } from "@angular/core";
 
 import { BufferGeometry, CylinderGeometry, Group, Material, MathUtils } from "three";
 import { NgtObjectProps } from "@angular-three/core";
@@ -80,6 +80,8 @@ export class StackedBar extends NgtObjectProps<Group>{
     this.updateFlag = true;
   }
 
+  constructor(private cd: ChangeDetectorRef) { super(); }
+
   private updateFlag = true;
 
   private refresh() {
@@ -148,6 +150,7 @@ export class StackedBar extends NgtObjectProps<Group>{
       // move up the stack
       y += height + this.spacing;
     });
+    this.cd.detectChanges();
   }
 
   protected tick() {

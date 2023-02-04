@@ -61,12 +61,19 @@ export class DataVisualsExample implements OnInit {
     { label: '', value: 47, labelsize: 0.07, material: this.purple },
   ]
 
-  stackdata: Array<StackData> = [
+  stackdata: Array<StackData> = []
+  xstackdata: Array<StackData> = [
     { label: '', value: 42, material: this.cornflowerblue },
     { label: '', value: 36, material: this.purple },
     { label: '', value: 12, material: this.pink },
     { label: '', value: 21, material: this.gold },
     { label: '', value: 27, material: this.seagreen },
+  ]
+  ystackdata: Array<StackData> = [
+    { label: '', value: 12, material: this.pink },
+    { label: '', value: 21, material: this.gold },
+    { label: '', value: 36, material: this.purple },
+    { label: '', value: 42, material: this.cornflowerblue },
   ]
 
   protected arrowtext(data: ColumnData) {
@@ -126,14 +133,27 @@ export class DataVisualsExample implements OnInit {
       item.label = `${item.value} %`;
     });
 
-    this.stackdata.forEach(item => {
+    this.xstackdata.forEach(item => {
+      item.label = `${item.value} %`;
+    });
+    this.ystackdata.forEach(item => {
       item.label = `${item.value} %`;
     });
 
+    this.stackdata = this.xstackdata;
+
     //setInterval(() => {
-    //  this.segments++;
-    //  if (this.segments == 20) this.segments = 3;
-    //}, 1000)
+      //  this.segments++;
+      //  if (this.segments == 20) this.segments = 3;
+  //    if (this.stackdata == this.xstackdata) {
+  //      this.stackdata = this.ystackdata
+  //      this.segments = 4;
+  //    }
+  //    else {
+  //      this.stackdata = this.xstackdata
+  //      this.segments = 3;
+  //    }
+  //  }, 2000)
   }
   segments = 3
 
