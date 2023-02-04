@@ -115,6 +115,58 @@ export class DataVisualsExample implements OnInit {
       ], material: this.pink
     }
 
+  smootharea1: LineData =
+    {
+      label: '', values: [
+        <Vector2>{ x: 1, y: 0 },
+        <Vector2>{ x: 2, y: 2 },
+        <Vector2>{ x: 3, y: 1 },
+        <Vector2>{ x: 5, y: 4 },
+        <Vector2>{ x: 6, y: 3 },
+        <Vector2>{ x: 7, y: 7 },
+        <Vector2>{ x: 8, y: 2 },
+        <Vector2>{ x: 9, y: 4 },
+        <Vector2>{ x: 10, y: 2 },
+        <Vector2>{ x: 11, y: 3 },
+        <Vector2>{ x: 12, y: 0 },
+      ], material: this.gold
+    }
+
+  smootharea2: LineData =
+    {
+      label: '', values: [
+        <Vector2>{ x: 1, y: 0 },
+        <Vector2>{ x: 2, y: 3 },
+        <Vector2>{ x: 3, y: 1 },
+        <Vector2>{ x: 4, y: 4 },
+        <Vector2>{ x: 5, y: 8 },
+        <Vector2>{ x: 6, y: 5 },
+        <Vector2>{ x: 7, y: 7 },
+        <Vector2>{ x: 8, y: 4 },
+        <Vector2>{ x: 9, y: 6 },
+        <Vector2>{ x: 10, y: 3 },
+        <Vector2>{ x: 11, y: 0 },
+      ], material: this.pink
+    }
+
+  smootharea3: LineData =
+    {
+      label: '', values: [
+        <Vector2>{ x: 1, y: 0 },
+        <Vector2>{ x: 2, y: 3 },
+        <Vector2>{ x: 3, y: 2 },
+        <Vector2>{ x: 5, y: 5 },
+        <Vector2>{ x: 6, y: 2 },
+        <Vector2>{ x: 7, y: 4 },
+        <Vector2>{ x: 8, y: 2 },
+        <Vector2>{ x: 9, y: 3.5 },
+        <Vector2>{ x: 10, y: 3 },
+        <Vector2>{ x: 11, y: 2 },
+        <Vector2>{ x: 12, y: 3 },
+        <Vector2>{ x: 13, y: 0 },
+      ], material: this.seagreen
+    }
+
 
 
   protected arrowtext(data: ColumnData) {
@@ -192,6 +244,13 @@ export class DataVisualsExample implements OnInit {
   //  let areavalues = this.areadata.values;
   //  areavalues.length = 0;
 
+  //  let smooth1 = this.smootharea1.values;
+  //  smooth1.length = 0;
+  //  let smooth2 = this.smootharea2.values;
+  //  smooth2.length = 0;
+  //  let smooth3 = this.smootharea3.values;
+  //  smooth3.length = 0;
+
   //  setInterval(() => {
   //    for (let i = 0; i < 1; i++) {
   //      const value = Math.sin(index) * 10;
@@ -205,6 +264,22 @@ export class DataVisualsExample implements OnInit {
   //        areavalues.shift();
   //      }
   //      areavalues.push(<Vector2>{ x: index, y: value });
+
+  //      if (smooth1.length > 100) {
+  //        smooth1.shift();
+  //      }
+  //      smooth1.push(<Vector2>{ x: index, y: value });
+
+  //      if (smooth2.length > 100) {
+  //        smooth2.shift();
+  //      }
+  //      smooth2.push(<Vector2>{ x: index, y: value });
+
+  //      if (smooth3.length > 100) {
+  //        smooth3.shift();
+  //      }
+  //      smooth3.push(<Vector2>{ x: index, y: value });
+
   //      index += 0.1;
   //    }
   //    this.redraw = !this.redraw;

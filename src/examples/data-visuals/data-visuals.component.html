@@ -136,8 +136,17 @@
   </ngt-mesh>
 
   <chart-grid [position]="[0, 0.002, 0]" [width]="width" [height]="height"></chart-grid>
-  <line-plot [data]="linedata" [width]="width" [height]="height" [redraw]="redraw" [showmarkers]="true"></line-plot>
-  <area-plot [position]="[0.1, 0.002, 0.2]" [data]="areadata" [width]="width-0.2" [height]="height/2" [redraw]="redraw"></area-plot>
+  <line-plot [data]="linedata" [width]="width" [height]="height" [redraw]="redraw" [showmarkers]="false"></line-plot>
+  <area-plot [position]="[0.1, 0.002, 0.2]" [data]="areadata" [smooth]="false" [width]="width-0.2" [height]="height/2" [redraw]="redraw"></area-plot>
+</ngt-group>
+
+<ngt-group [scale]="1" [position]="[-0.3, 0, -2]"  [rotation]="[0, 45 | radian, 0]">
+  <chart-grid [position]="[0, 0.002, 0]" [width]="width" [height]="0.8"></chart-grid>
+  <chart-grid [rotation]="[90 | radian, 0.002, 0]" [width]="width" [height]="0.8"></chart-grid>
+
+  <area-plot [position]="[0.1, 0.002, 0.1]" [data]="smootharea1" [smooth]="true" [maxy]="10" [width]="width-0.2" [height]="height*0.8" [redraw]="redraw"></area-plot>
+  <area-plot [position]="[0.1, 0.002, 0.4]" [data]="smootharea2" [smooth]="true" [maxy]="10" [width]="width-0.2" [height]="height*0.7" [redraw]="redraw"></area-plot>
+  <area-plot [position]="[0.1, 0.002, 0.7]" [data]="smootharea3" [smooth]="true" [maxy]="10" [width]="width-0.2" [height]="height*0.8" [redraw]="redraw"></area-plot>
 </ngt-group>
 
 <!--<ngt-mesh  [position]="[1.1, 0.5, 1.3]">
