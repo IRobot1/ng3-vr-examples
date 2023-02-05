@@ -115,6 +115,23 @@ export class DataVisualsExample implements OnInit {
       ], material: this.pink
     }
 
+  smoothdata: Array<ColumnData> = [
+    { label: '2019', value: 2019, geometry: this.temp, material: this.gold },
+    { label: '2020', value: 2020, geometry: this.temp, material: this.pink },
+    { label: '2021', value: 2021, geometry: this.temp, material: this.seagreen },
+  ]
+
+  smoothaxis: Array<ColumnData> = [
+    { label: '10', value: 10, geometry: this.temp, material: this.gold },
+    { label: '20', value: 10, geometry: this.temp, material: this.gold },
+    { label: '30', value: 10, geometry: this.temp, material: this.gold },
+    { label: '40', value: 10, geometry: this.temp, material: this.gold },
+    { label: '50', value: 10, geometry: this.temp, material: this.gold },
+    { label: '60', value: 10, geometry: this.temp, material: this.gold },
+    { label: '70', value: 10, geometry: this.temp, material: this.gold },
+    { label: '80', value: 10, geometry: this.temp, material: this.gold },
+  ]
+
   smootharea1: LineData =
     {
       label: '', values: [
@@ -139,12 +156,12 @@ export class DataVisualsExample implements OnInit {
         <Vector2>{ x: 2, y: 3 },
         <Vector2>{ x: 3, y: 1 },
         <Vector2>{ x: 4, y: 4 },
-        <Vector2>{ x: 5, y: 8 },
-        <Vector2>{ x: 6, y: 5 },
-        <Vector2>{ x: 7, y: 7 },
-        <Vector2>{ x: 8, y: 4 },
-        <Vector2>{ x: 9, y: 6 },
-        <Vector2>{ x: 10, y: 3 },
+        <Vector2>{ x: 5, y: 7 },
+        <Vector2>{ x: 6, y: 4 },
+        <Vector2>{ x: 7, y: 6 },
+        <Vector2>{ x: 8, y: 3 },
+        <Vector2>{ x: 9, y: 5 },
+        <Vector2>{ x: 10, y: 2 },
         <Vector2>{ x: 11, y: 0 },
       ], material: this.pink
     }
@@ -236,6 +253,17 @@ export class DataVisualsExample implements OnInit {
     });
 
     this.stackdata = this.xstackdata;
+
+    const smooths = [this.smootharea1, this.smootharea2, this.smootharea3]
+    this.smoothdata.forEach((item, index) => {
+      //const height = 0.25;
+      //item.geometry = new BoxGeometry(0.15, height, 0.15);
+      //item.geometry.translate(0, height / 2, 0); // change center
+
+      (item as any)['minorlabel'] = 'Lorem ipsum dolor sit amet, consectetur adipiscing';
+      (item as any)['plotdata'] = smooths[index]
+    });
+
 
   //  let index = 0;
   //  let linevalues = this.linedata.values;

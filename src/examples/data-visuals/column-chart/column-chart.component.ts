@@ -103,13 +103,15 @@ export class ColumnChart extends NgtObjectProps<Group>{
       const halfwidth = (this.spacing + columnwidths[index]) / 2;
       x += halfwidth
 
-      data.geometry.computeBoundingBox();
       let y = 0;
-      const box = data.geometry.boundingBox;
-      if (box) {
-        const size = new Vector3();
-        box.getSize(size);
-        y = size.y;
+      if (data.geometry) {
+        data.geometry.computeBoundingBox();
+        const box = data.geometry.boundingBox;
+        if (box) {
+          const size = new Vector3();
+          box.getSize(size);
+          y = size.y;
+        }
       }
 
       this.display.push({ x, y, data });

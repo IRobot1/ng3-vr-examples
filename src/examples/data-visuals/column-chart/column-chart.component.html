@@ -1,11 +1,11 @@
 <ngt-group [ngtObjectPassThrough]="this" (beforeRender)="tick()">
-  <ng-container *ngFor="let item of display">
+  <ngt-group #xparent *ngFor="let item of display">
     <ng-container [ngTemplateOutlet]="xaxis ? xaxis: defaultAxisX"
                   [ngTemplateOutletContext]="{ x: item.x, data: item.data }">
     </ng-container>
-  </ng-container>
+  </ngt-group>
 
-  <ng-template #defaultAxisX let-x="x" let-data="data">
+  <ng-template #defaultAxisX let-x="x" let-data="data" let-parent="xparent.instance.value">
     <flat-ui-label [text]="data.label" [width]="0" [rotation]="[-90 | radian, 0, -90 | radian]"
                    [position]="[x, 0, 0.05]">
     </flat-ui-label>

@@ -140,13 +140,38 @@
   <area-plot [position]="[0.1, 0.002, 0.2]" [data]="areadata" [smooth]="false" [width]="width-0.2" [height]="height/2" [redraw]="redraw"></area-plot>
 </ngt-group>
 
-<ngt-group [scale]="1" [position]="[-0.3, 0, -2]"  [rotation]="[0, 45 | radian, 0]">
+<ngt-group [scale]="1" [position]="[-0.3, 0, -2]" [rotation]="[0, 45 | radian, 0]">
+  <!--back-->
   <chart-grid [position]="[0, 0.002, 0]" [width]="width" [height]="0.8"></chart-grid>
-  <chart-grid [rotation]="[90 | radian, 0.002, 0]" [width]="width" [height]="0.8"></chart-grid>
+  <column-chart [data]="smoothaxis" [width]="0.8">
+    <ng-template #xaxis let-x="x" let-data="data">
+      <flat-ui-label [text]="data.label" [width]="0" [position]="[-0.15, x, 0]"></flat-ui-label>
+    </ng-template>
 
-  <area-plot [position]="[0.1, 0.002, 0.1]" [data]="smootharea1" [smooth]="true" [maxy]="10" [width]="width-0.2" [height]="height*0.8" [redraw]="redraw"></area-plot>
-  <area-plot [position]="[0.1, 0.002, 0.4]" [data]="smootharea2" [smooth]="true" [maxy]="10" [width]="width-0.2" [height]="height*0.7" [redraw]="redraw"></area-plot>
-  <area-plot [position]="[0.1, 0.002, 0.7]" [data]="smootharea3" [smooth]="true" [maxy]="10" [width]="width-0.2" [height]="height*0.8" [redraw]="redraw"></area-plot>
+    <ng-template #value let-x="x" let-y="y" let-data="data">
+      <!--don't show value above geometry -->
+    </ng-template>
+  </column-chart>
+
+  <!--bottom-->
+  <chart-grid [rotation]="[90 | radian, 0, 0]" [width]="width" [height]="0.8"></chart-grid>
+  <column-chart [data]="smoothdata" [rotation]="[ 0, -90 | radian, 0]" [width]="0.8">
+    <ng-template #xaxis let-x="x" let-data="data">
+      <flat-ui-label [text]="data.label" [width]="0" [rotation]="[-90 | radian, 0, 0]"
+                     [position]="[-0.2, 0, x-0.03]">
+      </flat-ui-label>
+      <flat-ui-label [text]="data.minorlabel" [width]="0.4" [fontsize]="0.03" [rotation]="[-90 | radian, 0, 0]"
+                     [position]="[-0.22, 0, x+0.04]">
+      </flat-ui-label>
+
+      <area-plot [position]="[0.1, 0.002, x]" [data]="data.plotdata" [smooth]="true" [maxy]="10" [width]="width-0.2" [height]="height*0.8" [redraw]="redraw"></area-plot>
+    </ng-template>
+
+    <ng-template #value let-x="x" let-y="y" let-data="data">
+  don't show value above geometry 
+  </ng-template>
+  </column-chart>
+
 </ngt-group>
 
 <!--<ngt-mesh  [position]="[1.1, 0.5, 1.3]">
