@@ -12,8 +12,12 @@
 <ngt-mesh [position]="[0, blockscreenheight+0.001, -1]" [geometry]="blockscreen">
   <ngt-mesh-basic-material color="black"></ngt-mesh-basic-material>
 </ngt-mesh>
+<ngt-group [position]="[0, blockscreenheight+0.001, -1]" [rotation]="[-screenangle, 0, 0]">
+  <ng3-gui-panel [scale]="0.4" [position]="[0, blockscreenheight*0.6, 0]" [gui]="gui" [selectable]="selectable"></ng3-gui-panel>
+</ngt-group>
 
-<vr-controller navhome></vr-controller>
-<vr-controller [index]="1" navhome></vr-controller>
+<vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
+<vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
 
-<ngt-soba-orbit-controls></ngt-soba-orbit-controls>
+
+<ngt-soba-orbit-controls vrorbit></ngt-soba-orbit-controls>
