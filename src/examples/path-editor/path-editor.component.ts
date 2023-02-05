@@ -648,11 +648,37 @@ export class PathEditorExample implements OnInit, OnDestroy {
 
   threecode() {
     const lines: Array<string> = [];
-    lines.push(`const points: Array<Vector2> = []`)
-    const points = this.getpoints();
-    points.forEach(point => { lines.push(`points.push(new Vector2(${+point.x.toFixed(3)}, ${+point.y.toFixed(3)}))`) })
-    lines.push(`const shape = new Shape(points);`)
-    lines.push(`const geometry = new ShapeGeometry(shape);`)
+    lines.push(`const shape = new Shape()`)
+    this.commands.forEach(command => {
+      let line = '';
+      let p = command.endpoint.position;
+      switch (command.type) {
+        //case 'control':
+        //  break;
+        case 'moveto':
+          line = `.moveTo(${p.x}, ${p.y})`
+          break;
+        case 'lineto':
+        case 'vertical':
+        case 'horizontal':
+          line = `.lineTo(${p.x}, ${p.y})`
+          break;
+        case 'cubic':
+          let cubic = (command as CubicCurveCommand)
+          line = `.bezierCurveTo(${cubic.cp1.position.x}, ${cubic.cp1.position.y}, ${cubic.cp2.position.x}, ${cubic.cp2.position.y}, ${p.x}, ${p.y})`
+          break;
+        case 'quadratic':
+          let quad = (command as QuadraticCurveCommand)
+          line = `.quadraticCurveTo(${quad.cp.position.x}, ${quad.cp.position.y}, ${p.x}, ${p.y})`
+          break;
+        case 'closepath':
+          line = `.closePath()`
+          break;
+      }
+      lines.push(line)
+    })
+    lines.push('');
+    lines.push(`const geometry = new ShapeGeometry(shape);`);
 
     const code = lines.join('\n');
     const save = new Exporter()
