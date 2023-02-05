@@ -159,6 +159,7 @@ import { StackedBar } from '../examples/data-visuals/stacked-bar/stacked-bar.com
 import { ChartStackData } from '../examples/data-visuals/stack-data/stack-data.component';
 import { LinePlot } from '../examples/data-visuals/line-plot/line-plot.component';
 import { AreaPlot } from '../examples/data-visuals/area-plot/area-plot.component';
+import { ChartAxis } from '../examples/data-visuals/chart-axis/chart-axis.component';
 
 
 
@@ -319,6 +320,7 @@ import { AreaPlot } from '../examples/data-visuals/area-plot/area-plot.component
     ChartCallout,
     ChartUnderline,
     ChartGrid,
+    ChartAxis,
     PieChart,
     ChartPieData,
     StackedBar,

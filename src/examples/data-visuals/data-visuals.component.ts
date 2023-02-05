@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 
-import { BoxGeometry, BufferGeometry, ExtrudeGeometry, MathUtils, MeshBasicMaterial, Shape, ShapeGeometry, Vector2 } from "three";
+import { BoxGeometry, BufferGeometry, ExtrudeGeometry, MathUtils, MeshBasicMaterial, PlaneGeometry, Shape, ShapeGeometry, Vector2 } from "three";
 
 import { NgtLoader } from "@angular-three/core";
 import { PLYLoader } from 'three-stdlib';
@@ -21,9 +21,16 @@ export class DataVisualsExample implements OnInit {
   height = 1;
   piespacing = 0.02;
 
+  plotwidth = 1.2
+  plotheight = 0.8
+
+  barwidth = 2.5;
+  barheight = 0.8;
+
+  white = new MeshBasicMaterial();
   pink = new MeshBasicMaterial({ color: '#F9458E' });
-  seagreen = new MeshBasicMaterial({ color: 'seagreen' });
-  gold = new MeshBasicMaterial({ color: 'gold' });
+  seagreen = new MeshBasicMaterial({ color: '#328476' });
+  gold = new MeshBasicMaterial({ color: '#BD9442' });
   cornflowerblue = new MeshBasicMaterial({ color: 'cornflowerblue' });
   purple = new MeshBasicMaterial({ color: '#716EC9' });
 
@@ -188,6 +195,58 @@ export class DataVisualsExample implements OnInit {
       ], material: this.seagreen
     }
 
+  bardata: Array<ColumnData> = []
+  private barvalues = [
+    { value: 0 },
+    { value: 300 },
+    { value: 320 },
+    { value: 325 },
+    { value: 340, },
+    { value: 354, highlight: true },
+    { value: 340 },
+    { value: 330 },
+    { value: 320 },
+    { value: 250 },
+    { value: 330 },
+    { value: 340 },
+    { value: 310 },
+    { value: 360 },
+    { value: 380 },
+    { value: 412, highlight:true },
+    { value: 400 },
+    { value: 432, highlight:true },
+    { value: 380 },
+    { value: 310 },
+    { value: 350 },
+    { value: 330 },
+    { value: 200 },
+    { value: 300 },
+    { value: 310 },
+    { value: 325 },
+    { value: 320 },
+    { value: 250 },
+    { value: 330 },
+    { value: 370 },
+    { value: 400 },
+    { value: 487, highlight:true },
+    { value: 460 },
+    { value: 512, highlight:true },
+    { value: 480 },
+    { value: 460 },
+    { value: 440 },
+    { value: 420 },
+    { value: 420, highlight:true },
+    { value: 380 },
+    { value: 320 },
+    { value: 390 },
+    { value: 360 },
+    { value: 370 },
+    { value: 350 },
+    { value: 330 },
+    { value: 310 },
+    { value: 280 },
+    { value: 0 },
+  ]
 
 
   protected arrowtext(data: ColumnData) {
@@ -281,64 +340,75 @@ export class DataVisualsExample implements OnInit {
       (item as any)['plotdata'] = smooths[index]
     });
 
+    this.barvalues.forEach(item => {
+      const height = item.value / 600 * this.barheight;
 
-  //  let index = 0;
-  //  let linevalues = this.linedata.values;
-  //  linevalues.length = 0;
+      const geometry = new PlaneGeometry(0.02, height);
+      geometry.translate(0, height / 2, 0);
 
-  //  let areavalues = this.areadata.values;
-  //  areavalues.length = 0;
+      const data: ColumnData = { label: '', value: item.value, geometry, material: item.highlight ? this.white : this.pink };
+      this.bardata.push(data);
 
-  //  let smooth1 = this.smootharea1.values;
-  //  smooth1.length = 0;
-  //  let smooth2 = this.smootharea2.values;
-  //  smooth2.length = 0;
-  //  let smooth3 = this.smootharea3.values;
-  //  smooth3.length = 0;
+      (data as any)['highlight'] = item.highlight
+    });
 
-  //  setInterval(() => {
-  //    for (let i = 0; i < 1; i++) {
-  //      const value = Math.sin(index) * 10;
+    //  let index = 0;
+    //  let linevalues = this.linedata.values;
+    //  linevalues.length = 0;
 
-  //      if (linevalues.length > 100) {
-  //        linevalues.shift();
-  //      }
-  //      linevalues.push(<Vector2>{ x: index, y: value });
+    //  let areavalues = this.areadata.values;
+    //  areavalues.length = 0;
 
-  //      if (areavalues.length > 100) {
-  //        areavalues.shift();
-  //      }
-  //      areavalues.push(<Vector2>{ x: index, y: value });
+    //  let smooth1 = this.smootharea1.values;
+    //  smooth1.length = 0;
+    //  let smooth2 = this.smootharea2.values;
+    //  smooth2.length = 0;
+    //  let smooth3 = this.smootharea3.values;
+    //  smooth3.length = 0;
 
-  //      if (smooth1.length > 100) {
-  //        smooth1.shift();
-  //      }
-  //      smooth1.push(<Vector2>{ x: index, y: value });
+    //  setInterval(() => {
+    //    for (let i = 0; i < 1; i++) {
+    //      const value = Math.sin(index) * 10;
 
-  //      if (smooth2.length > 100) {
-  //        smooth2.shift();
-  //      }
-  //      smooth2.push(<Vector2>{ x: index, y: value });
+    //      if (linevalues.length > 100) {
+    //        linevalues.shift();
+    //      }
+    //      linevalues.push(<Vector2>{ x: index, y: value });
 
-  //      if (smooth3.length > 100) {
-  //        smooth3.shift();
-  //      }
-  //      smooth3.push(<Vector2>{ x: index, y: value });
+    //      if (areavalues.length > 100) {
+    //        areavalues.shift();
+    //      }
+    //      areavalues.push(<Vector2>{ x: index, y: value });
 
-  //      index += 0.1;
-  //    }
-  //    this.redraw = !this.redraw;
-  //    //  this.segments++;
-  //    //  if (this.segments == 20) this.segments = 3;
-  //    //    if (this.stackdata == this.xstackdata) {
-  //    //      this.stackdata = this.ystackdata
-  //    //      this.segments = 4;
-  //    //    }
-  //    //    else {
-  //    //      this.stackdata = this.xstackdata
-  //    //      this.segments = 3;
-  //    //    }
-  //  }, 1000 / 60)
+    //      if (smooth1.length > 100) {
+    //        smooth1.shift();
+    //      }
+    //      smooth1.push(<Vector2>{ x: index, y: value });
+
+    //      if (smooth2.length > 100) {
+    //        smooth2.shift();
+    //      }
+    //      smooth2.push(<Vector2>{ x: index, y: value });
+
+    //      if (smooth3.length > 100) {
+    //        smooth3.shift();
+    //      }
+    //      smooth3.push(<Vector2>{ x: index, y: value });
+
+    //      index += 0.1;
+    //    }
+    //    this.redraw = !this.redraw;
+    //    //  this.segments++;
+    //    //  if (this.segments == 20) this.segments = 3;
+    //    //    if (this.stackdata == this.xstackdata) {
+    //    //      this.stackdata = this.ystackdata
+    //    //      this.segments = 4;
+    //    //    }
+    //    //    else {
+    //    //      this.stackdata = this.xstackdata
+    //    //      this.segments = 3;
+    //    //    }
+    //  }, 1000 / 60)
   }
   segments = 4
   redraw = false;

@@ -87,7 +87,7 @@ const routes: Routes = [
   { path: 'patheditor', component: PathEditorExample },
   { path: 'shapeware-shapes', component: ShapewareExample },
   { path: 'file-browser', component: FileBrowserExample },
-  { path: 'data-visuals', component: DataVisualsExample },
+  { path: 'charts', component: DataVisualsExample },
 ];
 
 @NgModule({
