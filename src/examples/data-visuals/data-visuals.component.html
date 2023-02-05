@@ -7,6 +7,10 @@
   <ngt-mesh-basic-material color="#283756"></ngt-mesh-basic-material>
 </ngt-mesh>
 
+<ngt-mesh [position]="[3, 1.5, -3]" [rotation]="[0, -135 | radian, 0]" [geometry]="chartgeometry">
+  <ngt-mesh-basic-material color="cornflowerblue"></ngt-mesh-basic-material>
+</ngt-mesh>
+
 <ngt-mesh-basic-material #floor color="#1E2A42"></ngt-mesh-basic-material>
 <ngt-mesh-basic-material #ring color="#1C2B42"></ngt-mesh-basic-material>
 
@@ -168,8 +172,8 @@
     </ng-template>
 
     <ng-template #value let-x="x" let-y="y" let-data="data">
-  don't show value above geometry 
-  </ng-template>
+      don't show value above geometry
+    </ng-template>
   </column-chart>
 
 </ngt-group>

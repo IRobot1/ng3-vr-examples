@@ -1,6 +1,9 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 
-import { BoxGeometry, BufferGeometry, ExtrudeGeometry, MathUtils, MeshBasicMaterial, Path, RingGeometry, Shape, ShapeGeometry, Vector2 } from "three";
+import { BoxGeometry, BufferGeometry, ExtrudeGeometry, MathUtils, MeshBasicMaterial, Shape, ShapeGeometry, Vector2 } from "three";
+
+import { NgtLoader } from "@angular-three/core";
+import { PLYLoader } from 'three-stdlib';
 
 import { ColumnData } from "./column-chart/column-chart.component";
 import { LineData } from "./line-plot/line-plot.component";
@@ -12,6 +15,7 @@ import { StackData } from "./stacked-bar/stacked-bar.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataVisualsExample implements OnInit {
+  chartgeometry!: BufferGeometry;
   temp!: BufferGeometry;
   width = 1.6;
   height = 1;
@@ -194,9 +198,22 @@ export class DataVisualsExample implements OnInit {
     return `${data.value} %`
   }
 
-  constructor(private cd: ChangeDetectorRef) { }
+  constructor(private loader: NgtLoader) { }
 
   ngOnInit(): void {
+    const s = this.loader.use(PLYLoader, 'assets/chart.ply').subscribe(next => {
+      if (!next) return;
+
+      next.computeBoundingBox();
+      next.center();
+
+      this.chartgeometry = next;
+    },
+      () => { },
+      () => { s.unsubscribe(); }
+    );
+
+
     const shape = this.createArrowShape(0.1, 1);
     this.temp = new ShapeGeometry(shape);
 
