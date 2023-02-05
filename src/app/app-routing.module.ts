@@ -43,6 +43,7 @@ import { PexelsVideoExample } from '../examples/pexels-video/pexels-video.compon
 import { ShapewareExample } from '../examples/shapeware/shapeware.component';
 import { FileBrowserExample } from '../examples/file-browser/file-browser.component';
 import { DataVisualsExample } from '../examples/data-visuals/data-visuals.component';
+import { ControlRoomExample } from '../examples/control-room/control-room.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -88,6 +89,7 @@ const routes: Routes = [
   { path: 'shapeware-shapes', component: ShapewareExample },
   { path: 'file-browser', component: FileBrowserExample },
   { path: 'charts', component: DataVisualsExample },
+  { path: 'control-room', component: ControlRoomExample },
 ];
 
 @NgModule({

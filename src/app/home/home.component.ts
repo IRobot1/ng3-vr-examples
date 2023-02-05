@@ -58,6 +58,7 @@ export class HomeComponent implements OnInit {
     { asset: 'shapeware-shapes', text: 'Shapeware Shapes' },
     { asset: 'file-browser', text: 'File/Folder Browser' },
     { asset: 'charts', text: 'Charts' },
+    { asset: 'control-room', text: 'Control Room' },
   ]
 
   panels1: Array<PanelSetting> = [];

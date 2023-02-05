@@ -160,6 +160,7 @@ import { ChartStackData } from '../examples/data-visuals/stack-data/stack-data.c
 import { LinePlot } from '../examples/data-visuals/line-plot/line-plot.component';
 import { AreaPlot } from '../examples/data-visuals/area-plot/area-plot.component';
 import { ChartAxis } from '../examples/data-visuals/chart-axis/chart-axis.component';
+import { ControlRoomExample } from '../examples/control-room/control-room.component';
 
 
 
@@ -327,6 +328,8 @@ import { ChartAxis } from '../examples/data-visuals/chart-axis/chart-axis.compon
     ChartStackData,
     LinePlot,
     AreaPlot,
+
+    ControlRoomExample,
   ],
   imports: [
     BrowserModule,
