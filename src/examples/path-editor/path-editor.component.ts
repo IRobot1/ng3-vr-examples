@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostListener, OnDestroy, OnInit } from "@angular/core";
 
-import { BufferGeometry, ExtrudeGeometry, ExtrudeGeometryOptions, Intersection, LatheGeometry, Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Vector2, Vector3 } from "three";
+import { Box2, BufferGeometry, ExtrudeGeometry, ExtrudeGeometryOptions, Intersection, LatheGeometry, Mesh, MeshBasicMaterial, Shape, ShapeGeometry, Vector2, Vector3 } from "three";
 
 import { InteractiveObjects, MenuItem } from "ng3-flat-ui";
 import { BaseCommand, ClosePathCommand, CLOSEPATHZ, CommandData, CommandType, ControlPoint, CONTROLPOINTZ, CubicCurveCommand, GUIZ, HorizontalCommand, LineToCommand, MENUZ, MoveToCommand, MOVETOZ, PathPoint, POINTZ, QuadraticCurveCommand, SHAPEZ, VerticalCommand } from "./path-util";
@@ -516,7 +516,8 @@ export class PathEditorExample implements OnInit, OnDestroy {
     gui.add(this.params, 'showlathe').name('Show Lathe Geometry');
     gui.add(this.params, 'examples', this.examples).name('Examples').onChange(index => { this.load(this.exampledata[index]) });
     gui.add(this, 'newshape').name('New Shape')
-    gui.add(this, 'threecode').name('Generate ThreeJS Code');
+    gui.add(this, 'threecode').name('Export ThreeJS Code');
+    gui.add(this, 'svgcode').name('Export SVG');
     gui.addTextArea(this.params, 'path', 1.1, 1).name('Path').disable()
     //gui.add(this.params, 'tilt').name('Tilt Grid Forward');
 
@@ -686,4 +687,39 @@ export class PathEditorExample implements OnInit, OnDestroy {
     this.count++;
   }
 
+  svgcode() {
+    const box = new Box2();
+    this.commands.forEach(command => {
+      let p = command.endpoint.position;
+      switch (command.type) {
+        case 'moveto':
+        case 'lineto':
+        case 'vertical':
+        case 'horizontal':
+          box.expandByPoint(new Vector2(p.x * 10, - p.y * 10))
+          break;
+        case 'cubic':
+          let cubic = (command as CubicCurveCommand)
+          box.expandByPoint(new Vector2(cubic.cp1.position.x * 10, - cubic.cp1.position.y * 10))
+          box.expandByPoint(new Vector2(cubic.cp2.position.x * 10, - cubic.cp2.position.y * 10))
+          box.expandByPoint(new Vector2(p.x * 10, - p.y * 10))
+          break;
+        case 'quadratic':
+          let quad = (command as QuadraticCurveCommand)
+          box.expandByPoint(new Vector2(quad.cp.position.x * 10, - quad.cp.position.y * 10))
+          box.expandByPoint(new Vector2(p.x * 10, - p.y * 10))
+          break;
+      }
+    })
+
+    const lines: Array<string> = [];
+    lines.push(`<svg viewBox="${box.min.x.toFixed(0)} ${box.min.y.toFixed(0)} ${(box.max.x-box.min.x).toFixed(0)} ${(box.max.y-box.min.y).toFixed(0)}" xmlns="http://www.w3.org/2000/svg" >`);
+    lines.push(`<path d="${this.params.path}" fill="black" />`);
+    lines.push('</svg>');
+
+    const code = lines.join('\n');
+    const save = new Exporter()
+    save.saveString(code, 'shape' + this.count, 'image/svg+xml');
+    this.count++;
+  }
 }

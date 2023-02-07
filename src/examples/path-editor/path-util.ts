@@ -32,6 +32,8 @@ export abstract class BaseCommand {
   geometry?: BufferGeometry;
   points!: Array<Vector2>;
 
+  toFixed(n: number): string { return n.toFixed(0) }
+
   line(start: Vector2, end: Vector2): BufferGeometry {
     this.points = [start, end]
     return new BufferGeometry().setFromPoints(this.points);
@@ -72,7 +74,7 @@ export class MoveToCommand extends BaseCommand {
   constructor(to: PathPoint) { super('moveto', 'M', to); }
 
   override update(from: PathPoint) { }
-  override get path(): string { return `M ${this.endpoint.position.x} ${this.endpoint.position.y}` }
+  override get path(): string { return `M ${this.toFixed(this.endpoint.position.x * 10)} ${this.toFixed(-this.endpoint.position.y * 10)}` }
 }
 
 export class LineToCommand extends BaseCommand {
@@ -85,7 +87,7 @@ export class LineToCommand extends BaseCommand {
     this.geometry = this.line(from.position, this.endpoint.position)
   }
 
-  override get path(): string { return `L ${this.endpoint.position.x} ${this.endpoint.position.x}` }
+  override get path(): string { return `L ${this.toFixed(this.endpoint.position.x * 10)} ${this.toFixed(-this.endpoint.position.y * 10)}` }
 }
 
 export class VerticalCommand extends BaseCommand {
@@ -97,7 +99,7 @@ export class VerticalCommand extends BaseCommand {
     this.geometry = this.line(from.position, this.endpoint.position)
   }
 
-  override get path(): string { return `V ${this.endpoint.position.y} ` }
+  override get path(): string { return `V ${this.toFixed(-this.endpoint.position.y * 10)} ` }
 
 }
 
@@ -110,7 +112,7 @@ export class HorizontalCommand extends BaseCommand {
     this.geometry = this.line(from.position, this.endpoint.position)
   }
 
-  override get path(): string { return `H ${this.endpoint.position.x}` }
+  override get path(): string { return `H ${this.toFixed(this.endpoint.position.x * 10)}` }
 }
 
 export class CubicCurveCommand extends BaseCommand {
@@ -127,7 +129,7 @@ export class CubicCurveCommand extends BaseCommand {
   }
 
   override get path(): string {
-    return `C ${this.cp1.position.x} ${this.cp1.position.x} ${this.cp2.position.x} ${this.cp2.position.x} ${this.endpoint.position.x} ${this.endpoint.position.x}`
+    return `C ${this.toFixed(this.cp1.position.x * 10)} ${this.toFixed(-this.cp1.position.y * 10)} ${this.toFixed(this.cp2.position.x * 10)} ${this.toFixed(-this.cp2.position.y * 10)} ${this.toFixed(this.endpoint.position.x * 10)} ${this.toFixed(-this.endpoint.position.y * 10)}`
   }
 }
 
@@ -145,7 +147,7 @@ export class QuadraticCurveCommand extends BaseCommand {
   }
 
   override get path(): string {
-    return `C ${this.cp.position.x} ${this.cp.position.x} ${this.endpoint.position.x} ${this.endpoint.position.x}`
+    return `Q ${this.toFixed(this.cp.position.x * 10)} ${this.toFixed(-this.cp.position.y * 10)} ${this.toFixed(this.endpoint.position.x * 10)} ${this.toFixed(-this.endpoint.position.y * 10)}`
   }
 }
 
