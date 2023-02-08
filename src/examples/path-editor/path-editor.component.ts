@@ -518,6 +518,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     gui.add(this, 'newshape').name('New Shape')
     gui.add(this, 'threecode').name('Export ThreeJS Code');
     gui.add(this, 'svgcode').name('Export SVG');
+    gui.add(this, 'exportJSON').name('Export JSON');
     gui.addTextArea(this.params, 'path', 1.1, 1).name('Path').disable()
     //gui.add(this.params, 'tilt').name('Tilt Grid Forward');
 
@@ -627,7 +628,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     });
   }
 
-  save() {
+  toJSON(): string {
     const commands = this.commands.map(command => {
       const result: CommandData = { type: command.type, x: command.endpoint.position.x, y: command.endpoint.position.y }
 
@@ -643,8 +644,11 @@ export class PathEditorExample implements OnInit, OnDestroy {
       }
       return result;
     });
+    return JSON.stringify(commands);
+  }
 
-    localStorage.setItem('patheditor', JSON.stringify(commands))
+  save() {
+    localStorage.setItem('patheditor', this.toJSON())
   }
 
   threecode() {
@@ -713,7 +717,7 @@ export class PathEditorExample implements OnInit, OnDestroy {
     })
 
     const lines: Array<string> = [];
-    lines.push(`<svg viewBox="${box.min.x.toFixed(0)} ${box.min.y.toFixed(0)} ${(box.max.x-box.min.x).toFixed(0)} ${(box.max.y-box.min.y).toFixed(0)}" xmlns="http://www.w3.org/2000/svg" >`);
+    lines.push(`<svg viewBox="${box.min.x.toFixed(0)} ${box.min.y.toFixed(0)} ${(box.max.x - box.min.x).toFixed(0)} ${(box.max.y - box.min.y).toFixed(0)}" xmlns="http://www.w3.org/2000/svg" >`);
     lines.push(`<path d="${this.params.path}" fill="black" />`);
     lines.push('</svg>');
 
@@ -721,5 +725,12 @@ export class PathEditorExample implements OnInit, OnDestroy {
     const save = new Exporter()
     save.saveString(code, 'shape' + this.count, 'image/svg+xml');
     this.count++;
+  }
+
+  exportJSON() {
+    const save = new Exporter()
+    save.saveString(this.toJSON(), 'shape' + this.count, 'application/json');
+    this.count++;
+
   }
 }
