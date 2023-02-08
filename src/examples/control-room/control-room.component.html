@@ -4,6 +4,8 @@
 
 <ngt-directional-light [position]="[10, 10, 10]"></ngt-directional-light>
 
+<ngt-mesh-basic-material #tablet color="cornflowerblue"></ngt-mesh-basic-material>
+
 <block-console [height]="blockheight" [width]="blockwidth" [depth]="blockdepth" [shelf]="blockshelf" [screenheight]="blockscreenheight"
                [position]="[0, 0, -1]" [rotation]="[0, -90 | radian, 0]" [material]="blockmaterial"
                (screen)="updatescreen($event)">
@@ -15,6 +17,15 @@
 <ngt-group [position]="[0, blockscreenheight+0.001, -1]" [rotation]="[-screenangle, 0, 0]">
   <ng3-gui-panel [scale]="0.4" [position]="[0, blockscreenheight*0.6, 0]" [gui]="gui" [selectable]="selectable"></ng3-gui-panel>
 </ngt-group>
+
+<ngt-group [position]="[0, 1, 0]" [scale]="0.4">
+    <tablet [width]="tabletwidth" [height]="tabletheight" [material]="tablet.instance.value"></tablet>
+  <ngt-mesh [position]="[0, tabletheight/2+0.11, 0.051]">
+    <ngt-plane-geometry [args]="[tabletwidth,tabletheight]"></ngt-plane-geometry>
+    <ngt-mesh-basic-material color="black"></ngt-mesh-basic-material>
+  </ngt-mesh>
+</ngt-group>
+
 
 <vr-controller guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>
 <vr-controller [index]="1" guipointer showcontroller trackedpointer navhome [guis]="selectable.list"></vr-controller>

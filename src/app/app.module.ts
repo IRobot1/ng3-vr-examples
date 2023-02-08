@@ -162,6 +162,7 @@ import { AreaPlot } from '../examples/data-visuals/area-plot/area-plot.component
 import { ChartAxis } from '../examples/data-visuals/chart-axis/chart-axis.component';
 import { ControlRoomExample } from '../examples/control-room/control-room.component';
 import { BlockConsole } from '../examples/control-room/block-console/block-console.component';
+import { Tablet } from '../examples/control-room/tablet/tablet.component';
 
 
 
@@ -332,6 +333,7 @@ import { BlockConsole } from '../examples/control-room/block-console/block-conso
 
     ControlRoomExample,
     BlockConsole,
+    Tablet,
   ],
   imports: [
     BrowserModule,

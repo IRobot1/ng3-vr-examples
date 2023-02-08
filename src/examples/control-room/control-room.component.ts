@@ -18,6 +18,9 @@ export class ControlRoomExample implements OnInit {
   blockscreenheight = 0.6;
   screenangle = 0;
 
+  tabletwidth = 1;
+  tabletheight = 4 / 3
+
   protected blockscreen!: PlaneGeometry;
   blockmaterial = new MeshBasicMaterial({ color: '#CD8C50' });
 
