@@ -4,7 +4,7 @@
   <ngt-vector2 [attach]="['shadow', 'mapSize']" [vector2]="2048"></ngt-vector2>
 </ngt-point-light>
 
-<ngt-mesh [rotation]="[-90 | radian, 0, 0]" receiveShadow>
+<ngt-mesh #floorplane [rotation]="[-90 | radian, 0, 0]" receiveShadow>
   <ngt-plane-geometry [args]="[6, 6]"></ngt-plane-geometry>
   <ngt-mesh-standard-material color="#283756"></ngt-mesh-standard-material>
 </ngt-mesh>
@@ -199,7 +199,17 @@
   <ngt-mesh-basic-material color="black"></ngt-mesh-basic-material>
 </ngt-mesh>-->
 
-<vr-controller navhome></vr-controller>
-<vr-controller [index]="1" navhome></vr-controller>
+<ngt-mesh #left [rotation]="[-1.57, 0, 0]">
+  <ngt-circle-geometry [args]="[0.25, 6]"></ngt-circle-geometry>
+  <ngt-mesh-standard-material></ngt-mesh-standard-material>
+</ngt-mesh>
+
+<ngt-mesh #right [rotation]="[-1.57, 0, 0]">
+  <ngt-circle-geometry [args]="[0.25, 12]"></ngt-circle-geometry>
+  <ngt-mesh-standard-material></ngt-mesh-standard-material>
+</ngt-mesh>
+
+<vr-controller teleport showcontroller trackedpointer navhome [marker]="left.instance.value" [floor]="floorplane.instance.value"></vr-controller>
+<vr-controller [index]="1" teleport showcontroller trackedpointer navhome [marker]="right.instance.value" [floor]="floorplane.instance.value"></vr-controller>
 
 <ngt-soba-orbit-controls></ngt-soba-orbit-controls>
