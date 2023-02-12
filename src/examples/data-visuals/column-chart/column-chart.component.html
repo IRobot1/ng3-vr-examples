@@ -12,7 +12,7 @@
   </ng-template>
 
   <ngt-group *ngFor="let item of display" [position]="[item.x, 0.001, 0]">
-    <ngt-mesh [geometry]="item.data.geometry" [material]="item.data.material"></ngt-mesh>
+    <ngt-mesh [geometry]="item.data.geometry" [material]="item.data.material" castShadow></ngt-mesh>
 
     <ng-container [ngTemplateOutlet]="object ? object: defaultObject"
                   [ngTemplateOutletContext]="{ x: item.x, y: item.y, data: item.data }">

@@ -1,7 +1,7 @@
 <ngt-group [ngtObjectPassThrough]="this" (beforeRender)="tick()">
 
   <ngt-group *ngFor="let item of display" [rotation]="[0, 0, item.radians]">
-    <ngt-mesh (ready)="meshready($event, item)" [geometry]="item.geometry" [material]="item.data.material">
+    <ngt-mesh (ready)="meshready($event, item)" [geometry]="item.geometry" [material]="item.data.material" castShadow>
 
       <flat-ui-label [text]="item.data.label" [fontsize]="item.data.labelsize" [alignx]="'center'"
                      [position]="item.center" [rotation]="[0, 0, -item.radians - rotatetext]">

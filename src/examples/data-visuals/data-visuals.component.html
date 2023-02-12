@@ -1,22 +1,24 @@
 <ngt-color attach="background" color="#283754"></ngt-color>
 
-<!--<ngt-point-light [position]="[10, 10, 10]"></ngt-point-light>-->
+<ngt-point-light [position]="[-3, 10, 10]" castShadow>
+  <ngt-vector2 [attach]="['shadow', 'mapSize']" [vector2]="2048"></ngt-vector2>
+</ngt-point-light>
 
-<ngt-mesh [rotation]="[-90 | radian, 0, 0]">
+<ngt-mesh [rotation]="[-90 | radian, 0, 0]" receiveShadow>
   <ngt-plane-geometry [args]="[6, 6]"></ngt-plane-geometry>
-  <ngt-mesh-basic-material color="#283756"></ngt-mesh-basic-material>
+  <ngt-mesh-standard-material color="#283756"></ngt-mesh-standard-material>
 </ngt-mesh>
 
-<ngt-mesh [position]="[2, 1.5, -2]" [rotation]="[0, -135 | radian, 0]" [geometry]="chartgeometry">
-  <ngt-mesh-basic-material color="cornflowerblue"></ngt-mesh-basic-material>
+<ngt-mesh [position]="[2, 1.5, -2]" [rotation]="[0, -135 | radian, 0]" [geometry]="chartgeometry" castShadow>
+  <ngt-mesh-standard-material color="cornflowerblue"></ngt-mesh-standard-material>
 </ngt-mesh>
 
-<ngt-mesh-basic-material #floor color="#1E2A42"></ngt-mesh-basic-material>
-<ngt-mesh-basic-material #ring color="#1C2B42"></ngt-mesh-basic-material>
+<ngt-mesh-standard-material #floor color="#1E2A42"></ngt-mesh-standard-material>
+<ngt-mesh-standard-material #ring color="#1C2B42"></ngt-mesh-standard-material>
 
 <ngt-group [scale]="1" [position]="[-2, 0, -1]" [rotation]="[0, 45 | radian, 0]">
 
-  <ngt-mesh [position]="[width/2, 0.001, 0]" [rotation]="[-90 | radian, 0, 0]" [material]="floor.instance.value">
+  <ngt-mesh [position]="[width/2, 0.001, 0]" [rotation]="[-90 | radian, 0, 0]" [material]="floor.instance.value" receiveShadow>
     <ngt-plane-geometry [args]="[width, 0.1]"></ngt-plane-geometry>
   </ngt-mesh>
 
@@ -74,7 +76,7 @@
     </ng-template>
 
     <ng-template #object let-x="x" let-data="data">
-      <ngt-mesh [position]="[x, 0.001, 0]" [rotation]="[-90 | radian, 0, 0]" [material]="ring.instance.value">
+      <ngt-mesh [position]="[x, 0.001, 0]" [rotation]="[-90 | radian, 0, 0]" [material]="ring.instance.value" castShadow>
         <ngt-ring-geometry [args]="[0.125, 0.2, 32]"></ngt-ring-geometry>
       </ngt-mesh>
     </ng-template>
@@ -89,7 +91,7 @@
 
 <ngt-group [scale]="1" [position]="[0.4, 0, 0.9]" [rotation]="[0, 45 | radian, 0]">
 
-  <ngt-mesh [position]="[width/2, 0.001, 0]" [rotation]="[-90 | radian, 0, 0]" [material]="floor.instance.value">
+  <ngt-mesh [position]="[width/2, 0.001, 0]" [rotation]="[-90 | radian, 0, 0]" [material]="floor.instance.value" receiveShadow>
     <ngt-plane-geometry [args]="[width-0.4, 0.15]"></ngt-plane-geometry>
   </ngt-mesh>
 
@@ -135,7 +137,7 @@
 </ngt-group>
 
 <ngt-group [scale]="0.8" [position]="[-1.8, 0, 1.8]" [rotation]="[0, 45 | radian, 0]">
-  <ngt-mesh [position]="[width/2, 0.001, 0.1]" [rotation]="[-90 | radian, 0, 0]" [material]="floor.instance.value">
+  <ngt-mesh [position]="[width/2, 0.001, 0.1]" [rotation]="[-90 | radian, 0, 0]" [material]="floor.instance.value" receiveShadow>
     <ngt-plane-geometry [args]="[width, 0.7]"></ngt-plane-geometry>
   </ngt-mesh>
 

@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 
-import { BoxGeometry, BufferGeometry, ExtrudeGeometry, MathUtils, MeshBasicMaterial, PlaneGeometry, Shape, ShapeGeometry, Vector2 } from "three";
+import { BoxGeometry, BufferGeometry, ExtrudeGeometry, MathUtils, MeshBasicMaterial, MeshStandardMaterial, PlaneGeometry, Shape, ShapeGeometry, Vector2 } from "three";
 
 import { NgtLoader } from "@angular-three/core";
+import { BlendFunction } from 'postprocessing';
+
 import { PLYLoader } from 'three-stdlib';
 
 import { ColumnData } from "./column-chart/column-chart.component";
@@ -15,6 +17,8 @@ import { StackData } from "./stacked-bar/stacked-bar.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataVisualsExample implements OnInit {
+  blend = BlendFunction.ADD;
+
   chartgeometry!: BufferGeometry;
   temp!: BufferGeometry;
   width = 1.6;
@@ -27,12 +31,12 @@ export class DataVisualsExample implements OnInit {
   barwidth = 2.5;
   barheight = 0.8;
 
-  white = new MeshBasicMaterial();
-  pink = new MeshBasicMaterial({ color: '#F9458E' });
-  seagreen = new MeshBasicMaterial({ color: '#328476' });
-  gold = new MeshBasicMaterial({ color: '#BD9442' });
-  cornflowerblue = new MeshBasicMaterial({ color: 'cornflowerblue' });
-  purple = new MeshBasicMaterial({ color: '#716EC9' });
+  white = new MeshStandardMaterial();
+  pink = new MeshStandardMaterial({ color: '#F9458E' });
+  seagreen = new MeshStandardMaterial({ color: '#328476' });
+  gold = new MeshStandardMaterial({ color: '#BD9442' });
+  cornflowerblue = new MeshStandardMaterial({ color: 'cornflowerblue' });
+  purple = new MeshStandardMaterial({ color: '#716EC9' });
 
   arrowdata: Array<ColumnData> = [
     { label: '2017', value: 10.35, geometry: this.temp, material: this.pink },
@@ -343,7 +347,7 @@ export class DataVisualsExample implements OnInit {
     this.barvalues.forEach(item => {
       const height = item.value / 600 * this.barheight;
 
-      const geometry = new PlaneGeometry(0.02, height);
+      const geometry = new BoxGeometry(0.02, height, 0.01);
       geometry.translate(0, height / 2, 0);
 
       const data: ColumnData = { label: '', value: item.value, geometry, material: item.highlight ? this.white : this.pink };

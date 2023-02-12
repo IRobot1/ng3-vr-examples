@@ -1,6 +1,6 @@
 <ngt-group [ngtObjectPassThrough]="this" (beforeRender)="tick()">
 
-  <ngt-mesh *ngFor="let item of display"
+  <ngt-mesh *ngFor="let item of display" castShadow
             [position]="[0, item.y, 0]" [geometry]="item.geometry" [material]="item.data.material">
   </ngt-mesh>
 

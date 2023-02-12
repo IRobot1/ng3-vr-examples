@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { NgtCanvasModule, NgtObjectPassThrough, NgtRadianPipeModule } from '@angular-three/core';
 import { NgtStatsModule } from '@angular-three/core/stats';
 
-import { NgtBufferAttributeModule, NgtColorAttributeModule } from '@angular-three/core/attributes';
+import { NgtBufferAttributeModule, NgtColorAttributeModule, NgtVector2AttributeModule } from '@angular-three/core/attributes';
 import { NgtGridHelperModule, NgtPointLightHelperModule, NgtCameraHelperModule, NgtSpotLightHelperModule, NgtBoxHelperModule } from '@angular-three/core/helpers';
 
 import { NgtAmbientLightModule, NgtDirectionalLightModule, NgtPointLightModule, NgtSpotLightModule } from '@angular-three/core/lights';
@@ -343,6 +343,7 @@ import { ChartAxis } from '../examples/data-visuals/chart-axis/chart-axis.compon
     NgtCanvasModule,
     NgtPrimitiveModule,
     NgtColorAttributeModule,
+    NgtVector2AttributeModule,
     NgtBufferAttributeModule,
     NgtRadianPipeModule,
     NgtStatsModule,
