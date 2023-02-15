@@ -3,7 +3,6 @@ import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { BoxGeometry, BufferGeometry, ExtrudeGeometry, MathUtils, MeshBasicMaterial, MeshStandardMaterial, PlaneGeometry, Shape, ShapeGeometry, Vector2 } from "three";
 
 import { NgtLoader } from "@angular-three/core";
-import { BlendFunction } from 'postprocessing';
 
 import { PLYLoader } from 'three-stdlib';
 
@@ -17,7 +16,6 @@ import { StackData } from "./stacked-bar/stacked-bar.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataVisualsExample implements OnInit {
-  blend = BlendFunction.ADD;
 
   chartgeometry!: BufferGeometry;
   temp!: BufferGeometry;
